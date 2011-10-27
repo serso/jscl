@@ -13,7 +13,7 @@ public class IndefiniteIntegral extends Operator {
     public Generic compute() {
         Variable variable=parameter[1].variableValue();
         try {
-            return parameter[0].antiderivative(variable);
+            return parameter[0].antiDerivative(variable);
         } catch (NotIntegrableException e) {}
         return expressionValue();
     }

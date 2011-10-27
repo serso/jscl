@@ -35,7 +35,7 @@ class ArrayPolynomialRational extends ArrayPolynomialGeneric {
     }
 
     protected Generic coefficient(Generic generic) {
-        return coefFactory.valueof(generic);
+        return coefFactory.valueOf(generic);
     }
 
     protected Generic getCoef(int n) {

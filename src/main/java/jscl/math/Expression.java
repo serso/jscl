@@ -97,9 +97,9 @@ public class Expression extends Generic {
         if(generic instanceof Expression) {
             return add((Expression)generic);
         } else if(generic instanceof JSCLInteger || generic instanceof Rational) {
-            return add(valueof(generic));
+            return add(valueOf(generic));
         } else {
-            return generic.valueof(this).add(generic);
+            return generic.valueOf(this).add(generic);
         }
     }
 
@@ -111,9 +111,9 @@ public class Expression extends Generic {
         if(generic instanceof Expression) {
             return subtract((Expression)generic);
         } else if(generic instanceof JSCLInteger || generic instanceof Rational) {
-            return subtract(valueof(generic));
+            return subtract(valueOf(generic));
         } else {
-            return generic.valueof(this).subtract(generic);
+            return generic.valueOf(this).subtract(generic);
         }
     }
 
@@ -164,9 +164,9 @@ public class Expression extends Generic {
         if(generic instanceof Expression) {
             return multiply((Expression)generic);
         } else if(generic instanceof JSCLInteger) {
-            return multiply(valueof(generic));
+            return multiply(valueOf(generic));
         } else if(generic instanceof Rational) {
-            return multiply(valueof(generic));
+            return multiply(valueOf(generic));
         } else {
             return generic.multiply(this);
         }
@@ -209,9 +209,9 @@ public class Expression extends Generic {
                 return new Generic[] {JSCLInteger.valueOf(0),this};
             }
         } else if(generic instanceof Rational) {
-            return divideAndRemainder(valueof(generic));
+            return divideAndRemainder(valueOf(generic));
         } else {
-            return generic.valueof(this).divideAndRemainder(generic);
+            return generic.valueOf(this).divideAndRemainder(generic);
         }
     }
 
@@ -233,9 +233,9 @@ public class Expression extends Generic {
             if(generic.signum()==0) return this;
             else return gcd().gcd(generic);
         } else if(generic instanceof Rational) {
-            return gcd(valueof(generic));
+            return gcd(valueOf(generic));
         } else {
-            return generic.valueof(this).gcd(generic);
+            return generic.valueOf(this).gcd(generic);
         }
     }
 
@@ -263,7 +263,7 @@ public class Expression extends Generic {
         return 0;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         if(isPolynomial(variable)) {
             return ((UnivariatePolynomial)Polynomial.factory(variable).valueof(this)).antiderivative().genericValue();
         } else {
@@ -275,7 +275,7 @@ public class Expression extends Generic {
                     if(v instanceof Frac) {
                         Generic g[]=((Frac)v).parameters();
                         if(g[1].isConstant(variable)) {
-                            return new Inv(g[1]).evaluate().multiply(g[0].antiderivative(variable));
+                            return new Inv(g[1]).evaluate().multiply(g[0].antiDerivative(variable));
                         }
                     }
                 }
@@ -284,7 +284,7 @@ public class Expression extends Generic {
                 if(a.length>1) {
                     Generic s=JSCLInteger.valueOf(0);
                     for(int i=0;i<a.length;i++) {
-                        s=s.add(a[i].antiderivative(variable));
+                        s=s.add(a[i].antiDerivative(variable));
                     }
                     return s;
                 } else {
@@ -296,7 +296,7 @@ public class Expression extends Generic {
                         else t=t.multiply(p[i]);
                     }
                     if(s.compareTo(JSCLInteger.valueOf(1))==0);
-                    else return s.multiply(t.antiderivative(variable));
+                    else return s.multiply(t.antiDerivative(variable));
                 }
             }
         }
@@ -398,7 +398,7 @@ public class Expression extends Generic {
         }
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         Expression ex=newinstance(0);
         ex.init(generic);
         return ex;
@@ -540,9 +540,9 @@ public class Expression extends Generic {
         if(generic instanceof Expression) {
             return compareTo((Expression)generic);
         } else if(generic instanceof JSCLInteger || generic instanceof Rational) {
-            return compareTo(valueof(generic));
+            return compareTo(valueOf(generic));
         } else {
-            return generic.valueof(this).compareTo(generic);
+            return generic.valueOf(this).compareTo(generic);
         }
     }
 
@@ -580,18 +580,15 @@ public class Expression extends Generic {
 
     public static Expression valueOf(String str) throws ParseException {
         final MutableInt position = new MutableInt(0);
-        Generic a;
-        try {
-            a=(Generic)ExpressionParser.parser.parse(str,position);
-        } catch (ParseException e) {
-            throw e;
-        }
-        ParserUtils.skipWhitespaces(str, position);
-        if(position.intValue()<str.length()) {
+		final Generic generic = ExpressionParser.parser.parse(str, position);
+
+		ParserUtils.skipWhitespaces(str, position);
+
+		if(position.intValue()<str.length()) {
             throw new ParseException();
         }
         Expression ex=new Expression();
-        ex.init(a);
+        ex.init(generic);
         return ex;
     }
 

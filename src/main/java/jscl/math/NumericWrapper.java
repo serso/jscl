@@ -56,7 +56,7 @@ public final class NumericWrapper extends Generic {
         if(generic instanceof NumericWrapper) {
             return add((NumericWrapper)generic);
         } else {
-            return add(valueof(generic));
+            return add(valueOf(generic));
         }
     }
 
@@ -68,7 +68,7 @@ public final class NumericWrapper extends Generic {
         if(generic instanceof NumericWrapper) {
             return subtract((NumericWrapper)generic);
         } else {
-            return subtract(valueof(generic));
+            return subtract(valueOf(generic));
         }
     }
 
@@ -80,7 +80,7 @@ public final class NumericWrapper extends Generic {
         if(generic instanceof NumericWrapper) {
             return multiply((NumericWrapper)generic);
         } else {
-            return multiply(valueof(generic));
+            return multiply(valueOf(generic));
         }
     }
 
@@ -92,7 +92,7 @@ public final class NumericWrapper extends Generic {
         if(generic instanceof NumericWrapper) {
             return divide((NumericWrapper)generic);
         } else {
-            return divide(valueof(generic));
+            return divide(valueOf(generic));
         }
     }
 
@@ -120,7 +120,7 @@ public final class NumericWrapper extends Generic {
         return 0;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return null;
     }
 
@@ -156,7 +156,7 @@ public final class NumericWrapper extends Generic {
         return new NumericWrapper(content.valueof(wrapper.content));
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         if(generic instanceof NumericWrapper) {
             return valueof((NumericWrapper)generic);
         } else if(generic instanceof JSCLInteger) {
@@ -307,7 +307,7 @@ public final class NumericWrapper extends Generic {
         if(generic instanceof NumericWrapper) {
             return compareTo((NumericWrapper)generic);
         } else {
-            return compareTo(valueof(generic));
+            return compareTo(valueOf(generic));
         }
     }
 

@@ -24,34 +24,33 @@ class UnsignedFactor implements Parser {
 	}
 
 	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		Generic a;
-		List l = new ArrayList();
-		try {
-			a = (Generic) UnsignedExponent.parser.parse(string, position);
-			l.add(a);
-		} catch (ParseException e) {
-			throw e;
-		}
+		final List list = new ArrayList();
+
+		Generic generic = (Generic) UnsignedExponent.parser.parse(string, position);
+
+		list.add(generic);
+
 		while (true) {
 			try {
-				a = (Generic) PowerExponent.parser.parse(string, position);
-				l.add(a);
+				generic = (Generic) PowerExponent.parser.parse(string, position);
+				list.add(generic);
 			} catch (ParseException e) {
 				break;
 			}
 		}
-		ListIterator it = l.listIterator(l.size());
-		a = (Generic) it.previous();
+		ListIterator it = list.listIterator(list.size());
+		generic = (Generic) it.previous();
 		while (it.hasPrevious()) {
 			Generic b = (Generic) it.previous();
 			try {
-				int c = a.integerValue().intValue();
-				if (c < 0) a = new Pow(GenericVariable.content(b, true), JSCLInteger.valueOf(c)).expressionValue();
-				else a = b.pow(c);
+				int c = generic.integerValue().intValue();
+				if (c < 0) generic = new Pow(GenericVariable.content(b, true), JSCLInteger.valueOf(c)).expressionValue();
+				else generic = b.pow(c);
 			} catch (NotIntegerException e) {
-				a = new Pow(GenericVariable.content(b, true), GenericVariable.content(a, true)).expressionValue();
+				generic = new Pow(GenericVariable.content(b, true), GenericVariable.content(generic, true)).expressionValue();
 			}
 		}
-		return a;
+
+		return generic;
 	}
 }

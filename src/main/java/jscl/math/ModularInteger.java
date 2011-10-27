@@ -77,7 +77,7 @@ public class ModularInteger extends Generic implements Field {
         return 0;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         throw new UnsupportedOperationException();
     }
 
@@ -109,7 +109,7 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         if(generic instanceof ModularInteger) {
             return newinstance(((ModularInteger)generic).content);
         } else {
@@ -161,7 +161,7 @@ public class ModularInteger extends Generic implements Field {
         if(generic instanceof ModularInteger) {
             return compareTo((ModularInteger)generic);
         } else if(generic instanceof JSCLInteger) {
-            return compareTo(valueof(generic));
+            return compareTo(valueOf(generic));
         } else {
             throw new UnsupportedOperationException();
         }

@@ -40,9 +40,9 @@ public final class Rational extends Generic implements Field {
         if(generic instanceof Rational) {
             return add((Rational)generic);
         } else if(generic instanceof JSCLInteger) {
-            return add(valueof(generic));
+            return add(valueOf(generic));
         } else {
-            return generic.valueof(this).add(generic);
+            return generic.valueOf(this).add(generic);
         }
     }
 
@@ -56,7 +56,7 @@ public final class Rational extends Generic implements Field {
         if(generic instanceof Rational) {
             return multiply((Rational)generic);
         } else if(generic instanceof JSCLInteger) {
-            return multiply(valueof(generic));
+            return multiply(valueOf(generic));
         } else {
             return generic.multiply(this);
         }
@@ -66,9 +66,9 @@ public final class Rational extends Generic implements Field {
         if(generic instanceof Rational) {
             return multiply(generic.inverse());
         } else if(generic instanceof JSCLInteger) {
-            return divide(valueof(generic));
+            return divide(valueOf(generic));
         } else {
-            return generic.valueof(this).divide(generic);
+            return generic.valueOf(this).divide(generic);
         }
     }
 
@@ -85,9 +85,9 @@ public final class Rational extends Generic implements Field {
         if(generic instanceof Rational) {
             return gcd((Rational)generic);
         } else if(generic instanceof JSCLInteger) {
-            return gcd(valueof(generic));
+            return gcd(valueOf(generic));
         } else {
-            return generic.valueof(this).gcd(generic);
+            return generic.valueOf(this).gcd(generic);
         }
     }
 
@@ -115,7 +115,7 @@ public final class Rational extends Generic implements Field {
         return 0;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return multiply(variable.expressionValue());
     }
 
@@ -147,7 +147,7 @@ public final class Rational extends Generic implements Field {
         return new NumericWrapper(this);
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         if(generic instanceof Rational) {
             Rational r=(Rational)generic;
             return new Rational(r.numerator,r.denominator);
@@ -227,9 +227,9 @@ public final class Rational extends Generic implements Field {
         if(generic instanceof Rational) {
             return compareTo((Rational)generic);
         } else if(generic instanceof JSCLInteger) {
-            return compareTo(valueof(generic));
+            return compareTo(valueOf(generic));
         } else {
-            return generic.valueof(this).compareTo(generic);
+            return generic.valueOf(this).compareTo(generic);
         }
     }
 

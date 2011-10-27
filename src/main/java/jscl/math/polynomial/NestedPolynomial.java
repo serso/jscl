@@ -46,7 +46,7 @@ final class PolynomialWrapper extends Generic {
         if(generic instanceof PolynomialWrapper) {
             return add((PolynomialWrapper)generic);
         } else {
-            return add(valueof(generic));
+            return add(valueOf(generic));
         }
     }
 
@@ -58,7 +58,7 @@ final class PolynomialWrapper extends Generic {
         if(generic instanceof PolynomialWrapper) {
             return subtract((PolynomialWrapper)generic);
         } else {
-            return subtract(valueof(generic));
+            return subtract(valueOf(generic));
         }
     }
 
@@ -70,7 +70,7 @@ final class PolynomialWrapper extends Generic {
         if(generic instanceof PolynomialWrapper) {
             return multiply((PolynomialWrapper)generic);
         } else {
-            return multiply(valueof(generic));
+            return multiply(valueOf(generic));
         }
     }
 
@@ -82,7 +82,7 @@ final class PolynomialWrapper extends Generic {
         if(generic instanceof PolynomialWrapper) {
             return divide((PolynomialWrapper)generic);
         } else {
-            return divide(valueof(generic));
+            return divide(valueOf(generic));
         }
     }
 
@@ -94,7 +94,7 @@ final class PolynomialWrapper extends Generic {
         if(generic instanceof PolynomialWrapper) {
             return gcd((PolynomialWrapper)generic);
         } else {
-            return gcd(valueof(generic));
+            return gcd(valueOf(generic));
         }
     }
 
@@ -114,7 +114,7 @@ final class PolynomialWrapper extends Generic {
         return content.degree();
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return null;
     }
 
@@ -146,7 +146,7 @@ final class PolynomialWrapper extends Generic {
         return null;
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         if(generic instanceof PolynomialWrapper) {
             return new PolynomialWrapper(content.valueof(((PolynomialWrapper)generic).content));
         } else {
@@ -198,7 +198,7 @@ final class PolynomialWrapper extends Generic {
         if(generic instanceof PolynomialWrapper) {
             return compareTo((PolynomialWrapper)generic);
         } else {
-            return compareTo(valueof(generic));
+            return compareTo(valueOf(generic));
         }
     }
 

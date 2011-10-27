@@ -18,7 +18,7 @@ class UnsignedExponent implements Parser {
 	}
 
 	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		final Generic a = (Generic) PrimaryExpression.parser.parse(string, position);
+		final Generic a = PrimaryExpressionParser.parser.parse(string, position);
 		boolean factorial = FactorialParser.parser.parse(string, position).isFactorial();
 		return factorial ? new Factorial(GenericVariable.content(a, true)).expressionValue() : a;
 	}

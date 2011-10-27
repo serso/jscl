@@ -14,9 +14,9 @@ import java.util.List;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class PrimaryExpression implements Parser<Generic> {
+public class PrimaryExpressionParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new PrimaryExpression();
+	public static final Parser<Generic> parser = new PrimaryExpressionParser();
 
 	private static final List<Parser<Generic>> parsers = Arrays.asList(
 			new VariableConverter<Variable>(DoubleVariableParser.parser),
@@ -28,7 +28,7 @@ class PrimaryExpression implements Parser<Generic> {
 
 	private static final Parser<Generic> multiTryParser = new MultiTryParser<Generic>(parsers);
 
-	private PrimaryExpression() {
+	private PrimaryExpressionParser() {
 	}
 
 	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {

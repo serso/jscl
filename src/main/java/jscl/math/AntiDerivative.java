@@ -49,7 +49,7 @@ public class AntiDerivative {
         Generic s=new Inv(r[2]).evaluate();
         Generic p=r[0].multiply(s);
         Generic a=r[1].multiply(s);
-        result=p.antiderivative(factory.variable()).add(hermite(a,g[1]));
+        result=p.antiDerivative(factory.variable()).add(hermite(a,g[1]));
         Debug.decrement();
     }
 

@@ -252,7 +252,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     protected Generic coefficient(Generic generic) {
-        return coefFactory==null?generic:coefFactory.valueof(generic);
+        return coefFactory==null?generic:coefFactory.valueOf(generic);
     }
 
     public Polynomial reduce(Collection ideal, boolean tail) {

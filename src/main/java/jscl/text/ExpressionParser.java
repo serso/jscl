@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExpressionParser implements Parser<Generic> {
 
-	public static final Parser parser = new ExpressionParser();
+	public static final Parser<Generic> parser = new ExpressionParser();
 
 	private ExpressionParser() {
 	}

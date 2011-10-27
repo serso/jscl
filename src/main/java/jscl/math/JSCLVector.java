@@ -28,7 +28,7 @@ public class JSCLVector extends Generic {
         if(generic instanceof JSCLVector) {
             return add((JSCLVector)generic);
         } else {
-            return add(valueof(generic));
+            return add(valueOf(generic));
         }
     }
 
@@ -42,7 +42,7 @@ public class JSCLVector extends Generic {
         if(generic instanceof JSCLVector) {
             return subtract((JSCLVector)generic);
         } else {
-            return subtract(valueof(generic));
+            return subtract(valueOf(generic));
         }
     }
 
@@ -103,9 +103,9 @@ public class JSCLVector extends Generic {
         return 0;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         JSCLVector v=(JSCLVector)newinstance();
-        for(int i=0;i<n;i++) v.element[i]=element[i].antiderivative(variable);
+        for(int i=0;i<n;i++) v.element[i]=element[i].antiDerivative(variable);
         return v;
     }
 
@@ -149,7 +149,7 @@ public class JSCLVector extends Generic {
         return new NumericWrapper(this);
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         if(generic instanceof JSCLVector ||  generic instanceof Matrix) {
             throw new ArithmeticException();
         } else {
@@ -302,7 +302,7 @@ public class JSCLVector extends Generic {
         if(generic instanceof JSCLVector) {
             return compareTo((JSCLVector)generic);
         } else {
-            return compareTo(valueof(generic));
+            return compareTo(valueOf(generic));
         }
     }
 

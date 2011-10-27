@@ -21,12 +21,8 @@ class TermParser implements Parser {
 
 	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
 		Generic a = JSCLInteger.valueOf(1);
-		Generic s;
-		try {
-			s = (Generic) UnsignedFactor.parser.parse(string, position);
-		} catch (ParseException e) {
-			throw e;
-		}
+		Generic s = (Generic) UnsignedFactor.parser.parse(string, position);
+
 		while (true) {
 			try {
 				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(string, position);

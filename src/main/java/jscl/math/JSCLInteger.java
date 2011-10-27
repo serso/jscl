@@ -23,7 +23,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return add((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).add(generic);
+            return generic.valueOf(this).add(generic);
         }
     }
 
@@ -35,7 +35,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return subtract((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).subtract(generic);
+            return generic.valueOf(this).subtract(generic);
         }
     }
 
@@ -61,7 +61,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return divide((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).divide(generic);
+            return generic.valueOf(this).divide(generic);
         }
     }
 
@@ -74,7 +74,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return divideAndRemainder((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).divideAndRemainder(generic);
+            return generic.valueOf(this).divideAndRemainder(generic);
         }
     }
 
@@ -86,7 +86,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return remainder((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).remainder(generic);
+            return generic.valueOf(this).remainder(generic);
         }
     }
 
@@ -98,7 +98,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return gcd((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).gcd(generic);
+            return generic.valueOf(this).gcd(generic);
         }
     }
 
@@ -192,7 +192,7 @@ public final class JSCLInteger extends Generic {
         }
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return multiply(variable.expressionValue());
     }
 
@@ -224,7 +224,7 @@ public final class JSCLInteger extends Generic {
         return new NumericWrapper(this);
     }
 
-    public Generic valueof(Generic generic) {
+    public Generic valueOf(Generic generic) {
         return new JSCLInteger(((JSCLInteger)generic).content);
     }
 
@@ -279,7 +279,7 @@ public final class JSCLInteger extends Generic {
         if(generic instanceof JSCLInteger) {
             return compareTo((JSCLInteger)generic);
         } else {
-            return generic.valueof(this).compareTo(generic);
+            return generic.valueOf(this).compareTo(generic);
         }
     }
 

@@ -13,7 +13,7 @@ public class Integral extends Operator {
     public Generic compute() {
         Variable variable=parameter[1].variableValue();
         try {
-            Generic a=parameter[0].antiderivative(variable);
+            Generic a=parameter[0].antiDerivative(variable);
             return a.substitute(variable,parameter[3]).subtract(a.substitute(variable,parameter[2]));
         } catch (NotIntegrableException e) {}
         return expressionValue();
