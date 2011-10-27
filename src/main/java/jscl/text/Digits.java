@@ -1,25 +1,36 @@
 package jscl.text;
 
-public class Digits extends Parser {
-    public static final Parser parser=new Digits();
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-    private Digits() {}
+public class Digits implements Parser<String> {
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
-        StringBuffer buffer=new StringBuffer();
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && Character.isDigit(str.charAt(pos[0]))) {
-            char c=str.charAt(pos[0]++);
-            buffer.append(c);
-        } else {
-            pos[0]=pos0;
-            throw new ParseException();
-        }
-        while(pos[0]<str.length() && Character.isDigit(str.charAt(pos[0]))) {
-            char c=str.charAt(pos[0]++);
-            buffer.append(c);
-        }
-        return buffer.toString();
-    }
+	public static final Parser<String> parser = new Digits();
+
+	private Digits() {
+	}
+
+	// returns digit
+	public String parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		int pos0 = position.intValue();
+
+		final StringBuilder result = new StringBuilder();
+
+		ParserUtils.skipWhitespaces(string, position);
+
+		if (position.intValue() < string.length() && Character.isDigit(string.charAt(position.intValue()))) {
+			result.append(string.charAt(position.intValue()));
+			position.increment();
+		} else {
+			position.setValue(pos0);
+			throw new ParseException("First symbol of number must be digit!");
+		}
+
+		while (position.intValue() < string.length() && Character.isDigit(string.charAt(position.intValue()))) {
+			result.append(string.charAt(position.intValue()));
+			position.increment();
+		}
+
+		return result.toString();
+	}
 }

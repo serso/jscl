@@ -11,8 +11,9 @@ import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
 import jscl.text.ExpressionParser;
 import jscl.text.ParseException;
-import jscl.text.Parser;
+import jscl.text.ParserUtils;
 import jscl.util.ArrayUtils;
+import org.apache.commons.lang.mutable.MutableInt;
 
 public class Expression extends Generic {
     Literal literal[];
@@ -578,15 +579,15 @@ public class Expression extends Generic {
     }
 
     public static Expression valueOf(String str) throws ParseException {
-        int pos[]=new int[1];
+        final MutableInt position = new MutableInt(0);
         Generic a;
         try {
-            a=(Generic)ExpressionParser.parser.parse(str,pos);
+            a=(Generic)ExpressionParser.parser.parse(str,position);
         } catch (ParseException e) {
             throw e;
         }
-        Parser.skipWhitespaces(str,pos);
-        if(pos[0]<str.length()) {
+        ParserUtils.skipWhitespaces(str, position);
+        if(position.intValue()<str.length()) {
             throw new ParseException();
         }
         Expression ex=new Expression();

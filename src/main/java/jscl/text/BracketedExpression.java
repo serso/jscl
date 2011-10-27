@@ -2,35 +2,43 @@ package jscl.text;
 
 import jscl.math.ExpressionVariable;
 import jscl.math.Generic;
+import jscl.math.Variable;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class BracketedExpression extends Parser {
-    public static final Parser parser=new BracketedExpression();
+public class BracketedExpression implements Parser<ExpressionVariable> {
 
-    private BracketedExpression() {}
+	public static final Parser<ExpressionVariable> parser = new BracketedExpression();
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
-        Generic a;
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])=='(') {
-            str.charAt(pos[0]++);
-        } else {
-            pos[0]=pos0;
-            throw new ParseException();
-        }
-        try {
-            a=(Generic)ExpressionParser.parser.parse(str,pos);
-        } catch (ParseException e) {
-            pos[0]=pos0;
-            throw e;
-        }
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])==')') {
-            str.charAt(pos[0]++);
-        } else {
-            pos[0]=pos0;
-            throw new ParseException();
-        }
-        return new ExpressionVariable(a);
-    }
+	private BracketedExpression() {
+	}
+
+	public ExpressionVariable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		int pos0 = position.intValue();
+		Generic a;
+		ParserUtils.skipWhitespaces(string, position);
+		if (position.intValue() < string.length() && string.charAt(position.intValue()) == '(') {
+			string.charAt(position.intValue());
+			position.increment();
+		} else {
+			position.setValue(pos0);
+			throw new ParseException();
+		}
+		try {
+			a = (Generic) ExpressionParser.parser.parse(string, position);
+		} catch (ParseException e) {
+			position.setValue(pos0);
+			throw e;
+		}
+		ParserUtils.skipWhitespaces(string, position);
+		if (position.intValue() < string.length() && string.charAt(position.intValue()) == ')') {
+			string.charAt(position.intValue());
+			position.increment();
+		} else {
+			position.setValue(pos0);
+			throw new ParseException();
+		}
+
+		return new ExpressionVariable(a);
+	}
 }

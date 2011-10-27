@@ -5,31 +5,33 @@ import java.util.List;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.util.ArrayUtils;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class ConstantParser extends Parser {
+public class ConstantParser implements Parser {
     public static final Parser parser=new ConstantParser();
 
     private ConstantParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         String name;
         int prime=0;
         List l=new ArrayList();
         try {
-            name=(String)CompoundIdentifier.parser.parse(str,pos);
+            name=(String)CompoundIdentifier.parser.parse(string, position);
         } catch (ParseException e) {
             throw e;
         }
         while(true) {
             try {
-                Generic s=(Generic)Subscript.parser.parse(str,pos);
+                Generic s=(Generic)Subscript.parser.parse(string, position);
                 l.add(s);
             } catch (ParseException e) {
                 break;
             }
         }
         try {
-            prime=((Integer)Prime.parser.parse(str,pos)).intValue();
+            prime=((Integer)Prime.parser.parse(string, position)).intValue();
         } catch (ParseException e) {}
         Generic s[]=(Generic[])ArrayUtils.toArray(l,new Generic[l.size()]);
         Constant v=new Constant(name,prime,s);
@@ -37,19 +39,19 @@ public class ConstantParser extends Parser {
     }
 }
 
-class Prime extends Parser {
+class Prime implements Parser {
     public static final Parser parser=new Prime();
 
     private Prime() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         int c;
         try {
-            c=((Integer)PrimeCharacters.parser.parse(str,pos)).intValue();
+            c=((Integer)PrimeCharacters.parser.parse(string, position)).intValue();
         } catch (ParseException e) {
             try {
-                c=((Integer)Superscript.parser.parse(str,pos)).intValue();
+                c=((Integer)Superscript.parser.parse(string, position)).intValue();
             } catch (ParseException e2) {
                 throw e2;
             }
@@ -58,32 +60,34 @@ class Prime extends Parser {
     }
 }
 
-class Superscript extends Parser {
+class Superscript implements Parser {
     public static final Parser parser=new Superscript();
 
     private Superscript() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         int c;
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])=='{') {
-            str.charAt(pos[0]++);
+        ParserUtils.skipWhitespaces(string, position);
+        if(position.intValue()< string.length() && string.charAt(position.intValue())=='{') {
+            string.charAt(position.intValue());
+			position.increment();
         } else {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw new ParseException();
         }
         try {
-            c=((Integer)IntegerParser.parser.parse(str,pos)).intValue();
+            c=((Integer)IntegerParser.parser.parse(string, position)).intValue();
         } catch (ParseException e) {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw e;
         }
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])=='}') {
-            str.charAt(pos[0]++);
+        ParserUtils.skipWhitespaces(string, position);
+        if(position.intValue()< string.length() && string.charAt(position.intValue())=='}') {
+            string.charAt(position.intValue());
+			position.increment();
         } else {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw new ParseException();
         }
         return new Integer(c);

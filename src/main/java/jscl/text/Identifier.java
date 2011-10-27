@@ -1,31 +1,47 @@
 package jscl.text;
 
-public class Identifier extends Parser {
-    public static final Parser parser=new Identifier();
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-    private Identifier() {}
+public class Identifier implements Parser<String> {
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
-        StringBuffer buffer=new StringBuffer();
-        skipWhitespaces(str,pos);
-//      if(pos[0]<str.length() && Character.isLetter(str.charAt(pos[0]))) {
-        if(pos[0]<str.length() && isLetter(str.charAt(pos[0]))) {
-            char c=str.charAt(pos[0]++);
-            buffer.append(c);
-        } else {
-            pos[0]=pos0;
-            throw new ParseException();
-        }
-//      while(pos[0]<str.length() && Character.isLetterOrDigit(str.charAt(pos[0]))) {
-        while(pos[0]<str.length() && (isLetter(str.charAt(pos[0])) || Character.isDigit(str.charAt(pos[0])))) {
-            char c=str.charAt(pos[0]++);
-            buffer.append(c);
-        }
-        return buffer.toString();
-    }
+	public static final Parser<String> parser = new Identifier();
 
-    static boolean isLetter(char c) {
-        return (c>='A' && c<='Z') || (c>='a' && c<='z') || c=='_';
-    }
+	private Identifier() {
+	}
+
+	// returns variable/constant name
+	public String parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		int pos0 = position.intValue();
+
+		final StringBuilder result = new StringBuilder();
+
+		ParserUtils.skipWhitespaces(string, position);
+
+		if (position.intValue() < string.length() && isValidFirstCharacter(string.charAt(position.intValue()))) {
+			result.append(string.charAt(position.intValue()));
+			position.increment();
+		} else {
+			position.setValue(pos0);
+			throw new ParseException("First symbol of constant or variable must be letter!");
+		}
+
+		while (position.intValue() < string.length() && isValidNotFirstCharacter(string, position)) {
+			result.append(string.charAt(position.intValue()));
+			position.increment();
+		}
+
+		return result.toString();
+	}
+
+	private boolean isValidFirstCharacter(char ch) {
+		return Character.isLetter(ch);
+	}
+
+	private boolean isValidNotFirstCharacter(@NotNull String string, @NotNull MutableInt position) {
+		final char ch = string.charAt(position.intValue());
+		return Character.isLetter(ch) || Character.isDigit(ch) || ch == '_';
+	}
+
+
 }

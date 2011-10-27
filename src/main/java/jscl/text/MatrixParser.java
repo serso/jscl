@@ -5,42 +5,46 @@ import java.util.List;
 import jscl.math.JSCLVector;
 import jscl.math.Matrix;
 import jscl.util.ArrayUtils;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class MatrixParser extends Parser {
+public class MatrixParser implements Parser {
     public static final Parser parser=new MatrixParser();
 
     private MatrixParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         List l=new ArrayList();
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])=='{') {
-            str.charAt(pos[0]++);
+        ParserUtils.skipWhitespaces(string, position);
+        if(position.intValue()< string.length() && string.charAt(position.intValue())=='{') {
+            string.charAt(position.intValue());
+			position.increment();
         } else {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw new ParseException();
         }
         try {
-            JSCLVector v=(JSCLVector)VectorParser.parser.parse(str,pos);
+            JSCLVector v=(JSCLVector)VectorParser.parser.parse(string, position);
             l.add(v);
         } catch (ParseException e) {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw e;
         }
         while(true) {
             try {
-                JSCLVector v=(JSCLVector)CommaAndVector.parser.parse(str,pos);
+                JSCLVector v=(JSCLVector)CommaAndVector.parser.parse(string, position);
                 l.add(v);
             } catch (ParseException e) {
                 break;
             }
         }
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])=='}') {
-            str.charAt(pos[0]++);
+        ParserUtils.skipWhitespaces(string, position);
+        if(position.intValue()< string.length() && string.charAt(position.intValue())=='}') {
+            string.charAt(position.intValue());
+			position.increment();
         } else {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw new ParseException();
         }
         JSCLVector v[]=(JSCLVector[])ArrayUtils.toArray(l,new JSCLVector[l.size()]);

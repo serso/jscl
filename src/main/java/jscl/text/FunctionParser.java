@@ -26,22 +26,24 @@ import jscl.math.function.trigonometric.Cos;
 import jscl.math.function.trigonometric.Cot;
 import jscl.math.function.trigonometric.Sin;
 import jscl.math.function.trigonometric.Tan;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class FunctionParser extends Parser {
+public class FunctionParser implements Parser {
     public static final Parser parser=new FunctionParser();
 
     private FunctionParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         Function v;
         try {
-            v=(Function)UsualFunctionParser.parser.parse(str,pos);
+            v=(Function)UsualFunctionParser.parser.parse(string, position);
         } catch (ParseException e) {
             try {
-                v=(Function)RootParser.parser.parse(str,pos);
+                v=(Function)RootParser.parser.parse(string, position);
             } catch (ParseException e2) {
                 try {
-                    v=(Function)ImplicitFunctionParser.parser.parse(str,pos);
+                    v=(Function)ImplicitFunctionParser.parser.parse(string, position);
                 } catch (ParseException e3) {
                     throw e3;
                 }
@@ -51,29 +53,29 @@ public class FunctionParser extends Parser {
     }
 }
 
-class UsualFunctionParser extends Parser {
+class UsualFunctionParser implements Parser {
     public static final Parser parser=new UsualFunctionParser();
 
     private UsualFunctionParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         String name;
         Generic a[];
         try {
-            name=(String)Identifier.parser.parse(str,pos);
+            name=(String)Identifier.parser.parse(string, position);
             if(valid(name));
             else {
-                pos[0]=pos0;
+                position.setValue(pos0);
                 throw new ParseException();
             }
         } catch (ParseException e) {
             throw e;
         }
         try {
-            a=(Generic[])ParameterList.parser.parse(str,pos);
+            a=(Generic[])ParameterList.parser.parse(string, position);
         } catch (ParseException e) {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw e;
         }
         Function v=null;

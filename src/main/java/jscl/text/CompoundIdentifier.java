@@ -1,24 +1,27 @@
 package jscl.text;
 
-public class CompoundIdentifier extends Parser {
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
+
+public class CompoundIdentifier implements Parser {
     public static final Parser parser=new CompoundIdentifier();
 
     private CompoundIdentifier() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         StringBuffer buffer=new StringBuffer();
-        skipWhitespaces(str,pos);
+        ParserUtils.skipWhitespaces(string, position);
         try {
-            String s=(String)Identifier.parser.parse(str,pos);
+            String s=(String)Identifier.parser.parse(string, position);
             buffer.append(s);
         } catch (ParseException e) {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw e;
         }
         while(true) {
             try {
-                String s=(String)DotAndIdentifier.parser.parse(str,pos);
+                String s=(String)DotAndIdentifier.parser.parse(string, position);
                 buffer.append(".").append(s);
             } catch (ParseException e) {
                 break;
@@ -28,25 +31,26 @@ public class CompoundIdentifier extends Parser {
     }
 }
 
-class DotAndIdentifier extends Parser {
+class DotAndIdentifier implements Parser {
     public static final Parser parser=new DotAndIdentifier();
 
     private DotAndIdentifier() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         String s;
-        skipWhitespaces(str,pos);
-        if(pos[0]<str.length() && str.charAt(pos[0])=='.') {
-            str.charAt(pos[0]++);
+        ParserUtils.skipWhitespaces(string, position);
+        if(position.intValue()< string.length() && string.charAt(position.intValue())=='.') {
+            string.charAt(position.intValue());
+			position.increment();
         } else {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw new ParseException();
         }
         try {
-            s=(String)Identifier.parser.parse(str,pos);
+            s=(String)Identifier.parser.parse(string, position);
         } catch (ParseException e) {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw e;
         }
         return s;

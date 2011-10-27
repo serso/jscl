@@ -1,18 +1,22 @@
 package jscl.text;
 
 import java.math.BigInteger;
-import jscl.math.JSCLInteger;
 
-public class JSCLIntegerParser extends Parser {
-    public static final Parser parser=new JSCLIntegerParser();
+import jscl.math.Generic;
+import jscl.math.JSCLInteger;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
+
+public class JSCLIntegerParser implements Parser<Generic> {
+    public static final Parser<Generic> parser=new JSCLIntegerParser();
 
     private JSCLIntegerParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         StringBuffer buffer=new StringBuffer();
         try {
-            String s=(String)Digits.parser.parse(str,pos);
+            String s=(String)Digits.parser.parse(string, position);
             buffer.append(s);
         } catch (ParseException e) {
             throw e;

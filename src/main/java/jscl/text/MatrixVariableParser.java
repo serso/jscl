@@ -2,16 +2,19 @@ package jscl.text;
 
 import jscl.math.Matrix;
 import jscl.math.MatrixVariable;
+import jscl.math.Variable;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-class MatrixVariableParser extends Parser {
-    public static final Parser parser=new MatrixVariableParser();
+class MatrixVariableParser implements Parser<Variable> {
+    public static final Parser<Variable> parser=new MatrixVariableParser();
 
     private MatrixVariableParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
+    public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         Matrix m;
         try {
-            m=(Matrix)MatrixParser.parser.parse(str,pos);
+            m=(Matrix)MatrixParser.parser.parse(string, position);
         } catch (ParseException e) {
             throw e;
         }

@@ -2,19 +2,27 @@ package jscl.text;
 
 import jscl.math.DoubleVariable;
 import jscl.math.NumericWrapper;
+import jscl.math.Variable;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class DoubleVariableParser extends Parser {
-    public static final Parser parser=new DoubleVariableParser();
+public class DoubleVariableParser implements Parser<Variable> {
 
-    private DoubleVariableParser() {}
+	public static final Parser<Variable> parser = new DoubleVariableParser();
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        NumericWrapper a;
-        try {
-            a=(NumericWrapper)DoubleParser.parser.parse(str,pos);
-        } catch (ParseException e) {
-            throw e;
-        }
-        return new DoubleVariable(a);
-    }
+	private DoubleVariableParser() {
+	}
+
+	@NotNull
+	public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		NumericWrapper result;
+
+		try {
+			result = (NumericWrapper) DoubleParser.parser.parse(string, position);
+		} catch (ParseException e) {
+			throw e;
+		}
+
+		return new DoubleVariable(result);
+	}
 }

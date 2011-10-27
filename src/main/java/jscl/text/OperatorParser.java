@@ -37,30 +37,32 @@ import jscl.math.operator.vector.Divergence;
 import jscl.math.operator.vector.Grad;
 import jscl.math.operator.vector.Jacobian;
 import jscl.math.operator.vector.Laplacian;
+import org.apache.commons.lang.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class OperatorParser extends Parser {
+public class OperatorParser implements Parser {
     public static final Parser parser=new OperatorParser();
 
     private OperatorParser() {}
 
-    public Object parse(String str, int pos[]) throws ParseException {
-        int pos0=pos[0];
+    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+        int pos0= position.intValue();
         String name;
         Generic a[];
         try {
-            name=(String)Identifier.parser.parse(str,pos);
+            name=(String)Identifier.parser.parse(string, position);
             if(valid(name));
             else {
-                pos[0]=pos0;
+                position.setValue(pos0);
                 throw new ParseException();
             }
         } catch (ParseException e) {
             throw e;
         }
         try {
-            a=(Generic[])ParameterList.parser.parse(str,pos);
+            a=(Generic[])ParameterList.parser.parse(string, position);
         } catch (ParseException e) {
-            pos[0]=pos0;
+            position.setValue(pos0);
             throw e;
         }
         Operator v=null;
