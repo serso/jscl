@@ -37,7 +37,7 @@ import jscl.math.operator.vector.Divergence;
 import jscl.math.operator.vector.Grad;
 import jscl.math.operator.vector.Jacobian;
 import jscl.math.operator.vector.Laplacian;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class OperatorParser implements Parser {

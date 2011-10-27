@@ -5,7 +5,7 @@ import java.util.List;
 import jscl.math.Generic;
 import jscl.math.JSCLVector;
 import jscl.util.ArrayUtils;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class VectorParser implements Parser {

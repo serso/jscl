@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 import jscl.math.Generic;
 import jscl.math.JSCLInteger;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class JSCLIntegerParser implements Parser<Generic> {

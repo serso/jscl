@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.function.Root;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class RootParser implements Parser {

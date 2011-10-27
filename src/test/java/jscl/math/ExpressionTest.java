@@ -1,7 +1,7 @@
 package jscl.math;
 
 import jscl.text.PrimaryExpressionParser;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.junit.Test;
 
 /**

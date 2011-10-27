@@ -13,7 +13,7 @@ import jscl.math.function.Frac;
 import jscl.math.function.Inv;
 import jscl.math.function.Pow;
 import jscl.math.operator.Factorial;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class ExpressionParser implements Parser<Generic> {

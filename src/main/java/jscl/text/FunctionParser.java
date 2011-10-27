@@ -26,7 +26,7 @@ import jscl.math.function.trigonometric.Cos;
 import jscl.math.function.trigonometric.Cot;
 import jscl.math.function.trigonometric.Sin;
 import jscl.math.function.trigonometric.Tan;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class FunctionParser implements Parser {

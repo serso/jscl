@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class Subscript implements Parser {

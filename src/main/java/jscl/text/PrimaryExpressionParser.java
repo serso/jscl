@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.ExpressionVariable;
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

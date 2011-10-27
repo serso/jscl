@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.math.Variable;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class VariableParser implements Parser<Variable> {

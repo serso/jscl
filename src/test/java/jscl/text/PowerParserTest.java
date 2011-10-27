@@ -1,6 +1,6 @@
 package jscl.text;
 
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.junit.Assert;
 
 /**

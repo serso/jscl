@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.Matrix;
 import jscl.math.MatrixVariable;
 import jscl.math.Variable;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 class MatrixVariableParser implements Parser<Variable> {

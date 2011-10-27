@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.JSCLVector;
 import jscl.math.Variable;
 import jscl.math.VectorVariable;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class VectorVariableParser implements Parser<Variable> {

@@ -1,19 +1,20 @@
 package jscl.math;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
 import jscl.text.ExpressionParser;
+import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.ParserUtils;
 import jscl.util.ArrayUtils;
-import org.apache.commons.lang.mutable.MutableInt;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Expression extends Generic {
     Literal literal[];

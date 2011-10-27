@@ -5,7 +5,7 @@ import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.numeric.JSCLDouble;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

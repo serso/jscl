@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.math.JSCLVector;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class CommaAndVector implements Parser {

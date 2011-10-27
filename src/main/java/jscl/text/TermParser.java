@@ -5,7 +5,7 @@ import jscl.math.GenericVariable;
 import jscl.math.JSCLInteger;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**

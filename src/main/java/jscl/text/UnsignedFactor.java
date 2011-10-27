@@ -5,7 +5,7 @@ import jscl.math.GenericVariable;
 import jscl.math.JSCLInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.function.Pow;
-import org.apache.commons.lang.mutable.MutableInt;
+import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
