@@ -35,7 +35,7 @@ public class Identifier implements Parser<String> {
 	}
 
 	private boolean isValidFirstCharacter(char ch) {
-		return Character.isLetter(ch);
+		return Character.isLetter(ch) || ch == '√';
 	}
 
 	private boolean isValidNotFirstCharacter(@NotNull String string, @NotNull MutableInt position) {

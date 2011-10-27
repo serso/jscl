@@ -183,7 +183,7 @@ public final class Complex extends Numeric {
                 buffer.append(imag);
                 buffer.append("*");
             }
-            buffer.append("sqrt(-1)");
+            buffer.append("√(-1)");
         }
         return buffer.toString();
     }
