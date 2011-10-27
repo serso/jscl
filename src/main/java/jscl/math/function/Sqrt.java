@@ -12,7 +12,7 @@ import jscl.mathml.MathML;
 
 public class Sqrt extends Algebraic {
     public Sqrt(Generic generic) {
-        super("sqrt",new Generic[] {generic});
+        super("√",new Generic[] {generic});
     }
 
     public Root rootValue() {
