@@ -1,7 +1,6 @@
 package jscl.math;
 
-import jscl.text.PrimaryExpressionParser;
-import jscl.text.MutableInt;
+import junit.framework.Assert;
 import org.junit.Test;
 
 /**
@@ -13,6 +12,8 @@ public class ExpressionTest {
 
 	@Test
 	public void testSpecialCase() throws Exception {
-		//Expression.valueOf("3").numeric().toString();
+		Assert.assertEquals("3.0", Expression.valueOf("3").numeric().toString());
+		Assert.assertEquals("0.6931471805599453", Expression.valueOf("ln(2)").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("log(10)").numeric().toString());
 	}
 }

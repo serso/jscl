@@ -205,11 +205,16 @@ public class NumericMatrix extends Numeric {
         else return JSCLDouble.valueOf(0);
     }
 
-    public Numeric log() {
+    public Numeric ln() {
         throw new ArithmeticException();
     }
 
-    public Numeric exp() {
+	@Override
+	public Numeric log10() {
+		throw new ArithmeticException();
+	}
+
+	public Numeric exp() {
         throw new ArithmeticException();
     }
 

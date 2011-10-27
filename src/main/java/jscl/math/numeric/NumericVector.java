@@ -105,11 +105,16 @@ public class NumericVector extends Numeric {
         return a;
     }
 
-    public Numeric log() {
+    public Numeric ln() {
         throw new ArithmeticException();
     }
 
-    public Numeric exp() {
+	@Override
+	public Numeric log10() {
+		throw new ArithmeticException();
+	}
+
+	public Numeric exp() {
         throw new ArithmeticException();
     }
 

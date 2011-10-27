@@ -45,7 +45,8 @@ public abstract class Numeric implements Arithmetic, Comparable {
         return divide(abs());
     }
 
-    public abstract Numeric log();
+    public abstract Numeric ln();
+    public abstract Numeric log10();
     public abstract Numeric exp();
 
     public Numeric inverse() {
@@ -58,7 +59,7 @@ public abstract class Numeric implements Arithmetic, Comparable {
         } else if(numeric.compareTo(JSCLDouble.valueOf(1))==0) {
             return this;
         } else {
-            return numeric.multiply(log()).exp();
+            return numeric.multiply(ln()).exp();
         }
     }
 
@@ -77,19 +78,19 @@ public abstract class Numeric implements Arithmetic, Comparable {
     public abstract Numeric conjugate();
 
     public Numeric acos() {
-        return add(JSCLDouble.valueOf(-1).add(pow(2)).sqrt()).log().multiply(Complex.valueOf(0, 1));
+        return add(JSCLDouble.valueOf(-1).add(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
     }
 
     public Numeric asin() {
-        return multiply(Complex.valueOf(0, 1)).negate().add(JSCLDouble.valueOf(1).subtract(pow(2)).sqrt()).log().multiply(Complex.valueOf(0, 1));
+        return multiply(Complex.valueOf(0, 1)).negate().add(JSCLDouble.valueOf(1).subtract(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
     }
 
     public Numeric atan() {
-        return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).log()).divide(JSCLDouble.valueOf(2));
+        return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).ln()).divide(JSCLDouble.valueOf(2));
     }
 
     public Numeric acot() {
-            return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).negate().log()).divide(JSCLDouble.valueOf(2));
+            return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).negate().ln()).divide(JSCLDouble.valueOf(2));
         }
 
     public Numeric cos() {
@@ -109,19 +110,19 @@ public abstract class Numeric implements Arithmetic, Comparable {
     }
 
     public Numeric acosh() {
-        return add(JSCLDouble.valueOf(-1).add(pow(2)).sqrt()).log();
+        return add(JSCLDouble.valueOf(-1).add(pow(2)).sqrt()).ln();
     }
 
     public Numeric asinh() {
-        return add(JSCLDouble.valueOf(1).add(pow(2)).sqrt()).log();
+        return add(JSCLDouble.valueOf(1).add(pow(2)).sqrt()).ln();
     }
 
     public Numeric atanh() {
-        return JSCLDouble.valueOf(1).add(this).divide(JSCLDouble.valueOf(1).subtract(this)).log().divide(JSCLDouble.valueOf(2));
+        return JSCLDouble.valueOf(1).add(this).divide(JSCLDouble.valueOf(1).subtract(this)).ln().divide(JSCLDouble.valueOf(2));
     }
 
     public Numeric acoth() {
-        return JSCLDouble.valueOf(1).add(this).divide(JSCLDouble.valueOf(1).subtract(this)).negate().log().divide(JSCLDouble.valueOf(2));
+        return JSCLDouble.valueOf(1).add(this).divide(JSCLDouble.valueOf(1).subtract(this)).negate().ln().divide(JSCLDouble.valueOf(2));
     }
 
     public Numeric cosh() {
@@ -153,4 +154,6 @@ public abstract class Numeric implements Arithmetic, Comparable {
             return compareTo((Numeric)obj)==0;
         } else return false;
     }
+
+
 }

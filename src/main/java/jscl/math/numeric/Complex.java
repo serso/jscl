@@ -97,11 +97,19 @@ public final class Complex extends Numeric {
         return Math.atan2(imag,real);
     }
 
-    public Numeric log() {
+    public Numeric ln() {
         if(signum()==0) {
-            return JSCLDouble.valueOf(0).log();
+            return JSCLDouble.valueOf(0).ln();
         } else {
             return new Complex(Math.log(magnitude()),angle());
+        }
+    }
+
+	   public Numeric log10() {
+        if(signum()==0) {
+            return JSCLDouble.valueOf(0).log10();
+        } else {
+            return new Complex(Math.log10(magnitude()),angle());
         }
     }
 

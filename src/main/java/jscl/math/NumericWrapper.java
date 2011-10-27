@@ -205,9 +205,13 @@ public final class NumericWrapper extends Generic {
         return new NumericWrapper(content.sgn());
     }
 
-    public Generic log() {
-        return new NumericWrapper(content.log());
+    public Generic ln() {
+        return new NumericWrapper(content.ln());
     }
+
+	public Generic log10() {
+		return new NumericWrapper(content.log10());
+	}
 
     public Generic exp() {
         return new NumericWrapper(content.exp());
@@ -341,4 +345,6 @@ public final class NumericWrapper extends Generic {
     protected Generic newinstance() {
         return null;
     }
+
+
 }
