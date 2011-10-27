@@ -33,6 +33,10 @@ public class MultiTryParser<T> implements Parser<T> {
 					throw e;
 				}
 			}
+
+			if (result != null) {
+				break;
+			}
 		}
 
 		return result;

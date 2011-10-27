@@ -6,6 +6,7 @@ import jscl.math.Variable;
 import org.apache.commons.lang.mutable.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,12 +27,11 @@ public class PrimaryExpressionParser implements Parser<Generic> {
 			new VariableConverter<Variable>(VectorVariableParser.parser),
 			new VariableConverter<ExpressionVariable>(BracketedExpression.parser));
 
-	private static final Parser<Generic> multiTryParser = new MultiTryParser<Generic>(parsers);
-
 	private PrimaryExpressionParser() {
 	}
 
 	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		final Parser<Generic> multiTryParser = new MultiTryParser<Generic>(new ArrayList<Parser<Generic>>(parsers));
 		return multiTryParser.parse(string, position);
 	}
 

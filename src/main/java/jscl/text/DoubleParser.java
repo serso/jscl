@@ -8,6 +8,7 @@ import jscl.math.numeric.JSCLDouble;
 import org.apache.commons.lang.mutable.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,13 +20,12 @@ public class DoubleParser implements Parser<NumericWrapper> {
 			Singularity.parser,
 			FloatingPointLiteral.parser);
 
-	private static final Parser<Double> multiTryParser = new MultiTryParser<Double>(parsers);
-
 	private DoubleParser() {
 	}
 
 	@NotNull
 	public NumericWrapper parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<Double>>(parsers));
 		return new NumericWrapper(JSCLDouble.valueOf(multiTryParser.parse(string, position)));
 	}
 }
