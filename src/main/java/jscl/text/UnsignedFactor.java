@@ -5,7 +5,6 @@ import jscl.math.GenericVariable;
 import jscl.math.JSCLInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.function.Pow;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -47,10 +46,6 @@ class UnsignedFactor implements Parser {
 				if (c < 0) {
 					generic = new Pow(GenericVariable.content(b, true), JSCLInteger.valueOf(c)).expressionValue();
 				} else {
-					// todo serso: think
-					if ( c > 1000000) {
-						throw new ParseException("Too big power!");
-					}
 					generic = b.pow(c);
 				}
 			} catch (NotIntegerException e) {

@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class Identifier implements Parser<String> {
@@ -22,8 +21,9 @@ public class Identifier implements Parser<String> {
 			result.append(string.charAt(position.intValue()));
 			position.increment();
 		} else {
+			final ParseException e = new ParseException("First symbol of constant or variable must be letter!", position, string);
 			position.setValue(pos0);
-			throw new ParseException("First symbol of constant or variable must be letter!");
+			throw e;
 		}
 
 		while (position.intValue() < string.length() && isValidNotFirstCharacter(string, position)) {

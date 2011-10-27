@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import jscl.text.ParserUtils;
 
 public abstract class Generic implements Arithmetic, Comparable {
     public abstract Generic add(Generic generic);
@@ -69,9 +70,18 @@ public abstract class Generic implements Arithmetic, Comparable {
     }
 
     public Generic pow(int exponent) {
-        Generic a=JSCLInteger.valueOf(1);
-        for(int i=0;i<exponent;i++) a=a.multiply(this);
-        return a;
+		assert exponent >= 0;
+
+		Generic result = JSCLInteger.valueOf(1);
+
+		for (int i = 0; i < exponent; i++) {
+
+			ParserUtils.checkInterruption();
+
+			result = result.multiply(this);
+		}
+
+		return result;
     }
 
     public Generic abs() {

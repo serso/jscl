@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,6 +8,13 @@ import org.jetbrains.annotations.NotNull;
  * Time: 2:40 PM
  */
 public class ParserUtils {
+
+	public static void checkInterruption() {
+		if (Thread.currentThread().isInterrupted()) {
+			throw new ParseInterruptedException("Interrupted!");
+		}
+	}
+
 	public static void skipWhitespaces(@NotNull String string, @NotNull MutableInt position) {
 		while (position.intValue() < string.length() && Character.isWhitespace(string.charAt(position.intValue()))) {
 			position.increment();

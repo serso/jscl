@@ -10,6 +10,7 @@ import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.ParserUtils;
 import jscl.util.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -579,19 +580,19 @@ public class Expression extends Generic {
         return ex;
     }
 
-    public static Expression valueOf(String str) throws ParseException {
-        final MutableInt position = new MutableInt(0);
-		final Generic generic = ExpressionParser.parser.parse(str, position);
+	public static Expression valueOf(@NotNull String expression) throws ParseException {
+		final MutableInt position = new MutableInt(0);
 
-		ParserUtils.skipWhitespaces(str, position);
+		final Generic generic = ExpressionParser.parser.parse(expression, position);
 
-		if(position.intValue()<str.length()) {
-            throw new ParseException();
-        }
-        Expression ex=new Expression();
-        ex.init(generic);
-        return ex;
-    }
+		ParserUtils.skipWhitespaces(expression, position);
+
+		if (position.intValue() < expression.length()) {
+			throw new ParseException();
+		}
+
+		return new Expression().init(generic);
+	}
 
     void init(Expression expression) {
         init(expression.size);
@@ -611,7 +612,7 @@ public class Expression extends Generic {
         }
     }
 
-    void init(Generic generic) {
+    Expression init(Generic generic) {
         if(generic instanceof Expression) {
             init((Expression)generic);
         } else if(generic instanceof JSCLInteger) {
@@ -619,6 +620,8 @@ public class Expression extends Generic {
         } else if(generic instanceof Rational) {
             init((Rational)generic);
         } else throw new ArithmeticException();
+
+		return this;
     }
 
     public String toString() {

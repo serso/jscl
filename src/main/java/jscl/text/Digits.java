@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class Digits implements Parser<String> {
@@ -22,8 +21,9 @@ public class Digits implements Parser<String> {
 			result.append(string.charAt(position.intValue()));
 			position.increment();
 		} else {
+			final ParseException e = new ParseException("First symbol of number must be digit!", position, string);
 			position.setValue(pos0);
-			throw new ParseException("First symbol of number must be digit!");
+			throw e;
 		}
 
 		while (position.intValue() < string.length() && Character.isDigit(string.charAt(position.intValue()))) {
