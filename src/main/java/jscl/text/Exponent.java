@@ -25,8 +25,9 @@ class Exponent implements Parser<Generic> {
 
 		try {
 			result = (Generic) UnsignedExponent.parser.parse(string, position);
-		} finally {
+		} catch (ParseException e) {
 			position.setValue(pos0);
+			throw e;
 		}
 
 		return sign ? result.negate() : result;

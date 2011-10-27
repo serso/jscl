@@ -44,8 +44,15 @@ class UnsignedFactor implements Parser {
 			Generic b = (Generic) it.previous();
 			try {
 				int c = generic.integerValue().intValue();
-				if (c < 0) generic = new Pow(GenericVariable.content(b, true), JSCLInteger.valueOf(c)).expressionValue();
-				else generic = b.pow(c);
+				if (c < 0) {
+					generic = new Pow(GenericVariable.content(b, true), JSCLInteger.valueOf(c)).expressionValue();
+				} else {
+					// todo serso: think
+					if ( c > 1000000) {
+						throw new ParseException("Too big power!");
+					}
+					generic = b.pow(c);
+				}
 			} catch (NotIntegerException e) {
 				generic = new Pow(GenericVariable.content(b, true), GenericVariable.content(generic, true)).expressionValue();
 			}

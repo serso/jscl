@@ -21,15 +21,17 @@ class PowerExponent implements Parser<Generic> {
 
 		try {
 			PowerParser.parser.parse(string, position);
-		} finally {
+		} catch (ParseException e) {
 			position.setValue(pos0);
+			throw e;
 		}
 
 		Generic result;
 		try {
 			result = Exponent.parser.parse(string, position);
-		} finally {
+		} catch (ParseException e) {
 			position.setValue(pos0);
+			throw e;
 		}
 
 		return result;
