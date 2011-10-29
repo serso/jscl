@@ -29,15 +29,15 @@ public class Lg extends Function {
 		return expressionValue();
 	}
 
-	public Generic evalelem() {
+	public Generic evaluateElementary() {
 		return evaluate();
 	}
 
-	public Generic evalsimp() {
+	public Generic evaluateSimplify() {
 		// todo serso: check simplify (was just copied from Ln)
 		try {
 			JSCLInteger en = parameter[0].integerValue();
-			if (en.signum() < 0) return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).evalsimp());
+			if (en.signum() < 0) return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).evaluateSimplify());
 			else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();
@@ -54,21 +54,21 @@ public class Lg extends Function {
 			Variable v = parameter[0].variableValue();
 			if (v instanceof Sqrt) {
 				Generic g[] = ((Sqrt) v).parameters();
-				return Constant.half.multiply(new Lg(g[0]).evalsimp());
+				return Constant.half.multiply(new Lg(g[0]).evaluateSimplify());
 			}
 		} catch (NotVariableException e) {
 		}
 		Generic n[] = Frac.separateCoefficient(parameter[0]);
 		if (n[0].compareTo(JSCLInteger.valueOf(1)) == 0 && n[1].compareTo(JSCLInteger.valueOf(1)) == 0) ;
-		else return new Lg(n[2]).evalsimp().add(
-				new Lg(n[0]).evalsimp()
+		else return new Lg(n[2]).evaluateSimplify().add(
+				new Lg(n[0]).evaluateSimplify()
 		).subtract(
-				new Lg(n[1]).evalsimp()
+				new Lg(n[1]).evaluateSimplify()
 		);
 		return expressionValue();
 	}
 
-	public Generic evalnum() {
+	public Generic evaluateNumerically() {
 		return ((NumericWrapper) parameter[0]).lg();
 	}
 

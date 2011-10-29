@@ -32,17 +32,17 @@ public class Cosh extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Exp(
             parameter[0]
-        ).evalelem().add(
+        ).evaluateElementary().add(
             new Exp(
                 parameter[0].negate()
-            ).evalelem()
+            ).evaluateElementary()
         ).multiply(Constant.half);
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
             return new Cosh(parameter[0].negate()).evaluate();
         } else if(parameter[0].signum()==0) {
@@ -59,16 +59,16 @@ public class Cosh extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        return new Cosh(a).evalsimp().multiply(
-            new Cosh(b).evalsimp()
+        return new Cosh(a).evaluateSimplify().multiply(
+            new Cosh(b).evaluateSimplify()
         ).add(
-            new Sinh(a).evalsimp().multiply(
-                new Sinh(b).evalsimp()
+            new Sinh(a).evaluateSimplify().multiply(
+                new Sinh(b).evaluateSimplify()
             )
         );
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).cosh();
     }
 

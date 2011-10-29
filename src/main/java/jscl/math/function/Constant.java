@@ -39,7 +39,7 @@ public class Constant extends Variable {
         return subscript;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return null;
     }
 

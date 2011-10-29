@@ -31,15 +31,15 @@ public class Comparison extends Function {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return expressionValue();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return compare((NumericWrapper)parameter[0],(NumericWrapper)parameter[1]);
     }
 

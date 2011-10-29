@@ -42,7 +42,7 @@ public class Simplification {
                 result=generic;
                 break;
             case 1:
-                result=new Root(p,0).evalsimp();
+                result=new Root(p,0).evaluateSimplify();
                 break;
 //          case 2:
 //              int n=branch(generic,p);
@@ -66,7 +66,7 @@ public class Simplification {
                 result=generic;
                 break;
             default:
-                result=new Root(p,0).evalsimp();
+                result=new Root(p,0).evaluateSimplify();
         }
     }
 

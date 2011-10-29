@@ -12,7 +12,7 @@ public class TechnicalVariable extends Variable {
                 this.subscript=subscript;
         }
 
-        public Generic antiderivative(Variable variable) throws NotIntegrableException {
+        public Generic antiDerivative(Variable variable) throws NotIntegrableException {
                 throw new NotIntegrableException();
         }
 

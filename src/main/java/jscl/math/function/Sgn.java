@@ -33,14 +33,14 @@ public class Sgn extends Function {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Frac(
             parameter[0],
-            new Abs(parameter[0]).evalelem()
-        ).evalelem();
+            new Abs(parameter[0]).evaluateElementary()
+        ).evaluateElementary();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
             return new Sgn(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
@@ -55,13 +55,13 @@ public class Sgn extends Function {
                 return JSCLInteger.valueOf(1);
             } else if(v instanceof Sgn) {
                 Function f=(Function)v;
-                return f.evalsimp();
+                return f.evaluateSimplify();
             }
         } catch (NotVariableException e) {}
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).sgn();
     }
 

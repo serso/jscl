@@ -29,7 +29,7 @@ public class Frac extends Algebraic {
         );
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         if(parameter[0].isPolynomial(variable) && parameter[1].isPolynomial(variable)) {
             return AntiDerivative.compute(this, variable);
         } else throw new NotIntegrableException();
@@ -62,23 +62,27 @@ public class Frac extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return evaluate();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
-            return new Frac(parameter[0].negate(),parameter[1]).evalsimp().negate();
+            return new Frac(parameter[0].negate(),parameter[1]).evaluateSimplify().negate();
         }
         if(parameter[1].signum()<0) {
-            return new Frac(parameter[0].negate(),parameter[1].negate()).evalsimp();
+            return new Frac(parameter[0].negate(),parameter[1].negate()).evaluateSimplify();
         }
         return evaluate();
     }
 
-    public Generic evalnum() {
-        return ((NumericWrapper)parameter[0]).divide((NumericWrapper)parameter[1]);
-    }
+    public Generic evaluateNumerically() {
+		//if (parameter[0] instanceof NumericWrapper && parameter[1] instanceof NumericWrapper) {
+			return ((NumericWrapper)parameter[0]).divide((NumericWrapper)parameter[1]);
+		//} else {
+	//		return (parameter[0]).divide(parameter[1]);
+		//}
+	}
 
     static Generic[] separateCoefficient(Generic generic) {
         if(generic.signum()<0) {

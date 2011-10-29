@@ -38,7 +38,7 @@ public class Pow extends Algebraic {
         throw new NotRootException();
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         try {
             Root r=rootValue();
             Generic g[]=r.parameters();
@@ -46,7 +46,7 @@ public class Pow extends Algebraic {
                 return AntiDerivative.compute(r, variable);
             } else throw new NotIntegrableException();
         } catch (NotRootException e) {}
-        return super.antiderivative(variable);
+        return super.antiDerivative(variable);
     }
 
     public Generic antiderivative(int n) throws NotIntegrableException {
@@ -93,22 +93,22 @@ public class Pow extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Exp(
             new Lg(
                 parameter[0]
-            ).evalelem().multiply(
+            ).evaluateElementary().multiply(
                 parameter[1]
             )
-        ).evalelem();
+        ).evaluateElementary();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].compareTo(JSCLInteger.valueOf(1))==0) {
             return JSCLInteger.valueOf(1);
         }
         if(parameter[1].signum()<0) {
-            return new Pow(new Inv(parameter[0]).evalsimp(),parameter[1].negate()).evalsimp();
+            return new Pow(new Inv(parameter[0]).evaluateSimplify(),parameter[1].negate()).evaluateSimplify();
         }
         try {
             int c=parameter[1].integerValue().intValue();
@@ -129,7 +129,7 @@ public class Pow extends Algebraic {
             } catch (NotIntegerException e) {}
             switch(d) {
                 case 2:
-                    return new Sqrt(a).evalsimp();
+                    return new Sqrt(a).evaluateSimplify();
                 case 3:
                 case 4:
                 case 6:
@@ -143,13 +143,13 @@ public class Pow extends Algebraic {
                     new Pow(
                         parameter[0],
                         n[2]
-                    ).evalsimp(),
+                    ).evaluateSimplify(),
                     new Inv(
                         n[1]
-                    ).evalsimp()
-                ).evalsimp(),
+                    ).evaluateSimplify()
+                ).evaluateSimplify(),
                 n[0]
-            ).evalsimp();
+            ).evaluateSimplify();
         }
         return expressionValue();
     }
@@ -171,7 +171,7 @@ public class Pow extends Algebraic {
         }
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).pow((NumericWrapper)parameter[1]);
     }
 

@@ -109,7 +109,10 @@ public abstract class Generic implements Arithmetic, Comparable {
     public abstract Generic[] productValue() throws NotProductException;
     public abstract Power powerValue() throws NotPowerException;
     public abstract Expression expressionValue() throws NotExpressionException;
+
+    public abstract boolean isInteger();
     public abstract JSCLInteger integerValue() throws NotIntegerException;
+
     public abstract Variable variableValue() throws NotVariableException;
     public abstract Variable[] variables();
     public abstract boolean isPolynomial(Variable variable);

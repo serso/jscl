@@ -256,7 +256,12 @@ public class Matrix extends Generic {
         throw new NotIntegerException();
     }
 
-    public Variable variableValue() throws NotVariableException {
+	@Override
+	public boolean isInteger() {
+		return false;
+	}
+
+	public Variable variableValue() throws NotVariableException {
         throw new NotVariableException();
     }
 

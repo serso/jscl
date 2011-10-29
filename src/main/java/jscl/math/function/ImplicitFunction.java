@@ -48,15 +48,15 @@ public class ImplicitFunction extends Function {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return expressionValue();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         throw new ArithmeticException();
     }
 

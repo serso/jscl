@@ -26,7 +26,7 @@ public class Sqrt extends Algebraic {
         );
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         Root r=rootValue();
         Generic g[]=r.parameters();
         if(g[0].isPolynomial(variable)) {
@@ -58,14 +58,14 @@ public class Sqrt extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return evaluate();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         try {
             JSCLInteger en=parameter[0].integerValue();
-            if(en.signum()<0) return Constant.i.multiply(new Sqrt(en.negate()).evalsimp());
+            if(en.signum()<0) return Constant.i.multiply(new Sqrt(en.negate()).evaluateSimplify());
             else {
                 Generic rt=en.sqrt();
                 if(rt.pow(2).compareTo(en)==0) return rt;
@@ -83,17 +83,17 @@ public class Sqrt extends Algebraic {
         } catch (NotIntegerException e) {
             Generic n[]=Frac.separateCoefficient(parameter[0]);
             if(n[0].compareTo(JSCLInteger.valueOf(1))==0 && n[1].compareTo(JSCLInteger.valueOf(1))==0);
-            else return new Sqrt(n[2]).evalsimp().multiply(
+            else return new Sqrt(n[2]).evaluateSimplify().multiply(
                 new Frac(
-                    new Sqrt(n[0]).evalsimp(),
-                    new Sqrt(n[1]).evalsimp()
-                ).evalsimp()
+                    new Sqrt(n[0]).evaluateSimplify(),
+                    new Sqrt(n[1]).evaluateSimplify()
+                ).evaluateSimplify()
             );
         }
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).sqrt();
     }
 

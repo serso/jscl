@@ -41,18 +41,17 @@ public abstract class Function extends Variable {
 
 	public abstract Generic evaluate();
 
-	public abstract Generic evalelem();
+	public abstract Generic evaluateElementary();
 
-	public abstract Generic evalsimp();
+	public abstract Generic evaluateSimplify();
 
-	public abstract Generic evalnum();
+	public abstract Generic evaluateNumerically();
 
-	public Generic antiderivative(Variable variable) throws NotIntegrableException {
+	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
 		int n = -1;
 		for (int i = 0; i < parameter.length; i++) {
 			if (n == -1 && parameter[i].isIdentity(variable)) n = i;
-			else if (parameter[i].isConstant(variable)) ;
-			else {
+			else if (!parameter[i].isConstant(variable)) {
 				n = -1;
 				break;
 			}
@@ -106,7 +105,7 @@ public abstract class Function extends Variable {
 		for (int i = 0; i < parameter.length; i++) {
 			v.parameter[i] = parameter[i].elementary();
 		}
-		return v.evalelem();
+		return v.evaluateElementary();
 	}
 
 	public Generic simplify() {
@@ -114,7 +113,7 @@ public abstract class Function extends Variable {
 		for (int i = 0; i < parameter.length; i++) {
 			v.parameter[i] = parameter[i].simplify();
 		}
-		return v.evalsimp();
+		return v.evaluateSimplify();
 	}
 
 	public Generic numeric() {
@@ -122,7 +121,7 @@ public abstract class Function extends Variable {
 		for (int i = 0; i < parameter.length; i++) {
 			v.parameter[i] = parameter[i].numeric();
 		}
-		return v.evalnum();
+		return v.evaluateNumerically();
 	}
 
 	public boolean isConstant(Variable variable) {

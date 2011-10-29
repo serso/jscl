@@ -30,7 +30,7 @@ public class Atan extends ArcTrigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return Constant.i.multiply(
             new Lg(
                 new Root(
@@ -40,12 +40,12 @@ public class Atan extends ArcTrigonometric {
                         JSCLInteger.valueOf(1).add(Constant.i.multiply(parameter[0]))
                     },
                     0
-                ).evalelem()
-            ).evalelem()
+                ).evaluateElementary()
+            ).evaluateElementary()
         );
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).atan();
     }
 

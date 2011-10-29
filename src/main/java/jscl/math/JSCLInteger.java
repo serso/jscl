@@ -1,7 +1,8 @@
 package jscl.math;
 
-import java.math.BigInteger;
 import jscl.mathml.MathML;
+
+import java.math.BigInteger;
 
 public final class JSCLInteger extends Generic {
     public static final JSCLInteger factory=new JSCLInteger(BigInteger.valueOf(0));
@@ -251,7 +252,12 @@ public final class JSCLInteger extends Generic {
         return this;
     }
 
-    public Variable variableValue() throws NotVariableException {
+	@Override
+	public boolean isInteger() {
+		return true;
+	}
+
+	public Variable variableValue() throws NotVariableException {
         throw new NotVariableException();
     }
 

@@ -23,7 +23,7 @@ public abstract class Operator extends Variable {
 
     public abstract Generic compute();
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return null;
     }
 

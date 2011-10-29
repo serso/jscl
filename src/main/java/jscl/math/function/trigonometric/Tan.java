@@ -41,14 +41,14 @@ public class Tan extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Frac(
-            new Sin(parameter[0]).evalelem(),
-            new Cos(parameter[0]).evalelem()
-        ).evalelem();
+            new Sin(parameter[0]).evaluateElementary(),
+            new Cos(parameter[0]).evaluateElementary()
+        ).evaluateElementary();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
             return new Tan(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
@@ -67,17 +67,17 @@ public class Tan extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        Generic ta=new Tan(a).evalsimp();
-        Generic tb=new Tan(b).evalsimp();
+        Generic ta=new Tan(a).evaluateSimplify();
+        Generic tb=new Tan(b).evaluateSimplify();
         return new Frac(
             ta.add(tb),
             JSCLInteger.valueOf(1).subtract(
                 ta.multiply(tb)
             )
-        ).evalsimp();
+        ).evaluateSimplify();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).tan();
     }
 

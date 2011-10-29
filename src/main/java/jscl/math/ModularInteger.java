@@ -1,7 +1,8 @@
 package jscl.math;
 
-import java.math.BigInteger;
 import jscl.mathml.MathML;
+
+import java.math.BigInteger;
 
 public class ModularInteger extends Generic implements Field {
     public static final ModularInteger booleanFactory=new ModularInteger(0,2);
@@ -137,7 +138,12 @@ public class ModularInteger extends Generic implements Field {
         return JSCLInteger.valueOf(content);
     }
 
-    public Variable variableValue() throws NotVariableException {
+	@Override
+	public boolean isInteger() {
+		return true;
+	}
+
+	public Variable variableValue() throws NotVariableException {
         throw new UnsupportedOperationException();
     }
 

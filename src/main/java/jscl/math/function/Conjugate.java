@@ -37,19 +37,19 @@ public class Conjugate extends Function {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         try {
             return parameter[0].integerValue();
         } catch (NotIntegerException e) {}
         return expressionValue();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         try {
             return parameter[0].integerValue();
         } catch (NotIntegerException e) {}
         if(parameter[0].signum()<0) {
-            return new Conjugate(parameter[0].negate()).evalsimp().negate();
+            return new Conjugate(parameter[0].negate()).evaluateSimplify().negate();
         } else if(parameter[0].compareTo(Constant.i)==0) {
             return Constant.i.negate();
         }
@@ -60,17 +60,17 @@ public class Conjugate extends Function {
                 return g[0];
             } else if(v instanceof Exp) {
                 Generic g[]=((Exp)v).parameters();
-                return new Exp(new Conjugate(g[0]).evalsimp()).evalsimp();
+                return new Exp(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
             } else if(v instanceof Lg) {
                 Generic g[]=((Lg)v).parameters();
-                return new Lg(new Conjugate(g[0]).evalsimp()).evalsimp();
+                return new Lg(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
             }
         } catch (NotVariableException e) {
             Generic a[]=parameter[0].sumValue();
             if(a.length>1) {
                 Generic s=JSCLInteger.valueOf(0);
                 for(int i=0;i<a.length;i++) {
-                    s=s.add(new Conjugate(a[i]).evalsimp());
+                    s=s.add(new Conjugate(a[i]).evaluateSimplify());
                 }
                 return s;
             } else {
@@ -78,20 +78,20 @@ public class Conjugate extends Function {
                 Generic s=JSCLInteger.valueOf(1);
                 for(int i=0;i<p.length;i++) {
                     Power o=p[i].powerValue();
-                    s=s.multiply(new Conjugate(o.value()).evalsimp().pow(o.exponent()));
+                    s=s.multiply(new Conjugate(o.value()).evaluateSimplify().pow(o.exponent()));
                 }
                 return s;
             }
         }
         Generic n[]=Frac.separateCoefficient(parameter[0]);
         if(n[0].compareTo(JSCLInteger.valueOf(1))==0 && n[1].compareTo(JSCLInteger.valueOf(1))==0);
-        else return new Conjugate(n[2]).evalsimp().multiply(
-            new Frac(n[0],n[1]).evalsimp()
+        else return new Conjugate(n[2]).evaluateSimplify().multiply(
+            new Frac(n[0],n[1]).evaluateSimplify()
         );
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).conjugate();
     }
 

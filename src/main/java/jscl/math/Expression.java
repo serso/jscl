@@ -12,7 +12,10 @@ import jscl.text.ParserUtils;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Expression extends Generic {
     Literal literal[];
@@ -269,7 +272,7 @@ public class Expression extends Generic {
             try {
                 Variable v=variableValue();
                 try {
-                    return v.antiderivative(variable);
+                    return v.antiDerivative(variable);
                 } catch (NotIntegrableException e) {
                     if(v instanceof Frac) {
                         Generic g[]=((Frac)v).parameters();
@@ -325,24 +328,24 @@ public class Expression extends Generic {
         return substitute(m);
     }
 
-	Generic substitute(@NotNull Map map) {
-		Generic s = JSCLInteger.valueOf(0);
-		for (int i = 0; i < size; i++) {
-			Literal l = literal[i];
-			Generic a = coef[i];
-			int m = l.size;
-			for (int j = 0; j < m; j++) {
-				Variable v = l.variable[j];
-				int c = l.power[j];
-				Generic b = (Generic)map.get(v);
-				b = b.pow(c);
-				if (Matrix.product(a, b)) throw new ArithmeticException();
-				a = a.multiply(b);
-			}
-			s = s.add(a);
-		}
-		return s;
-	}
+    Generic substitute(Map map) {
+        Generic s=JSCLInteger.valueOf(0);
+        for(int i=0;i<size;i++) {
+            Literal l=literal[i];
+            Generic a=coef[i];
+            int m=l.size;
+            for(int j=0;j<m;j++) {
+                Variable v=l.variable[j];
+                int c=l.power[j];
+                Generic b=(Generic)map.get(v);
+                b=b.pow(c);
+                if(Matrix.product(a,b)) throw new ArithmeticException();
+                a=a.multiply(b);
+            }
+            s=s.add(a);
+        }
+        return s;
+    }
 
     public Generic expand() {
         Map m=literalScm().content();
@@ -382,20 +385,20 @@ public class Expression extends Generic {
         return Simplification.compute(this);
     }
 
-	public Generic numeric() {
-		try {
-			return integerValue().numeric();
-		} catch (NotIntegerException ex) {
-			final Map<Variable, Integer> content = literalScm().content();
-
-			final Map<Variable, Generic> result = new TreeMap<Variable, Generic>();
-			for (Map.Entry<Variable, Integer> entry : content.entrySet()) {
-				result.put(entry.getKey(), entry.getKey().numeric());
-			}
-
-			return substitute(result);
-		}
-	}
+    public Generic numeric() {
+        try {
+            return integerValue().numeric();
+        } catch (NotIntegerException ex) {
+            Map m=literalScm().content();
+            Iterator it=m.entrySet().iterator();
+            while(it.hasNext()) {
+                Map.Entry e=(Map.Entry)it.next();
+                Variable v=(Variable)e.getKey();
+                e.setValue(v.numeric());
+            }
+            return substitute(m);
+        }
+    }
 
     public Generic valueOf(Generic generic) {
         Expression ex=newinstance(0);
@@ -440,7 +443,17 @@ public class Expression extends Generic {
         return this;
     }
 
-    public JSCLInteger integerValue() throws NotIntegerException {
+	@Override
+	public boolean isInteger() {
+		try {
+			integerValue();
+			return true;
+		} catch (NotIntegerException e) {
+			return false;
+		}
+	}
+
+	public JSCLInteger integerValue() throws NotIntegerException {
         if(size==0) return JSCLInteger.valueOf(0);
         else if(size==1) {
             Literal l=literal[0];

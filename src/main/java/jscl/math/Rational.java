@@ -1,9 +1,10 @@
 package jscl.math;
 
-import java.math.BigInteger;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
 import jscl.mathml.MathML;
+
+import java.math.BigInteger;
 
 public final class Rational extends Generic implements Field {
     public static final Rational factory=new Rational(BigInteger.valueOf(0),BigInteger.valueOf(1));
@@ -194,7 +195,17 @@ public final class Rational extends Generic implements Field {
         else throw new NotIntegerException();
     }
 
-    public Variable variableValue() throws NotVariableException {
+	@Override
+	public boolean isInteger() {
+		try {
+			integerValue();
+			return true;
+		} catch (NotIntegerException e) {
+			return false;
+		}
+	}
+
+	public Variable variableValue() throws NotVariableException {
         try {
             integerValue();
             throw new NotVariableException();

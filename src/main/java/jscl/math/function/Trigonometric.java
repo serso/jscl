@@ -10,7 +10,7 @@ public abstract class Trigonometric extends Function {
         super(name,parameter);
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         Generic s=parameter[0];
         if(s.isPolynomial(variable)) {
             Polynomial p=Polynomial.factory(variable).valueof(s);
@@ -31,7 +31,7 @@ public abstract class Trigonometric extends Function {
 //      Generic n[]=Frac.separateCoefficient(parameter[0]);
 //      if(n[0].compareTo(JSCLInteger.valueOf(1))==0);
 //      else {
-//          Generic s=new Frac(n[2],n[1]).evalsimp();
+//          Generic s=new Frac(n[2],n[1]).evaluateSimplify();
 //          return identity(s,n[0].subtract(JSCLInteger.valueOf(1)).multiply(s));
 //      }
         return expressionValue();

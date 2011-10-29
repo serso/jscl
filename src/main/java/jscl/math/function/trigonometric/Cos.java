@@ -34,17 +34,17 @@ public class Cos extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Exp(
             Constant.i.multiply(parameter[0])
-        ).evalelem().add(
+        ).evaluateElementary().add(
             new Exp(
                 Constant.i.multiply(parameter[0].negate())
-            ).evalelem()
+            ).evaluateElementary()
         ).multiply(Constant.half);
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
             return new Cos(parameter[0].negate()).evaluate();
         } else if(parameter[0].signum()==0) {
@@ -63,16 +63,16 @@ public class Cos extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        return new Cos(a).evalsimp().multiply(
-            new Cos(b).evalsimp()
+        return new Cos(a).evaluateSimplify().multiply(
+            new Cos(b).evaluateSimplify()
         ).subtract(
-            new Sin(a).evalsimp().multiply(
-                new Sin(b).evalsimp()
+            new Sin(a).evaluateSimplify().multiply(
+                new Sin(b).evaluateSimplify()
             )
         );
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).cos();
     }
 

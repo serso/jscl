@@ -26,7 +26,7 @@ public abstract class GenericVariable extends Variable {
         return generic;
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return content.antiDerivative(variable);
     }
 

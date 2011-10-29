@@ -38,7 +38,7 @@ public abstract class Variable implements Comparable, MathEntity {
 		}
 	}
 
-	public abstract Generic antiderivative(Variable variable) throws NotIntegrableException;
+	public abstract Generic antiDerivative(Variable variable) throws NotIntegrableException;
     public abstract Generic derivative(Variable variable);
     public abstract Generic substitute(Variable variable, Generic generic);
     public abstract Generic expand();

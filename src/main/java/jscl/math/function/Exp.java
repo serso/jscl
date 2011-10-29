@@ -14,7 +14,7 @@ public class Exp extends Function {
         super("exp",new Generic[] {generic});
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         Generic s=parameter[0];
         if(s.isPolynomial(variable)) {
             Polynomial p=Polynomial.factory(variable).valueof(s);
@@ -42,13 +42,13 @@ public class Exp extends Function {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return evaluate();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
-            return new Inv(new Exp(parameter[0].negate()).evalsimp()).evalsimp();
+            return new Inv(new Exp(parameter[0].negate()).evaluateSimplify()).evaluateSimplify();
         } else if(parameter[0].signum()==0) {
             return JSCLInteger.valueOf(1);
         } else if(parameter[0].compareTo(Constant.i.multiply(Constant.pi))==0) {
@@ -65,7 +65,7 @@ public class Exp extends Function {
             if(a.length>1) {
                 Generic s=JSCLInteger.valueOf(1);
                 for(int i=0;i<a.length;i++) {
-                    s=s.multiply(new Exp(a[i]).evalsimp());
+                    s=s.multiply(new Exp(a[i]).evaluateSimplify());
                 }
                 return s;
             }
@@ -73,13 +73,13 @@ public class Exp extends Function {
         Generic n[]=Frac.separateCoefficient(parameter[0]);
         if(n[0].compareTo(JSCLInteger.valueOf(1))==0 && n[1].compareTo(JSCLInteger.valueOf(1))==0);
         else return new Pow(
-            new Exp(n[2]).evalsimp(),
-            new Frac(n[0],n[1]).evalsimp()
-        ).evalsimp();
+            new Exp(n[2]).evaluateSimplify(),
+            new Frac(n[0],n[1]).evaluateSimplify()
+        ).evaluateSimplify();
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).exp();
     }
 

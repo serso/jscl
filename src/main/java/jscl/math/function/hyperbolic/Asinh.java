@@ -34,7 +34,7 @@ public class Asinh extends ArcTrigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Lg(
             new Root(
                 new Generic[] {
@@ -43,11 +43,11 @@ public class Asinh extends ArcTrigonometric {
                     JSCLInteger.valueOf(-1)
                 },
                 0
-            ).evalelem()
-        ).evalelem();
+            ).evaluateElementary()
+        ).evaluateElementary();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).asinh();
     }
 

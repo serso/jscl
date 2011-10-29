@@ -38,14 +38,14 @@ public class Tanh extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Frac(
-            new Sinh(parameter[0]).evalelem(),
-            new Cosh(parameter[0]).evalelem()
-        ).evalelem();
+            new Sinh(parameter[0]).evaluateElementary(),
+            new Cosh(parameter[0]).evaluateElementary()
+        ).evaluateElementary();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
             return new Tanh(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
@@ -62,17 +62,17 @@ public class Tanh extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        Generic ta=new Tanh(a).evalsimp();
-        Generic tb=new Tanh(b).evalsimp();
+        Generic ta=new Tanh(a).evaluateSimplify();
+        Generic tb=new Tanh(b).evaluateSimplify();
         return new Frac(
             ta.add(tb),
             JSCLInteger.valueOf(1).add(
                 ta.multiply(tb)
             )
-        ).evalsimp();
+        ).evaluateSimplify();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).tanh();
     }
 

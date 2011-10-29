@@ -180,12 +180,25 @@ public final class NumericWrapper extends Generic {
         throw new NotExpressionException();
     }
 
-    public JSCLInteger integerValue() throws NotIntegerException {
-        if(content instanceof JSCLDouble) return JSCLInteger.valueOf((int)((JSCLDouble)content).doubleValue());
-        else throw new NotIntegerException();
-    }
+	public JSCLInteger integerValue() throws NotIntegerException {
+		if (content instanceof JSCLDouble) {
+			// todo serso: check if it is correct to cast double to integer
+			return JSCLInteger.valueOf((int) ((JSCLDouble) content).doubleValue());
+		} else {
+			throw new NotIntegerException();
+		}
+	}
 
-    public Variable variableValue() throws NotVariableException {
+	@Override
+	public boolean isInteger() {
+		if ( content instanceof JSCLDouble ) {
+			double value = ((JSCLDouble) content).doubleValue();
+			return Math.floor(value) == value;
+		}
+		return false;
+	}
+
+	public Variable variableValue() throws NotVariableException {
         throw new NotVariableException();
     }
 

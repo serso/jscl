@@ -12,7 +12,7 @@ public abstract class ArcTrigonometric extends Function {
         throw new NotIntegrableException();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         return evaluate();
     }
 }

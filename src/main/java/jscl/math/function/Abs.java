@@ -32,15 +32,15 @@ public class Abs extends Function {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Sqrt(
             parameter[0].pow(2)
-        ).evalelem();
+        ).evaluateElementary();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
-            return new Abs(parameter[0].negate()).evalsimp();
+            return new Abs(parameter[0].negate()).evaluateSimplify();
         }
         try {
             return parameter[0].integerValue().abs();
@@ -49,7 +49,7 @@ public class Abs extends Function {
             Variable v=parameter[0].variableValue();
             if(v instanceof Abs) {
                 Function f=(Function)v;
-                return f.evalsimp();
+                return f.evaluateSimplify();
             } else if(v instanceof Sgn) {
                 return JSCLInteger.valueOf(1);
             }
@@ -57,7 +57,7 @@ public class Abs extends Function {
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).abs();
     }
 

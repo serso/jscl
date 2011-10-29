@@ -1,11 +1,6 @@
 package jscl.math.operator;
 
-import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotVariableException;
-import jscl.math.Variable;
+import jscl.math.*;
 import jscl.math.function.Frac;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
@@ -18,17 +13,14 @@ public class Factorial extends Operator {
 
     public Generic compute() {
 		try {
-			int n = parameter[0].integerValue().intValue();
-			Generic a = JSCLInteger.valueOf(1);
-			for (int i = 0; i < n; i++) {
-				a = a.multiply(JSCLInteger.valueOf(i + 1));
-			}
-			return a;
+			return numeric();
 		} catch (NotIntegerException e) {
 		}
 
 		return expressionValue();
     }
+
+
 
     public int compareTo(Variable variable) {
         if(this==variable) return 0;
@@ -43,7 +35,26 @@ public class Factorial extends Operator {
 
 	@Override
 	public Generic numeric() {
-		return compute();
+		Generic numeric = parameter[0].numeric();
+		if (numeric.isInteger()) {
+			int n = numeric.integerValue().intValue();
+			if (n < 0) {
+				//return expressionValue();
+				throw new ArithmeticException("Cannot take factorial from negative integer!");
+			}
+
+			Generic a = JSCLInteger.valueOf(1);
+			for (int i = 0; i < n; i++) {
+				a = a.multiply(JSCLInteger.valueOf(i + 1));
+			}
+			if (a instanceof JSCLInteger) {
+				return new NumericWrapper(((JSCLInteger) a));
+			} else {
+				throw new NotIntegerException();
+			}
+		} else {
+			throw new NotIntegerException();
+		}
 	}
 
 	public String toString() {

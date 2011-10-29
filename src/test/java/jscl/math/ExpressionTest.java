@@ -1,7 +1,10 @@
 package jscl.math;
 
+import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.Test;
+
+import static junit.framework.Assert.fail;
 
 /**
  * User: serso
@@ -18,11 +21,46 @@ public class ExpressionTest {
 		Assert.assertEquals("0.0", Expression.valueOf("eq(0, 1)").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("eq(1, 1)").numeric().toString());
 
-		Assert.assertEquals("24", Expression.valueOf("4!").numeric().toString());
-		Assert.assertEquals("24", Expression.valueOf("(2+2)!").numeric().toString());
-		Assert.assertEquals("120", Expression.valueOf("(2+2+1)!").numeric().toString());
-		Assert.assertEquals("(2*2.0)!", Expression.valueOf("(2.0+2.0)!").numeric().toString());
-		Assert.assertEquals("4.0!", Expression.valueOf("4.0!").numeric().toString());
-		Assert.assertEquals("(pi/pi)!", Expression.valueOf("(pi/pi)!").numeric().toString());
+		Assert.assertEquals("24.0", Expression.valueOf("4!").numeric().toString());
+		try {
+			Expression.valueOf("(-3+2)!").numeric().toString();
+			fail();
+		} catch (ArithmeticException e) {
+
+		}
+		Assert.assertEquals("24.0", Expression.valueOf("(2+2)!").numeric().toString());
+		Assert.assertEquals("120.0", Expression.valueOf("(2+2+1)!").numeric().toString());
+		Assert.assertEquals("24.0", Expression.valueOf("(2.0+2.0)!").numeric().toString());
+		Assert.assertEquals("24.0", Expression.valueOf("4.0!").numeric().toString());
+		Assert.assertEquals("-0.9055783620066238", Expression.valueOf("sin(4!)").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("(3.14/3.14)!").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("2/2!").numeric().toString());
+		try {
+			Assert.assertEquals("3.141592653589793!", Expression.valueOf("3.141592653589793!").numeric().toString());
+			fail();
+		} catch (NotIntegerException e) {
+
+		}
+		Assert.assertEquals("0.5235987755982988", Expression.valueOf("3.141592653589793/3!").numeric().toString());
+		try {
+			Assert.assertEquals("3.141592653589793/3.141592653589793!", Expression.valueOf("3.141592653589793/3.141592653589793!").numeric().toString());
+			fail();
+		} catch (ArithmeticException e) {
+
+		}
+		try {
+			Assert.assertEquals("7.2!", Expression.valueOf("7.2!").numeric().toString());
+			fail();
+		} catch (NotIntegerException e) {}
+
+		try {
+			Assert.assertEquals("ln(7.2!)", Expression.valueOf("ln(7.2!)").numeric().toString());
+			fail();
+		} catch (NotIntegerException e) {}
+
+		Assert.assertEquals("ln(7.2!)", Expression.valueOf("ln(7.2!)").simplify().toString());
+
+
+		Assert.assertEquals("1.0", Expression.valueOf("(pi/pi)!").numeric().toString());
 	}
 }

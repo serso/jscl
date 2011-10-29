@@ -41,7 +41,7 @@ public class AntiDerivative {
     }
 
     void compute(Frac frac) {
-        Debug.println("antiderivative");
+        Debug.println("antiDerivative");
         Debug.increment();
         Generic g[]=frac.parameters();
         Generic r[]=reduce(g[0],g[1]);

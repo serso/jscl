@@ -26,7 +26,7 @@ public class Cubic extends Algebraic {
         );
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         Root r=rootValue();
         Generic g[]=r.parameters();
         if(g[0].isPolynomial(variable)) {
@@ -54,14 +54,14 @@ public class Cubic extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return evaluate();
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         try {
             JSCLInteger en=parameter[0].integerValue();
-            if(en.signum()<0) return new Cubic(en.negate()).evalsimp().negate();
+            if(en.signum()<0) return new Cubic(en.negate()).evaluateSimplify().negate();
             else {
                 Generic rt=en.nthrt(3);
                 if(rt.pow(3).compareTo(en)==0) return rt;
@@ -70,7 +70,7 @@ public class Cubic extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).nthrt(3);
     }
 

@@ -32,17 +32,17 @@ public class Sinh extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evalelem() {
+    public Generic evaluateElementary() {
         return new Exp(
             parameter[0]
-        ).evalelem().subtract(
+        ).evaluateElementary().subtract(
             new Exp(
                 parameter[0].negate()
-            ).evalelem()
+            ).evaluateElementary()
         ).multiply(Constant.half);
     }
 
-    public Generic evalsimp() {
+    public Generic evaluateSimplify() {
         if(parameter[0].signum()<0) {
             return new Sinh(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
@@ -59,16 +59,16 @@ public class Sinh extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        return new Cosh(b).evalsimp().multiply(
-            new Sinh(a).evalsimp()
+        return new Cosh(b).evaluateSimplify().multiply(
+            new Sinh(a).evaluateSimplify()
         ).add(
-            new Cosh(a).evalsimp().multiply(
-                new Sinh(b).evalsimp()
+            new Cosh(a).evaluateSimplify().multiply(
+                new Sinh(b).evaluateSimplify()
             )
         );
     }
 
-    public Generic evalnum() {
+    public Generic evaluateNumerically() {
         return ((NumericWrapper)parameter[0]).sinh();
     }
 

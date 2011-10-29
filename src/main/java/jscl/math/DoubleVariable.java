@@ -9,7 +9,7 @@ public class DoubleVariable extends GenericVariable {
         return ((NumericWrapper)content).integerValue();
     }
 
-    public Generic antiderivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return expressionValue().multiply(variable.expressionValue());
     }
 
