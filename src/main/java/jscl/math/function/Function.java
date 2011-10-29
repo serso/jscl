@@ -12,6 +12,9 @@ import org.solovyev.common.math.MathEntity;
 import java.util.Arrays;
 
 public abstract class Function extends Variable {
+
+	private final static String variableNames = "abcdefghijklmnopqrstuvwxyz";
+
 	protected Generic parameter[];
 
 	public Function(String name, Generic parameter[]) {
@@ -151,10 +154,22 @@ public abstract class Function extends Variable {
 		buffer.append(name);
 		buffer.append("(");
 		for (int i = 0; i < parameter.length; i++) {
-			buffer.append(parameter[i]).append(i < parameter.length - 1 ? ", " : "");
+			buffer.append(substituteParameter(i)).append(i < parameter.length - 1 ? ", " : "");
 		}
 		buffer.append(")");
 		return buffer.toString();
+	}
+
+	private String substituteParameter(int i) {
+		Generic generic = parameter[i];
+		String result;
+		if (generic != null) {
+			result = generic.toString();
+		} else {
+			result = String.valueOf(variableNames.charAt(i - (i / variableNames.length()) * variableNames.length()));
+		}
+
+		return result;
 	}
 
 	public String toJava() {
