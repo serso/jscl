@@ -13,8 +13,8 @@ public class Comparison extends Function {
 
     public Comparison(String name, Generic expression1, Generic expression2) {
         super(name,new Generic[] {expression1,expression2});
-        for(int i=0;i<easo.length;i++) if(name.compareTo(easo[i])==0) operator=i;
-    }
+		for (int i = 0; i < easo.length; i++) if (name.compareTo(easo[i]) == 0) operator = i;
+	}
 
     public Generic antiderivative(int n) throws NotIntegrableException {
         throw new NotIntegrableException();
@@ -56,15 +56,15 @@ public class Comparison extends Function {
             case 0:
                 return a1.compareTo(a2)==0;
             case 1:
-                return a1.compareTo(a2)<0;
+                return a1.compareTo(a2)<=0;
             case 2:
-                return a1.compareTo(a2)>0;
+                return a1.compareTo(a2)>=0;
             case 3:
                 return a1.compareTo(a2)!=0;
             case 4:
-                return a1.compareTo(a2)<=0;
+                return a1.compareTo(a2)<0;
             case 5:
-                return a1.compareTo(a2)>=0;
+                return a1.compareTo(a2)>0;
             case 6:
                 return a1.compareTo(a2)==0;
             default:

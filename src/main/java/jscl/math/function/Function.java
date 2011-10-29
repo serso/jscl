@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public abstract class Function extends Variable {
 
-	private final static String variableNames = "abcdefghijklmnopqrstuvwxyz";
+	private final static String variableNames = "xyzabcdefghijklmnopqrstuvw";
 
 	protected Generic parameter[];
 

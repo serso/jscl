@@ -19,9 +19,6 @@ public abstract class Variable implements Comparable, MathEntity {
 	@NotNull
     protected String name;
 
-	@NotNull
-    private String description = "";
-
     public Variable(@NotNull String name) {
         this.name=name;
     }
@@ -30,11 +27,6 @@ public abstract class Variable implements Comparable, MathEntity {
 	public final String getName() {
         return name;
     }
-
-	@NotNull
-	public String getDescription() {
-		return description;
-	}
 
 	public boolean isSystem() {
 		return true;

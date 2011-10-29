@@ -1,6 +1,5 @@
 package jscl.math;
 
-import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -61,6 +60,7 @@ public class ExpressionTest {
 		Assert.assertEquals("ln(7.2!)", Expression.valueOf("ln(7.2!)").simplify().toString());
 
 
+		Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("(pi/pi)!").numeric().toString());
 	}
 }
