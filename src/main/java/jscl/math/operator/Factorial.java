@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.function.Frac;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
+import jscl.text.ParserUtils;
 import jscl.util.ArrayComparator;
 
 public class Factorial extends Operator {
@@ -45,6 +46,7 @@ public class Factorial extends Operator {
 
 			Generic a = JSCLInteger.valueOf(1);
 			for (int i = 0; i < n; i++) {
+				ParserUtils.checkInterruption();
 				a = a.multiply(JSCLInteger.valueOf(i + 1));
 			}
 			if (a instanceof JSCLInteger) {
