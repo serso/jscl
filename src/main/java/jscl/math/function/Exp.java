@@ -56,8 +56,8 @@ public class Exp extends Function {
         }
         try {
             Variable v=parameter[0].variableValue();
-            if(v instanceof Log) {
-                Generic g[]=((Log)v).parameters();
+            if(v instanceof Lg) {
+                Generic g[]=((Lg)v).parameters();
                 return g[0];
             }
         } catch (NotVariableException e) {

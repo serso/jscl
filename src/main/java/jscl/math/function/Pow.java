@@ -53,7 +53,7 @@ public class Pow extends Algebraic {
         if(n==0) {
             return new Pow(parameter[0],parameter[1].add(JSCLInteger.valueOf(1))).evaluate().multiply(new Inv(parameter[1].add(JSCLInteger.valueOf(1))).evaluate());
         } else {
-            return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Inv(new Log(parameter[0]).evaluate()).evaluate());
+            return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Inv(new Lg(parameter[0]).evaluate()).evaluate());
         }
     }
 
@@ -61,7 +61,7 @@ public class Pow extends Algebraic {
         if(n==0) {
             return new Pow(parameter[0],parameter[1].subtract(JSCLInteger.valueOf(1))).evaluate().multiply(parameter[1]);
         } else {
-            return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Log(parameter[0]).evaluate());
+            return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Lg(parameter[0]).evaluate());
         }
     }
 
@@ -95,7 +95,7 @@ public class Pow extends Algebraic {
 
     public Generic evalelem() {
         return new Exp(
-            new Log(
+            new Lg(
                 parameter[0]
             ).evalelem().multiply(
                 parameter[1]

@@ -7,7 +7,7 @@ import jscl.math.Variable;
 import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Constant;
 import jscl.math.function.Inv;
-import jscl.math.function.Log;
+import jscl.math.function.Lg;
 import jscl.math.function.Root;
 
 public class Acot extends ArcTrigonometric {
@@ -30,7 +30,7 @@ public class Acot extends ArcTrigonometric {
 
     public Generic evalelem() {
         return Constant.i.multiply(
-            new Log(
+            new Lg(
                 new Root(
                     new Generic[] {
                         Constant.i.add(parameter[0]),

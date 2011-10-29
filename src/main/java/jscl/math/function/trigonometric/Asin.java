@@ -7,7 +7,7 @@ import jscl.math.Variable;
 import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Constant;
 import jscl.math.function.Inv;
-import jscl.math.function.Log;
+import jscl.math.function.Lg;
 import jscl.math.function.Root;
 import jscl.math.function.Sqrt;
 
@@ -35,7 +35,7 @@ public class Asin extends ArcTrigonometric {
 
     public Generic evalelem() {
         return Constant.i.multiply(
-            new Log(
+            new Lg(
                 new Root(
                     new Generic[] {
                         JSCLInteger.valueOf(-1),

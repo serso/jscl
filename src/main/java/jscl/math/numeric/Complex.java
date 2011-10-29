@@ -105,9 +105,9 @@ public final class Complex extends Numeric {
         }
     }
 
-	   public Numeric log10() {
+	   public Numeric lg() {
         if(signum()==0) {
-            return JSCLDouble.valueOf(0).log10();
+            return JSCLDouble.valueOf(0).lg();
         } else {
             return new Complex(Math.log10(magnitude()),angle());
         }

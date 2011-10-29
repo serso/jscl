@@ -61,9 +61,9 @@ public class Conjugate extends Function {
             } else if(v instanceof Exp) {
                 Generic g[]=((Exp)v).parameters();
                 return new Exp(new Conjugate(g[0]).evalsimp()).evalsimp();
-            } else if(v instanceof Log) {
-                Generic g[]=((Log)v).parameters();
-                return new Log(new Conjugate(g[0]).evalsimp()).evalsimp();
+            } else if(v instanceof Lg) {
+                Generic g[]=((Lg)v).parameters();
+                return new Lg(new Conjugate(g[0]).evalsimp()).evalsimp();
             }
         } catch (NotVariableException e) {
             Generic a[]=parameter[0].sumValue();

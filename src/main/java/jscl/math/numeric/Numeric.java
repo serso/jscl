@@ -46,7 +46,7 @@ public abstract class Numeric implements Arithmetic, Comparable {
     }
 
     public abstract Numeric ln();
-    public abstract Numeric log10();
+    public abstract Numeric lg();
     public abstract Numeric exp();
 
     public Numeric inverse() {

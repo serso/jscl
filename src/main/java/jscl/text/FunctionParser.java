@@ -67,7 +67,7 @@ class UsualFunctionParser implements Parser {
 		else if (name.compareTo("atan") == 0) v = new Atan(a[0]);
 		else if (name.compareTo("acot") == 0) v = new Acot(a[0]);
 		else if (name.compareTo("ln") == 0) v = new Ln(a[0]);
-		else if (name.compareTo("log") == 0) v = new Log(a[0]);
+		else if (name.compareTo("lg") == 0) v = new Lg(a[0]);
 		else if (name.compareTo("exp") == 0) v = new Exp(a[0]);
 		else if (name.compareTo("√") == 0) v = new Sqrt(a[0]);
 		else if (name.compareTo("cubic") == 0) v = new Cubic(a[0]);
@@ -92,5 +92,5 @@ class UsualFunctionParser implements Parser {
 		return false;
 	}
 
-	private static String na[] = {"sin", "cos", "tan", "cot", "asin", "acos", "atan", "acot", "ln", "log", "exp", "√", "cubic", "sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth", "abs", "sgn", "conjugate", "eq", "le", "ge", "ne", "lt", "gt", "ap"};
+	private static String na[] = {"sin", "cos", "tan", "cot", "asin", "acos", "atan", "acot", "ln", "lg", "exp", "√", "cubic", "sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth", "abs", "sgn", "conjugate", "eq", "le", "ge", "ne", "lt", "gt", "ap"};
 }

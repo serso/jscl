@@ -2,7 +2,7 @@ package jscl.math;
 
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
-import jscl.math.function.Log;
+import jscl.math.function.Lg;
 import jscl.math.function.Pow;
 import jscl.math.function.Root;
 import jscl.math.polynomial.Monomial;
@@ -130,7 +130,7 @@ public class AntiDerivative {
         for(int i=1;i<=m;i++) {
             for(int j=0;j<q[i].degree();j++) {
                 Generic a2=new Root(q[i],j).evaluate();
-                s=s.add(a2.multiply(new Log(i==pd.degree()?d:rs[i].substitute(a2)).evaluate()));
+                s=s.add(a2.multiply(new Lg(i==pd.degree()?d:rs[i].substitute(a2)).evaluate()));
             }
         }
         return s;

@@ -7,7 +7,7 @@ import jscl.math.NotVariableException;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.Frac;
-import jscl.math.function.Log;
+import jscl.math.function.Lg;
 import jscl.math.function.Trigonometric;
 
 public class Coth extends Trigonometric {
@@ -16,7 +16,7 @@ public class Coth extends Trigonometric {
     }
 
     public Generic antiderivative(int n) throws NotIntegrableException {
-        return new Log(
+        return new Lg(
             JSCLInteger.valueOf(4).multiply(
                 new Sinh(parameter[0]).evaluate()
             )

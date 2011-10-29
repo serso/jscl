@@ -6,7 +6,7 @@ import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Inv;
-import jscl.math.function.Log;
+import jscl.math.function.Lg;
 import jscl.math.function.Root;
 
 public class Acoth extends ArcTrigonometric {
@@ -30,7 +30,7 @@ public class Acoth extends ArcTrigonometric {
     }
 
     public Generic evalelem() {
-        return new Log(
+        return new Lg(
             new Root(
                 new Generic[] {
                     JSCLInteger.valueOf(1).add(parameter[0]),

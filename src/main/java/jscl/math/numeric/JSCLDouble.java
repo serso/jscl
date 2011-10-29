@@ -67,7 +67,7 @@ public final class JSCLDouble extends Numeric {
 		return new JSCLDouble(Math.log(content));
 	}
 
-	public Numeric log10() {
+	public Numeric lg() {
 		return new JSCLDouble(Math.log10(content));
 	}
 

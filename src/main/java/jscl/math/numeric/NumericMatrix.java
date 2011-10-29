@@ -210,7 +210,7 @@ public class NumericMatrix extends Numeric {
     }
 
 	@Override
-	public Numeric log10() {
+	public Numeric lg() {
 		throw new ArithmeticException();
 	}
 
