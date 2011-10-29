@@ -17,5 +17,12 @@ public class ExpressionTest {
 		Assert.assertEquals("1.0", Expression.valueOf("lg(10)").numeric().toString());
 		Assert.assertEquals("0.0", Expression.valueOf("eq(0, 1)").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("eq(1, 1)").numeric().toString());
+
+		Assert.assertEquals("24", Expression.valueOf("4!").numeric().toString());
+		Assert.assertEquals("24", Expression.valueOf("(2+2)!").numeric().toString());
+		Assert.assertEquals("120", Expression.valueOf("(2+2+1)!").numeric().toString());
+		Assert.assertEquals("(2*2.0)!", Expression.valueOf("(2.0+2.0)!").numeric().toString());
+		Assert.assertEquals("4.0!", Expression.valueOf("4.0!").numeric().toString());
+		Assert.assertEquals("(pi/pi)!", Expression.valueOf("(pi/pi)!").numeric().toString());
 	}
 }

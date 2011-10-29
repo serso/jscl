@@ -1,12 +1,13 @@
 package jscl.math;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
 import jscl.math.function.Frac;
 import jscl.math.function.Pow;
 import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Literal implements Comparable {
     Variable variable[];
@@ -310,11 +311,13 @@ public class Literal implements Comparable {
         }
     }
 
-    Map content() {
-        Map map=new TreeMap();
-        for(int i=0;i<size;i++) map.put(variable[i],new Integer(power[i]));
-        return map;
-    }
+	Map<Variable, Integer> content() {
+		final Map<Variable, Integer> result = new TreeMap<Variable, Integer>();
+		for (int i = 0; i < size; i++) {
+			result.put(variable[i], power[i]);
+		}
+		return result;
+	}
 
     public String toString() {
         StringBuffer buffer=new StringBuffer();
