@@ -47,7 +47,7 @@ public class Acot extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).acot();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Acot(null);
     }
 }

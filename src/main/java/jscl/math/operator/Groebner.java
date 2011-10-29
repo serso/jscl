@@ -91,7 +91,7 @@ public class Groebner extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Groebner(null,null,null,null);
     }
 }

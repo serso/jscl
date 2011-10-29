@@ -81,7 +81,7 @@ public class Tan extends Trigonometric {
         return ((NumericWrapper)parameter[0]).tan();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Tan(null);
     }
 }

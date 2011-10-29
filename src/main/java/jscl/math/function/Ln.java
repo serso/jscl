@@ -71,7 +71,7 @@ public class Ln extends Function {
 		return ((NumericWrapper) parameter[0]).ln();
 	}
 
-	protected Variable newinstance() {
+	public Variable newInstance() {
 		return new Ln(null);
 	}
 }

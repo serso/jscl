@@ -86,7 +86,7 @@ public class Comparison extends Function {
         parameter[1].toMathML(element,null);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Comparison(name,null,null);
     }
 

@@ -76,7 +76,7 @@ public class Cos extends Trigonometric {
         return ((NumericWrapper)parameter[0]).cos();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Cos(null);
     }
 }

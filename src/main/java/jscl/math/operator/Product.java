@@ -59,7 +59,7 @@ public class Product extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Product(null,null,null,null);
     }
 }

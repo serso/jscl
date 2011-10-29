@@ -12,7 +12,7 @@ public class Division extends Operator {
         return parameter[0].divideAndRemainder(parameter[1])[0];
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Division(null,null);
     }
 }

@@ -47,7 +47,7 @@ public class IndefiniteIntegral extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new IndefiniteIntegral(null,null);
     }
 }

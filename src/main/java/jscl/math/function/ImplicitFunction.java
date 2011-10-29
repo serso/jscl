@@ -217,7 +217,7 @@ public class ImplicitFunction extends Function {
         }
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new ImplicitFunction(name,new Generic[parameter.length],derivation,subscript);
     }
 }

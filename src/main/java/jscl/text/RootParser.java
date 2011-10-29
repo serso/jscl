@@ -1,16 +1,16 @@
 package jscl.text;
 
 import jscl.math.Generic;
+import jscl.math.function.Function;
 import jscl.math.function.Root;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
-public class RootParser implements Parser {
-    public static final Parser parser=new RootParser();
+public class RootParser implements Parser<Function> {
+    public static final Parser<Function> parser=new RootParser();
 
     private RootParser() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Function parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         int pos0= position.intValue();
         String name;
         Generic subscript;

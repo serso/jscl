@@ -106,7 +106,7 @@ public class Derivative extends Operator {
         }
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Derivative(null,null,null,null);
     }
 }

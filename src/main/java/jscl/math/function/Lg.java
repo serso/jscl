@@ -72,7 +72,7 @@ public class Lg extends Function {
 		return ((NumericWrapper) parameter[0]).lg();
 	}
 
-	protected Variable newinstance() {
+	public Variable newInstance() {
 		return new Lg(null);
 	}
 }

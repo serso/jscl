@@ -1,19 +1,20 @@
 package jscl.text;
 
-import java.util.ArrayList;
-import java.util.List;
 import jscl.math.Generic;
+import jscl.math.function.Function;
 import jscl.math.function.ImplicitFunction;
 import jscl.util.ArrayUtils;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
-public class ImplicitFunctionParser implements Parser {
-    public static final Parser parser=new ImplicitFunctionParser();
+import java.util.ArrayList;
+import java.util.List;
+
+public class ImplicitFunctionParser implements Parser<Function> {
+    public static final Parser<Function> parser=new ImplicitFunctionParser();
 
     private ImplicitFunctionParser() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Function parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         int pos0= position.intValue();
         String name;
         Generic a[];

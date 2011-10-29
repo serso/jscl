@@ -126,7 +126,7 @@ public class Conjugate extends Function {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Conjugate(null);
     }
 }

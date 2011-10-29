@@ -90,7 +90,7 @@ public class TechnicalVariable extends Variable {
                 return null;
         }
 
-        protected Variable newinstance() {
+        public Variable newInstance() {
                 return new TechnicalVariable(name);
         }
 }

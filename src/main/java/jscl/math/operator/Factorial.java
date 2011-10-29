@@ -92,7 +92,7 @@ public class Factorial extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Factorial(null);
     }
 }

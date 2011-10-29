@@ -46,7 +46,7 @@ public class Acoth extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).acoth();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Acoth(null);
     }
 }

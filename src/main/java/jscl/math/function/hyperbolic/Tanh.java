@@ -76,7 +76,7 @@ public class Tanh extends Trigonometric {
         return ((NumericWrapper)parameter[0]).tanh();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Tanh(null);
     }
 }

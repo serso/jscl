@@ -35,7 +35,7 @@ public class Substitute extends Operator {
         return compute();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Substitute(null,null,null);
     }
 }

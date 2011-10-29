@@ -21,7 +21,7 @@ public class ModPow extends Operator {
         return expressionValue();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new ModPow(null,null,null);
     }
 }

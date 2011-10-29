@@ -70,7 +70,7 @@ public class Cot extends Trigonometric {
         return ((NumericWrapper)parameter[0]).cot();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Cot(null);
     }
 }

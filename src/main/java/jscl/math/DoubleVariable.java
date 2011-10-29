@@ -38,7 +38,7 @@ public class DoubleVariable extends GenericVariable {
         return expressionValue();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new DoubleVariable(null);
     }
 }

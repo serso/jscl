@@ -49,7 +49,7 @@ public class Acosh extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).acosh();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Acosh(null);
     }
 }

@@ -5,7 +5,7 @@ public class MatrixVariable extends GenericVariable {
                 super(generic);
         }
 
-        protected Variable newinstance() {
+        public Variable newInstance() {
                 return new MatrixVariable(null);
         }
 }

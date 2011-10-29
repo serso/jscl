@@ -51,7 +51,7 @@ public class Asinh extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).asinh();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Asinh(null);
     }
 }

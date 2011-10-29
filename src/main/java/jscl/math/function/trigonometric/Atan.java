@@ -49,7 +49,7 @@ public class Atan extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).atan();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Atan(null);
     }
 }

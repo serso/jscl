@@ -72,7 +72,7 @@ public class Sinh extends Trigonometric {
         return ((NumericWrapper)parameter[0]).sinh();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Sinh(null);
     }
 }

@@ -72,7 +72,7 @@ public class Cosh extends Trigonometric {
         return ((NumericWrapper)parameter[0]).cosh();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Cosh(null);
     }
 }

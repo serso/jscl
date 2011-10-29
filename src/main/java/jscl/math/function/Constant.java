@@ -49,7 +49,7 @@ public class Constant extends Variable {
     }
 
     public Generic substitute(Variable variable, Generic generic) {
-        Constant v=(Constant)newinstance();
+        Constant v=(Constant) newInstance();
         for(int i=0;i<subscript.length;i++) {
             v.subscript[i]=subscript[i].substitute(variable,generic);
         }
@@ -58,7 +58,7 @@ public class Constant extends Variable {
     }
 
     public Generic expand() {
-        Constant v=(Constant)newinstance();
+        Constant v=(Constant) newInstance();
         for(int i=0;i<subscript.length;i++) {
             v.subscript[i]=subscript[i].expand();
         }
@@ -66,7 +66,7 @@ public class Constant extends Variable {
     }
 
     public Generic factorize() {
-        Constant v=(Constant)newinstance();
+        Constant v=(Constant) newInstance();
         for(int i=0;i<subscript.length;i++) {
             v.subscript[i]=subscript[i].factorize();
         }
@@ -74,7 +74,7 @@ public class Constant extends Variable {
     }
 
     public Generic elementary() {
-        Constant v=(Constant)newinstance();
+        Constant v=(Constant) newInstance();
         for(int i=0;i<subscript.length;i++) {
             v.subscript[i]=subscript[i].elementary();
         }
@@ -82,7 +82,7 @@ public class Constant extends Variable {
     }
 
     public Generic simplify() {
-        Constant v=(Constant)newinstance();
+        Constant v=(Constant) newInstance();
         for(int i=0;i<subscript.length;i++) {
             v.subscript[i]=subscript[i].simplify();
         }
@@ -223,7 +223,7 @@ public class Constant extends Variable {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Constant(name,prime,new Generic[subscript.length]);
     }
 }

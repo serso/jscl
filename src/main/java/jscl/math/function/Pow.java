@@ -258,7 +258,7 @@ public class Pow extends Algebraic {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Pow(null,null);
     }
 }

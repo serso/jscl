@@ -70,7 +70,7 @@ public class Coth extends Trigonometric {
         return ((NumericWrapper)parameter[0]).coth();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Coth(null);
     }
 }

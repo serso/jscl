@@ -1,33 +1,44 @@
 package jscl.math;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import jscl.math.function.Algebraic;
-import jscl.math.function.Constant;
-import jscl.math.function.Frac;
-import jscl.math.function.Function;
-import jscl.math.function.ImplicitFunction;
-import jscl.math.function.Root;
-import jscl.math.function.Sqrt;
+import jscl.math.function.*;
 import jscl.math.operator.Factorial;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
 import jscl.text.ParseException;
+import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.math.MathEntity;
 
-public abstract class Variable implements Comparable {
-    public static final Comparator comparator=VariableComparator.comparator;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class Variable implements Comparable, MathEntity {
+
+	public static final Comparator comparator = VariableComparator.comparator;
+
+	@NotNull
     protected String name;
 
-    public Variable(String name) {
+    public Variable(@NotNull String name) {
         this.name=name;
     }
 
-    public String name() {
+    @NotNull
+	public final String getName() {
         return name;
     }
 
-    public abstract Generic antiderivative(Variable variable) throws NotIntegrableException;
+	public boolean isSystem() {
+		return true;
+	}
+
+	public void copy(@NotNull MathEntity that) {
+		if ( that instanceof Variable ) {
+	  		this.name = ((Variable) that).name;
+		}
+	}
+
+	public abstract Generic antiderivative(Variable variable) throws NotIntegrableException;
     public abstract Generic derivative(Variable variable);
     public abstract Generic substitute(Variable variable, Generic generic);
     public abstract Generic expand();
@@ -53,9 +64,7 @@ public abstract class Variable implements Comparable {
     }
 
     public boolean equals(Object obj) {
-        if(obj instanceof Variable) {
-            return compareTo((Variable)obj)==0;
-        } else return false;
+		return obj instanceof Variable && compareTo((Variable) obj) == 0;
     }
 
     public static Variable valueOf(String str) throws ParseException, NotVariableException {
@@ -78,8 +87,8 @@ public abstract class Variable implements Comparable {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
-        if(exponent==1) nameToMathML(element);
+		int exponent = data instanceof Integer ? (Integer) data : 1;
+		if(exponent==1) nameToMathML(element);
         else {
             MathML e1=element.element("msup");
             nameToMathML(e1);
@@ -92,14 +101,15 @@ public abstract class Variable implements Comparable {
 
     protected void nameToMathML(MathML element) {
         MathML e1=element.element("mi");
-        e1.appendChild(element.text(special.containsKey(name)?(String)special.get(name):name));
-        element.appendChild(e1);
+		e1.appendChild(element.text(special.containsKey(name) ? special.get(name) : name));
+		element.appendChild(e1);
     }
 
-    protected abstract Variable newinstance();
+    public abstract Variable newInstance();
 
-        static final Map special=new HashMap();
-        static {
+	static final Map<String, String> special = new HashMap<String, String>();
+
+	static {
             special.put("Alpha","\u0391");
             special.put("Beta","\u0392");
             special.put("Gamma","\u0393");

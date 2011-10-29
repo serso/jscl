@@ -9,7 +9,7 @@ public class Identifier implements Parser<String> {
 	private Identifier() {
 	}
 
-	// returns variable/constant name
+	// returns variable/constant getName
 	public String parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
 		int pos0 = position.intValue();
 

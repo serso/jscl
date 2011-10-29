@@ -19,7 +19,7 @@ public class Modulo extends Operator {
         return parameter[0].remainder(parameter[1]);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Modulo(null,null);
     }
 }

@@ -52,7 +52,7 @@ public class Asin extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).asin();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Asin(null);
     }
 }

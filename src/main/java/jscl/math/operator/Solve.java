@@ -55,7 +55,7 @@ public class Solve extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Solve(null,null,null);
     }
 }

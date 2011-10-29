@@ -39,7 +39,7 @@ public class Trace extends Operator {
         parameter[0].toMathML(element,null);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Trace(null);
     }
 }

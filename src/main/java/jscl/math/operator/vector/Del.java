@@ -40,7 +40,7 @@ public class Del extends VectorOperator {
         parameter[0].toMathML(element,null);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Del(null,null,null);
     }
 }

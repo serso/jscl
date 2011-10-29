@@ -76,7 +76,7 @@ public class Sin extends Trigonometric {
         return ((NumericWrapper)parameter[0]).sin();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Sin(null);
     }
 }

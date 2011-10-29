@@ -59,7 +59,7 @@ public class Sum extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Sum(null,null,null,null);
     }
 }

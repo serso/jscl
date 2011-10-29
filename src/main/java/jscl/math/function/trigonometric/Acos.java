@@ -52,7 +52,7 @@ public class Acos extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).acos();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Acos(null);
     }
 }

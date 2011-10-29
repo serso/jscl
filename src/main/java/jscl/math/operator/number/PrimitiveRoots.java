@@ -21,7 +21,7 @@ public class PrimitiveRoots extends Operator {
         return expressionValue();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new PrimitiveRoots(null);
     }
 }

@@ -41,7 +41,7 @@ public class Transpose extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Transpose(null);
     }
 }

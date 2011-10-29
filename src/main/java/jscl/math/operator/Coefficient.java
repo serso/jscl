@@ -18,7 +18,7 @@ public class Coefficient extends Operator {
         return expressionValue();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Coefficient(null,null);
     }
 }

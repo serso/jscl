@@ -55,7 +55,7 @@ public class Determinant extends Operator {
         e0.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Determinant(null);
     }
 }

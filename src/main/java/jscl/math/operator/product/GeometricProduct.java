@@ -53,7 +53,7 @@ public class GeometricProduct extends VectorOperator {
         parameter[1].toMathML(element,null);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new GeometricProduct(null,null,null);
     }
 }

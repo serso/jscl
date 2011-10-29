@@ -156,7 +156,7 @@ public class Frac extends Algebraic {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Frac(null,null);
     }
 }

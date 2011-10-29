@@ -21,7 +21,7 @@ public class Inv extends Frac {
         return parameter[1];
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Inv(null);
     }
 }

@@ -45,7 +45,7 @@ public class Jacobian extends VectorOperator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Jacobian(null,null);
     }
 }

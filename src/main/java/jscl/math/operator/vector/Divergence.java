@@ -25,7 +25,7 @@ public class Divergence extends VectorOperator {
         parameter[0].toMathML(element,null);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Divergence(null,null);
     }
 }

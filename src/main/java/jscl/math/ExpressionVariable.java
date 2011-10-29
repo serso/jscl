@@ -51,7 +51,7 @@ public class ExpressionVariable extends GenericVariable {
         element.appendChild(e1);
     }
 
-        protected Variable newinstance() {
+        public Variable newInstance() {
                 return new ExpressionVariable(null);
         }
 }

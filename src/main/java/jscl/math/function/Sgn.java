@@ -72,7 +72,7 @@ public class Sgn extends Function {
         return buffer.toString();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Sgn(null);
     }
 }

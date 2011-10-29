@@ -117,7 +117,7 @@ public class Sqrt extends Algebraic {
         }
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Sqrt(null);
     }
 }

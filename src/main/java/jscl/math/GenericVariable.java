@@ -35,7 +35,7 @@ public abstract class GenericVariable extends Variable {
     }
 
     public Generic substitute(Variable variable, Generic generic) {
-        GenericVariable v=(GenericVariable)newinstance();
+        GenericVariable v=(GenericVariable) newInstance();
         v.content=content.substitute(variable,generic);
         if(v.isIdentity(variable)) return generic;
         else return v.expressionValue();
@@ -46,19 +46,19 @@ public abstract class GenericVariable extends Variable {
     }
 
     public Generic factorize() {
-        GenericVariable v=(GenericVariable)newinstance();
+        GenericVariable v=(GenericVariable) newInstance();
         v.content=content.factorize();
         return v.expressionValue();
     }
 
     public Generic elementary() {
-        GenericVariable v=(GenericVariable)newinstance();
+        GenericVariable v=(GenericVariable) newInstance();
         v.content=content.elementary();
         return v.expressionValue();
     }
 
     public Generic simplify() {
-        GenericVariable v=(GenericVariable)newinstance();
+        GenericVariable v=(GenericVariable) newInstance();
         v.content=content.simplify();
         return v.expressionValue();
     }

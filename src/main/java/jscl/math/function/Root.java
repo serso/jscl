@@ -64,7 +64,7 @@ public class Root extends Algebraic {
     }
 
     public Generic substitute(Variable variable, Generic generic) {
-        Root v=(Root)newinstance();
+        Root v=(Root) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].substitute(variable,generic);
         }
@@ -74,7 +74,7 @@ public class Root extends Algebraic {
     }
 
     public Generic expand() {
-        Root v=(Root)newinstance();
+        Root v=(Root) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].expand();
         }
@@ -83,7 +83,7 @@ public class Root extends Algebraic {
     }
 
     public Generic factorize() {
-        Root v=(Root)newinstance();
+        Root v=(Root) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].factorize();
         }
@@ -92,7 +92,7 @@ public class Root extends Algebraic {
     }
 
     public Generic elementary() {
-        Root v=(Root)newinstance();
+        Root v=(Root) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].elementary();
         }
@@ -101,7 +101,7 @@ public class Root extends Algebraic {
     }
 
     public Generic simplify() {
-        Root v=(Root)newinstance();
+        Root v=(Root) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].simplify();
         }
@@ -110,7 +110,7 @@ public class Root extends Algebraic {
     }
 
     public Generic numeric() {
-        Root v=(Root)newinstance();
+        Root v=(Root) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].numeric();
         }
@@ -359,7 +359,7 @@ public class Root extends Algebraic {
 
     void bodyToMathML(MathML element, boolean fenced) {}
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Root(new Generic[parameter.length],null);
     }
 }

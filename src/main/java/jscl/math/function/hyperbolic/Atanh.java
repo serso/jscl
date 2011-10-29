@@ -48,7 +48,7 @@ public class Atanh extends ArcTrigonometric {
         return ((NumericWrapper)parameter[0]).atanh();
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Atanh(null);
     }
 }

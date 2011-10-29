@@ -33,7 +33,7 @@ public abstract class Operator extends Variable {
     }
 
     public Generic substitute(Variable variable, Generic generic) {
-        Operator v=(Operator)newinstance();
+        Operator v=(Operator) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].substitute(variable,generic);
         }
@@ -42,7 +42,7 @@ public abstract class Operator extends Variable {
     }
 
     public Generic expand() {
-        Operator v=(Operator)newinstance();
+        Operator v=(Operator) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].expand();
         }
@@ -50,7 +50,7 @@ public abstract class Operator extends Variable {
     }
 
     public Generic factorize() {
-        Operator v=(Operator)newinstance();
+        Operator v=(Operator) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].factorize();
         }
@@ -58,7 +58,7 @@ public abstract class Operator extends Variable {
     }
 
     public Generic elementary() {
-        Operator v=(Operator)newinstance();
+        Operator v=(Operator) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].elementary();
         }
@@ -66,7 +66,7 @@ public abstract class Operator extends Variable {
     }
 
     public Generic simplify() {
-        Operator v=(Operator)newinstance();
+        Operator v=(Operator) newInstance();
         for(int i=0;i<parameter.length;i++) {
             v.parameter[i]=parameter[i].simplify();
         }

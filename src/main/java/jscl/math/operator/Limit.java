@@ -69,7 +69,7 @@ public class Limit extends Operator {
         element.appendChild(e1);
     }
 
-    protected Variable newinstance() {
+    public Variable newInstance() {
         return new Limit(null,null,null,null);
     }
 }
