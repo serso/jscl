@@ -1,9 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.operator.Factorial;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -19,12 +16,6 @@ class UnsignedExponent implements Parser<Generic> {
 	}
 
 	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		Generic result = PrimaryExpressionParser.parser.parse(string, position);
-
-		while (FactorialParser.parser.parse(string, position).isFactorial()) {
-			result = new Factorial(GenericVariable.content(result, true)).expressionValue();
-		}
-
-		return result;
+		return new PostfixFunctionsParser(PrimaryExpressionParser.parser.parse(string, position)).parse(string, position);
 	}
 }

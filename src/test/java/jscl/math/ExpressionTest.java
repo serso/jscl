@@ -63,5 +63,11 @@ public class ExpressionTest {
 		Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("(pi/pi)!").numeric().toString());
 		Assert.assertEquals("720.0", Expression.valueOf("3!!").numeric().toString());
+		Assert.assertEquals("36.0", Expression.valueOf("3!*3!").numeric().toString());
+
+		Assert.assertEquals("0.05235987755982988", Expression.valueOf("3°").numeric().toString());
+		Assert.assertEquals("0.2617993877991494", Expression.valueOf("3°*5").numeric().toString());
+		Assert.assertEquals("0.002741556778080377", Expression.valueOf("3°^2").numeric().toString());
+		Assert.assertEquals("0.010966227112321508", Expression.valueOf("3!°^2").numeric().toString());
 	}
 }

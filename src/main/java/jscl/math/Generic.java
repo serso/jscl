@@ -30,7 +30,7 @@ public abstract class Generic implements Arithmetic, Comparable {
         return multiply((Generic)arithmetic);
     }
 
-    public Arithmetic divide(Arithmetic arithmetic) throws ArithmeticException {
+    public Generic divide(Arithmetic arithmetic) throws ArithmeticException {
         return divide((Generic)arithmetic);
     }
 

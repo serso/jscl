@@ -81,21 +81,29 @@ public abstract class Operator extends Variable {
         return !isIdentity(variable);
     }
 
-    public int compareTo(Variable variable) {
-        if(this==variable) return 0;
-        int c=comparator.compare(this,variable);
-        if(c<0) return -1;
-        else if(c>0) return 1;
-        else {
-            Operator v=(Operator)variable;
-            c=name.compareTo(v.name);
-            if(c<0) return -1;
-            else if(c>0) return 1;
-            else return ArrayComparator.comparator.compare(parameter,v.parameter);
-        }
-    }
+	public int compareTo(Variable variable) {
+		if (this == variable) {
+			return 0;
+		}
 
-    protected static Variable[] variables(Generic generic) throws NotVariableException {
+		int result = comparator.compare(this, variable);
+		if (result < 0) {
+			return -1;
+		} else if (result > 0) {
+			return 1;
+		} else {
+			result = name.compareTo(((Operator) variable).name);
+			if (result < 0) {
+				return -1;
+			} else if (result > 0) {
+				return 1;
+			} else {
+				return ArrayComparator.comparator.compare(parameter, ((Operator) variable).parameter);
+			}
+		}
+	}
+
+	protected static Variable[] variables(Generic generic) throws NotVariableException {
         Generic element[]=((JSCLVector)generic).elements();
         Variable variable[]=new Variable[element.length];
         for(int i=0;i<element.length;i++) {
