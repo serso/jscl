@@ -26,25 +26,21 @@ public class ExpressionParser implements Parser<Generic> {
 	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
 		boolean sign = MinusParser.parser.parse(string, position).isSign();
 
-		Generic a;
-		try {
-			a = (Generic) TermParser.parser.parse(string, position);
-		} catch (ParseException e) {
-			throw e;
-		}
+		Generic result = (Generic) TermParser.parser.parse(string, position);
 
-		if (sign) a = a.negate();
+		if (sign) {
+			result = result.negate();
+		}
 
 		while (true) {
 			try {
-				Generic a2 = (Generic) PlusOrMinusTerm.parser.parse(string, position);
-				a = a.add(a2);
+				result = result.add((Generic) PlusOrMinusTerm.parser.parse(string, position));
 			} catch (ParseException e) {
 				break;
 			}
 		}
 
-		return a;
+		return result;
 	}
 }
 

@@ -62,5 +62,6 @@ public class ExpressionTest {
 
 		Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("(pi/pi)!").numeric().toString());
+		Assert.assertEquals("720.0", Expression.valueOf("3!!").numeric().toString());
 	}
 }

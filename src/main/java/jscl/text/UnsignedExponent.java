@@ -11,15 +11,20 @@ import org.jetbrains.annotations.NotNull;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class UnsignedExponent implements Parser {
-	public static final Parser parser = new UnsignedExponent();
+class UnsignedExponent implements Parser<Generic> {
+
+	public static final Parser<Generic> parser = new UnsignedExponent();
 
 	private UnsignedExponent() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		final Generic a = PrimaryExpressionParser.parser.parse(string, position);
-		boolean factorial = FactorialParser.parser.parse(string, position).isFactorial();
-		return factorial ? new Factorial(GenericVariable.content(a, true)).expressionValue() : a;
+	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		Generic result = PrimaryExpressionParser.parser.parse(string, position);
+
+		while (FactorialParser.parser.parse(string, position).isFactorial()) {
+			result = new Factorial(GenericVariable.content(result, true)).expressionValue();
+		}
+
+		return result;
 	}
 }
