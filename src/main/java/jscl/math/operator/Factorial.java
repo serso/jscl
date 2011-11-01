@@ -8,8 +8,10 @@ import jscl.text.ParserUtils;
 
 public class Factorial extends Operator {
 
+	public static final String NAME = "!";
+
 	public Factorial(Generic expression) {
-        super("!",new Generic[] {expression});
+        super(NAME,new Generic[] {expression});
     }
 
     public Generic compute() {

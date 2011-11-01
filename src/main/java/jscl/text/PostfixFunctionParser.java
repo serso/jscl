@@ -1,6 +1,8 @@
 package jscl.text;
 
 import jscl.math.Generic;
+import jscl.math.Variable;
+import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,13 +10,13 @@ import org.jetbrains.annotations.NotNull;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-abstract class PostfixFunctionParser implements Parser<PostfixFunctionParser.Result> {
+public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Result> {
 
 	@NotNull
-	private final String postfixFunctionName;
+	private final Operator operator;
 
-	protected PostfixFunctionParser(@NotNull String postfixFunctionName) {
-		this.postfixFunctionName = postfixFunctionName;
+	protected PostfixFunctionParser(@NotNull Operator operator) {
+		this.operator = operator;
 	}
 
 	@NotNull
@@ -25,8 +27,8 @@ abstract class PostfixFunctionParser implements Parser<PostfixFunctionParser.Res
 
 		ParserUtils.skipWhitespaces(string, position);
 
-		if (position.intValue() < string.length() && string.startsWith(postfixFunctionName, position.intValue())) {
-			position.add(postfixFunctionName.length());
+		if (position.intValue() < string.length() && string.startsWith(operator.getName(), position.intValue())) {
+			position.add(operator.getName().length());
 			postfixFunction = true;
 		} else {
 			position.setValue(pos0);
@@ -37,7 +39,11 @@ abstract class PostfixFunctionParser implements Parser<PostfixFunctionParser.Res
 	}
 
 	@NotNull
-	public abstract Generic newInstance(@NotNull Generic content);
+	public Generic newInstance(@NotNull Generic content) {
+		final Operator result = (Operator)operator.newInstance();
+		result.setParameter(new Generic[]{content});
+		return result.expressionValue();
+	}
 
 	public static class Result {
 		private final boolean postfixFunction;

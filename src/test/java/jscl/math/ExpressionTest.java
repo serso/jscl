@@ -69,5 +69,8 @@ public class ExpressionTest {
 		Assert.assertEquals("0.2617993877991494", Expression.valueOf("3°*5").numeric().toString());
 		Assert.assertEquals("0.002741556778080377", Expression.valueOf("3°^2").numeric().toString());
 		Assert.assertEquals("0.010966227112321508", Expression.valueOf("3!°^2").numeric().toString());
+		Assert.assertEquals("9.138522593601257E-4", Expression.valueOf("3°°").numeric().toString());
+		Assert.assertEquals("0.08726646259971647", Expression.valueOf("5°").numeric().toString());
+		Assert.assertEquals("2.0523598775598297", Expression.valueOf("2+3°").numeric().toString());
 	}
 }

@@ -21,7 +21,11 @@ public abstract class Operator extends Variable {
         return parameter;
     }
 
-    public abstract Generic compute();
+	public void setParameter(Generic[] parameter) {
+		this.parameter = parameter;
+	}
+
+	public abstract Generic compute();
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         return null;

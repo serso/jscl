@@ -2,9 +2,11 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
+import jscl.math.function.PostfixFunctionsRegistry;
+import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,23 +19,30 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 	@NotNull
 	private final Generic content;
 
-	private final static List<PostfixFunctionParser> postfixParsers = Arrays.asList(FactorialParser.parser, DegreeParser.parser);
-
 	public PostfixFunctionsParser(@NotNull Generic content) {
 		this.content = content;
 	}
 
 	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		return parsePostfix(string, position, content);
+
+		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(PostfixFunctionsRegistry.getInstance().getEntities().size());
+		for (Operator operator : PostfixFunctionsRegistry.getInstance().getEntities()) {
+			parsers.add(new PostfixFunctionParser(operator));
+		}
+
+		return parsePostfix(parsers, string, position, content);
 	}
 
-	private static Generic parsePostfix(@NotNull String string, @NotNull MutableInt position, Generic content) throws ParseException {
+	private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,
+										@NotNull String string,
+										@NotNull MutableInt position,
+										Generic content) throws ParseException {
 		Generic result = content;
 
-		for (PostfixFunctionParser postfixParser : postfixParsers) {
+		for (PostfixFunctionParser postfixParser : parsers) {
 			final PostfixFunctionParser.Result postfixResult = postfixParser.parse(string, position);
 			if (postfixResult.isPostfixFunction()) {
-				result = parsePostfix(string, position, postfixParser.newInstance(GenericVariable.content(result, true)));
+				result = parsePostfix(parsers, string, position, postfixParser.newInstance(GenericVariable.content(result, true)));
 			}
 		}
 

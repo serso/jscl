@@ -13,8 +13,10 @@ import jscl.math.numeric.JSCLDouble;
  */
 public class Degree extends Operator {
 
+	public static final String NAME = "°";
+
 	public Degree(Generic expression) {
-		super("°", new Generic[]{expression});
+		super(NAME, new Generic[]{expression});
 	}
 
 	public Generic compute() {
@@ -37,7 +39,7 @@ public class Degree extends Operator {
 
 	@Override
 	public Variable newInstance() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return new Degree(null);
 	}
 
 	public Degree(String name, Generic[] parameter) {
