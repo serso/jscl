@@ -358,12 +358,12 @@ public class Expression extends Generic {
 	}
 
 	@NotNull
-	private Map<Variable, Generic> transform(@NotNull Map<Variable, Integer> m, @NotNull Converter<Variable, Generic> converter) {
-		final Map<Variable, Generic> result = new HashMap<Variable, Generic>();
-		for (Map.Entry<Variable, Integer> e : m.entrySet()) {
-			result.put(e.getKey(), converter.convert(e.getKey()));
+	private Map transform(@NotNull Map m, @NotNull Converter<Variable, Generic> converter) {
+		// WE MUST USE THE PASSED MAP (in other cases - some problems were found, see tests)
+		for (Map.Entry e : ((Map<Object, Object>) m).entrySet()) {
+			e.setValue(converter.convert(((Variable) e.getKey())));
 		}
-		return result;
+		return m;
 	}
 
     public Generic factorize() {

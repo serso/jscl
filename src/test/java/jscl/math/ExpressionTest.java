@@ -80,5 +80,7 @@ public class ExpressionTest {
 		Assert.assertEquals("3*a", Expression.valueOf("d(3*x*a,x)").expand().toString());
 		Assert.assertEquals("0", Expression.valueOf("d(3*x*a,x,0.011,2)").expand().toString());
 		Assert.assertEquals("0", Expression.valueOf("2*d(3*x*a,x,0.011,2)").expand().toString());
+		Assert.assertEquals("ln(8)+lg(8)*ln(8)", Expression.valueOf("ln(8)*lg(8)+ln(8)").expand().toString());
+		Assert.assertEquals("3.9573643765059856", Expression.valueOf("ln(8)*lg(8)+ln(8)").numeric().toString());
 	}
 }
