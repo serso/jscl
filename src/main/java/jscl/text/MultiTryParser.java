@@ -15,9 +15,9 @@ import java.util.List;
 public class MultiTryParser<T> implements Parser<T> {
 
 	@NotNull
-	private final List<Parser<T>> parsers;
+	private final List<Parser<? extends T>> parsers;
 
-	public MultiTryParser(@NotNull List<Parser<T>> parsers) {
+	public MultiTryParser(@NotNull List<Parser<? extends T>> parsers) {
 		this.parsers = parsers;
 	}
 
@@ -25,7 +25,7 @@ public class MultiTryParser<T> implements Parser<T> {
 	public T parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
 		T result = null;
 
-		for (final Iterator<Parser<T>> it = parsers.iterator(); it.hasNext(); ) {
+		for (final Iterator<Parser<? extends T>> it = parsers.iterator(); it.hasNext(); ) {
 			try {
 				result = it.next().parse(string, position);
 			} catch (ParseException e) {

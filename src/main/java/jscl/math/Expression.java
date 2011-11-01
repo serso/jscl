@@ -11,11 +11,9 @@ import jscl.text.ParseException;
 import jscl.text.ParserUtils;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.utils.Converter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Expression extends Generic {
     Literal literal[];
@@ -247,11 +245,13 @@ public class Expression extends Generic {
         return en;
     }
 
-    public Literal literalScm() {
-        Literal l=Literal.valueOf();
-        for(int i=0;i<size;i++) l=l.scm(literal[i]);
-        return l;
-    }
+	public Literal literalScm() {
+		Literal result = Literal.valueOf();
+		for (int i = 0; i < size; i++) {
+			result = result.scm(literal[i]);
+		}
+		return result;
+	}
 
     public Generic negate() {
         return multiply(JSCLInteger.valueOf(-1));
@@ -317,16 +317,16 @@ public class Expression extends Generic {
         return s;
     }
 
-    public Generic substitute(Variable variable, Generic generic) {
-        Map m=literalScm().content();
-        Iterator it=m.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry e=(Map.Entry)it.next();
-            Variable v=(Variable)e.getKey();
-            e.setValue(v.substitute(variable,generic));
-        }
-        return substitute(m);
-    }
+	public Generic substitute(Variable variable, Generic generic) {
+		Map m = literalScm().content();
+		Iterator it = m.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry e = (Map.Entry) it.next();
+			Variable v = (Variable) e.getKey();
+			e.setValue(v.substitute(variable, generic));
+		}
+		return substitute(m);
+	}
 
     Generic substitute(Map map) {
         Generic s=JSCLInteger.valueOf(0);
@@ -347,58 +347,62 @@ public class Expression extends Generic {
         return s;
     }
 
-    public Generic expand() {
-        Map m=literalScm().content();
-        Iterator it=m.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry e=(Map.Entry)it.next();
-            Variable v=(Variable)e.getKey();
-            e.setValue(v.expand());
-        }
-        return substitute(m);
-    }
+	public Generic expand() {
+		return substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
+			@NotNull
+			@Override
+			public Generic convert(@NotNull Variable variable) {
+				return variable.expand();
+			}
+		}));
+	}
+
+	@NotNull
+	private Map<Variable, Generic> transform(@NotNull Map<Variable, Integer> m, @NotNull Converter<Variable, Generic> converter) {
+		final Map<Variable, Generic> result = new HashMap<Variable, Generic>();
+		for (Map.Entry<Variable, Integer> e : m.entrySet()) {
+			result.put(e.getKey(), converter.convert(e.getKey()));
+		}
+		return result;
+	}
 
     public Generic factorize() {
-        Map m=literalScm().content();
-        Iterator it=m.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry e=(Map.Entry)it.next();
-            Variable v=(Variable)e.getKey();
-            e.setValue(v.factorize());
-        }
-        Generic a=substitute(m);
-        return Factorization.compute(a);
+        return Factorization.compute(substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
+			@NotNull
+			@Override
+			public Generic convert(@NotNull Variable variable) {
+				return variable.factorize();
+			}
+		})));
     }
 
     public Generic elementary() {
-        Map m=literalScm().content();
-        Iterator it=m.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry e=(Map.Entry)it.next();
-            Variable v=(Variable)e.getKey();
-            e.setValue(v.elementary());
-        }
-        return substitute(m);
+        return substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
+			@NotNull
+			@Override
+			public Generic convert(@NotNull Variable variable) {
+				return variable.elementary();
+			}
+		}));
     }
 
     public Generic simplify() {
         return Simplification.compute(this);
     }
 
-    public Generic numeric() {
-        try {
-            return integerValue().numeric();
-        } catch (NotIntegerException ex) {
-            Map m=literalScm().content();
-            Iterator it=m.entrySet().iterator();
-            while(it.hasNext()) {
-                Map.Entry e=(Map.Entry)it.next();
-                Variable v=(Variable)e.getKey();
-                e.setValue(v.numeric());
-            }
-            return substitute(m);
-        }
-    }
+	public Generic numeric() {
+		try {
+			return integerValue().numeric();
+		} catch (NotIntegerException ex) {
+			return substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
+				@NotNull
+				@Override
+				public Generic convert(@NotNull Variable variable) {
+					return variable.numeric();
+				}
+			}));
+		}
+	}
 
     public Generic valueOf(Generic generic) {
         Expression ex=newinstance(0);
@@ -454,13 +458,19 @@ public class Expression extends Generic {
 	}
 
 	public JSCLInteger integerValue() throws NotIntegerException {
-        if(size==0) return JSCLInteger.valueOf(0);
-        else if(size==1) {
-            Literal l=literal[0];
-            JSCLInteger en=coef[0];
-            if(l.degree()==0) return en;
-            else throw new NotIntegerException();
-        } else throw new NotIntegerException();
+		if (size == 0) {
+			return JSCLInteger.valueOf(0);
+		} else if (size == 1) {
+			Literal l = literal[0];
+			JSCLInteger en = coef[0];
+			if (l.degree() == 0) {
+				return en;
+			} else {
+				throw new NotIntegerException();
+			}
+		} else {
+			throw new NotIntegerException();
+		}
     }
 
     public Variable variableValue() throws NotVariableException {

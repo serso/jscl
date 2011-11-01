@@ -7,9 +7,10 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 
 public class Derivative extends Operator {
-    public Derivative(Generic expression, Generic variable, Generic value, Generic order) {
-        super("d",new Generic[] {expression,variable,value,order});
-    }
+
+	public Derivative(Generic expression, Generic variable, Generic value, Generic order) {
+		super("d", new Generic[]{expression, variable, value, order});
+	}
 
     public Generic compute() {
         Variable variable=parameter[1].variableValue();

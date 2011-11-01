@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class FunctionParser implements Parser<Function> {
 	}
 
 	public Function parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		return new MultiTryParser<Function>(parsers).parse(string, position);
+		return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(string, position);
 	}
 }
 

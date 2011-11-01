@@ -1,29 +1,29 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import jscl.math.Variable;
 import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class VariableParser implements Parser<Variable> {
-    public static final Parser<Variable> parser=new VariableParser();
 
-    private VariableParser() {}
+	public static final Parser<Variable> parser = new VariableParser();
 
-    public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-        Variable v;
-        try {
-            v=(Variable)OperatorParser.parser.parse(string, position);
-        } catch (ParseException e) {
-            try {
-                v=(Variable)FunctionParser.parser.parse(string, position);
-            } catch (ParseException e2) {
-                try {
-                    v=(Variable)ConstantParser.parser.parse(string, position);
-                } catch (ParseException e3) {
-                    throw e3;
-                }
-            }
-        }
-        return v;
-    }
+	private final static List<Parser<? extends Variable>> parsers = Arrays.asList(
+			OperatorParser.parser,
+			FunctionParser.parser,
+			ConstantParser.parser);
+
+	private final static MultiTryParser<Variable> internalParser = new MultiTryParser<Variable>(new ArrayList<Parser<? extends Variable>>(parsers));
+
+	private VariableParser() {
+	}
+
+	public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		return internalParser.parse(string, position);
+	}
 }

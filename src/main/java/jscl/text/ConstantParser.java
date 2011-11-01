@@ -8,12 +8,12 @@ import jscl.util.ArrayUtils;
 import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
-public class ConstantParser implements Parser {
-    public static final Parser parser=new ConstantParser();
+public class ConstantParser implements Parser<Constant> {
+    public static final Parser<Constant> parser=new ConstantParser();
 
     private ConstantParser() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Constant parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         String name;
         int prime=0;
         List l=new ArrayList();
@@ -34,8 +34,7 @@ public class ConstantParser implements Parser {
             prime=((Integer)Prime.parser.parse(string, position)).intValue();
         } catch (ParseException e) {}
         Generic s[]=(Generic[])ArrayUtils.toArray(l,new Generic[l.size()]);
-        Constant v=new Constant(name,prime,s);
-        return v;
+        return new Constant(name,prime,s);
     }
 }
 

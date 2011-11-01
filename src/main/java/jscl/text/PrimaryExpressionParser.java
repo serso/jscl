@@ -3,7 +3,6 @@ package jscl.text;
 import jscl.math.ExpressionVariable;
 import jscl.math.Generic;
 import jscl.math.Variable;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -27,13 +26,12 @@ public class PrimaryExpressionParser implements Parser<Generic> {
 			new VariableConverter<Variable>(VectorVariableParser.parser),
 			new VariableConverter<ExpressionVariable>(BracketedExpression.parser));
 
+	private static final Parser<Generic> internalParser = new MultiTryParser<Generic>(new ArrayList<Parser<? extends Generic>>(parsers));
+
 	private PrimaryExpressionParser() {
 	}
 
 	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		final Parser<Generic> multiTryParser = new MultiTryParser<Generic>(new ArrayList<Parser<Generic>>(parsers));
-		return multiTryParser.parse(string, position);
+		return internalParser.parse(string, position);
 	}
-
-
 }

@@ -1,5 +1,6 @@
 package jscl.math;
 
+import jscl.math.operator.Derivative;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -72,5 +73,12 @@ public class ExpressionTest {
 		Assert.assertEquals("9.138522593601257E-4", Expression.valueOf("3°°").numeric().toString());
 		Assert.assertEquals("0.08726646259971647", Expression.valueOf("5°").numeric().toString());
 		Assert.assertEquals("2.0523598775598297", Expression.valueOf("2+3°").numeric().toString());
+
+		Assert.assertEquals("6", Expression.valueOf("2*d(3*x,x)").expand().toString());
+		Assert.assertEquals("3", Expression.valueOf("d(3*x,x)").expand().toString());
+		Assert.assertEquals("12", Expression.valueOf("d(x^3,x,2)").expand().toString());
+		Assert.assertEquals("3*a", Expression.valueOf("d(3*x*a,x)").expand().toString());
+		Assert.assertEquals("0", Expression.valueOf("d(3*x*a,x,0.011,2)").expand().toString());
+		Assert.assertEquals("0", Expression.valueOf("2*d(3*x*a,x,0.011,2)").expand().toString());
 	}
 }

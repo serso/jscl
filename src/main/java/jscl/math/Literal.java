@@ -162,46 +162,46 @@ public class Literal implements Comparable {
         return l;
     }
 
-    public Literal scm(Literal literal) {
-        Literal l=newinstance(size+literal.size);
-        int i=0;
-        int i1=0;
-        int i2=0;
-        Variable v1=i1<size?variable[i1]:null;
-        Variable v2=i2<literal.size?literal.variable[i2]:null;
-        while(v1!=null || v2!=null) {
-            int c=v1==null?1:(v2==null?-1:v1.compareTo(v2));
-            if(c<0) {
-                int s=power[i1];
-                l.variable[i]=v1;
-                l.power[i]=s;
-                l.degree+=s;
-                i++;
-                i1++;
-                v1=i1<size?variable[i1]:null;
-            } else if(c>0) {
-                int s=literal.power[i2];
-                l.variable[i]=v2;
-                l.power[i]=s;
-                l.degree+=s;
-                i++;
-                i2++;
-                v2=i2<literal.size?literal.variable[i2]:null;
-            } else {
-                int s=Math.max(power[i1],literal.power[i2]);
-                l.variable[i]=v1;
-                l.power[i]=s;
-                l.degree+=s;
-                i++;
-                i1++;
-                i2++;
-                v1=i1<size?variable[i1]:null;
-                v2=i2<literal.size?literal.variable[i2]:null;
-            }
-        }
-        l.resize(i);
-        return l;
-    }
+	public Literal scm(Literal literal) {
+		Literal l = newinstance(size + literal.size);
+		int i = 0;
+		int i1 = 0;
+		int i2 = 0;
+		Variable v1 = i1 < size ? variable[i1] : null;
+		Variable v2 = i2 < literal.size ? literal.variable[i2] : null;
+		while (v1 != null || v2 != null) {
+			int c = v1 == null ? 1 : (v2 == null ? -1 : v1.compareTo(v2));
+			if (c < 0) {
+				int s = power[i1];
+				l.variable[i] = v1;
+				l.power[i] = s;
+				l.degree += s;
+				i++;
+				i1++;
+				v1 = i1 < size ? variable[i1] : null;
+			} else if (c > 0) {
+				int s = literal.power[i2];
+				l.variable[i] = v2;
+				l.power[i] = s;
+				l.degree += s;
+				i++;
+				i2++;
+				v2 = i2 < literal.size ? literal.variable[i2] : null;
+			} else {
+				int s = Math.max(power[i1], literal.power[i2]);
+				l.variable[i] = v1;
+				l.power[i] = s;
+				l.degree += s;
+				i++;
+				i1++;
+				i2++;
+				v1 = i1 < size ? variable[i1] : null;
+				v2 = i2 < literal.size ? literal.variable[i2] : null;
+			}
+		}
+		l.resize(i);
+		return l;
+	}
 
     public Generic[] productValue() throws NotProductException {
         Generic a[]=new Generic[size];

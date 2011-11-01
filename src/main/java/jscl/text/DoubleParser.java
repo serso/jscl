@@ -25,7 +25,7 @@ public class DoubleParser implements Parser<NumericWrapper> {
 
 	@NotNull
 	public NumericWrapper parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<Double>>(parsers));
+		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
 		return new NumericWrapper(JSCLDouble.valueOf(multiTryParser.parse(string, position)));
 	}
 }
