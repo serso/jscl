@@ -6,7 +6,7 @@ import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 
-public class Factorial extends Operator {
+public class Factorial extends PostfixFunction {
 
 	public static final String NAME = "!";
 
@@ -46,26 +46,6 @@ public class Factorial extends Operator {
 		} else {
 			throw new NotIntegerException();
 		}
-	}
-
-	public String toString() {
-		final StringBuilder result = new StringBuilder();
-		try {
-			result.append(parameter[0].integerValue());
-		} catch (NotIntegerException e) {
-			try {
-				final Variable v = parameter[0].variableValue();
-				if (v instanceof Frac || v instanceof Pow) {
-					result.append(GenericVariable.valueOf(parameter[0]));
-				} else {
-					result.append(v);
-				}
-			} catch (NotVariableException e2) {
-				result.append(GenericVariable.valueOf(parameter[0]));
-			}
-		}
-		result.append("!");
-		return result.toString();
 	}
 
     public void toMathML(MathML element, Object data) {

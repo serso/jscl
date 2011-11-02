@@ -11,7 +11,7 @@ import jscl.math.numeric.JSCLDouble;
  * Date: 10/31/11
  * Time: 10:58 PM
  */
-public class Degree extends Operator {
+public class Degree extends PostfixFunction {
 
 	public static final String NAME = "°";
 
