@@ -1,12 +1,11 @@
 package jscl.text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jscl.math.Generic;
 import jscl.util.ArrayUtils;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParameterList implements Parser<Generic[]> {
 
@@ -20,13 +19,7 @@ public class ParameterList implements Parser<Generic[]> {
 
 		final List<Generic> result = new ArrayList<Generic>();
 
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && string.charAt(position.intValue()) == '(') {
-			position.increment();
-		} else {
-			position.setValue(pos0);
-			throw new ParseException();
-		}
+		ParserUtils.tryToParse(string, position, pos0, '(');
 
 		try {
 			result.add(ExpressionParser.parser.parse(string, position));
@@ -43,14 +36,9 @@ public class ParameterList implements Parser<Generic[]> {
 			}
 		}
 
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && string.charAt(position.intValue()) == ')') {
-			position.increment();
-		} else {
-			position.setValue(pos0);
-			throw new ParseException();
-		}
+		ParserUtils.tryToParse(string, position, pos0, ')');
 
-		return (Generic[]) ArrayUtils.toArray(result, new Generic[result.size()]);
+
+		return ArrayUtils.toArray(result, new Generic[result.size()]);
 	}
 }

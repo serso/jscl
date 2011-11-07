@@ -20,4 +20,31 @@ public class ParserUtils {
 			position.increment();
 		}
 	}
+
+	public static void tryToParse(@NotNull String expression,
+								  @NotNull MutableInt position,
+								  int pos0,
+								  char ch) throws ParseException {
+		skipWhitespaces(expression, position);
+
+		if (position.intValue() < expression.length()) {
+			char actual = expression.charAt(position.intValue());
+			if (actual == ch) {
+				position.increment();
+			} else {
+				throwParseException(expression, position, pos0, "Expected character is: " + ch + ", actual: " + actual);
+			}
+		} else {
+			throwParseException(expression, position, pos0, "Expected character is: " + ch + " but the end of expression was reached");
+		}
+	}
+
+	private static void throwParseException(@NotNull String expression,
+											@NotNull MutableInt position,
+											int pos0,
+											@NotNull String message) throws ParseException {
+		final ParseException parseException = new ParseException(message, position, expression);
+		position.setValue(pos0);
+		throw parseException;
+	}
 }

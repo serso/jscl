@@ -1,5 +1,9 @@
 package jscl.math;
 
+import jscl.JsclMathEngine;
+import jscl.math.function.Constant;
+import jscl.math.function.ExtendedConstant;
+import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -100,5 +104,35 @@ public class ExpressionTest {
 		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2+√(-1))").numeric().toString());
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*√(-1))").numeric().toString());
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*√(-1))").numeric().toString());
+
+		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
+		Assert.assertEquals("2.8284271247461903", Expression.valueOf("k").numeric().toString());
+		Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
+		Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
+		Assert.assertEquals("k^3", Expression.valueOf("k*k*k").simplify().toString());
+		Assert.assertEquals("22.627416997969526", Expression.valueOf("k*k*k").numeric().toString());
+
+		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("k_1"), 3d));
+		Assert.assertEquals("3.0", Expression.valueOf("k_1").numeric().toString());
+		Assert.assertEquals("3.0", Expression.valueOf("k_1[0]").numeric().toString());
+		Assert.assertEquals("3.0", Expression.valueOf("k_1[2]").numeric().toString());
+
+		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
+		Assert.assertEquals("t^3", Expression.valueOf("t*t*t").simplify().toString());
+
+		try {
+			Expression.valueOf("t").numeric();
+			fail();
+		} catch (ArithmeticException e) {
+		}
+
+		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("t"), null));
+		try {
+			Expression.valueOf("t").numeric();
+			fail();
+		} catch (ArithmeticException e) {
+		}
+		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
+		Assert.assertEquals("t^3", Expression.valueOf("t*t*t").simplify().toString());
 	}
 }

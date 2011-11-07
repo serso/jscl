@@ -1,5 +1,6 @@
 package jscl;
 
+import jscl.math.function.ExtendedConstant;
 import jscl.math.function.Function;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
@@ -21,6 +22,9 @@ public interface MathEngine {
 
 	@NotNull
 	MathRegistry<Function> getFunctionsRegistry();
+
+	@NotNull
+	MathRegistry<ExtendedConstant> getConstantsRegistry();
 
 	@NotNull
 	MathRegistry<Operator> getPostfixFunctionsRegistry();

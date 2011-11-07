@@ -1,6 +1,8 @@
 package jscl.math;
 
 import jscl.math.function.Constant;
+import jscl.math.function.ConstantsRegistry;
+import jscl.math.function.ExtendedConstant;
 import jscl.math.numeric.JsclDouble;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.NumericMatrix;
@@ -34,11 +36,14 @@ public final class NumericWrapper extends Generic {
         content=new NumericMatrix(m);
     }
 
-    public NumericWrapper(Constant constant) {
-        if(constant.compareTo(new Constant("pi"))==0) content= JsclDouble.valueOf(Math.PI);
-        else if(constant.compareTo(new Constant("infin"))==0) content= JsclDouble.valueOf(Double.POSITIVE_INFINITY);
-        else throw new ArithmeticException();
-    }
+	public NumericWrapper(Constant constant) {
+		final ExtendedConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
+		if (constantFromRegistry != null && constantFromRegistry.getValue() != null) {
+			content = JsclDouble.valueOf(constantFromRegistry.getValue());
+		} else {
+			throw new ArithmeticException();
+		}
+	}
 
     public NumericWrapper(Numeric numeric) {
         content=numeric;
@@ -337,8 +342,8 @@ public final class NumericWrapper extends Generic {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
-        if(exponent==1) bodyToMathML(element);
+		int exponent = data instanceof Integer ? (Integer) data : 1;
+		if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");
             bodyToMathML(e1);

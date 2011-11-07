@@ -1,14 +1,13 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
-public class PrimeCharacters implements Parser {
-    public static final Parser parser=new PrimeCharacters();
+public class PrimeCharacters implements Parser<Integer> {
+    public static final Parser<Integer> parser=new PrimeCharacters();
 
     private PrimeCharacters() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Integer parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         int pos0= position.intValue();
         int c;
         ParserUtils.skipWhitespaces(string, position);
@@ -25,6 +24,6 @@ public class PrimeCharacters implements Parser {
 			position.increment();
             c++;
         }
-        return new Integer(c);
+        return c;
     }
 }

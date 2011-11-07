@@ -1,9 +1,7 @@
 package jscl;
 
 import jscl.math.Expression;
-import jscl.math.function.Function;
-import jscl.math.function.FunctionsRegistry;
-import jscl.math.function.PostfixFunctionsRegistry;
+import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
@@ -41,5 +39,11 @@ public class JsclMathEngine implements MathEngine {
 	@Override
 	public MathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return PostfixFunctionsRegistry.getInstance();
+	}
+
+	@NotNull
+	@Override
+	public MathRegistry<ExtendedConstant> getConstantsRegistry() {
+		return ConstantsRegistry.getInstance();
 	}
 }

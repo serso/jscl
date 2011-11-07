@@ -1,39 +1,31 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
-public class Subscript implements Parser {
-    public static final Parser parser=new Subscript();
+public class Subscript implements Parser<Generic> {
 
-    private Subscript() {}
+	public static final Parser<Generic> parser = new Subscript();
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-        int pos0= position.intValue();
-        Generic a;
-        ParserUtils.skipWhitespaces(string, position);
-        if(position.intValue()< string.length() && string.charAt(position.intValue())=='[') {
-            string.charAt(position.intValue());
-			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        try {
-            a=(Generic)ExpressionParser.parser.parse(string, position);
-        } catch (ParseException e) {
-            position.setValue(pos0);
-            throw e;
-        }
-        ParserUtils.skipWhitespaces(string, position);
-        if(position.intValue()< string.length() && string.charAt(position.intValue())==']') {
-            string.charAt(position.intValue());
-			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        return a;
-    }
+	private Subscript() {
+	}
+
+	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+		int pos0 = position.intValue();
+
+		ParserUtils.tryToParse(string, position, pos0, '[');
+
+		Generic a;
+		try {
+			a = ExpressionParser.parser.parse(string, position);
+		} catch (ParseException e) {
+			position.setValue(pos0);
+			throw e;
+		}
+
+		ParserUtils.tryToParse(string, position, pos0, ']');
+
+		return a;
+	}
+
 }

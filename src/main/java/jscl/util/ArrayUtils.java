@@ -16,10 +16,13 @@ public class ArrayUtils {
         return res;
     }
 
-    public static Object[] toArray(List list, Object res[]) {
-//      return list.toArray(res);
+    public static <T> T[] toArray(List<T> list, T res[]) {
         int n=list.size();
-        for(int i=0;i<n;i++) res[i]=list.get(i);
+
+		for(int i=0;i<n;i++) {
+			res[i]=list.get(i);
+		}
+
         return res;
     }
 
