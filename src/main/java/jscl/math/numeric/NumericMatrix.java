@@ -117,16 +117,20 @@ public class NumericMatrix extends Numeric {
         return m;
     }
 
-    public int signum() {
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<p;j++) {
-                int c=element[i][j].signum();
-                if(c<0) return -1;
-                else if(c>0) return 1;
-            }
-        }
-        return 0;
-    }
+	public int signum() {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < p; j++) {
+				int c = element[i][j].signum();
+				if (c < 0) {
+					return -1;
+				} else if (c > 0) {
+					return 1;
+				}
+			}
+		}
+
+		return 0;
+	}
 
     public Numeric valueof(Numeric numeric) {
         if(numeric instanceof NumericMatrix || numeric instanceof NumericVector) {

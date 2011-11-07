@@ -60,7 +60,11 @@ public final class JSCLDouble extends Numeric {
 	}
 
 	public int signum() {
-		return content == 0. ? 0 : (content < 0. ? -1 : 1);
+		return signum(content);
+	}
+
+	public static  int signum(double value) {
+		return value == 0. ? 0 : (value < 0. ? -1 : 1);
 	}
 
 	public Numeric ln() {

@@ -258,8 +258,8 @@ public class Expression extends Generic {
     }
 
     public int signum() {
-        return size==0?0:coef[0].signum();
-    }
+		return size == 0 ? 0 : coef[0].signum();
+	}
 
     public int degree() {
         return 0;

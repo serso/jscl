@@ -1,6 +1,5 @@
 package jscl.math;
 
-import jscl.math.operator.Derivative;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -85,6 +84,21 @@ public class ExpressionTest {
 
 		Assert.assertEquals("4.0!", Expression.valueOf("4.0!").simplify().toString());
 		Assert.assertEquals("4.0°", Expression.valueOf("4.0°").simplify().toString());
+		Assert.assertEquals("30°", Expression.valueOf("30°").simplify().toString());
 
+
+		Assert.assertEquals("1.0", Expression.valueOf("abs(1)").numeric().toString());
+		Assert.assertEquals("0.0", Expression.valueOf("abs(0)").numeric().toString());
+		Assert.assertEquals("0.0", Expression.valueOf("abs(-0)").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("abs(-1)").numeric().toString());
+		Assert.assertEquals("Infinity", Expression.valueOf("abs(-infin)").numeric().toString());
+
+		Assert.assertEquals("1.0", Expression.valueOf("abs(√(-1))").numeric().toString());
+		Assert.assertEquals("0.0", Expression.valueOf("abs(0+0*√(-1))").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("abs(-√(-1))").numeric().toString());
+		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2-√(-1))").numeric().toString());
+		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2+√(-1))").numeric().toString());
+		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*√(-1))").numeric().toString());
+		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*√(-1))").numeric().toString());
 	}
 }

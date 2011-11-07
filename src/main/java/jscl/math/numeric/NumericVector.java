@@ -76,15 +76,18 @@ public class NumericVector extends Numeric {
     }
 
     public int signum() {
-        for(int i=0;i<n;i++) {
-            int c=element[i].signum();
-            if(c<0) return -1;
-            else if(c>0) return 1;
-        }
-        return 0;
-    }
+		for (int i = 0; i < n; i++) {
+			int c = element[i].signum();
+			if (c < 0) {
+				return -1;
+			} else if (c > 0) {
+				return 1;
+			}
+		}
+		return 0;
+	}
 
-    public Numeric valueof(Numeric numeric) {
+	public Numeric valueof(Numeric numeric) {
         if(numeric instanceof NumericVector ||  numeric instanceof NumericMatrix) {
             throw new ArithmeticException();
         } else {

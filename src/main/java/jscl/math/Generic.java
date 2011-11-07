@@ -61,7 +61,7 @@ public abstract class Generic implements Arithmetic, Comparable {
     public Generic[] gcdAndNormalize() {
         Generic gcd=gcd();
         if(gcd.signum()==0) return new Generic[] {gcd,this};
-        if(gcd.signum()!=signum()) gcd=gcd.negate();
+        if(gcd.signum()!= signum()) gcd=gcd.negate();
         return new Generic[] {gcd,divide(gcd)};
     }
 
@@ -85,8 +85,8 @@ public abstract class Generic implements Arithmetic, Comparable {
     }
 
     public Generic abs() {
-        return signum()<0?negate():this;
-    }
+		return signum() < 0 ? negate() : this;
+	}
 
     public abstract Generic negate();
     public abstract int signum();
