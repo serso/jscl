@@ -31,11 +31,11 @@ public class AntiDerivative {
         boolean b=d>0;
         b=b && a[0].negate().isIdentity(variable);
         for(int i=1;i<d;i++) b=b && a[i].signum()==0;
-        b=b && a[d].compareTo(JSCLInteger.valueOf(1))==0;
+        b=b && a[d].compareTo(JsclInteger.valueOf(1))==0;
         if(b) {
             return new Pow(
                 a[0].negate(),
-                new Inv(JSCLInteger.valueOf(d)).evaluate()
+                new Inv(JsclInteger.valueOf(d)).evaluate()
             ).antiderivative(0);
         } else throw new NotIntegrableException();
     }
@@ -108,11 +108,11 @@ public class AntiDerivative {
             r=divideAndRemainder(b,v);
             b=r[1];
             c=c.multiply(r[2]).add(r[0].multiply(uvprime));
-            s=new Inv(s.multiply(r[2]).multiply(JSCLInteger.valueOf(1-m))).evaluate();
+            s=new Inv(s.multiply(r[2]).multiply(JsclInteger.valueOf(1 - m))).evaluate();
             b=b.multiply(s);
             c=c.multiply(s);
             Generic bprime=((UnivariatePolynomial)factory.valueof(b)).derivative().genericValue();
-            return new Frac(b,v.pow(m-1)).evaluate().add(hermite(JSCLInteger.valueOf(1-m).multiply(c).subtract(u.multiply(bprime)),u.multiply(v.pow(m-1))));
+            return new Frac(b,v.pow(m-1)).evaluate().add(hermite(JsclInteger.valueOf(1 - m).multiply(c).subtract(u.multiply(bprime)),u.multiply(v.pow(m-1))));
         }
     }
 
@@ -126,7 +126,7 @@ public class AntiDerivative {
         for(int i=0;i<rs.length;i++) if(rs[i]!=null) rs[i]=(UnivariatePolynomial)fact.valueof((i>0?rs[i].normalize():rs[i]).genericValue());
         UnivariatePolynomial q[]=rs[0].squarefreeDecomposition();
         int m=q.length-1;
-        Generic s=JSCLInteger.valueOf(0);
+        Generic s= JsclInteger.valueOf(0);
         for(int i=1;i<=m;i++) {
             for(int j=0;j<q[i].degree();j++) {
                 Generic a2=new Root(q[i],j).evaluate();
@@ -219,7 +219,7 @@ class PolynomialWithSyzygy extends UnivariatePolynomial {
 
     void init(Generic generic, int n) {
         init(generic);
-        for(int i=0;i<syzygy.length;i++) syzygy[i]=Polynomial.factory(variable).valueof(JSCLInteger.valueOf(i==n?1:0));
+        for(int i=0;i<syzygy.length;i++) syzygy[i]=Polynomial.factory(variable).valueof(JsclInteger.valueOf(i == n ? 1 : 0));
     }
 
     protected UnivariatePolynomial newinstance() {

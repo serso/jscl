@@ -2,7 +2,7 @@ package jscl.math.operator.vector;
 
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.math.operator.VectorOperator;
@@ -15,8 +15,8 @@ public class Jacobian extends VectorOperator {
 
     public Generic compute() {
         Variable variable[]=variables(parameter[1]);
-        if(parameter[0] instanceof JSCLVector) {
-            JSCLVector vector=(JSCLVector)parameter[0];
+        if(parameter[0] instanceof JsclVector) {
+            JsclVector vector=(JsclVector)parameter[0];
             return vector.jacobian(variable);
         }
         return expressionValue();

@@ -1,7 +1,7 @@
 package jscl.math.function.trigonometric;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.ArcTrigonometric;
@@ -17,7 +17,7 @@ public class Acot extends ArcTrigonometric {
 
     public Generic derivative(int n) {
         return new Inv(
-            JSCLInteger.valueOf(1).add(parameter[0].pow(2))
+            JsclInteger.valueOf(1).add(parameter[0].pow(2))
         ).evaluate().negate();
     }
 
@@ -34,7 +34,7 @@ public class Acot extends ArcTrigonometric {
                 new Root(
                     new Generic[] {
                         Constant.i.add(parameter[0]),
-                        JSCLInteger.valueOf(0),
+                        JsclInteger.valueOf(0),
                         Constant.i.subtract(parameter[0])
                     },
                     0

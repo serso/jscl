@@ -36,9 +36,9 @@ public abstract class Generic implements Arithmetic, Comparable {
 
     public Generic[] divideAndRemainder(Generic generic) throws ArithmeticException {
         try {
-            return new Generic[] {divide(generic),JSCLInteger.valueOf(0)};
+            return new Generic[] {divide(generic), JsclInteger.valueOf(0)};
         } catch (NotDivisibleException e) {
-            return new Generic[] {JSCLInteger.valueOf(0),this};
+            return new Generic[] {JsclInteger.valueOf(0),this};
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class Generic implements Arithmetic, Comparable {
     }
 
     public Generic inverse() {
-        return JSCLInteger.valueOf(1).divide(this);
+        return JsclInteger.valueOf(1).divide(this);
     }
 
     public abstract Generic gcd(Generic generic);
@@ -72,7 +72,7 @@ public abstract class Generic implements Arithmetic, Comparable {
     public Generic pow(int exponent) {
 		assert exponent >= 0;
 
-		Generic result = JSCLInteger.valueOf(1);
+		Generic result = JsclInteger.valueOf(1);
 
 		for (int i = 0; i < exponent; i++) {
 
@@ -111,7 +111,7 @@ public abstract class Generic implements Arithmetic, Comparable {
     public abstract Expression expressionValue() throws NotExpressionException;
 
     public abstract boolean isInteger();
-    public abstract JSCLInteger integerValue() throws NotIntegerException;
+    public abstract JsclInteger integerValue() throws NotIntegerException;
 
     public abstract Variable variableValue() throws NotVariableException;
     public abstract Variable[] variables();

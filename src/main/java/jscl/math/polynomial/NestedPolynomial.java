@@ -2,7 +2,7 @@ package jscl.math.polynomial;
 
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotExpressionException;
 import jscl.math.NotIntegerException;
 import jscl.math.NotIntegrableException;
@@ -170,7 +170,7 @@ final class PolynomialWrapper extends Generic {
         return content.genericValue().expressionValue();
     }
 
-    public JSCLInteger integerValue() throws NotIntegerException {
+    public JsclInteger integerValue() throws NotIntegerException {
         throw new NotIntegerException();
     }
 

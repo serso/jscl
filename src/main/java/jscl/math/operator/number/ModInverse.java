@@ -1,7 +1,7 @@
 package jscl.math.operator.number;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
@@ -13,8 +13,8 @@ public class ModInverse extends Operator {
 
     public Generic compute() {
         try {
-            JSCLInteger en=parameter[0].integerValue();
-            JSCLInteger modulo=parameter[1].integerValue();
+            JsclInteger en=parameter[0].integerValue();
+            JsclInteger modulo=parameter[1].integerValue();
             return en.modInverse(modulo);
         } catch (NotIntegerException e) {}
         return expressionValue();

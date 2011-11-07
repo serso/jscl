@@ -1,10 +1,7 @@
 package jscl.math.operator;
 
-import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
-import jscl.math.JSCLVector;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.math.function.Constant;
 import jscl.math.function.ImplicitFunction;
 import jscl.math.polynomial.Basis;
@@ -19,7 +16,7 @@ public class Groebner extends Operator {
     }
 
     public Generic compute() {
-        Generic generic[]=((JSCLVector)parameter[0]).elements();
+        Generic generic[]=((JsclVector)parameter[0]).elements();
         Variable variable[]=variables(parameter[1]);
         Ordering ord=ordering(parameter[2]);
         int m=parameter[3].integerValue().intValue();
@@ -28,8 +25,8 @@ public class Groebner extends Operator {
 
     public Operator transmute() {
         Generic p[]=new Generic[] {GenericVariable.content(parameter[0]),GenericVariable.content(parameter[1])};
-        if(p[0] instanceof JSCLVector && p[1] instanceof JSCLVector) {
-            Generic generic[]=((JSCLVector)p[0]).elements();
+        if(p[0] instanceof JsclVector && p[1] instanceof JsclVector) {
+            Generic generic[]=((JsclVector)p[0]).elements();
             Variable variable[]=variables(p[1]);
             Ordering ord=ordering(parameter[2]);
             int m=parameter[3].integerValue().intValue();
@@ -46,7 +43,7 @@ public class Groebner extends Operator {
         else if(v instanceof ImplicitFunction) {
             Generic g[]=((ImplicitFunction)v).parameters();
             int k=g[0].integerValue().intValue();
-            if(v.compareTo(new ImplicitFunction("elim",new Generic[] {JSCLInteger.valueOf(k)},new int[] {0},new Generic[] {}))==0) return Monomial.kthElimination(k);
+            if(v.compareTo(new ImplicitFunction("elim",new Generic[] {JsclInteger.valueOf(k)},new int[] {0},new Generic[] {}))==0) return Monomial.kthElimination(k);
         }
         throw new ArithmeticException();
     }
@@ -96,7 +93,7 @@ public class Groebner extends Operator {
     }
 }
 
-class PolynomialVector extends JSCLVector {
+class PolynomialVector extends JsclVector {
     final Basis basis;
 
     PolynomialVector(Basis basis) {
@@ -104,7 +101,7 @@ class PolynomialVector extends JSCLVector {
     }
 
     PolynomialVector(Basis basis, Generic generic[]) {
-        super(generic.length>0?generic:new Generic[] {JSCLInteger.valueOf(0)});
+        super(generic.length>0?generic:new Generic[] {JsclInteger.valueOf(0)});
         this.basis=basis;
     }
 

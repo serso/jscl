@@ -1,7 +1,7 @@
 package jscl.math.operator.vector;
 
 import jscl.math.Generic;
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.operator.VectorOperator;
 import jscl.math.operator.product.GeometricProduct;
@@ -15,8 +15,8 @@ public class Del extends VectorOperator {
     public Generic compute() {
         Variable variable[]=variables(parameter[1]);
         int algebra[]=GeometricProduct.algebra(parameter[2]);
-        if(parameter[0] instanceof JSCLVector) {
-            JSCLVector vector=(JSCLVector)parameter[0];
+        if(parameter[0] instanceof JsclVector) {
+            JsclVector vector=(JsclVector)parameter[0];
             return vector.del(variable,algebra);
         }
         return expressionValue();

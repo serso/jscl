@@ -101,7 +101,7 @@ public class NumericVector extends Numeric {
     }
 
     public Numeric scalarProduct(NumericVector vector) {
-        Numeric a=JSCLDouble.valueOf(0);
+        Numeric a= JsclDouble.valueOf(0);
         for(int i=0;i<n;i++) {
             a=a.add(element[i].multiply(vector.element[i]));
         }
@@ -142,8 +142,8 @@ public class NumericVector extends Numeric {
     public static NumericVector unity(int dimension) {
         NumericVector v=new NumericVector(new Numeric[dimension]);
         for(int i=0;i<v.n;i++) {
-            if(i==0) v.element[i]=JSCLDouble.valueOf(1);
-            else v.element[i]=JSCLDouble.valueOf(0);
+            if(i==0) v.element[i]= JsclDouble.valueOf(1);
+            else v.element[i]= JsclDouble.valueOf(0);
         }
         return v;
     }

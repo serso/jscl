@@ -1,62 +1,62 @@
 package jscl.math.numeric;
 
-public final class JSCLDouble extends Numeric {
+public final class JsclDouble extends Numeric {
 	double content;
 
-	JSCLDouble(double val) {
+	JsclDouble(double val) {
 		content = val;
 	}
 
-	public JSCLDouble add(JSCLDouble dble) {
-		return new JSCLDouble(content + dble.content);
+	public JsclDouble add(JsclDouble dble) {
+		return new JsclDouble(content + dble.content);
 	}
 
 	public Numeric add(Numeric numeric) {
-		if (numeric instanceof JSCLDouble) {
-			return add((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return add((JsclDouble) numeric);
 		} else {
 			return numeric.valueof(this).add(numeric);
 		}
 	}
 
-	public JSCLDouble subtract(JSCLDouble dble) {
-		return new JSCLDouble(content - dble.content);
+	public JsclDouble subtract(JsclDouble dble) {
+		return new JsclDouble(content - dble.content);
 	}
 
 	public Numeric subtract(Numeric numeric) {
-		if (numeric instanceof JSCLDouble) {
-			return subtract((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return subtract((JsclDouble) numeric);
 		} else {
 			return numeric.valueof(this).subtract(numeric);
 		}
 	}
 
-	public JSCLDouble multiply(JSCLDouble dble) {
-		return new JSCLDouble(content * dble.content);
+	public JsclDouble multiply(JsclDouble dble) {
+		return new JsclDouble(content * dble.content);
 	}
 
 	public Numeric multiply(Numeric numeric) {
-		if (numeric instanceof JSCLDouble) {
-			return multiply((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return multiply((JsclDouble) numeric);
 		} else {
 			return numeric.multiply(this);
 		}
 	}
 
-	public JSCLDouble divide(JSCLDouble dble) throws ArithmeticException {
-		return new JSCLDouble(content / dble.content);
+	public JsclDouble divide(JsclDouble dble) throws ArithmeticException {
+		return new JsclDouble(content / dble.content);
 	}
 
 	public Numeric divide(Numeric numeric) throws ArithmeticException {
-		if (numeric instanceof JSCLDouble) {
-			return divide((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return divide((JsclDouble) numeric);
 		} else {
 			return numeric.valueof(this).divide(numeric);
 		}
 	}
 
 	public Numeric negate() {
-		return new JSCLDouble(-content);
+		return new JsclDouble(-content);
 	}
 
 	public int signum() {
@@ -68,32 +68,32 @@ public final class JSCLDouble extends Numeric {
 	}
 
 	public Numeric ln() {
-		return new JSCLDouble(Math.log(content));
+		return new JsclDouble(Math.log(content));
 	}
 
 	public Numeric lg() {
-		return new JSCLDouble(Math.log10(content));
+		return new JsclDouble(Math.log10(content));
 	}
 
 	public Numeric exp() {
-		return new JSCLDouble(Math.exp(content));
+		return new JsclDouble(Math.exp(content));
 	}
 
 	public Numeric inverse() {
-		return new JSCLDouble(1. / content);
+		return new JsclDouble(1. / content);
 	}
 
-	public Numeric pow(JSCLDouble dble) {
+	public Numeric pow(JsclDouble dble) {
 		if (signum() < 0) {
 			return Complex.valueOf(content, 0).pow(dble);
 		} else {
-			return new JSCLDouble(Math.pow(content, dble.content));
+			return new JsclDouble(Math.pow(content, dble.content));
 		}
 	}
 
 	public Numeric pow(Numeric numeric) {
-		if (numeric instanceof JSCLDouble) {
-			return pow((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return pow((JsclDouble) numeric);
 		} else {
 			return numeric.valueof(this).pow(numeric);
 		}
@@ -103,7 +103,7 @@ public final class JSCLDouble extends Numeric {
 		if (signum() < 0) {
 			return Complex.valueOf(0, 1).multiply(negate().sqrt());
 		} else {
-			return new JSCLDouble(Math.sqrt(content));
+			return new JsclDouble(Math.sqrt(content));
 		}
 	}
 
@@ -120,36 +120,36 @@ public final class JSCLDouble extends Numeric {
 	}
 
 	public Numeric acos() {
-		return new JSCLDouble(Math.acos(content));
+		return new JsclDouble(Math.acos(content));
 	}
 
 	public Numeric asin() {
-		return new JSCLDouble(Math.asin(content));
+		return new JsclDouble(Math.asin(content));
 	}
 
 	public Numeric atan() {
-		return new JSCLDouble(Math.atan(content));
+		return new JsclDouble(Math.atan(content));
 	}
 
 	public Numeric cos() {
-		return new JSCLDouble(Math.cos(content));
+		return new JsclDouble(Math.cos(content));
 	}
 
 	public Numeric sin() {
-		return new JSCLDouble(Math.sin(content));
+		return new JsclDouble(Math.sin(content));
 	}
 
 	public Numeric tan() {
-		return new JSCLDouble(Math.tan(content));
+		return new JsclDouble(Math.tan(content));
 	}
 
-	public JSCLDouble valueof(JSCLDouble dble) {
-		return new JSCLDouble(dble.content);
+	public JsclDouble valueof(JsclDouble dble) {
+		return new JsclDouble(dble.content);
 	}
 
 	public Numeric valueof(Numeric numeric) {
-		if (numeric instanceof JSCLDouble) {
-			return valueof((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return valueof((JsclDouble) numeric);
 		} else throw new ArithmeticException();
 	}
 
@@ -157,7 +157,7 @@ public final class JSCLDouble extends Numeric {
 		return content;
 	}
 
-	public int compareTo(JSCLDouble dble) {
+	public int compareTo(JsclDouble dble) {
 		if (content < dble.content) return -1;
 		else if (content > dble.content) return 1;
 		else if (content == dble.content) return 0;
@@ -165,15 +165,15 @@ public final class JSCLDouble extends Numeric {
 	}
 
 	public int compareTo(Numeric numeric) {
-		if (numeric instanceof JSCLDouble) {
-			return compareTo((JSCLDouble) numeric);
+		if (numeric instanceof JsclDouble) {
+			return compareTo((JsclDouble) numeric);
 		} else {
 			return numeric.valueof(this).compareTo(numeric);
 		}
 	}
 
-	public static JSCLDouble valueOf(double val) {
-		return new JSCLDouble(val);
+	public static JsclDouble valueOf(double val) {
+		return new JsclDouble(val);
 	}
 
 	public String toString() {

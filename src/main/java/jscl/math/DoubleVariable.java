@@ -5,7 +5,7 @@ public class DoubleVariable extends GenericVariable {
         super(generic);
     }
 
-    public JSCLInteger symbolic() {
+    public JsclInteger symbolic() {
         return ((NumericWrapper)content).integerValue();
     }
 
@@ -14,7 +14,7 @@ public class DoubleVariable extends GenericVariable {
     }
 
     public Generic derivative(Variable variable) {
-        return JSCLInteger.valueOf(0);
+        return JsclInteger.valueOf(0);
     }
 
     public Generic substitute(Variable variable, Generic generic) {

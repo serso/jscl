@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.Variable;
 import jscl.math.polynomial.groebner.Standard;
 import jscl.util.ArrayUtils;
@@ -81,7 +81,7 @@ public class Basis {
     }
 
     public static boolean compatible(Generic generic[]) {
-        return !(generic.length>0 && generic[0].compareTo(JSCLInteger.valueOf(1))==0);
+        return !(generic.length>0 && generic[0].compareTo(JsclInteger.valueOf(1))==0);
     }
 
     public static Generic[] augment(Generic element[], Generic generic[]) {

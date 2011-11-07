@@ -1,7 +1,7 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
@@ -16,9 +16,9 @@ public class Sum extends Operator {
         try {
             int n1=parameter[2].integerValue().intValue();
             int n2=parameter[3].integerValue().intValue();
-            Generic a=JSCLInteger.valueOf(0);
+            Generic a= JsclInteger.valueOf(0);
             for(int i=n1;i<=n2;i++) {
-                a=a.add(parameter[0].substitute(variable,JSCLInteger.valueOf(i)));
+                a=a.add(parameter[0].substitute(variable, JsclInteger.valueOf(i)));
             }
             return a;
         } catch (NotIntegerException e) {}

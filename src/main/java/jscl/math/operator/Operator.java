@@ -1,11 +1,7 @@
 package jscl.math.operator;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.JSCLVector;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotVariableException;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
@@ -32,8 +28,8 @@ public abstract class Operator extends Variable {
     }
 
     public Generic derivative(Variable variable) {
-        if(isIdentity(variable)) return JSCLInteger.valueOf(1);
-        else return JSCLInteger.valueOf(0);
+        if(isIdentity(variable)) return JsclInteger.valueOf(1);
+        else return JsclInteger.valueOf(0);
     }
 
     public Generic substitute(Variable variable, Generic generic) {
@@ -108,7 +104,7 @@ public abstract class Operator extends Variable {
 	}
 
 	protected static Variable[] variables(Generic generic) throws NotVariableException {
-        Generic element[]=((JSCLVector)generic).elements();
+        Generic element[]=((JsclVector)generic).elements();
         Variable variable[]=new Variable[element.length];
         for(int i=0;i<element.length;i++) {
             variable[i]=element[i].variableValue();

@@ -1,21 +1,18 @@
 package jscl.math.function;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegrableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
 public class Constant extends Variable {
-    public static final Generic e=new Exp(JSCLInteger.valueOf(1)).expressionValue();
+    public static final Generic e=new Exp(JsclInteger.valueOf(1)).expressionValue();
     public static final Generic pi=new Constant("pi").expressionValue();
-    public static final Generic i=new Sqrt(JSCLInteger.valueOf(-1)).expressionValue();
-    public static final Generic half=new Inv(JSCLInteger.valueOf(2)).expressionValue();
-    public static final Generic third=new Inv(JSCLInteger.valueOf(3)).expressionValue();
-    public static final Generic j=half.negate().multiply(JSCLInteger.valueOf(1).subtract(i.multiply(new Sqrt(JSCLInteger.valueOf(3)).expressionValue())));
-    public static final Generic jbar=half.negate().multiply(JSCLInteger.valueOf(1).add(i.multiply(new Sqrt(JSCLInteger.valueOf(3)).expressionValue())));
+    public static final Generic i=new Sqrt(JsclInteger.valueOf(-1)).expressionValue();
+    public static final Generic half=new Inv(JsclInteger.valueOf(2)).expressionValue();
+    public static final Generic third=new Inv(JsclInteger.valueOf(3)).expressionValue();
+    public static final Generic j=half.negate().multiply(JsclInteger.valueOf(1).subtract(i.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));
+    public static final Generic jbar=half.negate().multiply(JsclInteger.valueOf(1).add(i.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));
     public static final Generic infinity=new Constant("infin").expressionValue();
     static final int PRIMECHARS=3;
     protected int prime;
@@ -44,8 +41,8 @@ public class Constant extends Variable {
     }
 
     public Generic derivative(Variable variable) {
-        if(isIdentity(variable)) return JSCLInteger.valueOf(1);
-        else return JSCLInteger.valueOf(0);
+        if(isIdentity(variable)) return JsclInteger.valueOf(1);
+        else return JsclInteger.valueOf(0);
     }
 
     public Generic substitute(Variable variable, Generic generic) {
@@ -139,8 +136,8 @@ public class Constant extends Variable {
     }
 
     public String toJava() {
-        if(compareTo(new Constant("pi"))==0) return "JSCLDouble.valueOf(Math.PI)";
-        else if(compareTo(new Constant("infin"))==0) return "JSCLDouble.valueOf(Double.POSITIVE_INFINITY)";
+        if(compareTo(new Constant("pi"))==0) return "JsclDouble.valueOf(Math.PI)";
+        else if(compareTo(new Constant("infin"))==0) return "JsclDouble.valueOf(Double.POSITIVE_INFINITY)";
         StringBuffer buffer=new StringBuffer();
         buffer.append(name);
         if(prime==0);

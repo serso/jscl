@@ -1,17 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.AntiDerivative;
-import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
-import jscl.math.NotDivisibleException;
-import jscl.math.NotExpressionException;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotPowerException;
-import jscl.math.NotVariableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public class Frac extends Algebraic {
@@ -53,7 +43,7 @@ public class Frac extends Algebraic {
     }
 
     public Generic evaluate() {
-        if(parameter[0].compareTo(JSCLInteger.valueOf(1))==0) {
+        if(parameter[0].compareTo(JsclInteger.valueOf(1))==0) {
             return new Inv(parameter[1]).evaluate();
         }
         try {
@@ -103,10 +93,10 @@ public class Frac extends Algebraic {
             try {
                 Generic a=generic.expressionValue();
                 Generic n[]=a.gcdAndNormalize();
-                return new Generic[] {n[0],JSCLInteger.valueOf(1),n[1]};
+                return new Generic[] {n[0], JsclInteger.valueOf(1),n[1]};
             } catch (NotExpressionException e2) {}
         }
-        return new Generic[] {JSCLInteger.valueOf(1),JSCLInteger.valueOf(1),generic};
+        return new Generic[] {JsclInteger.valueOf(1), JsclInteger.valueOf(1),generic};
     }
 
     public String toString() {

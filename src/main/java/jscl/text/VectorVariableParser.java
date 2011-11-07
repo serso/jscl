@@ -1,9 +1,8 @@
 package jscl.text;
 
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.VectorVariable;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class VectorVariableParser implements Parser<Variable> {
@@ -12,9 +11,9 @@ public class VectorVariableParser implements Parser<Variable> {
     private VectorVariableParser() {}
 
     public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-        JSCLVector v;
+        JsclVector v;
         try {
-            v=(JSCLVector)VectorParser.parser.parse(string, position);
+            v=(JsclVector)VectorParser.parser.parse(string, position);
         } catch (ParseException e) {
             throw e;
         }

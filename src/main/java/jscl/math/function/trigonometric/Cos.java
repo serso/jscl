@@ -1,11 +1,7 @@
 package jscl.math.function.trigonometric;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotVariableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.math.function.Constant;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
@@ -27,9 +23,9 @@ public class Cos extends Trigonometric {
         if(parameter[0].signum()<0) {
             return new Cos(parameter[0].negate()).evaluate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(1);
+            return JsclInteger.valueOf(1);
         } else if(parameter[0].compareTo(Constant.pi)==0) {
-            return JSCLInteger.valueOf(-1);
+            return JsclInteger.valueOf(-1);
         }
         return expressionValue();
     }
@@ -48,9 +44,9 @@ public class Cos extends Trigonometric {
         if(parameter[0].signum()<0) {
             return new Cos(parameter[0].negate()).evaluate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(1);
+            return JsclInteger.valueOf(1);
         } else if(parameter[0].compareTo(Constant.pi)==0) {
-            return JSCLInteger.valueOf(-1);
+            return JsclInteger.valueOf(-1);
         }
         try {
             Variable v=parameter[0].variableValue();

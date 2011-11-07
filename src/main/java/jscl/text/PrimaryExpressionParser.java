@@ -20,7 +20,7 @@ public class PrimaryExpressionParser implements Parser<Generic> {
 
 	private static final List<Parser<Generic>> parsers = Arrays.asList(
 			new VariableConverter<Variable>(DoubleVariableParser.parser),
-			JSCLIntegerParser.parser,
+			JsclIntegerParser.parser,
 			new VariableConverter<Variable>(VariableParser.parser),
 			new VariableConverter<Variable>(MatrixVariableParser.parser),
 			new VariableConverter<Variable>(VectorVariableParser.parser),

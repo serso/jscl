@@ -1,7 +1,7 @@
 package jscl.math.function;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
@@ -66,9 +66,9 @@ public abstract class Function extends Variable {
 	public abstract Generic antiderivative(int n) throws NotIntegrableException;
 
 	public Generic derivative(Variable variable) {
-		if (isIdentity(variable)) return JSCLInteger.valueOf(1);
+		if (isIdentity(variable)) return JsclInteger.valueOf(1);
 		else {
-			Generic a = JSCLInteger.valueOf(0);
+			Generic a = JsclInteger.valueOf(0);
 			for (int i = 0; i < parameter.length; i++) {
 				a = a.add(parameter[i].derivative(variable).multiply(derivative(i)));
 			}

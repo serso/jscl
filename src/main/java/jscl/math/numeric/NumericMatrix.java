@@ -57,7 +57,7 @@ public class NumericMatrix extends Numeric {
         NumericMatrix m=(NumericMatrix)newinstance(new Numeric[n][matrix.p]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<matrix.p;j++) {
-                m.element[i][j]=JSCLDouble.valueOf(0);
+                m.element[i][j]= JsclDouble.valueOf(0);
                 for(int k=0;k<p;k++) {
                     m.element[i][j]=m.element[i][j].add(element[i][k].multiply(matrix.element[k][j]));
                 }
@@ -74,7 +74,7 @@ public class NumericMatrix extends Numeric {
             NumericVector v2=(NumericVector)numeric;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {
-                v.element[i]=JSCLDouble.valueOf(0);
+                v.element[i]= JsclDouble.valueOf(0);
                 for(int k=0;k<p;k++) {
                     v.element[i]=v.element[i].add(element[i][k].multiply(v2.element[k]));
                 }
@@ -163,7 +163,7 @@ public class NumericMatrix extends Numeric {
     }
 
     public Numeric trace() {
-        Numeric s=JSCLDouble.valueOf(0);
+        Numeric s= JsclDouble.valueOf(0);
         for(int i=0;i<n;i++) {
             s=s.add(element[i][i]);
         }
@@ -184,7 +184,7 @@ public class NumericMatrix extends Numeric {
         NumericMatrix m=(NumericMatrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<n;j++) {
-                m.element[i][j]=i==k?JSCLDouble.valueOf(j==l?1:0):element[i][j];
+                m.element[i][j]=i==k? JsclDouble.valueOf(j == l ? 1 : 0):element[i][j];
             }
         }
         return m.determinant();
@@ -192,7 +192,7 @@ public class NumericMatrix extends Numeric {
 
     public Numeric determinant() {
         if(n>1) {
-            Numeric a=JSCLDouble.valueOf(0);
+            Numeric a= JsclDouble.valueOf(0);
             for(int i=0;i<n;i++) {
                 if(element[i][0].signum()==0);
                 else {
@@ -206,7 +206,7 @@ public class NumericMatrix extends Numeric {
             }
             return a;
         } else if(n>0) return element[0][0];
-        else return JSCLDouble.valueOf(0);
+        else return JsclDouble.valueOf(0);
     }
 
     public Numeric ln() {
@@ -253,9 +253,9 @@ public class NumericMatrix extends Numeric {
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 if(i==j) {
-                    m.element[i][j]=JSCLDouble.valueOf(1);
+                    m.element[i][j]= JsclDouble.valueOf(1);
                 } else {
-                    m.element[i][j]=JSCLDouble.valueOf(0);
+                    m.element[i][j]= JsclDouble.valueOf(0);
                 }
             }
         }

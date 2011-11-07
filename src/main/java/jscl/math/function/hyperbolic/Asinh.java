@@ -1,7 +1,7 @@
 package jscl.math.function.hyperbolic;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.ArcTrigonometric;
@@ -18,7 +18,7 @@ public class Asinh extends ArcTrigonometric {
     public Generic derivative(int n) {
         return new Inv(
             new Sqrt(
-                JSCLInteger.valueOf(1).add(
+                JsclInteger.valueOf(1).add(
                     parameter[0].pow(2)
                 )
             ).evaluate()
@@ -29,7 +29,7 @@ public class Asinh extends ArcTrigonometric {
         if(parameter[0].signum()<0) {
             return new Asinh(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(0);
+            return JsclInteger.valueOf(0);
         }
         return expressionValue();
     }
@@ -38,9 +38,9 @@ public class Asinh extends ArcTrigonometric {
         return new Lg(
             new Root(
                 new Generic[] {
-                    JSCLInteger.valueOf(1),
-                    JSCLInteger.valueOf(2).multiply(parameter[0]),
-                    JSCLInteger.valueOf(-1)
+                    JsclInteger.valueOf(1),
+                    JsclInteger.valueOf(2).multiply(parameter[0]),
+                    JsclInteger.valueOf(-1)
                 },
                 0
             ).evaluateElementary()

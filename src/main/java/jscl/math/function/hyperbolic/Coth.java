@@ -1,11 +1,7 @@
 package jscl.math.function.hyperbolic;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotVariableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.math.function.Frac;
 import jscl.math.function.Lg;
 import jscl.math.function.Trigonometric;
@@ -17,14 +13,14 @@ public class Coth extends Trigonometric {
 
     public Generic antiderivative(int n) throws NotIntegrableException {
         return new Lg(
-            JSCLInteger.valueOf(4).multiply(
+            JsclInteger.valueOf(4).multiply(
                 new Sinh(parameter[0]).evaluate()
             )
         ).evaluate();
     }
 
     public Generic derivative(int n) {
-        return JSCLInteger.valueOf(1).subtract(
+        return JsclInteger.valueOf(1).subtract(
             new Coth(parameter[0]).evaluate().pow(2)
         );
     }
@@ -61,7 +57,7 @@ public class Coth extends Trigonometric {
         Generic ta=new Coth(a).evaluateSimplify();
         Generic tb=new Coth(b).evaluateSimplify();
         return new Frac(
-            ta.multiply(tb).add(JSCLInteger.valueOf(1)),
+            ta.multiply(tb).add(JsclInteger.valueOf(1)),
                         ta.add(tb)
         ).evaluateSimplify();
     }

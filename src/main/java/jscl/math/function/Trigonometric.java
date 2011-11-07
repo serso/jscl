@@ -24,15 +24,15 @@ public abstract class Trigonometric extends Function {
     public Generic identity() {
 //      Generic a[]=parameter[0].sumValue();
 //      if(a.length>1) {
-//          Generic s=JSCLInteger.valueOf(0);
+//          Generic s=JsclInteger.valueOf(0);
 //          for(int i=1;i<a.length;i++) s=s.add(a[i]);
 //          return identity(a[0],s);
 //      }
 //      Generic n[]=Frac.separateCoefficient(parameter[0]);
-//      if(n[0].compareTo(JSCLInteger.valueOf(1))==0);
+//      if(n[0].compareTo(JsclInteger.valueOf(1))==0);
 //      else {
 //          Generic s=new Frac(n[2],n[1]).evaluateSimplify();
-//          return identity(s,n[0].subtract(JSCLInteger.valueOf(1)).multiply(s));
+//          return identity(s,n[0].subtract(JsclInteger.valueOf(1)).multiply(s));
 //      }
         return expressionValue();
     }

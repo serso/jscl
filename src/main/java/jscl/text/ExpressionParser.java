@@ -1,19 +1,6 @@
 package jscl.text;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.Variable;
-import jscl.math.function.Frac;
-import jscl.math.function.Inv;
-import jscl.math.function.Pow;
-import jscl.math.operator.Factorial;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class ExpressionParser implements Parser<Generic> {

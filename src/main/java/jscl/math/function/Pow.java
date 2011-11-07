@@ -1,16 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.AntiDerivative;
-import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotPowerException;
-import jscl.math.NotVariableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Power;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public class Pow extends Algebraic {
@@ -28,8 +19,8 @@ public class Pow extends Algebraic {
                     if(d>0) {
                         Generic a[]=new Generic[d+1];
                         a[0]=parameter[0].negate();
-                        for(int i=1;i<d;i++) a[i]=JSCLInteger.valueOf(0);
-                        a[d]=JSCLInteger.valueOf(1);
+                        for(int i=1;i<d;i++) a[i]= JsclInteger.valueOf(0);
+                        a[d]= JsclInteger.valueOf(1);
                         return new Root(a,0);
                     }
                 } catch (NotIntegerException e) {}
@@ -51,7 +42,7 @@ public class Pow extends Algebraic {
 
     public Generic antiderivative(int n) throws NotIntegrableException {
         if(n==0) {
-            return new Pow(parameter[0],parameter[1].add(JSCLInteger.valueOf(1))).evaluate().multiply(new Inv(parameter[1].add(JSCLInteger.valueOf(1))).evaluate());
+            return new Pow(parameter[0],parameter[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inv(parameter[1].add(JsclInteger.valueOf(1))).evaluate());
         } else {
             return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Inv(new Lg(parameter[0]).evaluate()).evaluate());
         }
@@ -59,15 +50,15 @@ public class Pow extends Algebraic {
 
     public Generic derivative(int n) {
         if(n==0) {
-            return new Pow(parameter[0],parameter[1].subtract(JSCLInteger.valueOf(1))).evaluate().multiply(parameter[1]);
+            return new Pow(parameter[0],parameter[1].subtract(JsclInteger.valueOf(1))).evaluate().multiply(parameter[1]);
         } else {
             return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Lg(parameter[0]).evaluate());
         }
     }
 
     public Generic evaluate() {
-        if(parameter[0].compareTo(JSCLInteger.valueOf(1))==0) {
-            return JSCLInteger.valueOf(1);
+        if(parameter[0].compareTo(JsclInteger.valueOf(1))==0) {
+            return JsclInteger.valueOf(1);
         }
         if(parameter[1].signum()<0) {
             return new Pow(new Inv(parameter[0]).evaluate(),parameter[1].negate()).evaluate();
@@ -82,7 +73,7 @@ public class Pow extends Algebraic {
             Generic g[]=r.parameters();
             Generic a=g[0].negate();
             try {
-                JSCLInteger en=a.integerValue();
+                JsclInteger en=a.integerValue();
                 if(en.signum()<0);
                 else {
                     Generic rt=en.nthrt(d);
@@ -104,8 +95,8 @@ public class Pow extends Algebraic {
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].compareTo(JSCLInteger.valueOf(1))==0) {
-            return JSCLInteger.valueOf(1);
+        if(parameter[0].compareTo(JsclInteger.valueOf(1))==0) {
+            return JsclInteger.valueOf(1);
         }
         if(parameter[1].signum()<0) {
             return new Pow(new Inv(parameter[0]).evaluateSimplify(),parameter[1].negate()).evaluateSimplify();
@@ -120,7 +111,7 @@ public class Pow extends Algebraic {
             Generic g[]=r.parameters();
             Generic a=g[0].negate();
             try {
-                JSCLInteger en=a.integerValue();
+                JsclInteger en=a.integerValue();
                 if(en.signum()<0);
                 else {
                     Generic rt=en.nthrt(d);
@@ -133,11 +124,11 @@ public class Pow extends Algebraic {
                 case 3:
                 case 4:
                 case 6:
-                    if(a.compareTo(JSCLInteger.valueOf(-1))==0) return root_minus_1(d);
+                    if(a.compareTo(JsclInteger.valueOf(-1))==0) return root_minus_1(d);
             }
         } catch (NotRootException e) {
             Generic n[]=Frac.separateCoefficient(parameter[1]);
-            if(n[0].compareTo(JSCLInteger.valueOf(1))==0 && n[1].compareTo(JSCLInteger.valueOf(1))==0);
+            if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
             else return new Pow(
                 new Pow(
                     new Pow(
@@ -157,15 +148,15 @@ public class Pow extends Algebraic {
     static Generic root_minus_1(int d) {
         switch(d) {
             case 1:
-                return JSCLInteger.valueOf(-1);
+                return JsclInteger.valueOf(-1);
             case 2:
                 return Constant.i;
             case 3:
                 return Constant.jbar.negate();
             case 4:
-                return new Sqrt(Constant.half).expressionValue().multiply(JSCLInteger.valueOf(1).add(Constant.i));
+                return new Sqrt(Constant.half).expressionValue().multiply(JsclInteger.valueOf(1).add(Constant.i));
             case 6:
-                return Constant.half.multiply(new Sqrt(JSCLInteger.valueOf(3)).expressionValue().add(Constant.i));
+                return Constant.half.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue().add(Constant.i));
             default:
                 return null;
         }
@@ -178,7 +169,7 @@ public class Pow extends Algebraic {
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         try {
-            JSCLInteger en=parameter[0].integerValue();
+            JsclInteger en=parameter[0].integerValue();
             if(en.signum()<0) buffer.append(GenericVariable.valueOf(en,true));
             else buffer.append(en);
         } catch (NotIntegerException e) {
@@ -199,7 +190,7 @@ public class Pow extends Algebraic {
         }
         buffer.append("^");
         try {
-            JSCLInteger en=parameter[1].integerValue();
+            JsclInteger en=parameter[1].integerValue();
             buffer.append(en);
         } catch (NotIntegerException e) {
             try {

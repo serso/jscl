@@ -1,7 +1,7 @@
 package jscl.math.function.hyperbolic;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.NotVariableException;
 import jscl.math.NumericWrapper;
@@ -27,7 +27,7 @@ public class Cosh extends Trigonometric {
         if(parameter[0].signum()<0) {
             return new Cosh(parameter[0].negate()).evaluate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(1);
+            return JsclInteger.valueOf(1);
         }
         return expressionValue();
     }
@@ -46,7 +46,7 @@ public class Cosh extends Trigonometric {
         if(parameter[0].signum()<0) {
             return new Cosh(parameter[0].negate()).evaluate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(1);
+            return JsclInteger.valueOf(1);
         }
         try {
             Variable v=parameter[0].variableValue();

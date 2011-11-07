@@ -1,13 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotVariableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Power;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 
 public class Lg extends Function {
 	public Lg(Generic generic) {
@@ -23,8 +17,8 @@ public class Lg extends Function {
 	}
 
 	public Generic evaluate() {
-		if (parameter[0].compareTo(JSCLInteger.valueOf(1)) == 0) {
-			return JSCLInteger.valueOf(0);
+		if (parameter[0].compareTo(JsclInteger.valueOf(1)) == 0) {
+			return JsclInteger.valueOf(0);
 		}
 		return expressionValue();
 	}
@@ -36,15 +30,15 @@ public class Lg extends Function {
 	public Generic evaluateSimplify() {
 		// todo serso: check simplify (was just copied from Ln)
 		try {
-			JSCLInteger en = parameter[0].integerValue();
+			JsclInteger en = parameter[0].integerValue();
 			if (en.signum() < 0) return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).evaluateSimplify());
 			else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();
-				Generic s = JSCLInteger.valueOf(0);
+				Generic s = JsclInteger.valueOf(0);
 				for (int i = 0; i < p.length; i++) {
 					Power o = p[i].powerValue();
-					s = s.add(JSCLInteger.valueOf(o.exponent()).multiply(new Lg(o.value(true)).expressionValue()));
+					s = s.add(JsclInteger.valueOf(o.exponent()).multiply(new Lg(o.value(true)).expressionValue()));
 				}
 				return s;
 			}
@@ -59,7 +53,7 @@ public class Lg extends Function {
 		} catch (NotVariableException e) {
 		}
 		Generic n[] = Frac.separateCoefficient(parameter[0]);
-		if (n[0].compareTo(JSCLInteger.valueOf(1)) == 0 && n[1].compareTo(JSCLInteger.valueOf(1)) == 0) ;
+		if (n[0].compareTo(JsclInteger.valueOf(1)) == 0 && n[1].compareTo(JsclInteger.valueOf(1)) == 0) ;
 		else return new Lg(n[2]).evaluateSimplify().add(
 				new Lg(n[0]).evaluateSimplify()
 		).subtract(

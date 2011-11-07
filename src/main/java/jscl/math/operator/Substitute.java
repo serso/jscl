@@ -2,7 +2,7 @@ package jscl.math.operator;
 
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 
 public class Substitute extends Operator {
@@ -11,10 +11,10 @@ public class Substitute extends Operator {
     }
 
     public Generic compute() {
-        if(parameter[1] instanceof JSCLVector && parameter[2] instanceof JSCLVector) {
+        if(parameter[1] instanceof JsclVector && parameter[2] instanceof JsclVector) {
             Generic a=parameter[0];
             Variable variable[]=variables(parameter[1]);
-            Generic s[]=((JSCLVector)parameter[2]).elements();
+            Generic s[]=((JsclVector)parameter[2]).elements();
             for(int i=0;i<variable.length;i++) a=a.substitute(variable[i],s[i]);
             return a;
         } else {
@@ -25,7 +25,7 @@ public class Substitute extends Operator {
 
     public Operator transmute() {
         Generic p[]=new Generic[] {null,GenericVariable.content(parameter[1]),GenericVariable.content(parameter[2])};
-        if(p[1] instanceof JSCLVector && p[2] instanceof JSCLVector) {
+        if(p[1] instanceof JsclVector && p[2] instanceof JsclVector) {
             return new Substitute(parameter[0],p[1],p[2]);
         }
         return this;

@@ -6,7 +6,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.Literal;
 
 final class TreePolynomial extends Polynomial {
@@ -101,7 +101,7 @@ final class TreePolynomial extends Polynomial {
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {
         if(generic.signum()==0) return this;
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return subtract(polynomial);
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return subtract(polynomial);
         if(mutable) {
             TreePolynomial q=(TreePolynomial)polynomial;
             Iterator it=q.content.entrySet().iterator();
@@ -142,8 +142,8 @@ final class TreePolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JSCLInteger.valueOf(0));
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return this;
+        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         if(mutable) {
             Iterator it=content.entrySet().iterator();
             while(it.hasNext()) {
@@ -185,7 +185,7 @@ final class TreePolynomial extends Polynomial {
     }
 
     public Polynomial divide(Generic generic) throws ArithmeticException {
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return this;
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         if(mutable) {
             Iterator it=content.entrySet().iterator();
             while(it.hasNext()) {
@@ -251,7 +251,7 @@ final class TreePolynomial extends Polynomial {
 
     public Generic coefficient(Monomial monomial) {
         Generic a=(Generic)content.get(monomial);
-        return a==null?coefficient(JSCLInteger.valueOf(0)):a;
+        return a==null?coefficient(JsclInteger.valueOf(0)):a;
     }
 
     void init(Polynomial polynomial) {
@@ -266,7 +266,7 @@ final class TreePolynomial extends Polynomial {
         int n=expression.size();
         for(int i=0;i<n;i++) {
             Literal l=expression.literal(i);
-            JSCLInteger en=expression.coef(i);
+            JsclInteger en=expression.coef(i);
             Monomial m=monomial(l);
             l=l.divide(m.literalValue());
             Generic a2=coefficient(l.degree()>0?en.multiply(Expression.valueOf(l)):en);
@@ -292,7 +292,7 @@ final class TreePolynomial extends Polynomial {
     }
 
     void init(Monomial monomial) {
-        content.put(monomial,coefficient(JSCLInteger.valueOf(1)));
+        content.put(monomial,coefficient(JsclInteger.valueOf(1)));
         degree=monomial.degree();
         sugar=monomial.degree();
     }

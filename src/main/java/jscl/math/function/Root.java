@@ -1,13 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.AntiDerivative;
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NumericWrapper;
-import jscl.math.TechnicalVariable;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
@@ -22,7 +16,7 @@ public class Root extends Algebraic {
     }
 
     public Root(Generic parameter[], int s) {
-        this(parameter, JSCLInteger.valueOf(s));
+        this(parameter, JsclInteger.valueOf(s));
     }
 
     public Root(UnivariatePolynomial polynomial, int s) {
@@ -46,7 +40,7 @@ public class Root extends Algebraic {
     }
 
     public Generic derivative(Variable variable) {
-        if(compareTo(variable)==0) return JSCLInteger.valueOf(1);
+        if(compareTo(variable)==0) return JsclInteger.valueOf(1);
         else {
             Variable t=new TechnicalVariable("t");
             Generic a[]=new Generic[parameter.length];
@@ -119,7 +113,7 @@ public class Root extends Algebraic {
     }
 
     public Generic evaluate() {
-        if(isZero()) return JSCLInteger.valueOf(0);
+        if(isZero()) return JsclInteger.valueOf(0);
         try {
             int s=subscript.integerValue().intValue();
             switch(degree()) {
@@ -135,7 +129,7 @@ public class Root extends Algebraic {
     }
 
     public Generic evaluateSimplify() {
-        if(isZero()) return JSCLInteger.valueOf(0);
+        if(isZero()) return JsclInteger.valueOf(0);
         try {
             int s=subscript.integerValue().intValue();
             switch(degree()) {
@@ -173,7 +167,7 @@ public class Root extends Algebraic {
         Generic a=new Frac(parameter[0],parameter[degree]).evaluateSimplify();
         return new Pow(
             a.negate(),
-            new Inv(JSCLInteger.valueOf(degree)).evaluateSimplify()
+            new Inv(JsclInteger.valueOf(degree)).evaluateSimplify()
         ).evaluateSimplify();
     }
 
@@ -186,18 +180,18 @@ public class Root extends Algebraic {
         Generic a=new Frac(parameter[1],parameter[2]).evaluateSimplify();
         Generic b=new Frac(parameter[0],parameter[2]).evaluateSimplify();
         Generic y=new Sqrt(
-            a.pow(2).subtract(JSCLInteger.valueOf(4).multiply(b))
+            a.pow(2).subtract(JsclInteger.valueOf(4).multiply(b))
         ).evaluateSimplify();
         switch(subscript) {
         case 0:
             return new Frac(
                 a.subtract(y),
-                JSCLInteger.valueOf(2)
+                JsclInteger.valueOf(2)
             ).evaluateSimplify().negate();
         default:
             return new Frac(
                 a.add(y),
-                JSCLInteger.valueOf(2)
+                JsclInteger.valueOf(2)
             ).evaluateSimplify().negate();
         }
     }
@@ -211,9 +205,9 @@ public class Root extends Algebraic {
             y[i]=new Cubic(
                 new Root(
                     new Generic[] {
-                        a.pow(6).subtract(JSCLInteger.valueOf(9).multiply(a.pow(4)).multiply(b)).add(JSCLInteger.valueOf(27).multiply(a.pow(2)).multiply(b.pow(2))).subtract(JSCLInteger.valueOf(27).multiply(b.pow(3))),
-                        JSCLInteger.valueOf(2).multiply(a.pow(3)).subtract(JSCLInteger.valueOf(9).multiply(a).multiply(b)).add(JSCLInteger.valueOf(27).multiply(c)),
-                        JSCLInteger.valueOf(1)
+                        a.pow(6).subtract(JsclInteger.valueOf(9).multiply(a.pow(4)).multiply(b)).add(JsclInteger.valueOf(27).multiply(a.pow(2)).multiply(b.pow(2))).subtract(JsclInteger.valueOf(27).multiply(b.pow(3))),
+                        JsclInteger.valueOf(2).multiply(a.pow(3)).subtract(JsclInteger.valueOf(9).multiply(a).multiply(b)).add(JsclInteger.valueOf(27).multiply(c)),
+                        JsclInteger.valueOf(1)
                     },
                     i
                 ).evaluateSimplify()
@@ -223,17 +217,17 @@ public class Root extends Algebraic {
         case 0:
             return new Frac(
                 a.subtract(y[0]).subtract(y[1]),
-                JSCLInteger.valueOf(3)
+                JsclInteger.valueOf(3)
             ).evaluateSimplify().negate();
         case 1:
             return new Frac(
                 a.subtract(Constant.j.multiply(y[0])).subtract(Constant.jbar.multiply(y[1])),
-                JSCLInteger.valueOf(3)
+                JsclInteger.valueOf(3)
             ).evaluateSimplify().negate();
         default:
             return new Frac(
                 a.subtract(Constant.jbar.multiply(y[0])).subtract(Constant.j.multiply(y[1])),
-                JSCLInteger.valueOf(3)
+                JsclInteger.valueOf(3)
             ).evaluateSimplify().negate();
         }
     }
@@ -248,10 +242,10 @@ public class Root extends Algebraic {
             y[i]=new Sqrt(
                 new Root(
                     new Generic[] {
-                        a.pow(6).subtract(JSCLInteger.valueOf(8).multiply(a.pow(4)).multiply(b)).add(JSCLInteger.valueOf(16).multiply(a.pow(2)).multiply(b.pow(2))).add(JSCLInteger.valueOf(16).multiply(a.pow(3)).multiply(c)).subtract(JSCLInteger.valueOf(64).multiply(a).multiply(b).multiply(c)).add(JSCLInteger.valueOf(64).multiply(c.pow(2))),
-                        JSCLInteger.valueOf(-3).multiply(a.pow(4)).add(JSCLInteger.valueOf(16).multiply(a.pow(2)).multiply(b)).subtract(JSCLInteger.valueOf(16).multiply(b.pow(2))).subtract(JSCLInteger.valueOf(16).multiply(a).multiply(c)).add(JSCLInteger.valueOf(64).multiply(d)),
-                        JSCLInteger.valueOf(3).multiply(a.pow(2)).subtract(JSCLInteger.valueOf(8).multiply(b)),
-                        JSCLInteger.valueOf(-1)
+                        a.pow(6).subtract(JsclInteger.valueOf(8).multiply(a.pow(4)).multiply(b)).add(JsclInteger.valueOf(16).multiply(a.pow(2)).multiply(b.pow(2))).add(JsclInteger.valueOf(16).multiply(a.pow(3)).multiply(c)).subtract(JsclInteger.valueOf(64).multiply(a).multiply(b).multiply(c)).add(JsclInteger.valueOf(64).multiply(c.pow(2))),
+                        JsclInteger.valueOf(-3).multiply(a.pow(4)).add(JsclInteger.valueOf(16).multiply(a.pow(2)).multiply(b)).subtract(JsclInteger.valueOf(16).multiply(b.pow(2))).subtract(JsclInteger.valueOf(16).multiply(a).multiply(c)).add(JsclInteger.valueOf(64).multiply(d)),
+                        JsclInteger.valueOf(3).multiply(a.pow(2)).subtract(JsclInteger.valueOf(8).multiply(b)),
+                        JsclInteger.valueOf(-1)
                     },
                     i
                 ).evaluateSimplify()
@@ -261,22 +255,22 @@ public class Root extends Algebraic {
         case 0:
             return new Frac(
                 a.add(y[0]).subtract(y[1]).subtract(y[2]),
-                JSCLInteger.valueOf(4)
+                JsclInteger.valueOf(4)
             ).evaluateSimplify().negate();
         case 1:
             return new Frac(
                 a.subtract(y[0]).subtract(y[1]).add(y[2]),
-                JSCLInteger.valueOf(4)
+                JsclInteger.valueOf(4)
             ).evaluateSimplify().negate();
         case 2:
             return new Frac(
                 a.add(y[0]).add(y[1]).add(y[2]),
-                JSCLInteger.valueOf(4)
+                JsclInteger.valueOf(4)
             ).evaluateSimplify().negate();
         default:
             return new Frac(
                 a.subtract(y[0]).add(y[1]).subtract(y[2]),
-                JSCLInteger.valueOf(4)
+                JsclInteger.valueOf(4)
             ).evaluateSimplify().negate();
         }
     }
@@ -378,7 +372,7 @@ class Sigma {
     }
 
     void compute() {
-        generic=JSCLInteger.valueOf(0);
+        generic= JsclInteger.valueOf(0);
         compute(0,n);
     }
 
@@ -390,7 +384,7 @@ class Sigma {
                 place[i]=false;
             }
         } else {
-            Generic s=JSCLInteger.valueOf(1);
+            Generic s= JsclInteger.valueOf(1);
             for(int i=0;i<root.length;i++) {
                 if(place[i]) s=s.multiply(root[i]);
             }

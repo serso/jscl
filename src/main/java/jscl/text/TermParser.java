@@ -2,10 +2,9 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,7 +19,7 @@ class TermParser implements Parser {
 	}
 
 	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		Generic a = JSCLInteger.valueOf(1);
+		Generic a = JsclInteger.valueOf(1);
 		Generic s = (Generic) UnsignedFactor.parser.parse(string, position);
 
 		while (true) {
@@ -31,7 +30,7 @@ class TermParser implements Parser {
 			} catch (ParseException e) {
 				try {
 					Generic b = (Generic) MultiplyOrDivideFactor.divide.parse(string, position);
-					if (s.compareTo(JSCLInteger.valueOf(1)) == 0)
+					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
 						s = new Inv(GenericVariable.content(b, true)).expressionValue();
 					else
 						s = new Frac(GenericVariable.content(s, true), GenericVariable.content(b, true)).expressionValue();

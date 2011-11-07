@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.Literal;
 import jscl.util.ArrayUtils;
 
@@ -115,7 +115,7 @@ final class ListPolynomial extends Polynomial {
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {
         if(generic.signum()==0) return this;
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return subtract(polynomial);
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return subtract(polynomial);
         if(mutable) {
             ListPolynomial q=(ListPolynomial)polynomial;
             ListIterator it1=content.listIterator(content.size());
@@ -181,8 +181,8 @@ final class ListPolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JSCLInteger.valueOf(0));
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return this;
+        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         if(mutable) {
             ListIterator it=content.listIterator();
             while(it.hasNext()) it.set(((Term)it.next()).multiply(generic));
@@ -204,7 +204,7 @@ final class ListPolynomial extends Polynomial {
     }
 
     public Polynomial divide(Generic generic) throws ArithmeticException {
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return this;
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         if(mutable) {
             ListIterator it=content.listIterator();
             while(it.hasNext()) it.set(((Term)it.next()).divide(generic));
@@ -277,7 +277,7 @@ final class ListPolynomial extends Polynomial {
         int n=expression.size();
         for(int i=0;i<n;i++) {
             Literal l=expression.literal(i);
-            JSCLInteger en=expression.coef(i);
+            JsclInteger en=expression.coef(i);
             Monomial m=monomial(l);
             l=l.divide(m.literalValue());
             Generic a2=coefficient(l.degree()>0?en.multiply(Expression.valueOf(l)):en);
@@ -313,7 +313,7 @@ final class ListPolynomial extends Polynomial {
     }
 
     void init(Monomial monomial) {
-        content.add(new Term(monomial,coefficient(JSCLInteger.valueOf(1))));
+        content.add(new Term(monomial,coefficient(JsclInteger.valueOf(1))));
         degree=monomial.degree();
         sugar=monomial.degree();
     }

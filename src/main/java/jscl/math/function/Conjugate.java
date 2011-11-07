@@ -1,15 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.JSCLVector;
-import jscl.math.Matrix;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotVariableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Power;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public class Conjugate extends Function {
@@ -22,7 +14,7 @@ public class Conjugate extends Function {
     }
 
     public Generic derivative(int n) {
-        return JSCLInteger.valueOf(1);
+        return JsclInteger.valueOf(1);
     }
 
     public Generic evaluate() {
@@ -31,8 +23,8 @@ public class Conjugate extends Function {
         } catch (NotIntegerException e) {}
         if(parameter[0] instanceof Matrix) {
             return ((Matrix)parameter[0]).conjugate();
-        } else if(parameter[0] instanceof JSCLVector) {
-            return ((JSCLVector)parameter[0]).conjugate();
+        } else if(parameter[0] instanceof JsclVector) {
+            return ((JsclVector)parameter[0]).conjugate();
         }
         return expressionValue();
     }
@@ -68,14 +60,14 @@ public class Conjugate extends Function {
         } catch (NotVariableException e) {
             Generic a[]=parameter[0].sumValue();
             if(a.length>1) {
-                Generic s=JSCLInteger.valueOf(0);
+                Generic s= JsclInteger.valueOf(0);
                 for(int i=0;i<a.length;i++) {
                     s=s.add(new Conjugate(a[i]).evaluateSimplify());
                 }
                 return s;
             } else {
                 Generic p[]=a[0].productValue();
-                Generic s=JSCLInteger.valueOf(1);
+                Generic s= JsclInteger.valueOf(1);
                 for(int i=0;i<p.length;i++) {
                     Power o=p[i].powerValue();
                     s=s.multiply(new Conjugate(o.value()).evaluateSimplify().pow(o.exponent()));
@@ -84,7 +76,7 @@ public class Conjugate extends Function {
             }
         }
         Generic n[]=Frac.separateCoefficient(parameter[0]);
-        if(n[0].compareTo(JSCLInteger.valueOf(1))==0 && n[1].compareTo(JSCLInteger.valueOf(1))==0);
+        if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Conjugate(n[2]).evaluateSimplify().multiply(
             new Frac(n[0],n[1]).evaluateSimplify()
         );

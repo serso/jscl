@@ -1,11 +1,7 @@
 package jscl.text;
 
-import jscl.math.ExpressionVariable;
-import jscl.math.Generic;
 import jscl.math.NumericWrapper;
-import jscl.math.Variable;
-import jscl.math.numeric.JSCLDouble;
-import jscl.text.MutableInt;
+import jscl.math.numeric.JsclDouble;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,7 +22,7 @@ public class DoubleParser implements Parser<NumericWrapper> {
 	@NotNull
 	public NumericWrapper parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
 		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
-		return new NumericWrapper(JSCLDouble.valueOf(multiTryParser.parse(string, position)));
+		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(string, position)));
 	}
 }
 

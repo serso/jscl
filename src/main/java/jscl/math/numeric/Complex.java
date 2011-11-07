@@ -15,7 +15,7 @@ public final class Complex extends Numeric {
 	public Numeric add(Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return add((Complex) numeric);
-		} else if (numeric instanceof JSCLDouble) {
+		} else if (numeric instanceof JsclDouble) {
 			return add(valueof(numeric));
 		} else {
 			return numeric.valueof(this).add(numeric);
@@ -29,7 +29,7 @@ public final class Complex extends Numeric {
 	public Numeric subtract(Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return subtract((Complex) numeric);
-		} else if (numeric instanceof JSCLDouble) {
+		} else if (numeric instanceof JsclDouble) {
 			return subtract(valueof(numeric));
 		} else {
 			return numeric.valueof(this).subtract(numeric);
@@ -43,7 +43,7 @@ public final class Complex extends Numeric {
 	public Numeric multiply(Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return multiply((Complex) numeric);
-		} else if (numeric instanceof JSCLDouble) {
+		} else if (numeric instanceof JsclDouble) {
 			return multiply(valueof(numeric));
 		} else {
 			return numeric.multiply(this);
@@ -57,7 +57,7 @@ public final class Complex extends Numeric {
 	public Numeric divide(Numeric numeric) throws ArithmeticException {
 		if (numeric instanceof Complex) {
 			return divide((Complex) numeric);
-		} else if (numeric instanceof JSCLDouble) {
+		} else if (numeric instanceof JsclDouble) {
 			return divide(valueof(numeric));
 		} else {
 			return numeric.valueof(this).divide(numeric);
@@ -70,8 +70,8 @@ public final class Complex extends Numeric {
 
 	@Override
 	public Numeric abs() {
-		final Numeric realSquare = new JSCLDouble(real).pow(2);
-		final Numeric imagSquare = new JSCLDouble(imag).pow(2);
+		final Numeric realSquare = new JsclDouble(real).pow(2);
+		final Numeric imagSquare = new JsclDouble(imag).pow(2);
 		final Numeric sum = realSquare.add(imagSquare);
 		return sum.sqrt();
 	}
@@ -84,7 +84,7 @@ public final class Complex extends Numeric {
 		} else if (real < .0) {
 			result = -1;
 		} else {
-			result = JSCLDouble.signum(imag);
+			result = JsclDouble.signum(imag);
 		}
 
 		return result;
@@ -97,8 +97,8 @@ public final class Complex extends Numeric {
 	public Numeric valueof(Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return valueof((Complex) numeric);
-		} else if (numeric instanceof JSCLDouble) {
-			JSCLDouble d = (JSCLDouble) numeric;
+		} else if (numeric instanceof JsclDouble) {
+			JsclDouble d = (JsclDouble) numeric;
 			return new Complex(d.content, 0.);
 		} else throw new ArithmeticException();
 	}
@@ -117,7 +117,7 @@ public final class Complex extends Numeric {
 
 	public Numeric ln() {
 		if (signum() == 0) {
-			return JSCLDouble.valueOf(0).ln();
+			return JsclDouble.valueOf(0).ln();
 		} else {
 			return new Complex(Math.log(magnitude()), angle());
 		}
@@ -125,7 +125,7 @@ public final class Complex extends Numeric {
 
 	public Numeric lg() {
 		if (signum() == 0) {
-			return JSCLDouble.valueOf(0).lg();
+			return JsclDouble.valueOf(0).lg();
 		} else {
 			return new Complex(Math.log10(magnitude()), angle());
 		}
@@ -173,7 +173,7 @@ public final class Complex extends Numeric {
 	public int compareTo(Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return compareTo((Complex) numeric);
-		} else if (numeric instanceof JSCLDouble) {
+		} else if (numeric instanceof JsclDouble) {
 			return compareTo(valueof(numeric));
 		} else {
 			return numeric.valueof(this).compareTo(numeric);

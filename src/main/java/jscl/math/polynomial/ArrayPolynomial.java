@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.Literal;
 
 final class ArrayPolynomial extends Polynomial {
@@ -106,7 +106,7 @@ final class ArrayPolynomial extends Polynomial {
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {
         if(generic.signum()==0) return this;
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return subtract(polynomial);
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return subtract(polynomial);
         ArrayPolynomial q=(ArrayPolynomial)polynomial;
         ArrayPolynomial p=newinstance(size+q.size);
         int i=p.size;
@@ -168,7 +168,7 @@ final class ArrayPolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Polynomial polynomial) {
-        Polynomial p=valueof(JSCLInteger.valueOf(0));
+        Polynomial p=valueof(JsclInteger.valueOf(0));
         for(int i=0;i<size;i++) {
             Term t=content[i];
             p=p.multiplyAndSubtract(t.monomial(),t.coef().negate(),polynomial);
@@ -177,8 +177,8 @@ final class ArrayPolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JSCLInteger.valueOf(0));
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return this;
+        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         ArrayPolynomial p=newinstance(size);
         for(int i=0;i<size;i++) p.content[i]=content[i].multiply(generic);
         p.degree=degree;
@@ -197,7 +197,7 @@ final class ArrayPolynomial extends Polynomial {
     }
 
     public Polynomial divide(Generic generic) throws ArithmeticException {
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return this;
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         ArrayPolynomial p=newinstance(size);
         for(int i=0;i<size;i++) p.content[i]=content[i].divide(generic);
         p.degree=degree;
@@ -220,7 +220,7 @@ final class ArrayPolynomial extends Polynomial {
 
     public Generic gcd() {
         if(field) return coefficient(tail());
-        Generic a=coefficient(JSCLInteger.valueOf(0));
+        Generic a=coefficient(JsclInteger.valueOf(0));
         for(int i=size-1;i>=0;i--) a=a.gcd(content[i].coef());
         return a.signum()==signum()?a:a.negate();
     }
@@ -278,7 +278,7 @@ final class ArrayPolynomial extends Polynomial {
         int n=expression.size();
         for(int i=0;i<n;i++) {
             Literal l=expression.literal(i);
-            JSCLInteger en=expression.coef(i);
+            JsclInteger en=expression.coef(i);
             Monomial m=monomial(l);
             l=l.divide(m.literalValue());
             Generic a2=coefficient(l.degree()>0?en.multiply(Expression.valueOf(l)):en);
@@ -317,7 +317,7 @@ final class ArrayPolynomial extends Polynomial {
 
     void init(Monomial monomial) {
         init(1);
-        content[0]=new Term(monomial,coefficient(JSCLInteger.valueOf(1)));
+        content[0]=new Term(monomial,coefficient(JsclInteger.valueOf(1)));
         degree=monomial.degree();
         sugar=monomial.degree();
     }

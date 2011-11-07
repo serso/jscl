@@ -1,7 +1,7 @@
 package jscl.math;
 
 import jscl.math.function.Constant;
-import jscl.math.numeric.JSCLDouble;
+import jscl.math.numeric.JsclDouble;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.NumericMatrix;
 import jscl.math.numeric.NumericVector;
@@ -10,15 +10,15 @@ import jscl.mathml.MathML;
 public final class NumericWrapper extends Generic {
     final Numeric content;
 
-    public NumericWrapper(JSCLInteger integer) {
-        content=JSCLDouble.valueOf(integer.content().doubleValue());
+    public NumericWrapper(JsclInteger integer) {
+        content= JsclDouble.valueOf(integer.content().doubleValue());
     }
 
     public NumericWrapper(Rational rational) {
-        content=JSCLDouble.valueOf(rational.numerator().doubleValue()/rational.denominator().doubleValue());
+        content= JsclDouble.valueOf(rational.numerator().doubleValue() / rational.denominator().doubleValue());
     }
 
-    public NumericWrapper(JSCLVector vector) {
+    public NumericWrapper(JsclVector vector) {
         Numeric v[]=new Numeric[vector.n];
         for(int i=0;i<vector.n;i++) v[i]=((NumericWrapper)vector.element[i].numeric()).content();
         content=new NumericVector(v);
@@ -35,8 +35,8 @@ public final class NumericWrapper extends Generic {
     }
 
     public NumericWrapper(Constant constant) {
-        if(constant.compareTo(new Constant("pi"))==0) content=JSCLDouble.valueOf(Math.PI);
-        else if(constant.compareTo(new Constant("infin"))==0) content=JSCLDouble.valueOf(Double.POSITIVE_INFINITY);
+        if(constant.compareTo(new Constant("pi"))==0) content= JsclDouble.valueOf(Math.PI);
+        else if(constant.compareTo(new Constant("infin"))==0) content= JsclDouble.valueOf(Double.POSITIVE_INFINITY);
         else throw new ArithmeticException();
     }
 
@@ -159,8 +159,8 @@ public final class NumericWrapper extends Generic {
     public Generic valueOf(Generic generic) {
         if(generic instanceof NumericWrapper) {
             return valueof((NumericWrapper)generic);
-        } else if(generic instanceof JSCLInteger) {
-            return new NumericWrapper((JSCLInteger)generic);
+        } else if(generic instanceof JsclInteger) {
+            return new NumericWrapper((JsclInteger)generic);
         } else throw new ArithmeticException();
     }
 
@@ -180,10 +180,10 @@ public final class NumericWrapper extends Generic {
         throw new NotExpressionException();
     }
 
-	public JSCLInteger integerValue() throws NotIntegerException {
-		if (content instanceof JSCLDouble) {
+	public JsclInteger integerValue() throws NotIntegerException {
+		if (content instanceof JsclDouble) {
 			// todo serso: check if it is correct to cast double to integer
-			return JSCLInteger.valueOf((int) ((JSCLDouble) content).doubleValue());
+			return JsclInteger.valueOf((int) ((JsclDouble) content).doubleValue());
 		} else {
 			throw new NotIntegerException();
 		}
@@ -191,8 +191,8 @@ public final class NumericWrapper extends Generic {
 
 	@Override
 	public boolean isInteger() {
-		if ( content instanceof JSCLDouble ) {
-			double value = ((JSCLDouble) content).doubleValue();
+		if ( content instanceof JsclDouble) {
+			double value = ((JsclDouble) content).doubleValue();
 			return Math.floor(value) == value;
 		}
 		return false;
@@ -333,7 +333,7 @@ public final class NumericWrapper extends Generic {
     }
 
     public String toJava() {
-        return "JSCLDouble.valueOf("+new Double(((JSCLDouble)content).doubleValue())+")";
+        return "JsclDouble.valueOf("+new Double(((JsclDouble)content).doubleValue())+")";
     }
 
     public void toMathML(MathML element, Object data) {
@@ -351,7 +351,7 @@ public final class NumericWrapper extends Generic {
 
     void bodyToMathML(MathML element) {
         MathML e1=element.element("mn");
-        e1.appendChild(element.text(String.valueOf(new Double(((JSCLDouble)content).doubleValue()))));
+        e1.appendChild(element.text(String.valueOf(new Double(((JsclDouble)content).doubleValue()))));
         element.appendChild(e1);
     }
 

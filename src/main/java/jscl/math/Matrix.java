@@ -58,7 +58,7 @@ public class Matrix extends Generic {
     }
 
     public static boolean product(Generic a, Generic b) {
-        return (a instanceof Matrix && b instanceof Matrix) || (a instanceof Matrix && b instanceof JSCLVector) || (a instanceof JSCLVector && b instanceof Matrix);
+        return (a instanceof Matrix && b instanceof Matrix) || (a instanceof Matrix && b instanceof JsclVector) || (a instanceof JsclVector && b instanceof Matrix);
     }
 
     public Matrix multiply(Matrix matrix) {
@@ -66,7 +66,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance(new Generic[n][matrix.p]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<matrix.p;j++) {
-                m.element[i][j]=JSCLInteger.valueOf(0);
+                m.element[i][j]= JsclInteger.valueOf(0);
                 for(int k=0;k<p;k++) {
                     m.element[i][j]=m.element[i][j].add(element[i][k].multiply(matrix.element[k][j]));
                 }
@@ -78,12 +78,12 @@ public class Matrix extends Generic {
     public Generic multiply(Generic generic) {
         if(generic instanceof Matrix) {
             return multiply((Matrix)generic);
-        } else if(generic instanceof JSCLVector) {
-            JSCLVector v=(JSCLVector)((JSCLVector)generic).newinstance(new Generic[n]);
-            JSCLVector v2=(JSCLVector)generic;
+        } else if(generic instanceof JsclVector) {
+            JsclVector v=(JsclVector)((JsclVector)generic).newinstance(new Generic[n]);
+            JsclVector v2=(JsclVector)generic;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {
-                v.element[i]=JSCLInteger.valueOf(0);
+                v.element[i]= JsclInteger.valueOf(0);
                 for(int k=0;k<p;k++) {
                     v.element[i]=v.element[i].add(element[i][k].multiply(v2.element[k]));
                 }
@@ -103,7 +103,7 @@ public class Matrix extends Generic {
     public Generic divide(Generic generic) throws ArithmeticException {
         if(generic instanceof Matrix) {
             return multiply(((Matrix)generic).inverse());
-        } else if(generic instanceof JSCLVector) {
+        } else if(generic instanceof JsclVector) {
             throw new ArithmeticException();
         } else {
             Matrix m=(Matrix)newinstance();
@@ -228,7 +228,7 @@ public class Matrix extends Generic {
     }
 
     public Generic valueOf(Generic generic) {
-        if(generic instanceof Matrix || generic instanceof JSCLVector) {
+        if(generic instanceof Matrix || generic instanceof JsclVector) {
             throw new ArithmeticException();
         } else {
             Matrix m=(Matrix)identity(n,p).multiply(generic);
@@ -252,7 +252,7 @@ public class Matrix extends Generic {
         throw new NotExpressionException();
     }
 
-    public JSCLInteger integerValue() throws NotIntegerException {
+    public JsclInteger integerValue() throws NotIntegerException {
         throw new NotIntegerException();
     }
 
@@ -278,9 +278,9 @@ public class Matrix extends Generic {
     }
 
     public Generic[] vectors() {
-        JSCLVector v[]=new JSCLVector[n];
+        JsclVector v[]=new JsclVector[n];
         for(int i=0;i<n;i++) {
-            v[i]=new JSCLVector(new Generic[p]);
+            v[i]=new JsclVector(new Generic[p]);
             for(int j=0;j<p;j++) {
                 v[i].element[j]=element[i][j];
             }
@@ -313,7 +313,7 @@ public class Matrix extends Generic {
     }
 
     public Generic trace() {
-        Generic s=JSCLInteger.valueOf(0);
+        Generic s= JsclInteger.valueOf(0);
         for(int i=0;i<n;i++) {
             s=s.add(element[i][i]);
         }
@@ -334,7 +334,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<n;j++) {
-                m.element[i][j]=i==k?JSCLInteger.valueOf(j==l?1:0):element[i][j];
+                m.element[i][j]=i==k? JsclInteger.valueOf(j == l ? 1 : 0):element[i][j];
             }
         }
         return m.determinant();
@@ -342,7 +342,7 @@ public class Matrix extends Generic {
 
     public Generic determinant() {
         if(n>1) {
-            Generic a=JSCLInteger.valueOf(0);
+            Generic a= JsclInteger.valueOf(0);
             for(int i=0;i<n;i++) {
                 if(element[i][0].signum()==0);
                 else {
@@ -356,7 +356,7 @@ public class Matrix extends Generic {
             }
             return a;
         } else if(n>0) return element[0][0];
-        else return JSCLInteger.valueOf(0);
+        else return JsclInteger.valueOf(0);
     }
 
     public Generic conjugate() {
@@ -390,16 +390,16 @@ public class Matrix extends Generic {
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 if(i==j) {
-                    m.element[i][j]=JSCLInteger.valueOf(1);
+                    m.element[i][j]= JsclInteger.valueOf(1);
                 } else {
-                    m.element[i][j]=JSCLInteger.valueOf(0);
+                    m.element[i][j]= JsclInteger.valueOf(0);
                 }
             }
         }
         return m;
     }
 
-    public static Matrix frame(JSCLVector vector[]) {
+    public static Matrix frame(JsclVector vector[]) {
         Matrix m=new Matrix(new Generic[vector.length>0?vector[0].n:0][vector.length]);
         for(int i=0;i<m.n;i++) {
             for(int j=0;j<m.p;j++) {
@@ -426,9 +426,9 @@ public class Matrix extends Generic {
                 } else if(i==axis2 && j==axis2) {
                     m.element[i][j]=new Cos(angle).evaluate();
                 } else if(i==j) {
-                    m.element[i][j]=JSCLInteger.valueOf(1);
+                    m.element[i][j]= JsclInteger.valueOf(1);
                 } else {
-                    m.element[i][j]=JSCLInteger.valueOf(0);
+                    m.element[i][j]= JsclInteger.valueOf(0);
                 }
             }
         }

@@ -3,9 +3,8 @@ package jscl.text;
 import java.util.ArrayList;
 import java.util.List;
 import jscl.math.Generic;
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.util.ArrayUtils;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class VectorParser implements Parser {
@@ -48,6 +47,6 @@ public class VectorParser implements Parser {
             throw new ParseException();
         }
         Generic element[]=(Generic[])ArrayUtils.toArray(l,new Generic[l.size()]);
-        return new JSCLVector(element);
+        return new JsclVector(element);
     }
 }

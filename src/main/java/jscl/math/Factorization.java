@@ -28,12 +28,12 @@ public class Factorization {
         }
     }
 
-    static Generic factorize(JSCLInteger integer) {
+    static Generic factorize(JsclInteger integer) {
         Generic n[]=integer.gcdAndNormalize();
         Generic s=n[1];
-        Generic a=JSCLInteger.valueOf(1);
-        Generic p=JSCLInteger.valueOf(2);
-        while(s.compareTo(JSCLInteger.valueOf(1))>0) {
+        Generic a= JsclInteger.valueOf(1);
+        Generic p= JsclInteger.valueOf(2);
+        while(s.compareTo(JsclInteger.valueOf(1))>0) {
             Generic q[]=s.divideAndRemainder(p);
             if(q[0].compareTo(p)<0) {
                 p=s;
@@ -42,7 +42,7 @@ public class Factorization {
             if(q[1].signum()==0) {
                 a=a.multiply(expression(p,true));
                 s=q[0];
-            } else p=p.add(JSCLInteger.valueOf(1));
+            } else p=p.add(JsclInteger.valueOf(1));
         }
         return a.multiply(n[0]);
     }
@@ -52,7 +52,7 @@ public class Factorization {
         Polynomial n[]=factory.valueof(generic).gcdAndNormalize();
         Monomial m=n[1].monomialGcd();
         Polynomial s=n[1].divide(m);
-        Generic a=JSCLInteger.valueOf(1);
+        Generic a= JsclInteger.valueOf(1);
         Divisor d[]=new Divisor[2];
         Monomial p[]=new Monomial[2];
         Monomial q[]=new Monomial[2];
@@ -87,7 +87,7 @@ public class Factorization {
     }
 
     static Polynomial[] remainder(Polynomial s, Polynomial p, Generic t[]) {
-        Polynomial zero=s.valueof(JSCLInteger.valueOf(0));
+        Polynomial zero=s.valueof(JsclInteger.valueOf(0));
         Generic a[]=Basis.augment(t,s.remainderUpToCoefficient(p).elements());
         Variable unk[]=Basis.augmentUnknown(new Variable[] {},p.elements());
         {
@@ -113,7 +113,7 @@ public class Factorization {
     private static final String ter="t";
 
     static Polynomial polynomial(Polynomial s, Monomial monomial[]) {
-        Polynomial p=s.valueof(JSCLInteger.valueOf(0));
+        Polynomial p=s.valueof(JsclInteger.valueOf(0));
         Iterator it=monomial[1].iterator(monomial[0]);
         for(int i=0;it.hasNext();i++) {
             Monomial m=(Monomial)it.next();
@@ -132,7 +132,7 @@ public class Factorization {
 
     static Generic terminator(Generic generic, Variable var, boolean tail) {
         Generic x=var.expressionValue();
-        Generic a=JSCLInteger.valueOf(1);
+        Generic a= JsclInteger.valueOf(1);
         Iterator it=IntegerDivisor.create(generic.integerValue());
         while(it.hasNext()) {
             Generic s=(Generic)it.next();
@@ -147,7 +147,7 @@ public class Factorization {
     }
 
     static Generic expression(Generic generic, boolean integer) {
-        if(generic.compareTo(JSCLInteger.valueOf(1))==0) return generic;
+        if(generic.compareTo(JsclInteger.valueOf(1))==0) return generic;
         else return GenericVariable.valueOf(generic,integer).expressionValue();
     }
 
@@ -210,7 +210,7 @@ class Linearization {
         IntegerDivisor d[]=new IntegerDivisor[2];
         Generic p[]=new Generic[2];
         Generic q[]=new Generic[2];
-        d[1]=IntegerDivisor.create(JSCLInteger.valueOf(1));
+        d[1]=IntegerDivisor.create(JsclInteger.valueOf(1));
         loop: while(d[1].hasNext()) {
             p[1]=(Generic)d[1].next();
             q[1]=d[1].integer(d[1].complementary());
@@ -283,7 +283,7 @@ class IntegerDivisor extends Divisor {
         return Expression.valueOf(Literal.valueOf(monomial)).expand();
     }
 
-    static IntegerDivisor create(JSCLInteger integer) {
+    static IntegerDivisor create(JsclInteger integer) {
         Generic a=Factorization.factorize(integer);
         return new IntegerDivisor(a,a.variables(),Monomial.iteratorOrdering);
     }

@@ -3,12 +3,9 @@ package jscl.math.polynomial;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.Literal;
-import jscl.math.NotDivisibleException;
-import jscl.math.Variable;
+
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.math.function.Inv;
 import jscl.util.ArrayUtils;
 
@@ -128,13 +125,13 @@ public class UnivariatePolynomial extends Polynomial {
             p.put(i+d,get(i).multiply(generic));
         }
         for(int i=d-1;i>=0;i--) {
-            p.put(i,JSCLInteger.valueOf(0));
+            p.put(i, JsclInteger.valueOf(0));
         }
         return p;
     }
 
     public Polynomial multiply(Monomial monomial) {
-        return multiply(monomial,JSCLInteger.valueOf(1));
+        return multiply(monomial, JsclInteger.valueOf(1));
     }
 
     public Polynomial divide(Generic generic) throws ArithmeticException {
@@ -200,8 +197,8 @@ public class UnivariatePolynomial extends Polynomial {
             q=r;
         }
         int d=p.degree-q.degree;
-        Generic phi=JSCLInteger.valueOf(-1);
-        Generic beta=JSCLInteger.valueOf(-1).pow(d+1);
+        Generic phi= JsclInteger.valueOf(-1);
+        Generic beta= JsclInteger.valueOf(-1).pow(d+1);
         Polynomial a1[]=p.gcdAndNormalize();
         Polynomial a2[]=q.gcdAndNormalize();
         Generic gcd1=a1[0].genericValue();
@@ -221,13 +218,13 @@ public class UnivariatePolynomial extends Polynomial {
             p=(UnivariatePolynomial)p.normalize();
         } else {
             p=newinstance();
-            p.put(0,JSCLInteger.valueOf(1));
+            p.put(0, JsclInteger.valueOf(1));
         }
         return p.multiply(gcd1.gcd(gcd2));
     }
 
     public Generic gcd() {
-        Generic a=coefficient(JSCLInteger.valueOf(0));
+        Generic a=coefficient(JsclInteger.valueOf(0));
         for(int i=degree;i>=0;i--) a=a.gcd(get(i));
         return a.signum()==signum()?a:a.negate();
     }
@@ -277,7 +274,7 @@ public class UnivariatePolynomial extends Polynomial {
     }
 
     public Generic genericValue() {
-        Generic s=JSCLInteger.valueOf(0);
+        Generic s= JsclInteger.valueOf(0);
         for(int i=degree;i>=0;i--) {
             Generic a=get(i).expressionValue();
             s=s.add(i>0?a.multiply(Expression.valueOf(Literal.valueOf(variable,i))):a);
@@ -296,7 +293,7 @@ public class UnivariatePolynomial extends Polynomial {
     }
 
     public Generic substitute(Generic generic) {
-        Generic s=JSCLInteger.valueOf(0);
+        Generic s= JsclInteger.valueOf(0);
         for(int i=degree;i>=0;i--) {
             s=s.add(get(i).multiply(generic.pow(i)));
         }
@@ -332,8 +329,8 @@ public class UnivariatePolynomial extends Polynomial {
             q=r;
         }
         int d=p.degree-q.degree;
-        Generic phi=JSCLInteger.valueOf(-1);
-        Generic beta=JSCLInteger.valueOf(-1).pow(d+1);
+        Generic phi= JsclInteger.valueOf(-1);
+        Generic beta= JsclInteger.valueOf(-1).pow(d+1);
         while(q.degree>0) {
             UnivariatePolynomial r=(UnivariatePolynomial)p.remainderUpToCoefficient(q).divide(beta);
             if(d>1) phi=q.get(q.degree).negate().pow(d).divide(phi.pow(d-1));
@@ -357,8 +354,8 @@ public class UnivariatePolynomial extends Polynomial {
         UnivariatePolynomial s[]=new UnivariatePolynomial[q.degree+1];
         s[q.degree]=q;
         int d=p.degree-q.degree;
-        Generic phi=JSCLInteger.valueOf(-1);
-        Generic beta=JSCLInteger.valueOf(-1).pow(d+1);
+        Generic phi= JsclInteger.valueOf(-1);
+        Generic beta= JsclInteger.valueOf(-1).pow(d+1);
         while(q.degree>0) {
             UnivariatePolynomial r=(UnivariatePolynomial)p.remainderUpToCoefficient(q).divide(beta);
             if(d>1) phi=q.get(q.degree).negate().pow(d).divide(phi.pow(d-1));
@@ -383,7 +380,7 @@ public class UnivariatePolynomial extends Polynomial {
     public UnivariatePolynomial antiderivative() {
         UnivariatePolynomial p=newinstance();
         for(int i=degree;i>=0;i--) {
-            p.put(i+1,get(i).multiply(new Inv(JSCLInteger.valueOf(i+1)).evaluate()));
+            p.put(i+1,get(i).multiply(new Inv(JsclInteger.valueOf(i + 1)).evaluate()));
         }
         return p;
     }
@@ -391,7 +388,7 @@ public class UnivariatePolynomial extends Polynomial {
     public UnivariatePolynomial derivative() {
         UnivariatePolynomial p=newinstance();
         for(int i=degree-1;i>=0;i--) {
-            p.put(i,get(i+1).multiply(JSCLInteger.valueOf(i+1)));
+            p.put(i,get(i+1).multiply(JsclInteger.valueOf(i + 1)));
         }
         return p;
     }
@@ -417,7 +414,7 @@ public class UnivariatePolynomial extends Polynomial {
         int n=expression.size();
         for(int i=0;i<n;i++) {
             Literal l=expression.literal(i);
-            JSCLInteger en=expression.coef(i);
+            JsclInteger en=expression.coef(i);
             Monomial m=monomial(l);
             l=l.divide(m.literalValue());
             if(l.degree()>0) put(m.degree(),coefficient(en.multiply(Expression.valueOf(l))));
@@ -456,7 +453,7 @@ public class UnivariatePolynomial extends Polynomial {
     
     public Generic get(int n) {
         Generic a=n<0 || n>degree?null:content[n];
-        return a==null?JSCLInteger.valueOf(0):a;
+        return a==null? JsclInteger.valueOf(0):a;
     }
 
     protected UnivariatePolynomial newinstance() {

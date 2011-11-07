@@ -1,8 +1,8 @@
 package jscl.math.operator.product;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.JSCLVector;
+import jscl.math.JsclInteger;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.function.ImplicitFunction;
 import jscl.math.operator.VectorOperator;
@@ -15,9 +15,9 @@ public class GeometricProduct extends VectorOperator {
 
     public Generic compute() {
         int algebra[]=algebra(parameter[2]);
-        if(parameter[0] instanceof JSCLVector && parameter[1] instanceof JSCLVector) {
-            JSCLVector v1=(JSCLVector)parameter[0];
-            JSCLVector v2=(JSCLVector)parameter[1];
+        if(parameter[0] instanceof JsclVector && parameter[1] instanceof JsclVector) {
+            JsclVector v1=(JsclVector)parameter[0];
+            JsclVector v2=(JsclVector)parameter[1];
             return v1.geometricProduct(v2,algebra);
         }
         return expressionValue();
@@ -30,7 +30,7 @@ public class GeometricProduct extends VectorOperator {
             Generic g[]=((ImplicitFunction)v).parameters();
             int p=g[0].integerValue().intValue();
             int q=g[1].integerValue().intValue();
-            if(v.compareTo(new ImplicitFunction("cl",new Generic[] {JSCLInteger.valueOf(p),JSCLInteger.valueOf(q)},new int[] {0,0},new Generic[] {}))==0) return new int[] {p,q};
+            if(v.compareTo(new ImplicitFunction("cl",new Generic[] {JsclInteger.valueOf(p), JsclInteger.valueOf(q)},new int[] {0,0},new Generic[] {}))==0) return new int[] {p,q};
         }
         throw new ArithmeticException();
     }

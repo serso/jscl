@@ -47,7 +47,7 @@ public class Abs extends Function {
 				Function f = (Function) v;
 				return f.evaluateSimplify();
 			} else if (v instanceof Sgn) {
-				return JSCLInteger.valueOf(1);
+				return JsclInteger.valueOf(1);
 			}
 		} catch (NotVariableException e) {
 		}

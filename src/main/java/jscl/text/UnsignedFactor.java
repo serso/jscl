@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.function.Pow;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +44,7 @@ class UnsignedFactor implements Parser {
 			try {
 				int c = generic.integerValue().intValue();
 				if (c < 0) {
-					generic = new Pow(GenericVariable.content(b, true), JSCLInteger.valueOf(c)).expressionValue();
+					generic = new Pow(GenericVariable.content(b, true), JsclInteger.valueOf(c)).expressionValue();
 				} else {
 					generic = b.pow(c);
 				}

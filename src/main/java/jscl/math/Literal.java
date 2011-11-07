@@ -210,7 +210,7 @@ public class Literal implements Comparable {
     }
 
     public Power powerValue() throws NotPowerException {
-        if(size==0) return new Power(JSCLInteger.valueOf(1),1);
+        if(size==0) return new Power(JsclInteger.valueOf(1),1);
         else if(size==1) {
             Variable v=variable[0];
             int c=power[0];
@@ -339,7 +339,7 @@ public class Literal implements Comparable {
 
     public String toJava() {
         StringBuffer buffer=new StringBuffer();
-        if(degree==0) buffer.append("JSCLDouble.valueOf(1)");
+        if(degree==0) buffer.append("JsclDouble.valueOf(1)");
         for(int i=0;i<size;i++) {
             if(i>0) buffer.append(".multiply(");
             Variable v=variable[i];

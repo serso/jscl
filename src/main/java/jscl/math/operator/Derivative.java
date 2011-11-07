@@ -1,7 +1,7 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
@@ -28,7 +28,7 @@ public class Derivative extends Operator {
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=4;
-        if(parameter[3].compareTo(JSCLInteger.valueOf(1))==0) {
+        if(parameter[3].compareTo(JsclInteger.valueOf(1))==0) {
             n=3;
             if(parameter[2].compareTo(parameter[1])==0) n=2;
         }

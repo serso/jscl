@@ -30,7 +30,7 @@ public abstract class Numeric implements Arithmetic, Comparable {
 	}
 
 	public Numeric pow(int exponent) {
-		Numeric result = JSCLDouble.valueOf(1);
+		Numeric result = JsclDouble.valueOf(1);
 
 		for (int i = 0; i < exponent; i++) {
 			result = result.multiply(this);
@@ -58,13 +58,13 @@ public abstract class Numeric implements Arithmetic, Comparable {
 	public abstract Numeric exp();
 
 	public Numeric inverse() {
-		return JSCLDouble.valueOf(1).divide(this);
+		return JsclDouble.valueOf(1).divide(this);
 	}
 
 	public Numeric pow(Numeric numeric) {
 		if (numeric.signum() == 0) {
-			return JSCLDouble.valueOf(1);
-		} else if (numeric.compareTo(JSCLDouble.valueOf(1)) == 0) {
+			return JsclDouble.valueOf(1);
+		} else if (numeric.compareTo(JsclDouble.valueOf(1)) == 0) {
 			return this;
 		} else {
 			return numeric.multiply(ln()).exp();
@@ -76,7 +76,7 @@ public abstract class Numeric implements Arithmetic, Comparable {
 	}
 
 	public Numeric nthrt(int n) {
-		return pow(JSCLDouble.valueOf(1. / n));
+		return pow(JsclDouble.valueOf(1. / n));
 	}
 
 	public static Numeric root(int subscript, Numeric parameter[]) {
@@ -86,67 +86,67 @@ public abstract class Numeric implements Arithmetic, Comparable {
 	public abstract Numeric conjugate();
 
 	public Numeric acos() {
-		return add(JSCLDouble.valueOf(-1).add(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
+		return add(JsclDouble.valueOf(-1).add(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
 	}
 
 	public Numeric asin() {
-		return multiply(Complex.valueOf(0, 1)).negate().add(JSCLDouble.valueOf(1).subtract(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
+		return multiply(Complex.valueOf(0, 1)).negate().add(JsclDouble.valueOf(1).subtract(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
 	}
 
 	public Numeric atan() {
-		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).ln()).divide(JSCLDouble.valueOf(2));
+		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).ln()).divide(JsclDouble.valueOf(2));
 	}
 
 	public Numeric acot() {
-		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).negate().ln()).divide(JSCLDouble.valueOf(2));
+		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).negate().ln()).divide(JsclDouble.valueOf(2));
 	}
 
 	public Numeric cos() {
-		return JSCLDouble.valueOf(1).add(multiply(Complex.valueOf(0, 1)).exp().pow(2)).divide(JSCLDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
+		return JsclDouble.valueOf(1).add(multiply(Complex.valueOf(0, 1)).exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
 	}
 
 	public Numeric sin() {
-		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JSCLDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
+		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
 	}
 
 	public Numeric tan() {
-		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JSCLDouble.valueOf(1).add(multiply(Complex.valueOf(0, 1)).exp().pow(2)));
+		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.valueOf(1).add(multiply(Complex.valueOf(0, 1)).exp().pow(2)));
 	}
 
 	public Numeric cot() {
-		return Complex.valueOf(0, 1).add(Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).divide(JSCLDouble.valueOf(1).subtract(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).negate();
+		return Complex.valueOf(0, 1).add(Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).divide(JsclDouble.valueOf(1).subtract(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).negate();
 	}
 
 	public Numeric acosh() {
-		return add(JSCLDouble.valueOf(-1).add(pow(2)).sqrt()).ln();
+		return add(JsclDouble.valueOf(-1).add(pow(2)).sqrt()).ln();
 	}
 
 	public Numeric asinh() {
-		return add(JSCLDouble.valueOf(1).add(pow(2)).sqrt()).ln();
+		return add(JsclDouble.valueOf(1).add(pow(2)).sqrt()).ln();
 	}
 
 	public Numeric atanh() {
-		return JSCLDouble.valueOf(1).add(this).divide(JSCLDouble.valueOf(1).subtract(this)).ln().divide(JSCLDouble.valueOf(2));
+		return JsclDouble.valueOf(1).add(this).divide(JsclDouble.valueOf(1).subtract(this)).ln().divide(JsclDouble.valueOf(2));
 	}
 
 	public Numeric acoth() {
-		return JSCLDouble.valueOf(1).add(this).divide(JSCLDouble.valueOf(1).subtract(this)).negate().ln().divide(JSCLDouble.valueOf(2));
+		return JsclDouble.valueOf(1).add(this).divide(JsclDouble.valueOf(1).subtract(this)).negate().ln().divide(JsclDouble.valueOf(2));
 	}
 
 	public Numeric cosh() {
-		return JSCLDouble.valueOf(1).add(exp().pow(2)).divide(JSCLDouble.valueOf(2).multiply(exp()));
+		return JsclDouble.valueOf(1).add(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp()));
 	}
 
 	public Numeric sinh() {
-		return JSCLDouble.valueOf(1).subtract(exp().pow(2)).divide(JSCLDouble.valueOf(2).multiply(exp())).negate();
+		return JsclDouble.valueOf(1).subtract(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp())).negate();
 	}
 
 	public Numeric tanh() {
-		return JSCLDouble.valueOf(1).subtract(exp().pow(2)).divide(JSCLDouble.valueOf(1).add(exp().pow(2))).negate();
+		return JsclDouble.valueOf(1).subtract(exp().pow(2)).divide(JsclDouble.valueOf(1).add(exp().pow(2))).negate();
 	}
 
 	public Numeric coth() {
-		return JSCLDouble.valueOf(1).add(exp().pow(2)).divide(JSCLDouble.valueOf(1).subtract(exp().pow(2))).negate();
+		return JsclDouble.valueOf(1).add(exp().pow(2)).divide(JsclDouble.valueOf(1).subtract(exp().pow(2))).negate();
 	}
 
 	public abstract Numeric valueof(Numeric numeric);

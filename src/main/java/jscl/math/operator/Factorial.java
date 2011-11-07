@@ -1,7 +1,6 @@
 package jscl.math.operator;
 
 import jscl.math.*;
-import jscl.math.function.Frac;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
@@ -33,13 +32,13 @@ public class Factorial extends PostfixFunction {
 				throw new ArithmeticException("Cannot take factorial from negative integer!");
 			}
 
-			Generic a = JSCLInteger.valueOf(1);
+			Generic a = JsclInteger.valueOf(1);
 			for (int i = 0; i < n; i++) {
 				ParserUtils.checkInterruption();
-				a = a.multiply(JSCLInteger.valueOf(i + 1));
+				a = a.multiply(JsclInteger.valueOf(i + 1));
 			}
-			if (a instanceof JSCLInteger) {
-				return new NumericWrapper(((JSCLInteger) a));
+			if (a instanceof JsclInteger) {
+				return new NumericWrapper(((JsclInteger) a));
 			} else {
 				throw new NotIntegerException();
 			}
@@ -64,7 +63,7 @@ public class Factorial extends PostfixFunction {
     void bodyToMathML(MathML element) {
         MathML e1=element.element("mrow");
         try {
-            JSCLInteger en=parameter[0].integerValue();
+            JsclInteger en=parameter[0].integerValue();
             en.toMathML(e1,null);
         } catch (NotIntegerException e) {
             try {

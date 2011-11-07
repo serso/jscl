@@ -1,11 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public class Comparison extends Function {
@@ -21,7 +17,7 @@ public class Comparison extends Function {
     }
 
     public Generic derivative(int n) {
-        return JSCLInteger.valueOf(0);
+        return JsclInteger.valueOf(0);
     }
 
     public Generic evaluate() {
@@ -43,12 +39,12 @@ public class Comparison extends Function {
         return compare((NumericWrapper)parameter[0],(NumericWrapper)parameter[1]);
     }
 
-    JSCLInteger compare(JSCLInteger a1, JSCLInteger a2) {
-        return JSCLInteger.valueOf(compare((Generic)a1,(Generic)a2)?1:0);
+    JsclInteger compare(JsclInteger a1, JsclInteger a2) {
+        return JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0);
     }
 
     NumericWrapper compare(NumericWrapper a1, NumericWrapper a2) {
-        return new NumericWrapper(JSCLInteger.valueOf(compare((Generic)a1,(Generic)a2)?1:0));
+        return new NumericWrapper(JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0));
     }
 
     boolean compare(Generic a1, Generic a2) {

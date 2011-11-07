@@ -1,7 +1,7 @@
 package jscl.math.polynomial;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.ModularInteger;
 
 class ArrayPolynomialModular extends ArrayPolynomialGeneric {
@@ -163,7 +163,7 @@ class ArrayPolynomialModular extends ArrayPolynomialGeneric {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JSCLInteger.valueOf(0));
+        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
         int g=generic.integerValue().intValue();
         if(g==1) return this;
         ArrayPolynomialModular p=(ArrayPolynomialModular)newinstance(size);

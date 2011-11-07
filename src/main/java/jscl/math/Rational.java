@@ -40,7 +40,7 @@ public final class Rational extends Generic implements Field {
     public Generic add(Generic generic) {
         if(generic instanceof Rational) {
             return add((Rational)generic);
-        } else if(generic instanceof JSCLInteger) {
+        } else if(generic instanceof JsclInteger) {
             return add(valueOf(generic));
         } else {
             return generic.valueOf(this).add(generic);
@@ -56,7 +56,7 @@ public final class Rational extends Generic implements Field {
     public Generic multiply(Generic generic) {
         if(generic instanceof Rational) {
             return multiply((Rational)generic);
-        } else if(generic instanceof JSCLInteger) {
+        } else if(generic instanceof JsclInteger) {
             return multiply(valueOf(generic));
         } else {
             return generic.multiply(this);
@@ -66,7 +66,7 @@ public final class Rational extends Generic implements Field {
     public Generic divide(Generic generic) throws ArithmeticException {
         if(generic instanceof Rational) {
             return multiply(generic.inverse());
-        } else if(generic instanceof JSCLInteger) {
+        } else if(generic instanceof JsclInteger) {
             return divide(valueOf(generic));
         } else {
             return generic.valueOf(this).divide(generic);
@@ -85,7 +85,7 @@ public final class Rational extends Generic implements Field {
     public Generic gcd(Generic generic) {
         if(generic instanceof Rational) {
             return gcd((Rational)generic);
-        } else if(generic instanceof JSCLInteger) {
+        } else if(generic instanceof JsclInteger) {
             return gcd(valueOf(generic));
         } else {
             return generic.valueOf(this).gcd(generic);
@@ -121,7 +121,7 @@ public final class Rational extends Generic implements Field {
     }
 
     public Generic derivative(Variable variable) {
-        return JSCLInteger.valueOf(0);
+        return JsclInteger.valueOf(0);
     }
 
     public Generic substitute(Variable variable, Generic generic) {
@@ -155,11 +155,11 @@ public final class Rational extends Generic implements Field {
         } else if(generic instanceof Expression) {
             boolean sign=generic.signum()<0;
             Generic g[]=((Frac)(sign?generic.negate():generic).variableValue()).parameters();
-            JSCLInteger numerator=(JSCLInteger)(sign?g[0].negate():g[0]);
-            JSCLInteger denominator=(JSCLInteger)g[1];
+            JsclInteger numerator=(JsclInteger)(sign?g[0].negate():g[0]);
+            JsclInteger denominator=(JsclInteger)g[1];
             return new Rational(numerator.content(),denominator.content());
         } else {
-            JSCLInteger en=(JSCLInteger)generic;
+            JsclInteger en=(JsclInteger)generic;
             return new Rational(en.content(),BigInteger.valueOf(1));
         }
     }
@@ -175,7 +175,7 @@ public final class Rational extends Generic implements Field {
 
     public Generic[] productValue() throws NotProductException {
         try {
-            if(integerValue().compareTo(JSCLInteger.valueOf(1))==0) return new Generic[0];
+            if(integerValue().compareTo(JsclInteger.valueOf(1))==0) return new Generic[0];
             else return new Generic[] {this};
         } catch (NotIntegerException e) {
             return new Generic[] {this};
@@ -190,8 +190,8 @@ public final class Rational extends Generic implements Field {
         return Expression.valueOf(this);
     }
 
-    public JSCLInteger integerValue() throws NotIntegerException {
-        if(denominator.compareTo(BigInteger.valueOf(1))==0) return new JSCLInteger(numerator);
+    public JsclInteger integerValue() throws NotIntegerException {
+        if(denominator.compareTo(BigInteger.valueOf(1))==0) return new JsclInteger(numerator);
         else throw new NotIntegerException();
     }
 
@@ -210,8 +210,8 @@ public final class Rational extends Generic implements Field {
             integerValue();
             throw new NotVariableException();
         } catch (NotIntegerException e) {
-            if(numerator.compareTo(BigInteger.valueOf(1))==0) return new Inv(new JSCLInteger(denominator));
-            else return new Frac(new JSCLInteger(numerator), new JSCLInteger(denominator));
+            if(numerator.compareTo(BigInteger.valueOf(1))==0) return new Inv(new JsclInteger(denominator));
+            else return new Frac(new JsclInteger(numerator), new JsclInteger(denominator));
         }
     }
 
@@ -237,7 +237,7 @@ public final class Rational extends Generic implements Field {
     public int compareTo(Generic generic) {
         if(generic instanceof Rational) {
             return compareTo((Rational)generic);
-        } else if(generic instanceof JSCLInteger) {
+        } else if(generic instanceof JsclInteger) {
             return compareTo(valueOf(generic));
         } else {
             return generic.valueOf(this).compareTo(generic);
@@ -257,7 +257,7 @@ public final class Rational extends Generic implements Field {
     }
 
     public String toJava() {
-        return "JSCLDouble.valueOf("+numerator+"/"+denominator+")";
+        return "JsclDouble.valueOf("+numerator+"/"+denominator+")";
     }
 
     public void toMathML(MathML element, Object data) {

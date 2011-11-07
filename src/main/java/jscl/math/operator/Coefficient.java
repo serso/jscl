@@ -1,7 +1,7 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.polynomial.Polynomial;
 
@@ -13,7 +13,7 @@ public class Coefficient extends Operator {
     public Generic compute() {
         Variable variable=parameter[1].variableValue();
         if(parameter[0].isPolynomial(variable)) {
-            return new JSCLVector(Polynomial.factory(variable).valueof(parameter[0]).elements());
+            return new JsclVector(Polynomial.factory(variable).valueof(parameter[0]).elements());
         }
         return expressionValue();
     }

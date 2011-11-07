@@ -4,12 +4,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import jscl.math.Generic;
-import jscl.math.JSCLBoolean;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclBoolean;
+import jscl.math.JsclInteger;
 
 class ArrayPolynomialBoolean extends ArrayPolynomialModular {
     ArrayPolynomialBoolean(Monomial monomialFactory) {
-        super(monomialFactory,JSCLBoolean.factory);
+        super(monomialFactory, JsclBoolean.factory);
     }
 
     ArrayPolynomialBoolean(int size, Monomial monomialFactory) {
@@ -71,7 +71,7 @@ class ArrayPolynomialBoolean extends ArrayPolynomialModular {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JSCLInteger.valueOf(0));
+        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
         return this;
     }
 
@@ -100,7 +100,7 @@ class ArrayPolynomialBoolean extends ArrayPolynomialModular {
     }
 
     protected Generic getCoef(int n) {
-        return new JSCLBoolean(1);
+        return new JsclBoolean(1);
     }
 
     protected void setCoef(int n, Generic generic) {}

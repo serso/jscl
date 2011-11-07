@@ -1,7 +1,7 @@
 package jscl.math.function.trigonometric;
 
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.NotVariableException;
 import jscl.math.NumericWrapper;
@@ -27,9 +27,9 @@ public class Sin extends Trigonometric {
         if(parameter[0].signum()<0) {
             return new Sin(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(0);
+            return JsclInteger.valueOf(0);
         } else if(parameter[0].compareTo(Constant.pi)==0) {
-            return JSCLInteger.valueOf(0);
+            return JsclInteger.valueOf(0);
         }
         return expressionValue();
     }
@@ -48,9 +48,9 @@ public class Sin extends Trigonometric {
         if(parameter[0].signum()<0) {
             return new Sin(parameter[0].negate()).evaluate().negate();
         } else if(parameter[0].signum()==0) {
-            return JSCLInteger.valueOf(0);
+            return JsclInteger.valueOf(0);
         } else if(parameter[0].compareTo(Constant.pi)==0) {
-            return JSCLInteger.valueOf(0);
+            return JsclInteger.valueOf(0);
         }
         try {
             Variable v=parameter[0].variableValue();

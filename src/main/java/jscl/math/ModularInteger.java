@@ -114,7 +114,7 @@ public class ModularInteger extends Generic implements Field {
         if(generic instanceof ModularInteger) {
             return newinstance(((ModularInteger)generic).content);
         } else {
-            return newinstance(((JSCLInteger)generic).content().mod(BigInteger.valueOf(modulo)).intValue());
+            return newinstance(((JsclInteger)generic).content().mod(BigInteger.valueOf(modulo)).intValue());
         }
     }
 
@@ -134,8 +134,8 @@ public class ModularInteger extends Generic implements Field {
         return Expression.valueOf(integerValue());
     }
 
-    public JSCLInteger integerValue() throws NotIntegerException {
-        return JSCLInteger.valueOf(content);
+    public JsclInteger integerValue() throws NotIntegerException {
+        return JsclInteger.valueOf(content);
     }
 
 	@Override
@@ -166,7 +166,7 @@ public class ModularInteger extends Generic implements Field {
     public int compareTo(Generic generic) {
         if(generic instanceof ModularInteger) {
             return compareTo((ModularInteger)generic);
-        } else if(generic instanceof JSCLInteger) {
+        } else if(generic instanceof JsclInteger) {
             return compareTo(valueOf(generic));
         } else {
             throw new UnsupportedOperationException();

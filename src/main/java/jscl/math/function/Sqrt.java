@@ -1,13 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.AntiDerivative;
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Power;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public class Sqrt extends Algebraic {
@@ -19,8 +13,8 @@ public class Sqrt extends Algebraic {
         return new Root(
             new Generic[] {
                 parameter[0].negate(),
-                JSCLInteger.valueOf(0),
-                JSCLInteger.valueOf(1)
+                JsclInteger.valueOf(0),
+                JsclInteger.valueOf(1)
             },
             0
         );
@@ -43,12 +37,12 @@ public class Sqrt extends Algebraic {
     }
 
     public boolean imaginary() {
-        return parameter[0].compareTo(JSCLInteger.valueOf(-1))==0;
+        return parameter[0].compareTo(JsclInteger.valueOf(-1))==0;
     }
 
     public Generic evaluate() {
         try {
-            JSCLInteger en=parameter[0].integerValue();
+            JsclInteger en=parameter[0].integerValue();
             if(en.signum()<0);
             else {
                 Generic rt=en.sqrt();
@@ -64,7 +58,7 @@ public class Sqrt extends Algebraic {
 
     public Generic evaluateSimplify() {
         try {
-            JSCLInteger en=parameter[0].integerValue();
+            JsclInteger en=parameter[0].integerValue();
             if(en.signum()<0) return Constant.i.multiply(new Sqrt(en.negate()).evaluateSimplify());
             else {
                 Generic rt=en.sqrt();
@@ -72,7 +66,7 @@ public class Sqrt extends Algebraic {
             }
             Generic a=en.factorize();
             Generic p[]=a.productValue();
-            Generic s=JSCLInteger.valueOf(1);
+            Generic s= JsclInteger.valueOf(1);
             for(int i=0;i<p.length;i++) {
                 Power o=p[i].powerValue();
                 Generic q=o.value(true);
@@ -82,7 +76,7 @@ public class Sqrt extends Algebraic {
             return s;
         } catch (NotIntegerException e) {
             Generic n[]=Frac.separateCoefficient(parameter[0]);
-            if(n[0].compareTo(JSCLInteger.valueOf(1))==0 && n[1].compareTo(JSCLInteger.valueOf(1))==0);
+            if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
             else return new Sqrt(n[2]).evaluateSimplify().multiply(
                 new Frac(
                     new Sqrt(n[0]).evaluateSimplify(),
@@ -98,7 +92,7 @@ public class Sqrt extends Algebraic {
     }
 
     public String toJava() {
-        if(parameter[0].compareTo(JSCLInteger.valueOf(-1))==0) return "Complex.valueOf(0, 1)";
+        if(parameter[0].compareTo(JsclInteger.valueOf(-1))==0) return "Complex.valueOf(0, 1)";
         StringBuffer buffer=new StringBuffer();
         buffer.append(parameter[0].toJava());
         buffer.append(".").append(name).append("()");
@@ -106,7 +100,7 @@ public class Sqrt extends Algebraic {
     }
 
     void bodyToMathML(MathML element, boolean fenced) {
-        if(parameter[0].compareTo(JSCLInteger.valueOf(-1))==0) {
+        if(parameter[0].compareTo(JsclInteger.valueOf(-1))==0) {
             MathML e1=element.element("mi");
             e1.appendChild(element.text(/*"\u2148"*/"i"));
             element.appendChild(e1);

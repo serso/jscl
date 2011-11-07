@@ -2,13 +2,13 @@ package jscl.math.polynomial;
 
 import java.math.BigInteger;
 import jscl.math.Generic;
-import jscl.math.JSCLInteger;
+import jscl.math.JsclInteger;
 
 class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     BigInteger coef[];
 
     ArrayPolynomialInteger(Monomial monomialFactory) {
-        super(monomialFactory,JSCLInteger.factory);
+        super(monomialFactory, JsclInteger.factory);
     }
 
     ArrayPolynomialInteger(int size, Monomial monomialFactory) {
@@ -161,7 +161,7 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JSCLInteger.valueOf(0));
+        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
         BigInteger g=generic.integerValue().content();
         if(g.compareTo(BigInteger.valueOf(1))==0) return this;
         ArrayPolynomialInteger p=(ArrayPolynomialInteger)newinstance(size);
@@ -207,7 +207,7 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     public Generic gcd() {
         BigInteger a=BigInteger.valueOf(0);
         for(int i=size-1;i>=0;i--) if((a=a.gcd(coef[i])).compareTo(BigInteger.valueOf(1))==0) break;
-        return new JSCLInteger(a.signum()==signum()?a:a.negate());
+        return new JsclInteger(a.signum()==signum()?a:a.negate());
     }
 
     protected Generic coefficient(Generic generic) {
@@ -215,7 +215,7 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     }
 
     protected Generic getCoef(int n) {
-        return new JSCLInteger(coef[n]);
+        return new JsclInteger(coef[n]);
     }
 
     protected void setCoef(int n, Generic generic) {

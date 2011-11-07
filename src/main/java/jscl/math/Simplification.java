@@ -178,7 +178,7 @@ public class Simplification {
                     int n=r.subscript().integerValue().intValue();
                     Generic g[]=r.parameters();
                     if(linear) co=linearConstraint(v);
-                    if(co==null) co=new Constraint(v,Root.sigma(g,d-n).multiply(JSCLInteger.valueOf(-1).pow(d-n)).multiply(g[d]).subtract(g[n]),d>1);
+                    if(co==null) co=new Constraint(v,Root.sigma(g,d-n).multiply(JsclInteger.valueOf(-1).pow(d-n)).multiply(g[d]).subtract(g[n]),d>1);
                 } catch (NotIntegerException e) {
                     co=linearConstraint(v);
                 }

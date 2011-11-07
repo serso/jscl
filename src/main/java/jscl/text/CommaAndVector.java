@@ -1,7 +1,6 @@
 package jscl.text;
 
-import jscl.math.JSCLVector;
-import jscl.text.MutableInt;
+import jscl.math.JsclVector;
 import org.jetbrains.annotations.NotNull;
 
 public class CommaAndVector implements Parser {
@@ -11,7 +10,7 @@ public class CommaAndVector implements Parser {
 
     public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
         int pos0= position.intValue();
-        JSCLVector v;
+        JsclVector v;
         ParserUtils.skipWhitespaces(string, position);
         if(position.intValue()< string.length() && string.charAt(position.intValue())==',') {
             string.charAt(position.intValue());
@@ -21,7 +20,7 @@ public class CommaAndVector implements Parser {
             throw new ParseException();
         }
         try {
-            v=(JSCLVector)VectorParser.parser.parse(string, position);
+            v=(JsclVector)VectorParser.parser.parse(string, position);
         } catch (ParseException e) {
             position.setValue(pos0);
             throw e;

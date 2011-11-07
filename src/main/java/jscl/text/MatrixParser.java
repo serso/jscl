@@ -2,10 +2,9 @@ package jscl.text;
 
 import java.util.ArrayList;
 import java.util.List;
-import jscl.math.JSCLVector;
+import jscl.math.JsclVector;
 import jscl.math.Matrix;
 import jscl.util.ArrayUtils;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class MatrixParser implements Parser {
@@ -25,7 +24,7 @@ public class MatrixParser implements Parser {
             throw new ParseException();
         }
         try {
-            JSCLVector v=(JSCLVector)VectorParser.parser.parse(string, position);
+            JsclVector v=(JsclVector)VectorParser.parser.parse(string, position);
             l.add(v);
         } catch (ParseException e) {
             position.setValue(pos0);
@@ -33,7 +32,7 @@ public class MatrixParser implements Parser {
         }
         while(true) {
             try {
-                JSCLVector v=(JSCLVector)CommaAndVector.parser.parse(string, position);
+                JsclVector v=(JsclVector)CommaAndVector.parser.parse(string, position);
                 l.add(v);
             } catch (ParseException e) {
                 break;
@@ -47,7 +46,7 @@ public class MatrixParser implements Parser {
             position.setValue(pos0);
             throw new ParseException();
         }
-        JSCLVector v[]=(JSCLVector[])ArrayUtils.toArray(l,new JSCLVector[l.size()]);
+        JsclVector v[]=(JsclVector[])ArrayUtils.toArray(l,new JsclVector[l.size()]);
         return Matrix.frame(v).transpose();
     }
 }

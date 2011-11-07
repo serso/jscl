@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
-import jscl.math.numeric.JSCLDouble;
+import jscl.math.numeric.JsclDouble;
 
 /**
  * User: serso
@@ -34,7 +34,7 @@ public class Degree extends PostfixFunction {
 		// todo serso: check
 		Generic parameter0 = parameter[0].numeric();
 		Generic multiply = parameter0.multiply(Constant.pi.numeric());
-		return multiply.divide(new NumericWrapper(JSCLDouble.valueOf(180)));
+		return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
 	}
 
 	@Override

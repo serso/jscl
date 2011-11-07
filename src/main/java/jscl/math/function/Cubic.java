@@ -1,12 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.AntiDerivative;
-import jscl.math.Generic;
-import jscl.math.JSCLInteger;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NumericWrapper;
-import jscl.math.Variable;
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public class Cubic extends Algebraic {
@@ -18,9 +13,9 @@ public class Cubic extends Algebraic {
         return new Root(
             new Generic[] {
                 parameter[0].negate(),
-                JSCLInteger.valueOf(0),
-                JSCLInteger.valueOf(0),
-                JSCLInteger.valueOf(1)
+                JsclInteger.valueOf(0),
+                JsclInteger.valueOf(0),
+                JsclInteger.valueOf(1)
             },
             0
         );
@@ -44,7 +39,7 @@ public class Cubic extends Algebraic {
 
     public Generic evaluate() {
         try {
-            JSCLInteger en=parameter[0].integerValue();
+            JsclInteger en=parameter[0].integerValue();
             if(en.signum()<0);
             else {
                 Generic rt=en.nthrt(3);
@@ -60,7 +55,7 @@ public class Cubic extends Algebraic {
 
     public Generic evaluateSimplify() {
         try {
-            JSCLInteger en=parameter[0].integerValue();
+            JsclInteger en=parameter[0].integerValue();
             if(en.signum()<0) return new Cubic(en.negate()).evaluateSimplify().negate();
             else {
                 Generic rt=en.nthrt(3);
@@ -86,7 +81,7 @@ public class Cubic extends Algebraic {
     void bodyToMathML(MathML element, boolean fenced) {
         MathML e1=element.element("mroot");
         parameter[0].toMathML(e1,null);
-        JSCLInteger.valueOf(3).toMathML(e1,null);
+        JsclInteger.valueOf(3).toMathML(e1,null);
         element.appendChild(e1);
     }
 

@@ -17,8 +17,8 @@ public class TechnicalVariable extends Variable {
         }
 
         public Generic derivative(Variable variable) {
-                if(isIdentity(variable)) return JSCLInteger.valueOf(1);
-                else return JSCLInteger.valueOf(0);
+                if(isIdentity(variable)) return JsclInteger.valueOf(1);
+                else return JsclInteger.valueOf(0);
         }
 
         public Generic substitute(Variable variable, Generic generic) {

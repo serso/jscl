@@ -2,18 +2,9 @@ package jscl.math.polynomial;
 
 import java.util.Collection;
 import java.util.Iterator;
-import jscl.math.Arithmetic;
-import jscl.math.Expression;
-import jscl.math.Field;
-import jscl.math.Generic;
-import jscl.math.GenericVariable;
-import jscl.math.JSCLBoolean;
-import jscl.math.JSCLInteger;
-import jscl.math.Literal;
-import jscl.math.ModularInteger;
-import jscl.math.NotDivisibleException;
-import jscl.math.Rational;
-import jscl.math.Variable;
+
+import jscl.math.*;
+import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
 public abstract class Polynomial implements Arithmetic, Comparable {
@@ -55,7 +46,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     public abstract Iterator iterator(boolean direction, Monomial current);
 
     public Polynomial add(Polynomial polynomial) {
-        return multiplyAndSubtract(coefficient(JSCLInteger.valueOf(-1)),polynomial);
+        return multiplyAndSubtract(coefficient(JsclInteger.valueOf(-1)),polynomial);
     }
 
     public abstract Polynomial subtract(Polynomial polynomial);
@@ -69,7 +60,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     public Polynomial multiply(Polynomial polynomial) {
-        Polynomial p=valueof(JSCLInteger.valueOf(0));
+        Polynomial p=valueof(JsclInteger.valueOf(0));
         Iterator it=iterator();
         while(it.hasNext()) {
             Term t=(Term)it.next();
@@ -111,7 +102,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     public Polynomial[] divideAndRemainder(Polynomial polynomial) throws ArithmeticException {
-        Polynomial p[]={valueof(JSCLInteger.valueOf(0)),this};
+        Polynomial p[]={valueof(JsclInteger.valueOf(0)),this};
         Polynomial q=polynomial;
         Iterator it=p[1].iterator(true);
         while(it.hasNext()) {
@@ -123,7 +114,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
                 Generic c1=t.coef();
                 Generic c2=q.head().coef();
                 Generic c=c1.divide(c2);
-                p[0]=p[0].multiplyAndSubtract(m,c,valueof(JSCLInteger.valueOf(-1)));
+                p[0]=p[0].multiplyAndSubtract(m,c,valueof(JsclInteger.valueOf(-1)));
                 p[1]=p[1].multiplyAndSubtract(m,c,q);
                 it=p[1].iterator(true);
             }
@@ -165,7 +156,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
 
     public Generic gcd() {
         if(field) return coefficient(tail());
-        Generic a=coefficient(JSCLInteger.valueOf(0));
+        Generic a=coefficient(JsclInteger.valueOf(0));
         for(Iterator it=iterator();it.hasNext();) a=a.gcd(((Term)it.next()).coef());
         return a.signum()==signum()?a:a.negate();
     }
@@ -191,7 +182,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     public Polynomial pow(int exponent) {
-        Polynomial a=valueof(JSCLInteger.valueOf(1));
+        Polynomial a=valueof(JsclInteger.valueOf(1));
         for(int i=0;i<exponent;i++) a=a.multiply(this);
         return a;
     }
@@ -201,7 +192,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     public Polynomial negate() {
-        return multiply(coefficient(JSCLInteger.valueOf(-1)));
+        return multiply(coefficient(JsclInteger.valueOf(-1)));
     }
 
     public final int signum() {
@@ -244,7 +235,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     Generic coefficient(Term term) {
-        return term==null?coefficient(JSCLInteger.valueOf(0)):term.coef();
+        return term==null?coefficient(JsclInteger.valueOf(0)):term.coef();
     }
 
     protected Monomial monomial(Literal literal) {
@@ -311,7 +302,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     }
 
     public Generic genericValue() {
-        Generic s=JSCLInteger.valueOf(0);
+        Generic s= JsclInteger.valueOf(0);
         Iterator it=iterator();
         while(it.hasNext()) {
             Term t=(Term)it.next();
@@ -380,11 +371,11 @@ public abstract class Polynomial implements Arithmetic, Comparable {
         case -1:
             return null;
         case 0:
-            return JSCLInteger.factory;
+            return JsclInteger.factory;
         case 1:
             return Rational.factory;
         case 2:
-            return JSCLBoolean.factory;
+            return JsclBoolean.factory;
         default:
             return ModularInteger.factory(modulo);
         }
@@ -437,7 +428,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
             if(a.signum()>0 && i>0) buffer.append("+");
             if(m.degree()==0) buffer.append(a);
             else {
-                if(a.abs().compareTo(JSCLInteger.valueOf(1))==0) {
+                if(a.abs().compareTo(JsclInteger.valueOf(1))==0) {
                     if(a.signum()<0) buffer.append("-");
                 } else buffer.append(a).append("*");
                 buffer.append(m);
@@ -466,7 +457,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
             }
             if(m.degree()==0) Expression.separateSign(e1,a);
             else {
-                if(a.abs().compareTo(JSCLInteger.valueOf(1))==0) {
+                if(a.abs().compareTo(JsclInteger.valueOf(1))==0) {
                     if(a.signum()<0) {
                         MathML e2=element.element("mo");
                         e2.appendChild(element.text("-"));
