@@ -14,7 +14,11 @@ import java.util.Map;
 
 public abstract class Variable implements Comparable, MathEntity {
 
+	@NotNull
 	public static final Comparator<Variable> comparator = VariableComparator.comparator;
+
+	@NotNull
+	private Integer id;
 
 	@NotNull
     protected String name;
@@ -23,7 +27,17 @@ public abstract class Variable implements Comparable, MathEntity {
         this.name=name;
     }
 
-    @NotNull
+	@NotNull
+	@Override
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(@NotNull Integer id) {
+		this.id = id;
+	}
+
+	@NotNull
 	public final String getName() {
         return name;
     }
@@ -36,6 +50,16 @@ public abstract class Variable implements Comparable, MathEntity {
 		if ( that instanceof Variable ) {
 	  		this.name = ((Variable) that).name;
 		}
+	}
+
+	@Override
+	public boolean same(@NotNull MathEntity mathEntity) {
+		if ( mathEntity instanceof Variable ) {
+			if ( mathEntity.getId().equals(this.getId()) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public abstract Generic antiDerivative(Variable variable) throws NotIntegrableException;

@@ -2,7 +2,7 @@ package jscl.math;
 
 import jscl.math.function.Constant;
 import jscl.math.function.ConstantsRegistry;
-import jscl.math.function.ExtendedConstant;
+import jscl.math.function.IConstant;
 import jscl.math.numeric.JsclDouble;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.NumericMatrix;
@@ -37,9 +37,13 @@ public final class NumericWrapper extends Generic {
     }
 
 	public NumericWrapper(Constant constant) {
-		final ExtendedConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
+		final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
 		if (constantFromRegistry != null && constantFromRegistry.getValue() != null) {
-			content = JsclDouble.valueOf(constantFromRegistry.getValue());
+			final Double value = constantFromRegistry.getDoubleValue();
+			if ( value == null ) {
+				throw new ArithmeticException("Constant " + constant.getName() + " has invalid definition: " + constantFromRegistry.getValue());
+			}
+			content = JsclDouble.valueOf(value);
 		} else {
 			throw new ArithmeticException();
 		}

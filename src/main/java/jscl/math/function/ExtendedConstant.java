@@ -10,34 +10,49 @@ import org.solovyev.common.math.MathEntity;
  * Date: 11/7/11
  * Time: 12:06 PM
  */
-public class ExtendedConstant implements MathEntity {
+public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant {
 
 	@NotNull
 	private Constant constant;
 
 	@Nullable
-	private Double value;
+	private String value;
 
 	@Nullable
 	private String javaString;
+
+	@Nullable
+	private String description;
 
 	public static final class Builder implements IBuilder<ExtendedConstant> {
 		@NotNull
 		private Constant constant;
 
 		@Nullable
-		private Double value;
+		private String value;
 
 		@Nullable
 		private String javaString;
 
+		@Nullable
+		private String description;
+
 		public Builder(@NotNull Constant constant, @Nullable Double value) {
+			this(constant, value == null ? null : String.valueOf(value));
+		}
+
+		public Builder(@NotNull Constant constant, @Nullable String value) {
 			this.constant = constant;
 			this.value = value;
 		}
 
 		public Builder setJavaString(@Nullable String javaString) {
 			this.javaString = javaString;
+			return this;
+		}
+
+		public Builder setDescription(@Nullable String description) {
+			this.description = description;
 			return this;
 		}
 
@@ -49,6 +64,7 @@ public class ExtendedConstant implements MathEntity {
 			result.constant = constant;
 			result.value = value;
 			result.javaString = javaString;
+			result.description = description;
 
 			return result;
 		}
@@ -61,7 +77,7 @@ public class ExtendedConstant implements MathEntity {
 					 @Nullable Double value,
 					 @Nullable String javaString) {
 		this.constant = constant;
-		this.value = value;
+		this.value = value == null ? null : String.valueOf(value);
 		this.javaString = javaString;
 	}
 
@@ -76,11 +92,32 @@ public class ExtendedConstant implements MathEntity {
 		return this.constant.isSystem();
 	}
 
+	@NotNull
+	@Override
+	public Integer getId() {
+		return constant.getId();
+	}
+
+	@Override
+	public void setId(@NotNull Integer id) {
+		constant.setId(id);
+	}
+
+	@Override
+	public boolean same(@NotNull MathEntity mathEntity) {
+		if ( mathEntity instanceof ExtendedConstant ) {
+			return this.constant.same(((ExtendedConstant) mathEntity).getConstant());
+		}
+		return false;
+	}
+
 	@Override
 	public void copy(@NotNull MathEntity that) {
 		this.constant.copy(that);
 		if (that instanceof ExtendedConstant) {
 			this.value = ((ExtendedConstant) that).value;
+			this.javaString = ((ExtendedConstant) that).javaString;
+			this.description = ((ExtendedConstant) that).description;
 		}
 	}
 
@@ -101,24 +138,56 @@ public class ExtendedConstant implements MathEntity {
 		return constant.hashCode();
 	}
 
+	@Override
 	@NotNull
 	public Constant getConstant() {
 		return constant;
 	}
 
+	@Override
 	@Nullable
-	public Double getValue() {
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public boolean isDefined() {
+		return value != null;
+	}
+
+	@Override
+	@Nullable
+	public String getValue() {
 		return value;
 	}
 
+	@Override
+	public Double getDoubleValue() {
+		Double result = null;
+		if (value != null) {
+			try {
+				result = Double.valueOf(value);
+			} catch (NumberFormatException e) {
+				// do nothing - string is not a double
+			}
+		}
+		return result;
+	}
+
+	@Override
 	@NotNull
 	public String toJava() {
 		if (javaString != null) {
 			return javaString;
-		} else if ( value != null ){
+		} else if (value != null) {
 			return String.valueOf(value);
 		} else {
 			return constant.getName();
 		}
+	}
+
+	@Override
+	public int compareTo(ExtendedConstant o) {
+		return this.constant.compareTo(o.getConstant());
 	}
 }

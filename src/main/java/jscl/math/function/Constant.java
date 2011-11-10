@@ -1,7 +1,6 @@
 package jscl.math.function;
 
 import jscl.math.*;
-import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
@@ -148,7 +147,7 @@ public class Constant extends Variable {
 	}
 
 	public String toJava() {
-		final ExtendedConstant constantFromRegistry = ConstantsRegistry.getInstance().get(getName());
+		final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(getName());
 
 		if (constantFromRegistry != null) {
 			return constantFromRegistry.toJava();

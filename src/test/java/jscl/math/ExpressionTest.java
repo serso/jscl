@@ -3,7 +3,6 @@ package jscl.math;
 import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
-import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -126,7 +125,7 @@ public class ExpressionTest {
 		} catch (ArithmeticException e) {
 		}
 
-		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("t"), null));
+		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("t"), (String)null));
 		try {
 			Expression.valueOf("t").numeric();
 			fail();

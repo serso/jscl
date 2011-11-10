@@ -1,7 +1,7 @@
 package jscl;
 
-import jscl.math.function.ExtendedConstant;
 import jscl.math.function.Function;
+import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ public interface MathEngine {
 	MathRegistry<Function> getFunctionsRegistry();
 
 	@NotNull
-	MathRegistry<ExtendedConstant> getConstantsRegistry();
+	MathRegistry<IConstant> getConstantsRegistry();
 
 	@NotNull
 	MathRegistry<Operator> getPostfixFunctionsRegistry();

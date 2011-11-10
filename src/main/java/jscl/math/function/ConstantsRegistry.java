@@ -8,7 +8,7 @@ import org.solovyev.common.math.AbstractMathRegistry;
  * Date: 11/7/11
  * Time: 11:59 AM
  */
-public class ConstantsRegistry extends AbstractMathRegistry<ExtendedConstant> {
+public class ConstantsRegistry extends AbstractMathRegistry<IConstant> {
 
 	private final static ConstantsRegistry instance = new ConstantsRegistry();
 

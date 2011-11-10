@@ -43,7 +43,7 @@ public class JsclMathEngine implements MathEngine {
 
 	@NotNull
 	@Override
-	public MathRegistry<ExtendedConstant> getConstantsRegistry() {
+	public MathRegistry<IConstant> getConstantsRegistry() {
 		return ConstantsRegistry.getInstance();
 	}
 }
