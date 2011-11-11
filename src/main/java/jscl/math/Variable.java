@@ -52,16 +52,6 @@ public abstract class Variable implements Comparable, MathEntity {
 		}
 	}
 
-	@Override
-	public boolean same(@NotNull MathEntity mathEntity) {
-		if ( mathEntity instanceof Variable ) {
-			if ( mathEntity.getId().equals(this.getId()) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public abstract Generic antiDerivative(Variable variable) throws NotIntegrableException;
     public abstract Generic derivative(Variable variable);
     public abstract Generic substitute(Variable variable, Generic generic);

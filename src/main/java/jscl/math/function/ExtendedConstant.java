@@ -104,14 +104,6 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	}
 
 	@Override
-	public boolean same(@NotNull MathEntity mathEntity) {
-		if ( mathEntity instanceof ExtendedConstant ) {
-			return this.constant.same(((ExtendedConstant) mathEntity).getConstant());
-		}
-		return false;
-	}
-
-	@Override
 	public void copy(@NotNull MathEntity that) {
 		this.constant.copy(that);
 		if (that instanceof ExtendedConstant) {

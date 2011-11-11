@@ -34,11 +34,11 @@ public class Identifier implements Parser<String> {
 		return result.toString();
 	}
 
-	private boolean isValidFirstCharacter(char ch) {
-		return Character.isLetter(ch) || ch == '√';
+	private static boolean isValidFirstCharacter(char ch) {
+		return Character.isLetter(ch) || ch == '√' || ch == '∞' || ch == 'π';
 	}
 
-	private boolean isValidNotFirstCharacter(@NotNull String string, @NotNull MutableInt position) {
+	private static boolean isValidNotFirstCharacter(@NotNull String string, @NotNull MutableInt position) {
 		final char ch = string.charAt(position.intValue());
 		return Character.isLetter(ch) || Character.isDigit(ch) || ch == '_';
 	}
