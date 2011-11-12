@@ -99,6 +99,11 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	}
 
 	@Override
+	public boolean isIdDefined() {
+		return constant.isIdDefined();
+	}
+
+	@Override
 	public void setId(@NotNull Integer id) {
 		constant.setId(id);
 	}
@@ -106,10 +111,14 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	@Override
 	public void copy(@NotNull MathEntity that) {
 		this.constant.copy(that);
+
+		if (that instanceof IConstant) {
+			this.description = ((IConstant) that).getDescription();
+			this.value = ((IConstant) that).getValue();
+		}
+
 		if (that instanceof ExtendedConstant) {
-			this.value = ((ExtendedConstant) that).value;
 			this.javaString = ((ExtendedConstant) that).javaString;
-			this.description = ((ExtendedConstant) that).description;
 		}
 	}
 

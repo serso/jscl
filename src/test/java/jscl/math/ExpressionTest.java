@@ -64,7 +64,7 @@ public class ExpressionTest {
 
 
 		Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("(pi/pi)!").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("(π/π)!").numeric().toString());
 		Assert.assertEquals("720.0", Expression.valueOf("3!!").numeric().toString());
 		Assert.assertEquals("36.0", Expression.valueOf("3!*3!").numeric().toString());
 
@@ -94,7 +94,7 @@ public class ExpressionTest {
 		Assert.assertEquals("0.0", Expression.valueOf("abs(0)").numeric().toString());
 		Assert.assertEquals("0.0", Expression.valueOf("abs(-0)").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("abs(-1)").numeric().toString());
-		Assert.assertEquals("Infinity", Expression.valueOf("abs(-infin)").numeric().toString());
+		Assert.assertEquals("Infinity", Expression.valueOf("abs(-∞)").numeric().toString());
 
 		Assert.assertEquals("1.0", Expression.valueOf("abs(√(-1))").numeric().toString());
 		Assert.assertEquals("0.0", Expression.valueOf("abs(0+0*√(-1))").numeric().toString());
@@ -104,14 +104,14 @@ public class ExpressionTest {
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*√(-1))").numeric().toString());
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*√(-1))").numeric().toString());
 
-		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
+		new JsclMathEngine().getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("k").numeric().toString());
 		Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
 		Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
 		Assert.assertEquals("k^3", Expression.valueOf("k*k*k").simplify().toString());
 		Assert.assertEquals("22.627416997969526", Expression.valueOf("k*k*k").numeric().toString());
 
-		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("k_1"), 3d));
+		new JsclMathEngine().getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k_1"), 3d));
 		Assert.assertEquals("3.0", Expression.valueOf("k_1").numeric().toString());
 		Assert.assertEquals("3.0", Expression.valueOf("k_1[0]").numeric().toString());
 		Assert.assertEquals("3.0", Expression.valueOf("k_1[2]").numeric().toString());
@@ -125,7 +125,7 @@ public class ExpressionTest {
 		} catch (ArithmeticException e) {
 		}
 
-		new JsclMathEngine().getConstantsRegistry().add(null, new ExtendedConstant.Builder(new Constant("t"), (String)null));
+		new JsclMathEngine().getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t"), (String)null));
 		try {
 			Expression.valueOf("t").numeric();
 			fail();

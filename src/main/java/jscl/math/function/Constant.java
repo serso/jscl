@@ -8,10 +8,11 @@ public class Constant extends Variable {
 
 	public static final Generic e = new Exp(JsclInteger.valueOf(1)).expressionValue();
 
-	public static final Constant PI_CONST = new Constant("pi");
+	public static final Constant PI_CONST = new Constant("π");
 	public static final Generic pi = PI_CONST.expressionValue();
 
-	public static final Constant INF_CONST = new Constant("infin");
+	public static final Constant INF_CONST2 = new Constant("Infinity");
+	public static final Constant INF_CONST = new Constant("∞");
 	public static final Generic infinity = INF_CONST.expressionValue();
 
 	public static final Generic i = new Sqrt(JsclInteger.valueOf(-1)).expressionValue();

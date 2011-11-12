@@ -42,7 +42,7 @@ class Singularity implements Parser<Double> {
 		String s = Identifier.parser.parse(string, position);
 		if (s.equals("NaN")) {
 			result = Double.NaN;
-		} else if (s.equals("Infinity")) {
+		} else if (s.equals("Infinity") || s.equals("∞")) {
 			result = Double.POSITIVE_INFINITY;
 		} else {
 			position.setValue(pos0);

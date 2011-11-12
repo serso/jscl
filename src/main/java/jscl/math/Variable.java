@@ -17,7 +17,6 @@ public abstract class Variable implements Comparable, MathEntity {
 	@NotNull
 	public static final Comparator<Variable> comparator = VariableComparator.comparator;
 
-	@NotNull
 	private Integer id;
 
 	@NotNull
@@ -31,6 +30,11 @@ public abstract class Variable implements Comparable, MathEntity {
 	@Override
 	public Integer getId() {
 		return id;
+	}
+
+	@Override
+	public boolean isIdDefined() {
+		return id != null;
 	}
 
 	public void setId(@NotNull Integer id) {
