@@ -15,7 +15,7 @@ public class Sinh extends Trigonometric {
         super("sinh",new Generic[] {generic});
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Cosh(parameter[0]).evaluate();
     }
 

@@ -8,7 +8,7 @@ public abstract class ArcTrigonometric extends Function {
         super(name,parameter);
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         throw new NotIntegrableException();
     }
 

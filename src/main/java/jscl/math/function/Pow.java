@@ -40,7 +40,7 @@ public class Pow extends Algebraic {
         return super.antiDerivative(variable);
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         if(n==0) {
             return new Pow(parameter[0],parameter[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inv(parameter[1].add(JsclInteger.valueOf(1))).evaluate());
         } else {

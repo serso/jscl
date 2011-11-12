@@ -15,7 +15,7 @@ public class Sin extends Trigonometric {
         super("sin",new Generic[] {generic});
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Cos(parameter[0]).evaluate().negate();
     }
 

@@ -8,7 +8,7 @@ public class Abs extends Function {
 		super("abs", new Generic[]{generic});
 	}
 
-	public Generic antiderivative(int n) throws NotIntegrableException {
+	public Generic antiDerivative(int n) throws NotIntegrableException {
 		return Constant.half.multiply(parameter[0]).multiply(new Abs(parameter[0]).evaluate());
 	}
 

@@ -8,7 +8,7 @@ public class Lg extends Function {
 		super("lg", new Generic[]{generic});
 	}
 
-	public Generic antiderivative(int n) throws NotIntegrableException {
+	public Generic antiDerivative(int n) throws NotIntegrableException {
 		throw new NotIntegrableException();
 	}
 

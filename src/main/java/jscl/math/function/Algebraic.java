@@ -11,7 +11,7 @@ public abstract class Algebraic extends Function {
 
     public abstract Root rootValue() throws NotRootException;
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return null;
     }
 

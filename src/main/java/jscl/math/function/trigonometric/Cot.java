@@ -11,7 +11,7 @@ public class Cot extends Trigonometric {
         super("cot",new Generic[] {generic});
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Lg(
             JsclInteger.valueOf(4).multiply(
                 new Sin(parameter[0]).evaluate()

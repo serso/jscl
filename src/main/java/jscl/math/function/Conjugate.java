@@ -9,7 +9,7 @@ public class Conjugate extends Function {
         super("conjugate",new Generic[] {generic});
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return Constant.half.multiply(evaluate().pow(2));
     }
 

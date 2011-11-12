@@ -12,7 +12,7 @@ public class Comparison extends Function {
 		for (int i = 0; i < easo.length; i++) if (name.compareTo(easo[i]) == 0) operator = i;
 	}
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         throw new NotIntegrableException();
     }
 

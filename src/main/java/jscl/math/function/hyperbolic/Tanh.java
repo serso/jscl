@@ -11,7 +11,7 @@ public class Tanh extends Trigonometric {
         super("tanh",new Generic[] {generic});
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Lg(
             JsclInteger.valueOf(4).multiply(
                 new Cosh(parameter[0]).evaluate()

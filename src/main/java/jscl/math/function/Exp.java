@@ -16,12 +16,12 @@ public class Exp extends Function {
             Polynomial p=Polynomial.factory(variable).valueof(s);
             if(p.degree()==1) {
                 Generic a[]=p.elements();
-                return new Inv(a[1]).evaluate().multiply(antiderivative(0));
+                return new Inv(a[1]).evaluate().multiply(antiDerivative(0));
             } else throw new NotIntegrableException();
         } else throw new NotIntegrableException();
     }
 
-    public Generic antiderivative(int n) throws NotIntegrableException {
+    public Generic antiDerivative(int n) throws NotIntegrableException {
         return evaluate();
     }
 

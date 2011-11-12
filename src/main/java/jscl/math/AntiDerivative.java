@@ -36,7 +36,7 @@ public class AntiDerivative {
             return new Pow(
                 a[0].negate(),
                 new Inv(JsclInteger.valueOf(d)).evaluate()
-            ).antiderivative(0);
+            ).antiDerivative(0);
         } else throw new NotIntegrableException();
     }
 

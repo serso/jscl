@@ -60,10 +60,10 @@ public abstract class Function extends Variable {
 			}
 		}
 		if (n < 0) throw new NotIntegrableException();
-		else return antiderivative(n);
+		else return antiDerivative(n);
 	}
 
-	public abstract Generic antiderivative(int n) throws NotIntegrableException;
+	public abstract Generic antiDerivative(int n) throws NotIntegrableException;
 
 	public Generic derivative(Variable variable) {
 		if (isIdentity(variable)) return JsclInteger.valueOf(1);
