@@ -33,7 +33,7 @@ public class Root extends Algebraic {
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         boolean b=true;
-        for(int i=0;i<parameter.length;i++) b=b && parameter[i].isPolynomial(variable);
+        for(int i=0;i< parameters.length;i++) b=b && parameters[i].isPolynomial(variable);
         if(b) {
             return AntiDerivative.compute(this, variable);
         } else throw new NotIntegrableException();
@@ -43,10 +43,10 @@ public class Root extends Algebraic {
         if(compareTo(variable)==0) return JsclInteger.valueOf(1);
         else {
             Variable t=new TechnicalVariable("t");
-            Generic a[]=new Generic[parameter.length];
-            for(int i=0;i<parameter.length;i++) a[i]=parameter[i].derivative(variable);
+            Generic a[]=new Generic[parameters.length];
+            for(int i=0;i< parameters.length;i++) a[i]= parameters[i].derivative(variable);
             UnivariatePolynomial fact=(UnivariatePolynomial)Polynomial.factory(this);
-            UnivariatePolynomial p=fact.valueof(parameter);
+            UnivariatePolynomial p=fact.valueof(parameters);
             UnivariatePolynomial q=(UnivariatePolynomial)p.derivative().multiply(t.expressionValue()).add(fact.valueof(a));
             UnivariatePolynomial r=(UnivariatePolynomial)Polynomial.factory(t).valueof(p.resultant(q));
             return new Root(r.elements(),subscript).evaluate();
@@ -59,8 +59,8 @@ public class Root extends Algebraic {
 
     public Generic substitute(Variable variable, Generic generic) {
         Root v=(Root) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].substitute(variable,generic);
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].substitute(variable,generic);
         }
         v.subscript=subscript.substitute(variable,generic);
         if(v.isIdentity(variable)) return generic;
@@ -69,8 +69,8 @@ public class Root extends Algebraic {
 
     public Generic expand() {
         Root v=(Root) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].expand();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].expand();
         }
         v.subscript=subscript.expand();
         return v.evaluate();
@@ -78,8 +78,8 @@ public class Root extends Algebraic {
 
     public Generic factorize() {
         Root v=(Root) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].factorize();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].factorize();
         }
         v.subscript=subscript;
         return v.expressionValue();
@@ -87,8 +87,8 @@ public class Root extends Algebraic {
 
     public Generic elementary() {
         Root v=(Root) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].elementary();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].elementary();
         }
         v.subscript=subscript.elementary();
         return v.evaluateElementary();
@@ -96,8 +96,8 @@ public class Root extends Algebraic {
 
     public Generic simplify() {
         Root v=(Root) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].simplify();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].simplify();
         }
         v.subscript=subscript.simplify();
         return v.evaluateSimplify();
@@ -105,8 +105,8 @@ public class Root extends Algebraic {
 
     public Generic numeric() {
         Root v=(Root) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].numeric();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].numeric();
         }
         v.subscript=subscript;
         return v.evaluateNumerically();
@@ -118,7 +118,7 @@ public class Root extends Algebraic {
             int s=subscript.integerValue().intValue();
             switch(degree()) {
             case 1:
-                return new Frac(parameter[0],parameter[1]).evaluate().negate();
+                return new Frac(parameters[0], parameters[1]).evaluate().negate();
             }
         } catch (NotIntegerException e) {}
         return expressionValue();
@@ -134,15 +134,15 @@ public class Root extends Algebraic {
             int s=subscript.integerValue().intValue();
             switch(degree()) {
             case 1:
-                return linear(parameter);
+                return linear(parameters);
             case 2:
-                return quadratic(parameter,s);
+                return quadratic(parameters,s);
             case 3:
-                return cubic(parameter,s);
+                return cubic(parameters,s);
             case 4:
-                return quartic(parameter,s);
+                return quartic(parameters,s);
             default:
-                if(isNth() && s==0) return nth(parameter);
+                if(isNth() && s==0) return nth(parameters);
             }
         } catch (NotIntegerException e) {}
         return expressionValue();
@@ -150,15 +150,15 @@ public class Root extends Algebraic {
 
     boolean isZero() {
         boolean b=degree()>0;
-        for(int i=0;i<degree();i++) b=b && parameter[i].signum()==0;
-        b=b && parameter[degree()].signum()!=0;
+        for(int i=0;i<degree();i++) b=b && parameters[i].signum()==0;
+        b=b && parameters[degree()].signum()!=0;
         return b;
     }
 
     boolean isNth() {
         boolean b=degree()>0;
-        for(int i=1;i<degree();i++) b=b && parameter[i].signum()==0;
-        b=b && parameter[degree()].signum()!=0;
+        for(int i=1;i<degree();i++) b=b && parameters[i].signum()==0;
+        b=b && parameters[degree()].signum()!=0;
         return b;
     }
 
@@ -276,11 +276,11 @@ public class Root extends Algebraic {
     }
 
     public int degree() {
-        return parameter.length-1;
+        return parameters.length-1;
     }
 
     public Generic evaluateNumerically() {
-        return NumericWrapper.root(subscript.integerValue().intValue(),parameter);
+        return NumericWrapper.root(subscript.integerValue().intValue(), parameters);
     }
 
     public int compareTo(Variable variable) {
@@ -290,7 +290,7 @@ public class Root extends Algebraic {
         else if(c>0) return 1;
         else {
             Root v=(Root)variable;
-            c=ArrayComparator.comparator.compare(parameter,v.parameter);
+            c=ArrayComparator.comparator.compare(parameters,v.parameters);
             if(c<0) return -1;
             else if(c>0) return 1;
             else return subscript.compareTo(v.subscript);
@@ -308,8 +308,8 @@ public class Root extends Algebraic {
         buffer.append(name);
         buffer.append("[").append(subscript).append("]");
         buffer.append("(");
-        for(int i=0;i<parameter.length;i++) {
-            buffer.append(parameter[i]).append(i<parameter.length-1?", ":"");
+        for(int i=0;i< parameters.length;i++) {
+            buffer.append(parameters[i]).append(i< parameters.length-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
@@ -320,8 +320,8 @@ public class Root extends Algebraic {
         buffer.append("Numeric.").append(name).append("(");
         buffer.append(subscript.integerValue().intValue());
         buffer.append(", new Numeric[] {");
-        for(int i=0;i<parameter.length;i++) {
-            buffer.append(parameter[i].toJava()).append(i<parameter.length-1?", ":"");
+        for(int i=0;i< parameters.length;i++) {
+            buffer.append(parameters[i].toJava()).append(i< parameters.length-1?", ":"");
         }
         buffer.append("})");
         return buffer.toString();
@@ -345,8 +345,8 @@ public class Root extends Algebraic {
             element.appendChild(e1);
         }
         e1=element.element("mfenced");
-        for(int i=0;i<parameter.length;i++) {
-            parameter[i].toMathML(e1,null);
+        for(int i=0;i< parameters.length;i++) {
+            parameters[i].toMathML(e1,null);
         }
         element.appendChild(e1);
     }
@@ -354,7 +354,7 @@ public class Root extends Algebraic {
     void bodyToMathML(MathML element, boolean fenced) {}
 
     public Variable newInstance() {
-        return new Root(new Generic[parameter.length],null);
+        return new Root(new Generic[parameters.length],null);
     }
 }
 

@@ -27,7 +27,7 @@ public class GeometricProduct extends VectorOperator {
         if(generic.signum()==0) return null;
         Variable v=generic.variableValue();
         if(v instanceof ImplicitFunction) {
-            Generic g[]=((ImplicitFunction)v).parameters();
+            Generic g[]=((ImplicitFunction)v).getParameters();
             int p=g[0].integerValue().intValue();
             int q=g[1].integerValue().intValue();
             if(v.compareTo(new ImplicitFunction("cl",new Generic[] {JsclInteger.valueOf(p), JsclInteger.valueOf(q)},new int[] {0,0},new Generic[] {}))==0) return new int[] {p,q};

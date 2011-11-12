@@ -17,15 +17,15 @@ public class Atanh extends ArcTrigonometric {
     public Generic derivative(int n) {
         return new Inv(
             JsclInteger.valueOf(1).subtract(
-                parameter[0].pow(2)
+                parameters[0].pow(2)
             )
         ).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Atanh(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Atanh(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -35,9 +35,9 @@ public class Atanh extends ArcTrigonometric {
         return new Lg(
             new Root(
                 new Generic[] {
-                    JsclInteger.valueOf(1).add(parameter[0]),
+                    JsclInteger.valueOf(1).add(parameters[0]),
                     JsclInteger.valueOf(0),
-                    JsclInteger.valueOf(-1).add(parameter[0])
+                    JsclInteger.valueOf(-1).add(parameters[0])
                 },
                 0
             ).evaluateElementary()
@@ -45,7 +45,7 @@ public class Atanh extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).atanh();
+        return ((NumericWrapper) parameters[0]).atanh();
     }
 
     public Variable newInstance() {

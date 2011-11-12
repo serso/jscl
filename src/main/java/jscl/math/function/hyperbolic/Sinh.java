@@ -16,17 +16,17 @@ public class Sinh extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Cosh(parameter[0]).evaluate();
+        return new Cosh(parameters[0]).evaluate();
     }
 
     public Generic derivative(int n) {
-        return new Cosh(parameter[0]).evaluate();
+        return new Cosh(parameters[0]).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Sinh(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Sinh(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -34,24 +34,24 @@ public class Sinh extends Trigonometric {
 
     public Generic evaluateElementary() {
         return new Exp(
-            parameter[0]
+            parameters[0]
         ).evaluateElementary().subtract(
             new Exp(
-                parameter[0].negate()
+                parameters[0].negate()
             ).evaluateElementary()
         ).multiply(Constant.half);
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Sinh(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Sinh(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Asinh) {
-                Generic g[]=((Asinh)v).parameters();
+                Generic g[]=((Asinh)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -69,7 +69,7 @@ public class Sinh extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).sinh();
+        return ((NumericWrapper) parameters[0]).sinh();
     }
 
     public Variable newInstance() {

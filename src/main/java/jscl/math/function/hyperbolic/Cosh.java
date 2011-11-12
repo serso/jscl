@@ -16,17 +16,17 @@ public class Cosh extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Sinh(parameter[0]).evaluate();
+        return new Sinh(parameters[0]).evaluate();
     }
 
     public Generic derivative(int n) {
-        return new Sinh(parameter[0]).evaluate();
+        return new Sinh(parameters[0]).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Cosh(parameter[0].negate()).evaluate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Cosh(parameters[0].negate()).evaluate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
         return expressionValue();
@@ -34,24 +34,24 @@ public class Cosh extends Trigonometric {
 
     public Generic evaluateElementary() {
         return new Exp(
-            parameter[0]
+            parameters[0]
         ).evaluateElementary().add(
             new Exp(
-                parameter[0].negate()
+                parameters[0].negate()
             ).evaluateElementary()
         ).multiply(Constant.half);
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Cosh(parameter[0].negate()).evaluate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Cosh(parameters[0].negate()).evaluate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Acosh) {
-                Generic g[]=((Acosh)v).parameters();
+                Generic g[]=((Acosh)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -69,7 +69,7 @@ public class Cosh extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).cosh();
+        return ((NumericWrapper) parameters[0]).cosh();
     }
 
     public Variable newInstance() {

@@ -11,7 +11,7 @@ public class Exp extends Function {
     }
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-        Generic s=parameter[0];
+        Generic s= parameters[0];
         if(s.isPolynomial(variable)) {
             Polynomial p=Polynomial.factory(variable).valueof(s);
             if(p.degree()==1) {
@@ -30,9 +30,9 @@ public class Exp extends Function {
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Inv(new Exp(parameter[0].negate()).evaluate()).evaluate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Inv(new Exp(parameters[0].negate()).evaluate()).evaluate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
         return expressionValue();
@@ -43,21 +43,21 @@ public class Exp extends Function {
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Inv(new Exp(parameter[0].negate()).evaluateSimplify()).evaluateSimplify();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Inv(new Exp(parameters[0].negate()).evaluateSimplify()).evaluateSimplify();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
-        } else if(parameter[0].compareTo(Constant.i.multiply(Constant.pi))==0) {
+        } else if(parameters[0].compareTo(Constant.i.multiply(Constant.pi))==0) {
             return JsclInteger.valueOf(-1);
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Lg) {
-                Generic g[]=((Lg)v).parameters();
+                Generic g[]=((Lg)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {
-            Generic a[]=parameter[0].sumValue();
+            Generic a[]= parameters[0].sumValue();
             if(a.length>1) {
                 Generic s= JsclInteger.valueOf(1);
                 for(int i=0;i<a.length;i++) {
@@ -66,7 +66,7 @@ public class Exp extends Function {
                 return s;
             }
         }
-        Generic n[]=Frac.separateCoefficient(parameter[0]);
+        Generic n[]=Frac.separateCoefficient(parameters[0]);
         if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Pow(
             new Exp(n[2]).evaluateSimplify(),
@@ -76,7 +76,7 @@ public class Exp extends Function {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).exp();
+        return ((NumericWrapper) parameters[0]).exp();
     }
 
     public void toMathML(MathML element, Object data) {
@@ -107,7 +107,7 @@ public class Exp extends Function {
         MathML e2=element.element("mi");
         e2.appendChild(element.text(/*"\u2147"*/"e"));
         e1.appendChild(e2);
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         element.appendChild(e1);
     }
     

@@ -18,7 +18,7 @@ public class Acosh extends ArcTrigonometric {
     public Generic derivative(int n) {
         return new Inv(
             new Sqrt(
-                parameter[0].pow(2).subtract(
+                parameters[0].pow(2).subtract(
                     JsclInteger.valueOf(1)
                 )
             ).evaluate()
@@ -26,7 +26,7 @@ public class Acosh extends ArcTrigonometric {
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()==0) {
+        if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -37,7 +37,7 @@ public class Acosh extends ArcTrigonometric {
             new Root(
                 new Generic[] {
                     JsclInteger.valueOf(-1),
-                    JsclInteger.valueOf(2).multiply(parameter[0]),
+                    JsclInteger.valueOf(2).multiply(parameters[0]),
                     JsclInteger.valueOf(-1)
                 },
                 0
@@ -46,7 +46,7 @@ public class Acosh extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).acosh();
+        return ((NumericWrapper) parameters[0]).acosh();
     }
 
     public Variable newInstance() {

@@ -22,7 +22,7 @@ public class Comparison extends Function {
 
     public Generic evaluate() {
         try {
-            return compare(parameter[0].integerValue(),parameter[1].integerValue());
+            return compare(parameters[0].integerValue(), parameters[1].integerValue());
         } catch (NotIntegerException e) {}
         return expressionValue();
     }
@@ -36,7 +36,7 @@ public class Comparison extends Function {
     }
 
     public Generic evaluateNumerically() {
-        return compare((NumericWrapper)parameter[0],(NumericWrapper)parameter[1]);
+        return compare((NumericWrapper) parameters[0],(NumericWrapper) parameters[1]);
     }
 
     JsclInteger compare(JsclInteger a1, JsclInteger a2) {
@@ -70,16 +70,16 @@ public class Comparison extends Function {
 
     public String toJava() {
         StringBuffer buffer=new StringBuffer();
-        buffer.append(parameter[0].toJava()).append(easj[operator]).append(parameter[1].toJava());
+        buffer.append(parameters[0].toJava()).append(easj[operator]).append(parameters[1].toJava());
         return buffer.toString();
     }
 
     public void toMathML(MathML element, Object data) {
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
         MathML e1=element.element("mo");
         e1.appendChild(element.text(easm[operator]));
         element.appendChild(e1);
-        parameter[1].toMathML(element,null);
+        parameters[1].toMathML(element,null);
     }
 
     public Variable newInstance() {

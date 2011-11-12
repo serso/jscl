@@ -19,15 +19,15 @@ public class Asin extends ArcTrigonometric {
     public Generic derivative(int n) {
         return new Inv(
             new Sqrt(
-                JsclInteger.valueOf(1).subtract(parameter[0].pow(2))
+                JsclInteger.valueOf(1).subtract(parameters[0].pow(2))
             ).evaluate()
         ).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Asin(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Asin(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -39,7 +39,7 @@ public class Asin extends ArcTrigonometric {
                 new Root(
                     new Generic[] {
                         JsclInteger.valueOf(-1),
-                        JsclInteger.valueOf(2).multiply(Constant.i.multiply(parameter[0])),
+                        JsclInteger.valueOf(2).multiply(Constant.i.multiply(parameters[0])),
                         JsclInteger.valueOf(1)
                     },
                     0
@@ -49,7 +49,7 @@ public class Asin extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).asin();
+        return ((NumericWrapper) parameters[0]).asin();
     }
 
     public Variable newInstance() {

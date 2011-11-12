@@ -275,7 +275,7 @@ public class Expression extends Generic {
                     return v.antiDerivative(variable);
                 } catch (NotIntegrableException e) {
                     if(v instanceof Frac) {
-                        Generic g[]=((Frac)v).parameters();
+                        Generic g[]=((Frac)v).getParameters();
                         if(g[1].isConstant(variable)) {
                             return new Inv(g[1]).evaluate().multiply(g[0].antiDerivative(variable));
                         }

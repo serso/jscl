@@ -17,14 +17,14 @@ public class Acoth extends ArcTrigonometric {
     public Generic derivative(int n) {
         return new Inv(
             JsclInteger.valueOf(1).subtract(
-                parameter[0].pow(2)
+                parameters[0].pow(2)
             )
         ).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Acoth(parameter[0].negate()).evaluate().negate();
+        if(parameters[0].signum()<0) {
+            return new Acoth(parameters[0].negate()).evaluate().negate();
         }
         return expressionValue();
     }
@@ -33,9 +33,9 @@ public class Acoth extends ArcTrigonometric {
         return new Lg(
             new Root(
                 new Generic[] {
-                    JsclInteger.valueOf(1).add(parameter[0]),
+                    JsclInteger.valueOf(1).add(parameters[0]),
                     JsclInteger.valueOf(0),
-                    JsclInteger.valueOf(1).subtract(parameter[0])
+                    JsclInteger.valueOf(1).subtract(parameters[0])
                 },
                 0
             ).evaluateElementary()
@@ -43,7 +43,7 @@ public class Acoth extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).acoth();
+        return ((NumericWrapper) parameters[0]).acoth();
     }
 
     public Variable newInstance() {

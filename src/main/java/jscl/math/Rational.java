@@ -154,7 +154,7 @@ public final class Rational extends Generic implements Field {
             return new Rational(r.numerator,r.denominator);
         } else if(generic instanceof Expression) {
             boolean sign=generic.signum()<0;
-            Generic g[]=((Frac)(sign?generic.negate():generic).variableValue()).parameters();
+            Generic g[]=((Frac)(sign?generic.negate():generic).variableValue()).getParameters();
             JsclInteger numerator=(JsclInteger)(sign?g[0].negate():g[0]);
             JsclInteger denominator=(JsclInteger)g[1];
             return new Rational(numerator.content(),denominator.content());

@@ -19,16 +19,16 @@ public class Asinh extends ArcTrigonometric {
         return new Inv(
             new Sqrt(
                 JsclInteger.valueOf(1).add(
-                    parameter[0].pow(2)
+                    parameters[0].pow(2)
                 )
             ).evaluate()
         ).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Asinh(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Asinh(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -39,7 +39,7 @@ public class Asinh extends ArcTrigonometric {
             new Root(
                 new Generic[] {
                     JsclInteger.valueOf(1),
-                    JsclInteger.valueOf(2).multiply(parameter[0]),
+                    JsclInteger.valueOf(2).multiply(parameters[0]),
                     JsclInteger.valueOf(-1)
                 },
                 0
@@ -48,7 +48,7 @@ public class Asinh extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).asinh();
+        return ((NumericWrapper) parameters[0]).asinh();
     }
 
     public Variable newInstance() {

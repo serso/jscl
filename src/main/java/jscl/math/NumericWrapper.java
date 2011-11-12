@@ -191,8 +191,12 @@ public final class NumericWrapper extends Generic {
 
 	public JsclInteger integerValue() throws NotIntegerException {
 		if (content instanceof JsclDouble) {
-			// todo serso: check if it is correct to cast double to integer
-			return JsclInteger.valueOf((int) ((JsclDouble) content).doubleValue());
+			double doubleValue = ((JsclDouble) content).doubleValue();
+			if (Math.floor(doubleValue) == doubleValue) {
+				return JsclInteger.valueOf((int) doubleValue);
+			} else {
+				throw new NotIntegerException();
+			}
 		} else {
 			throw new NotIntegerException();
 		}

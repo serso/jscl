@@ -1,19 +1,15 @@
 package jscl.math;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import jscl.math.function.Cubic;
-import jscl.math.function.Frac;
-import jscl.math.function.NotRootException;
-import jscl.math.function.Pow;
-import jscl.math.function.Root;
-import jscl.math.function.Sqrt;
+import jscl.math.function.*;
 import jscl.math.polynomial.Basis;
 import jscl.math.polynomial.Monomial;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Simplification {
     Map cache=new TreeMap();
@@ -151,21 +147,21 @@ public class Simplification {
             if(constraint.contains(new Constraint(v))) continue;
             co=null;
             if(v instanceof Frac) {
-                Generic g[]=((Frac)v).parameters();
+                Generic g[]=((Frac)v).getParameters();
                 co=new Constraint(v,v.expressionValue().multiply(g[1]).subtract(g[0]),false);
             } else if(v instanceof Sqrt) {
-                Generic g[]=((Sqrt)v).parameters();
+                Generic g[]=((Sqrt)v).getParameters();
                 if(linear) co=linearConstraint(v);
                 if(co==null) co=new Constraint(v,v.expressionValue().pow(2).subtract(g[0]),true);
             } else if(v instanceof Cubic) {
-                Generic g[]=((Cubic)v).parameters();
+                Generic g[]=((Cubic)v).getParameters();
                 if(linear) co=linearConstraint(v);
                 if(co==null) co=new Constraint(v,v.expressionValue().pow(3).subtract(g[0]),true);
             } else if(v instanceof Pow) {
                 try {
                     Root r=((Pow)v).rootValue();
                     int d=r.degree();
-                    Generic g[]=r.parameters();
+                    Generic g[]=r.getParameters();
                     if(linear) co=linearConstraint(v);
                     if(co==null) co=new Constraint(v,v.expressionValue().pow(d).subtract(g[0].negate()),d>1);
                 } catch (NotRootException e) {
@@ -176,7 +172,7 @@ public class Simplification {
                     Root r=(Root)v;
                     int d=r.degree();
                     int n=r.subscript().integerValue().intValue();
-                    Generic g[]=r.parameters();
+                    Generic g[]=r.getParameters();
                     if(linear) co=linearConstraint(v);
                     if(co==null) co=new Constraint(v,Root.sigma(g,d-n).multiply(JsclInteger.valueOf(-1).pow(d-n)).multiply(g[d]).subtract(g[n]),d>1);
                 } catch (NotIntegerException e) {

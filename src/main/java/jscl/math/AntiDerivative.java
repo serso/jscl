@@ -27,7 +27,7 @@ public class AntiDerivative {
 
     public static Generic compute(Root root, Variable variable) throws NotIntegrableException {
         int d=root.degree();
-        Generic a[]=root.parameters();
+        Generic a[]=root.getParameters();
         boolean b=d>0;
         b=b && a[0].negate().isIdentity(variable);
         for(int i=1;i<d;i++) b=b && a[i].signum()==0;
@@ -43,7 +43,7 @@ public class AntiDerivative {
     void compute(Frac frac) {
         Debug.println("antiDerivative");
         Debug.increment();
-        Generic g[]=frac.parameters();
+        Generic g[]=frac.getParameters();
         Generic r[]=reduce(g[0],g[1]);
         r=divideAndRemainder(r[0],r[1]);
         Generic s=new Inv(r[2]).evaluate();

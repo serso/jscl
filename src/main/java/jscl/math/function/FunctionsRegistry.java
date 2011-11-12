@@ -15,6 +15,9 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
 	private final static FunctionsRegistry instance = new FunctionsRegistry();
 
 	static {
+		instance.add(new Deg(null));
+		instance.add(new Rad(null));
+
 		instance.add(new Sin(null));
 		instance.add(new Cos(null));
 		instance.add(new Tan(null));

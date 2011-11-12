@@ -11,14 +11,14 @@ public class Pow extends Algebraic {
 
     public Root rootValue() throws NotRootException {
         try {
-            Variable v=parameter[1].variableValue();
+            Variable v= parameters[1].variableValue();
             if(v instanceof Inv) {
                 Generic g=((Inv)v).parameter();
                 try {
                     int d=g.integerValue().intValue();
                     if(d>0) {
                         Generic a[]=new Generic[d+1];
-                        a[0]=parameter[0].negate();
+                        a[0]= parameters[0].negate();
                         for(int i=1;i<d;i++) a[i]= JsclInteger.valueOf(0);
                         a[d]= JsclInteger.valueOf(1);
                         return new Root(a,0);
@@ -32,7 +32,7 @@ public class Pow extends Algebraic {
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         try {
             Root r=rootValue();
-            Generic g[]=r.parameters();
+            Generic g[]=r.getParameters();
             if(g[0].isPolynomial(variable)) {
                 return AntiDerivative.compute(r, variable);
             } else throw new NotIntegrableException();
@@ -42,35 +42,35 @@ public class Pow extends Algebraic {
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
         if(n==0) {
-            return new Pow(parameter[0],parameter[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inv(parameter[1].add(JsclInteger.valueOf(1))).evaluate());
+            return new Pow(parameters[0], parameters[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inv(parameters[1].add(JsclInteger.valueOf(1))).evaluate());
         } else {
-            return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Inv(new Lg(parameter[0]).evaluate()).evaluate());
+            return new Pow(parameters[0], parameters[1]).evaluate().multiply(new Inv(new Lg(parameters[0]).evaluate()).evaluate());
         }
     }
 
     public Generic derivative(int n) {
         if(n==0) {
-            return new Pow(parameter[0],parameter[1].subtract(JsclInteger.valueOf(1))).evaluate().multiply(parameter[1]);
+            return new Pow(parameters[0], parameters[1].subtract(JsclInteger.valueOf(1))).evaluate().multiply(parameters[1]);
         } else {
-            return new Pow(parameter[0],parameter[1]).evaluate().multiply(new Lg(parameter[0]).evaluate());
+            return new Pow(parameters[0], parameters[1]).evaluate().multiply(new Lg(parameters[0]).evaluate());
         }
     }
 
     public Generic evaluate() {
-        if(parameter[0].compareTo(JsclInteger.valueOf(1))==0) {
+        if(parameters[0].compareTo(JsclInteger.valueOf(1))==0) {
             return JsclInteger.valueOf(1);
         }
-        if(parameter[1].signum()<0) {
-            return new Pow(new Inv(parameter[0]).evaluate(),parameter[1].negate()).evaluate();
+        if(parameters[1].signum()<0) {
+            return new Pow(new Inv(parameters[0]).evaluate(), parameters[1].negate()).evaluate();
         }
         try {
-            int c=parameter[1].integerValue().intValue();
-            return parameter[0].pow(c);
+            int c= parameters[1].integerValue().intValue();
+            return parameters[0].pow(c);
         } catch (NotIntegerException e) {}
         try {
             Root r=rootValue();
             int d=r.degree();
-            Generic g[]=r.parameters();
+            Generic g[]=r.getParameters();
             Generic a=g[0].negate();
             try {
                 JsclInteger en=a.integerValue();
@@ -87,28 +87,28 @@ public class Pow extends Algebraic {
     public Generic evaluateElementary() {
         return new Exp(
             new Lg(
-                parameter[0]
+                parameters[0]
             ).evaluateElementary().multiply(
-                parameter[1]
+                parameters[1]
             )
         ).evaluateElementary();
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].compareTo(JsclInteger.valueOf(1))==0) {
+        if(parameters[0].compareTo(JsclInteger.valueOf(1))==0) {
             return JsclInteger.valueOf(1);
         }
-        if(parameter[1].signum()<0) {
-            return new Pow(new Inv(parameter[0]).evaluateSimplify(),parameter[1].negate()).evaluateSimplify();
+        if(parameters[1].signum()<0) {
+            return new Pow(new Inv(parameters[0]).evaluateSimplify(), parameters[1].negate()).evaluateSimplify();
         }
         try {
-            int c=parameter[1].integerValue().intValue();
-            return parameter[0].pow(c);
+            int c= parameters[1].integerValue().intValue();
+            return parameters[0].pow(c);
         } catch (NotIntegerException e) {}
         try {
             Root r=rootValue();
             int d=r.degree();
-            Generic g[]=r.parameters();
+            Generic g[]=r.getParameters();
             Generic a=g[0].negate();
             try {
                 JsclInteger en=a.integerValue();
@@ -127,12 +127,12 @@ public class Pow extends Algebraic {
                     if(a.compareTo(JsclInteger.valueOf(-1))==0) return root_minus_1(d);
             }
         } catch (NotRootException e) {
-            Generic n[]=Frac.separateCoefficient(parameter[1]);
+            Generic n[]=Frac.separateCoefficient(parameters[1]);
             if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
             else return new Pow(
                 new Pow(
                     new Pow(
-                        parameter[0],
+                        parameters[0],
                         n[2]
                     ).evaluateSimplify(),
                     new Inv(
@@ -163,47 +163,47 @@ public class Pow extends Algebraic {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).pow((NumericWrapper)parameter[1]);
+        return ((NumericWrapper) parameters[0]).pow((NumericWrapper) parameters[1]);
     }
 
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         try {
-            JsclInteger en=parameter[0].integerValue();
+            JsclInteger en= parameters[0].integerValue();
             if(en.signum()<0) buffer.append(GenericVariable.valueOf(en,true));
             else buffer.append(en);
         } catch (NotIntegerException e) {
             try {
-                Variable v=parameter[0].variableValue();
+                Variable v= parameters[0].variableValue();
                 if(v instanceof Frac || v instanceof Pow) {
-                    buffer.append(GenericVariable.valueOf(parameter[0]));
+                    buffer.append(GenericVariable.valueOf(parameters[0]));
                 } else buffer.append(v);
             } catch (NotVariableException e2) {
                 try {
-                    Power o=parameter[0].powerValue();
+                    Power o= parameters[0].powerValue();
                     if(o.exponent()==1) buffer.append(o.value(true));
-                    else buffer.append(GenericVariable.valueOf(parameter[0]));
+                    else buffer.append(GenericVariable.valueOf(parameters[0]));
                 } catch (NotPowerException e3) {
-                    buffer.append(GenericVariable.valueOf(parameter[0]));
+                    buffer.append(GenericVariable.valueOf(parameters[0]));
                 }
             }
         }
         buffer.append("^");
         try {
-            JsclInteger en=parameter[1].integerValue();
+            JsclInteger en= parameters[1].integerValue();
             buffer.append(en);
         } catch (NotIntegerException e) {
             try {
-                Variable v=parameter[1].variableValue();
+                Variable v= parameters[1].variableValue();
                 if(v instanceof Frac) {
-                    buffer.append(GenericVariable.valueOf(parameter[1]));
+                    buffer.append(GenericVariable.valueOf(parameters[1]));
                 } else buffer.append(v);
             } catch (NotVariableException e2) {
                 try {
-                    parameter[1].powerValue();
-                    buffer.append(parameter[1]);
+                    parameters[1].powerValue();
+                    buffer.append(parameters[1]);
                 } catch (NotPowerException e3) {
-                    buffer.append(GenericVariable.valueOf(parameter[1]));
+                    buffer.append(GenericVariable.valueOf(parameters[1]));
                 }
             }
         }
@@ -212,9 +212,9 @@ public class Pow extends Algebraic {
 
     public String toJava() {
         StringBuffer buffer=new StringBuffer();
-        buffer.append(parameter[0].toJava());
+        buffer.append(parameters[0].toJava());
         buffer.append(".pow(");
-        buffer.append(parameter[1].toJava());
+        buffer.append(parameters[1].toJava());
         buffer.append(")");
         return buffer.toString();
     }
@@ -232,20 +232,20 @@ public class Pow extends Algebraic {
     void bodyToMathML(MathML element) {
         MathML e1=element.element("msup");
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Frac || v instanceof Pow || v instanceof Exp) {
-                GenericVariable.valueOf(parameter[0]).toMathML(e1,null);
-            } else parameter[0].toMathML(e1,null);
+                GenericVariable.valueOf(parameters[0]).toMathML(e1,null);
+            } else parameters[0].toMathML(e1,null);
         } catch (NotVariableException e2) {
             try {
-                Power o=parameter[0].powerValue();
+                Power o= parameters[0].powerValue();
                 if(o.exponent()==1) o.value(true).toMathML(e1,null);
-                else GenericVariable.valueOf(parameter[0]).toMathML(e1,null);
+                else GenericVariable.valueOf(parameters[0]).toMathML(e1,null);
             } catch (NotPowerException e3) {
-                GenericVariable.valueOf(parameter[0]).toMathML(e1,null);
+                GenericVariable.valueOf(parameters[0]).toMathML(e1,null);
             }
         }
-        parameter[1].toMathML(e1,null);
+        parameters[1].toMathML(e1,null);
         element.appendChild(e1);
     }
 

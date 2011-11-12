@@ -9,19 +9,19 @@ public class Abs extends Function {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		return Constant.half.multiply(parameter[0]).multiply(new Abs(parameter[0]).evaluate());
+		return Constant.half.multiply(parameters[0]).multiply(new Abs(parameters[0]).evaluate());
 	}
 
 	public Generic derivative(int n) {
-		return new Sgn(parameter[0]).evaluate();
+		return new Sgn(parameters[0]).evaluate();
 	}
 
 	public Generic evaluate() {
-		if (parameter[0].signum() < 0) {
-			return new Abs(parameter[0].negate()).evaluate();
+		if (parameters[0].signum() < 0) {
+			return new Abs(parameters[0].negate()).evaluate();
 		}
 		try {
-			return parameter[0].integerValue().abs();
+			return parameters[0].integerValue().abs();
 		} catch (NotIntegerException e) {
 		}
 		return expressionValue();
@@ -29,20 +29,20 @@ public class Abs extends Function {
 
 	public Generic evaluateElementary() {
 		return new Sqrt(
-				parameter[0].pow(2)
+				parameters[0].pow(2)
 		).evaluateElementary();
 	}
 
 	public Generic evaluateSimplify() {
-		if (parameter[0].signum() < 0) {
-			return new Abs(parameter[0].negate()).evaluateSimplify();
+		if (parameters[0].signum() < 0) {
+			return new Abs(parameters[0].negate()).evaluateSimplify();
 		}
 		try {
-			return parameter[0].integerValue().abs();
+			return parameters[0].integerValue().abs();
 		} catch (NotIntegerException e) {
 		}
 		try {
-			Variable v = parameter[0].variableValue();
+			Variable v = parameters[0].variableValue();
 			if (v instanceof Abs) {
 				Function f = (Function) v;
 				return f.evaluateSimplify();
@@ -55,13 +55,13 @@ public class Abs extends Function {
 	}
 
 	public Generic evaluateNumerically() {
-		return parameter[0].abs();
+		return parameters[0].abs();
 	}
 
 	public String toJava() {
 		final StringBuilder result = new StringBuilder();
 
-		result.append(parameter[0].toJava());
+		result.append(parameters[0].toJava());
 		result.append(".abs()");
 
 		return result.toString();
@@ -84,7 +84,7 @@ public class Abs extends Function {
 		MathML e1 = element.element("mfenced");
 		e1.setAttribute("open", "|");
 		e1.setAttribute("close", "|");
-		parameter[0].toMathML(e1, null);
+		parameters[0].toMathML(e1, null);
 		element.appendChild(e1);
 	}
 

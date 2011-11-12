@@ -13,11 +13,11 @@ public class Lg extends Function {
 	}
 
 	public Generic derivative(int n) {
-		return new Inv(parameter[0]).evaluate();
+		return new Inv(parameters[0]).evaluate();
 	}
 
 	public Generic evaluate() {
-		if (parameter[0].compareTo(JsclInteger.valueOf(1)) == 0) {
+		if (parameters[0].compareTo(JsclInteger.valueOf(1)) == 0) {
 			return JsclInteger.valueOf(0);
 		}
 		return expressionValue();
@@ -30,7 +30,7 @@ public class Lg extends Function {
 	public Generic evaluateSimplify() {
 		// todo serso: check simplify (was just copied from Ln)
 		try {
-			JsclInteger en = parameter[0].integerValue();
+			JsclInteger en = parameters[0].integerValue();
 			if (en.signum() < 0) return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).evaluateSimplify());
 			else {
 				Generic a = en.factorize();
@@ -45,14 +45,14 @@ public class Lg extends Function {
 		} catch (NotIntegerException e) {
 		}
 		try {
-			Variable v = parameter[0].variableValue();
+			Variable v = parameters[0].variableValue();
 			if (v instanceof Sqrt) {
-				Generic g[] = ((Sqrt) v).parameters();
+				Generic g[] = ((Sqrt) v).getParameters();
 				return Constant.half.multiply(new Lg(g[0]).evaluateSimplify());
 			}
 		} catch (NotVariableException e) {
 		}
-		Generic n[] = Frac.separateCoefficient(parameter[0]);
+		Generic n[] = Frac.separateCoefficient(parameters[0]);
 		if (n[0].compareTo(JsclInteger.valueOf(1)) == 0 && n[1].compareTo(JsclInteger.valueOf(1)) == 0) ;
 		else return new Lg(n[2]).evaluateSimplify().add(
 				new Lg(n[0]).evaluateSimplify()
@@ -63,7 +63,7 @@ public class Lg extends Function {
 	}
 
 	public Generic evaluateNumerically() {
-		return ((NumericWrapper) parameter[0]).lg();
+		return ((NumericWrapper) parameters[0]).lg();
 	}
 
 	public Variable newInstance() {

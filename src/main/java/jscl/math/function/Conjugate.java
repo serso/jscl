@@ -19,46 +19,46 @@ public class Conjugate extends Function {
 
     public Generic evaluate() {
         try {
-            return parameter[0].integerValue();
+            return parameters[0].integerValue();
         } catch (NotIntegerException e) {}
-        if(parameter[0] instanceof Matrix) {
-            return ((Matrix)parameter[0]).conjugate();
-        } else if(parameter[0] instanceof JsclVector) {
-            return ((JsclVector)parameter[0]).conjugate();
+        if(parameters[0] instanceof Matrix) {
+            return ((Matrix) parameters[0]).conjugate();
+        } else if(parameters[0] instanceof JsclVector) {
+            return ((JsclVector) parameters[0]).conjugate();
         }
         return expressionValue();
     }
 
     public Generic evaluateElementary() {
         try {
-            return parameter[0].integerValue();
+            return parameters[0].integerValue();
         } catch (NotIntegerException e) {}
         return expressionValue();
     }
 
     public Generic evaluateSimplify() {
         try {
-            return parameter[0].integerValue();
+            return parameters[0].integerValue();
         } catch (NotIntegerException e) {}
-        if(parameter[0].signum()<0) {
-            return new Conjugate(parameter[0].negate()).evaluateSimplify().negate();
-        } else if(parameter[0].compareTo(Constant.i)==0) {
+        if(parameters[0].signum()<0) {
+            return new Conjugate(parameters[0].negate()).evaluateSimplify().negate();
+        } else if(parameters[0].compareTo(Constant.i)==0) {
             return Constant.i.negate();
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Conjugate) {
-                Generic g[]=((Conjugate)v).parameters();
+                Generic g[]=((Conjugate)v).getParameters();
                 return g[0];
             } else if(v instanceof Exp) {
-                Generic g[]=((Exp)v).parameters();
+                Generic g[]=((Exp)v).getParameters();
                 return new Exp(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
             } else if(v instanceof Lg) {
-                Generic g[]=((Lg)v).parameters();
+                Generic g[]=((Lg)v).getParameters();
                 return new Lg(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
             }
         } catch (NotVariableException e) {
-            Generic a[]=parameter[0].sumValue();
+            Generic a[]= parameters[0].sumValue();
             if(a.length>1) {
                 Generic s= JsclInteger.valueOf(0);
                 for(int i=0;i<a.length;i++) {
@@ -75,7 +75,7 @@ public class Conjugate extends Function {
                 return s;
             }
         }
-        Generic n[]=Frac.separateCoefficient(parameter[0]);
+        Generic n[]=Frac.separateCoefficient(parameters[0]);
         if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Conjugate(n[2]).evaluateSimplify().multiply(
             new Frac(n[0],n[1]).evaluateSimplify()
@@ -84,12 +84,12 @@ public class Conjugate extends Function {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).conjugate();
+        return ((NumericWrapper) parameters[0]).conjugate();
     }
 
     public String toJava() {
         StringBuffer buffer=new StringBuffer();
-        buffer.append(parameter[0].toJava());
+        buffer.append(parameters[0].toJava());
         buffer.append(".conjugate()");
         return buffer.toString();
     }
@@ -111,7 +111,7 @@ public class Conjugate extends Function {
 
     void bodyToMathML(MathML element) {
         MathML e1=element.element("mover");
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         MathML e2=element.element("mo");
         e2.appendChild(element.text("_"));
         e1.appendChild(e2);

@@ -14,21 +14,21 @@ public class Tanh extends Trigonometric {
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Lg(
             JsclInteger.valueOf(4).multiply(
-                new Cosh(parameter[0]).evaluate()
+                new Cosh(parameters[0]).evaluate()
             )
         ).evaluate();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).subtract(
-            new Tanh(parameter[0]).evaluate().pow(2)
+            new Tanh(parameters[0]).evaluate().pow(2)
         );
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Tanh(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Tanh(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -36,21 +36,21 @@ public class Tanh extends Trigonometric {
 
     public Generic evaluateElementary() {
         return new Frac(
-            new Sinh(parameter[0]).evaluateElementary(),
-            new Cosh(parameter[0]).evaluateElementary()
+            new Sinh(parameters[0]).evaluateElementary(),
+            new Cosh(parameters[0]).evaluateElementary()
         ).evaluateElementary();
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Tanh(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Tanh(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Atanh) {
-                Generic g[]=((Atanh)v).parameters();
+                Generic g[]=((Atanh)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -69,7 +69,7 @@ public class Tanh extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).tanh();
+        return ((NumericWrapper) parameters[0]).tanh();
     }
 
     public Variable newInstance() {

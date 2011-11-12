@@ -15,29 +15,29 @@ public abstract class Function extends Variable {
 
 	private final static String variableNames = "xyzabcdefghijklmnopqrstuvw";
 
-	protected Generic parameter[];
+	protected Generic parameters[];
 
-	public Function(String name, Generic parameter[]) {
+	public Function(String name, Generic parameters[]) {
 		super(name);
-		this.parameter = parameter;
+		this.parameters = parameters;
 	}
 
-	public Generic[] parameters() {
-		return parameter;
+	public Generic[] getParameters() {
+		return parameters;
 	}
 
-	public void setParameter(Generic[] parameter) {
-		this.parameter = parameter;
+	public void setParameters(Generic[] parameters) {
+		this.parameters = parameters;
 	}
 
 	@Override
 	public void copy(@NotNull MathEntity that) {
 		super.copy(that);
 		if (that instanceof Function) {
-			if (((Function) that).parameter != null) {
-				this.parameter = Arrays.copyOf(((Function) that).parameter, ((Function) that).parameter.length);
+			if (((Function) that).parameters != null) {
+				this.parameters = Arrays.copyOf(((Function) that).parameters, ((Function) that).parameters.length);
 			} else {
-				this.parameter = null;
+				this.parameters = null;
 			}
 		}
 	}
@@ -52,9 +52,9 @@ public abstract class Function extends Variable {
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
 		int n = -1;
-		for (int i = 0; i < parameter.length; i++) {
-			if (n == -1 && parameter[i].isIdentity(variable)) n = i;
-			else if (!parameter[i].isConstant(variable)) {
+		for (int i = 0; i < parameters.length; i++) {
+			if (n == -1 && parameters[i].isIdentity(variable)) n = i;
+			else if (!parameters[i].isConstant(variable)) {
 				n = -1;
 				break;
 			}
@@ -69,8 +69,8 @@ public abstract class Function extends Variable {
 		if (isIdentity(variable)) return JsclInteger.valueOf(1);
 		else {
 			Generic a = JsclInteger.valueOf(0);
-			for (int i = 0; i < parameter.length; i++) {
-				a = a.add(parameter[i].derivative(variable).multiply(derivative(i)));
+			for (int i = 0; i < parameters.length; i++) {
+				a = a.add(parameters[i].derivative(variable).multiply(derivative(i)));
 			}
 			return a;
 		}
@@ -80,8 +80,8 @@ public abstract class Function extends Variable {
 
 	public Generic substitute(Variable variable, Generic generic) {
 		Function v = (Function) newInstance();
-		for (int i = 0; i < parameter.length; i++) {
-			v.parameter[i] = parameter[i].substitute(variable, generic);
+		for (int i = 0; i < parameters.length; i++) {
+			v.parameters[i] = parameters[i].substitute(variable, generic);
 		}
 		if (v.isIdentity(variable)) return generic;
 		else return v.evaluate();
@@ -89,48 +89,48 @@ public abstract class Function extends Variable {
 
 	public Generic expand() {
 		Function v = (Function) newInstance();
-		for (int i = 0; i < parameter.length; i++) {
-			v.parameter[i] = parameter[i].expand();
+		for (int i = 0; i < parameters.length; i++) {
+			v.parameters[i] = parameters[i].expand();
 		}
 		return v.evaluate();
 	}
 
 	public Generic factorize() {
 		Function v = (Function) newInstance();
-		for (int i = 0; i < parameter.length; i++) {
-			v.parameter[i] = parameter[i].factorize();
+		for (int i = 0; i < parameters.length; i++) {
+			v.parameters[i] = parameters[i].factorize();
 		}
 		return v.expressionValue();
 	}
 
 	public Generic elementary() {
 		Function v = (Function) newInstance();
-		for (int i = 0; i < parameter.length; i++) {
-			v.parameter[i] = parameter[i].elementary();
+		for (int i = 0; i < parameters.length; i++) {
+			v.parameters[i] = parameters[i].elementary();
 		}
 		return v.evaluateElementary();
 	}
 
 	public Generic simplify() {
 		Function v = (Function) newInstance();
-		for (int i = 0; i < parameter.length; i++) {
-			v.parameter[i] = parameter[i].simplify();
+		for (int i = 0; i < parameters.length; i++) {
+			v.parameters[i] = parameters[i].simplify();
 		}
 		return v.evaluateSimplify();
 	}
 
 	public Generic numeric() {
 		Function v = (Function) newInstance();
-		for (int i = 0; i < parameter.length; i++) {
-			v.parameter[i] = parameter[i].numeric();
+		for (int i = 0; i < parameters.length; i++) {
+			v.parameters[i] = parameters[i].numeric();
 		}
 		return v.evaluateNumerically();
 	}
 
 	public boolean isConstant(Variable variable) {
 		boolean s = !isIdentity(variable);
-		for (int i = 0; i < parameter.length; i++) {
-			s = s && parameter[i].isConstant(variable);
+		for (int i = 0; i < parameters.length; i++) {
+			s = s && parameters[i].isConstant(variable);
 		}
 		return s;
 	}
@@ -145,7 +145,7 @@ public abstract class Function extends Variable {
 			c = name.compareTo(v.name);
 			if (c < 0) return -1;
 			else if (c > 0) return 1;
-			else return ArrayComparator.comparator.compare(parameter, v.parameter);
+			else return ArrayComparator.comparator.compare(parameters, v.parameters);
 		}
 	}
 
@@ -153,15 +153,15 @@ public abstract class Function extends Variable {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(name);
 		buffer.append("(");
-		for (int i = 0; i < parameter.length; i++) {
-			buffer.append(substituteParameter(i)).append(i < parameter.length - 1 ? ", " : "");
+		for (int i = 0; i < parameters.length; i++) {
+			buffer.append(substituteParameter(i)).append(i < parameters.length - 1 ? ", " : "");
 		}
 		buffer.append(")");
 		return buffer.toString();
 	}
 
 	private String substituteParameter(int i) {
-		Generic generic = parameter[i];
+		Generic generic = parameters[i];
 		String result;
 		if (generic != null) {
 			result = generic.toString();
@@ -174,7 +174,7 @@ public abstract class Function extends Variable {
 
 	public String toJava() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(parameter[0].toJava());
+		buffer.append(parameters[0].toJava());
 		buffer.append(".").append(name).append("()");
 		return buffer.toString();
 	}
@@ -192,8 +192,8 @@ public abstract class Function extends Variable {
 			element.appendChild(e1);
 		}
 		e1 = element.element("mfenced");
-		for (int i = 0; i < parameter.length; i++) {
-			parameter[i].toMathML(e1, null);
+		for (int i = 0; i < parameters.length; i++) {
+			parameters[i].toMathML(e1, null);
 		}
 		element.appendChild(e1);
 	}

@@ -16,19 +16,19 @@ public class Sin extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Cos(parameter[0]).evaluate().negate();
+        return new Cos(parameters[0]).evaluate().negate();
     }
 
     public Generic derivative(int n) {
-        return new Cos(parameter[0]).evaluate();
+        return new Cos(parameters[0]).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Sin(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Sin(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
-        } else if(parameter[0].compareTo(Constant.pi)==0) {
+        } else if(parameters[0].compareTo(Constant.pi)==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -36,26 +36,26 @@ public class Sin extends Trigonometric {
 
     public Generic evaluateElementary() {
         return new Exp(
-            Constant.i.multiply(parameter[0])
+            Constant.i.multiply(parameters[0])
         ).evaluateElementary().subtract(
             new Exp(
-                Constant.i.multiply(parameter[0].negate())
+                Constant.i.multiply(parameters[0].negate())
             ).evaluateElementary()
         ).multiply(Constant.i.negate().multiply(Constant.half));
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Sin(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Sin(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
-        } else if(parameter[0].compareTo(Constant.pi)==0) {
+        } else if(parameters[0].compareTo(Constant.pi)==0) {
             return JsclInteger.valueOf(0);
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Asin) {
-                Generic g[]=((Asin)v).parameters();
+                Generic g[]=((Asin)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -73,7 +73,7 @@ public class Sin extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).sin();
+        return ((NumericWrapper) parameters[0]).sin();
     }
 
     public Variable newInstance() {

@@ -18,7 +18,7 @@ public class Inv extends Frac {
     }
 
     public Generic parameter() {
-        return parameter[1];
+        return parameters[1];
     }
 
     public Variable newInstance() {

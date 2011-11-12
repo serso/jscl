@@ -7,41 +7,35 @@ import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
 public class ImplicitFunction extends Function {
-	protected int derivation[];
-	protected Generic subscript[];
 
-	public ImplicitFunction(String name, Generic parameter[], int derivation[], Generic subscript[]) {
+	private int derivations[];
+
+	private Generic subscripts[];
+
+	public ImplicitFunction(String name, Generic parameter[], int derivations[], Generic subscripts[]) {
 		super(name, parameter);
-		this.derivation = derivation;
-		this.subscript = subscript;
-	}
-
-	public int[] derivation() {
-		return derivation;
-	}
-
-	public Generic[] subscript() {
-		return subscript;
+		this.derivations = derivations;
+		this.subscripts = subscripts;
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		int c[] = new int[derivation.length];
+		int c[] = new int[derivations.length];
 		for (int i = 0; i < c.length; i++) {
 			if (i == n) {
-				if (derivation[i] > 0) c[i] = derivation[i] - 1;
+				if (derivations[i] > 0) c[i] = derivations[i] - 1;
 				else throw new NotIntegrableException();
-			} else c[i] = derivation[i];
+			} else c[i] = derivations[i];
 		}
-		return new ImplicitFunction(name, parameter, c, subscript).evaluate();
+		return new ImplicitFunction(name, parameters, c, subscripts).evaluate();
 	}
 
 	public Generic derivative(int n) {
-		int c[] = new int[derivation.length];
+		int c[] = new int[derivations.length];
 		for (int i = 0; i < c.length; i++) {
-			if (i == n) c[i] = derivation[i] + 1;
-			else c[i] = derivation[i];
+			if (i == n) c[i] = derivations[i] + 1;
+			else c[i] = derivations[i];
 		}
-		return new ImplicitFunction(name, parameter, c, subscript).evaluate();
+		return new ImplicitFunction(name, parameters, c, subscripts).evaluate();
 	}
 
 	public Generic evaluate() {
@@ -71,14 +65,14 @@ public class ImplicitFunction extends Function {
 			if (c < 0) return -1;
 			else if (c > 0) return 1;
 			else {
-				c = ArrayComparator.comparator.compare(subscript, v.subscript);
+				c = ArrayComparator.comparator.compare(subscripts, v.subscripts);
 				if (c < 0) return -1;
 				else if (c > 0) return 1;
 				else {
-					c = compareDerivation(derivation, v.derivation);
+					c = compareDerivation(derivations, v.derivations);
 					if (c < 0) return -1;
 					else if (c > 0) return 1;
-					else return ArrayComparator.comparator.compare(parameter, v.parameter);
+					else return ArrayComparator.comparator.compare(parameters, v.parameters);
 				}
 			}
 		}
@@ -94,64 +88,89 @@ public class ImplicitFunction extends Function {
 	}
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
+		final StringBuilder result = new StringBuilder();
+
 		int n = 0;
-		for (int i = 0; i < derivation.length; i++) n += derivation[i];
-		buffer.append(name);
-		for (int i = 0; i < subscript.length; i++) {
-			buffer.append("[").append(subscript[i]).append("]");
+		for (int derivation : derivations) {
+			n += derivation;
 		}
-		if (n == 0) ;
-		else if (parameter.length == 1 ? n <= Constant.PRIMECHARS : false) buffer.append(Constant.primechars(n));
-		else buffer.append(derivationToString());
-		buffer.append("(");
-		for (int i = 0; i < parameter.length; i++) {
-			buffer.append(parameter[i]).append(i < parameter.length - 1 ? ", " : "");
+
+		result.append(name);
+
+		for (Generic aSubscript : subscripts) {
+			result.append("[").append(aSubscript).append("]");
 		}
-		buffer.append(")");
-		return buffer.toString();
+
+		if (n == 0) {
+			// do nothing
+		} else if (parameters.length == 1 && n <= Constant.PRIMECHARS) {
+			result.append(Constant.primechars(n));
+		} else {
+			result.append(derivationToString());
+		}
+
+		result.append("(");
+
+		for (int i = 0; i < parameters.length; i++) {
+			result.append(parameters[i]).append(i < parameters.length - 1 ? ", " : "");
+		}
+
+		result.append(")");
+
+		return result.toString();
 	}
 
 	String derivationToString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append("{");
-		for (int i = 0; i < derivation.length; i++) {
-			buffer.append(derivation[i]).append(i < derivation.length - 1 ? ", " : "");
+		for (int i = 0; i < derivations.length; i++) {
+			buffer.append(derivations[i]).append(i < derivations.length - 1 ? ", " : "");
 		}
 		buffer.append("}");
 		return buffer.toString();
 	}
 
 	public String toJava() {
-		StringBuffer buffer = new StringBuffer();
+		final StringBuilder result = new StringBuilder();
+
 		int n = 0;
-		for (int i = 0; i < derivation.length; i++) n += derivation[i];
-		buffer.append(name);
-		if (n == 0) ;
-		else if (parameter.length == 1 ? n <= Constant.PRIMECHARS : false) buffer.append(Constant.underscores(n));
-		else buffer.append(derivationToJava());
-		buffer.append("(");
-		for (int i = 0; i < parameter.length; i++) {
-			buffer.append(parameter[i].toJava()).append(i < parameter.length - 1 ? ", " : "");
+		for (int derivation : derivations) {
+			n += derivation;
 		}
-		buffer.append(")");
-		for (int i = 0; i < subscript.length; i++) {
-			buffer.append("[").append(subscript[i].integerValue().intValue()).append("]");
+
+		result.append(name);
+		if (n == 0) {
+			// do nothing
+		} else if (parameters.length == 1 && n <= Constant.PRIMECHARS) {
+			result.append(Constant.underscores(n));
+		} else {
+			result.append(derivationToJava());
 		}
-		return buffer.toString();
+
+		result.append("(");
+		for (int i = 0; i < parameters.length; i++) {
+			result.append(parameters[i].toJava()).append(i < parameters.length - 1 ? ", " : "");
+		}
+		result.append(")");
+
+		for (Generic subscript : subscripts) {
+			result.append("[").append(subscript.integerValue().intValue()).append("]");
+		}
+
+		return result.toString();
 	}
 
 	String derivationToJava() {
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < derivation.length; i++) {
-			buffer.append("_").append(derivation[i]);
+		StringBuilder buffer = new StringBuilder();
+		for (int i = 0; i < derivations.length; i++) {
+			buffer.append("_").append(derivations[i]);
 		}
 		return buffer.toString();
 	}
 
 	public void toMathML(MathML element, Object data) {
 		MathML e1;
-		int exponent = data instanceof Integer ? ((Integer) data).intValue() : 1;
+		int exponent = data instanceof Integer ? (Integer) data : 1;
 		if (exponent == 1) bodyToMathML(element);
 		else {
 			e1 = element.element("msup");
@@ -162,16 +181,19 @@ public class ImplicitFunction extends Function {
 			element.appendChild(e1);
 		}
 		e1 = element.element("mfenced");
-		for (int i = 0; i < parameter.length; i++) {
-			parameter[i].toMathML(e1, null);
+		for (Generic parameter : parameters) {
+			parameter.toMathML(e1, null);
 		}
 		element.appendChild(e1);
 	}
 
 	void bodyToMathML(MathML element) {
 		int n = 0;
-		for (int i = 0; i < derivation.length; i++) n += derivation[i];
-		if (subscript.length == 0) {
+		for (int derivation : derivations) {
+			n += derivation;
+		}
+
+		if (subscripts.length == 0) {
 			if (n == 0) {
 				nameToMathML(element);
 			} else {
@@ -185,8 +207,8 @@ public class ImplicitFunction extends Function {
 				MathML e1 = element.element("msub");
 				nameToMathML(e1);
 				MathML e2 = element.element("mrow");
-				for (int i = 0; i < subscript.length; i++) {
-					subscript[i].toMathML(e2, null);
+				for (Generic subscript : subscripts) {
+					subscript.toMathML(e2, null);
 				}
 				e1.appendChild(e2);
 				element.appendChild(e1);
@@ -194,8 +216,8 @@ public class ImplicitFunction extends Function {
 				MathML e1 = element.element("msubsup");
 				nameToMathML(e1);
 				MathML e2 = element.element("mrow");
-				for (int i = 0; i < subscript.length; i++) {
-					subscript[i].toMathML(e2, null);
+				for (Generic subscript : subscripts) {
+					subscript.toMathML(e2, null);
 				}
 				e1.appendChild(e2);
 				derivationToMathML(e1, n);
@@ -205,12 +227,13 @@ public class ImplicitFunction extends Function {
 	}
 
 	void derivationToMathML(MathML element, int n) {
-		if (parameter.length == 1 ? n <= Constant.PRIMECHARS : false) Constant.primecharsToMathML(element, n);
-		else {
+		if (parameters.length == 1 && n <= Constant.PRIMECHARS) {
+			Constant.primecharsToMathML(element, n);
+		} else {
 			MathML e1 = element.element("mfenced");
-			for (int i = 0; i < derivation.length; i++) {
+			for (int derivation : derivations) {
 				MathML e2 = element.element("mn");
-				e2.appendChild(element.text(String.valueOf(derivation[i])));
+				e2.appendChild(element.text(String.valueOf(derivation)));
 				e1.appendChild(e2);
 			}
 			element.appendChild(e1);
@@ -218,6 +241,6 @@ public class ImplicitFunction extends Function {
 	}
 
 	public Variable newInstance() {
-		return new ImplicitFunction(name, new Generic[parameter.length], derivation, subscript);
+		return new ImplicitFunction(name, new Generic[parameters.length], derivations, subscripts);
 	}
 }

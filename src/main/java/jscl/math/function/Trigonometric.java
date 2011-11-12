@@ -11,7 +11,7 @@ public abstract class Trigonometric extends Function {
     }
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-        Generic s=parameter[0];
+        Generic s= parameters[0];
         if(s.isPolynomial(variable)) {
             Polynomial p=Polynomial.factory(variable).valueof(s);
             if(p.degree()==1) {

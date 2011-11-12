@@ -17,13 +17,13 @@ public class Acot extends ArcTrigonometric {
 
     public Generic derivative(int n) {
         return new Inv(
-            JsclInteger.valueOf(1).add(parameter[0].pow(2))
+            JsclInteger.valueOf(1).add(parameters[0].pow(2))
         ).evaluate().negate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return Constant.pi.subtract(new Acot(parameter[0].negate()).evaluate());
+        if(parameters[0].signum()<0) {
+            return Constant.pi.subtract(new Acot(parameters[0].negate()).evaluate());
         }
         return expressionValue();
     }
@@ -33,9 +33,9 @@ public class Acot extends ArcTrigonometric {
             new Lg(
                 new Root(
                     new Generic[] {
-                        Constant.i.add(parameter[0]),
+                        Constant.i.add(parameters[0]),
                         JsclInteger.valueOf(0),
-                        Constant.i.subtract(parameter[0])
+                        Constant.i.subtract(parameters[0])
                     },
                     0
                 ).evaluateElementary()
@@ -44,7 +44,7 @@ public class Acot extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).acot();
+        return ((NumericWrapper) parameters[0]).acot();
     }
 
     public Variable newInstance() {

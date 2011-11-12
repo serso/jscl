@@ -4,6 +4,7 @@ import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.FunctionsRegistry;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathRegistry;
 
 /**
@@ -40,15 +41,12 @@ class UsualFunctionParser implements Parser<Function> {
 
 		final Function result = functionsRegistry.get(name);
 		if (result != null) {
-			result.setParameter(params);
+			result.setParameters(params);
 		}
 		return result;
 	}
 
-	static boolean valid(String name) {
-		for (int i = 0; i < na.length; i++) if (name.compareTo(na[i]) == 0) return true;
-		return false;
+	static boolean valid(@Nullable String name) {
+		return name != null && FunctionsRegistry.getInstance().getNames().contains(name);
 	}
-
-	private static String na[] = {"sin", "cos", "tan", "cot", "asin", "acos", "atan", "acot", "ln", "lg", "exp", "√", "cubic", "sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth", "abs", "sgn", "conjugate", "eq", "le", "ge", "ne", "lt", "gt", "ap"};
 }

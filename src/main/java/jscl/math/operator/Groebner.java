@@ -41,7 +41,7 @@ public class Groebner extends Operator {
         else if(v.compareTo(new Constant("tdl"))==0) return Monomial.totalDegreeLexicographic;
         else if(v.compareTo(new Constant("drl"))==0) return Monomial.degreeReverseLexicographic;
         else if(v instanceof ImplicitFunction) {
-            Generic g[]=((ImplicitFunction)v).parameters();
+            Generic g[]=((ImplicitFunction)v).getParameters();
             int k=g[0].integerValue().intValue();
             if(v.compareTo(new ImplicitFunction("elim",new Generic[] {JsclInteger.valueOf(k)},new int[] {0},new Generic[] {}))==0) return Monomial.kthElimination(k);
         }

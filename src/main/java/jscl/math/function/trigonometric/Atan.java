@@ -17,14 +17,14 @@ public class Atan extends ArcTrigonometric {
 
     public Generic derivative(int n) {
         return new Inv(
-            JsclInteger.valueOf(1).add(parameter[0].pow(2))
+            JsclInteger.valueOf(1).add(parameters[0].pow(2))
         ).evaluate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Atan(parameter[0].negate()).evaluate().negate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Atan(parameters[0].negate()).evaluate().negate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -35,9 +35,9 @@ public class Atan extends ArcTrigonometric {
             new Lg(
                 new Root(
                     new Generic[] {
-                        JsclInteger.valueOf(-1).add(Constant.i.multiply(parameter[0])),
+                        JsclInteger.valueOf(-1).add(Constant.i.multiply(parameters[0])),
                         JsclInteger.valueOf(0),
-                        JsclInteger.valueOf(1).add(Constant.i.multiply(parameter[0]))
+                        JsclInteger.valueOf(1).add(Constant.i.multiply(parameters[0]))
                     },
                     0
                 ).evaluateElementary()
@@ -46,7 +46,7 @@ public class Atan extends ArcTrigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).atan();
+        return ((NumericWrapper) parameters[0]).atan();
     }
 
     public Variable newInstance() {

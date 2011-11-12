@@ -12,19 +12,19 @@ public class Cos extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Sin(parameter[0]).evaluate();
+        return new Sin(parameters[0]).evaluate();
     }
 
     public Generic derivative(int n) {
-        return new Sin(parameter[0]).evaluate().negate();
+        return new Sin(parameters[0]).evaluate().negate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Cos(parameter[0].negate()).evaluate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Cos(parameters[0].negate()).evaluate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
-        } else if(parameter[0].compareTo(Constant.pi)==0) {
+        } else if(parameters[0].compareTo(Constant.pi)==0) {
             return JsclInteger.valueOf(-1);
         }
         return expressionValue();
@@ -32,26 +32,26 @@ public class Cos extends Trigonometric {
 
     public Generic evaluateElementary() {
         return new Exp(
-            Constant.i.multiply(parameter[0])
+            Constant.i.multiply(parameters[0])
         ).evaluateElementary().add(
             new Exp(
-                Constant.i.multiply(parameter[0].negate())
+                Constant.i.multiply(parameters[0].negate())
             ).evaluateElementary()
         ).multiply(Constant.half);
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Cos(parameter[0].negate()).evaluate();
-        } else if(parameter[0].signum()==0) {
+        if(parameters[0].signum()<0) {
+            return new Cos(parameters[0].negate()).evaluate();
+        } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
-        } else if(parameter[0].compareTo(Constant.pi)==0) {
+        } else if(parameters[0].compareTo(Constant.pi)==0) {
             return JsclInteger.valueOf(-1);
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Acos) {
-                Generic g[]=((Acos)v).parameters();
+                Generic g[]=((Acos)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -69,7 +69,7 @@ public class Cos extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).cos();
+        return ((NumericWrapper) parameters[0]).cos();
     }
 
     public Variable newInstance() {

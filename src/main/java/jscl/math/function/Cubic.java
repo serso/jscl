@@ -12,7 +12,7 @@ public class Cubic extends Algebraic {
     public Root rootValue() {
         return new Root(
             new Generic[] {
-                parameter[0].negate(),
+                parameters[0].negate(),
                 JsclInteger.valueOf(0),
                 JsclInteger.valueOf(0),
                 JsclInteger.valueOf(1)
@@ -23,7 +23,7 @@ public class Cubic extends Algebraic {
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         Root r=rootValue();
-        Generic g[]=r.parameters();
+        Generic g[]=r.getParameters();
         if(g[0].isPolynomial(variable)) {
             return AntiDerivative.compute(r, variable);
         } else throw new NotIntegrableException();
@@ -39,7 +39,7 @@ public class Cubic extends Algebraic {
 
     public Generic evaluate() {
         try {
-            JsclInteger en=parameter[0].integerValue();
+            JsclInteger en= parameters[0].integerValue();
             if(en.signum()<0);
             else {
                 Generic rt=en.nthrt(3);
@@ -55,7 +55,7 @@ public class Cubic extends Algebraic {
 
     public Generic evaluateSimplify() {
         try {
-            JsclInteger en=parameter[0].integerValue();
+            JsclInteger en= parameters[0].integerValue();
             if(en.signum()<0) return new Cubic(en.negate()).evaluateSimplify().negate();
             else {
                 Generic rt=en.nthrt(3);
@@ -66,12 +66,12 @@ public class Cubic extends Algebraic {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).nthrt(3);
+        return ((NumericWrapper) parameters[0]).nthrt(3);
     }
 
     public String toJava() {
         StringBuffer buffer=new StringBuffer();
-        buffer.append(parameter[0].toJava());
+        buffer.append(parameters[0].toJava());
         buffer.append(".pow(");
         buffer.append(Constant.third.toJava());
         buffer.append(")");
@@ -80,7 +80,7 @@ public class Cubic extends Algebraic {
 
     void bodyToMathML(MathML element, boolean fenced) {
         MathML e1=element.element("mroot");
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         JsclInteger.valueOf(3).toMathML(e1,null);
         element.appendChild(e1);
     }

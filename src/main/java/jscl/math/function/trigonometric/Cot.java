@@ -14,39 +14,39 @@ public class Cot extends Trigonometric {
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Lg(
             JsclInteger.valueOf(4).multiply(
-                new Sin(parameter[0]).evaluate()
+                new Sin(parameters[0]).evaluate()
             )
         ).evaluate();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).add(
-            new Cot(parameter[0]).evaluate().pow(2)
+            new Cot(parameters[0]).evaluate().pow(2)
         ).negate();
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Cot(parameter[0].negate()).evaluate().negate();
+        if(parameters[0].signum()<0) {
+            return new Cot(parameters[0].negate()).evaluate().negate();
         }
         return expressionValue();
     }
 
     public Generic evaluateElementary() {
         return new Frac(
-            new Cos(parameter[0]).evaluateElementary(),
-            new Sin(parameter[0]).evaluateElementary()
+            new Cos(parameters[0]).evaluateElementary(),
+            new Sin(parameters[0]).evaluateElementary()
         ).evaluateElementary();
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Cot(parameter[0].negate()).evaluate().negate();
+        if(parameters[0].signum()<0) {
+            return new Cot(parameters[0].negate()).evaluate().negate();
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Acot) {
-                Generic g[]=((Acot)v).parameters();
+                Generic g[]=((Acot)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -63,7 +63,7 @@ public class Cot extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).cot();
+        return ((NumericWrapper) parameters[0]).cot();
     }
 
     public Variable newInstance() {

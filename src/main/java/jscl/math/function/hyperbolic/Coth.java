@@ -14,39 +14,39 @@ public class Coth extends Trigonometric {
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Lg(
             JsclInteger.valueOf(4).multiply(
-                new Sinh(parameter[0]).evaluate()
+                new Sinh(parameters[0]).evaluate()
             )
         ).evaluate();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).subtract(
-            new Coth(parameter[0]).evaluate().pow(2)
+            new Coth(parameters[0]).evaluate().pow(2)
         );
     }
 
     public Generic evaluate() {
-        if(parameter[0].signum()<0) {
-            return new Coth(parameter[0].negate()).evaluate().negate();
+        if(parameters[0].signum()<0) {
+            return new Coth(parameters[0].negate()).evaluate().negate();
         }
         return expressionValue();
     }
 
     public Generic evaluateElementary() {
         return new Frac(
-            new Cosh(parameter[0]).evaluateElementary(),
-            new Sinh(parameter[0]).evaluateElementary()
+            new Cosh(parameters[0]).evaluateElementary(),
+            new Sinh(parameters[0]).evaluateElementary()
         ).evaluateElementary();
     }
 
     public Generic evaluateSimplify() {
-        if(parameter[0].signum()<0) {
-            return new Coth(parameter[0].negate()).evaluate().negate();
+        if(parameters[0].signum()<0) {
+            return new Coth(parameters[0].negate()).evaluate().negate();
         }
         try {
-            Variable v=parameter[0].variableValue();
+            Variable v= parameters[0].variableValue();
             if(v instanceof Acoth) {
-                Generic g[]=((Acoth)v).parameters();
+                Generic g[]=((Acoth)v).getParameters();
                 return g[0];
             }
         } catch (NotVariableException e) {}
@@ -63,7 +63,7 @@ public class Coth extends Trigonometric {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper)parameter[0]).coth();
+        return ((NumericWrapper) parameters[0]).coth();
     }
 
     public Variable newInstance() {
