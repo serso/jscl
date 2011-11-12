@@ -1,9 +1,7 @@
 package jscl.text;
 
 import jscl.math.DoubleVariable;
-import jscl.math.NumericWrapper;
 import jscl.math.Variable;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class DoubleVariableParser implements Parser<Variable> {
@@ -15,14 +13,6 @@ public class DoubleVariableParser implements Parser<Variable> {
 
 	@NotNull
 	public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		NumericWrapper result;
-
-		try {
-			result = (NumericWrapper) DoubleParser.parser.parse(string, position);
-		} catch (ParseException e) {
-			throw e;
-		}
-
-		return new DoubleVariable(result);
+		return new DoubleVariable(DoubleParser.parser.parse(string, position));
 	}
 }

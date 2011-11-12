@@ -85,8 +85,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			String s = (String) Digits.parser.parse(string, position);
-			result.append(s);
+			result.append(Digits.parser.parse(string, position));
 		} catch (ParseException e) {
 			if (!digits) {
 				position.setValue(pos0);
@@ -102,6 +101,7 @@ class FloatingPointLiteral implements Parser<Double> {
 				throw e;
 			}
 		}
+
 		return new Double(result.toString());
 	}
 }
