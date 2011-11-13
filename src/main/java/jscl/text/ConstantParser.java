@@ -16,14 +16,14 @@ public class ConstantParser implements Parser<Constant> {
 	private ConstantParser() {
 	}
 
-	public Constant parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Constant parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 
-		final String name = CompoundIdentifier.parser.parse(string, position, depth);
+		final String name = CompoundIdentifier.parser.parse(expression, position, depth);
 
 		List<Generic> l = new ArrayList<Generic>();
 		while (true) {
 			try {
-				l.add(Subscript.parser.parse(string, position, depth));
+				l.add(Subscript.parser.parse(expression, position, depth));
 			} catch (ParseException e) {
 				break;
 			}
@@ -31,7 +31,7 @@ public class ConstantParser implements Parser<Constant> {
 
 		Integer prime = 0;
 		try {
-			prime = Prime.parser.parse(string, position, depth);
+			prime = Prime.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 		}
 
@@ -52,9 +52,9 @@ class Prime implements Parser<Integer> {
 	private Prime() {
 	}
 
-	public Integer parse(@NotNull String string,
+	public Integer parse(@NotNull String expression,
 						 @NotNull MutableInt position, int depth) throws ParseException {
-		return internalParser.parse(string, position, depth);
+		return internalParser.parse(expression, position, depth);
 	}
 }
 
@@ -64,21 +64,21 @@ class Superscript implements Parser<Integer> {
 	private Superscript() {
 	}
 
-	public Integer parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 
-		ParserUtils.tryToParse(string, position, pos0, '{');
+		ParserUtils.tryToParse(expression, position, pos0, '{');
 
 		int result;
 		try {
-			result = IntegerParser.parser.parse(string, position, depth);
+			result = IntegerParser.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
 		}
 
-		ParserUtils.tryToParse(string, position, pos0, '}');
+		ParserUtils.tryToParse(expression, position, pos0, '}');
 
 		return result;
 	}

@@ -16,7 +16,7 @@ class VariableConverter<T extends Variable> extends AbstractConverter<T, Generic
 	}
 
 	@Override
-	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
-		return this.parser.parse(string, position, depth).expressionValue();
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+		return this.parser.parse(expression, position, depth).expressionValue();
 	}
 }

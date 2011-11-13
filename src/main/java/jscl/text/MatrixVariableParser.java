@@ -10,10 +10,10 @@ class MatrixVariableParser implements Parser<Variable> {
 
     private MatrixVariableParser() {}
 
-    public Variable parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+    public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
         Matrix m;
         try {
-            m=(Matrix)MatrixParser.parser.parse(string, position, depth);
+            m=(Matrix)MatrixParser.parser.parse(expression, position, depth);
         } catch (ParseException e) {
             throw e;
         }

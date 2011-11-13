@@ -20,9 +20,9 @@ public class DoubleParser implements Parser<NumericWrapper> {
 	}
 
 	@NotNull
-	public NumericWrapper parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public NumericWrapper parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
-		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(string, position, depth)));
+		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(expression, position, depth)));
 	}
 }
 
@@ -34,12 +34,12 @@ class Singularity implements Parser<Double> {
 	}
 
 	@NotNull
-	public Double parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final double result;
 
-		String s = Identifier.parser.parse(string, position, depth);
+		String s = Identifier.parser.parse(expression, position, depth);
 		if (s.equals("NaN")) {
 			result = Double.NaN;
 		} else if (s.equals("Infinity") || s.equals("∞")) {
@@ -60,7 +60,7 @@ class FloatingPointLiteral implements Parser<Double> {
 	private FloatingPointLiteral() {
 	}
 
-	public Double parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
@@ -69,13 +69,13 @@ class FloatingPointLiteral implements Parser<Double> {
 		boolean point = false;
 
 		try {
-			result.append(Digits.parser.parse(string, position, depth));
+			result.append(Digits.parser.parse(expression, position, depth));
 			digits = true;
 		} catch (ParseException e) {
 		}
 
 		try {
-			DecimalPoint.parser.parse(string, position, depth);
+			DecimalPoint.parser.parse(expression, position, depth);
 			result.append(".");
 			point = true;
 		} catch (ParseException e) {
@@ -85,7 +85,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			result.append(Digits.parser.parse(string, position, depth));
+			result.append(Digits.parser.parse(expression, position, depth));
 		} catch (ParseException e) {
 			if (!digits) {
 				position.setValue(pos0);
@@ -93,7 +93,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			String s = (String) ExponentPart.parser.parse(string, position, depth);
+			String s = (String) ExponentPart.parser.parse(expression, position, depth);
 			result.append(s);
 		} catch (ParseException e) {
 			if (!point) {
@@ -112,11 +112,11 @@ class DecimalPoint implements Parser {
 	private DecimalPoint() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && string.charAt(position.intValue()) == '.') {
-			string.charAt(position.intValue());
+		ParserUtils.skipWhitespaces(expression, position);
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '.') {
+			expression.charAt(position.intValue());
 			position.increment();
 		} else {
 			position.setValue(pos0);
@@ -132,12 +132,12 @@ class ExponentPart implements Parser {
 	private ExponentPart() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		StringBuffer buffer = new StringBuffer();
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && (string.charAt(position.intValue()) == 'e' || string.charAt(position.intValue()) == 'E')) {
-			char c = string.charAt(position.intValue());
+		ParserUtils.skipWhitespaces(expression, position);
+		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == 'e' || expression.charAt(position.intValue()) == 'E')) {
+			char c = expression.charAt(position.intValue());
 			position.increment();
 			buffer.append(c);
 		} else {
@@ -145,7 +145,7 @@ class ExponentPart implements Parser {
 			throw new ParseException();
 		}
 		try {
-			String s = (String) SignedInteger.parser.parse(string, position, depth);
+			String s = (String) SignedInteger.parser.parse(expression, position, depth);
 			buffer.append(s);
 		} catch (ParseException e) {
 			position.setValue(pos0);
@@ -161,17 +161,17 @@ class SignedInteger implements Parser {
 	private SignedInteger() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		StringBuffer buffer = new StringBuffer();
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && (string.charAt(position.intValue()) == '+' || string.charAt(position.intValue()) == '-')) {
-			char c = string.charAt(position.intValue());
+		ParserUtils.skipWhitespaces(expression, position);
+		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == '+' || expression.charAt(position.intValue()) == '-')) {
+			char c = expression.charAt(position.intValue());
 			position.increment();
 			buffer.append(c);
 		}
 		try {
-			int n = ((Integer) IntegerParser.parser.parse(string, position, depth)).intValue();
+			int n = ((Integer) IntegerParser.parser.parse(expression, position, depth)).intValue();
 			buffer.append(n);
 		} catch (ParseException e) {
 			position.setValue(pos0);

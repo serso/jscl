@@ -15,15 +15,15 @@ class Exponent implements Parser<Generic> {
 	private Exponent() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
-		boolean sign = MinusParser.parser.parse(string, position, depth).isSign();
+		boolean sign = MinusParser.parser.parse(expression, position, depth).isSign();
 
 		Generic result;
 
 		try {
-			result = (Generic) UnsignedExponent.parser.parse(string, position, depth);
+			result = (Generic) UnsignedExponent.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

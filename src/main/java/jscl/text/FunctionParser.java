@@ -19,8 +19,8 @@ public class FunctionParser implements Parser<Function> {
 	private FunctionParser() {
 	}
 
-	public Function parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
-		return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(string, position, depth);
+	public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+		return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(expression, position, depth);
 	}
 }
 

@@ -10,20 +10,20 @@ public class Subscript implements Parser<Generic> {
 	private Subscript() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
-		ParserUtils.tryToParse(string, position, pos0, '[');
+		ParserUtils.tryToParse(expression, position, pos0, '[');
 
 		Generic a;
 		try {
-			a = ExpressionParser.parser.parse(string, position, depth);
+			a = ExpressionParser.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
 		}
 
-		ParserUtils.tryToParse(string, position, pos0, ']');
+		ParserUtils.tryToParse(expression, position, pos0, ']');
 
 		return a;
 	}

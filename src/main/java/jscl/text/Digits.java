@@ -10,24 +10,24 @@ public class Digits implements Parser<String> {
 	}
 
 	// returns digit
-	public String parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public String parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
 
-		ParserUtils.skipWhitespaces(string, position);
+		ParserUtils.skipWhitespaces(expression, position);
 
-		if (position.intValue() < string.length() && Character.isDigit(string.charAt(position.intValue()))) {
-			result.append(string.charAt(position.intValue()));
+		if (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
+			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		} else {
-			final ParseException e = new ParseException("First symbol of number must be digit!", position, string);
+			final ParseException e = new ParseException("First symbol of number must be digit!", position, expression);
 			position.setValue(pos0);
 			throw e;
 		}
 
-		while (position.intValue() < string.length() && Character.isDigit(string.charAt(position.intValue()))) {
-			result.append(string.charAt(position.intValue()));
+		while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
+			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		}
 

@@ -10,24 +10,24 @@ public class Identifier implements Parser<String> {
 	}
 
 	// returns variable/constant getName
-	public String parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public String parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
 
-		ParserUtils.skipWhitespaces(string, position);
+		ParserUtils.skipWhitespaces(expression, position);
 
-		if (position.intValue() < string.length() && isValidFirstCharacter(string.charAt(position.intValue()))) {
-			result.append(string.charAt(position.intValue()));
+		if (position.intValue() < expression.length() && isValidFirstCharacter(expression.charAt(position.intValue()))) {
+			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		} else {
-			final ParseException e = new ParseException("First symbol of constant or variable must be letter!", position, string);
+			final ParseException e = new ParseException("First symbol of constant or variable must be letter!", position, expression);
 			position.setValue(pos0);
 			throw e;
 		}
 
-		while (position.intValue() < string.length() && isValidNotFirstCharacter(string, position)) {
-			result.append(string.charAt(position.intValue()));
+		while (position.intValue() < expression.length() && isValidNotFirstCharacter(expression, position)) {
+			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		}
 

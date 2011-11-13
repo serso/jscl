@@ -8,30 +8,30 @@ import org.jetbrains.annotations.NotNull;
  * Date: 10/27/11
  * Time: 2:44 PM
  */
-class PlusOrMinusTerm implements Parser {
-	public static final Parser parser = new PlusOrMinusTerm();
+class PlusOrMinusTerm implements Parser<Generic> {
+
+	public static final Parser<Generic> parser = new PlusOrMinusTerm();
 
 	private PlusOrMinusTerm() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
+
+		ParserUtils.skipWhitespaces(expression, position);
+
 		boolean sign;
-		Generic a;
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && (string.charAt(position.intValue()) == '+' || string.charAt(position.intValue()) == '-')) {
-			sign = string.charAt(position.intValue()) == '-';
+		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == '+' || expression.charAt(position.intValue()) == '-')) {
+			sign = expression.charAt(position.intValue()) == '-';
 			position.increment();
 		} else {
 			position.setValue(pos0);
 			throw new ParseException();
 		}
-		try {
-			a = (Generic) TermParser.parser.parse(string, position, depth);
-		} catch (ParseException e) {
-			position.setValue(pos0);
-			throw e;
-		}
-		return sign ? a.negate() : a;
+
+		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, expression, position, depth, pos0);
+
+		return sign ? result.negate() : result;
 	}
+
 }

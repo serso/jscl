@@ -15,11 +15,11 @@ class Factor implements Parser<Generic> {
 	private Factor() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 
-		boolean sign = MinusParser.parser.parse(string, position, depth).isSign();
+		boolean sign = MinusParser.parser.parse(expression, position, depth).isSign();
 
-		final Generic result = (Generic) UnsignedFactor.parser.parse(string, position, depth);
+		final Generic result = (Generic) UnsignedFactor.parser.parse(expression, position, depth);
 
 		return sign ? result.negate() : result;
 	}

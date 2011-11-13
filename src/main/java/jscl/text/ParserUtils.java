@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -46,5 +47,24 @@ public class ParserUtils {
 		final ParseException parseException = new ParseException(message, position, expression);
 		position.setValue(pos0);
 		throw parseException;
+	}
+
+
+	@NotNull
+	static <T> T parseWithRollback(@NotNull Parser<T> parser,
+								   @NotNull String expression,
+								   @NotNull MutableInt position,
+								   int depth,
+								   int initialPosition) throws ParseException {
+		T result;
+
+		try {
+			result = parser.parse(expression, position, depth);
+		} catch (ParseException e) {
+			position.setValue(initialPosition);
+			throw e;
+		}
+
+		return result;
 	}
 }

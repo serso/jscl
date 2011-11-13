@@ -23,14 +23,14 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 		this.content = content;
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 
 		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(PostfixFunctionsRegistry.getInstance().getEntities().size());
 		for (Operator operator : PostfixFunctionsRegistry.getInstance().getEntities()) {
 			parsers.add(new PostfixFunctionParser(operator));
 		}
 
-		return parsePostfix(parsers, string, position, content, depth);
+		return parsePostfix(parsers, expression, position, content, depth);
 	}
 
 	private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,

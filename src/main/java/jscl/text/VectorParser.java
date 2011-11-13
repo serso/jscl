@@ -12,19 +12,19 @@ public class VectorParser implements Parser {
 
     private VectorParser() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
         int pos0= position.intValue();
         List l=new ArrayList();
-        ParserUtils.skipWhitespaces(string, position);
-        if(position.intValue()< string.length() && string.charAt(position.intValue())=='{') {
-            string.charAt(position.intValue());
+        ParserUtils.skipWhitespaces(expression, position);
+        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='{') {
+            expression.charAt(position.intValue());
 			position.increment();
         } else {
             position.setValue(pos0);
             throw new ParseException();
         }
         try {
-            Generic a=(Generic)ExpressionParser.parser.parse(string, position, depth);
+            Generic a=(Generic)ExpressionParser.parser.parse(expression, position, depth);
             l.add(a);
         } catch (ParseException e) {
             position.setValue(pos0);
@@ -32,15 +32,15 @@ public class VectorParser implements Parser {
         }
         while(true) {
             try {
-                Generic a=(Generic)CommaAndExpression.parser.parse(string, position, depth);
+                Generic a=(Generic)CommaAndExpression.parser.parse(expression, position, depth);
                 l.add(a);
             } catch (ParseException e) {
                 break;
             }
         }
-        ParserUtils.skipWhitespaces(string, position);
-        if(position.intValue()< string.length() && string.charAt(position.intValue())=='}') {
-            string.charAt(position.intValue());
+        ParserUtils.skipWhitespaces(expression, position);
+        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='}') {
+            expression.charAt(position.intValue());
 			position.increment();
         } else {
             position.setValue(pos0);

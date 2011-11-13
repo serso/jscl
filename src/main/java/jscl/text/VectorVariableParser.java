@@ -10,10 +10,10 @@ public class VectorVariableParser implements Parser<Variable> {
 
     private VectorVariableParser() {}
 
-    public Variable parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+    public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
         JsclVector v;
         try {
-            v=(JsclVector)VectorParser.parser.parse(string, position, depth);
+            v=(JsclVector)VectorParser.parser.parse(expression, position, depth);
         } catch (ParseException e) {
             throw e;
         }

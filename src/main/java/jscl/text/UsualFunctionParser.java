@@ -21,10 +21,10 @@ class UsualFunctionParser implements Parser<Function> {
 	private UsualFunctionParser() {
 	}
 
-	public Function parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
-		String name = Identifier.parser.parse(string, position, depth);
+		String name = Identifier.parser.parse(expression, position, depth);
 
 		if (!valid(name)) {
 			position.setValue(pos0);
@@ -33,7 +33,7 @@ class UsualFunctionParser implements Parser<Function> {
 
 		Generic params[];
 		try {
-			params = (Generic[]) ParameterList.parser.parse(string, position, depth);
+			params = (Generic[]) ParameterList.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

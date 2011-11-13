@@ -14,14 +14,14 @@ class PowerParser implements Parser {
 	private PowerParser() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
-		ParserUtils.skipWhitespaces(string, position);
+		ParserUtils.skipWhitespaces(expression, position);
 
-		if (position.intValue() < string.length() && string.charAt(position.intValue()) == '^') {
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '^') {
 			position.increment();
 		} else {
-			if (isDoubleStar(string, position)) {
+			if (isDoubleStar(expression, position)) {
 				position.increment();
 				position.increment();
 			} else {

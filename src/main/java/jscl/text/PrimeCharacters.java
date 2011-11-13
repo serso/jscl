@@ -7,20 +7,20 @@ public class PrimeCharacters implements Parser<Integer> {
 
     private PrimeCharacters() {}
 
-    public Integer parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+    public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
         int pos0= position.intValue();
         int c;
-        ParserUtils.skipWhitespaces(string, position);
-        if(position.intValue()< string.length() && string.charAt(position.intValue())=='\'') {
-            string.charAt(position.intValue());
+        ParserUtils.skipWhitespaces(expression, position);
+        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='\'') {
+            expression.charAt(position.intValue());
 			position.increment();
             c=1;
         } else {
             position.setValue(pos0);
             throw new ParseException();
         }
-        while(position.intValue()< string.length() && string.charAt(position.intValue())=='\'') {
-            string.charAt(position.intValue());
+        while(position.intValue()< expression.length() && expression.charAt(position.intValue())=='\'') {
+            expression.charAt(position.intValue());
 			position.increment();
             c++;
         }

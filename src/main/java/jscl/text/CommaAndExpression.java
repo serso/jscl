@@ -10,11 +10,11 @@ public class CommaAndExpression implements Parser<Generic> {
 	private CommaAndExpression() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && string.charAt(position.intValue()) == ',') {
+		ParserUtils.skipWhitespaces(expression, position);
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == ',') {
 			position.increment();
 		} else {
 			position.setValue(pos0);
@@ -23,7 +23,7 @@ public class CommaAndExpression implements Parser<Generic> {
 
 		Generic result;
 		try {
-			result = ExpressionParser.parser.parse(string, position, depth);
+			result = ExpressionParser.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

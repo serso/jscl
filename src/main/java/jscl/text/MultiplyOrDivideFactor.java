@@ -17,19 +17,19 @@ class MultiplyOrDivideFactor implements Parser {
 		this.option = option;
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		Generic a;
-		ParserUtils.skipWhitespaces(string, position);
-		if (position.intValue() < string.length() && string.charAt(position.intValue()) == (option ? '*' : '/')) {
-			string.charAt(position.intValue());
+		ParserUtils.skipWhitespaces(expression, position);
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == (option ? '*' : '/')) {
+			expression.charAt(position.intValue());
 			position.increment();
 		} else {
 			position.setValue(pos0);
 			throw new ParseException();
 		}
 		try {
-			a = (Generic) Factor.parser.parse(string, position, depth);
+			a = (Generic) Factor.parser.parse(expression, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

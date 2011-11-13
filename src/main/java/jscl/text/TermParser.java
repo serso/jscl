@@ -12,24 +12,25 @@ import org.jetbrains.annotations.NotNull;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class TermParser implements Parser {
-	public static final Parser parser = new TermParser();
+class TermParser implements Parser<Generic> {
+
+	public static final Parser<Generic> parser = new TermParser();
 
 	private TermParser() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 		Generic a = JsclInteger.valueOf(1);
-		Generic s = (Generic) UnsignedFactor.parser.parse(string, position, depth);
+		Generic s = (Generic) UnsignedFactor.parser.parse(expression, position, depth);
 
 		while (true) {
 			try {
-				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(string, position, depth);
+				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(expression, position, depth);
 				a = a.multiply(s);
 				s = b;
 			} catch (ParseException e) {
 				try {
-					Generic b = (Generic) MultiplyOrDivideFactor.divide.parse(string, position, depth);
+					Generic b = (Generic) MultiplyOrDivideFactor.divide.parse(expression, position, depth);
 					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
 						s = new Inv(GenericVariable.content(b, true)).expressionValue();
 					else
