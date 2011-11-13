@@ -20,9 +20,9 @@ public class DoubleParser implements Parser<NumericWrapper> {
 	}
 
 	@NotNull
-	public NumericWrapper parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public NumericWrapper parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
-		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(string, position)));
+		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(string, position, depth)));
 	}
 }
 
@@ -34,12 +34,12 @@ class Singularity implements Parser<Double> {
 	}
 
 	@NotNull
-	public Double parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Double parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final double result;
 
-		String s = Identifier.parser.parse(string, position);
+		String s = Identifier.parser.parse(string, position, depth);
 		if (s.equals("NaN")) {
 			result = Double.NaN;
 		} else if (s.equals("Infinity") || s.equals("∞")) {
@@ -60,7 +60,7 @@ class FloatingPointLiteral implements Parser<Double> {
 	private FloatingPointLiteral() {
 	}
 
-	public Double parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Double parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
@@ -69,13 +69,13 @@ class FloatingPointLiteral implements Parser<Double> {
 		boolean point = false;
 
 		try {
-			result.append(Digits.parser.parse(string, position));
+			result.append(Digits.parser.parse(string, position, depth));
 			digits = true;
 		} catch (ParseException e) {
 		}
 
 		try {
-			DecimalPoint.parser.parse(string, position);
+			DecimalPoint.parser.parse(string, position, depth);
 			result.append(".");
 			point = true;
 		} catch (ParseException e) {
@@ -85,7 +85,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			result.append(Digits.parser.parse(string, position));
+			result.append(Digits.parser.parse(string, position, depth));
 		} catch (ParseException e) {
 			if (!digits) {
 				position.setValue(pos0);
@@ -93,7 +93,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			String s = (String) ExponentPart.parser.parse(string, position);
+			String s = (String) ExponentPart.parser.parse(string, position, depth);
 			result.append(s);
 		} catch (ParseException e) {
 			if (!point) {
@@ -112,7 +112,7 @@ class DecimalPoint implements Parser {
 	private DecimalPoint() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		ParserUtils.skipWhitespaces(string, position);
 		if (position.intValue() < string.length() && string.charAt(position.intValue()) == '.') {
@@ -132,7 +132,7 @@ class ExponentPart implements Parser {
 	private ExponentPart() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		StringBuffer buffer = new StringBuffer();
 		ParserUtils.skipWhitespaces(string, position);
@@ -145,7 +145,7 @@ class ExponentPart implements Parser {
 			throw new ParseException();
 		}
 		try {
-			String s = (String) SignedInteger.parser.parse(string, position);
+			String s = (String) SignedInteger.parser.parse(string, position, depth);
 			buffer.append(s);
 		} catch (ParseException e) {
 			position.setValue(pos0);
@@ -161,7 +161,7 @@ class SignedInteger implements Parser {
 	private SignedInteger() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		StringBuffer buffer = new StringBuffer();
 		ParserUtils.skipWhitespaces(string, position);
@@ -171,7 +171,7 @@ class SignedInteger implements Parser {
 			buffer.append(c);
 		}
 		try {
-			int n = ((Integer) IntegerParser.parser.parse(string, position)).intValue();
+			int n = ((Integer) IntegerParser.parser.parse(string, position, depth)).intValue();
 			buffer.append(n);
 		} catch (ParseException e) {
 			position.setValue(pos0);

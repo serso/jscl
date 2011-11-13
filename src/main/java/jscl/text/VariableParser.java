@@ -1,8 +1,6 @@
 package jscl.text;
 
-import jscl.math.Generic;
 import jscl.math.Variable;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class VariableParser implements Parser<Variable> {
 	private VariableParser() {
 	}
 
-	public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		return internalParser.parse(string, position);
+	public Variable parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+		return internalParser.parse(string, position, depth);
 	}
 }

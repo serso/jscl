@@ -12,7 +12,7 @@ public class MatrixParser implements Parser {
 
     private MatrixParser() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
         int pos0= position.intValue();
         List l=new ArrayList();
         ParserUtils.skipWhitespaces(string, position);
@@ -24,7 +24,7 @@ public class MatrixParser implements Parser {
             throw new ParseException();
         }
         try {
-            JsclVector v=(JsclVector)VectorParser.parser.parse(string, position);
+            JsclVector v=(JsclVector)VectorParser.parser.parse(string, position, depth);
             l.add(v);
         } catch (ParseException e) {
             position.setValue(pos0);
@@ -32,7 +32,7 @@ public class MatrixParser implements Parser {
         }
         while(true) {
             try {
-                JsclVector v=(JsclVector)CommaAndVector.parser.parse(string, position);
+                JsclVector v=(JsclVector)CommaAndVector.parser.parse(string, position, depth);
                 l.add(v);
             } catch (ParseException e) {
                 break;

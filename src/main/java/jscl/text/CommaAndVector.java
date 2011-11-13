@@ -8,7 +8,7 @@ public class CommaAndVector implements Parser {
 
     private CommaAndVector() {}
 
-    public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
         int pos0= position.intValue();
         JsclVector v;
         ParserUtils.skipWhitespaces(string, position);
@@ -20,7 +20,7 @@ public class CommaAndVector implements Parser {
             throw new ParseException();
         }
         try {
-            v=(JsclVector)VectorParser.parser.parse(string, position);
+            v=(JsclVector)VectorParser.parser.parse(string, position, depth);
         } catch (ParseException e) {
             position.setValue(pos0);
             throw e;

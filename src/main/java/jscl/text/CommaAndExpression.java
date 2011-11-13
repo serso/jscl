@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 public class CommaAndExpression implements Parser<Generic> {
@@ -11,7 +10,7 @@ public class CommaAndExpression implements Parser<Generic> {
 	private CommaAndExpression() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.skipWhitespaces(string, position);
@@ -24,7 +23,7 @@ public class CommaAndExpression implements Parser<Generic> {
 
 		Generic result;
 		try {
-			result = ExpressionParser.parser.parse(string, position);
+			result = ExpressionParser.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

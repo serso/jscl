@@ -1,7 +1,5 @@
 package jscl.text;
 
-import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -22,12 +20,12 @@ public class MultiTryParser<T> implements Parser<T> {
 	}
 
 	@Override
-	public T parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public T parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		T result = null;
 
 		for (final Iterator<Parser<? extends T>> it = parsers.iterator(); it.hasNext(); ) {
 			try {
-				result = it.next().parse(string, position);
+				result = it.next().parse(string, position, depth);
 			} catch (ParseException e) {
 				if (!it.hasNext()) {
 					throw e;

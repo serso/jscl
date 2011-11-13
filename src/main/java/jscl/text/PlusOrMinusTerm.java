@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +14,7 @@ class PlusOrMinusTerm implements Parser {
 	private PlusOrMinusTerm() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		boolean sign;
 		Generic a;
@@ -28,7 +27,7 @@ class PlusOrMinusTerm implements Parser {
 			throw new ParseException();
 		}
 		try {
-			a = (Generic) TermParser.parser.parse(string, position);
+			a = (Generic) TermParser.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

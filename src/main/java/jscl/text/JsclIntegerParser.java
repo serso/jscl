@@ -12,12 +12,12 @@ public class JsclIntegerParser implements Parser<Generic> {
 	private JsclIntegerParser() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder sb = new StringBuilder();
 		try {
-			sb.append(Digits.parser.parse(string, position));
+			sb.append(Digits.parser.parse(string, position, depth));
 		} catch (ParseException e) {
 			throw e;
 		}

@@ -16,14 +16,14 @@ public class ConstantParser implements Parser<Constant> {
 	private ConstantParser() {
 	}
 
-	public Constant parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Constant parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 
-		final String name = CompoundIdentifier.parser.parse(string, position);
+		final String name = CompoundIdentifier.parser.parse(string, position, depth);
 
 		List<Generic> l = new ArrayList<Generic>();
 		while (true) {
 			try {
-				l.add(Subscript.parser.parse(string, position));
+				l.add(Subscript.parser.parse(string, position, depth));
 			} catch (ParseException e) {
 				break;
 			}
@@ -31,7 +31,7 @@ public class ConstantParser implements Parser<Constant> {
 
 		Integer prime = 0;
 		try {
-			prime = Prime.parser.parse(string, position);
+			prime = Prime.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 		}
 
@@ -53,8 +53,8 @@ class Prime implements Parser<Integer> {
 	}
 
 	public Integer parse(@NotNull String string,
-						 @NotNull MutableInt position) throws ParseException {
-		return internalParser.parse(string, position);
+						 @NotNull MutableInt position, int depth) throws ParseException {
+		return internalParser.parse(string, position, depth);
 	}
 }
 
@@ -64,7 +64,7 @@ class Superscript implements Parser<Integer> {
 	private Superscript() {
 	}
 
-	public Integer parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Integer parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 
@@ -72,7 +72,7 @@ class Superscript implements Parser<Integer> {
 
 		int result;
 		try {
-			result = IntegerParser.parser.parse(string, position);
+			result = IntegerParser.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

@@ -3,7 +3,6 @@ package jscl.text;
 import jscl.math.Matrix;
 import jscl.math.MatrixVariable;
 import jscl.math.Variable;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 class MatrixVariableParser implements Parser<Variable> {
@@ -11,10 +10,10 @@ class MatrixVariableParser implements Parser<Variable> {
 
     private MatrixVariableParser() {}
 
-    public Variable parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Variable parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
         Matrix m;
         try {
-            m=(Matrix)MatrixParser.parser.parse(string, position);
+            m=(Matrix)MatrixParser.parser.parse(string, position, depth);
         } catch (ParseException e) {
             throw e;
         }

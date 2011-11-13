@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,11 +15,11 @@ class Factor implements Parser<Generic> {
 	private Factor() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 
-		boolean sign = MinusParser.parser.parse(string, position).isSign();
+		boolean sign = MinusParser.parser.parse(string, position, depth).isSign();
 
-		final Generic result = (Generic) UnsignedFactor.parser.parse(string, position);
+		final Generic result = (Generic) UnsignedFactor.parser.parse(string, position, depth);
 
 		return sign ? result.negate() : result;
 	}

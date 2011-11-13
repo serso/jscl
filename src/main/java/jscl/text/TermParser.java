@@ -18,18 +18,18 @@ class TermParser implements Parser {
 	private TermParser() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		Generic a = JsclInteger.valueOf(1);
-		Generic s = (Generic) UnsignedFactor.parser.parse(string, position);
+		Generic s = (Generic) UnsignedFactor.parser.parse(string, position, depth);
 
 		while (true) {
 			try {
-				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(string, position);
+				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(string, position, depth);
 				a = a.multiply(s);
 				s = b;
 			} catch (ParseException e) {
 				try {
-					Generic b = (Generic) MultiplyOrDivideFactor.divide.parse(string, position);
+					Generic b = (Generic) MultiplyOrDivideFactor.divide.parse(string, position, depth);
 					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
 						s = new Inv(GenericVariable.content(b, true)).expressionValue();
 					else

@@ -3,9 +3,11 @@ package jscl.math;
 import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
+import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 /**
@@ -53,12 +55,14 @@ public class ExpressionTest {
 		try {
 			Assert.assertEquals("7.2!", Expression.valueOf("7.2!").numeric().toString());
 			fail();
-		} catch (NotIntegerException e) {}
+		} catch (NotIntegerException e) {
+		}
 
 		try {
 			Assert.assertEquals("ln(7.2!)", Expression.valueOf("ln(7.2!)").numeric().toString());
 			fail();
-		} catch (NotIntegerException e) {}
+		} catch (NotIntegerException e) {
+		}
 
 		Assert.assertEquals("ln(7.2!)", Expression.valueOf("ln(7.2!)").simplify().toString());
 
@@ -127,7 +131,7 @@ public class ExpressionTest {
 		} catch (ArithmeticException e) {
 		}
 
-		new JsclMathEngine().getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t"), (String)null));
+		new JsclMathEngine().getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t"), (String) null));
 		try {
 			Expression.valueOf("t").numeric();
 			fail();
@@ -135,5 +139,32 @@ public class ExpressionTest {
 		}
 		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
 		Assert.assertEquals("t^3", Expression.valueOf("t*t*t").simplify().toString());
+
+		try {
+			Expression.valueOf("((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))").numeric().toString();
+			fail();
+		} catch (ParseException e) {
+			// ok
+		}
+
+		try {
+			assertEquals("0.0", Expression.valueOf("((((((((((((0))))))))))))").numeric().toString());
+		} catch (ParseException e) {
+			fail();
+		}
+
+		try {
+			assertEquals("0.0", Expression.valueOf("(((((((((((((((0)))))))))))))))").numeric().toString());
+		} catch (ParseException e) {
+			fail();
+		}
+
+		try {
+			Expression.valueOf("((((((((((((((((0))))))))))))))))").numeric().toString();
+			fail();
+		} catch (ParseException e) {
+			// ok
+		}
+
 	}
 }

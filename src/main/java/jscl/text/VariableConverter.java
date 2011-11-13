@@ -2,7 +2,6 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.Variable;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,7 +16,7 @@ class VariableConverter<T extends Variable> extends AbstractConverter<T, Generic
 	}
 
 	@Override
-	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
-		return this.parser.parse(string, position).expressionValue();
+	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
+		return this.parser.parse(string, position, depth).expressionValue();
 	}
 }

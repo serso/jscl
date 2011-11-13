@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,7 +15,7 @@ class MinusParser implements Parser<MinusParser.Result> {
 	}
 
 	@NotNull
-	public Result parse(@NotNull String string, @NotNull MutableInt position){
+	public Result parse(@NotNull String string, @NotNull MutableInt position, int depth){
 		final boolean result;
 
 		int pos0 = position.intValue();

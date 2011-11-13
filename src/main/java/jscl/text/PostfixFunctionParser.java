@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +19,7 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 	}
 
 	@NotNull
-	public Result parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Result parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final boolean postfixFunction;

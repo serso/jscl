@@ -7,7 +7,7 @@ public class PrimeCharacters implements Parser<Integer> {
 
     private PrimeCharacters() {}
 
-    public Integer parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+    public Integer parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
         int pos0= position.intValue();
         int c;
         ParserUtils.skipWhitespaces(string, position);

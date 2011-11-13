@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,7 +17,7 @@ class MultiplyOrDivideFactor implements Parser {
 		this.option = option;
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		Generic a;
 		ParserUtils.skipWhitespaces(string, position);
@@ -30,7 +29,7 @@ class MultiplyOrDivideFactor implements Parser {
 			throw new ParseException();
 		}
 		try {
-			a = (Generic) Factor.parser.parse(string, position);
+			a = (Generic) Factor.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

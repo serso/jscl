@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,11 +15,11 @@ class PowerExponent implements Parser<Generic> {
 	private PowerExponent() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		try {
-			PowerParser.parser.parse(string, position);
+			PowerParser.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
@@ -28,7 +27,7 @@ class PowerExponent implements Parser<Generic> {
 
 		Generic result;
 		try {
-			result = Exponent.parser.parse(string, position);
+			result = Exponent.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

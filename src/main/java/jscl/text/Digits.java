@@ -10,7 +10,7 @@ public class Digits implements Parser<String> {
 	}
 
 	// returns digit
-	public String parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public String parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();

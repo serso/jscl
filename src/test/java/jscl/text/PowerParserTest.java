@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.junit.Assert;
 
 /**
@@ -12,13 +11,13 @@ public class PowerParserTest {
 
 	@org.junit.Test
 	public void testParse() throws Exception {
-	   PowerParser.parser.parse("  ^", new MutableInt(0));
-	   PowerParser.parser.parse(" **", new MutableInt(0));
-	   PowerParser.parser.parse(" **7", new MutableInt(0));
-	   PowerParser.parser.parse("^", new MutableInt(0));
-	   PowerParser.parser.parse("**", new MutableInt(0));
+	   PowerParser.parser.parse("  ^", new MutableInt(0), 0);
+	   PowerParser.parser.parse(" **", new MutableInt(0), 0);
+	   PowerParser.parser.parse(" **7", new MutableInt(0), 0);
+	   PowerParser.parser.parse("^", new MutableInt(0), 0);
+	   PowerParser.parser.parse("**", new MutableInt(0), 0);
 		try {
-			PowerParser.parser.parse("*", new MutableInt(0));
+			PowerParser.parser.parse("*", new MutableInt(0), 0);
 			Assert.fail();
 		} catch (ParseException e) {
 

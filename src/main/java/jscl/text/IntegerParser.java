@@ -9,7 +9,7 @@ public class IntegerParser implements Parser<Integer> {
 	private IntegerParser() {
 	}
 
-	public Integer parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Integer parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
 		int n;

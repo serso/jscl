@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,15 +15,15 @@ class Exponent implements Parser<Generic> {
 	private Exponent() {
 	}
 
-	public Generic parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Generic parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 
-		boolean sign = MinusParser.parser.parse(string, position).isSign();
+		boolean sign = MinusParser.parser.parse(string, position, depth).isSign();
 
 		Generic result;
 
 		try {
-			result = (Generic) UnsignedExponent.parser.parse(string, position);
+			result = (Generic) UnsignedExponent.parser.parse(string, position, depth);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

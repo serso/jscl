@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.text.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +14,7 @@ class PowerParser implements Parser {
 	private PowerParser() {
 	}
 
-	public Object parse(@NotNull String string, @NotNull MutableInt position) throws ParseException {
+	public Object parse(@NotNull String string, @NotNull MutableInt position, int depth) throws ParseException {
 		int pos0 = position.intValue();
 		ParserUtils.skipWhitespaces(string, position);
 
