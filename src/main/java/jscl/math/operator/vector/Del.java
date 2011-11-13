@@ -13,10 +13,10 @@ public class Del extends VectorOperator {
     }
 
     public Generic compute() {
-        Variable variable[]=variables(parameter[1]);
-        int algebra[]=GeometricProduct.algebra(parameter[2]);
-        if(parameter[0] instanceof JsclVector) {
-            JsclVector vector=(JsclVector)parameter[0];
+        Variable variable[]=variables(parameters[1]);
+        int algebra[]=GeometricProduct.algebra(parameters[2]);
+        if(parameters[0] instanceof JsclVector) {
+            JsclVector vector=(JsclVector) parameters[0];
             return vector.del(variable,algebra);
         }
         return expressionValue();
@@ -25,11 +25,11 @@ public class Del extends VectorOperator {
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=3;
-        if(parameter[2].signum()==0) n=2;
+        if(parameters[2].signum()==0) n=2;
         buffer.append(name);
         buffer.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameter[i]).append(i<n-1?", ":"");
+            buffer.append(parameters[i]).append(i<n-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
@@ -37,7 +37,7 @@ public class Del extends VectorOperator {
 
     protected void bodyToMathML(MathML element) {
         operator(element,"nabla");
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
     }
 
     public Variable newInstance() {

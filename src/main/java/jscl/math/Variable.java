@@ -6,6 +6,7 @@ import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
 
 import java.util.Comparator;
@@ -104,7 +105,7 @@ public abstract class Variable implements Comparable, MathEntity {
         return name;
     }
 
-    public void toMathML(MathML element, Object data) {
+    public void toMathML(MathML element, @Nullable Object data) {
 		int exponent = data instanceof Integer ? (Integer) data : 1;
 		if(exponent==1) nameToMathML(element);
         else {

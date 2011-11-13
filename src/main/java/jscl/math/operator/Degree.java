@@ -32,7 +32,7 @@ public class Degree extends PostfixFunction {
 	@Override
 	public Generic numeric() {
 		// todo serso: check
-		Generic parameter0 = parameter[0].numeric();
+		Generic parameter0 = parameters[0].numeric();
 		Generic multiply = parameter0.multiply(Constant.pi.numeric());
 		return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
 	}

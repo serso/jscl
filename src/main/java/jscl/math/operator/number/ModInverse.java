@@ -13,8 +13,8 @@ public class ModInverse extends Operator {
 
     public Generic compute() {
         try {
-            JsclInteger en=parameter[0].integerValue();
-            JsclInteger modulo=parameter[1].integerValue();
+            JsclInteger en= parameters[0].integerValue();
+            JsclInteger modulo= parameters[1].integerValue();
             return en.modInverse(modulo);
         } catch (NotIntegerException e) {}
         return expressionValue();

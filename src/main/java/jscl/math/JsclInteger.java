@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 
@@ -315,8 +316,8 @@ public final class JsclInteger extends Generic {
         return "JsclDouble.valueOf("+content+")";
     }
 
-    public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+    public void toMathML(MathML element, @Nullable Object data) {
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");

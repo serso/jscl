@@ -12,11 +12,11 @@ public class Modulo extends Operator {
 
     public Generic compute() {
         try {
-            JsclInteger en=parameter[0].integerValue();
-            JsclInteger en2=parameter[1].integerValue();
+            JsclInteger en= parameters[0].integerValue();
+            JsclInteger en2= parameters[1].integerValue();
             return en.mod(en2);
         } catch (NotIntegerException e) {}
-        return parameter[0].remainder(parameter[1]);
+        return parameters[0].remainder(parameters[1]);
     }
 
     public Variable newInstance() {

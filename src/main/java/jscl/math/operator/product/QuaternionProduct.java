@@ -12,17 +12,17 @@ public class QuaternionProduct extends VectorOperator {
     }
 
     public Generic compute() {
-        if(parameter[0] instanceof JsclVector && parameter[1] instanceof JsclVector) {
-            JsclVector v1=(JsclVector)parameter[0];
-            JsclVector v2=(JsclVector)parameter[1];
+        if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
+            JsclVector v1=(JsclVector) parameters[0];
+            JsclVector v2=(JsclVector) parameters[1];
             return v1.quaternionProduct(v2);
         }
         return expressionValue();
     }
 
     protected void bodyToMathML(MathML element) {
-        parameter[0].toMathML(element,null);
-        parameter[1].toMathML(element,null);
+        parameters[0].toMathML(element,null);
+        parameters[1].toMathML(element,null);
     }
 
     public Variable newInstance() {

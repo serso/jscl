@@ -9,7 +9,7 @@ public class Division extends Operator {
     }
 
     public Generic compute() {
-        return parameter[0].divideAndRemainder(parameter[1])[0];
+        return parameters[0].divideAndRemainder(parameters[1])[0];
     }
 
     public Variable newInstance() {

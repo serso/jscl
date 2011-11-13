@@ -12,14 +12,14 @@ public class Dalembertian extends VectorOperator {
     }
 
     public Generic compute() {
-        Variable variable[]=variables(parameter[1]);
-        Expression expression=parameter[0].expressionValue();
+        Variable variable[]=variables(parameters[1]);
+        Expression expression= parameters[0].expressionValue();
         return expression.dalembertian(variable);
     }
 
     protected void bodyToMathML(MathML element) {
         operator(element,"square");
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
     }
 
     public Variable newInstance() {

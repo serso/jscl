@@ -16,11 +16,11 @@ public class Limit extends Operator {
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=4;
-        if(parameter[3].signum()==0) n=3;
+        if(parameters[3].signum()==0) n=3;
         buffer.append(name);
         buffer.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameter[i]).append(i<n-1?", ":"");
+            buffer.append(parameters[i]).append(i<n-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
@@ -42,21 +42,21 @@ public class Limit extends Operator {
     }
 
     void bodyToMathML(MathML element) {
-        int c=parameter[3].signum();
+        int c= parameters[3].signum();
         MathML e1=element.element("mrow");
         MathML e2=element.element("munder");
         MathML e3=element.element("mo");
         e3.appendChild(element.text("lim"));
         e2.appendChild(e3);
         e3=element.element("mrow");
-        parameter[1].toMathML(e3,null);
+        parameters[1].toMathML(e3,null);
         MathML e4=element.element("mo");
         e4.appendChild(element.text("\u2192"));
         e3.appendChild(e4);
-        if(c==0) parameter[2].toMathML(e3,null);
+        if(c==0) parameters[2].toMathML(e3,null);
         else {
             e4=element.element("msup");
-            parameter[2].toMathML(e4,null);
+            parameters[2].toMathML(e4,null);
             MathML e5=element.element("mo");
             if(c<0) e5.appendChild(element.text("-"));
             else if(c>0) e5.appendChild(element.text("+"));
@@ -65,7 +65,7 @@ public class Limit extends Operator {
         }
         e2.appendChild(e3);
         e1.appendChild(e2);
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         element.appendChild(e1);
     }
 

@@ -12,13 +12,13 @@ public class Product extends Operator {
     }
 
     public Generic compute() {
-        Variable variable=parameter[1].variableValue();
+        Variable variable= parameters[1].variableValue();
         try {
-            int n1=parameter[2].integerValue().intValue();
-            int n2=parameter[3].integerValue().intValue();
+            int n1= parameters[2].integerValue().intValue();
+            int n2= parameters[3].integerValue().intValue();
             Generic a= JsclInteger.valueOf(1);
             for(int i=n1;i<=n2;i++) {
-                a=a.multiply(parameter[0].substitute(variable, JsclInteger.valueOf(i)));
+                a=a.multiply(parameters[0].substitute(variable, JsclInteger.valueOf(i)));
             }
             return a;
         } catch (NotIntegerException e) {}
@@ -47,15 +47,15 @@ public class Product extends Operator {
         e3.appendChild(element.text("\u220F"));
         e2.appendChild(e3);
         e3=element.element("mrow");
-        parameter[1].toMathML(e3,null);
+        parameters[1].toMathML(e3,null);
         MathML e4=element.element("mo");
         e4.appendChild(element.text("="));
         e3.appendChild(e4);
-        parameter[2].toMathML(e3,null);
+        parameters[2].toMathML(e3,null);
         e2.appendChild(e3);
-        parameter[3].toMathML(e2,null);
+        parameters[3].toMathML(e2,null);
         e1.appendChild(e2);
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         element.appendChild(e1);
     }
 

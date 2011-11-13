@@ -11,10 +11,10 @@ public class Integral extends Operator {
     }
 
     public Generic compute() {
-        Variable variable=parameter[1].variableValue();
+        Variable variable= parameters[1].variableValue();
         try {
-            Generic a=parameter[0].antiDerivative(variable);
-            return a.substitute(variable,parameter[3]).subtract(a.substitute(variable,parameter[2]));
+            Generic a= parameters[0].antiDerivative(variable);
+            return a.substitute(variable, parameters[3]).subtract(a.substitute(variable, parameters[2]));
         } catch (NotIntegrableException e) {}
         return expressionValue();
     }
@@ -35,16 +35,16 @@ public class Integral extends Operator {
     }
 
     void bodyToMathML(MathML element) {
-        Variable v=parameter[1].variableValue();
+        Variable v= parameters[1].variableValue();
         MathML e1=element.element("mrow");
         MathML e2=element.element("msubsup");
         MathML e3=element.element("mo");
         e3.appendChild(element.text("\u222B"));
         e2.appendChild(e3);
-        parameter[2].toMathML(e2,null);
-        parameter[3].toMathML(e2,null);
+        parameters[2].toMathML(e2,null);
+        parameters[3].toMathML(e2,null);
         e1.appendChild(e2);
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         e2=element.element("mo");
         e2.appendChild(element.text(/*"\u2146"*/"d"));
         e1.appendChild(e2);

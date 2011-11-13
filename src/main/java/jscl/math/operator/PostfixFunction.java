@@ -19,17 +19,17 @@ abstract class PostfixFunction extends Operator {
 		final StringBuilder result = new StringBuilder();
 
 		try {
-			result.append(parameter[0].integerValue());
+			result.append(parameters[0].integerValue());
 		} catch (NotIntegerException e) {
 			try {
-				final Variable v = parameter[0].variableValue();
+				final Variable v = parameters[0].variableValue();
 				if (v instanceof Frac || v instanceof Pow) {
-					result.append(GenericVariable.valueOf(parameter[0]));
+					result.append(GenericVariable.valueOf(parameters[0]));
 				} else {
 					result.append(v);
 				}
 			} catch (NotVariableException e2) {
-				result.append(GenericVariable.valueOf(parameter[0]));
+				result.append(GenericVariable.valueOf(parameters[0]));
 			}
 		}
 		result.append(getName());

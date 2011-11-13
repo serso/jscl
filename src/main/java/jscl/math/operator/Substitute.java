@@ -11,22 +11,22 @@ public class Substitute extends Operator {
     }
 
     public Generic compute() {
-        if(parameter[1] instanceof JsclVector && parameter[2] instanceof JsclVector) {
-            Generic a=parameter[0];
-            Variable variable[]=variables(parameter[1]);
-            Generic s[]=((JsclVector)parameter[2]).elements();
+        if(parameters[1] instanceof JsclVector && parameters[2] instanceof JsclVector) {
+            Generic a= parameters[0];
+            Variable variable[]=variables(parameters[1]);
+            Generic s[]=((JsclVector) parameters[2]).elements();
             for(int i=0;i<variable.length;i++) a=a.substitute(variable[i],s[i]);
             return a;
         } else {
-            Variable variable=parameter[1].variableValue();
-            return parameter[0].substitute(variable,parameter[2]);
+            Variable variable= parameters[1].variableValue();
+            return parameters[0].substitute(variable, parameters[2]);
         }
     }
 
     public Operator transmute() {
-        Generic p[]=new Generic[] {null,GenericVariable.content(parameter[1]),GenericVariable.content(parameter[2])};
+        Generic p[]=new Generic[] {null,GenericVariable.content(parameters[1]),GenericVariable.content(parameters[2])};
         if(p[1] instanceof JsclVector && p[2] instanceof JsclVector) {
-            return new Substitute(parameter[0],p[1],p[2]);
+            return new Substitute(parameters[0],p[1],p[2]);
         }
         return this;
     }

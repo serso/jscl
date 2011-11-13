@@ -11,7 +11,7 @@ public class PrimitiveRoots extends Operator {
 
     public Generic compute() {
         try {
-            JsclInteger en=parameter[0].integerValue();
+            JsclInteger en= parameters[0].integerValue();
             Generic a[]=en.primitiveRoots();
             return new JsclVector(a.length>0?a:new Generic[] {JsclInteger.valueOf(0)});
         } catch (NotIntegerException e) {}

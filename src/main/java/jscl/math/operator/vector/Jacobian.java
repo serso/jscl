@@ -14,9 +14,9 @@ public class Jacobian extends VectorOperator {
     }
 
     public Generic compute() {
-        Variable variable[]=variables(parameter[1]);
-        if(parameter[0] instanceof JsclVector) {
-            JsclVector vector=(JsclVector)parameter[0];
+        Variable variable[]=variables(parameters[1]);
+        if(parameters[0] instanceof JsclVector) {
+            JsclVector vector=(JsclVector) parameters[0];
             return vector.jacobian(variable);
         }
         return expressionValue();
@@ -25,7 +25,7 @@ public class Jacobian extends VectorOperator {
     protected void bodyToMathML(MathML element) {
         operator(element,"nabla");
         MathML e1=element.element("msup");
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         MathML e2=element.element("mo");
         e2.appendChild(element.text("T"));
         e1.appendChild(e2);
@@ -33,7 +33,7 @@ public class Jacobian extends VectorOperator {
     }
 
     protected void operator(MathML element, String name) {
-        Variable variable[]=variables(GenericVariable.content(parameter[1]));
+        Variable variable[]=variables(GenericVariable.content(parameters[1]));
         MathML e1=element.element("msubsup");
         new Constant(name).toMathML(e1,null);
         MathML e2=element.element("mrow");

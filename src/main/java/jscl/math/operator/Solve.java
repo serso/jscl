@@ -13,10 +13,10 @@ public class Solve extends Operator {
     }
 
     public Generic compute() {
-        Variable variable=parameter[1].variableValue();
-        int subscript=parameter[2].integerValue().intValue();
-        if(parameter[0].isPolynomial(variable)) {
-            return new Root((UnivariatePolynomial)Polynomial.factory(variable).valueof(parameter[0]),subscript).evaluate();
+        Variable variable= parameters[1].variableValue();
+        int subscript= parameters[2].integerValue().intValue();
+        if(parameters[0].isPolynomial(variable)) {
+            return new Root((UnivariatePolynomial)Polynomial.factory(variable).valueof(parameters[0]),subscript).evaluate();
         }
         return expressionValue();
     }
@@ -24,11 +24,11 @@ public class Solve extends Operator {
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=3;
-        if(parameter[2].signum()==0) n=2;
+        if(parameters[2].signum()==0) n=2;
         buffer.append(name);
         buffer.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameter[i]).append(i<n-1?", ":"");
+            buffer.append(parameters[i]).append(i<n-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
@@ -38,7 +38,7 @@ public class Solve extends Operator {
         MathML e1;
         int exponent=data instanceof Integer?((Integer)data).intValue():1;
         int n=3;
-        if(parameter[2].signum()==0) n=2;
+        if(parameters[2].signum()==0) n=2;
         if(exponent==1) nameToMathML(element);
         else {
             e1=element.element("msup");
@@ -50,7 +50,7 @@ public class Solve extends Operator {
         }
         e1=element.element("mfenced");
         for(int i=0;i<n;i++) {
-            parameter[i].toMathML(e1,null);
+            parameters[i].toMathML(e1,null);
         }
         element.appendChild(e1);
     }

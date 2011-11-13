@@ -29,7 +29,7 @@ public abstract class VectorOperator extends Operator {
     protected abstract void bodyToMathML(MathML element);
 
     protected void operator(MathML element, String name) {
-        Variable variable[]=variables(GenericVariable.content(parameter[1]));
+        Variable variable[]=variables(GenericVariable.content(parameters[1]));
         MathML e1=element.element("msub");
         new Constant(name).toMathML(e1,null);
         MathML e2=element.element("mrow");

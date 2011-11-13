@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class GenericVariable extends Variable {
     Generic content;
@@ -99,7 +100,7 @@ public abstract class GenericVariable extends Variable {
         return content.toJava();
     }
 
-    public void toMathML(MathML element, Object data) {
+    public void toMathML(MathML element, @Nullable Object data) {
         content.toMathML(element,data);
     }
 }

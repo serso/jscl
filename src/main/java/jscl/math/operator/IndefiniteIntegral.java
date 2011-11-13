@@ -11,9 +11,9 @@ public class IndefiniteIntegral extends Operator {
     }
 
     public Generic compute() {
-        Variable variable=parameter[1].variableValue();
+        Variable variable= parameters[1].variableValue();
         try {
-            return parameter[0].antiDerivative(variable);
+            return parameters[0].antiDerivative(variable);
         } catch (NotIntegrableException e) {}
         return expressionValue();
     }
@@ -34,12 +34,12 @@ public class IndefiniteIntegral extends Operator {
     }
 
     void bodyToMathML(MathML element) {
-        Variable v=parameter[1].variableValue();
+        Variable v= parameters[1].variableValue();
         MathML e1=element.element("mrow");
         MathML e2=element.element("mo");
         e2.appendChild(element.text("\u222B"));
         e1.appendChild(e2);
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         e2=element.element("mo");
         e2.appendChild(element.text(/*"\u2146"*/"d"));
         e1.appendChild(e2);

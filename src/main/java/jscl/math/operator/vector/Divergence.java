@@ -12,9 +12,9 @@ public class Divergence extends VectorOperator {
     }
 
     public Generic compute() {
-        Variable variable[]=variables(parameter[1]);
-        if(parameter[0] instanceof JsclVector) {
-            JsclVector vector=(JsclVector)parameter[0];
+        Variable variable[]=variables(parameters[1]);
+        if(parameters[0] instanceof JsclVector) {
+            JsclVector vector=(JsclVector) parameters[0];
             return vector.divergence(variable);
         }
         return expressionValue();
@@ -22,7 +22,7 @@ public class Divergence extends VectorOperator {
 
     protected void bodyToMathML(MathML element) {
         operator(element,"nabla");
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
     }
 
     public Variable newInstance() {

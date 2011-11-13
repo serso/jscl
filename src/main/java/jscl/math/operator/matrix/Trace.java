@@ -12,8 +12,8 @@ public class Trace extends Operator {
     }
 
     public Generic compute() {
-        if(parameter[0] instanceof Matrix) {
-            Matrix matrix=(Matrix)parameter[0];
+        if(parameters[0] instanceof Matrix) {
+            Matrix matrix=(Matrix) parameters[0];
             return matrix.trace();
         }
         return expressionValue();
@@ -36,7 +36,7 @@ public class Trace extends Operator {
             e1.appendChild(e2);
             element.appendChild(e1);
         }
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
     }
 
     public Variable newInstance() {

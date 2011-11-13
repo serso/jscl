@@ -14,7 +14,7 @@ public class EulerPhi extends Operator {
 
     public Generic compute() {
         try {
-            JsclInteger en=parameter[0].integerValue();
+            JsclInteger en= parameters[0].integerValue();
             return en.phi();
         } catch (NotIntegerException e) {}
         return expressionValue();

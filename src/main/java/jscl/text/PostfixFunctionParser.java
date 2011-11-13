@@ -40,7 +40,7 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 	@NotNull
 	public Generic newInstance(@NotNull Generic content) {
 		final Operator result = (Operator)operator.newInstance();
-		result.setParameter(new Generic[]{content});
+		result.setParameters(new Generic[]{content});
 		return result.expressionValue();
 	}
 

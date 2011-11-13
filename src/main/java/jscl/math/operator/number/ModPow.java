@@ -13,9 +13,9 @@ public class ModPow extends Operator {
 
     public Generic compute() {
         try {
-            JsclInteger en=parameter[0].integerValue();
-            JsclInteger exponent=parameter[1].integerValue();
-            JsclInteger modulo=parameter[2].integerValue();
+            JsclInteger en= parameters[0].integerValue();
+            JsclInteger exponent= parameters[1].integerValue();
+            JsclInteger modulo= parameters[2].integerValue();
             return en.modPow(exponent,modulo);
         } catch (NotIntegerException e) {}
         return expressionValue();

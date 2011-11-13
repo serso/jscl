@@ -14,10 +14,10 @@ public class GeometricProduct extends VectorOperator {
     }
 
     public Generic compute() {
-        int algebra[]=algebra(parameter[2]);
-        if(parameter[0] instanceof JsclVector && parameter[1] instanceof JsclVector) {
-            JsclVector v1=(JsclVector)parameter[0];
-            JsclVector v2=(JsclVector)parameter[1];
+        int algebra[]=algebra(parameters[2]);
+        if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
+            JsclVector v1=(JsclVector) parameters[0];
+            JsclVector v2=(JsclVector) parameters[1];
             return v1.geometricProduct(v2,algebra);
         }
         return expressionValue();
@@ -38,19 +38,19 @@ public class GeometricProduct extends VectorOperator {
     public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=3;
-        if(parameter[2].signum()==0) n=2;
+        if(parameters[2].signum()==0) n=2;
         buffer.append(name);
         buffer.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameter[i]).append(i<n-1?", ":"");
+            buffer.append(parameters[i]).append(i<n-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
     }
 
     protected void bodyToMathML(MathML element) {
-        parameter[0].toMathML(element,null);
-        parameter[1].toMathML(element,null);
+        parameters[0].toMathML(element,null);
+        parameters[1].toMathML(element,null);
     }
 
     public Variable newInstance() {

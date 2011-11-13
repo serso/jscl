@@ -13,8 +13,8 @@ public class Determinant extends Operator {
     }
 
     public Generic compute() {
-        if(parameter[0] instanceof Matrix) {
-            Matrix matrix=(Matrix)parameter[0];
+        if(parameters[0] instanceof Matrix) {
+            Matrix matrix=(Matrix) parameters[0];
             return matrix.determinant();
         }
         return expressionValue();
@@ -34,7 +34,7 @@ public class Determinant extends Operator {
     }
 
     void bodyToMathML(MathML e0) {
-        Generic m=GenericVariable.content(parameter[0]);
+        Generic m=GenericVariable.content(parameters[0]);
         MathML e1=e0.element("mfenced");
         e1.setAttribute("open","|");
         e1.setAttribute("close","|");

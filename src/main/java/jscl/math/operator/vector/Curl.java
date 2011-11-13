@@ -12,9 +12,9 @@ public class Curl extends VectorOperator {
     }
 
     public Generic compute() {
-        Variable variable[]=variables(parameter[1]);
-        if(parameter[0] instanceof JsclVector) {
-            JsclVector vector=(JsclVector)parameter[0];
+        Variable variable[]=variables(parameters[1]);
+        if(parameters[0] instanceof JsclVector) {
+            JsclVector vector=(JsclVector) parameters[0];
             return vector.curl(variable);
         }
         return expressionValue();
@@ -25,7 +25,7 @@ public class Curl extends VectorOperator {
         MathML e1=element.element("mo");
         e1.appendChild(element.text("\u2227"));
         element.appendChild(e1);
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
     }
 
     public Variable newInstance() {

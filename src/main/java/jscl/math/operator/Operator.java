@@ -6,19 +6,20 @@ import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
 public abstract class Operator extends Variable {
-    protected Generic parameter[];
 
-    public Operator(String name, Generic parameter[]) {
+    protected Generic parameters[];
+
+    public Operator(String name, Generic parameters[]) {
         super(name);
-        this.parameter=parameter;
+        this.parameters = parameters;
     }
 
-    public Generic[] parameters() {
-        return parameter;
+    public Generic[] getParameters() {
+        return parameters;
     }
 
-	public void setParameter(Generic[] parameter) {
-		this.parameter = parameter;
+	public void setParameters(Generic[] parameters) {
+		this.parameters = parameters;
 	}
 
 	public abstract Generic compute();
@@ -34,8 +35,8 @@ public abstract class Operator extends Variable {
 
     public Generic substitute(Variable variable, Generic generic) {
         Operator v=(Operator) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].substitute(variable,generic);
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].substitute(variable,generic);
         }
         if(v.isIdentity(variable)) return generic;
         else return v.compute();
@@ -43,32 +44,32 @@ public abstract class Operator extends Variable {
 
     public Generic expand() {
         Operator v=(Operator) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].expand();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].expand();
         }
         return v.compute();
     }
 
     public Generic factorize() {
         Operator v=(Operator) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].factorize();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].factorize();
         }
         return v.expressionValue();
     }
 
     public Generic elementary() {
         Operator v=(Operator) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].elementary();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].elementary();
         }
         return v.expressionValue();
     }
 
     public Generic simplify() {
         Operator v=(Operator) newInstance();
-        for(int i=0;i<parameter.length;i++) {
-            v.parameter[i]=parameter[i].simplify();
+        for(int i=0;i< parameters.length;i++) {
+            v.parameters[i]= parameters[i].simplify();
         }
         return v.expressionValue();
     }
@@ -98,7 +99,7 @@ public abstract class Operator extends Variable {
 			} else if (result > 0) {
 				return 1;
 			} else {
-				return ArrayComparator.comparator.compare(parameter, ((Operator) variable).parameter);
+				return ArrayComparator.comparator.compare(parameters, ((Operator) variable).parameters);
 			}
 		}
 	}
@@ -116,8 +117,8 @@ public abstract class Operator extends Variable {
         StringBuffer buffer=new StringBuffer();
         buffer.append(name);
         buffer.append("(");
-        for(int i=0;i<parameter.length;i++) {
-            buffer.append(parameter[i]).append(i<parameter.length-1?", ":"");
+        for(int i=0;i< parameters.length;i++) {
+            buffer.append(parameters[i]).append(i< parameters.length-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
@@ -140,8 +141,8 @@ public abstract class Operator extends Variable {
             element.appendChild(e1);
         }
         e1=element.element("mfenced");
-        for(int i=0;i<parameter.length;i++) {
-            parameter[i].toMathML(e1,null);
+        for(int i=0;i< parameters.length;i++) {
+            parameters[i].toMathML(e1,null);
         }
         element.appendChild(e1);
     }

@@ -12,20 +12,20 @@ public class TensorProduct extends VectorOperator {
     }
 
     public Generic compute() {
-        if(parameter[0] instanceof Matrix && parameter[1] instanceof Matrix) {
-            Matrix m1=(Matrix)parameter[0];
-            Matrix m2=(Matrix)parameter[1];
+        if(parameters[0] instanceof Matrix && parameters[1] instanceof Matrix) {
+            Matrix m1=(Matrix) parameters[0];
+            Matrix m2=(Matrix) parameters[1];
             return m1.tensorProduct(m2);
         }
         return expressionValue();
     }
 
     protected void bodyToMathML(MathML element) {
-        parameter[0].toMathML(element,null);
+        parameters[0].toMathML(element,null);
         MathML e1=element.element("mo");
         e1.appendChild(element.text(/*"\u2A2F"*/"*"));
         element.appendChild(e1);
-        parameter[1].toMathML(element,null);
+        parameters[1].toMathML(element,null);
     }
 
     public Variable newInstance() {

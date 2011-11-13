@@ -12,8 +12,8 @@ public class Transpose extends Operator {
     }
 
     public Generic compute() {
-        if(parameter[0] instanceof Matrix) {
-            Matrix matrix=(Matrix)parameter[0];
+        if(parameters[0] instanceof Matrix) {
+            Matrix matrix=(Matrix) parameters[0];
             return matrix.transpose();
         }
         return expressionValue();
@@ -34,7 +34,7 @@ public class Transpose extends Operator {
 
     void bodyToMathML(MathML element) {
         MathML e1=element.element("msup");
-        parameter[0].toMathML(e1,null);
+        parameters[0].toMathML(e1,null);
         MathML e2=element.element("mo");
         e2.appendChild(element.text("T"));
         e1.appendChild(e2);

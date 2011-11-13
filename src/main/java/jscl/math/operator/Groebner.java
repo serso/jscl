@@ -16,21 +16,21 @@ public class Groebner extends Operator {
     }
 
     public Generic compute() {
-        Generic generic[]=((JsclVector)parameter[0]).elements();
-        Variable variable[]=variables(parameter[1]);
-        Ordering ord=ordering(parameter[2]);
-        int m=parameter[3].integerValue().intValue();
+        Generic generic[]=((JsclVector) parameters[0]).elements();
+        Variable variable[]=variables(parameters[1]);
+        Ordering ord=ordering(parameters[2]);
+        int m= parameters[3].integerValue().intValue();
         return new PolynomialVector(Basis.compute(generic,variable,ord,m));
     }
 
     public Operator transmute() {
-        Generic p[]=new Generic[] {GenericVariable.content(parameter[0]),GenericVariable.content(parameter[1])};
+        Generic p[]=new Generic[] {GenericVariable.content(parameters[0]),GenericVariable.content(parameters[1])};
         if(p[0] instanceof JsclVector && p[1] instanceof JsclVector) {
             Generic generic[]=((JsclVector)p[0]).elements();
             Variable variable[]=variables(p[1]);
-            Ordering ord=ordering(parameter[2]);
-            int m=parameter[3].integerValue().intValue();
-            return new Groebner(new PolynomialVector(new Basis(generic,Polynomial.factory(variable,ord,m))),p[1],parameter[2],parameter[3]);
+            Ordering ord=ordering(parameters[2]);
+            int m= parameters[3].integerValue().intValue();
+            return new Groebner(new PolynomialVector(new Basis(generic,Polynomial.factory(variable,ord,m))),p[1], parameters[2], parameters[3]);
         }
         return this;
     }
@@ -51,14 +51,14 @@ public class Groebner extends Operator {
     public String toString() {
 		StringBuilder buffer = new StringBuilder();
         int n=4;
-        if(parameter[3].signum()==0) {
+        if(parameters[3].signum()==0) {
             n=3;
-            if(ordering(parameter[2])==Monomial.lexicographic) n=2;
+            if(ordering(parameters[2])==Monomial.lexicographic) n=2;
         }
         buffer.append(name);
         buffer.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameter[i]).append(i<n-1?", ":"");
+            buffer.append(parameters[i]).append(i<n-1?", ":"");
         }
         buffer.append(")");
         return buffer.toString();
@@ -68,9 +68,9 @@ public class Groebner extends Operator {
         MathML e1;
         int exponent=data instanceof Integer? (Integer) data :1;
         int n=4;
-        if(parameter[3].signum()==0) {
+        if(parameters[3].signum()==0) {
             n=3;
-            if(ordering(parameter[2])==Monomial.lexicographic) n=2;
+            if(ordering(parameters[2])==Monomial.lexicographic) n=2;
         }
         if(exponent==1) nameToMathML(element);
         else {
@@ -83,7 +83,7 @@ public class Groebner extends Operator {
         }
         e1=element.element("mfenced");
         for(int i=0;i<n;i++) {
-            parameter[i].toMathML(e1,null);
+            parameters[i].toMathML(e1,null);
         }
         element.appendChild(e1);
     }

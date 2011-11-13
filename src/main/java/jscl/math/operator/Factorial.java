@@ -17,6 +17,7 @@ public class Factorial extends PostfixFunction {
 		try {
 			return numeric();
 		} catch (NotIntegerException e) {
+			// ok, expression is not numeric => get expression instead
 		}
 
 		return expressionValue();
@@ -24,31 +25,33 @@ public class Factorial extends PostfixFunction {
 
 	@Override
 	public Generic numeric() {
-		Generic numeric = parameter[0].numeric();
-		if (numeric.isInteger()) {
-			int n = numeric.integerValue().intValue();
+		final Generic parameter = parameters[0].numeric();
+		if (parameter.isInteger()) {
+			int n = parameter.integerValue().intValue();
 			if (n < 0) {
 				//return expressionValue();
 				throw new ArithmeticException("Cannot take factorial from negative integer!");
 			}
 
-			Generic a = JsclInteger.valueOf(1);
+			Generic result = JsclInteger.valueOf(1);
 			for (int i = 0; i < n; i++) {
 				ParserUtils.checkInterruption();
-				a = a.multiply(JsclInteger.valueOf(i + 1));
+				result = result.multiply(JsclInteger.valueOf(i + 1));
 			}
-			if (a instanceof JsclInteger) {
-				return new NumericWrapper(((JsclInteger) a));
+
+			if (result instanceof JsclInteger) {
+				return new NumericWrapper(((JsclInteger) result));
 			} else {
 				throw new NotIntegerException();
 			}
+
 		} else {
 			throw new NotIntegerException();
 		}
 	}
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");
@@ -63,16 +66,16 @@ public class Factorial extends PostfixFunction {
     void bodyToMathML(MathML element) {
         MathML e1=element.element("mrow");
         try {
-            JsclInteger en=parameter[0].integerValue();
+            JsclInteger en= parameters[0].integerValue();
             en.toMathML(e1,null);
         } catch (NotIntegerException e) {
             try {
-                Variable v=parameter[0].variableValue();
+                Variable v= parameters[0].variableValue();
                 if(v instanceof Pow) {
-                    GenericVariable.valueOf(parameter[0]).toMathML(e1,null);
+                    GenericVariable.valueOf(parameters[0]).toMathML(e1,null);
                 } else v.toMathML(e1,null);
             } catch (NotVariableException e2) {
-                GenericVariable.valueOf(parameter[0]).toMathML(e1,null);
+                GenericVariable.valueOf(parameters[0]).toMathML(e1,null);
             }
         }
         MathML e2=element.element("mo");
