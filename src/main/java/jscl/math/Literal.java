@@ -4,6 +4,7 @@ import jscl.math.function.Frac;
 import jscl.math.function.Pow;
 import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -352,7 +353,7 @@ public class Literal implements Comparable {
         return buffer.toString();
     }
 
-    public void toMathML(MathML element, Object data) {
+    public void toMathML(MathML element, @Nullable Object data) {
         if(degree==0) {
             MathML e1=element.element("mn");
             e1.appendChild(element.text("1"));
@@ -361,7 +362,7 @@ public class Literal implements Comparable {
         for(int i=0;i<size;i++) {
             Variable v=variable[i];
             int c=power[i];
-            v.toMathML(element,new Integer(c));
+            v.toMathML(element, c);
         }
     }
 

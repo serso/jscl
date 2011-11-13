@@ -79,7 +79,7 @@ public class Matrix extends Generic {
         if(generic instanceof Matrix) {
             return multiply((Matrix)generic);
         } else if(generic instanceof JsclVector) {
-            JsclVector v=(JsclVector)((JsclVector)generic).newinstance(new Generic[n]);
+            JsclVector v=(JsclVector)((JsclVector)generic).newInstance(new Generic[n]);
             JsclVector v2=(JsclVector)generic;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {

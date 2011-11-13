@@ -2,8 +2,10 @@ package jscl.math;
 
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class Generic implements Arithmetic, Comparable {
+
     public abstract Generic add(Generic generic);
 
     public Generic subtract(Generic generic) {
@@ -12,9 +14,9 @@ public abstract class Generic implements Arithmetic, Comparable {
 
     public abstract Generic multiply(Generic generic);
 
-    public boolean multiple(Generic generic) throws ArithmeticException {
+    /*public boolean multiple(Generic generic) throws ArithmeticException {
         return remainder(generic).signum()==0;
-    }
+    }*/
 
     public abstract Generic divide(Generic generic) throws ArithmeticException;
 
@@ -65,7 +67,8 @@ public abstract class Generic implements Arithmetic, Comparable {
         return new Generic[] {gcd,divide(gcd)};
     }
 
-    public Generic normalize() {
+    @SuppressWarnings({"UnusedDeclaration"})
+	public Generic normalize() {
         return gcdAndNormalize()[1];
     }
 
@@ -132,13 +135,20 @@ public abstract class Generic implements Arithmetic, Comparable {
         return compareTo((Generic)o);
     }
 
-    public boolean equals(Object obj) {
-        if(obj instanceof Generic) {
-            return compareTo((Generic)obj)==0;
-        } else return false;
-    }
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
 
-    public abstract String toJava();
+		if (o instanceof Generic) {
+			final Generic that = ((Generic) o);
+			return compareTo(that) == 0;
+		}
+
+		return false;
+	}
+
+	public abstract String toJava();
 
     public String toMathML() {
         MathML document=new MathML("math","-//W3C//DTD MathML 2.0//EN","http://www.w3.org/TR/MathML2/dtd/mathml2.dtd");
@@ -147,5 +157,5 @@ public abstract class Generic implements Arithmetic, Comparable {
         return e.toString();
     }
 
-    public abstract void toMathML(MathML element, Object data);
+    public abstract void toMathML(MathML element, @Nullable Object data);
 }

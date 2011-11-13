@@ -49,7 +49,7 @@ public class Groebner extends Operator {
     }
 
     public String toString() {
-        StringBuffer buffer=new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
         int n=4;
         if(parameter[3].signum()==0) {
             n=3;
@@ -66,7 +66,7 @@ public class Groebner extends Operator {
 
     public void toMathML(MathML element, Object data) {
         MathML e1;
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         int n=4;
         if(parameter[3].signum()==0) {
             n=3;
@@ -106,13 +106,13 @@ class PolynomialVector extends JsclVector {
     }
 
     public String toString() {
-        StringBuffer buffer=new StringBuffer();
-        buffer.append("{");
+		final StringBuilder result = new StringBuilder();
+        result.append("{");
         for(int i=0;i<n;i++) {
-            buffer.append(basis.polynomial(element[i])).append(i<n-1?", ":"");
+            result.append(basis.polynomial(element[i])).append(i<n-1?", ":"");
         }
-        buffer.append("}");
-        return buffer.toString();
+        result.append("}");
+        return result.toString();
     }
 
     protected void bodyToMathML(MathML e0) {
@@ -129,7 +129,7 @@ class PolynomialVector extends JsclVector {
         e0.appendChild(e1);
     }
 
-    protected Generic newinstance(Generic element[]) {
+    protected Generic newInstance(Generic element[]) {
         return new PolynomialVector(basis,element);
     }
 }

@@ -1,11 +1,11 @@
 package jscl.math.polynomial;
 
+import jscl.math.*;
+import jscl.mathml.MathML;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.Iterator;
-
-import jscl.math.*;
-import jscl.math.JsclInteger;
-import jscl.mathml.MathML;
 
 public abstract class Polynomial implements Arithmetic, Comparable {
     final Monomial monomialFactory;
@@ -437,7 +437,7 @@ public abstract class Polynomial implements Arithmetic, Comparable {
         return buffer.toString();
     }
 
-    public void toMathML(MathML element, Object data) {
+    public void toMathML(MathML element, @Nullable Object data) {
         MathML e1=element.element("mrow");
         if(signum()==0) {
             MathML e2=element.element("mn");
