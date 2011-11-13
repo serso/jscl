@@ -31,17 +31,11 @@ class UsualFunctionParser implements Parser<Function> {
 			throw new ParseException();
 		}
 
-		Generic params[];
-		try {
-			params = (Generic[]) ParameterList.parser.parse(expression, position, depth);
-		} catch (ParseException e) {
-			position.setValue(pos0);
-			throw e;
-		}
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterList.parser, expression, position, depth, pos0);
 
 		final Function result = functionsRegistry.get(name);
 		if (result != null) {
-			result.setParameters(params);
+			result.setParameters(parameters);
 		}
 		return result;
 	}

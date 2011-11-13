@@ -18,7 +18,7 @@ public class ExpressionParser implements Parser<Generic> {
 
 		boolean sign = MinusParser.parser.parse(expression, position, depth).isSign();
 
-		Generic result = (Generic) TermParser.parser.parse(expression, position, depth);
+		Generic result = TermParser.parser.parse(expression, position, depth);
 
 		if (sign) {
 			result = result.negate();
@@ -26,7 +26,7 @@ public class ExpressionParser implements Parser<Generic> {
 
 		while (true) {
 			try {
-				result = result.add((Generic) PlusOrMinusTerm.parser.parse(expression, position, depth));
+				result = result.add(PlusOrMinusTerm.parser.parse(expression, position, depth));
 			} catch (ParseException e) {
 				break;
 			}

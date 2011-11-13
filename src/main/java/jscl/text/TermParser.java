@@ -20,13 +20,14 @@ class TermParser implements Parser<Generic> {
 	}
 
 	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
-		Generic a = JsclInteger.valueOf(1);
+		Generic result = JsclInteger.valueOf(1);
+
 		Generic s = (Generic) UnsignedFactor.parser.parse(expression, position, depth);
 
 		while (true) {
 			try {
 				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(expression, position, depth);
-				a = a.multiply(s);
+				result = result.multiply(s);
 				s = b;
 			} catch (ParseException e) {
 				try {
@@ -40,7 +41,7 @@ class TermParser implements Parser<Generic> {
 				}
 			}
 		}
-		a = a.multiply(s);
-		return a;
+		result = result.multiply(s);
+		return result;
 	}
 }

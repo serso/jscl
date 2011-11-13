@@ -21,10 +21,14 @@ public class RadTest {
 		Assert.assertEquals(String.valueOf(Math.PI), mathEngine.evaluate("rad(180)"));
 		Assert.assertEquals(String.valueOf(-Math.PI), mathEngine.evaluate("rad(-180)"));
 
-		Assert.assertEquals("rad(-180)", mathEngine.simplify("rad(-180)"));
-		Assert.assertEquals("rad(2)", mathEngine.simplify("rad(1+1)"));
+		// todo serso: think about zeroes
+		Assert.assertEquals("rad(-180, 0, 0)", mathEngine.simplify("rad(-180)"));
+		Assert.assertEquals("rad(2, 0, 0)", mathEngine.simplify("rad(1+1)"));
 
-		Assert.assertEquals("rad(-180)", mathEngine.elementary("rad(-180)"));
-		Assert.assertEquals("rad(2)", mathEngine.elementary("rad(1+1)"));
+		Assert.assertEquals("rad(-180, 0, 0)", mathEngine.elementary("rad(-180)"));
+		Assert.assertEquals("rad(2, 0, 0)", mathEngine.elementary("rad(1+1)"));
+
+		Assert.assertEquals(mathEngine.evaluate("rad(43.1025)"), mathEngine.evaluate("rad(43,6,9)"));
+		Assert.assertEquals(mathEngine.evaluate("rad(102.765)"), mathEngine.evaluate("rad(102, 45,  54)"));
 	}
 }

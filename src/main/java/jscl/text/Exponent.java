@@ -20,15 +20,7 @@ class Exponent implements Parser<Generic> {
 
 		boolean sign = MinusParser.parser.parse(expression, position, depth).isSign();
 
-		Generic result;
-
-		try {
-			result = (Generic) UnsignedExponent.parser.parse(expression, position, depth);
-		} catch (ParseException e) {
-			position.setValue(pos0);
-			throw e;
-		}
-
+		final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, expression, position, depth, pos0);
 		return sign ? result.negate() : result;
 	}
 }

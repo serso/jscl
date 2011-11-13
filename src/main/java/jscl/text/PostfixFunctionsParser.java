@@ -25,8 +25,10 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 
 	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
 
-		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(PostfixFunctionsRegistry.getInstance().getEntities().size());
-		for (Operator operator : PostfixFunctionsRegistry.getInstance().getEntities()) {
+		final List<Operator> postfixFunctions = PostfixFunctionsRegistry.getInstance().getEntities();
+
+		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctions.size());
+		for (Operator operator : postfixFunctions) {
 			parsers.add(new PostfixFunctionParser(operator));
 		}
 
@@ -40,10 +42,10 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 										int depth) throws ParseException {
 		Generic result = content;
 
-		for (PostfixFunctionParser postfixParser : parsers) {
-			final PostfixFunctionParser.Result postfixResult = postfixParser.parse(string, position, depth);
+		for (PostfixFunctionParser parser : parsers) {
+			final PostfixFunctionParser.Result postfixResult = parser.parse(string, position, depth);
 			if (postfixResult.isPostfixFunction()) {
-				result = parsePostfix(parsers, string, position, postfixParser.newInstance(GenericVariable.content(result, true)), depth);
+				result = parsePostfix(parsers, string, position, parser.newInstance(GenericVariable.content(result, true)), depth);
 			}
 		}
 

@@ -23,24 +23,24 @@ class UnsignedFactor implements Parser {
 	}
 
 	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
-		final List list = new ArrayList();
+		final List<Generic> list = new ArrayList<Generic>();
 
-		Generic generic = (Generic) UnsignedExponent.parser.parse(expression, position, depth);
+		Generic generic = UnsignedExponent.parser.parse(expression, position, depth);
 
 		list.add(generic);
 
 		while (true) {
 			try {
-				generic = (Generic) PowerExponent.parser.parse(expression, position, depth);
+				generic = PowerExponent.parser.parse(expression, position, depth);
 				list.add(generic);
 			} catch (ParseException e) {
 				break;
 			}
 		}
-		ListIterator it = list.listIterator(list.size());
-		generic = (Generic) it.previous();
+		ListIterator<Generic> it = list.listIterator(list.size());
+		generic = it.previous();
 		while (it.hasPrevious()) {
-			Generic b = (Generic) it.previous();
+			Generic b = it.previous();
 			try {
 				int c = generic.integerValue().intValue();
 				if (c < 0) {

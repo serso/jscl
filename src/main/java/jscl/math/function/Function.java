@@ -150,21 +150,22 @@ public abstract class Function extends Variable {
 	}
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(name);
-		buffer.append("(");
+		final StringBuilder result = new StringBuilder();
+		result.append(name);
+		result.append("(");
 		for (int i = 0; i < parameters.length; i++) {
-			buffer.append(substituteParameter(i)).append(i < parameters.length - 1 ? ", " : "");
+			result.append(substituteParameter(i)).append(i < parameters.length - 1 ? ", " : "");
 		}
-		buffer.append(")");
-		return buffer.toString();
+		result.append(")");
+		return result.toString();
 	}
 
 	private String substituteParameter(int i) {
-		Generic generic = parameters[i];
+		Generic parameter = parameters[i];
+
 		String result;
-		if (generic != null) {
-			result = generic.toString();
+		if (parameter != null) {
+			result = parameter.toString();
 		} else {
 			result = String.valueOf(variableNames.charAt(i - (i / variableNames.length()) * variableNames.length()));
 		}
@@ -173,7 +174,7 @@ public abstract class Function extends Variable {
 	}
 
 	public String toJava() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append(parameters[0].toJava());
 		buffer.append(".").append(name).append("()");
 		return buffer.toString();
