@@ -24,6 +24,9 @@ public class PercentTest {
 		Assert.assertEquals("125.0", mathEngine.evaluate("100+100*50%*(25+25)%"));
 		Assert.assertEquals("250.0", mathEngine.evaluate("100+100*50%*(25+25)%+100%"));
 		Assert.assertEquals("150.0", mathEngine.evaluate("100+(100*50%*(25+25)%+100%)"));
+		Assert.assertEquals("140.0", mathEngine.evaluate("100+(20+20)%"));
+		// todo serso: think about such behaviour
+		Assert.assertEquals("124.0", mathEngine.evaluate("100+(20%+20%)"));
 
 		try {
 			Assert.assertEquals("100+50%-50%", mathEngine.simplify("100+50%-50%"));
