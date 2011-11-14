@@ -1,93 +1,100 @@
 package jscl.math.function;
 
 import jscl.math.*;
-import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 
-public class Comparison extends Function {
-    int operator;
+import java.util.Arrays;
+import java.util.List;
 
-    public Comparison(String name, Generic expression1, Generic expression2) {
-        super(name,new Generic[] {expression1,expression2});
-		for (int i = 0; i < easo.length; i++) if (name.compareTo(easo[i]) == 0) operator = i;
+public class Comparison extends Function {
+
+	private static final String eass[] = {"=", "<=", ">=", "<>", "<", ">", "~"};
+	private static final String easj[] = {"==", "<=", ">=", "!=", "<", ">", "=="};
+	private static final String easm[] = {"=", "\u2264", "\u2265", "\u2260", "<", ">", "\u2248"};
+	public static final List<String> names = Arrays.asList("eq", "le", "ge", "ne", "lt", "gt", "ap");
+
+	int operator;
+
+	public Comparison(String name, Generic expression1, Generic expression2) {
+		super(name, new Generic[]{expression1, expression2});
+		operator = names.indexOf(name);
+		if (operator < 0) {
+			throw new ArithmeticException(name + " comparison function doesn't exist!");
+		}
 	}
 
-    public Generic antiDerivative(int n) throws NotIntegrableException {
-        throw new NotIntegrableException();
-    }
+	public Generic antiDerivative(int n) throws NotIntegrableException {
+		throw new NotIntegrableException();
+	}
 
-    public Generic derivative(int n) {
-        return JsclInteger.valueOf(0);
-    }
+	public Generic derivative(int n) {
+		return JsclInteger.valueOf(0);
+	}
 
-    public Generic evaluate() {
-        try {
-            return compare(parameters[0].integerValue(), parameters[1].integerValue());
-        } catch (NotIntegerException e) {}
-        return expressionValue();
-    }
+	public Generic evaluate() {
+		try {
+			return compare(parameters[0].integerValue(), parameters[1].integerValue());
+		} catch (NotIntegerException e) {
+		}
+		return expressionValue();
+	}
 
-    public Generic evaluateElementary() {
-        return expressionValue();
-    }
+	public Generic evaluateElementary() {
+		return expressionValue();
+	}
 
-    public Generic evaluateSimplify() {
-        return expressionValue();
-    }
+	public Generic evaluateSimplify() {
+		return expressionValue();
+	}
 
-    public Generic evaluateNumerically() {
-        return compare((NumericWrapper) parameters[0],(NumericWrapper) parameters[1]);
-    }
+	public Generic evaluateNumerically() {
+		return compare((NumericWrapper) parameters[0], (NumericWrapper) parameters[1]);
+	}
 
-    JsclInteger compare(JsclInteger a1, JsclInteger a2) {
-        return JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0);
-    }
+	JsclInteger compare(JsclInteger a1, JsclInteger a2) {
+		return JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0);
+	}
 
-    NumericWrapper compare(NumericWrapper a1, NumericWrapper a2) {
-        return new NumericWrapper(JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0));
-    }
+	NumericWrapper compare(NumericWrapper a1, NumericWrapper a2) {
+		return new NumericWrapper(JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0));
+	}
 
-    boolean compare(Generic a1, Generic a2) {
-        switch(operator) {
-            case 0:
-                return a1.compareTo(a2)==0;
-            case 1:
-                return a1.compareTo(a2)<=0;
-            case 2:
-                return a1.compareTo(a2)>=0;
-            case 3:
-                return a1.compareTo(a2)!=0;
-            case 4:
-                return a1.compareTo(a2)<0;
-            case 5:
-                return a1.compareTo(a2)>0;
-            case 6:
-                return a1.compareTo(a2)==0;
-            default:
-                return false;
-        }
-    }
+	boolean compare(Generic a1, Generic a2) {
+		switch (operator) {
+			case 0:
+				return a1.compareTo(a2) == 0;
+			case 1:
+				return a1.compareTo(a2) <= 0;
+			case 2:
+				return a1.compareTo(a2) >= 0;
+			case 3:
+				return a1.compareTo(a2) != 0;
+			case 4:
+				return a1.compareTo(a2) < 0;
+			case 5:
+				return a1.compareTo(a2) > 0;
+			case 6:
+				return a1.compareTo(a2) == 0;
+			default:
+				return false;
+		}
+	}
 
-    public String toJava() {
-        StringBuffer buffer=new StringBuffer();
-        buffer.append(parameters[0].toJava()).append(easj[operator]).append(parameters[1].toJava());
-        return buffer.toString();
-    }
+	public String toJava() {
+		final StringBuilder result = new StringBuilder();
+		result.append(parameters[0].toJava()).append(easj[operator]).append(parameters[1].toJava());
+		return result.toString();
+	}
 
-    public void toMathML(MathML element, Object data) {
-        parameters[0].toMathML(element,null);
-        MathML e1=element.element("mo");
-        e1.appendChild(element.text(easm[operator]));
-        element.appendChild(e1);
-        parameters[1].toMathML(element,null);
-    }
+	public void toMathML(MathML element, Object data) {
+		parameters[0].toMathML(element, null);
+		MathML e1 = element.element("mo");
+		e1.appendChild(element.text(easm[operator]));
+		element.appendChild(e1);
+		parameters[1].toMathML(element, null);
+	}
 
-    public Variable newInstance() {
-        return new Comparison(name,null,null);
-    }
-
-    private static final String eass[]={"=","<=",">=","<>","<",">","~"};
-    private static final String easj[]={"==","<=",">=","!=","<",">","=="};
-    private static final String easm[]={"=","\u2264","\u2265","\u2260","<",">","\u2248"};
-    private static final String easo[]={"eq","le","ge","ne","lt","gt","ap"};
+	public Variable newInstance() {
+		return new Comparison(name, null, null);
+	}
 }

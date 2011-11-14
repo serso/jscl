@@ -17,6 +17,7 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
 	static {
 		instance.add(new Deg(null));
 		instance.add(new Rad(null, null, null));
+		instance.add(new Dms(null, null, null));
 
 		instance.add(new Sin(null));
 		instance.add(new Cos(null));
@@ -49,13 +50,9 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
 
 		instance.add(new Conjugate(null));
 
-		instance.add(new Comparison("eq", null, null));
-		instance.add(new Comparison("le", null, null));
-		instance.add(new Comparison("ge", null, null));
-		instance.add(new Comparison("ne", null, null));
-		instance.add(new Comparison("lt", null, null));
-		instance.add(new Comparison("gt", null, null));
-		instance.add(new Comparison("ap", null, null));
+		for (String name : Comparison.names) {
+			instance.add(new Comparison(name, null, null));
+		}
 	}
 
 
