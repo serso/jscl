@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.function.Constant;
 import jscl.math.numeric.JsclDouble;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -13,9 +14,25 @@ import org.jetbrains.annotations.NotNull;
 public class Percent extends PostfixFunction {
 
 	public Percent(Generic content, Generic previousSumElement) {
-		super("%", new Generic[]{content, previousSumElement});
+		super("%", createParameters(content, previousSumElement));
 	}
 
+	private static Generic[] createParameters(@Nullable Generic content, @Nullable Generic previousSumElement) {
+		final Generic[] result;
+
+		if (previousSumElement == null) {
+			result = new Generic[]{content};
+		} else {
+			result = new Generic[]{content, previousSumElement};
+		}
+
+		return result;
+	}
+
+	@Override
+	public void setParameters(Generic[] parameters) {
+		super.setParameters(createParameters(parameters[0], parameters.length > 1 ? parameters[1] : null));
+	}
 
 	public Generic compute() {
 		try {
@@ -28,6 +45,11 @@ public class Percent extends PostfixFunction {
 	}
 
 	@Override
+	public Generic simplify() {
+		throw new ArithmeticException("Simplify is not supported for percents yet!");
+	}
+
+	@Override
 	public Generic numeric() {
 		Generic percentValue = parameters[0].numeric();
 
@@ -37,7 +59,7 @@ public class Percent extends PostfixFunction {
 
 			return previousSumElement.multiply(normalizedPercentage);
 		} else {
-			throw new ArithmeticException("Second parameter must be set for % function!");
+			return normalizedPercentage;
 		}
 	}
 

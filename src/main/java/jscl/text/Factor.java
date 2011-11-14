@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  */
 class Factor implements Parser<Generic> {
 
-	public static final Parser parser = new Factor();
+	public static final Parser<Generic> parser = new Factor();
 
 	private Factor() {
 	}

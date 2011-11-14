@@ -26,12 +26,12 @@ class TermParser implements Parser<Generic> {
 
 		while (true) {
 			try {
-				Generic b = (Generic) MultiplyOrDivideFactor.multiply.parse(expression, position, depth, previousSumElement);
+				Generic b = MultiplyOrDivideFactor.multiply.parse(expression, position, depth, null);
 				result = result.multiply(s);
 				s = b;
 			} catch (ParseException e) {
 				try {
-					Generic b = (Generic) MultiplyOrDivideFactor.divide.parse(expression, position, depth, previousSumElement);
+					Generic b = MultiplyOrDivideFactor.divide.parse(expression, position, depth, null);
 					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
 						s = new Inv(GenericVariable.content(b, true)).expressionValue();
 					else

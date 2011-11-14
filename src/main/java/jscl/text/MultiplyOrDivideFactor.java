@@ -8,32 +8,29 @@ import org.jetbrains.annotations.NotNull;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class MultiplyOrDivideFactor implements Parser {
-	public static final Parser multiply = new MultiplyOrDivideFactor(true);
-	public static final Parser divide = new MultiplyOrDivideFactor(false);
-	boolean option;
+class MultiplyOrDivideFactor implements Parser<Generic> {
 
-	private MultiplyOrDivideFactor(boolean option) {
-		this.option = option;
+	public static final Parser<Generic> multiply = new MultiplyOrDivideFactor(true);
+
+	public static final Parser<Generic> divide = new MultiplyOrDivideFactor(false);
+
+	boolean multiplication;
+
+	private MultiplyOrDivideFactor(boolean multiplication) {
+		this.multiplication = multiplication;
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
-		Generic a;
+
 		ParserUtils.skipWhitespaces(expression, position);
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == (option ? '*' : '/')) {
-			expression.charAt(position.intValue());
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == (multiplication ? '*' : '/')) {
 			position.increment();
 		} else {
 			position.setValue(pos0);
 			throw new ParseException();
 		}
-		try {
-			a = (Generic) Factor.parser.parse(expression, position, depth, previousSumElement);
-		} catch (ParseException e) {
-			position.setValue(pos0);
-			throw e;
-		}
-		return a;
+
+		return ParserUtils.parseWithRollback(Factor.parser, expression, position, depth, pos0, previousSumElement);
 	}
 }
