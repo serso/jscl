@@ -36,6 +36,8 @@ public class ExpressionTest {
 		Assert.assertEquals("120.0", Expression.valueOf("(2+2+1)!").numeric().toString());
 		Assert.assertEquals("24.0", Expression.valueOf("(2.0+2.0)!").numeric().toString());
 		Assert.assertEquals("24.0", Expression.valueOf("4.0!").numeric().toString());
+		Assert.assertEquals("48.0", Expression.valueOf("2*4.0!").numeric().toString());
+		Assert.assertEquals("40320.0", Expression.valueOf("(2*4.0)!").numeric().toString());
 		Assert.assertEquals("-0.9055783620066238", Expression.valueOf("sin(4!)").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("(3.14/3.14)!").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("2/2!").numeric().toString());

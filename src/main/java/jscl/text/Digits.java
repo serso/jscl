@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 
 public class Digits implements Parser<String> {
@@ -10,7 +11,7 @@ public class Digits implements Parser<String> {
 	}
 
 	// returns digit
-	public String parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public String parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();

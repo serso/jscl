@@ -620,7 +620,7 @@ public class Expression extends Generic {
 	public static Expression valueOf(@NotNull String expression) throws ParseException {
 		final MutableInt position = new MutableInt(0);
 
-		final Generic generic = ExpressionParser.parser.parse(expression, position, 0);
+		final Generic generic = ExpressionParser.parser.parse(expression, position, 0, null);
 
 		ParserUtils.skipWhitespaces(expression, position);
 

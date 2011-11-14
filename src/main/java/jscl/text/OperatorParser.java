@@ -45,12 +45,12 @@ public class OperatorParser implements Parser<Operator> {
 	private OperatorParser() {
 	}
 
-	public Operator parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Operator parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		String operatorName;
 		try {
-			operatorName = Identifier.parser.parse(expression, position, depth);
+			operatorName = Identifier.parser.parse(expression, position, depth, previousSumElement);
 			if (!valid(operatorName)) {
 				position.setValue(pos0);
 				throw new ParseException();
@@ -61,7 +61,7 @@ public class OperatorParser implements Parser<Operator> {
 
 		final Generic parameters[];
 		try {
-			parameters = (Generic[]) ParameterList.parser.parse(expression, position, depth);
+			parameters = (Generic[]) ParameterList.parser.parse(expression, position, depth, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

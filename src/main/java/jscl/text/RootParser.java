@@ -10,13 +10,13 @@ public class RootParser implements Parser<Function> {
 
     private RootParser() {}
 
-    public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+    public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
         int pos0= position.intValue();
         String name;
         Generic subscript;
         Generic a[];
         try {
-            name=(String)Identifier.parser.parse(expression, position, depth);
+            name=(String)Identifier.parser.parse(expression, position, depth, previousSumElement);
             if(name.compareTo("root")==0);
             else {
                 position.setValue(pos0);
@@ -26,13 +26,13 @@ public class RootParser implements Parser<Function> {
             throw e;
         }
         try {
-            subscript=(Generic)Subscript.parser.parse(expression, position, depth);
+            subscript=(Generic)Subscript.parser.parse(expression, position, depth, previousSumElement);
         } catch (ParseException e) {
             position.setValue(pos0);
             throw e;
         }
         try {
-            a=(Generic[])ParameterList.parser.parse(expression, position, depth);
+            a=(Generic[])ParameterList.parser.parse(expression, position, depth, previousSumElement);
         } catch (ParseException e) {
             position.setValue(pos0);
             throw e;

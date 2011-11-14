@@ -13,12 +13,12 @@ public class ExpressionParser implements Parser<Generic> {
 	@NotNull
 	private static final Integer MAX_DEPTH = 15;
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		depth = checkDepth(position, depth);
 
-		boolean sign = MinusParser.parser.parse(expression, position, depth).isSign();
+		boolean sign = MinusParser.parser.parse(expression, position, depth, previousSumElement).isSign();
 
-		Generic result = TermParser.parser.parse(expression, position, depth);
+		Generic result = TermParser.parser.parse(expression, position, depth, previousSumElement);
 
 		if (sign) {
 			result = result.negate();
@@ -26,7 +26,7 @@ public class ExpressionParser implements Parser<Generic> {
 
 		while (true) {
 			try {
-				result = result.add(PlusOrMinusTerm.parser.parse(expression, position, depth));
+				result = result.add(PlusOrMinusTerm.parser.parse(expression, position, depth, result));
 			} catch (ParseException e) {
 				break;
 			}

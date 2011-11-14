@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -19,7 +20,7 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 	}
 
 	@NotNull
-	public Result parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Result parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final boolean postfixFunction;
@@ -38,9 +39,13 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 	}
 
 	@NotNull
-	public Generic newInstance(@NotNull Generic content) {
+	public Generic newInstance(@NotNull Generic content, @Nullable Generic previousSumElement) {
 		final Operator result = (Operator)operator.newInstance();
-		result.setParameters(new Generic[]{content});
+		if (previousSumElement == null) {
+			result.setParameters(new Generic[]{content});
+		} else {
+			result.setParameters(new Generic[]{content, previousSumElement});
+		}
 		return result.expressionValue();
 	}
 

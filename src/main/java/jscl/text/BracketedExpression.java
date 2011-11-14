@@ -11,14 +11,14 @@ public class BracketedExpression implements Parser<ExpressionVariable> {
 	private BracketedExpression() {
 	}
 
-	public ExpressionVariable parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public ExpressionVariable parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.tryToParse(expression, position, pos0, '(');
 
 		Generic result;
 		try {
-			result = ExpressionParser.parser.parse(expression, position, depth);
+			result = ExpressionParser.parser.parse(expression, position, depth, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

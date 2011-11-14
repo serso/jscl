@@ -22,16 +22,16 @@ class UnsignedFactor implements Parser {
 	private UnsignedFactor() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		final List<Generic> list = new ArrayList<Generic>();
 
-		Generic generic = UnsignedExponent.parser.parse(expression, position, depth);
+		Generic generic = UnsignedExponent.parser.parse(expression, position, depth, previousSumElement);
 
 		list.add(generic);
 
 		while (true) {
 			try {
-				generic = PowerExponent.parser.parse(expression, position, depth);
+				generic = PowerExponent.parser.parse(expression, position, depth, previousSumElement);
 				list.add(generic);
 			} catch (ParseException e) {
 				break;

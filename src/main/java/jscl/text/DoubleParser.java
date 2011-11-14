@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.numeric.JsclDouble;
 import org.jetbrains.annotations.NotNull;
@@ -20,9 +21,9 @@ public class DoubleParser implements Parser<NumericWrapper> {
 	}
 
 	@NotNull
-	public NumericWrapper parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public NumericWrapper parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
-		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(expression, position, depth)));
+		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(expression, position, depth, previousSumElement)));
 	}
 }
 
@@ -34,12 +35,12 @@ class Singularity implements Parser<Double> {
 	}
 
 	@NotNull
-	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final double result;
 
-		String s = Identifier.parser.parse(expression, position, depth);
+		String s = Identifier.parser.parse(expression, position, depth, previousSumElement);
 		if (s.equals("NaN")) {
 			result = Double.NaN;
 		} else if (s.equals("Infinity") || s.equals("∞")) {
@@ -60,7 +61,7 @@ class FloatingPointLiteral implements Parser<Double> {
 	private FloatingPointLiteral() {
 	}
 
-	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
@@ -69,13 +70,13 @@ class FloatingPointLiteral implements Parser<Double> {
 		boolean point = false;
 
 		try {
-			result.append(Digits.parser.parse(expression, position, depth));
+			result.append(Digits.parser.parse(expression, position, depth, previousSumElement));
 			digits = true;
 		} catch (ParseException e) {
 		}
 
 		try {
-			DecimalPoint.parser.parse(expression, position, depth);
+			DecimalPoint.parser.parse(expression, position, depth, previousSumElement);
 			result.append(".");
 			point = true;
 		} catch (ParseException e) {
@@ -85,7 +86,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			result.append(Digits.parser.parse(expression, position, depth));
+			result.append(Digits.parser.parse(expression, position, depth, previousSumElement));
 		} catch (ParseException e) {
 			if (!digits) {
 				position.setValue(pos0);
@@ -93,7 +94,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			String s = (String) ExponentPart.parser.parse(expression, position, depth);
+			String s = (String) ExponentPart.parser.parse(expression, position, depth, previousSumElement);
 			result.append(s);
 		} catch (ParseException e) {
 			if (!point) {
@@ -112,7 +113,7 @@ class DecimalPoint implements Parser {
 	private DecimalPoint() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 		ParserUtils.skipWhitespaces(expression, position);
 		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '.') {
@@ -132,9 +133,9 @@ class ExponentPart implements Parser {
 	private ExponentPart() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		ParserUtils.skipWhitespaces(expression, position);
 		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == 'e' || expression.charAt(position.intValue()) == 'E')) {
 			char c = expression.charAt(position.intValue());
@@ -145,7 +146,7 @@ class ExponentPart implements Parser {
 			throw new ParseException();
 		}
 		try {
-			String s = (String) SignedInteger.parser.parse(expression, position, depth);
+			String s = (String) SignedInteger.parser.parse(expression, position, depth, previousSumElement);
 			buffer.append(s);
 		} catch (ParseException e) {
 			position.setValue(pos0);
@@ -156,27 +157,32 @@ class ExponentPart implements Parser {
 }
 
 class SignedInteger implements Parser {
+
 	public static final Parser parser = new SignedInteger();
 
 	private SignedInteger() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
-		StringBuffer buffer = new StringBuffer();
+
+		final StringBuilder result = new StringBuilder();
+
 		ParserUtils.skipWhitespaces(expression, position);
+
 		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == '+' || expression.charAt(position.intValue()) == '-')) {
 			char c = expression.charAt(position.intValue());
 			position.increment();
-			buffer.append(c);
+			result.append(c);
 		}
+
 		try {
-			int n = ((Integer) IntegerParser.parser.parse(expression, position, depth)).intValue();
-			buffer.append(n);
+			result.append(IntegerParser.parser.parse(expression, position, depth, previousSumElement).intValue());
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
 		}
-		return buffer.toString();
+
+		return result.toString();
 	}
 }

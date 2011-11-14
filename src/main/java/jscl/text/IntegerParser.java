@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 
 public class IntegerParser implements Parser<Integer> {
@@ -9,7 +10,7 @@ public class IntegerParser implements Parser<Integer> {
 	private IntegerParser() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		int n;

@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -55,11 +56,12 @@ public class ParserUtils {
 								   @NotNull String expression,
 								   @NotNull MutableInt position,
 								   int depth,
-								   int initialPosition) throws ParseException {
+								   int initialPosition,
+								   @Nullable final Generic previousSumParser) throws ParseException {
 		T result;
 
 		try {
-			result = parser.parse(expression, position, depth);
+			result = parser.parse(expression, position, depth, previousSumParser);
 		} catch (ParseException e) {
 			position.setValue(initialPosition);
 			throw e;

@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.VectorVariable;
@@ -10,10 +11,10 @@ public class VectorVariableParser implements Parser<Variable> {
 
     private VectorVariableParser() {}
 
-    public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+    public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
         JsclVector v;
         try {
-            v=(JsclVector)VectorParser.parser.parse(expression, position, depth);
+            v=(JsclVector)VectorParser.parser.parse(expression, position, depth, previousSumElement);
         } catch (ParseException e) {
             throw e;
         }

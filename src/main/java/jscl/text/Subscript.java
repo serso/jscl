@@ -10,14 +10,14 @@ public class Subscript implements Parser<Generic> {
 	private Subscript() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.tryToParse(expression, position, pos0, '[');
 
 		Generic a;
 		try {
-			a = ExpressionParser.parser.parse(expression, position, depth);
+			a = ExpressionParser.parser.parse(expression, position, depth, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

@@ -17,7 +17,7 @@ class MultiplyOrDivideFactor implements Parser {
 		this.option = option;
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 		Generic a;
 		ParserUtils.skipWhitespaces(expression, position);
@@ -29,7 +29,7 @@ class MultiplyOrDivideFactor implements Parser {
 			throw new ParseException();
 		}
 		try {
-			a = (Generic) Factor.parser.parse(expression, position, depth);
+			a = (Generic) Factor.parser.parse(expression, position, depth, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

@@ -12,7 +12,7 @@ public class VectorParser implements Parser {
 
     private VectorParser() {}
 
-    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
         int pos0= position.intValue();
         List l=new ArrayList();
         ParserUtils.skipWhitespaces(expression, position);
@@ -24,7 +24,7 @@ public class VectorParser implements Parser {
             throw new ParseException();
         }
         try {
-            Generic a=(Generic)ExpressionParser.parser.parse(expression, position, depth);
+            Generic a=(Generic)ExpressionParser.parser.parse(expression, position, depth, previousSumElement);
             l.add(a);
         } catch (ParseException e) {
             position.setValue(pos0);
@@ -32,7 +32,7 @@ public class VectorParser implements Parser {
         }
         while(true) {
             try {
-                Generic a=(Generic)CommaAndExpression.parser.parse(expression, position, depth);
+                Generic a=(Generic)CommaAndExpression.parser.parse(expression, position, depth, previousSumElement);
                 l.add(a);
             } catch (ParseException e) {
                 break;

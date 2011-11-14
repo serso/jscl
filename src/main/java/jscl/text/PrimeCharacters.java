@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 
 public class PrimeCharacters implements Parser<Integer> {
@@ -7,7 +8,7 @@ public class PrimeCharacters implements Parser<Integer> {
 
     private PrimeCharacters() {}
 
-    public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+    public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
         int pos0= position.intValue();
         int c;
         ParserUtils.skipWhitespaces(expression, position);

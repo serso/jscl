@@ -11,13 +11,13 @@ public class PowerParserTest {
 
 	@org.junit.Test
 	public void testParse() throws Exception {
-	   PowerParser.parser.parse("  ^", new MutableInt(0), 0);
-	   PowerParser.parser.parse(" **", new MutableInt(0), 0);
-	   PowerParser.parser.parse(" **7", new MutableInt(0), 0);
-	   PowerParser.parser.parse("^", new MutableInt(0), 0);
-	   PowerParser.parser.parse("**", new MutableInt(0), 0);
+	   PowerParser.parser.parse("  ^", new MutableInt(0), 0, null);
+	   PowerParser.parser.parse(" **", new MutableInt(0), 0, null);
+	   PowerParser.parser.parse(" **7", new MutableInt(0), 0, null);
+	   PowerParser.parser.parse("^", new MutableInt(0), 0, null);
+	   PowerParser.parser.parse("**", new MutableInt(0), 0, null);
 		try {
-			PowerParser.parser.parse("*", new MutableInt(0), 0);
+			PowerParser.parser.parse("*", new MutableInt(0), 0, null);
 			Assert.fail();
 		} catch (ParseException e) {
 

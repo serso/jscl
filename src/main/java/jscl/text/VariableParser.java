@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.math.Generic;
 import jscl.math.Variable;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,7 @@ public class VariableParser implements Parser<Variable> {
 	private VariableParser() {
 	}
 
-	public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
-		return internalParser.parse(expression, position, depth);
+	public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+		return internalParser.parse(expression, position, depth, previousSumElement);
 	}
 }

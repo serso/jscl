@@ -5,6 +5,7 @@ import jscl.math.GenericVariable;
 import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 		this.content = content;
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 
 		final List<Operator> postfixFunctions = PostfixFunctionsRegistry.getInstance().getEntities();
 
@@ -32,20 +33,21 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 			parsers.add(new PostfixFunctionParser(operator));
 		}
 
-		return parsePostfix(parsers, expression, position, content, depth);
+		return parsePostfix(parsers, expression, position, content, depth, previousSumElement);
 	}
 
 	private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,
 										@NotNull String string,
 										@NotNull MutableInt position,
 										Generic content,
-										int depth) throws ParseException {
+										int depth,
+										@Nullable final Generic previousSumElement) throws ParseException {
 		Generic result = content;
 
 		for (PostfixFunctionParser parser : parsers) {
-			final PostfixFunctionParser.Result postfixResult = parser.parse(string, position, depth);
+			final PostfixFunctionParser.Result postfixResult = parser.parse(string, position, depth, previousSumElement);
 			if (postfixResult.isPostfixFunction()) {
-				result = parsePostfix(parsers, string, position, parser.newInstance(GenericVariable.content(result, true)), depth);
+				result = parsePostfix(parsers, string, position, parser.newInstance(GenericVariable.content(result, true), previousSumElement), depth, previousSumElement);
 			}
 		}
 
