@@ -7,6 +7,7 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
 
 import java.util.Arrays;
@@ -197,5 +198,10 @@ public abstract class Function extends Variable {
 			parameters[i].toMathML(e1, null);
 		}
 		element.appendChild(e1);
+	}
+
+	@Nullable
+	public static Generic getParameter(@Nullable Generic[] parameters, final int i) {
+		return parameters == null ? null : (parameters.length > i ? parameters[i] : null);
 	}
 }

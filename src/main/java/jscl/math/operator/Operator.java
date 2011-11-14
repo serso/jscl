@@ -2,8 +2,10 @@ package jscl.math.operator;
 
 import jscl.math.*;
 import jscl.math.JsclInteger;
+import jscl.math.function.Function;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class Operator extends Variable {
 
@@ -20,6 +22,11 @@ public abstract class Operator extends Variable {
 
 	public void setParameters(Generic[] parameters) {
 		this.parameters = parameters;
+	}
+
+	@Nullable
+	protected Generic getParameter(@Nullable Generic[] parameters, int i) {
+		return Function.getParameter(parameters, i);
 	}
 
 	public abstract Generic compute();

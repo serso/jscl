@@ -2,7 +2,6 @@ package jscl.math.function;
 
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
-import jscl.math.Variable;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractDms extends Algebraic {
 
 	protected AbstractDms(@NotNull String name, Generic degrees, Generic minutes, Generic seconds) {
-		super(name, createParameters(degrees, minutes, seconds));
+		super(name, new Generic[]{degrees, minutes, seconds});
 	}
 
 	@NotNull
@@ -29,6 +28,11 @@ public abstract class AbstractDms extends Algebraic {
 		setDefaultValue(result, seconds, 2);
 
 		return result;
+	}
+
+	@Override
+	public void setParameters(Generic[] parameters) {
+		super.setParameters(createParameters(getParameter(parameters, 0), getParameter(parameters, 1), getParameter(parameters, 2)));
 	}
 
 	private static void setDefaultValue(@NotNull Generic[] parameters,
