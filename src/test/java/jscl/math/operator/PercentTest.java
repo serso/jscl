@@ -27,10 +27,16 @@ public class PercentTest {
 
 		try {
 			Assert.assertEquals("100+50%-50%", mathEngine.simplify("100+50%-50%"));
+			Assert.fail();
+		} catch (ArithmeticException e) {
+		}
+
+		try {
 			Assert.assertEquals("100+100*50%^2+100%", mathEngine.simplify("100+(100*50%*(25+25)%+100%)"));
 			Assert.fail();
 		} catch (ArithmeticException e) {
 		}
+
 
 		Assert.assertEquals("450.0", mathEngine.evaluate("((100+100*50%)+50%)*200%"));
 		Assert.assertEquals("150.0", mathEngine.evaluate("((100+100*50%)*50%)+100%"));
@@ -47,7 +53,7 @@ public class PercentTest {
 		Assert.assertEquals("-49.0", mathEngine.evaluate("1-(100-50%)"));
 		Assert.assertEquals("50.0", mathEngine.evaluate("100-50%"));
 		Assert.assertEquals("2600.0", mathEngine.evaluate("100+50%^2"));
-		Assert.assertEquals("2600.0", mathEngine.evaluate("100+50^2%"));
+		Assert.assertEquals("101.08138265680029", mathEngine.evaluate("100+50^2%"));
 		Assert.assertEquals("22500.0", mathEngine.evaluate("(100+50%)^2"));
 		Assert.assertEquals("225.0", mathEngine.evaluate("(100+50%)+50%"));
 		Assert.assertEquals("225.0", mathEngine.evaluate("(100+50%)+(abs(-50)+10-10)%"));
@@ -60,6 +66,10 @@ public class PercentTest {
 
 		Assert.assertEquals("99.0", mathEngine.evaluate("100-2*50%"));
 		Assert.assertEquals("102.0", mathEngine.evaluate("100-2*50%+3"));
+
+		Assert.assertEquals("84.0", mathEngine.evaluate("20+2^3!"));
+		Assert.assertEquals("21.0471285480509", mathEngine.evaluate("20+10^2%"));
+		Assert.assertEquals("20.48", mathEngine.evaluate("20+4!*2%"));
 
 		Assert.assertEquals("120.0", mathEngine.evaluate("100-20+50%"));
 

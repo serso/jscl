@@ -31,13 +31,13 @@ class UnsignedFactor implements Parser {
 
 		while (true) {
 			try {
-				generic = PowerExponent.parser.parse(expression, position, depth, previousSumElement);
-				list.add(generic);
+				list.add(PowerExponent.parser.parse(expression, position, depth, null));
 			} catch (ParseException e) {
 				break;
 			}
 		}
-		ListIterator<Generic> it = list.listIterator(list.size());
+
+		final ListIterator<Generic> it = list.listIterator(list.size());
 		generic = it.previous();
 		while (it.hasPrevious()) {
 			Generic b = it.previous();

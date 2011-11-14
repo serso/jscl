@@ -130,8 +130,8 @@ public abstract class Function extends Variable {
 
 	public boolean isConstant(Variable variable) {
 		boolean s = !isIdentity(variable);
-		for (int i = 0; i < parameters.length; i++) {
-			s = s && parameters[i].isConstant(variable);
+		for (Generic parameter : parameters) {
+			s = s && parameter.isConstant(variable);
 		}
 		return s;
 	}
@@ -168,10 +168,15 @@ public abstract class Function extends Variable {
 		if (parameter != null) {
 			result = parameter.toString();
 		} else {
-			result = String.valueOf(variableNames.charAt(i - (i / variableNames.length()) * variableNames.length()));
+			result = substituteUndefinedParameter(i);
 		}
 
 		return result;
+	}
+
+	@NotNull
+	protected String substituteUndefinedParameter(int i) {
+		return String.valueOf(variableNames.charAt(i - (i / variableNames.length()) * variableNames.length()));
 	}
 
 	public String toJava() {
@@ -183,7 +188,7 @@ public abstract class Function extends Variable {
 
 	public void toMathML(MathML element, Object data) {
 		MathML e1;
-		int exponent = data instanceof Integer ? ((Integer) data).intValue() : 1;
+		int exponent = data instanceof Integer ? (Integer) data : 1;
 		if (exponent == 1) nameToMathML(element);
 		else {
 			e1 = element.element("msup");
@@ -194,8 +199,8 @@ public abstract class Function extends Variable {
 			element.appendChild(e1);
 		}
 		e1 = element.element("mfenced");
-		for (int i = 0; i < parameters.length; i++) {
-			parameters[i].toMathML(e1, null);
+		for (Generic parameter : parameters) {
+			parameter.toMathML(e1, null);
 		}
 		element.appendChild(e1);
 	}

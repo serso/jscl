@@ -41,7 +41,9 @@ class TermParser implements Parser<Generic> {
 				}
 			}
 		}
+
 		result = result.multiply(s);
+
 		return result;
 	}
 }

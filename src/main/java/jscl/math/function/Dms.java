@@ -19,4 +19,20 @@ public class Dms extends AbstractDms {
 	public Variable newInstance() {
 		return new Dms(null, null, null);
 	}
+
+	@NotNull
+	@Override
+	protected String substituteUndefinedParameter(int i) {
+		switch (i){
+			case 0:
+				return "d";
+			case 1:
+				return "m";
+			case 2:
+				return "s";
+			default:
+				return super.substituteUndefinedParameter(i);
+
+		}
+	}
 }
