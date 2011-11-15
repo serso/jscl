@@ -10,134 +10,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImplicitFunctionParser implements Parser<Function> {
-    public static final Parser<Function> parser=new ImplicitFunctionParser();
+	public static final Parser<Function> parser = new ImplicitFunctionParser();
 
-    private ImplicitFunctionParser() {}
+	private ImplicitFunctionParser() {
+	}
 
-    public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-        int pos0= position.intValue();
-        String name;
-        Generic a[];
-        int b[];
-        List l=new ArrayList();
-        try {
-            name=(String)CompoundIdentifier.parser.parse(expression, position, depth, previousSumElement);
-        } catch (ParseException e) {
-            position.setValue(pos0);
-            throw e;
-        }
-        while(true) {
-            try {
-                Generic s=(Generic)Subscript.parser.parse(expression, position, depth, previousSumElement);
-                l.add(s);
-            } catch (ParseException e) {
-                break;
-            }
-        }
-        try {
-            b=(int [])Derivation.parser.parse(expression, position, depth, previousSumElement);
-        } catch (ParseException e) {
-            b=new int[0];
-                }
-        try {
-            a=(Generic[])ParameterList.parser.parse(expression, position, depth, previousSumElement);
-        } catch (ParseException e) {
-            position.setValue(pos0);
-            throw e;
-        }
-        Generic s[]=(Generic[])ArrayUtils.toArray(l,new Generic[l.size()]);
-        int derivation[]=new int[a.length];
-        for(int i=0;i<a.length && i<b.length;i++) derivation[i]=b[i];
-        return new ImplicitFunction(name,a,derivation,s);
-    }
+	public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+		int pos0 = position.intValue();
+		Generic a[];
+
+		final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, expression, position, depth, pos0, previousSumElement);
+
+
+		final List<Generic> subscripts = new ArrayList<Generic>();
+		while (true) {
+			try {
+				subscripts.add(Subscript.parser.parse(expression, position, depth, previousSumElement));
+			} catch (ParseException e) {
+				break;
+			}
+		}
+
+		int b[];
+		try {
+			b = Derivation.parser.parse(expression, position, depth, previousSumElement);
+		} catch (ParseException e) {
+			b = new int[0];
+		}
+		try {
+			a = ParameterList.parser.parse(expression, position, depth, previousSumElement);
+		} catch (ParseException e) {
+			position.setValue(pos0);
+			throw e;
+		}
+
+		int derivations[] = new int[a.length];
+		for (int i = 0; i < a.length && i < b.length; i++) {
+			derivations[i] = b[i];
+		}
+
+		return new ImplicitFunction(name, a, derivations, ArrayUtils.toArray(subscripts, new Generic[subscripts.size()]));
+	}
 }
 
-class Derivation implements Parser {
-    public static final Parser parser=new Derivation();
+class Derivation implements Parser<int[]> {
 
-    private Derivation() {}
+	public static final Parser<int[]> parser = new Derivation();
 
-    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-        int pos0= position.intValue();
-        int c[];
-        try {
-            c=new int[] {((Integer)PrimeCharacters.parser.parse(expression, position, depth, previousSumElement)).intValue()};
-        } catch (ParseException e) {
-            try {
-                c=(int [])SuperscriptList.parser.parse(expression, position, depth, previousSumElement);
-            } catch (ParseException e2) {
-                throw e2;
-            }
-        }
-        return c;
-    }
+	private Derivation() {
+	}
+
+	public int[] parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+
+		int result[];
+		try {
+			result = new int[]{PrimeCharacters.parser.parse(expression, position, depth, previousSumElement)};
+		} catch (ParseException e) {
+			result = SuperscriptList.parser.parse(expression, position, depth, previousSumElement);
+		}
+
+		return result;
+	}
 }
 
-class SuperscriptList implements Parser {
-    public static final Parser parser=new SuperscriptList();
+class SuperscriptList implements Parser<int[]> {
 
-    private SuperscriptList() {}
+	public static final Parser<int[]> parser = new SuperscriptList();
 
-    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-        int pos0= position.intValue();
-        List l=new ArrayList();
-        ParserUtils.skipWhitespaces(expression, position);
-        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='{') {
-            expression.charAt(position.intValue());
+	private SuperscriptList() {
+	}
+
+	public int[] parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+		int pos0 = position.intValue();
+
+		ParserUtils.skipWhitespaces(expression, position);
+
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '{') {
+			expression.charAt(position.intValue());
 			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        try {
-            Integer in=(Integer)IntegerParser.parser.parse(expression, position, depth, previousSumElement);
-            l.add(in);
-        } catch (ParseException e) {
-            position.setValue(pos0);
-            throw e;
-        }
-        while(true) {
-            try {
-                Integer in=(Integer)CommaAndInteger.parser.parse(expression, position, depth, previousSumElement);
-                l.add(in);
-            } catch (ParseException e) {
-                break;
-            }
-        }
-        ParserUtils.skipWhitespaces(expression, position);
-        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='}') {
-            expression.charAt(position.intValue());
+		} else {
+			position.setValue(pos0);
+			throw new ParseException();
+		}
+
+		final List<Integer> result = new ArrayList<Integer>();
+		try {
+			result.add(IntegerParser.parser.parse(expression, position, depth, previousSumElement));
+		} catch (ParseException e) {
+			position.setValue(pos0);
+			throw e;
+		}
+
+		while (true) {
+			try {
+				result.add(CommaAndInteger.parser.parse(expression, position, depth, previousSumElement));
+			} catch (ParseException e) {
+				break;
+			}
+		}
+
+		ParserUtils.skipWhitespaces(expression, position);
+
+		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '}') {
+			expression.charAt(position.intValue());
 			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        return (int[])ArrayUtils.toArray(l,new int[l.size()]);
-    }
+		} else {
+			position.setValue(pos0);
+			throw new ParseException();
+		}
+
+		return ArrayUtils.toArray(result, new int[result.size()]);
+	}
 }
 
-class CommaAndInteger implements Parser {
-    public static final Parser parser=new CommaAndInteger();
+class CommaAndInteger implements Parser<Integer> {
 
-    private CommaAndInteger() {}
+	public static final Parser<Integer> parser = new CommaAndInteger();
 
-    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-        int pos0= position.intValue();
-        int c;
-        ParserUtils.skipWhitespaces(expression, position);
-        if(position.intValue()< expression.length() && expression.charAt(position.intValue())==',') {
-            expression.charAt(position.intValue());
-			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        try {
-            c=((Integer)IntegerParser.parser.parse(expression, position, depth, previousSumElement)).intValue();
-        } catch (ParseException e) {
-            position.setValue(pos0);
-            throw e;
-        }
-        return new Integer(c);
-    }
+	private CommaAndInteger() {
+	}
+
+	public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+		int pos0 = position.intValue();
+
+		ParserUtils.skipWhitespaces(expression, position);
+
+		return ParserUtils.parseWithRollback(IntegerParser.parser, expression, position, depth, pos0, previousSumElement);
+	}
 }

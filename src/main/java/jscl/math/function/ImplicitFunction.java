@@ -6,6 +6,8 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
+import java.util.Arrays;
+
 public class ImplicitFunction extends Function {
 
 	private int derivations[];
@@ -52,7 +54,31 @@ public class ImplicitFunction extends Function {
 
 	public Generic evaluateNumerically() {
 		throw new ArithmeticException();
+		/*Function function = FunctionsRegistry.getInstance().get(this.name);
+
+		Generic result;
+		if ( function == null ) {
+			throw new ArithmeticException();
+		} else {
+			function.setParameters(this.parameters);
+
+			result = function;
+			for (int derivation : derivations) {
+				for ( int i = 0; i < derivation; i++ ) {
+					result = result.derivative(derivation);
+				}
+			}
+
+			result = result.numeric();
+		}
+
+		return result;*/
 	}
+
+	/*@Override
+	public Generic numeric() {
+		return evaluateNumerically();
+	}*/
 
 	public int compareTo(Variable variable) {
 		if (this == variable) return 0;
