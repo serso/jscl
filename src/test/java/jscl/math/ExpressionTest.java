@@ -168,6 +168,12 @@ public class ExpressionTest {
 			// ok
 		}
 
+		Assert.assertEquals("-2/57", Expression.valueOf("1/(-57/2)").simplify().toString());
+	}
+
+	@Test
+	public void testName() throws Exception {
+		Expression.valueOf("a*c+b*sin(c)").toString();
 	}
 
 	@Test
