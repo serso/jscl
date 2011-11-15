@@ -19,16 +19,17 @@ public class Cos extends Trigonometric {
         return new Sin(parameters[0]).evaluate().negate();
     }
 
-    public Generic evaluate() {
-        if(parameters[0].signum()<0) {
-            return new Cos(parameters[0].negate()).evaluate();
-        } else if(parameters[0].signum()==0) {
-            return JsclInteger.valueOf(1);
-        } else if(parameters[0].compareTo(Constant.pi)==0) {
-            return JsclInteger.valueOf(-1);
-        }
-        return expressionValue();
-    }
+	public Generic evaluate() {
+		if (parameters[0].signum() < 0) {
+			return new Cos(parameters[0].negate()).evaluate();
+		} else if (parameters[0].signum() == 0) {
+			return JsclInteger.valueOf(1);
+		} else if (parameters[0].compareTo(Constant.pi) == 0) {
+			return JsclInteger.valueOf(-1);
+		}
+
+		return expressionValue();
+	}
 
     public Generic evaluateElementary() {
         return new Exp(

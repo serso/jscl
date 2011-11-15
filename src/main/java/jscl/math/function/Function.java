@@ -84,8 +84,12 @@ public abstract class Function extends Variable {
 		for (int i = 0; i < parameters.length; i++) {
 			v.parameters[i] = parameters[i].substitute(variable, generic);
 		}
-		if (v.isIdentity(variable)) return generic;
-		else return v.evaluate();
+
+		if (v.isIdentity(variable)) {
+			return generic;
+		} else {
+			return v.evaluate();
+		}
 	}
 
 	public Generic expand() {

@@ -166,11 +166,13 @@ public final class NumericWrapper extends Generic {
     }
 
     public Generic valueOf(Generic generic) {
-        if(generic instanceof NumericWrapper) {
-            return valueof((NumericWrapper)generic);
-        } else if(generic instanceof JsclInteger) {
-            return new NumericWrapper((JsclInteger)generic);
-        } else throw new ArithmeticException();
+		if (generic instanceof NumericWrapper) {
+			return valueof((NumericWrapper) generic);
+		} else if (generic instanceof JsclInteger) {
+			return new NumericWrapper((JsclInteger) generic);
+		} else {
+			throw new ArithmeticException();
+		}
     }
 
     public Generic[] sumValue() {

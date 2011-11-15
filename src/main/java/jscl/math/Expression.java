@@ -318,7 +318,7 @@ public class Expression extends Generic {
 		Literal l = literalScm();
 		int n = l.size;
 		for (int i = 0; i < n; i++) {
-			Variable v = l.variable[i];
+			Variable v = l.variables[i];
 			Generic a = ((UnivariatePolynomial) Polynomial.factory(v).valueof(this)).derivative(variable).genericValue();
 			s = s.add(a);
 		}
@@ -326,25 +326,26 @@ public class Expression extends Generic {
 	}
 
 	public Generic substitute(Variable variable, Generic generic) {
-		Map m = literalScm().content();
-		for (Object o : m.entrySet()) {
-			Map.Entry e = (Map.Entry) o;
-			Variable v = (Variable) e.getKey();
-			e.setValue(v.substitute(variable, generic));
+		Map content = literalScm().content();
+
+		for (Map.Entry entry : (Set<Map.Entry>)content.entrySet()) {
+			Variable v = (Variable) entry.getKey();
+			entry.setValue(v.substitute(variable, generic));
 		}
-		return substitute(m);
+
+		return substitute(content);
 	}
 
-	Generic substitute(Map map) {
+	Generic substitute(Map content) {
 		Generic s = JsclInteger.valueOf(0);
 		for (int i = 0; i < size; i++) {
 			Literal l = literal[i];
 			Generic a = coef[i];
 			int m = l.size;
 			for (int j = 0; j < m; j++) {
-				Variable v = l.variable[j];
-				int c = l.power[j];
-				Generic b = (Generic) map.get(v);
+				Variable v = l.variables[j];
+				int c = l.powers[j];
+				Generic b = (Generic) content.get(v);
 				b = b.pow(c);
 				if (Matrix.product(a, b)) throw new ArithmeticException();
 				a = a.multiply(b);
@@ -522,7 +523,7 @@ public class Expression extends Generic {
 		Literal l = literalScm();
 		int n = l.size;
 		for (int i = 0; i < n; i++) {
-			Variable v = l.variable[i];
+			Variable v = l.variables[i];
 			s = s && (v.isConstant(variable) || v.isIdentity(variable));
 		}
 		return s;
@@ -533,7 +534,7 @@ public class Expression extends Generic {
 		Literal l = literalScm();
 		int n = l.size;
 		for (int i = 0; i < n; i++) {
-			Variable v = l.variable[i];
+			Variable v = l.variables[i];
 			s = s && v.isConstant(variable);
 		}
 		return s;
