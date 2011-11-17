@@ -27,6 +27,11 @@ public class Degree extends PostfixFunction {
 		super(NAME, Arrays.copyOf(parameter, 1));
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 1;
+	}
+
 	public Generic compute() {
 		/*try {
 			return numeric();

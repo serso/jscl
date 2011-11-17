@@ -20,6 +20,11 @@ public class VectorProduct extends VectorOperator {
 		super(NAME, parameter);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
             JsclVector v1=(JsclVector) parameters[0];

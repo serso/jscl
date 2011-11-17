@@ -16,7 +16,12 @@ public class Integral extends AbstractIntegral {
         super(parameters);
     }
 
-    public Generic compute() {
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 4;
+	}
+
+	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         try {
             Generic a= parameters[0].antiDerivative(variable);

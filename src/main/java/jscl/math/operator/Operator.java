@@ -21,6 +21,8 @@ public abstract class Operator extends Variable {
 		return parameters;
 	}
 
+	public abstract int getMinimumNumberOfParameters();
+
 	@Nullable
 	protected static Generic getParameter(@Nullable Generic[] parameters, int i) {
 		return Function.getParameter(parameters, i);
@@ -122,10 +124,28 @@ public abstract class Operator extends Variable {
 		result.append(name);
 		result.append("(");
 		for (int i = 0; i < parameters.length; i++) {
-			result.append(parameters[i]).append(i < parameters.length - 1 ? ", " : "");
+			result.append(substituteParameter(i)).append(i < parameters.length - 1 ? ", " : "");
 		}
 		result.append(")");
 		return result.toString();
+	}
+
+	private String substituteParameter(int i) {
+		Generic parameter = parameters[i];
+
+		String result;
+		if (parameter != null) {
+			result = parameter.toString();
+		} else {
+			result = substituteUndefinedParameter(i);
+		}
+
+		return result;
+	}
+
+	@NotNull
+	protected String substituteUndefinedParameter(int i) {
+		return String.valueOf(Function.VARIABLE_NAMES.charAt(i - (i / Function.VARIABLE_NAMES.length()) * Function.VARIABLE_NAMES.length()));
 	}
 
 	public String toJava() {

@@ -30,6 +30,11 @@ public class Derivative extends Operator {
 		return result;
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
 		Variable variable = parameters[1].variableValue();
 		try {
@@ -44,7 +49,8 @@ public class Derivative extends Operator {
 		return expressionValue();
 	}
 
-	public String toString() {
+	// todo serso: think
+	/*public String toString() {
 		final StringBuilder result = new StringBuilder();
 		int n = 4;
 		if (parameters[3].compareTo(JsclInteger.valueOf(1)) == 0) {
@@ -58,7 +64,7 @@ public class Derivative extends Operator {
 		}
 		result.append(")");
 		return result.toString();
-	}
+	}*/
 
 	public void toMathML(MathML element, Object data) {
 		int exponent = data instanceof Integer ? (Integer) data : 1;

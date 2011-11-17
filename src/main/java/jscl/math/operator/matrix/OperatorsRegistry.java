@@ -1,6 +1,5 @@
 package jscl.math.operator.matrix;
 
-import com.sun.deploy.xml.GeneralEntity;
 import jscl.math.Generic;
 import jscl.math.operator.*;
 import jscl.math.operator.number.EulerPhi;
@@ -105,7 +104,15 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 	@Nullable
 	public Operator get(@NotNull String name, @NotNull Generic[] parameters) {
 		final Operator operator = super.get(name);
-		return operator == null ? null : operator.newInstance(parameters);
+		if (operator == null) {
+			return null;
+		} else {
+			if ( operator.getMinimumNumberOfParameters() <= parameters.length ){
+				return operator.newInstance(parameters);
+			} else {
+				return null;
+			}
+		}
 	}
 
 	@Override

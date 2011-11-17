@@ -19,6 +19,11 @@ public class Product extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 4;
+	}
+
 	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         try {

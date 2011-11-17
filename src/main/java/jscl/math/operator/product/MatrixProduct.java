@@ -20,6 +20,11 @@ public class MatrixProduct extends VectorOperator {
 		super(NAME, parameter);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         if(Matrix.product(parameters[0], parameters[1])) {
             return parameters[0].multiply(parameters[1]);

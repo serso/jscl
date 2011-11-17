@@ -23,6 +23,11 @@ public class Comparison extends Function {
 		}
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic antiDerivative(int n) throws NotIntegrableException {
 		throw new NotIntegrableException();
 	}

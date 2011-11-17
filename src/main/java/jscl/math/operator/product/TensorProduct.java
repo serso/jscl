@@ -20,6 +20,11 @@ public class TensorProduct extends VectorOperator {
 		super(NAME, parameter);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         if(parameters[0] instanceof Matrix && parameters[1] instanceof Matrix) {
             Matrix m1=(Matrix) parameters[0];

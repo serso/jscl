@@ -16,6 +16,11 @@ public class Division extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         return parameters[0].divideAndRemainder(parameters[1])[0];
     }

@@ -35,6 +35,11 @@ public class Percent extends PostfixFunction {
 		return result;
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 1;
+	}
+
 	public Generic compute() {
 		try {
 			return numeric();

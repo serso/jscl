@@ -190,7 +190,7 @@ public class ExpressionTest {
 	@Test
 	public void testDerivations() throws Exception {
 		Assert.assertEquals("-0.9092974268256817", Expression.valueOf("d(cos(t),t,2)").numeric().toString());
-		Assert.assertEquals("d(cos(t), t, 2)", Expression.valueOf("d(cos(t),t,2)").simplify().toString());
+		Assert.assertEquals("d(cos(t), t, 2, 1)", Expression.valueOf("d(cos(t),t,2)").simplify().toString());
 		Assert.assertEquals("-2.234741690198506", Expression.valueOf("d(t*cos(t),t,2)").numeric().toString());
 		Assert.assertEquals("-4.469483380397012", Expression.valueOf("2*d(t*cos(t),t,2)").numeric().toString());
 		Assert.assertEquals("-sin(2)", Expression.valueOf("d(cos(t),t,2)").expand().toString());

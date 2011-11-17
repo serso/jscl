@@ -20,6 +20,11 @@ public class EulerPhi extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 1;
+	}
+
 	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();

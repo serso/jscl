@@ -19,6 +19,11 @@ public class Trace extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 1;
+	}
+
 	public Generic compute() {
         if(parameters[0] instanceof Matrix) {
             Matrix matrix=(Matrix) parameters[0];

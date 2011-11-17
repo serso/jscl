@@ -19,6 +19,11 @@ public class ModPow extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 3;
+	}
+
 	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();

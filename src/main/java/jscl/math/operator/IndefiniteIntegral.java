@@ -16,6 +16,11 @@ public class IndefiniteIntegral extends AbstractIntegral {
 		super(parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         try {

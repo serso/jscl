@@ -19,6 +19,11 @@ public class ModInverse extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();

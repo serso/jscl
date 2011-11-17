@@ -32,6 +32,11 @@ public class GeometricProduct extends VectorOperator {
 		return result;
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 3;
+	}
+
 	public Generic compute() {
         int algebra[]=algebra(parameters[2]);
         if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
@@ -54,7 +59,8 @@ public class GeometricProduct extends VectorOperator {
         throw new ArithmeticException();
     }
 
-    public String toString() {
+	// todo serso: think
+    /*public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=3;
         if(parameters[2].signum()==0) n=2;
@@ -65,7 +71,7 @@ public class GeometricProduct extends VectorOperator {
         }
         buffer.append(")");
         return buffer.toString();
-    }
+    }*/
 
 	@NotNull
 	@Override

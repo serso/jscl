@@ -30,11 +30,17 @@ public class Limit extends Operator {
 		return result;
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 3;
+	}
+
 	public Generic compute() {
         return expressionValue();
     }
 
-    public String toString() {
+	// todo serso: think
+    /*public String toString() {
 		StringBuilder result = new StringBuilder();
         int n=4;
         if(parameters[3].signum()==0) n=3;
@@ -45,7 +51,7 @@ public class Limit extends Operator {
         }
         result.append(")");
         return result.toString();
-    }
+    }*/
 
     public void toMathML(MathML element, Object data) {
         int exponent=data instanceof Integer? (Integer) data :1;

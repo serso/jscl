@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public abstract class Function extends Variable {
 
-	private final static String variableNames = "xyzabcdefghijklmnopqrstuvw";
+	public static final String VARIABLE_NAMES = "xyzabcdefghijklmnopqrstuvw";
 
 	protected Generic parameters[];
 
@@ -29,6 +29,11 @@ public abstract class Function extends Variable {
 
 	public void setParameters(Generic[] parameters) {
 		this.parameters = parameters;
+	}
+
+	// todo serso: make abstract
+	public int getMinimumNumberOfParameters(){
+		return 1;
 	}
 
 	@Override
@@ -180,7 +185,7 @@ public abstract class Function extends Variable {
 
 	@NotNull
 	protected String substituteUndefinedParameter(int i) {
-		return String.valueOf(variableNames.charAt(i - (i / variableNames.length()) * variableNames.length()));
+		return String.valueOf(VARIABLE_NAMES.charAt(i - (i / VARIABLE_NAMES.length()) * VARIABLE_NAMES.length()));
 	}
 
 	public String toJava() {

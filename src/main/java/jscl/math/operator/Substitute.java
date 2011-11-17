@@ -18,6 +18,11 @@ public class Substitute extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 3;
+	}
+
 	public Generic compute() {
 		if (parameters[1] instanceof JsclVector && parameters[2] instanceof JsclVector) {
 			Generic a = parameters[0];

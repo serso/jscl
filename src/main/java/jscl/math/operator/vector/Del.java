@@ -32,6 +32,11 @@ public class Del extends VectorOperator {
 		return result;
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
 		Variable variable[] = variables(parameters[1]);
 		int algebra[] = GeometricProduct.algebra(parameters[2]);
@@ -42,7 +47,8 @@ public class Del extends VectorOperator {
 		return expressionValue();
 	}
 
-	public String toString() {
+	// todo serso: think
+	/*public String toString() {
 		final StringBuilder result = new StringBuilder();
 		int n = 3;
 		if (parameters[2].signum() == 0) n = 2;
@@ -53,7 +59,7 @@ public class Del extends VectorOperator {
 		}
 		result.append(")");
 		return result.toString();
-	}
+	}*/
 
 	@NotNull
 	@Override

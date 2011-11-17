@@ -32,6 +32,11 @@ public class Solve extends Operator {
 		return result;
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         int subscript= parameters[2].integerValue().intValue();
@@ -41,7 +46,8 @@ public class Solve extends Operator {
         return expressionValue();
     }
 
-    public String toString() {
+	// todo serso: think
+    /*public String toString() {
 		StringBuilder result = new StringBuilder();
         int n=3;
         if(parameters[2].signum()==0) n=2;
@@ -52,7 +58,7 @@ public class Solve extends Operator {
         }
         result.append(")");
         return result.toString();
-    }
+    }*/
 
     public void toMathML(MathML element, Object data) {
         MathML e1;

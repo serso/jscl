@@ -18,6 +18,11 @@ public class Coefficient extends Operator {
 		super(NAME, parameters);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         if(parameters[0].isPolynomial(variable)) {

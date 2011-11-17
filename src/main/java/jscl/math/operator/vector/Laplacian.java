@@ -20,6 +20,11 @@ public class Laplacian extends VectorOperator {
 		super(NAME, parameter);
 	}
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
         Variable variable[]=variables(parameters[1]);
         Expression expression= parameters[0].expressionValue();

@@ -40,6 +40,11 @@ public class Groebner extends Operator {
 	}
 
 
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
+	}
+
 	public Generic compute() {
 		Generic generic[] = ((JsclVector) parameters[0]).elements();
 		Variable variable[] = variables(parameters[1]);
@@ -74,7 +79,8 @@ public class Groebner extends Operator {
 		throw new ArithmeticException();
 	}
 
-	public String toString() {
+	// todo serso: think
+	/*public String toString() {
 		StringBuilder buffer = new StringBuilder();
 		int n = 4;
 		if (parameters[3].signum() == 0) {
@@ -88,7 +94,7 @@ public class Groebner extends Operator {
 		}
 		buffer.append(")");
 		return buffer.toString();
-	}
+	}*/
 
 	public void toMathML(MathML element, Object data) {
 		MathML e1;
