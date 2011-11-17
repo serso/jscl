@@ -28,12 +28,12 @@ public class Degree extends PostfixFunction {
 	}
 
 	public Generic compute() {
-		try {
+		/*try {
 			return numeric();
 			// todo serso: check if really need to catch arithmetic exception
 		} catch (ArithmeticException e) {
 			// ok
-		}
+		}*/
 
 		return expressionValue();
 	}

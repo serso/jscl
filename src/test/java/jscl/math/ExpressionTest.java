@@ -171,6 +171,15 @@ public class ExpressionTest {
 		}
 
 		Assert.assertEquals("-2/57", Expression.valueOf("1/(-57/2)").simplify().toString());
+		Assert.assertEquals("sin(30)", Expression.valueOf("sin(30)").expand().toString());
+		Assert.assertEquals("sin(n)", Expression.valueOf("sin(n)").expand().toString());
+		Assert.assertEquals("sin(n!)", Expression.valueOf("sin(n!)").expand().toString());
+		Assert.assertEquals("sin(n°)", Expression.valueOf("sin(n°)").expand().toString());
+		Assert.assertEquals("sin(30°)", Expression.valueOf("sin(30°)").expand().toString());
+		Assert.assertEquals("0.49999999999999994", Expression.valueOf("sin(30°)").expand().numeric().toString());
+		Assert.assertEquals("sin(2!)", Expression.valueOf("sin(2!)").expand().toString());
+
+		Assert.assertEquals("12", Expression.valueOf("3*(3+1)").expand().toString());
 	}
 
 	@Test
@@ -197,12 +206,12 @@ public class ExpressionTest {
 		Assert.assertEquals("200", Expression.valueOf("sum(n/n,n,1,200)").expand().toString());
 		Assert.assertEquals("1/3", Expression.valueOf("sum((n-1)/(n+1),n,1,2)").expand().toString());
 		Assert.assertEquals("sin(1)", Expression.valueOf("sum(sin(n),n,1,1)").expand().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("sum(n/n!,n,1,1)").expand().toString());
-		Assert.assertEquals("2.0", Expression.valueOf("sum(n/n!,n,1,2)").expand().toString());
-		Assert.assertEquals("2.7182818284590455", Expression.valueOf("sum(n/n!,n,1,200)").expand().toString());
-		Assert.assertEquals("2.7182818284590455", Expression.valueOf("sum(n/(2*n/2)!,n,1,200)").expand().toString());
-		Assert.assertEquals("0.05235987755982989", Expression.valueOf("sum(n°,n,1,2)").expand().toString());
-		Assert.assertEquals("200", Expression.valueOf("sum(n°/n°,n,1,200)").expand().toString());
+		Assert.assertEquals("1/1!", Expression.valueOf("sum(n/n!,n,1,1)").expand().toString());
+		Assert.assertEquals("2.0", Expression.valueOf("sum(n/n!,n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("2.7182818284590455", Expression.valueOf("sum(n/n!,n,1,200)").expand().numeric().toString());
+		Assert.assertEquals("2.718281828459046", Expression.valueOf("sum(n/(2*n/2)!,n,1,200)").expand().numeric().toString());
+		Assert.assertEquals("0.05235987755982989", Expression.valueOf("sum(n°,n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("200.0", Expression.valueOf("sum(n°/n°,n,1,200)").expand().numeric().toString());
 		Assert.assertEquals("-sin(1)-sin(2)", Expression.valueOf("sum(d(cos(t),t,n),n,1,2)").expand().toString());
 		Assert.assertEquals("-1.7507684116335782", Expression.valueOf("sum(d(cos(t),t,n),n,1,2)").expand().numeric().toString());
 	}

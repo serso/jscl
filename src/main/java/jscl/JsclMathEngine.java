@@ -3,6 +3,7 @@ package jscl;
 import jscl.math.Expression;
 import jscl.math.function.*;
 import jscl.math.operator.Operator;
+import jscl.math.operator.Percent;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,11 @@ public class JsclMathEngine implements MathEngine {
 
 	@Override
 	public String evaluate(@NotNull String expression) throws ParseException {
-		return Expression.valueOf(expression).expand().numeric().toString();
+		if (expression.contains(Percent.NAME)) {
+			return Expression.valueOf(expression).numeric().toString();
+		} else {
+			return Expression.valueOf(expression).expand().numeric().toString();
+		}
 	}
 
 	@Override

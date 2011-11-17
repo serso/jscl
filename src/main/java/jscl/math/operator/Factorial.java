@@ -22,12 +22,12 @@ public class Factorial extends PostfixFunction {
 	}
 
 	public Generic compute() {
-		try {
+		/*try {
 			return numeric();
 			// todo serso: check if really need to catch arithmetic exception
 		} catch (ArithmeticException e) {
 			// ok, expression is not numeric => get expression instead
-		}
+		}*/
 
 		return expressionValue();
     }
