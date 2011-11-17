@@ -38,6 +38,23 @@ public class Product extends Operator {
         return expressionValue();
     }
 
+		@NotNull
+	@Override
+	protected String substituteUndefinedParameter(int i) {
+		switch (i){
+			case 0:
+				return "f(i)";
+			case 1:
+				return "i";
+			case 2:
+				return "from";
+			case 3:
+				return "to";
+			default:
+				return super.substituteUndefinedParameter(i);
+		}
+	}
+
     public void toMathML(MathML element, Object data) {
         int exponent=data instanceof Integer?((Integer)data).intValue():1;
         if(exponent==1) bodyToMathML(element);

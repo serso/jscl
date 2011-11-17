@@ -2,12 +2,6 @@ package jscl.math.operator.matrix;
 
 import jscl.math.Generic;
 import jscl.math.operator.*;
-import jscl.math.operator.number.EulerPhi;
-import jscl.math.operator.number.ModInverse;
-import jscl.math.operator.number.ModPow;
-import jscl.math.operator.number.PrimitiveRoots;
-import jscl.math.operator.product.*;
-import jscl.math.operator.vector.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.AbstractMathRegistry;
@@ -23,36 +17,37 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 
 	static {
 		instance.add(new Derivative(null, null, null, null));
-		instance.add(new Grad(null, null));
-		instance.add(new Divergence(null, null));
-		instance.add(new Curl(null, null));
-		instance.add(new Jacobian(null, null));
-		instance.add(new Laplacian(null, null));
-		instance.add(new Dalembertian(null, null));
-		instance.add(new Del(null, null, null));
-		instance.add(new VectorProduct(null, null));
-		instance.add(new ComplexProduct(null, null));
-		instance.add(new QuaternionProduct(null, null));
-		instance.add(new GeometricProduct(null, null, null));
-		instance.add(new MatrixProduct(null, null));
-		instance.add(new TensorProduct(null, null));
-		instance.add(new Transpose(null));
-		instance.add(new Trace(null));
-		instance.add(new Determinant(null));
-		instance.add(new Coefficient(null, null));
-		instance.add(new Solve(null, null, null));
-		instance.add(new Substitute(null, null, null));
-		instance.add(new Limit(null, null, null, null));
+		//instance.add(new Grad(null, null));
+		//instance.add(new Divergence(null, null));
+		//instance.add(new Curl(null, null));
+		//instance.add(new Jacobian(null, null));
+		//instance.add(new Laplacian(null, null));
+		//instance.add(new Dalembertian(null, null));
+		//instance.add(new Del(null, null, null));
+		//instance.add(new VectorProduct(null, null));
+		//instance.add(new ComplexProduct(null, null));
+		//instance.add(new QuaternionProduct(null, null));
+		//instance.add(new GeometricProduct(null, null, null));
+		//instance.add(new MatrixProduct(null, null));
+		//instance.add(new TensorProduct(null, null));
+		//instance.add(new Transpose(null));
+		//instance.add(new Trace(null));
+		//instance.add(new Determinant(null));
+		//instance.add(new Coefficient(null, null));
+		//instance.add(new Solve(null, null, null));
+		//instance.add(new Substitute(null, null, null));
+		//instance.add(new Limit(null, null, null, null));
 		instance.add(new Sum(null, null, null, null));
 		instance.add(new Product(null, null, null, null));
-		instance.add(new Groebner(null, null, null, null));
-		instance.add(new Division(null, null));
+		//instance.add(new Groebner(null, null, null, null));
+		//instance.add(new Division(null, null));
 		instance.add(new Modulo(null, null));
-		instance.add(new ModPow(null, null, null));
-		instance.add(new ModInverse(null, null));
-		instance.add(new EulerPhi(null));
-		instance.add(new AbstractIntegral.RegistryInstance());
-		instance.add(new PrimitiveRoots(null));
+		//instance.add(new ModPow(null, null, null));
+		//instance.add(new ModInverse(null, null));
+		//instance.add(new EulerPhi(null));
+		instance.add(new Integral(null, null, null, null));
+		instance.add(new IndefiniteIntegral(null, null));
+		//instance.add(new PrimitiveRoots(null));
 	}
 
 	/*		if (operatorName.compareTo("d") == 0)
@@ -108,7 +103,7 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 		if (operator == null) {
 			return null;
 		} else {
-			if ( operator.getMinimumNumberOfParameters() <= parameters.length ){
+			if (operator.getMinimumNumberOfParameters() <= parameters.length && operator.getMaximumNumberOfParameters() >= parameters.length) {
 				return operator.newInstance(parameters);
 			} else {
 				return null;

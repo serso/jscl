@@ -31,6 +31,11 @@ public abstract class AbstractDms extends Algebraic {
 	}
 
 	@Override
+	public int getMaximumNumberOfParameters() {
+		return 3;
+	}
+
+	@Override
 	public void setParameters(Generic[] parameters) {
 		super.setParameters(createParameters(getParameter(parameters, 0), getParameter(parameters, 1), getParameter(parameters, 2)));
 	}

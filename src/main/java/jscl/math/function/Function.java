@@ -36,6 +36,11 @@ public abstract class Function extends Variable {
 		return 1;
 	}
 
+	public int getMaximumNumberOfParameters(){
+		return getMinimumNumberOfParameters();
+	}
+
+
 	@Override
 	public void copy(@NotNull MathEntity that) {
 		super.copy(that);

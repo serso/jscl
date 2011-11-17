@@ -35,6 +35,11 @@ public class Limit extends Operator {
 		return 3;
 	}
 
+	@Override
+	public int getMaximumNumberOfParameters() {
+		return 4;
+	}
+
 	public Generic compute() {
         return expressionValue();
     }

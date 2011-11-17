@@ -6,14 +6,21 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
-public class IndefiniteIntegral extends AbstractIntegral {
+public class IndefiniteIntegral extends Operator {
+
+	public static final String NAME = "∫";
 
 	public IndefiniteIntegral(Generic expression, Generic variable) {
-        super(new Generic[] {expression,variable});
+        super(NAME, new Generic[] {expression,variable});
     }
 
 	protected IndefiniteIntegral(@NotNull Generic[] parameters) {
-		super(parameters);
+		super(NAME, parameters);
+	}
+
+	@Override
+	public int getMinimumNumberOfParameters() {
+		return 2;
 	}
 
 	public Generic compute() {
@@ -23,6 +30,19 @@ public class IndefiniteIntegral extends AbstractIntegral {
         } catch (NotIntegrableException e) {}
         return expressionValue();
     }
+
+		@NotNull
+	@Override
+	protected String substituteUndefinedParameter(int i) {
+		switch (i){
+			case 0:
+				return "f(x)";
+			case 1:
+				return "x";
+			default:
+				return super.substituteUndefinedParameter(i);
+		}
+	}
 
     public void toMathML(MathML element, Object data) {
         int exponent=data instanceof Integer? (Integer) data :1;
@@ -38,6 +58,12 @@ public class IndefiniteIntegral extends AbstractIntegral {
             element.appendChild(e1);
         }
     }
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new IndefiniteIntegral(parameters);
+	}
 
 	@Override
 	public Variable newInstance() {

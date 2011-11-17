@@ -13,12 +13,11 @@ public class Solve extends Operator {
 
 	public static final String NAME = "solve";
 
-	// todo serso: set default parameter
 	public Solve(Generic expression, Generic variable, Generic subscript) {
-        super(NAME,new Generic[] {expression,variable,subscript });
-    }
+		super(NAME, new Generic[]{expression, variable, subscript});
+	}
 
-	public Solve( Generic parameters[]) {
+	public Solve(Generic parameters[]) {
 		super(NAME, createParameters(parameters));
 	}
 
@@ -38,48 +37,48 @@ public class Solve extends Operator {
 	}
 
 	public Generic compute() {
-        Variable variable= parameters[1].variableValue();
-        int subscript= parameters[2].integerValue().intValue();
-        if(parameters[0].isPolynomial(variable)) {
-            return new Root((UnivariatePolynomial)Polynomial.factory(variable).valueof(parameters[0]),subscript).evaluate();
-        }
-        return expressionValue();
-    }
+		Variable variable = parameters[1].variableValue();
+		int subscript = parameters[2].integerValue().intValue();
+		if (parameters[0].isPolynomial(variable)) {
+			return new Root((UnivariatePolynomial) Polynomial.factory(variable).valueof(parameters[0]), subscript).evaluate();
+		}
+		return expressionValue();
+	}
 
 	// todo serso: think
-    /*public String toString() {
-		StringBuilder result = new StringBuilder();
-        int n=3;
-        if(parameters[2].signum()==0) n=2;
-        result.append(name);
-        result.append("(");
-        for(int i=0;i<n;i++) {
-            result.append(parameters[i]).append(i<n-1?", ":"");
-        }
-        result.append(")");
-        return result.toString();
-    }*/
+	/*public String toString() {
+			StringBuilder result = new StringBuilder();
+			int n=3;
+			if(parameters[2].signum()==0) n=2;
+			result.append(name);
+			result.append("(");
+			for(int i=0;i<n;i++) {
+				result.append(parameters[i]).append(i<n-1?", ":"");
+			}
+			result.append(")");
+			return result.toString();
+		}*/
 
-    public void toMathML(MathML element, Object data) {
-        MathML e1;
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
-        int n=3;
-        if(parameters[2].signum()==0) n=2;
-        if(exponent==1) nameToMathML(element);
-        else {
-            e1=element.element("msup");
-            nameToMathML(e1);
-            MathML e2=element.element("mn");
-            e2.appendChild(element.text(String.valueOf(exponent)));
-            e1.appendChild(e2);
-            element.appendChild(e1);
-        }
-        e1=element.element("mfenced");
-        for(int i=0;i<n;i++) {
-            parameters[i].toMathML(e1,null);
-        }
-        element.appendChild(e1);
-    }
+	public void toMathML(MathML element, Object data) {
+		MathML e1;
+		int exponent = data instanceof Integer ? (Integer) data : 1;
+		int n = 3;
+		if (parameters[2].signum() == 0) n = 2;
+		if (exponent == 1) nameToMathML(element);
+		else {
+			e1 = element.element("msup");
+			nameToMathML(e1);
+			MathML e2 = element.element("mn");
+			e2.appendChild(element.text(String.valueOf(exponent)));
+			e1.appendChild(e2);
+			element.appendChild(e1);
+		}
+		e1 = element.element("mfenced");
+		for (int i = 0; i < n; i++) {
+			parameters[i].toMathML(e1, null);
+		}
+		element.appendChild(e1);
+	}
 
 	@NotNull
 	@Override
@@ -88,6 +87,6 @@ public class Solve extends Operator {
 	}
 
 	public Variable newInstance() {
-        return new Solve(null,null,null);
-    }
+		return new Solve(null, null, null);
+	}
 }

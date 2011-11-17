@@ -2,7 +2,9 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.function.Function;
+import jscl.math.function.FunctionsRegistry;
 import jscl.math.function.ImplicitFunction;
+import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +22,10 @@ public class ImplicitFunctionParser implements Parser<Function> {
 		Generic a[];
 
 		final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, expression, position, depth, pos0, previousSumElement);
-
+		if (FunctionsRegistry.getInstance().getNames().contains(name) || OperatorsRegistry.getInstance().getNames().contains(name)) {
+			position.setValue(pos0);
+			throw new ParseException("Cannot be implicit function - usual function or operator with same name is defined!", position, expression);
+		}
 
 		final List<Generic> subscripts = new ArrayList<Generic>();
 		while (true) {

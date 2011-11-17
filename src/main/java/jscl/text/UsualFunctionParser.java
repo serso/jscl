@@ -34,7 +34,7 @@ class UsualFunctionParser implements Parser<Function> {
 		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, depth, pos0, previousSumElement);
 
 		final Function result = functionsRegistry.get(name);
-		if (result != null && result.getMinimumNumberOfParameters() <= parameters.length) {
+		if (result != null && result.getMinimumNumberOfParameters() <= parameters.length && result.getMaximumNumberOfParameters() >= parameters.length ) {
 			result.setParameters(parameters);
 		} else {
 			position.setValue(pos0);

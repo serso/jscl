@@ -180,11 +180,49 @@ public class ExpressionTest {
 		Assert.assertEquals("sin(2!)", Expression.valueOf("sin(2!)").expand().toString());
 
 		Assert.assertEquals("12", Expression.valueOf("3*(3+1)").expand().toString());
+		Assert.assertEquals("114.59155902616465", Expression.valueOf("deg(2)").numeric().toString());
+		try {
+			Assert.assertEquals("-0.1425465430742778", Expression.valueOf("∏(tan(3))").numeric().toString());
+			fail();
+		} catch (ParseException e) {
+		}
+		try {
+			Assert.assertEquals("-0.14255", Expression.valueOf("sin(2,2)").expand().numeric().toString());
+			fail();
+		} catch (ParseException e) {
+		}
+		try {
+			Assert.assertEquals("114.59155902616465", Expression.valueOf("deg(2,2)").numeric().toString());
+			fail();
+		} catch (ParseException e) {
+		}
 	}
 
 	@Test
 	public void testName() throws Exception {
 		Expression.valueOf("a*c+b*sin(c)").toString();
+	}
+
+	@Test
+	public void testIntegrals() throws Exception {
+		Assert.assertEquals("50.0", Expression.valueOf("∫ab(x, x, 0, 10)").expand().numeric().toString());
+		Assert.assertEquals("1/2*a^2", Expression.valueOf("∫ab(x, x, 0, a)").expand().toString());
+		try {
+			Assert.assertEquals("∫ab(x, x, 0)", Expression.valueOf("∫ab(x, x, 0)").expand().toString());
+			fail();
+		} catch (ParseException e) {
+		}
+		try {
+			Assert.assertEquals("∫ab(x, x)", Expression.valueOf("∫ab(x, x)").expand().simplify().toString());
+			fail();
+		} catch (ParseException e) {
+		}
+		Assert.assertEquals("x^2/2", Expression.valueOf("∫(x, x)").expand().simplify().toString());
+		try {
+			Assert.assertEquals("x^2/2", Expression.valueOf("∫(x, x)").expand().numeric().toString());
+			fail();
+		} catch (ArithmeticException e) {
+		}
 	}
 
 	@Test

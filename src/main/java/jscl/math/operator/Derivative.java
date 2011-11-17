@@ -19,6 +19,11 @@ public class Derivative extends Operator {
 		super(NAME, createParameters(parameters));
 	}
 
+	@Override
+	public int getMaximumNumberOfParameters() {
+		return 4;
+	}
+
 	private static Generic[] createParameters(@NotNull Generic[] parameters) {
 		final Generic[] result = new Generic[4];
 
@@ -28,6 +33,23 @@ public class Derivative extends Operator {
 		result[3] = parameters.length > 3 ? parameters[3] : JsclInteger.valueOf(1);
 
 		return result;
+	}
+
+		@NotNull
+	@Override
+	protected String substituteUndefinedParameter(int i) {
+		switch (i){
+			case 0:
+				return "f(x)";
+			case 1:
+				return "x";
+			case 2:
+				return "x_point";
+			case 3:
+				return "order";
+			default:
+				return super.substituteUndefinedParameter(i);
+		}
 	}
 
 	@Override

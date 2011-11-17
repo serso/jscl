@@ -14,6 +14,7 @@ public abstract class Operator extends Variable {
 
 	public Operator(String name, Generic parameters[]) {
 		super(name);
+		assert getMinimumNumberOfParameters() <= parameters.length && getMaximumNumberOfParameters() >= parameters.length;
 		this.parameters = parameters;
 	}
 
@@ -22,6 +23,10 @@ public abstract class Operator extends Variable {
 	}
 
 	public abstract int getMinimumNumberOfParameters();
+
+	public int getMaximumNumberOfParameters(){
+		return getMinimumNumberOfParameters();
+	}
 
 	@Nullable
 	protected static Generic getParameter(@Nullable Generic[] parameters, int i) {

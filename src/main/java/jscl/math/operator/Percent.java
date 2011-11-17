@@ -1,8 +1,8 @@
 package jscl.math.operator;
 
-import jscl.math.*;
-import jscl.math.function.Constant;
-import jscl.math.numeric.JsclDouble;
+import jscl.math.Generic;
+import jscl.math.JsclInteger;
+import jscl.math.Variable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +38,11 @@ public class Percent extends PostfixFunction {
 	@Override
 	public int getMinimumNumberOfParameters() {
 		return 1;
+	}
+
+	@Override
+	public int getMaximumNumberOfParameters() {
+		return 2;
 	}
 
 	public Generic compute() {

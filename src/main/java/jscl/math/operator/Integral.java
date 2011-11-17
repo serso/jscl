@@ -6,14 +6,16 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
-public class Integral extends AbstractIntegral {
+public class Integral extends Operator {
+
+	public static final String NAME = "∫ab";
 
 	public Integral(Generic expression, Generic variable, Generic n1, Generic n2) {
-        super(new Generic[] {expression,variable,n1,n2});
+        super(NAME, new Generic[] {expression,variable,n1,n2});
     }
 
 	protected Integral(@NotNull Generic[] parameters) {
-        super(parameters);
+        super(NAME, parameters);
     }
 
 	@Override
@@ -30,6 +32,23 @@ public class Integral extends AbstractIntegral {
         return expressionValue();
     }
 
+	@NotNull
+	@Override
+	protected String substituteUndefinedParameter(int i) {
+		switch (i){
+			case 0:
+				return "f(x)";
+			case 1:
+				return "x";
+			case 2:
+				return "a";
+			case 3:
+				return "b";
+			default:
+				return super.substituteUndefinedParameter(i);
+		}
+	}
+
     public void toMathML(MathML element, Object data) {
         int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
@@ -44,6 +63,12 @@ public class Integral extends AbstractIntegral {
             element.appendChild(e1);
         }
     }
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Integral(parameters);
+	}
 
 	void bodyToMathML(MathML element) {
         Variable v= parameters[1].variableValue();

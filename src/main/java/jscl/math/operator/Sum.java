@@ -24,6 +24,23 @@ public class Sum extends Operator {
 		return 4;
 	}
 
+	@NotNull
+	@Override
+	protected String substituteUndefinedParameter(int i) {
+		switch (i){
+			case 0:
+				return "f(i)";
+			case 1:
+				return "i";
+			case 2:
+				return "from";
+			case 3:
+				return "to";
+			default:
+				return super.substituteUndefinedParameter(i);
+		}
+	}
+
 	public Generic compute() {
 		Variable variable = parameters[1].variableValue();
 		try {
