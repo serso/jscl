@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Derivative extends Operator {
 
-	public static final String NAME = "d";
+	public static final String NAME = "∂";
 
 	public Derivative(Generic expression, Generic variable, Generic value, Generic order) {
 		super(NAME, new Generic[]{expression, variable, value, order});

@@ -3,6 +3,9 @@ package jscl.text;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Identifier implements Parser<String> {
 
 	public static final Parser<String> parser = new Identifier();
@@ -36,8 +39,10 @@ public class Identifier implements Parser<String> {
 		return result.toString();
 	}
 
+	private final static List<Character> allowedCharacters = Arrays.asList('√', '∞', 'π', '∂', '∏', 'Σ', '∫');
+
 	private static boolean isValidFirstCharacter(char ch) {
-		return Character.isLetter(ch) || ch == '√' || ch == '∞' || ch == 'π';
+		return Character.isLetter(ch) || allowedCharacters.contains(ch);
 	}
 
 	private static boolean isValidNotFirstCharacter(@NotNull String string, @NotNull MutableInt position) {

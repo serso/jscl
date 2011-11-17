@@ -51,6 +51,7 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 		instance.add(new ModPow(null, null, null));
 		instance.add(new ModInverse(null, null));
 		instance.add(new EulerPhi(null));
+		instance.add(new AbstractIntegral.RegistryInstance());
 		instance.add(new PrimitiveRoots(null));
 	}
 

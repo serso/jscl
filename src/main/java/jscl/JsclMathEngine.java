@@ -27,7 +27,11 @@ public class JsclMathEngine implements MathEngine {
 
 	@Override
 	public String simplify(@NotNull String expression) throws ParseException {
-		return Expression.valueOf(expression).simplify().toString();
+		if (expression.contains(Percent.NAME)) {
+			return Expression.valueOf(expression).simplify().toString();
+		} else {
+			return Expression.valueOf(expression).expand().simplify().toString();
+		}
 	}
 
 	@Override

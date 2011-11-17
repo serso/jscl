@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Sum extends Operator {
 
-	public static final String NAME = "sum";
+	public static final String NAME = "Σ";
 
 	public Sum(Generic expression, Generic variable, Generic from, Generic to) {
 		super(NAME, new Generic[]{expression, variable, from, to});

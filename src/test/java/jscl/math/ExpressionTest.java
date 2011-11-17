@@ -86,12 +86,12 @@ public class ExpressionTest {
 		Assert.assertEquals("0.08726646259971647", Expression.valueOf("5°").numeric().toString());
 		Assert.assertEquals("2.0523598775598297", Expression.valueOf("2+3°").numeric().toString());
 
-		Assert.assertEquals("6", Expression.valueOf("2*d(3*x,x)").expand().toString());
-		Assert.assertEquals("3", Expression.valueOf("d(3*x,x)").expand().toString());
-		Assert.assertEquals("12", Expression.valueOf("d(x^3,x,2)").expand().toString());
-		Assert.assertEquals("3*a", Expression.valueOf("d(3*x*a,x)").expand().toString());
-		Assert.assertEquals("0", Expression.valueOf("d(3*x*a,x,0.011,2)").expand().toString());
-		Assert.assertEquals("0", Expression.valueOf("2*d(3*x*a,x,0.011,2)").expand().toString());
+		Assert.assertEquals("6", Expression.valueOf("2*∂(3*x,x)").expand().toString());
+		Assert.assertEquals("3", Expression.valueOf("∂(3*x,x)").expand().toString());
+		Assert.assertEquals("12", Expression.valueOf("∂(x^3,x,2)").expand().toString());
+		Assert.assertEquals("3*a", Expression.valueOf("∂(3*x*a,x)").expand().toString());
+		Assert.assertEquals("0", Expression.valueOf("∂(3*x*a,x,0.011,2)").expand().toString());
+		Assert.assertEquals("0", Expression.valueOf("2*∂(3*x*a,x,0.011,2)").expand().toString());
 		Assert.assertEquals("ln(8)+lg(8)*ln(8)", Expression.valueOf("ln(8)*lg(8)+ln(8)").expand().toString());
 		Assert.assertEquals("3.9573643765059856", Expression.valueOf("ln(8)*lg(8)+ln(8)").numeric().toString());
 
@@ -189,12 +189,12 @@ public class ExpressionTest {
 
 	@Test
 	public void testDerivations() throws Exception {
-		Assert.assertEquals("-0.9092974268256817", Expression.valueOf("d(cos(t),t,2)").numeric().toString());
-		Assert.assertEquals("d(cos(t), t, 2, 1)", Expression.valueOf("d(cos(t),t,2)").simplify().toString());
-		Assert.assertEquals("-2.234741690198506", Expression.valueOf("d(t*cos(t),t,2)").numeric().toString());
-		Assert.assertEquals("-4.469483380397012", Expression.valueOf("2*d(t*cos(t),t,2)").numeric().toString());
-		Assert.assertEquals("-sin(2)", Expression.valueOf("d(cos(t),t,2)").expand().toString());
-		Assert.assertEquals("-sin(t)", Expression.valueOf("d(cos(t),t)").expand().toString());
+		Assert.assertEquals("-0.9092974268256817", Expression.valueOf("∂(cos(t),t,2)").numeric().toString());
+		Assert.assertEquals("∂(cos(t), t, 2, 1)", Expression.valueOf("∂(cos(t),t,2)").simplify().toString());
+		Assert.assertEquals("-2.234741690198506", Expression.valueOf("∂(t*cos(t),t,2)").numeric().toString());
+		Assert.assertEquals("-4.469483380397012", Expression.valueOf("2*∂(t*cos(t),t,2)").numeric().toString());
+		Assert.assertEquals("-sin(2)", Expression.valueOf("∂(cos(t),t,2)").expand().toString());
+		Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t)").expand().toString());
 		//Assert.assertEquals("cos'(t)", Expression.valueOf("cos'(t)").simplify().toString());
 		//Assert.assertEquals("-0.9092974268256817", Expression.valueOf("cos'(2)").numeric().toString());
 		//Assert.assertEquals(Expression.valueOf("-cos(2)").numeric().toString(), Expression.valueOf("cos''(2)").numeric().toString());
@@ -202,17 +202,17 @@ public class ExpressionTest {
 
 	@Test
 	public void testSum() throws Exception {
-		Assert.assertEquals("3", Expression.valueOf("sum(n,n,1,2)").expand().toString());
-		Assert.assertEquals("200", Expression.valueOf("sum(n/n,n,1,200)").expand().toString());
-		Assert.assertEquals("1/3", Expression.valueOf("sum((n-1)/(n+1),n,1,2)").expand().toString());
-		Assert.assertEquals("sin(1)", Expression.valueOf("sum(sin(n),n,1,1)").expand().toString());
-		Assert.assertEquals("1/1!", Expression.valueOf("sum(n/n!,n,1,1)").expand().toString());
-		Assert.assertEquals("2.0", Expression.valueOf("sum(n/n!,n,1,2)").expand().numeric().toString());
-		Assert.assertEquals("2.7182818284590455", Expression.valueOf("sum(n/n!,n,1,200)").expand().numeric().toString());
-		Assert.assertEquals("2.718281828459046", Expression.valueOf("sum(n/(2*n/2)!,n,1,200)").expand().numeric().toString());
-		Assert.assertEquals("0.05235987755982989", Expression.valueOf("sum(n°,n,1,2)").expand().numeric().toString());
-		Assert.assertEquals("200.0", Expression.valueOf("sum(n°/n°,n,1,200)").expand().numeric().toString());
-		Assert.assertEquals("-sin(1)-sin(2)", Expression.valueOf("sum(d(cos(t),t,n),n,1,2)").expand().toString());
-		Assert.assertEquals("-1.7507684116335782", Expression.valueOf("sum(d(cos(t),t,n),n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("3", Expression.valueOf("Σ(n,n,1,2)").expand().toString());
+		Assert.assertEquals("200", Expression.valueOf("Σ(n/n,n,1,200)").expand().toString());
+		Assert.assertEquals("1/3", Expression.valueOf("Σ((n-1)/(n+1),n,1,2)").expand().toString());
+		Assert.assertEquals("sin(1)", Expression.valueOf("Σ(sin(n),n,1,1)").expand().toString());
+		Assert.assertEquals("1/1!", Expression.valueOf("Σ(n/n!,n,1,1)").expand().toString());
+		Assert.assertEquals("2.0", Expression.valueOf("Σ(n/n!,n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("2.7182818284590455", Expression.valueOf("Σ(n/n!,n,1,200)").expand().numeric().toString());
+		Assert.assertEquals("2.718281828459046", Expression.valueOf("Σ(n/(2*n/2)!,n,1,200)").expand().numeric().toString());
+		Assert.assertEquals("0.05235987755982989", Expression.valueOf("Σ(n°,n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("200.0", Expression.valueOf("Σ(n°/n°,n,1,200)").expand().numeric().toString());
+		Assert.assertEquals("-sin(1)-sin(2)", Expression.valueOf("Σ(∂(cos(t),t,n),n,1,2)").expand().toString());
+		Assert.assertEquals("-1.7507684116335782", Expression.valueOf("Σ(∂(cos(t),t,n),n,1,2)").expand().numeric().toString());
 	}
 }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Product extends Operator {
 
-	public static final String NAME = "prod";
+	public static final String NAME = "∏";
 
 	public Product(Generic expression, Generic variable, Generic n1, Generic n2) {
         super(NAME,new Generic[] {expression,variable,n1,n2});
