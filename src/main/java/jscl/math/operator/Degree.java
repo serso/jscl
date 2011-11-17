@@ -7,6 +7,9 @@ import jscl.math.function.Constant;
 import jscl.math.numeric.JsclDouble;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
+
 /**
  * User: serso
  * Date: 10/31/11
@@ -21,7 +24,7 @@ public class Degree extends PostfixFunction {
 	}
 
 	private Degree(Generic[] parameter) {
-		super(NAME, parameter);
+		super(NAME, Arrays.copyOf(parameter, 1));
 	}
 
 	public Generic compute() {
@@ -52,9 +55,5 @@ public class Degree extends PostfixFunction {
 	@Override
 	public Variable newInstance() {
 		return new Degree((Generic)null);
-	}
-
-	public Degree(String name, Generic[] parameter) {
-		super(name, parameter);
 	}
 }

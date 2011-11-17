@@ -24,6 +24,9 @@ public interface MathEngine {
 	MathRegistry<Function> getFunctionsRegistry();
 
 	@NotNull
+	MathRegistry<Operator> getOperatorsRegistry();
+
+	@NotNull
 	MathRegistry<IConstant> getConstantsRegistry();
 
 	@NotNull

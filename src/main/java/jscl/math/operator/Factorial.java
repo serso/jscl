@@ -7,6 +7,8 @@ import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public class Factorial extends PostfixFunction {
 
 	public static final String NAME = "!";
@@ -16,7 +18,7 @@ public class Factorial extends PostfixFunction {
     }
 
 	private Factorial( Generic[] parameter) {
-		super(NAME, parameter);
+		super(NAME, Arrays.copyOf(parameter, 1));
 	}
 
 	public Generic compute() {

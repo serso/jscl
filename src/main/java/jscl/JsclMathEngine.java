@@ -3,6 +3,7 @@ package jscl;
 import jscl.math.Expression;
 import jscl.math.function.*;
 import jscl.math.operator.Operator;
+import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.math.MathRegistry;
@@ -16,7 +17,7 @@ public class JsclMathEngine implements MathEngine {
 
 	@Override
 	public String evaluate(@NotNull String expression) throws ParseException {
-		return Expression.valueOf(expression).numeric().toString();
+		return Expression.valueOf(expression).expand().numeric().toString();
 	}
 
 	@Override
@@ -33,6 +34,12 @@ public class JsclMathEngine implements MathEngine {
 	@Override
 	public MathRegistry<Function> getFunctionsRegistry() {
 		return FunctionsRegistry.getInstance();
+	}
+
+	@NotNull
+	@Override
+	public MathRegistry<Operator> getOperatorsRegistry() {
+		return OperatorsRegistry.getInstance();
 	}
 
 	@NotNull
