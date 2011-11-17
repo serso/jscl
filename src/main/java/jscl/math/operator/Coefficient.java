@@ -4,13 +4,21 @@ import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.polynomial.Polynomial;
+import org.jetbrains.annotations.NotNull;
 
 public class Coefficient extends Operator {
-    public Coefficient(Generic expression, Generic variable) {
-        super("coef",new Generic[] {expression,variable});
+
+	public static final String NAME = "coef";
+
+	public Coefficient(Generic expression, Generic variable) {
+        super(NAME,new Generic[] {expression,variable});
     }
 
-    public Generic compute() {
+	private Coefficient(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         if(parameters[0].isPolynomial(variable)) {
             return new JsclVector(Polynomial.factory(variable).valueof(parameters[0]).elements());
@@ -18,7 +26,13 @@ public class Coefficient extends Operator {
         return expressionValue();
     }
 
-    public Variable newInstance() {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Coefficient(parameters);
+	}
+
+	public Variable newInstance() {
         return new Coefficient(null,null);
     }
 }

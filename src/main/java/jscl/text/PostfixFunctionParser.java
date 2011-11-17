@@ -1,6 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
+import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,10 +14,10 @@ import org.jetbrains.annotations.Nullable;
 public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Result> {
 
 	@NotNull
-	private final Operator operator;
+	private final String postfixFunctionName;
 
-	protected PostfixFunctionParser(@NotNull Operator operator) {
-		this.operator = operator;
+	protected PostfixFunctionParser(@NotNull String postfixFunctionName) {
+		this.postfixFunctionName = postfixFunctionName;
 	}
 
 	@NotNull
@@ -27,37 +28,36 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 
 		ParserUtils.skipWhitespaces(expression, position);
 
-		if (position.intValue() < expression.length() && expression.startsWith(operator.getName(), position.intValue())) {
-			position.add(operator.getName().length());
+		if (position.intValue() < expression.length() && expression.startsWith(postfixFunctionName, position.intValue())) {
+			position.add(postfixFunctionName.length());
 			postfixFunction = true;
 		} else {
 			position.setValue(pos0);
 			postfixFunction = false;
 		}
 
-		return new Result(postfixFunction);
-	}
-
-	@NotNull
-	public Generic newInstance(@NotNull Generic content, @Nullable Generic previousSumElement) {
-		final Operator result = (Operator)operator.newInstance();
-		if (previousSumElement == null) {
-			result.setParameters(new Generic[]{content});
-		} else {
-			result.setParameters(new Generic[]{content, previousSumElement});
-		}
-		return result.expressionValue();
+		return new Result(postfixFunctionName, postfixFunction);
 	}
 
 	public static class Result {
+
+		@NotNull
+		private final String postfixFunctionName;
+
 		private final boolean postfixFunction;
 
-		public Result(boolean postfixFunction) {
+		public Result(@NotNull String postfixFunctionName, boolean postfixFunction) {
+			this.postfixFunctionName = postfixFunctionName;
 			this.postfixFunction = postfixFunction;
 		}
 
 		public boolean isPostfixFunction() {
 			return postfixFunction;
+		}
+
+		@NotNull
+		public String getPostfixFunctionName() {
+			return postfixFunctionName;
 		}
 	}
 }

@@ -5,13 +5,21 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Product extends Operator {
-    public Product(Generic expression, Generic variable, Generic n1, Generic n2) {
-        super("prod",new Generic[] {expression,variable,n1,n2});
+
+	public static final String NAME = "prod";
+
+	public Product(Generic expression, Generic variable, Generic n1, Generic n2) {
+        super(NAME,new Generic[] {expression,variable,n1,n2});
     }
 
-    public Generic compute() {
+	private Product(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         try {
             int n1= parameters[2].integerValue().intValue();
@@ -40,7 +48,13 @@ public class Product extends Operator {
         }
     }
 
-    void bodyToMathML(MathML element) {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Product(parameters);
+	}
+
+	void bodyToMathML(MathML element) {
         MathML e1=element.element("mrow");
         MathML e2=element.element("munderover");
         MathML e3=element.element("mo");

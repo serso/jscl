@@ -13,8 +13,14 @@ import org.jetbrains.annotations.Nullable;
  */
 public class Percent extends PostfixFunction {
 
+	public static final String NAME = "%";
+
 	public Percent(Generic content, Generic previousSumElement) {
-		super("%", new Generic[]{content, previousSumElement});
+		super(NAME, new Generic[]{content, previousSumElement});
+	}
+
+	private Percent(Generic[] parameters) {
+		super(NAME, createParameters(getParameter(parameters, 0), getParameter(parameters, 1)));
 	}
 
 	private static Generic[] createParameters(@Nullable Generic content, @Nullable Generic previousSumElement) {
@@ -27,11 +33,6 @@ public class Percent extends PostfixFunction {
 		}
 
 		return result;
-	}
-
-	@Override
-	public void setParameters(Generic[] parameters) {
-		super.setParameters(createParameters(getParameter(parameters, 0), getParameter(parameters, 1)));
 	}
 
 	public Generic compute() {
@@ -61,6 +62,12 @@ public class Percent extends PostfixFunction {
 		} else {
 			return normalizedPercentage;
 		}
+	}
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Percent(parameters);
 	}
 
 	@Override

@@ -76,6 +76,8 @@ public class ExpressionTest {
 
 		Assert.assertEquals("100.0", Expression.valueOf("0.1E3").numeric().toString());
 
+		Assert.assertEquals("0.017453292519943295", Expression.valueOf("1°").numeric().toString());
+		Assert.assertEquals("0.03490658503988659", Expression.valueOf("2°").numeric().toString());
 		Assert.assertEquals("0.05235987755982988", Expression.valueOf("3°").numeric().toString());
 		Assert.assertEquals("0.2617993877991494", Expression.valueOf("3°*5").numeric().toString());
 		Assert.assertEquals("0.002741556778080377", Expression.valueOf("3°^2").numeric().toString());
@@ -187,5 +189,21 @@ public class ExpressionTest {
 		//Assert.assertEquals("cos'(t)", Expression.valueOf("cos'(t)").simplify().toString());
 		//Assert.assertEquals("-0.9092974268256817", Expression.valueOf("cos'(2)").numeric().toString());
 		//Assert.assertEquals(Expression.valueOf("-cos(2)").numeric().toString(), Expression.valueOf("cos''(2)").numeric().toString());
+	}
+
+	@Test
+	public void testSum() throws Exception {
+		Assert.assertEquals("3", Expression.valueOf("sum(n,n,1,2)").expand().toString());
+		Assert.assertEquals("200", Expression.valueOf("sum(n/n,n,1,200)").expand().toString());
+		Assert.assertEquals("1/3", Expression.valueOf("sum((n-1)/(n+1),n,1,2)").expand().toString());
+		Assert.assertEquals("sin(1)", Expression.valueOf("sum(sin(n),n,1,1)").expand().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("sum(n/n!,n,1,1)").expand().toString());
+		Assert.assertEquals("2.0", Expression.valueOf("sum(n/n!,n,1,2)").expand().toString());
+		Assert.assertEquals("2.7182818284590455", Expression.valueOf("sum(n/n!,n,1,200)").expand().toString());
+		Assert.assertEquals("2.7182818284590455", Expression.valueOf("sum(n/(2*n/2)!,n,1,200)").expand().toString());
+		Assert.assertEquals("0.05235987755982989", Expression.valueOf("sum(n°,n,1,2)").expand().toString());
+		Assert.assertEquals("200", Expression.valueOf("sum(n°/n°,n,1,200)").expand().toString());
+		Assert.assertEquals("-sin(1)-sin(2)", Expression.valueOf("sum(d(cos(t),t,n),n,1,2)").expand().toString());
+		Assert.assertEquals("-1.7507684116335782", Expression.valueOf("sum(d(cos(t),t,n),n,1,2)").expand().numeric().toString());
 	}
 }

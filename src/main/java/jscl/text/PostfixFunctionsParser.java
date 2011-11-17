@@ -26,18 +26,18 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 
 	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 
-		final List<Operator> postfixFunctions = PostfixFunctionsRegistry.getInstance().getEntities();
+		final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
 
-		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctions.size());
-		for (Operator operator : postfixFunctions) {
-			parsers.add(new PostfixFunctionParser(operator));
+		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctionNames.size());
+		for (String postfixFunctionName : postfixFunctionNames) {
+			parsers.add(new PostfixFunctionParser(postfixFunctionName));
 		}
 
 		return parsePostfix(parsers, expression, position, content, depth, previousSumElement);
 	}
 
 	private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,
-										@NotNull String string,
+										@NotNull String expression,
 										@NotNull MutableInt position,
 										Generic content,
 										int depth,
@@ -45,9 +45,21 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 		Generic result = content;
 
 		for (PostfixFunctionParser parser : parsers) {
-			final PostfixFunctionParser.Result postfixResult = parser.parse(string, position, depth, previousSumElement);
+			final PostfixFunctionParser.Result postfixResult = parser.parse(expression, position, depth, previousSumElement);
 			if (postfixResult.isPostfixFunction()) {
-				result = parsePostfix(parsers, string, position, parser.newInstance(GenericVariable.content(result, true), previousSumElement), depth, previousSumElement);
+				final Operator postfixFunction;
+
+				if (previousSumElement == null) {
+					postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content});
+				} else {
+					postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content, previousSumElement});
+				}
+
+				if (postfixFunction == null) {
+					throw new ParseException("Postfix function name doesn't not exist!", position, expression);
+				}
+
+				result = parsePostfix(parsers, expression, position, postfixFunction.expressionValue(), depth, previousSumElement);
 			}
 		}
 

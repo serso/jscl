@@ -3,13 +3,21 @@ package jscl.math.operator.number;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.math.operator.Operator;
+import org.jetbrains.annotations.NotNull;
 
 public class PrimitiveRoots extends Operator {
-    public PrimitiveRoots(Generic integer) {
-        super("primitiveroots",new Generic[] {integer});
+
+	public static final String NAME = "primitiveroots";
+
+	public PrimitiveRoots(Generic integer) {
+        super(NAME,new Generic[] {integer});
     }
 
-    public Generic compute() {
+	private PrimitiveRoots(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();
             Generic a[]=en.primitiveRoots();
@@ -18,7 +26,13 @@ public class PrimitiveRoots extends Operator {
         return expressionValue();
     }
 
-    public Variable newInstance() {
-        return new PrimitiveRoots(null);
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new PrimitiveRoots(parameters);
+	}
+
+	public Variable newInstance() {
+        return new PrimitiveRoots((Generic)null);
     }
 }

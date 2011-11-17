@@ -4,13 +4,19 @@ import jscl.math.Generic;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
-public class IndefiniteIntegral extends Operator {
-    public IndefiniteIntegral(Generic expression, Generic variable) {
-        super("integral",new Generic[] {expression,variable});
+public class IndefiniteIntegral extends AbstractIntegral {
+
+	public IndefiniteIntegral(Generic expression, Generic variable) {
+        super(new Generic[] {expression,variable});
     }
 
-    public Generic compute() {
+	protected IndefiniteIntegral(@NotNull Generic[] parameters) {
+		super(parameters);
+	}
+
+	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         try {
             return parameters[0].antiDerivative(variable);
@@ -19,7 +25,7 @@ public class IndefiniteIntegral extends Operator {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");
@@ -33,7 +39,12 @@ public class IndefiniteIntegral extends Operator {
         }
     }
 
-    void bodyToMathML(MathML element) {
+	@Override
+	public Variable newInstance() {
+		return new IndefiniteIntegral(null, null);
+	}
+
+	void bodyToMathML(MathML element) {
         Variable v= parameters[1].variableValue();
         MathML e1=element.element("mrow");
         MathML e2=element.element("mo");
@@ -45,9 +56,5 @@ public class IndefiniteIntegral extends Operator {
         e1.appendChild(e2);
         v.toMathML(e1,null);
         element.appendChild(e1);
-    }
-
-    public Variable newInstance() {
-        return new IndefiniteIntegral(null,null);
     }
 }

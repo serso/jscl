@@ -5,13 +5,21 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
+import org.jetbrains.annotations.NotNull;
 
 public class ModInverse extends Operator {
-    public ModInverse(Generic integer, Generic modulo) {
-        super("modinv",new Generic[] {integer,modulo});
+
+	public static final String NAME = "modinv";
+
+	public ModInverse(Generic integer, Generic modulo) {
+        super(NAME,new Generic[] {integer,modulo});
     }
 
-    public Generic compute() {
+	private ModInverse(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();
             JsclInteger modulo= parameters[1].integerValue();
@@ -20,7 +28,15 @@ public class ModInverse extends Operator {
         return expressionValue();
     }
 
-    public Variable newInstance() {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new ModInverse(parameters);
+	}
+
+	public Variable newInstance() {
         return new ModInverse(null,null);
     }
+
+
 }

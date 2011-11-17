@@ -5,15 +5,24 @@ import jscl.math.GenericVariable;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
+import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Jacobian extends VectorOperator {
-    public Jacobian(Generic vector, Generic variable) {
-        super("jacobian",new Generic[] {vector,variable});
+
+	public static final String NAME = "jacobian";
+
+	public Jacobian(Generic vector, Generic variable) {
+        super(NAME,new Generic[] {vector,variable});
     }
 
-    public Generic compute() {
+	private Jacobian(Generic parameter[]) {
+		super(NAME, parameter);
+	}
+
+	public Generic compute() {
         Variable variable[]=variables(parameters[1]);
         if(parameters[0] instanceof JsclVector) {
             JsclVector vector=(JsclVector) parameters[0];
@@ -22,7 +31,13 @@ public class Jacobian extends VectorOperator {
         return expressionValue();
     }
 
-    protected void bodyToMathML(MathML element) {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Jacobian(parameters);
+	}
+
+	protected void bodyToMathML(MathML element) {
         operator(element,"nabla");
         MathML e1=element.element("msup");
         parameters[0].toMathML(e1,null);

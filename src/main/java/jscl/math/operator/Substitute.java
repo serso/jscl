@@ -4,38 +4,52 @@ import jscl.math.Generic;
 import jscl.math.GenericVariable;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
+import org.jetbrains.annotations.NotNull;
 
 public class Substitute extends Operator {
-    public Substitute(Generic expression, Generic variable, Generic value) {
-        super("subst",new Generic[] {expression,variable,value});
-    }
 
-    public Generic compute() {
-        if(parameters[1] instanceof JsclVector && parameters[2] instanceof JsclVector) {
-            Generic a= parameters[0];
-            Variable variable[]=variables(parameters[1]);
-            Generic s[]=((JsclVector) parameters[2]).elements();
-            for(int i=0;i<variable.length;i++) a=a.substitute(variable[i],s[i]);
-            return a;
-        } else {
-            Variable variable= parameters[1].variableValue();
-            return parameters[0].substitute(variable, parameters[2]);
-        }
-    }
+	public static final String NAME = "subst";
 
-    public Operator transmute() {
-        Generic p[]=new Generic[] {null,GenericVariable.content(parameters[1]),GenericVariable.content(parameters[2])};
-        if(p[1] instanceof JsclVector && p[2] instanceof JsclVector) {
-            return new Substitute(parameters[0],p[1],p[2]);
-        }
-        return this;
-    }
+	public Substitute(Generic expression, Generic variable, Generic value) {
+		super(NAME, new Generic[]{expression, variable, value});
+	}
 
-    public Generic expand() {
-        return compute();
-    }
+	private Substitute(Generic parameters[]) {
+		super(NAME, parameters);
+	}
 
-    public Variable newInstance() {
-        return new Substitute(null,null,null);
-    }
+	public Generic compute() {
+		if (parameters[1] instanceof JsclVector && parameters[2] instanceof JsclVector) {
+			Generic a = parameters[0];
+			Variable variable[] = variables(parameters[1]);
+			Generic s[] = ((JsclVector) parameters[2]).elements();
+			for (int i = 0; i < variable.length; i++) a = a.substitute(variable[i], s[i]);
+			return a;
+		} else {
+			Variable variable = parameters[1].variableValue();
+			return parameters[0].substitute(variable, parameters[2]);
+		}
+	}
+
+	public Operator transmute() {
+		Generic p[] = new Generic[]{null, GenericVariable.content(parameters[1]), GenericVariable.content(parameters[2])};
+		if (p[1] instanceof JsclVector && p[2] instanceof JsclVector) {
+			return new Substitute(parameters[0], p[1], p[2]);
+		}
+		return this;
+	}
+
+	public Generic expand() {
+		return compute();
+	}
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Substitute(parameters).transmute();
+	}
+
+	public Variable newInstance() {
+		return new Substitute(null, null, null);
+	}
 }

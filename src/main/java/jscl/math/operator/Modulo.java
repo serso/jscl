@@ -4,13 +4,21 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
+import org.jetbrains.annotations.NotNull;
 
 public class Modulo extends Operator {
-    public Modulo(Generic expression1, Generic expression2) {
-        super("mod",new Generic[] {expression1,expression2});
+
+	public static final String NAME = "mod";
+
+	public Modulo(Generic expression1, Generic expression2) {
+        super(NAME,new Generic[] {expression1,expression2});
     }
 
-    public Generic compute() {
+	private Modulo(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();
             JsclInteger en2= parameters[1].integerValue();
@@ -19,7 +27,13 @@ public class Modulo extends Operator {
         return parameters[0].remainder(parameters[1]);
     }
 
-    public Variable newInstance() {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Modulo(parameters);
+	}
+
+	public Variable newInstance() {
         return new Modulo(null,null);
     }
 }

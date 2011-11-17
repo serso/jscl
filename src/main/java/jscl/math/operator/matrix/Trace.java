@@ -5,13 +5,21 @@ import jscl.math.Matrix;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Trace extends Operator {
-    public Trace(Generic matrix) {
-        super("trace",new Generic[] {matrix});
+
+	public static final String NAME = "trace";
+
+	public Trace(Generic matrix) {
+        super(NAME,new Generic[] {matrix});
     }
 
-    public Generic compute() {
+	private Trace(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         if(parameters[0] instanceof Matrix) {
             Matrix matrix=(Matrix) parameters[0];
             return matrix.trace();
@@ -20,7 +28,7 @@ public class Trace extends Operator {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) {
             MathML e1=element.element("mo");
             e1.appendChild(element.text("tr"));
@@ -39,7 +47,13 @@ public class Trace extends Operator {
         parameters[0].toMathML(element,null);
     }
 
-    public Variable newInstance() {
-        return new Trace(null);
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Trace(parameters);
+	}
+
+	public Variable newInstance() {
+        return new Trace((Matrix)null);
     }
 }

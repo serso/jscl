@@ -5,15 +5,34 @@ import jscl.math.JsclInteger;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.function.ImplicitFunction;
+import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class GeometricProduct extends VectorOperator {
-    public GeometricProduct(Generic vector1, Generic vector2, Generic algebra) {
-        super("geometric",new Generic[] {vector1,vector2,algebra});
+
+	public static final String NAME = "geometric";
+
+	public GeometricProduct(Generic vector1, Generic vector2, Generic algebra) {
+        super(NAME,new Generic[] {vector1,vector2,algebra});
     }
 
-    public Generic compute() {
+	private GeometricProduct(@NotNull Generic[] parameters) {
+		super(NAME, createParameters(parameters));
+	}
+
+	private static Generic[] createParameters(@NotNull Generic[] parameters) {
+		final Generic[] result = new Generic[3];
+
+		result[0] = parameters[0];
+		result[1] = parameters[1];
+		result[2] = parameters.length > 2 ? parameters[2] : JsclInteger.valueOf(0);
+
+		return result;
+	}
+
+	public Generic compute() {
         int algebra[]=algebra(parameters[2]);
         if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
             JsclVector v1=(JsclVector) parameters[0];
@@ -48,7 +67,13 @@ public class GeometricProduct extends VectorOperator {
         return buffer.toString();
     }
 
-    protected void bodyToMathML(MathML element) {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new GeometricProduct(parameters);
+	}
+
+	protected void bodyToMathML(MathML element) {
         parameters[0].toMathML(element,null);
         parameters[1].toMathML(element,null);
     }

@@ -1,46 +1,72 @@
 package jscl.math.operator.vector;
 
 import jscl.math.Generic;
+import jscl.math.JsclInteger;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
+import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.math.operator.product.GeometricProduct;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Del extends VectorOperator {
-    public Del(Generic vector, Generic variable, Generic algebra) {
-        super("del",new Generic[] {vector,variable,algebra});
-    }
 
-    public Generic compute() {
-        Variable variable[]=variables(parameters[1]);
-        int algebra[]=GeometricProduct.algebra(parameters[2]);
-        if(parameters[0] instanceof JsclVector) {
-            JsclVector vector=(JsclVector) parameters[0];
-            return vector.del(variable,algebra);
-        }
-        return expressionValue();
-    }
+	public static final String NAME = "del";
 
-    public String toString() {
-        StringBuffer buffer=new StringBuffer();
-        int n=3;
-        if(parameters[2].signum()==0) n=2;
-        buffer.append(name);
-        buffer.append("(");
-        for(int i=0;i<n;i++) {
-            buffer.append(parameters[i]).append(i<n-1?", ":"");
-        }
-        buffer.append(")");
-        return buffer.toString();
-    }
+	public Del(Generic vector, Generic variable, Generic algebra) {
+		super(NAME, new Generic[]{vector, variable, algebra});
+	}
 
-    protected void bodyToMathML(MathML element) {
-        operator(element,"nabla");
-        parameters[0].toMathML(element,null);
-    }
+	private Del(@NotNull Generic parameters[]) {
+		super(NAME, createParameters(parameters));
+	}
 
-    public Variable newInstance() {
-        return new Del(null,null,null);
-    }
+	private static Generic[] createParameters(@NotNull Generic[] parameters) {
+		final Generic[] result = new Generic[3];
+
+		result[0] = parameters[0];
+		result[1] = parameters[1];
+		result[2] = parameters.length > 2 ? parameters[2] : JsclInteger.valueOf(0);
+
+		return result;
+	}
+
+	public Generic compute() {
+		Variable variable[] = variables(parameters[1]);
+		int algebra[] = GeometricProduct.algebra(parameters[2]);
+		if (parameters[0] instanceof JsclVector) {
+			JsclVector vector = (JsclVector) parameters[0];
+			return vector.del(variable, algebra);
+		}
+		return expressionValue();
+	}
+
+	public String toString() {
+		final StringBuilder result = new StringBuilder();
+		int n = 3;
+		if (parameters[2].signum() == 0) n = 2;
+		result.append(name);
+		result.append("(");
+		for (int i = 0; i < n; i++) {
+			result.append(parameters[i]).append(i < n - 1 ? ", " : "");
+		}
+		result.append(")");
+		return result.toString();
+	}
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Del(parameters);
+	}
+
+	protected void bodyToMathML(MathML element) {
+		operator(element, "nabla");
+		parameters[0].toMathML(element, null);
+	}
+
+	public Variable newInstance() {
+		return new Del(null, null, null);
+	}
 }

@@ -24,19 +24,23 @@ class UsualFunctionParser implements Parser<Function> {
 	public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		String name = Identifier.parser.parse(expression, position, depth, previousSumElement);
+		final String name = Identifier.parser.parse(expression, position, depth, previousSumElement);
 
 		if (!valid(name)) {
 			position.setValue(pos0);
 			throw new ParseException();
 		}
 
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterList.parser, expression, position, depth, pos0, previousSumElement);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, depth, pos0, previousSumElement);
 
 		final Function result = functionsRegistry.get(name);
 		if (result != null) {
 			result.setParameters(parameters);
+		} else {
+			position.setValue(pos0);
+			throw new ParseException();
 		}
+
 		return result;
 	}
 

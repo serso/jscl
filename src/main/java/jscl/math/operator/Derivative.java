@@ -5,11 +5,29 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Derivative extends Operator {
 
+	public static final String NAME = "d";
+
 	public Derivative(Generic expression, Generic variable, Generic value, Generic order) {
-		super("d", new Generic[]{expression, variable, value, order});
+		super(NAME, new Generic[]{expression, variable, value, order});
+	}
+
+	private Derivative(Generic parameters[]) {
+		super(NAME, createParameters(parameters));
+	}
+
+	private static Generic[] createParameters(@NotNull Generic[] parameters) {
+		final Generic[] result = new Generic[4];
+
+		result[0] = parameters[0];
+		result[1] = parameters[1];
+		result[2] = parameters.length > 2 ? parameters[2] : parameters[1];
+		result[3] = parameters.length > 3 ? parameters[3] : JsclInteger.valueOf(1);
+
+		return result;
 	}
 
 	public Generic compute() {
@@ -57,6 +75,12 @@ public class Derivative extends Operator {
 		parameters[0].toMathML(e1, null);
 		if (parameters[2].compareTo(parameters[1]) != 0) parameters[2].toMathML(e1, null);
 		element.appendChild(e1);
+	}
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Derivative(parameters);
 	}
 
 	void derivationToMathML(MathML element, boolean fenced) {

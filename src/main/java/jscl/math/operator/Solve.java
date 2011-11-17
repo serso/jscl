@@ -1,18 +1,38 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
+import jscl.math.JsclInteger;
 import jscl.math.Variable;
 import jscl.math.function.Root;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Solve extends Operator {
-    public Solve(Generic expression, Generic variable, Generic subscript) {
-        super("solve",new Generic[] {expression,variable,subscript});
+
+	public static final String NAME = "solve";
+
+	// todo serso: set default parameter
+	public Solve(Generic expression, Generic variable, Generic subscript) {
+        super(NAME,new Generic[] {expression,variable,subscript });
     }
 
-    public Generic compute() {
+	public Solve( Generic parameters[]) {
+		super(NAME, createParameters(parameters));
+	}
+
+	private static Generic[] createParameters(Generic[] parameters) {
+		final Generic[] result = new Generic[3];
+
+		result[0] = parameters[0];
+		result[1] = parameters[1];
+		result[2] = parameters.length > 2 ? parameters[2] : JsclInteger.valueOf(0);
+
+		return result;
+	}
+
+	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         int subscript= parameters[2].integerValue().intValue();
         if(parameters[0].isPolynomial(variable)) {
@@ -22,16 +42,16 @@ public class Solve extends Operator {
     }
 
     public String toString() {
-        StringBuffer buffer=new StringBuffer();
+		StringBuilder result = new StringBuilder();
         int n=3;
         if(parameters[2].signum()==0) n=2;
-        buffer.append(name);
-        buffer.append("(");
+        result.append(name);
+        result.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameters[i]).append(i<n-1?", ":"");
+            result.append(parameters[i]).append(i<n-1?", ":"");
         }
-        buffer.append(")");
-        return buffer.toString();
+        result.append(")");
+        return result.toString();
     }
 
     public void toMathML(MathML element, Object data) {
@@ -55,7 +75,13 @@ public class Solve extends Operator {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Solve(parameters);
+	}
+
+	public Variable newInstance() {
         return new Solve(null,null,null);
     }
 }

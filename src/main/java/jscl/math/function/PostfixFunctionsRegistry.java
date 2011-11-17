@@ -1,10 +1,12 @@
 package jscl.math.function;
 
+import jscl.math.Generic;
 import jscl.math.operator.Degree;
 import jscl.math.operator.Factorial;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.AbstractMathRegistry;
 
 /**
@@ -25,6 +27,12 @@ public class PostfixFunctionsRegistry extends AbstractMathRegistry<Operator> {
 	@NotNull
 	public static PostfixFunctionsRegistry getInstance() {
 		return instance;
+	}
+
+	@Nullable
+	public Operator get(@NotNull String name, @NotNull Generic[] parameters) {
+		final Operator operator = super.get(name);
+		return operator == null ? null : operator.newInstance(parameters);
 	}
 
 	@Override

@@ -1,33 +1,54 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
+import jscl.math.JsclInteger;
 import jscl.math.Variable;
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Limit extends Operator {
-    public Limit(Generic expression, Generic variable, Generic limit, Generic direction) {
-        super("lim",new Generic[] {expression,variable,limit,direction});
+
+	public static final String NAME = "lim";
+
+	public Limit(Generic expression, Generic variable, Generic limit, Generic direction) {
+        super(NAME,new Generic[] {expression,variable,limit,direction});
     }
 
-    public Generic compute() {
+	private Limit(Generic parameters[]) {
+		super(NAME, createParameters(parameters));
+	}
+
+	private static Generic[] createParameters(Generic[] parameters) {
+		final Generic[] result = new Generic[4];
+
+		result[0] = parameters[0];
+		result[1] = parameters[1];
+		result[2] = parameters[2];
+		result[3] = parameters.length > 3 && (parameters[2].compareTo(Constant.infinity) != 0 && parameters[2].compareTo(Constant.infinity.negate()) != 0) ? JsclInteger.valueOf(parameters[3].signum()) : JsclInteger.valueOf(0);
+
+		return result;
+	}
+
+	public Generic compute() {
         return expressionValue();
     }
 
     public String toString() {
-        StringBuffer buffer=new StringBuffer();
+		StringBuilder result = new StringBuilder();
         int n=4;
         if(parameters[3].signum()==0) n=3;
-        buffer.append(name);
-        buffer.append("(");
+        result.append(name);
+        result.append("(");
         for(int i=0;i<n;i++) {
-            buffer.append(parameters[i]).append(i<n-1?", ":"");
+            result.append(parameters[i]).append(i<n-1?", ":"");
         }
-        buffer.append(")");
-        return buffer.toString();
+        result.append(")");
+        return result.toString();
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");
@@ -41,7 +62,13 @@ public class Limit extends Operator {
         }
     }
 
-    void bodyToMathML(MathML element) {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Limit(parameters);
+	}
+
+	void bodyToMathML(MathML element) {
         int c= parameters[3].signum();
         MathML e1=element.element("mrow");
         MathML e2=element.element("munder");

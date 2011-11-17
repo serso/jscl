@@ -6,13 +6,21 @@ import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class EulerPhi extends Operator {
-    public EulerPhi(Generic integer) {
-        super("eulerphi",new Generic[] {integer});
+
+	public static final String NAME = "eulerphi";
+
+	public EulerPhi(Generic integer) {
+        super(NAME,new Generic[] {integer});
     }
 
-    public Generic compute() {
+	private EulerPhi(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         try {
             JsclInteger en= parameters[0].integerValue();
             return en.phi();
@@ -27,6 +35,12 @@ public class EulerPhi extends Operator {
     }
 
     public Variable newInstance() {
-        return new EulerPhi(null);
+        return new EulerPhi((Generic)null);
     }
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new EulerPhi(parameters);
+	}
 }

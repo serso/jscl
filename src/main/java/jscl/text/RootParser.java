@@ -32,7 +32,7 @@ public class RootParser implements Parser<Function> {
             throw e;
         }
         try {
-            a=(Generic[])ParameterList.parser.parse(expression, position, depth, previousSumElement);
+            a=(Generic[]) ParameterListParser.parser.parse(expression, position, depth, previousSumElement);
         } catch (ParseException e) {
             position.setValue(pos0);
             throw e;

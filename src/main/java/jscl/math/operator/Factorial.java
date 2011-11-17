@@ -1,9 +1,11 @@
 package jscl.math.operator;
 
 import jscl.math.*;
+import jscl.math.function.Function;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
+import org.jetbrains.annotations.NotNull;
 
 public class Factorial extends PostfixFunction {
 
@@ -13,10 +15,15 @@ public class Factorial extends PostfixFunction {
         super(NAME,new Generic[] {expression});
     }
 
-    public Generic compute() {
+	private Factorial( Generic[] parameter) {
+		super(NAME, parameter);
+	}
+
+	public Generic compute() {
 		try {
 			return numeric();
-		} catch (NotIntegerException e) {
+			// todo serso: check if really need to catch arithmetic exception
+		} catch (ArithmeticException e) {
 			// ok, expression is not numeric => get expression instead
 		}
 
@@ -63,7 +70,13 @@ public class Factorial extends PostfixFunction {
         }
     }
 
-    void bodyToMathML(MathML element) {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Factorial(parameters);
+	}
+
+	void bodyToMathML(MathML element) {
         MathML e1=element.element("mrow");
         try {
             JsclInteger en= parameters[0].integerValue();
@@ -85,6 +98,6 @@ public class Factorial extends PostfixFunction {
     }
 
     public Variable newInstance() {
-        return new Factorial(null);
+        return new Factorial((Generic)null);
     }
 }

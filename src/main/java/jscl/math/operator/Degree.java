@@ -5,6 +5,7 @@ import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.math.numeric.JsclDouble;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * User: serso
@@ -19,11 +20,16 @@ public class Degree extends PostfixFunction {
 		super(NAME, new Generic[]{expression});
 	}
 
+	private Degree(Generic[] parameter) {
+		super(NAME, parameter);
+	}
+
 	public Generic compute() {
 		try {
 			return numeric();
-			// check if really need to catch arithmetic exception
+			// todo serso: check if really need to catch arithmetic exception
 		} catch (ArithmeticException e) {
+			// ok
 		}
 
 		return expressionValue();
@@ -37,9 +43,15 @@ public class Degree extends PostfixFunction {
 		return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
 	}
 
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Degree(parameters);
+	}
+
 	@Override
 	public Variable newInstance() {
-		return new Degree(null);
+		return new Degree((Generic)null);
 	}
 
 	public Degree(String name, Generic[] parameter) {

@@ -6,13 +6,21 @@ import jscl.math.Matrix;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Determinant extends Operator {
-    public Determinant(Generic matrix) {
-        super("det",new Generic[] {matrix});
+
+	public static final String NAME = "det";
+
+	public Determinant(Generic matrix) {
+        super(NAME,new Generic[] {matrix});
     }
 
-    public Generic compute() {
+	private Determinant(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         if(parameters[0] instanceof Matrix) {
             Matrix matrix=(Matrix) parameters[0];
             return matrix.determinant();
@@ -21,7 +29,7 @@ public class Determinant extends Operator {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");
@@ -33,7 +41,13 @@ public class Determinant extends Operator {
         }
     }
 
-    void bodyToMathML(MathML e0) {
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Determinant(parameters);
+	}
+
+	void bodyToMathML(MathML e0) {
         Generic m=GenericVariable.content(parameters[0]);
         MathML e1=e0.element("mfenced");
         e1.setAttribute("open","|");
@@ -56,6 +70,6 @@ public class Determinant extends Operator {
     }
 
     public Variable newInstance() {
-        return new Determinant(null);
+        return new Determinant((Matrix)null);
     }
 }

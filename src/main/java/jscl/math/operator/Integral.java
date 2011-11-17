@@ -4,10 +4,16 @@ import jscl.math.Generic;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
-public class Integral extends Operator {
-    public Integral(Generic expression, Generic variable, Generic n1, Generic n2) {
-        super("integral",new Generic[] {expression,variable,n1,n2});
+public class Integral extends AbstractIntegral {
+
+	public Integral(Generic expression, Generic variable, Generic n1, Generic n2) {
+        super(new Generic[] {expression,variable,n1,n2});
+    }
+
+	protected Integral(@NotNull Generic[] parameters) {
+        super(parameters);
     }
 
     public Generic compute() {
@@ -20,7 +26,7 @@ public class Integral extends Operator {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");
@@ -34,7 +40,7 @@ public class Integral extends Operator {
         }
     }
 
-    void bodyToMathML(MathML element) {
+	void bodyToMathML(MathML element) {
         Variable v= parameters[1].variableValue();
         MathML e1=element.element("mrow");
         MathML e2=element.element("msubsup");

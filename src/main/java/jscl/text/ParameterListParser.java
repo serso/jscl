@@ -7,13 +7,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParameterList implements Parser<Generic[]> {
+public class ParameterListParser implements Parser<Generic[]> {
 
-	public static final Parser<Generic[]> parser = new ParameterList();
+	public static final Parser<Generic[]> parser = new ParameterListParser();
 
-	private ParameterList() {
+	private ParameterListParser() {
 	}
 
+	@NotNull
 	public Generic[] parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 

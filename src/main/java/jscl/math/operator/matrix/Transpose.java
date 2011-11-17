@@ -5,13 +5,21 @@ import jscl.math.Matrix;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Transpose extends Operator {
-    public Transpose(Generic matrix) {
-        super("tran",new Generic[] {matrix});
+
+	public static final String NAME = "tran";
+
+	public Transpose(Generic matrix) {
+        super(NAME,new Generic[] {matrix});
     }
 
-    public Generic compute() {
+	private Transpose(Generic parameters[]) {
+		super(NAME, parameters);
+	}
+
+	public Generic compute() {
         if(parameters[0] instanceof Matrix) {
             Matrix matrix=(Matrix) parameters[0];
             return matrix.transpose();
@@ -42,6 +50,12 @@ public class Transpose extends Operator {
     }
 
     public Variable newInstance() {
-        return new Transpose(null);
+        return new Transpose((Matrix)null);
     }
+
+	@NotNull
+	@Override
+	public Operator newInstance(@NotNull Generic[] parameters) {
+		return new Transpose(parameters);
+	}
 }
