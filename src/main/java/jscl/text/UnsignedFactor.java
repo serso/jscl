@@ -31,7 +31,7 @@ class UnsignedFactor implements Parser {
 
 		while (true) {
 			try {
-				list.add(PowerExponent.parser.parse(expression, position, depth, null));
+				list.add(PowerExponentParser.parser.parse(expression, position, depth, null));
 			} catch (ParseException e) {
 				break;
 			}

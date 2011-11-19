@@ -1,9 +1,8 @@
 package jscl.math.function.hyperbolic;
 
 import jscl.math.*;
-import jscl.math.JsclInteger;
 import jscl.math.function.Frac;
-import jscl.math.function.Lg;
+import jscl.math.function.Ln;
 import jscl.math.function.Trigonometric;
 
 public class Coth extends Trigonometric {
@@ -12,7 +11,7 @@ public class Coth extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Lg(
+        return new Ln(
             JsclInteger.valueOf(4).multiply(
                 new Sinh(parameters[0]).evaluate()
             )

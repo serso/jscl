@@ -135,7 +135,7 @@ public abstract class Operator extends Variable {
 		return result.toString();
 	}
 
-	private String substituteParameter(int i) {
+	protected final String substituteParameter(int i) {
 		Generic parameter = parameters[i];
 
 		String result;

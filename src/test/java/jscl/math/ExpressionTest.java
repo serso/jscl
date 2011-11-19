@@ -223,6 +223,13 @@ public class ExpressionTest {
 			fail();
 		} catch (ArithmeticException e) {
 		}
+
+		Assert.assertEquals("x^2/2", Expression.valueOf("∫(x, x)").expand().simplify().toString());
+		Assert.assertEquals("ln(x)", Expression.valueOf("∫(1/x, x)").expand().simplify().toString());
+		Assert.assertEquals("2*ln(2)+ln(cosh(x))", Expression.valueOf("∫(tanh(x), x)").expand().simplify().toString());
+		Assert.assertEquals("2*ln(2)+ln(sin(x))", Expression.valueOf("∫(cot(x), x)").expand().simplify().toString());
+		Assert.assertEquals("-2*ln(2)-ln(cos(x))", Expression.valueOf("∫(tan(x), x)").expand().simplify().toString());
+
 	}
 
 	@Test

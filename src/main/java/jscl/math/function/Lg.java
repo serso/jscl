@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.JsclInteger;
 
 public class Lg extends Function {
+
 	public Lg(Generic generic) {
 		super("lg", new Generic[]{generic});
 	}

@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class Exponent implements Parser<Generic> {
+class ExponentParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new Exponent();
+	public static final Parser<Generic> parser = new ExponentParser();
 
-	private Exponent() {
+	private ExponentParser() {
 	}
 
 	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {

@@ -53,9 +53,9 @@ public class Conjugate extends Function {
             } else if(v instanceof Exp) {
                 Generic g[]=((Exp)v).getParameters();
                 return new Exp(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
-            } else if(v instanceof Lg) {
+            } else if(v instanceof Ln) {
                 Generic g[]=((Lg)v).getParameters();
-                return new Lg(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
+                return new Ln(new Conjugate(g[0]).evaluateSimplify()).evaluateSimplify();
             }
         } catch (NotVariableException e) {
             Generic a[]= parameters[0].sumValue();

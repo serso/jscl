@@ -4,10 +4,7 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
-import jscl.math.function.ArcTrigonometric;
-import jscl.math.function.Inv;
-import jscl.math.function.Lg;
-import jscl.math.function.Root;
+import jscl.math.function.*;
 
 public class Atanh extends ArcTrigonometric {
     public Atanh(Generic generic) {
@@ -32,7 +29,7 @@ public class Atanh extends ArcTrigonometric {
     }
 
     public Generic evaluateElementary() {
-        return new Lg(
+        return new Ln(
             new Root(
                 new Generic[] {
                     JsclInteger.valueOf(1).add(parameters[0]),

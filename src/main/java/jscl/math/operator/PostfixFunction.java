@@ -1,8 +1,6 @@
 package jscl.math.operator;
 
-import jscl.math.*;
-import jscl.math.function.Frac;
-import jscl.math.function.Pow;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -18,9 +16,9 @@ abstract class PostfixFunction extends Operator {
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
 
-		try {
-			result.append(parameters[0].integerValue());
-		} catch (NotIntegerException e) {
+		/*try {*/
+			result.append(substituteParameter(0));
+		/*} catch (NotIntegerException e) {
 			try {
 				final Variable v = parameters[0].variableValue();
 				if (v instanceof Frac || v instanceof Pow) {
@@ -31,7 +29,7 @@ abstract class PostfixFunction extends Operator {
 			} catch (NotVariableException e2) {
 				result.append(GenericVariable.valueOf(parameters[0]));
 			}
-		}
+		}*/
 		result.append(getName());
 
 		return result.toString();

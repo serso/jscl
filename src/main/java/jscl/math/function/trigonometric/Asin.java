@@ -4,12 +4,7 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
-import jscl.math.function.ArcTrigonometric;
-import jscl.math.function.Constant;
-import jscl.math.function.Inv;
-import jscl.math.function.Lg;
-import jscl.math.function.Root;
-import jscl.math.function.Sqrt;
+import jscl.math.function.*;
 
 public class Asin extends ArcTrigonometric {
     public Asin(Generic generic) {
@@ -35,7 +30,7 @@ public class Asin extends ArcTrigonometric {
 
     public Generic evaluateElementary() {
         return Constant.i.multiply(
-            new Lg(
+            new Ln(
                 new Root(
                     new Generic[] {
                         JsclInteger.valueOf(-1),

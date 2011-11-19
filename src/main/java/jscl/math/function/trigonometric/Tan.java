@@ -1,10 +1,9 @@
 package jscl.math.function.trigonometric;
 
 import jscl.math.*;
-import jscl.math.JsclInteger;
 import jscl.math.function.Constant;
 import jscl.math.function.Frac;
-import jscl.math.function.Lg;
+import jscl.math.function.Ln;
 import jscl.math.function.Trigonometric;
 
 public class Tan extends Trigonometric {
@@ -13,7 +12,7 @@ public class Tan extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Lg(
+        return new Ln(
             JsclInteger.valueOf(4).multiply(
                 new Cos(parameters[0]).evaluate()
             )
