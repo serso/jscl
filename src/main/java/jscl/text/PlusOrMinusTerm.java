@@ -15,7 +15,7 @@ class PlusOrMinusTerm implements Parser<Generic> {
 	private PlusOrMinusTerm() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.skipWhitespaces(expression, position);
@@ -29,7 +29,7 @@ class PlusOrMinusTerm implements Parser<Generic> {
 			throw new ParseException();
 		}
 
-		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, expression, position, depth, pos0, previousSumElement);
+		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, expression, position, pos0, previousSumElement);
 
 		return sign ? result.negate() : result;
 	}

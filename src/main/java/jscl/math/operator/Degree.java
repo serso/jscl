@@ -5,10 +5,8 @@ import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.math.numeric.JsclDouble;
+import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayDeque;
-import java.util.Arrays;
 
 /**
  * User: serso
@@ -24,7 +22,7 @@ public class Degree extends PostfixFunction {
 	}
 
 	private Degree(Generic[] parameter) {
-		super(NAME, Arrays.copyOf(parameter, 1));
+		super(NAME, ParserUtils.copyOf(parameter, 1));
 	}
 
 	@Override

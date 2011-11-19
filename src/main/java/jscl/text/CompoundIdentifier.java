@@ -11,14 +11,14 @@ public class CompoundIdentifier implements Parser<String> {
 	}
 
 	@NotNull
-	public String parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		StringBuilder result = new StringBuilder();
 
 		ParserUtils.skipWhitespaces(expression, position);
 		try {
-			String s = Identifier.parser.parse(expression, position, depth, previousSumElement);
+			String s = Identifier.parser.parse(expression, position, previousSumElement);
 			result.append(s);
 		} catch (ParseException e) {
 			position.setValue(pos0);
@@ -27,7 +27,7 @@ public class CompoundIdentifier implements Parser<String> {
 
 		while (true) {
 			try {
-				final String dotAndId = DotAndIdentifier.parser.parse(expression, position, depth, previousSumElement);
+				final String dotAndId = DotAndIdentifier.parser.parse(expression, position, previousSumElement);
 				// NOTE: '.' must be appended after parsing
 				result.append(".").append(dotAndId);
 			} catch (ParseException e) {
@@ -46,14 +46,14 @@ class DotAndIdentifier implements Parser<String> {
 	private DotAndIdentifier() {
 	}
 
-	public String parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.tryToParse(expression, position, pos0, '.');
 
 		String result;
 		try {
-			result = Identifier.parser.parse(expression, position, depth, previousSumElement);
+			result = Identifier.parser.parse(expression, position, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

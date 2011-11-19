@@ -15,12 +15,12 @@ class ExponentParser implements Parser<Generic> {
 	private ExponentParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		boolean sign = MinusParser.parser.parse(expression, position, depth, previousSumElement).isSign();
+		boolean sign = MinusParser.parser.parse(expression, position, previousSumElement).isSign();
 
-		final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, expression, position, depth, pos0, previousSumElement);
+		final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, expression, position, pos0, previousSumElement);
 		return sign ? result.negate() : result;
 	}
 }

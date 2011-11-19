@@ -1,13 +1,10 @@
 package jscl.math.operator;
 
 import jscl.math.*;
-import jscl.math.function.Function;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 public class Factorial extends PostfixFunction {
 
@@ -18,7 +15,7 @@ public class Factorial extends PostfixFunction {
     }
 
 	private Factorial( Generic[] parameter) {
-		super(NAME, Arrays.copyOf(parameter, 1));
+		super(NAME, ParserUtils.copyOf(parameter, 1));
 	}
 
 	@Override

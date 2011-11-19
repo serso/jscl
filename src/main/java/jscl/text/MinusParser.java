@@ -16,7 +16,7 @@ class MinusParser implements Parser<MinusParser.Result> {
 	}
 
 	@NotNull
-	public Result parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement){
+	public Result parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement){
 		final boolean result;
 
 		int pos0 = position.intValue();

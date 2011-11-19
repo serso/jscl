@@ -9,7 +9,7 @@ public class PrimeCharacters implements Parser<Integer> {
 	private PrimeCharacters() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Integer parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 
 		int pos0 = position.intValue();
 

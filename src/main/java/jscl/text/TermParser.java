@@ -19,19 +19,19 @@ class TermParser implements Parser<Generic> {
 	private TermParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		Generic result = JsclInteger.valueOf(1);
 
-		Generic s = (Generic) UnsignedFactor.parser.parse(expression, position, depth, previousSumElement);
+		Generic s = (Generic) UnsignedFactor.parser.parse(expression, position, previousSumElement);
 
 		while (true) {
 			try {
-				Generic b = MultiplyOrDivideFactor.multiply.parse(expression, position, depth, null);
+				Generic b = MultiplyOrDivideFactor.multiply.parse(expression, position, null);
 				result = result.multiply(s);
 				s = b;
 			} catch (ParseException e) {
 				try {
-					Generic b = MultiplyOrDivideFactor.divide.parse(expression, position, depth, null);
+					Generic b = MultiplyOrDivideFactor.divide.parse(expression, position, null);
 					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
 						s = new Inv(GenericVariable.content(b, true)).expressionValue();
 					else

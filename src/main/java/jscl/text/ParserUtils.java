@@ -4,6 +4,8 @@ import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Array;
+
 /**
  * User: serso
  * Date: 10/27/11
@@ -55,18 +57,35 @@ public class ParserUtils {
 	static <T> T parseWithRollback(@NotNull Parser<T> parser,
 								   @NotNull String expression,
 								   @NotNull MutableInt position,
-								   int depth,
 								   int initialPosition,
 								   @Nullable final Generic previousSumParser) throws ParseException {
 		T result;
 
 		try {
-			result = parser.parse(expression, position, depth, previousSumParser);
+			result = parser.parse(expression, position, previousSumParser);
 		} catch (ParseException e) {
 			position.setValue(initialPosition);
 			throw e;
 		}
 
 		return result;
+	}
+
+	public static <T> T[] copyOf(@NotNull T[] array, int newLength) {
+		return (T[]) copyOf(array, newLength, array.getClass());
+	}
+
+	public static <T> T[] copyOf(@NotNull T[] array) {
+		return (T[]) copyOf(array, array.length, array.getClass());
+	}
+
+	public static <T, U> T[] copyOf(U[] array, int newLength, Class<? extends T[]> newType) {
+		T[] copy = ((Object) newType == (Object) Object[].class)
+				? (T[]) new Object[newLength]
+				: (T[]) Array.newInstance(newType.getComponentType(), newLength);
+
+		System.arraycopy(array, 0, copy, 0, Math.min(array.length, newLength));
+
+		return copy;
 	}
 }

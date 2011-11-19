@@ -22,7 +22,7 @@ public class VariableParser implements Parser<Variable> {
 	private VariableParser() {
 	}
 
-	public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-		return internalParser.parse(expression, position, depth, previousSumElement);
+	public Variable parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+		return internalParser.parse(expression, position, previousSumElement);
 	}
 }

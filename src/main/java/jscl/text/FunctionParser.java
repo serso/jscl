@@ -20,8 +20,8 @@ public class FunctionParser implements Parser<Function> {
 	private FunctionParser() {
 	}
 
-	public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-		return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(expression, position, depth, previousSumElement);
+	public Function parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+		return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(expression, position, previousSumElement);
 	}
 }
 

@@ -14,7 +14,7 @@ public class MatrixParser implements Parser {
 
     private MatrixParser() {}
 
-    public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+    public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
         int pos0= position.intValue();
         List l=new ArrayList();
         ParserUtils.skipWhitespaces(expression, position);
@@ -26,7 +26,7 @@ public class MatrixParser implements Parser {
             throw new ParseException();
         }
         try {
-            JsclVector v=(JsclVector)VectorParser.parser.parse(expression, position, depth, previousSumElement);
+            JsclVector v=(JsclVector)VectorParser.parser.parse(expression, position, previousSumElement);
             l.add(v);
         } catch (ParseException e) {
             position.setValue(pos0);
@@ -34,7 +34,7 @@ public class MatrixParser implements Parser {
         }
         while(true) {
             try {
-                JsclVector v=(JsclVector)CommaAndVector.parser.parse(expression, position, depth, previousSumElement);
+                JsclVector v=(JsclVector)CommaAndVector.parser.parse(expression, position, previousSumElement);
                 l.add(v);
             } catch (ParseException e) {
                 break;

@@ -15,7 +15,7 @@ public class ParameterListParser implements Parser<Generic[]> {
 	}
 
 	@NotNull
-	public Generic[] parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic[] parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final List<Generic> result = new ArrayList<Generic>();
@@ -23,7 +23,7 @@ public class ParameterListParser implements Parser<Generic[]> {
 		ParserUtils.tryToParse(expression, position, pos0, '(');
 
 		try {
-			result.add(ExpressionParser.parser.parse(expression, position, depth, previousSumElement));
+			result.add(ExpressionParser.parser.parse(expression, position, previousSumElement));
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
@@ -31,7 +31,7 @@ public class ParameterListParser implements Parser<Generic[]> {
 
 		while (true) {
 			try {
-				result.add(CommaAndExpression.parser.parse(expression, position, depth, previousSumElement));
+				result.add(CommaAndExpression.parser.parse(expression, position, previousSumElement));
 			} catch (ParseException e) {
 				break;
 			}

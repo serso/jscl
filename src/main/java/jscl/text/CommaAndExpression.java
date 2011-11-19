@@ -10,25 +10,13 @@ public class CommaAndExpression implements Parser<Generic> {
 	private CommaAndExpression() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.skipWhitespaces(expression, position);
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == ',') {
-			position.increment();
-		} else {
-			position.setValue(pos0);
-			throw new ParseException();
-		}
 
-		Generic result;
-		try {
-			result = ExpressionParser.parser.parse(expression, position, depth, previousSumElement);
-		} catch (ParseException e) {
-			position.setValue(pos0);
-			throw e;
-		}
+		ParserUtils.tryToParse(expression, position, pos0, ',');
 
-		return result;
+		return ParserUtils.parseWithRollback(ExpressionParser.parser, expression, position, pos0, previousSumElement);
 	}
 }

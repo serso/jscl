@@ -20,7 +20,7 @@ class MultiplyOrDivideFactor implements Parser<Generic> {
 		this.multiplication = multiplication;
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		ParserUtils.skipWhitespaces(expression, position);
@@ -31,6 +31,6 @@ class MultiplyOrDivideFactor implements Parser<Generic> {
 			throw new ParseException();
 		}
 
-		return ParserUtils.parseWithRollback(Factor.parser, expression, position, depth, pos0, previousSumElement);
+		return ParserUtils.parseWithRollback(Factor.parser, expression, position, pos0, previousSumElement);
 	}
 }

@@ -14,16 +14,16 @@ public class OperatorParser implements Parser<Operator> {
 	}
 
 	@NotNull
-	public Operator parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Operator parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		final String operatorName = Identifier.parser.parse(expression, position, depth, previousSumElement);
+		final String operatorName = Identifier.parser.parse(expression, position, previousSumElement);
 		if (!valid(operatorName)) {
 			position.setValue(pos0);
 			throw new ParseException("There is no such operator name!", position, expression);
 		}
 
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, depth, pos0, previousSumElement);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
 
 		final Operator result = OperatorsRegistry.getInstance().get(operatorName, parameters);
 		if ( result == null ) {

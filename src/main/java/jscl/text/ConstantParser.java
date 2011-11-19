@@ -16,14 +16,14 @@ public class ConstantParser implements Parser<Constant> {
 	private ConstantParser() {
 	}
 
-	public Constant parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Constant parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 
-		final String name = CompoundIdentifier.parser.parse(expression, position, depth, previousSumElement);
+		final String name = CompoundIdentifier.parser.parse(expression, position, previousSumElement);
 
 		List<Generic> l = new ArrayList<Generic>();
 		while (true) {
 			try {
-				l.add(Subscript.parser.parse(expression, position, depth, previousSumElement));
+				l.add(Subscript.parser.parse(expression, position, previousSumElement));
 			} catch (ParseException e) {
 				break;
 			}
@@ -31,7 +31,7 @@ public class ConstantParser implements Parser<Constant> {
 
 		Integer prime = 0;
 		try {
-			prime = Prime.parser.parse(expression, position, depth, previousSumElement);
+			prime = Prime.parser.parse(expression, position, previousSumElement);
 		} catch (ParseException e) {
 		}
 
@@ -53,8 +53,8 @@ class Prime implements Parser<Integer> {
 	}
 
 	public Integer parse(@NotNull String expression,
-						 @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-		return internalParser.parse(expression, position, depth, previousSumElement);
+						 @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+		return internalParser.parse(expression, position, previousSumElement);
 	}
 }
 
@@ -64,7 +64,7 @@ class Superscript implements Parser<Integer> {
 	private Superscript() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Integer parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 
@@ -72,7 +72,7 @@ class Superscript implements Parser<Integer> {
 
 		int result;
 		try {
-			result = IntegerParser.parser.parse(expression, position, depth, previousSumElement);
+			result = IntegerParser.parser.parse(expression, position, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

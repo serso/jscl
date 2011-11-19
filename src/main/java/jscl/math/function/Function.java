@@ -5,12 +5,11 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import jscl.text.ParserUtils;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
-
-import java.util.Arrays;
 
 public abstract class Function extends Variable {
 
@@ -46,7 +45,7 @@ public abstract class Function extends Variable {
 		super.copy(that);
 		if (that instanceof Function) {
 			if (((Function) that).parameters != null) {
-				this.parameters = Arrays.copyOf(((Function) that).parameters, ((Function) that).parameters.length);
+				this.parameters = ParserUtils.copyOf(((Function) that).parameters);
 			} else {
 				this.parameters = null;
 			}

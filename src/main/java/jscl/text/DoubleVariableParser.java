@@ -13,7 +13,7 @@ public class DoubleVariableParser implements Parser<Variable> {
 	}
 
 	@NotNull
-	public Variable parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-		return new DoubleVariable(DoubleParser.parser.parse(expression, position, depth, previousSumElement));
+	public Variable parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+		return new DoubleVariable(DoubleParser.parser.parse(expression, position, previousSumElement));
 	}
 }

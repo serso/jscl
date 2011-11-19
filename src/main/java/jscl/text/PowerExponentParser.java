@@ -15,11 +15,11 @@ class PowerExponentParser implements Parser<Generic> {
 	private PowerExponentParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		try {
-			PowerParser.parser.parse(expression, position, depth, previousSumElement);
+			PowerParser.parser.parse(expression, position, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
@@ -27,7 +27,7 @@ class PowerExponentParser implements Parser<Generic> {
 
 		Generic result;
 		try {
-			result = ExponentParser.parser.parse(expression, position, depth, previousSumElement);
+			result = ExponentParser.parser.parse(expression, position, previousSumElement);
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

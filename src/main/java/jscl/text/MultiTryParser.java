@@ -21,12 +21,12 @@ public class MultiTryParser<T> implements Parser<T> {
 	}
 
 	@Override
-	public T parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public T parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		T result = null;
 
 		for (final Iterator<Parser<? extends T>> it = parsers.iterator(); it.hasNext(); ) {
 			try {
-				result = it.next().parse(expression, position, depth, previousSumElement);
+				result = it.next().parse(expression, position, previousSumElement);
 			} catch (ParseException e) {
 				if (!it.hasNext()) {
 					throw e;

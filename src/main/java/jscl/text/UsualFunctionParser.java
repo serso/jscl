@@ -21,17 +21,17 @@ class UsualFunctionParser implements Parser<Function> {
 	private UsualFunctionParser() {
 	}
 
-	public Function parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Function parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		final String name = Identifier.parser.parse(expression, position, depth, previousSumElement);
+		final String name = Identifier.parser.parse(expression, position, previousSumElement);
 
 		if (!valid(name)) {
 			position.setValue(pos0);
 			throw new ParseException();
 		}
 
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, depth, pos0, previousSumElement);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
 
 		final Function result = functionsRegistry.get(name);
 		if (result != null && result.getMinimumNumberOfParameters() <= parameters.length && result.getMaximumNumberOfParameters() >= parameters.length ) {

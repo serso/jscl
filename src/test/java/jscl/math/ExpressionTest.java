@@ -7,7 +7,6 @@ import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 /**
@@ -144,32 +143,6 @@ public class ExpressionTest {
 		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
 		Assert.assertEquals("t^3", Expression.valueOf("t*t*t").simplify().toString());
 
-		try {
-			Expression.valueOf("((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))").numeric().toString();
-			fail();
-		} catch (ParseException e) {
-			// ok
-		}
-
-		try {
-			assertEquals("0.0", Expression.valueOf("((((((((((((0))))))))))))").numeric().toString());
-		} catch (ParseException e) {
-			fail();
-		}
-
-		try {
-			assertEquals("0.0", Expression.valueOf("(((((((((((((((0)))))))))))))))").numeric().toString());
-		} catch (ParseException e) {
-			fail();
-		}
-
-		try {
-			Expression.valueOf("((((((((((((((((0))))))))))))))))").numeric().toString();
-			fail();
-		} catch (ParseException e) {
-			// ok
-		}
-
 		Assert.assertEquals("-2/57", Expression.valueOf("1/(-57/2)").simplify().toString());
 		Assert.assertEquals("sin(30)", Expression.valueOf("sin(30)").expand().toString());
 		Assert.assertEquals("sin(n)", Expression.valueOf("sin(n)").expand().toString());
@@ -196,6 +169,8 @@ public class ExpressionTest {
 			fail();
 		} catch (ParseException e) {
 		}
+
+		org.junit.Assert.assertEquals("0.49999999999999994", Expression.valueOf("sin(30°)").numeric().toString());
 	}
 
 	@Test
@@ -229,8 +204,7 @@ public class ExpressionTest {
 		Assert.assertEquals("2*ln(2)+ln(cosh(x))", Expression.valueOf("∫(tanh(x), x)").expand().simplify().toString());
 		Assert.assertEquals("2*ln(2)+ln(sin(x))", Expression.valueOf("∫(cot(x), x)").expand().simplify().toString());
 		Assert.assertEquals("-2*ln(2)-ln(cos(x))", Expression.valueOf("∫(tan(x), x)").expand().simplify().toString());
-
-	}
+			}
 
 	@Test
 	public void testDerivations() throws Exception {
@@ -240,6 +214,12 @@ public class ExpressionTest {
 		Assert.assertEquals("-4.469483380397012", Expression.valueOf("2*∂(t*cos(t),t,2)").numeric().toString());
 		Assert.assertEquals("-sin(2)", Expression.valueOf("∂(cos(t),t,2)").expand().toString());
 		Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t)").expand().toString());
+		org.junit.Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t,t,1)").expand().simplify().toString());
+		org.junit.Assert.assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().simplify().toString());
+
+		// todo serso: uncomment and check!!!
+		//org.junit.Assert.assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().numeric().toString());
+
 		//Assert.assertEquals("cos'(t)", Expression.valueOf("cos'(t)").simplify().toString());
 		//Assert.assertEquals("-0.9092974268256817", Expression.valueOf("cos'(2)").numeric().toString());
 		//Assert.assertEquals(Expression.valueOf("-cos(2)").numeric().toString(), Expression.valueOf("cos''(2)").numeric().toString());

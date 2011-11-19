@@ -10,15 +10,11 @@ public class ExpressionParser implements Parser<Generic> {
 	private ExpressionParser() {
 	}
 
-	@NotNull
-	private static final Integer MAX_DEPTH = 15;
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
-		depth = checkDepth(position, depth);
+		boolean sign = MinusParser.parser.parse(expression, position, previousSumElement).isSign();
 
-		boolean sign = MinusParser.parser.parse(expression, position, depth, previousSumElement).isSign();
-
-		Generic result = TermParser.parser.parse(expression, position, depth, previousSumElement);
+		Generic result = TermParser.parser.parse(expression, position, previousSumElement);
 
 		if (sign) {
 			result = result.negate();
@@ -26,21 +22,13 @@ public class ExpressionParser implements Parser<Generic> {
 
 		while (true) {
 			try {
-				result = result.add(PlusOrMinusTerm.parser.parse(expression, position, depth, result));
+				result = result.add(PlusOrMinusTerm.parser.parse(expression, position, result));
 			} catch (ParseException e) {
 				break;
 			}
 		}
 
 		return result;
-	}
-
-	private int checkDepth(@NotNull MutableInt position, int depth) throws ParseException {
-		if (depth > MAX_DEPTH) {
-			throw new ParseException(position, "Parsed expression is too compex for analyse!");
-		}
-
-		return depth + 1;
 	}
 }
 

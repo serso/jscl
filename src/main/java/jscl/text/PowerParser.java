@@ -15,7 +15,7 @@ class PowerParser implements Parser {
 	private PowerParser() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 		ParserUtils.skipWhitespaces(expression, position);
 

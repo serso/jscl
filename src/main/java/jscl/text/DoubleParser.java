@@ -21,9 +21,9 @@ public class DoubleParser implements Parser<NumericWrapper> {
 	}
 
 	@NotNull
-	public NumericWrapper parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public NumericWrapper parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
-		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(expression, position, depth, previousSumElement)));
+		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(expression, position, previousSumElement)));
 	}
 }
 
@@ -35,12 +35,12 @@ class Singularity implements Parser<Double> {
 	}
 
 	@NotNull
-	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Double parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final double result;
 
-		String s = Identifier.parser.parse(expression, position, depth, previousSumElement);
+		String s = Identifier.parser.parse(expression, position, previousSumElement);
 		if (s.equals("NaN")) {
 			result = Double.NaN;
 		} else if (s.equals("Infinity") || s.equals("∞")) {
@@ -61,7 +61,7 @@ class FloatingPointLiteral implements Parser<Double> {
 	private FloatingPointLiteral() {
 	}
 
-	public Double parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Double parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
@@ -70,13 +70,13 @@ class FloatingPointLiteral implements Parser<Double> {
 		boolean point = false;
 
 		try {
-			result.append(Digits.parser.parse(expression, position, depth, previousSumElement));
+			result.append(Digits.parser.parse(expression, position, previousSumElement));
 			digits = true;
 		} catch (ParseException e) {
 		}
 
 		try {
-			DecimalPoint.parser.parse(expression, position, depth, previousSumElement);
+			DecimalPoint.parser.parse(expression, position, previousSumElement);
 			result.append(".");
 			point = true;
 		} catch (ParseException e) {
@@ -86,7 +86,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			result.append(Digits.parser.parse(expression, position, depth, previousSumElement));
+			result.append(Digits.parser.parse(expression, position, previousSumElement));
 		} catch (ParseException e) {
 			if (!digits) {
 				position.setValue(pos0);
@@ -94,7 +94,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			String s = (String) ExponentPart.parser.parse(expression, position, depth, previousSumElement);
+			String s = (String) ExponentPart.parser.parse(expression, position, previousSumElement);
 			result.append(s);
 		} catch (ParseException e) {
 			if (!point) {
@@ -113,7 +113,7 @@ class DecimalPoint implements Parser {
 	private DecimalPoint() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 		ParserUtils.skipWhitespaces(expression, position);
 		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '.') {
@@ -133,7 +133,7 @@ class ExponentPart implements Parser {
 	private ExponentPart() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 		StringBuilder buffer = new StringBuilder();
 		ParserUtils.skipWhitespaces(expression, position);
@@ -146,7 +146,7 @@ class ExponentPart implements Parser {
 			throw new ParseException();
 		}
 		try {
-			String s = (String) SignedInteger.parser.parse(expression, position, depth, previousSumElement);
+			String s = (String) SignedInteger.parser.parse(expression, position, previousSumElement);
 			buffer.append(s);
 		} catch (ParseException e) {
 			position.setValue(pos0);
@@ -163,7 +163,7 @@ class SignedInteger implements Parser {
 	private SignedInteger() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();
@@ -177,7 +177,7 @@ class SignedInteger implements Parser {
 		}
 
 		try {
-			result.append(IntegerParser.parser.parse(expression, position, depth, previousSumElement).intValue());
+			result.append(IntegerParser.parser.parse(expression, position, previousSumElement).intValue());
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;

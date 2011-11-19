@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.math.GenericVariable;
 import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 		this.content = content;
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, int depth, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 
 		final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
 
@@ -33,19 +32,18 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 			parsers.add(new PostfixFunctionParser(postfixFunctionName));
 		}
 
-		return parsePostfix(parsers, expression, position, content, depth, previousSumElement);
+		return parsePostfix(parsers, expression, position, content, previousSumElement);
 	}
 
 	private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,
 										@NotNull String expression,
 										@NotNull MutableInt position,
 										Generic content,
-										int depth,
 										@Nullable final Generic previousSumElement) throws ParseException {
 		Generic result = content;
 
 		for (PostfixFunctionParser parser : parsers) {
-			final PostfixFunctionParser.Result postfixResult = parser.parse(expression, position, depth, previousSumElement);
+			final PostfixFunctionParser.Result postfixResult = parser.parse(expression, position, previousSumElement);
 			if (postfixResult.isPostfixFunction()) {
 				final Operator postfixFunction;
 
@@ -59,7 +57,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 					throw new ParseException("Postfix function name doesn't not exist!", position, expression);
 				}
 
-				result = parsePostfix(parsers, expression, position, postfixFunction.expressionValue(), depth, previousSumElement);
+				result = parsePostfix(parsers, expression, position, postfixFunction.expressionValue(), previousSumElement);
 			}
 		}
 
