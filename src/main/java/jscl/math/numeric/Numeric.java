@@ -149,7 +149,7 @@ public abstract class Numeric implements Arithmetic, Comparable {
 		return JsclDouble.valueOf(1).add(exp().pow(2)).divide(JsclDouble.valueOf(1).subtract(exp().pow(2))).negate();
 	}
 
-	public abstract Numeric valueof(Numeric numeric);
+	public abstract Numeric valueOf(Numeric numeric);
 
 	public abstract int compareTo(Numeric numeric);
 

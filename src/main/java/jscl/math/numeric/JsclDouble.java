@@ -15,7 +15,7 @@ public final class JsclDouble extends Numeric {
 		if (numeric instanceof JsclDouble) {
 			return add((JsclDouble) numeric);
 		} else {
-			return numeric.valueof(this).add(numeric);
+			return numeric.valueOf(this).add(numeric);
 		}
 	}
 
@@ -27,7 +27,7 @@ public final class JsclDouble extends Numeric {
 		if (numeric instanceof JsclDouble) {
 			return subtract((JsclDouble) numeric);
 		} else {
-			return numeric.valueof(this).subtract(numeric);
+			return numeric.valueOf(this).subtract(numeric);
 		}
 	}
 
@@ -51,7 +51,7 @@ public final class JsclDouble extends Numeric {
 		if (numeric instanceof JsclDouble) {
 			return divide((JsclDouble) numeric);
 		} else {
-			return numeric.valueof(this).divide(numeric);
+			return numeric.valueOf(this).divide(numeric);
 		}
 	}
 
@@ -95,7 +95,7 @@ public final class JsclDouble extends Numeric {
 		if (numeric instanceof JsclDouble) {
 			return pow((JsclDouble) numeric);
 		} else {
-			return numeric.valueof(this).pow(numeric);
+			return numeric.valueOf(this).pow(numeric);
 		}
 	}
 
@@ -143,13 +143,13 @@ public final class JsclDouble extends Numeric {
 		return new JsclDouble(Math.tan(content));
 	}
 
-	public JsclDouble valueof(JsclDouble dble) {
-		return new JsclDouble(dble.content);
+	public JsclDouble valueOf(JsclDouble value) {
+		return new JsclDouble(value.content);
 	}
 
-	public Numeric valueof(Numeric numeric) {
+	public Numeric valueOf(Numeric numeric) {
 		if (numeric instanceof JsclDouble) {
-			return valueof((JsclDouble) numeric);
+			return valueOf((JsclDouble) numeric);
 		} else throw new ArithmeticException();
 	}
 
@@ -168,7 +168,7 @@ public final class JsclDouble extends Numeric {
 		if (numeric instanceof JsclDouble) {
 			return compareTo((JsclDouble) numeric);
 		} else {
-			return numeric.valueof(this).compareTo(numeric);
+			return numeric.valueOf(this).compareTo(numeric);
 		}
 	}
 

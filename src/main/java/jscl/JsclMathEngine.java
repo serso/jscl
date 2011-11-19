@@ -16,6 +16,9 @@ import org.solovyev.common.math.MathRegistry;
  */
 public class JsclMathEngine implements MathEngine {
 
+	@NotNull
+	private AngleUnits defaultAngleUnits;
+
 	@Override
 	public String evaluate(@NotNull String expression) throws ParseException {
 		if (expression.contains(Percent.NAME)) {
@@ -55,6 +58,16 @@ public class JsclMathEngine implements MathEngine {
 	@Override
 	public MathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return PostfixFunctionsRegistry.getInstance();
+	}
+
+	@NotNull
+	@Override
+	public AngleUnits getDefaultAngleUnits() {
+		return defaultAngleUnits;
+	}
+
+	public void setDefaultAngleUnits(@NotNull AngleUnits defaultAngleUnits) {
+		this.defaultAngleUnits = defaultAngleUnits;
 	}
 
 	@NotNull

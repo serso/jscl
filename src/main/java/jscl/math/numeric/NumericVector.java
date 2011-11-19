@@ -25,7 +25,7 @@ public class NumericVector extends Numeric {
         if(numeric instanceof NumericVector) {
             return add((NumericVector)numeric);
         } else {
-            return add(valueof(numeric));
+            return add(valueOf(numeric));
         }
     }
 
@@ -39,7 +39,7 @@ public class NumericVector extends Numeric {
         if(numeric instanceof NumericVector) {
             return subtract((NumericVector)numeric);
         } else {
-            return subtract(valueof(numeric));
+            return subtract(valueOf(numeric));
         }
     }
 
@@ -87,7 +87,7 @@ public class NumericVector extends Numeric {
 		return 0;
 	}
 
-	public Numeric valueof(Numeric numeric) {
+	public Numeric valueOf(Numeric numeric) {
         if(numeric instanceof NumericVector ||  numeric instanceof NumericMatrix) {
             throw new ArithmeticException();
         } else {
@@ -135,7 +135,7 @@ public class NumericVector extends Numeric {
         if(numeric instanceof NumericVector) {
             return compareTo((NumericVector)numeric);
         } else {
-            return compareTo(valueof(numeric));
+            return compareTo(valueOf(numeric));
         }
     }
 

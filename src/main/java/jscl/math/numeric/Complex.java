@@ -16,9 +16,9 @@ public final class Complex extends Numeric {
 		if (numeric instanceof Complex) {
 			return add((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
-			return add(valueof(numeric));
+			return add(valueOf(numeric));
 		} else {
-			return numeric.valueof(this).add(numeric);
+			return numeric.valueOf(this).add(numeric);
 		}
 	}
 
@@ -30,9 +30,9 @@ public final class Complex extends Numeric {
 		if (numeric instanceof Complex) {
 			return subtract((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
-			return subtract(valueof(numeric));
+			return subtract(valueOf(numeric));
 		} else {
-			return numeric.valueof(this).subtract(numeric);
+			return numeric.valueOf(this).subtract(numeric);
 		}
 	}
 
@@ -44,7 +44,7 @@ public final class Complex extends Numeric {
 		if (numeric instanceof Complex) {
 			return multiply((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
-			return multiply(valueof(numeric));
+			return multiply(valueOf(numeric));
 		} else {
 			return numeric.multiply(this);
 		}
@@ -58,9 +58,9 @@ public final class Complex extends Numeric {
 		if (numeric instanceof Complex) {
 			return divide((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
-			return divide(valueof(numeric));
+			return divide(valueOf(numeric));
 		} else {
-			return numeric.valueof(this).divide(numeric);
+			return numeric.valueOf(this).divide(numeric);
 		}
 	}
 
@@ -94,7 +94,7 @@ public final class Complex extends Numeric {
 		return new Complex(complex.real, complex.imag);
 	}
 
-	public Numeric valueof(Numeric numeric) {
+	public Numeric valueOf(Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return valueof((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
@@ -174,9 +174,9 @@ public final class Complex extends Numeric {
 		if (numeric instanceof Complex) {
 			return compareTo((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
-			return compareTo(valueof(numeric));
+			return compareTo(valueOf(numeric));
 		} else {
-			return numeric.valueof(this).compareTo(numeric);
+			return numeric.valueOf(this).compareTo(numeric);
 		}
 	}
 
