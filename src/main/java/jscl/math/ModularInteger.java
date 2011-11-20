@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 
@@ -26,7 +27,8 @@ public class ModularInteger extends Generic implements Field {
         return newinstance((long)content+integer.content);
     }
 
-    public Generic add(Generic generic) {
+    @NotNull
+	public Generic add(@NotNull Generic generic) {
         return add((ModularInteger)generic);
     }
 
@@ -34,7 +36,8 @@ public class ModularInteger extends Generic implements Field {
         return newinstance((long)content+(modulo-integer.content));
     }
 
-    public Generic subtract(Generic generic) {
+    @NotNull
+	public Generic subtract(@NotNull Generic generic) {
         return subtract((ModularInteger)generic);
     }
 
@@ -42,11 +45,13 @@ public class ModularInteger extends Generic implements Field {
         return newinstance((long)content*integer.content);
     }
 
-    public Generic multiply(Generic generic) {
+    @NotNull
+	public Generic multiply(@NotNull Generic generic) {
         return multiply((ModularInteger)generic);
     }
 
-    public Generic divide(Generic generic) throws ArithmeticException {
+    @NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
         return multiply(generic.inverse());
     }
 

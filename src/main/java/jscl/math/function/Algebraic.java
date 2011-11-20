@@ -5,8 +5,9 @@ import jscl.math.NotIntegrableException;
 import jscl.mathml.MathML;
 
 public abstract class Algebraic extends Function {
-	public Algebraic(String name, Generic parameter[]) {
-		super(name, parameter);
+
+	public Algebraic(String name, Generic parameters[]) {
+		super(name, parameters);
 	}
 
 	public abstract Root rootValue() throws NotRootException;

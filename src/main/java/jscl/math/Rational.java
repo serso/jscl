@@ -3,12 +3,15 @@ package jscl.math;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 
 public final class Rational extends Generic implements Field {
+
     public static final Rational factory=new Rational(BigInteger.valueOf(0),BigInteger.valueOf(1));
-    final BigInteger numerator;
+
+	final BigInteger numerator;
     final BigInteger denominator;
 
     public Rational(BigInteger numerator, BigInteger denominator) {
@@ -37,7 +40,8 @@ public final class Rational extends Generic implements Field {
         return gcd.signum()==0?this:new Rational(numerator.divide(gcd),denominator.divide(gcd));
     }
 
-    public Generic add(Generic generic) {
+    @NotNull
+	public Generic add(@NotNull Generic generic) {
         if(generic instanceof Rational) {
             return add((Rational)generic);
         } else if(generic instanceof JsclInteger) {
@@ -53,7 +57,8 @@ public final class Rational extends Generic implements Field {
         return new Rational(numerator.divide(gcd).multiply(rational.numerator.divide(gcd2)),denominator.divide(gcd2).multiply(rational.denominator.divide(gcd)));
     }
 
-    public Generic multiply(Generic generic) {
+    @NotNull
+	public Generic multiply(@NotNull Generic generic) {
         if(generic instanceof Rational) {
             return multiply((Rational)generic);
         } else if(generic instanceof JsclInteger) {
@@ -63,7 +68,8 @@ public final class Rational extends Generic implements Field {
         }
     }
 
-    public Generic divide(Generic generic) throws ArithmeticException {
+    @NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
         if(generic instanceof Rational) {
             return multiply(generic.inverse());
         } else if(generic instanceof JsclInteger) {

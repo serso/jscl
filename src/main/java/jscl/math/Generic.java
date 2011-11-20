@@ -2,39 +2,35 @@ package jscl.math;
 
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class Generic implements Arithmetic, Comparable {
+public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
-    public abstract Generic add(Generic generic);
-
-    public Generic subtract(Generic generic) {
+    @NotNull
+	public Generic subtract(@NotNull Generic generic) {
         return add(generic.negate());
     }
 
-    public abstract Generic multiply(Generic generic);
+    public boolean multiple(Generic generic) throws ArithmeticException {
+		return remainder(generic).signum() == 0;
+	}
 
-    /*public boolean multiple(Generic generic) throws ArithmeticException {
-        return remainder(generic).signum()==0;
-    }*/
-
-    public abstract Generic divide(Generic generic) throws ArithmeticException;
-
-    public Arithmetic add(Arithmetic arithmetic) {
+/*    public Arithmetic add(@NotNull Arithmetic arithmetic) {
         return add((Generic)arithmetic);
     }
 
-    public Arithmetic subtract(Arithmetic arithmetic) {
+    public Arithmetic subtract(@NotNull Arithmetic arithmetic) {
         return subtract((Generic)arithmetic);
     }
 
-    public Arithmetic multiply(Arithmetic arithmetic) {
+    public Arithmetic multiply(@NotNull Arithmetic arithmetic) {
         return multiply((Generic)arithmetic);
     }
 
-    public Generic divide(Arithmetic arithmetic) throws ArithmeticException {
+    public Generic divide(@NotNull Arithmetic arithmetic) throws ArithmeticException {
         return divide((Generic)arithmetic);
-    }
+    }*/
 
     public Generic[] divideAndRemainder(Generic generic) throws ArithmeticException {
         try {

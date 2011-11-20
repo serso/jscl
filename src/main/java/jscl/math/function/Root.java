@@ -10,13 +10,13 @@ import jscl.util.ArrayComparator;
 public class Root extends Algebraic {
     protected Generic subscript;
 
-    public Root(Generic parameter[], Generic subscript) {
-        super("root",parameter);
+    public Root(Generic parameters[], Generic subscript) {
+        super("root",parameters);
         this.subscript=subscript;
     }
 
-    public Root(Generic parameter[], int s) {
-        this(parameter, JsclInteger.valueOf(s));
+    public Root(Generic parameters[], int s) {
+        this(parameters, JsclInteger.valueOf(s));
     }
 
     public Root(UnivariatePolynomial polynomial, int s) {

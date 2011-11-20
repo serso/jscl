@@ -1,6 +1,7 @@
 package jscl.math.numeric;
 
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.NotNull;
 
 public class NumericMatrix extends Numeric {
     protected final Numeric element[][];
@@ -17,7 +18,7 @@ public class NumericMatrix extends Numeric {
     }
 
     public NumericMatrix add(NumericMatrix matrix) {
-        NumericMatrix m=(NumericMatrix)newinstance();
+        NumericMatrix m= newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 m.element[i][j]=element[i][j].add(matrix.element[i][j]);
@@ -26,7 +27,8 @@ public class NumericMatrix extends Numeric {
         return m;
     }
 
-    public Numeric add(Numeric numeric) {
+    @NotNull
+	public Numeric add(@NotNull Numeric numeric) {
         if(numeric instanceof NumericMatrix) {
             return add((NumericMatrix)numeric);
         } else {
@@ -35,7 +37,7 @@ public class NumericMatrix extends Numeric {
     }
 
     public NumericMatrix subtract(NumericMatrix matrix) {
-        NumericMatrix m=(NumericMatrix)newinstance();
+        NumericMatrix m= newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 m.element[i][j]=element[i][j].subtract(matrix.element[i][j]);
@@ -44,7 +46,8 @@ public class NumericMatrix extends Numeric {
         return m;
     }
 
-    public Numeric subtract(Numeric numeric) {
+    @NotNull
+	public Numeric subtract(@NotNull Numeric numeric) {
         if(numeric instanceof NumericMatrix) {
             return subtract((NumericMatrix)numeric);
         } else {
@@ -54,10 +57,10 @@ public class NumericMatrix extends Numeric {
 
     public NumericMatrix multiply(NumericMatrix matrix) {
         if(p!=matrix.n) throw new ArithmeticException();
-        NumericMatrix m=(NumericMatrix)newinstance(new Numeric[n][matrix.p]);
+        NumericMatrix m= newinstance(new Numeric[n][matrix.p]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<matrix.p;j++) {
-                m.element[i][j]= JsclDouble.valueOf(0);
+                m.element[i][j]= JsclDouble.ZERO;
                 for(int k=0;k<p;k++) {
                     m.element[i][j]=m.element[i][j].add(element[i][k].multiply(matrix.element[k][j]));
                 }
@@ -66,49 +69,54 @@ public class NumericMatrix extends Numeric {
         return m;
     }
 
-    public Numeric multiply(Numeric numeric) {
+    @NotNull
+	public Numeric multiply(@NotNull Numeric numeric) {
         if(numeric instanceof NumericMatrix) {
             return multiply((NumericMatrix)numeric);
         } else if(numeric instanceof NumericVector) {
-            NumericVector v=(NumericVector)((NumericVector)numeric).newinstance(new Numeric[n]);
+            NumericVector v= ((NumericVector)numeric).newinstance(new Numeric[n]);
             NumericVector v2=(NumericVector)numeric;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {
-                v.element[i]= JsclDouble.valueOf(0);
+                v.element[i]= JsclDouble.ZERO;
                 for(int k=0;k<p;k++) {
                     v.element[i]=v.element[i].add(element[i][k].multiply(v2.element[k]));
                 }
             }
             return v;
         } else {
-            NumericMatrix m=(NumericMatrix)newinstance();
+            NumericMatrix m= newinstance();
             for(int i=0;i<n;i++) {
                 for(int j=0;j<p;j++) {
-                    m.element[i][j]=element[i][j].multiply((Numeric)numeric);
+                    m.element[i][j]=element[i][j].multiply(numeric);
                 }
             }
             return m;
         }
     }
 
-    public Numeric divide(Numeric numeric) throws ArithmeticException {
-        if(numeric instanceof NumericMatrix) {
-            return multiply(((NumericMatrix)numeric).inverse());
-        } else if(numeric instanceof NumericVector) {
-            throw new ArithmeticException();
-        } else {
-            NumericMatrix m=(NumericMatrix)newinstance();
-            for(int i=0;i<n;i++) {
-                for(int j=0;j<p;j++) {
-                    m.element[i][j]=element[i][j].divide((Numeric)numeric);
-                }
-            }
-            return m;
-        }
-    }
+    @NotNull
+	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
 
-    public Numeric negate() {
-        NumericMatrix m=(NumericMatrix)newinstance();
+		if (numeric instanceof NumericMatrix) {
+			return multiply(numeric.inverse());
+		} else if (numeric instanceof NumericVector) {
+			throw new ArithmeticException();
+		} else {
+			NumericMatrix m = newinstance();
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < p; j++) {
+					m.element[i][j] = element[i][j].divide(numeric);
+				}
+			}
+			return m;
+		}
+
+	}
+
+    @NotNull
+	public Numeric negate() {
+        NumericMatrix m= newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 m.element[i][j]=element[i][j].negate();
@@ -153,7 +161,7 @@ public class NumericMatrix extends Numeric {
     }
 
     public Numeric transpose() {
-        NumericMatrix m=(NumericMatrix)newinstance(new Numeric[p][n]);
+        NumericMatrix m= newinstance(new Numeric[p][n]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 m.element[j][i]=element[i][j];
@@ -163,15 +171,16 @@ public class NumericMatrix extends Numeric {
     }
 
     public Numeric trace() {
-        Numeric s= JsclDouble.valueOf(0);
+        Numeric s= JsclDouble.ZERO;
         for(int i=0;i<n;i++) {
             s=s.add(element[i][i]);
         }
         return s;
     }
 
-    public Numeric inverse() {
-        NumericMatrix m=(NumericMatrix)newinstance();
+    @NotNull
+	public Numeric inverse() {
+        NumericMatrix m= newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<n;j++) {
                 m.element[i][j]=inverseElement(i,j);
@@ -181,7 +190,7 @@ public class NumericMatrix extends Numeric {
     }
 
     Numeric inverseElement(int k, int l) {
-        NumericMatrix m=(NumericMatrix)newinstance();
+        NumericMatrix m= newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<n;j++) {
                 m.element[i][j]=i==k? JsclDouble.valueOf(j == l ? 1 : 0):element[i][j];
@@ -192,11 +201,11 @@ public class NumericMatrix extends Numeric {
 
     public Numeric determinant() {
         if(n>1) {
-            Numeric a= JsclDouble.valueOf(0);
+            Numeric a= JsclDouble.ZERO;
             for(int i=0;i<n;i++) {
                 if(element[i][0].signum()==0);
                 else {
-                    NumericMatrix m=(NumericMatrix)newinstance(new Numeric[n-1][n-1]);
+                    NumericMatrix m= newinstance(new Numeric[n-1][n-1]);
                     for(int j=0;j<n-1;j++) {
                         for(int k=0;k<n-1;k++) m.element[j][k]=element[j<i?j:j+1][k+1];
                     }
@@ -206,24 +215,27 @@ public class NumericMatrix extends Numeric {
             }
             return a;
         } else if(n>0) return element[0][0];
-        else return JsclDouble.valueOf(0);
+        else return JsclDouble.ZERO;
     }
 
-    public Numeric ln() {
+    @NotNull
+	public Numeric ln() {
         throw new ArithmeticException();
     }
 
+	@NotNull
 	@Override
 	public Numeric lg() {
 		throw new ArithmeticException();
 	}
 
+	@NotNull
 	public Numeric exp() {
         throw new ArithmeticException();
     }
 
     public Numeric conjugate() {
-        NumericMatrix m=(NumericMatrix)newinstance();
+        NumericMatrix m= newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 m.element[i][j]=element[i][j].conjugate();
@@ -253,9 +265,9 @@ public class NumericMatrix extends Numeric {
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 if(i==j) {
-                    m.element[i][j]= JsclDouble.valueOf(1);
+                    m.element[i][j]= JsclDouble.ONE;
                 } else {
-                    m.element[i][j]= JsclDouble.valueOf(0);
+                    m.element[i][j]= JsclDouble.ZERO;
                 }
             }
         }

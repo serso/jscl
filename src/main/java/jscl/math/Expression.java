@@ -20,7 +20,7 @@ public class Expression extends Generic {
 
 	Literal literals[];
 
-	JsclInteger coef[];
+	JsclInteger coefficients[];
 
 	int size;
 
@@ -40,12 +40,12 @@ public class Expression extends Generic {
 	}
 
 	public JsclInteger coef(int n) {
-		return coef[n];
+		return coefficients[n];
 	}
 
 	void init(int size) {
 		literals = new Literal[size];
-		coef = new JsclInteger[size];
+		coefficients = new JsclInteger[size];
 		this.size = size;
 	}
 
@@ -55,9 +55,9 @@ public class Expression extends Generic {
 			Literal literal[] = new Literal[size];
 			JsclInteger coef[] = new JsclInteger[size];
 			System.arraycopy(this.literals, length - size, literal, 0, size);
-			System.arraycopy(this.coef, length - size, coef, 0, size);
+			System.arraycopy(this.coefficients, length - size, coef, 0, size);
 			this.literals = literal;
-			this.coef = coef;
+			this.coefficients = coef;
 			this.size = size;
 		}
 	}
@@ -72,23 +72,23 @@ public class Expression extends Generic {
 		while (l1 != null || l2 != null) {
 			int c = l1 == null ? 1 : (l2 == null ? -1 : -l1.compareTo(l2));
 			if (c < 0) {
-				JsclInteger en = coef[i1];
+				JsclInteger en = coefficients[i1];
 				--i;
 				ex.literals[i] = l1;
-				ex.coef[i] = en;
+				ex.coefficients[i] = en;
 				l1 = i1 > 0 ? literals[--i1] : null;
 			} else if (c > 0) {
-				JsclInteger en = expression.coef[i2];
+				JsclInteger en = expression.coefficients[i2];
 				--i;
 				ex.literals[i] = l2;
-				ex.coef[i] = en;
+				ex.coefficients[i] = en;
 				l2 = i2 > 0 ? expression.literals[--i2] : null;
 			} else {
-				JsclInteger en = coef[i1].add(expression.coef[i2]);
+				JsclInteger en = coefficients[i1].add(expression.coefficients[i2]);
 				if (en.signum() != 0) {
 					--i;
 					ex.literals[i] = l1;
-					ex.coef[i] = en;
+					ex.coefficients[i] = en;
 				}
 				l1 = i1 > 0 ? literals[--i1] : null;
 				l2 = i2 > 0 ? expression.literals[--i2] : null;
@@ -98,7 +98,8 @@ public class Expression extends Generic {
 		return ex;
 	}
 
-	public Generic add(Generic generic) {
+	@NotNull
+	public Generic add(@NotNull Generic generic) {
 		if (generic instanceof Expression) {
 			return add((Expression) generic);
 		} else if (generic instanceof JsclInteger || generic instanceof Rational) {
@@ -112,7 +113,8 @@ public class Expression extends Generic {
 		return multiplyAndAdd(Literal.valueOf(), JsclInteger.valueOf(-1), expression);
 	}
 
-	public Generic subtract(Generic generic) {
+	@NotNull
+	public Generic subtract(@NotNull Generic generic) {
 		if (generic instanceof Expression) {
 			return subtract((Expression) generic);
 		} else if (generic instanceof JsclInteger || generic instanceof Rational) {
@@ -133,23 +135,23 @@ public class Expression extends Generic {
 		while (l1 != null || l2 != null) {
 			int c = l1 == null ? 1 : (l2 == null ? -1 : -l1.compareTo(l2));
 			if (c < 0) {
-				JsclInteger en = coef[i1];
+				JsclInteger en = coefficients[i1];
 				--i;
 				ex.literals[i] = l1;
-				ex.coef[i] = en;
+				ex.coefficients[i] = en;
 				l1 = i1 > 0 ? literals[--i1] : null;
 			} else if (c > 0) {
-				JsclInteger en = expression.coef[i2].multiply(integer);
+				JsclInteger en = expression.coefficients[i2].multiply(integer);
 				--i;
 				ex.literals[i] = l2;
-				ex.coef[i] = en;
+				ex.coefficients[i] = en;
 				l2 = i2 > 0 ? expression.literals[--i2].multiply(lit) : null;
 			} else {
-				JsclInteger en = coef[i1].add(expression.coef[i2].multiply(integer));
+				JsclInteger en = coefficients[i1].add(expression.coefficients[i2].multiply(integer));
 				if (en.signum() != 0) {
 					--i;
 					ex.literals[i] = l1;
-					ex.coef[i] = en;
+					ex.coefficients[i] = en;
 				}
 				l1 = i1 > 0 ? literals[--i1] : null;
 				l2 = i2 > 0 ? expression.literals[--i2].multiply(lit) : null;
@@ -161,11 +163,12 @@ public class Expression extends Generic {
 
 	public Expression multiply(Expression expression) {
 		Expression ex = newInstance(0);
-		for (int i = 0; i < size; i++) ex = ex.multiplyAndAdd(literals[i], coef[i], expression);
+		for (int i = 0; i < size; i++) ex = ex.multiplyAndAdd(literals[i], coefficients[i], expression);
 		return ex;
 	}
 
-	public Generic multiply(Generic generic) {
+	@NotNull
+	public Generic multiply(@NotNull Generic generic) {
 		if (generic instanceof Expression) {
 			return multiply((Expression) generic);
 		} else if (generic instanceof JsclInteger) {
@@ -177,7 +180,8 @@ public class Expression extends Generic {
 		}
 	}
 
-	public Generic divide(Generic generic) throws ArithmeticException {
+	@NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
 		Generic a[] = divideAndRemainder(generic);
 		if (a[1].signum() == 0) return a[0];
 		else throw new NotDivisibleException();
@@ -207,7 +211,7 @@ public class Expression extends Generic {
 				Expression ex = newInstance(size);
 				for (int i = 0; i < size; i++) {
 					ex.literals[i] = literals[i];
-					ex.coef[i] = coef[i].divide((JsclInteger) generic);
+					ex.coefficients[i] = coefficients[i].divide((JsclInteger) generic);
 				}
 				return new Generic[]{ex, JsclInteger.valueOf(0)};
 			} catch (NotDivisibleException e) {
@@ -246,7 +250,7 @@ public class Expression extends Generic {
 
 	public Generic gcd() {
 		JsclInteger en = JsclInteger.valueOf(0);
-		for (int i = size - 1; i >= 0; i--) en = en.gcd(coef[i]);
+		for (int i = size - 1; i >= 0; i--) en = en.gcd(coefficients[i]);
 		return en;
 	}
 
@@ -263,7 +267,7 @@ public class Expression extends Generic {
 	}
 
 	public int signum() {
-		return size == 0 ? 0 : coef[0].signum();
+		return size == 0 ? 0 : coefficients[0].signum();
 	}
 
 	public int degree() {
@@ -339,23 +343,32 @@ public class Expression extends Generic {
 		return substitute(content);
 	}
 
-	Generic substitute(Map content) {
-		Generic s = JsclInteger.valueOf(0);
+	@NotNull
+	private Generic substitute(@NotNull Map content) {
+		Generic result = JsclInteger.ZERO;
+
 		for (int i = 0; i < size; i++) {
-			Literal l = literals[i];
-			Generic a = coef[i];
-			int m = l.size;
-			for (int j = 0; j < m; j++) {
-				Variable v = l.variables[j];
-				int c = l.powers[j];
-				Generic b = (Generic) content.get(v);
-				b = b.pow(c);
-				if (Matrix.product(a, b)) throw new ArithmeticException();
-				a = a.multiply(b);
+			final Literal literal = literals[i];
+
+			Generic coefficient = coefficients[i];
+
+			for (int j = 0; j < literal.size; j++) {
+				final Variable variable = literal.variables[j];
+				int power = literal.powers[j];
+
+				Generic b = ((Generic) content.get(variable)).pow(power);
+
+				if (Matrix.product(coefficient, b)) {
+					throw new ArithmeticException();
+				}
+
+				coefficient = coefficient.multiply(b);
 			}
-			s = s.add(a);
+
+			result = result.add(coefficient);
 		}
-		return s;
+
+		return result;
 	}
 
 	public Generic expand() {
@@ -425,7 +438,7 @@ public class Expression extends Generic {
 	public Generic[] sumValue() {
 		final Generic result[] = new Generic[size];
 		for (int i = 0; i < result.length; i++) {
-			result[i] = valueOf(literals[i], coef[i]);
+			result[i] = valueOf(literals[i], coefficients[i]);
 		}
 		return result;
 	}
@@ -436,7 +449,7 @@ public class Expression extends Generic {
 			return new Generic[]{JsclInteger.valueOf(0)};
 		} else if (size == 1) {
 			final Literal l = literals[0];
-			final JsclInteger k = coef[0];
+			final JsclInteger k = coefficients[0];
 
 			Generic productElements[] = l.productValue();
 			if (k.compareTo(JsclInteger.valueOf(1)) == 0) {
@@ -456,7 +469,7 @@ public class Expression extends Generic {
 		if (size == 0) return new Power(JsclInteger.valueOf(0), 1);
 		else if (size == 1) {
 			Literal l = literals[0];
-			JsclInteger en = coef[0];
+			JsclInteger en = coefficients[0];
 			if (en.compareTo(JsclInteger.valueOf(1)) == 0) return l.powerValue();
 			else if (l.degree() == 0) return en.powerValue();
 			else throw new NotPowerException();
@@ -482,7 +495,7 @@ public class Expression extends Generic {
 			return JsclInteger.valueOf(0);
 		} else if (size == 1) {
 			Literal l = literals[0];
-			JsclInteger en = coef[0];
+			JsclInteger en = coefficients[0];
 			if (l.degree() == 0) {
 				return en;
 			} else {
@@ -497,7 +510,7 @@ public class Expression extends Generic {
 		if (size == 0) throw new NotVariableException();
 		else if (size == 1) {
 			Literal l = literals[0];
-			JsclInteger en = coef[0];
+			JsclInteger en = coefficients[0];
 			if (en.compareTo(JsclInteger.valueOf(1)) == 0) return l.variableValue();
 			else throw new NotVariableException();
 		} else throw new NotVariableException();
@@ -569,7 +582,7 @@ public class Expression extends Generic {
 			if (c < 0) return -1;
 			else if (c > 0) return 1;
 			else {
-				c = coef[i1].compareTo(expression.coef[i2]);
+				c = coefficients[i1].compareTo(expression.coefficients[i2]);
 				if (c < 0) return -1;
 				else if (c > 0) return 1;
 				l1 = i1 == 0 ? null : literals[--i1];
@@ -611,7 +624,7 @@ public class Expression extends Generic {
 		if (integer.signum() != 0) {
 			init(1);
 			literals[0] = lit;
-			coef[0] = integer;
+			coefficients[0] = integer;
 		} else init(0);
 	}
 
@@ -638,7 +651,7 @@ public class Expression extends Generic {
 	void init(Expression expression) {
 		init(expression.size);
 		System.arraycopy(expression.literals, 0, literals, 0, size);
-		System.arraycopy(expression.coef, 0, coef, 0, size);
+		System.arraycopy(expression.coefficients, 0, coefficients, 0, size);
 	}
 
 	void init(JsclInteger integer) {
@@ -674,7 +687,7 @@ public class Expression extends Generic {
 
 		for (int i = 0; i < size; i++) {
 			final Literal literal = literals[i];
-			JsclInteger c = coef[i];
+			JsclInteger c = coefficients[i];
 
 			if (c.signum() > 0 && i > 0) {
 				result.append("+");
@@ -705,7 +718,7 @@ public class Expression extends Generic {
 
 		for (int i = 0; i < size; i++) {
 			Literal l = literals[i];
-			JsclInteger en = coef[i];
+			JsclInteger en = coefficients[i];
 			if (i > 0) {
 				if (en.signum() < 0) {
 					result.append(".subtract(");
@@ -734,7 +747,7 @@ public class Expression extends Generic {
 		}
 		for (int i = 0; i < size; i++) {
 			Literal l = literals[i];
-			JsclInteger en = coef[i];
+			JsclInteger en = coefficients[i];
 			if (en.signum() > 0 && i > 0) {
 				MathML e2 = element.element("mo");
 				e2.appendChild(element.text("+"));

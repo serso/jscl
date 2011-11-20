@@ -3,14 +3,13 @@ package jscl.math;
 import jscl.math.function.Constant;
 import jscl.math.function.ConstantsRegistry;
 import jscl.math.function.IConstant;
-import jscl.math.numeric.JsclDouble;
-import jscl.math.numeric.Numeric;
-import jscl.math.numeric.NumericMatrix;
-import jscl.math.numeric.NumericVector;
+import jscl.math.numeric.*;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
-public final class NumericWrapper extends Generic {
-	final Numeric content;
+public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
+
+	private final Numeric content;
 
 	public NumericWrapper(JsclInteger integer) {
 		content = JsclDouble.valueOf(integer.content().doubleValue());
@@ -38,6 +37,7 @@ public final class NumericWrapper extends Generic {
 
 	public NumericWrapper(Constant constant) {
 		final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
+
 		if (constantFromRegistry != null && constantFromRegistry.getValue() != null) {
 			final Double value = constantFromRegistry.getDoubleValue();
 			if (value == null) {
@@ -61,7 +61,8 @@ public final class NumericWrapper extends Generic {
 		return new NumericWrapper(content.add(wrapper.content));
 	}
 
-	public Generic add(Generic generic) {
+	@NotNull
+	public Generic add(@NotNull Generic generic) {
 		if (generic instanceof NumericWrapper) {
 			return add((NumericWrapper) generic);
 		} else {
@@ -73,7 +74,8 @@ public final class NumericWrapper extends Generic {
 		return new NumericWrapper(content.subtract(wrapper.content));
 	}
 
-	public Generic subtract(Generic generic) {
+	@NotNull
+	public Generic subtract(@NotNull Generic generic) {
 		if (generic instanceof NumericWrapper) {
 			return subtract((NumericWrapper) generic);
 		} else {
@@ -85,7 +87,8 @@ public final class NumericWrapper extends Generic {
 		return new NumericWrapper(content.multiply(wrapper.content));
 	}
 
-	public Generic multiply(Generic generic) {
+	@NotNull
+	public Generic multiply(@NotNull Generic generic) {
 		if (generic instanceof NumericWrapper) {
 			return multiply((NumericWrapper) generic);
 		} else {
@@ -97,7 +100,8 @@ public final class NumericWrapper extends Generic {
 		return new NumericWrapper(content.divide(wrapper.content));
 	}
 
-	public Generic divide(Generic generic) throws ArithmeticException {
+	@NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
 		if (generic instanceof NumericWrapper) {
 			return divide((NumericWrapper) generic);
 		} else {
@@ -113,11 +117,13 @@ public final class NumericWrapper extends Generic {
 		return null;
 	}
 
-	public Generic abs() {
+	@NotNull
+	public NumericWrapper abs() {
 		return new NumericWrapper(content.abs());
 	}
 
-	public Generic negate() {
+	@NotNull
+	public NumericWrapper negate() {
 		return new NumericWrapper(content.negate());
 	}
 
@@ -229,33 +235,51 @@ public final class NumericWrapper extends Generic {
 		return true;
 	}
 
-	public Generic sgn() {
+	@NotNull
+	public NumericWrapper sgn() {
 		return new NumericWrapper(content.sgn());
 	}
 
-	public Generic ln() {
+	@NotNull
+	public NumericWrapper ln() {
 		return new NumericWrapper(content.ln());
 	}
 
-	public Generic lg() {
+	@NotNull
+	public NumericWrapper lg() {
 		return new NumericWrapper(content.lg());
 	}
 
-	public Generic exp() {
+	@NotNull
+	public NumericWrapper exp() {
 		return new NumericWrapper(content.exp());
+	}
+
+	@NotNull
+	public NumericWrapper inverse() {
+		return new NumericWrapper(content.inverse());
+	}
+
+	@NotNull
+	public NumericWrapper pow(int exponent) {
+		return new NumericWrapper(content.pow(exponent));
 	}
 
 	public Generic pow(Generic generic) {
 		return new NumericWrapper(content.pow(((NumericWrapper) generic).content));
 	}
 
-	public Generic sqrt() {
+	@NotNull
+	public NumericWrapper sqrt() {
 		return new NumericWrapper(content.sqrt());
 	}
 
-	public Generic nthrt(int n) {
+	@NotNull
+	public NumericWrapper nthrt(int n) {
 		return new NumericWrapper(content.nthrt(n));
 	}
+
+
 
 	public static Generic root(int subscript, Generic parameter[]) {
 		Numeric param[] = new Numeric[parameter.length];
@@ -267,67 +291,83 @@ public final class NumericWrapper extends Generic {
 		return new NumericWrapper(content.conjugate());
 	}
 
-	public Generic acos() {
+	@NotNull
+	public NumericWrapper acos() {
 		return new NumericWrapper(content.acos());
 	}
 
-	public Generic asin() {
+	@NotNull
+	public NumericWrapper asin() {
 		return new NumericWrapper(content.asin());
 	}
 
-	public Generic atan() {
+	@NotNull
+	public NumericWrapper atan() {
 		return new NumericWrapper(content.atan());
 	}
 
-	public Generic acot() {
+	@NotNull
+	public NumericWrapper acot() {
 		return new NumericWrapper(content.acot());
 	}
 
-	public Generic cos() {
+	@NotNull
+	public NumericWrapper cos() {
 		return new NumericWrapper(content.cos());
 	}
 
-	public Generic sin() {
+	@NotNull
+	public NumericWrapper sin() {
 		return new NumericWrapper(content.sin());
 	}
 
-	public Generic tan() {
+	@NotNull
+	public NumericWrapper tan() {
 		return new NumericWrapper(content.tan());
 	}
 
-	public Generic cot() {
+	@NotNull
+	public NumericWrapper cot() {
 		return new NumericWrapper(content.cot());
 	}
 
-	public Generic acosh() {
+	@NotNull
+	public NumericWrapper acosh() {
 		return new NumericWrapper(content.acosh());
 	}
 
-	public Generic asinh() {
+	@NotNull
+	public NumericWrapper asinh() {
 		return new NumericWrapper(content.asinh());
 	}
 
-	public Generic atanh() {
+	@NotNull
+	public NumericWrapper atanh() {
 		return new NumericWrapper(content.atanh());
 	}
 
-	public Generic acoth() {
+	@NotNull
+	public NumericWrapper acoth() {
 		return new NumericWrapper(content.acoth());
 	}
 
-	public Generic cosh() {
+	@NotNull
+	public NumericWrapper cosh() {
 		return new NumericWrapper(content.cosh());
 	}
 
-	public Generic sinh() {
+	@NotNull
+	public NumericWrapper sinh() {
 		return new NumericWrapper(content.sinh());
 	}
 
-	public Generic tanh() {
+	@NotNull
+	public NumericWrapper tanh() {
 		return new NumericWrapper(content.tanh());
 	}
 
-	public Generic coth() {
+	@NotNull
+	public NumericWrapper coth() {
 		return new NumericWrapper(content.coth());
 	}
 

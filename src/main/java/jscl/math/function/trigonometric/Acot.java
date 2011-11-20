@@ -18,9 +18,10 @@ public class Acot extends ArcTrigonometric {
     }
 
     public Generic evaluate() {
-        if(parameters[0].signum()<0) {
-            return Constant.pi.subtract(new Acot(parameters[0].negate()).evaluate());
-        }
+		if (parameters[0].signum() < 0) {
+			return Constant.pi.subtract(new Acot(parameters[0].negate()).evaluate());
+		}
+
         return expressionValue();
     }
 

@@ -1,5 +1,7 @@
 package jscl.math.function;
 
+import jscl.AngleUnits;
+import jscl.JsclMathEngine;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.definitions.IBuilder;
@@ -159,7 +161,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	@Override
 	@Nullable
 	public String getValue() {
-		return value;
+		return getValue0();
 	}
 
 	@Override
@@ -167,11 +169,35 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 		Double result = null;
 		if (value != null) {
 			try {
-				result = Double.valueOf(value);
+				result = getDoubleValue0();
 			} catch (NumberFormatException e) {
 				// do nothing - string is not a double
 			}
 		}
+		return result;
+	}
+
+	private Double getDoubleValue0() {
+		Double result;
+
+		if (Constant.PI_CONST.getName().equals(getName())) {
+			result = AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), Double.valueOf(value));
+		} else {
+			result = Double.valueOf(value);
+		}
+
+		return result;
+	}
+
+	private String getValue0() {
+		String result;
+
+		if (Constant.PI_CONST.getName().equals(getName())) {
+			result = String.valueOf(AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), Double.valueOf(value)));
+		} else {
+			result = value;
+		}
+
 		return result;
 	}
 

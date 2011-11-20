@@ -12,6 +12,7 @@ import jscl.math.NotVariableException;
 import jscl.math.Power;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 class NestedPolynomial extends UnivariatePolynomial {
     NestedPolynomial(Variable variable[]) {
@@ -42,7 +43,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.add(wrapper.content));
     }
 
-    public Generic add(Generic generic) {
+    @NotNull
+	public Generic add(@NotNull Generic generic) {
         if(generic instanceof PolynomialWrapper) {
             return add((PolynomialWrapper)generic);
         } else {
@@ -54,7 +56,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.subtract(wrapper.content));
     }
 
-    public Generic subtract(Generic generic) {
+    @NotNull
+	public Generic subtract(@NotNull Generic generic) {
         if(generic instanceof PolynomialWrapper) {
             return subtract((PolynomialWrapper)generic);
         } else {
@@ -66,7 +69,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.multiply(wrapper.content));
     }
 
-    public Generic multiply(Generic generic) {
+    @NotNull
+	public Generic multiply(@NotNull Generic generic) {
         if(generic instanceof PolynomialWrapper) {
             return multiply((PolynomialWrapper)generic);
         } else {
@@ -78,7 +82,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.divide(wrapper.content));
     }
 
-    public Generic divide(Generic generic) throws ArithmeticException {
+    @NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
         if(generic instanceof PolynomialWrapper) {
             return divide((PolynomialWrapper)generic);
         } else {

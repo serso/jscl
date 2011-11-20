@@ -8,6 +8,7 @@ import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.Literal;
+import org.jetbrains.annotations.NotNull;
 
 final class ArrayPolynomial extends Polynomial {
     Term content[];
@@ -74,7 +75,8 @@ final class ArrayPolynomial extends Polynomial {
         return n<0?-n-1:direction?n:n+1;
     }
 
-    public Polynomial subtract(Polynomial polynomial) {
+    @NotNull
+	public Polynomial subtract(@NotNull Polynomial polynomial) {
         if(polynomial.signum()==0) return this;
         ArrayPolynomial q=(ArrayPolynomial)polynomial;
         ArrayPolynomial p=newinstance(size+q.size);
@@ -167,7 +169,8 @@ final class ArrayPolynomial extends Polynomial {
         return p;
     }
 
-    public Polynomial multiply(Polynomial polynomial) {
+    @NotNull
+	public Polynomial multiply(@NotNull Polynomial polynomial) {
         Polynomial p=valueof(JsclInteger.valueOf(0));
         for(int i=0;i<size;i++) {
             Term t=content[i];

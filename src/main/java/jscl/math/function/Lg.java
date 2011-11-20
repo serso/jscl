@@ -32,8 +32,9 @@ public class Lg extends Function {
 		// todo serso: check simplify (was just copied from Ln)
 		try {
 			JsclInteger en = parameters[0].integerValue();
-			if (en.signum() < 0) return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).evaluateSimplify());
-			else {
+			if (en.signum() < 0) {
+				return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).evaluateSimplify());
+			} else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();
 				Generic s = JsclInteger.valueOf(0);

@@ -21,18 +21,18 @@ public class Constant extends Variable {
 	public static final Generic j = half.negate().multiply(JsclInteger.valueOf(1).subtract(i.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));
 	public static final Generic jbar = half.negate().multiply(JsclInteger.valueOf(1).add(i.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));
 
-	static final int PRIMECHARS = 3;
-	protected int prime;
-	protected Generic subscript[];
+	public static final int PRIME_CHARS = 3;
+	private int prime;
+	private Generic subscripts[];
 
 	public Constant(String name) {
 		this(name, 0, new Generic[0]);
 	}
 
-	public Constant(String name, int prime, Generic subscript[]) {
+	public Constant(String name, int prime, Generic subscripts[]) {
 		super(name);
 		this.prime = prime;
-		this.subscript = subscript;
+		this.subscripts = subscripts;
 	}
 
 	public int prime() {
@@ -40,7 +40,7 @@ public class Constant extends Variable {
 	}
 
 	public Generic[] subscript() {
-		return subscript;
+		return subscripts;
 	}
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
@@ -48,47 +48,54 @@ public class Constant extends Variable {
 	}
 
 	public Generic derivative(Variable variable) {
-		if (isIdentity(variable)) return JsclInteger.valueOf(1);
-		else return JsclInteger.valueOf(0);
+		if (isIdentity(variable)) {
+			return JsclInteger.valueOf(1);
+		} else {
+			return JsclInteger.valueOf(0);
+		}
 	}
 
 	public Generic substitute(Variable variable, Generic generic) {
 		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscript.length; i++) {
-			v.subscript[i] = subscript[i].substitute(variable, generic);
+		for (int i = 0; i < subscripts.length; i++) {
+			v.subscripts[i] = subscripts[i].substitute(variable, generic);
 		}
-		if (v.isIdentity(variable)) return generic;
-		else return v.expressionValue();
+
+		if (v.isIdentity(variable)) {
+			return generic;
+		} else {
+			return v.expressionValue();
+		}
 	}
 
 	public Generic expand() {
 		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscript.length; i++) {
-			v.subscript[i] = subscript[i].expand();
+		for (int i = 0; i < subscripts.length; i++) {
+			v.subscripts[i] = subscripts[i].expand();
 		}
 		return v.expressionValue();
 	}
 
 	public Generic factorize() {
 		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscript.length; i++) {
-			v.subscript[i] = subscript[i].factorize();
+		for (int i = 0; i < subscripts.length; i++) {
+			v.subscripts[i] = subscripts[i].factorize();
 		}
 		return v.expressionValue();
 	}
 
 	public Generic elementary() {
 		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscript.length; i++) {
-			v.subscript[i] = subscript[i].elementary();
+		for (int i = 0; i < subscripts.length; i++) {
+			v.subscripts[i] = subscripts[i].elementary();
 		}
 		return v.expressionValue();
 	}
 
 	public Generic simplify() {
 		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscript.length; i++) {
-			v.subscript[i] = subscript[i].simplify();
+		for (int i = 0; i < subscripts.length; i++) {
+			v.subscripts[i] = subscripts[i].simplify();
 		}
 		return v.expressionValue();
 	}
@@ -111,7 +118,7 @@ public class Constant extends Variable {
 			final Constant that = (Constant) variable;
 			c = name.compareTo(that.name);
 			if (c == 0) {
-				c = ArrayComparator.comparator.compare(subscript, that.subscript);
+				c = ArrayComparator.comparator.compare(subscripts, that.subscripts);
 				if (c == 0) {
 					if (prime < that.prime) {
 						return -1;
@@ -130,18 +137,22 @@ public class Constant extends Variable {
 	}
 
 	public String toString() {
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(name);
-		for (int i = 0; i < subscript.length; i++) {
-			buffer.append("[").append(subscript[i]).append("]");
+		final StringBuilder result = new StringBuilder();
+		result.append(name);
+
+		for (Generic subscript : subscripts) {
+			result.append("[").append(subscript).append("]");
 		}
-		if (prime == 0) ;
-		else if (prime <= PRIMECHARS) buffer.append(primechars(prime));
-		else buffer.append("{").append(prime).append("}");
-		return buffer.toString();
+
+		if (prime != 0) {
+			if (prime <= PRIME_CHARS) result.append(primeChars(prime));
+			else result.append("{").append(prime).append("}");
+		}
+
+		return result.toString();
 	}
 
-	static String primechars(int n) {
+	static String primeChars(int n) {
 		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < n; i++) buffer.append("'");
 		return buffer.toString();
@@ -156,11 +167,14 @@ public class Constant extends Variable {
 
 		final StringBuilder result = new StringBuilder();
 		result.append(name);
-		if (prime == 0) ;
-		else if (prime <= PRIMECHARS) result.append(underscores(prime));
-		else result.append("_").append(prime);
-		for (int i = 0; i < subscript.length; i++) {
-			result.append("[").append(subscript[i].integerValue().intValue()).append("]");
+
+		if (prime != 0) {
+			if (prime <= PRIME_CHARS) result.append(underscores(prime));
+			else result.append("_").append(prime);
+		}
+
+		for (Generic subscript : subscripts) {
+			result.append("[").append(subscript.integerValue().intValue()).append("]");
 		}
 		return result.toString();
 	}
@@ -172,7 +186,7 @@ public class Constant extends Variable {
 	}
 
 	public void toMathML(MathML element, Object data) {
-		int exponent = data instanceof Integer ? ((Integer) data).intValue() : 1;
+		int exponent = data instanceof Integer ? (Integer) data : 1;
 		if (exponent == 1) bodyToMathML(element);
 		else {
 			MathML e1 = element.element("msup");
@@ -185,7 +199,7 @@ public class Constant extends Variable {
 	}
 
 	public void bodyToMathML(MathML element) {
-		if (subscript.length == 0) {
+		if (subscripts.length == 0) {
 			if (prime == 0) {
 				nameToMathML(element);
 			} else {
@@ -199,8 +213,8 @@ public class Constant extends Variable {
 				MathML e1 = element.element("msub");
 				nameToMathML(e1);
 				MathML e2 = element.element("mrow");
-				for (int i = 0; i < subscript.length; i++) {
-					subscript[i].toMathML(e2, null);
+				for (int i = 0; i < subscripts.length; i++) {
+					subscripts[i].toMathML(e2, null);
 				}
 				e1.appendChild(e2);
 				element.appendChild(e1);
@@ -208,8 +222,8 @@ public class Constant extends Variable {
 				MathML e1 = element.element("msubsup");
 				nameToMathML(e1);
 				MathML e2 = element.element("mrow");
-				for (int i = 0; i < subscript.length; i++) {
-					subscript[i].toMathML(e2, null);
+				for (int i = 0; i < subscripts.length; i++) {
+					subscripts[i].toMathML(e2, null);
 				}
 				e1.appendChild(e2);
 				primeToMathML(e1);
@@ -219,8 +233,8 @@ public class Constant extends Variable {
 	}
 
 	void primeToMathML(MathML element) {
-		if (prime <= PRIMECHARS) {
-			primecharsToMathML(element, prime);
+		if (prime <= PRIME_CHARS) {
+			primeCharsToMathML(element, prime);
 		} else {
 			MathML e1 = element.element("mfenced");
 			MathML e2 = element.element("mn");
@@ -230,13 +244,13 @@ public class Constant extends Variable {
 		}
 	}
 
-	static void primecharsToMathML(MathML element, int n) {
+	static void primeCharsToMathML(MathML element, int n) {
 		MathML e1 = element.element("mo");
 		for (int i = 0; i < n; i++) e1.appendChild(element.text("\u2032"));
 		element.appendChild(e1);
 	}
 
 	public Variable newInstance() {
-		return new Constant(name, prime, new Generic[subscript.length]);
+		return new Constant(name, prime, new Generic[subscripts.length]);
 	}
 }

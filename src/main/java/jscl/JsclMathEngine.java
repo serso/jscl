@@ -14,10 +14,12 @@ import org.solovyev.common.math.MathRegistry;
  * Date: 11/1/11
  * Time: 12:00 PM
  */
-public class JsclMathEngine implements MathEngine {
+public enum JsclMathEngine implements MathEngine {
+
+	instance;
 
 	@NotNull
-	private AngleUnits defaultAngleUnits;
+	private AngleUnits defaultAngleUnits = AngleUnits.deg;
 
 	@Override
 	public String evaluate(@NotNull String expression) throws ParseException {
@@ -66,6 +68,7 @@ public class JsclMathEngine implements MathEngine {
 		return defaultAngleUnits;
 	}
 
+	@Override
 	public void setDefaultAngleUnits(@NotNull AngleUnits defaultAngleUnits) {
 		this.defaultAngleUnits = defaultAngleUnits;
 	}

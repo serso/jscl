@@ -1,7 +1,7 @@
 package jscl.math.function;
 
+import jscl.AngleUnits;
 import jscl.math.Generic;
-import jscl.math.JsclInteger;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
 
@@ -45,7 +45,7 @@ public class Deg extends Algebraic {
 
 	@Override
 	public Generic evaluateNumerically() {
-		return parameters[0].multiply(JsclInteger.valueOf(180)).divide(Constant.pi.numeric());
+		return AngleUnits.rad.transform(AngleUnits.deg, parameters[0]);
 	}
 
 	@Override

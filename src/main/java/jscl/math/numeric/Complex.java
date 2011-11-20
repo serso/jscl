@@ -1,5 +1,7 @@
 package jscl.math.numeric;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class Complex extends Numeric {
 	double real, imag;
 
@@ -12,7 +14,8 @@ public final class Complex extends Numeric {
 		return new Complex(real + complex.real, imag + complex.imag);
 	}
 
-	public Numeric add(Numeric numeric) {
+	@NotNull
+	public Numeric add(@NotNull Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return add((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
@@ -26,7 +29,8 @@ public final class Complex extends Numeric {
 		return new Complex(real - complex.real, imag - complex.imag);
 	}
 
-	public Numeric subtract(Numeric numeric) {
+	@NotNull
+	public Numeric subtract(@NotNull Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return subtract((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
@@ -40,7 +44,8 @@ public final class Complex extends Numeric {
 		return new Complex(real * complex.real - imag * complex.imag, real * complex.imag + imag * complex.real);
 	}
 
-	public Numeric multiply(Numeric numeric) {
+	@NotNull
+	public Numeric multiply(@NotNull Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return multiply((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
@@ -54,7 +59,8 @@ public final class Complex extends Numeric {
 		return multiply((Complex) complex.inverse());
 	}
 
-	public Numeric divide(Numeric numeric) throws ArithmeticException {
+	@NotNull
+	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
 		if (numeric instanceof Complex) {
 			return divide((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
@@ -64,10 +70,12 @@ public final class Complex extends Numeric {
 		}
 	}
 
+	@NotNull
 	public Numeric negate() {
 		return new Complex(-real, -imag);
 	}
 
+	@NotNull
 	@Override
 	public Numeric abs() {
 		final Numeric realSquare = new JsclDouble(real).pow(2);
@@ -99,7 +107,7 @@ public final class Complex extends Numeric {
 			return valueof((Complex) numeric);
 		} else if (numeric instanceof JsclDouble) {
 			JsclDouble d = (JsclDouble) numeric;
-			return new Complex(d.content, 0.);
+			return d.toComplex();
 		} else throw new ArithmeticException();
 	}
 
@@ -115,26 +123,30 @@ public final class Complex extends Numeric {
 		return Math.atan2(imag, real);
 	}
 
+	@NotNull
 	public Numeric ln() {
 		if (signum() == 0) {
-			return JsclDouble.valueOf(0).ln();
+			return JsclDouble.ZERO.ln();
 		} else {
 			return new Complex(Math.log(magnitude()), angle());
 		}
 	}
 
+	@NotNull
 	public Numeric lg() {
 		if (signum() == 0) {
-			return JsclDouble.valueOf(0).lg();
+			return JsclDouble.ZERO.lg();
 		} else {
 			return new Complex(Math.log10(magnitude()), angle());
 		}
 	}
 
+	@NotNull
 	public Numeric exp() {
 		return new Complex(Math.cos(imag), Math.sin(imag)).multiply(Math.exp(real));
 	}
 
+	@NotNull
 	public Numeric inverse() {
 		return ((Complex) conjugate()).divide(magnitude2());
 	}

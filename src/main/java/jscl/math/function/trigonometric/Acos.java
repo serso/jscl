@@ -7,47 +7,45 @@ import jscl.math.Variable;
 import jscl.math.function.*;
 
 public class Acos extends ArcTrigonometric {
-    public Acos(Generic generic) {
-        super("acos",new Generic[] {generic});
-    }
 
-    public Generic derivative(int n) {
-        return new Inv(
-            new Sqrt(
-                JsclInteger.valueOf(1).subtract(parameters[0].pow(2))
-            ).evaluate()
-        ).evaluate().negate();
-    }
+	public Acos(Generic generic) {
+		super("acos", new Generic[]{generic});
+	}
 
-    public Generic evaluate() {
-        if(parameters[0].signum()<0) {
-            return Constant.pi.subtract(new Acos(parameters[0].negate()).evaluate());
-        } else if(parameters[0].compareTo(JsclInteger.valueOf(1))==0) {
-            return JsclInteger.valueOf(0);
-        }
-        return expressionValue();
-    }
+	public Generic derivative(int n) {
+		return new Inv(new Sqrt(JsclInteger.valueOf(1).subtract(parameters[0].pow(2))).evaluate()).evaluate().negate();
+	}
 
-    public Generic evaluateElementary() {
-        return Constant.i.multiply(
-            new Ln(
-                new Root(
-                    new Generic[] {
-                        JsclInteger.valueOf(-1),
-                        JsclInteger.valueOf(2).multiply(parameters[0]),
-                        JsclInteger.valueOf(-1)
-                    },
-                    0
-                ).evaluateElementary()
-            ).evaluateElementary()
-        );
-    }
+	public Generic evaluate() {
+		if (parameters[0].signum() < 0) {
+			return Constant.pi.subtract(new Acos(parameters[0].negate()).evaluate());
+		} else if (parameters[0].compareTo(JsclInteger.valueOf(1)) == 0) {
+			return JsclInteger.valueOf(0);
+		}
 
-    public Generic evaluateNumerically() {
-        return ((NumericWrapper) parameters[0]).acos();
-    }
+		return expressionValue();
+	}
 
-    public Variable newInstance() {
-        return new Acos(null);
-    }
+	public Generic evaluateElementary() {
+		return Constant.i.multiply(
+				new Ln(
+						new Root(
+								new Generic[]{
+										JsclInteger.valueOf(-1),
+										JsclInteger.valueOf(2).multiply(parameters[0]),
+										JsclInteger.valueOf(-1)
+								},
+								0
+						).evaluateElementary()
+				).evaluateElementary()
+		);
+	}
+
+	public Generic evaluateNumerically() {
+		return ((NumericWrapper) parameters[0]).acos();
+	}
+
+	public Variable newInstance() {
+		return new Acos(null);
+	}
 }

@@ -35,4 +35,5 @@ public interface MathEngine {
 	@NotNull
 	AngleUnits getDefaultAngleUnits();
 
+	void setDefaultAngleUnits(@NotNull AngleUnits defaultAngleUnits);
 }

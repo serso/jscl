@@ -6,8 +6,6 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
-import java.util.Arrays;
-
 public class ImplicitFunction extends Function {
 
 	private int derivations[];
@@ -129,8 +127,8 @@ public class ImplicitFunction extends Function {
 
 		if (n == 0) {
 			// do nothing
-		} else if (parameters.length == 1 && n <= Constant.PRIMECHARS) {
-			result.append(Constant.primechars(n));
+		} else if (parameters.length == 1 && n <= Constant.PRIME_CHARS) {
+			result.append(Constant.primeChars(n));
 		} else {
 			result.append(derivationToString());
 		}
@@ -167,7 +165,7 @@ public class ImplicitFunction extends Function {
 		result.append(name);
 		if (n == 0) {
 			// do nothing
-		} else if (parameters.length == 1 && n <= Constant.PRIMECHARS) {
+		} else if (parameters.length == 1 && n <= Constant.PRIME_CHARS) {
 			result.append(Constant.underscores(n));
 		} else {
 			result.append(derivationToJava());
@@ -253,8 +251,8 @@ public class ImplicitFunction extends Function {
 	}
 
 	void derivationToMathML(MathML element, int n) {
-		if (parameters.length == 1 && n <= Constant.PRIMECHARS) {
-			Constant.primecharsToMathML(element, n);
+		if (parameters.length == 1 && n <= Constant.PRIME_CHARS) {
+			Constant.primeCharsToMathML(element, n);
 		} else {
 			MathML e1 = element.element("mfenced");
 			for (int derivation : derivations) {

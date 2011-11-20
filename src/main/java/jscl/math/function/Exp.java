@@ -43,13 +43,15 @@ public class Exp extends Function {
     }
 
     public Generic evaluateSimplify() {
-        if(parameters[0].signum()<0) {
-            return new Inv(new Exp(parameters[0].negate()).evaluateSimplify()).evaluateSimplify();
-        } else if(parameters[0].signum()==0) {
-            return JsclInteger.valueOf(1);
-        } else if(parameters[0].compareTo(Constant.i.multiply(Constant.pi))==0) {
-            return JsclInteger.valueOf(-1);
-        }
+
+		if (parameters[0].signum() < 0) {
+			return new Inv(new Exp(parameters[0].negate()).evaluateSimplify()).evaluateSimplify();
+		} else if (parameters[0].signum() == 0) {
+			return JsclInteger.valueOf(1);
+		} else if (parameters[0].compareTo(Constant.i.multiply(Constant.pi)) == 0) {
+			return JsclInteger.valueOf(-1);
+		}
+
         try {
             Variable v= parameters[0].variableValue();
             if(v instanceof Lg) {
@@ -57,15 +59,16 @@ public class Exp extends Function {
                 return g[0];
             }
         } catch (NotVariableException e) {
-            Generic a[]= parameters[0].sumValue();
-            if(a.length>1) {
-                Generic s= JsclInteger.valueOf(1);
-                for(int i=0;i<a.length;i++) {
-                    s=s.multiply(new Exp(a[i]).evaluateSimplify());
-                }
-                return s;
-            }
+            Generic sumElements[]= parameters[0].sumValue();
+			if (sumElements.length > 1) {
+				Generic result = JsclInteger.valueOf(1);
+				for (Generic sumElement : sumElements) {
+					result = result.multiply(new Exp(sumElement).evaluateSimplify());
+				}
+				return result;
+			}
         }
+
         Generic n[]=Frac.separateCoefficient(parameters[0]);
         if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Pow(

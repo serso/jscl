@@ -4,6 +4,7 @@ import jscl.math.function.Conjugate;
 import jscl.math.function.Frac;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.NotNull;
 
 public class JsclVector extends Generic {
     protected final Generic element[];
@@ -24,7 +25,8 @@ public class JsclVector extends Generic {
         return v;
     }
 
-    public Generic add(Generic generic) {
+    @NotNull
+	public Generic add(@NotNull Generic generic) {
         if(generic instanceof JsclVector) {
             return add((JsclVector)generic);
         } else {
@@ -38,7 +40,8 @@ public class JsclVector extends Generic {
         return v;
     }
 
-    public Generic subtract(Generic generic) {
+    @NotNull
+	public Generic subtract(@NotNull Generic generic) {
         if(generic instanceof JsclVector) {
             return subtract((JsclVector)generic);
         } else {
@@ -46,7 +49,8 @@ public class JsclVector extends Generic {
         }
     }
 
-    public Generic multiply(Generic generic) {
+    @NotNull
+	public Generic multiply(@NotNull Generic generic) {
         if(generic instanceof JsclVector) {
             return scalarProduct((JsclVector)generic);
         } else if(generic instanceof Matrix) {
@@ -58,7 +62,8 @@ public class JsclVector extends Generic {
         }
     }
 
-    public Generic divide(Generic generic) throws ArithmeticException {
+    @NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
         if(generic instanceof JsclVector) {
             throw new ArithmeticException();
         } else if(generic instanceof Matrix) {

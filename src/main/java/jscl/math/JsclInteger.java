@@ -1,13 +1,16 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 
 public final class JsclInteger extends Generic {
-    public static final JsclInteger factory=new JsclInteger(BigInteger.valueOf(0));
-    final BigInteger content;
+
+	public static final JsclInteger factory=new JsclInteger(BigInteger.valueOf(0));
+
+	private final BigInteger content;
 
     public JsclInteger(BigInteger content) {
         this.content=content;
@@ -21,7 +24,8 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.add(integer.content));
     }
 
-    public Generic add(Generic generic) {
+    @NotNull
+	public Generic add(@NotNull Generic generic) {
         if(generic instanceof JsclInteger) {
             return add((JsclInteger)generic);
         } else {
@@ -33,7 +37,8 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.subtract(integer.content));
     }
 
-    public Generic subtract(Generic generic) {
+    @NotNull
+	public Generic subtract(@NotNull Generic generic) {
         if(generic instanceof JsclInteger) {
             return subtract((JsclInteger)generic);
         } else {
@@ -45,7 +50,8 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.multiply(integer.content));
     }
 
-    public Generic multiply(Generic generic) {
+    @NotNull
+	public Generic multiply(@NotNull Generic generic) {
         if(generic instanceof JsclInteger) {
             return multiply((JsclInteger)generic);
         } else {
@@ -59,7 +65,8 @@ public final class JsclInteger extends Generic {
         else throw new NotDivisibleException();
     }
 
-    public Generic divide(Generic generic) throws ArithmeticException {
+    @NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
         if(generic instanceof JsclInteger) {
             return divide((JsclInteger)generic);
         } else {
@@ -290,8 +297,8 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    private static final JsclInteger ZERO=new JsclInteger(BigInteger.valueOf(0));
-    private static final JsclInteger ONE=new JsclInteger(BigInteger.valueOf(1));
+    public static final JsclInteger ZERO=new JsclInteger(BigInteger.valueOf(0));
+    public static final JsclInteger ONE=new JsclInteger(BigInteger.valueOf(1));
 
     public static JsclInteger valueOf(long val) {
         switch((int)val) {

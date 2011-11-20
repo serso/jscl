@@ -14,7 +14,7 @@ public class PercentTest {
 
 	@Test
 	public void testNumeric() throws Exception {
-		final JsclMathEngine mathEngine = new JsclMathEngine();
+		final JsclMathEngine mathEngine = JsclMathEngine.instance;
 
 		Assert.assertEquals("150.0", mathEngine.evaluate("100+50%"));
 		Assert.assertEquals("0.0", mathEngine.evaluate("100-100%"));

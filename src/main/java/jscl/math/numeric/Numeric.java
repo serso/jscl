@@ -1,36 +1,19 @@
 package jscl.math.numeric;
 
 import jscl.math.Arithmetic;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class Numeric implements Arithmetic, Comparable {
-	public abstract Numeric add(Numeric numeric);
+public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>, Comparable {
 
-	public Numeric subtract(Numeric numeric) {
+	/*@NotNull
+	public Numeric subtract(@NotNull Numeric numeric) {
 		return add(numeric.negate());
-	}
+	}*/
 
-	public abstract Numeric multiply(Numeric numeric);
-
-	public abstract Numeric divide(Numeric numeric) throws ArithmeticException;
-
-	public Arithmetic add(Arithmetic arithmetic) {
-		return add((Numeric) arithmetic);
-	}
-
-	public Arithmetic subtract(Arithmetic arithmetic) {
-		return subtract((Numeric) arithmetic);
-	}
-
-	public Arithmetic multiply(Arithmetic arithmetic) {
-		return multiply((Numeric) arithmetic);
-	}
-
-	public Arithmetic divide(Arithmetic arithmetic) throws ArithmeticException {
-		return divide((Numeric) arithmetic);
-	}
-
+	@Override
+	@NotNull
 	public Numeric pow(int exponent) {
-		Numeric result = JsclDouble.valueOf(1);
+		Numeric result = JsclDouble.ONE;
 
 		for (int i = 0; i < exponent; i++) {
 			result = result.multiply(this);
@@ -39,42 +22,42 @@ public abstract class Numeric implements Arithmetic, Comparable {
 		return result;
 	}
 
+	@Override
+	@NotNull
 	public Numeric abs() {
 		return signum() < 0 ? negate() : this;
 	}
 
-	public abstract Numeric negate();
-
-	public abstract int signum();
-
+	@NotNull
+	@Override
 	public Numeric sgn() {
 		return divide(abs());
 	}
 
-	public abstract Numeric ln();
-
-	public abstract Numeric lg();
-
-	public abstract Numeric exp();
-
+	@NotNull
+	@Override
 	public Numeric inverse() {
-		return JsclDouble.valueOf(1).divide(this);
+		return JsclDouble.ONE.divide(this);
 	}
 
 	public Numeric pow(Numeric numeric) {
 		if (numeric.signum() == 0) {
-			return JsclDouble.valueOf(1);
-		} else if (numeric.compareTo(JsclDouble.valueOf(1)) == 0) {
+			return JsclDouble.ONE;
+		} else if (numeric.compareTo(JsclDouble.ONE) == 0) {
 			return this;
 		} else {
 			return numeric.multiply(ln()).exp();
 		}
 	}
 
+	@NotNull
+	@Override
 	public Numeric sqrt() {
 		return nthrt(2);
 	}
 
+	@NotNull
+	@Override
 	public Numeric nthrt(int n) {
 		return pow(JsclDouble.valueOf(1. / n));
 	}
@@ -85,68 +68,100 @@ public abstract class Numeric implements Arithmetic, Comparable {
 
 	public abstract Numeric conjugate();
 
+	@NotNull
+	@Override
 	public Numeric acos() {
 		return add(JsclDouble.valueOf(-1).add(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
 	}
 
+	@NotNull
+	@Override
 	public Numeric asin() {
-		return multiply(Complex.valueOf(0, 1)).negate().add(JsclDouble.valueOf(1).subtract(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
+		return multiply(Complex.valueOf(0, 1)).negate().add(JsclDouble.ONE.subtract(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
 	}
 
+	@NotNull
+	@Override
 	public Numeric atan() {
 		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).ln()).divide(JsclDouble.valueOf(2));
 	}
 
+	@NotNull
+	@Override
 	public Numeric acot() {
 		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).negate().ln()).divide(JsclDouble.valueOf(2));
 	}
 
+	@NotNull
+	@Override
 	public Numeric cos() {
-		return JsclDouble.valueOf(1).add(multiply(Complex.valueOf(0, 1)).exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
+		return JsclDouble.ONE.add(multiply(Complex.valueOf(0, 1)).exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
 	}
 
+	@NotNull
+	@Override
 	public Numeric sin() {
 		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
 	}
 
+	@NotNull
+	@Override
 	public Numeric tan() {
-		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.valueOf(1).add(multiply(Complex.valueOf(0, 1)).exp().pow(2)));
+		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.ONE.add(multiply(Complex.valueOf(0, 1)).exp().pow(2)));
 	}
 
+	@NotNull
+	@Override
 	public Numeric cot() {
-		return Complex.valueOf(0, 1).add(Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).divide(JsclDouble.valueOf(1).subtract(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).negate();
+		return Complex.valueOf(0, 1).add(Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).divide(JsclDouble.ONE.subtract(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).negate();
 	}
 
+	@NotNull
+	@Override
 	public Numeric acosh() {
 		return add(JsclDouble.valueOf(-1).add(pow(2)).sqrt()).ln();
 	}
 
+	@NotNull
+	@Override
 	public Numeric asinh() {
-		return add(JsclDouble.valueOf(1).add(pow(2)).sqrt()).ln();
+		return add(JsclDouble.ONE.add(pow(2)).sqrt()).ln();
 	}
 
+	@NotNull
+	@Override
 	public Numeric atanh() {
-		return JsclDouble.valueOf(1).add(this).divide(JsclDouble.valueOf(1).subtract(this)).ln().divide(JsclDouble.valueOf(2));
+		return JsclDouble.ONE.add(this).divide(JsclDouble.ONE.subtract(this)).ln().divide(JsclDouble.valueOf(2));
 	}
 
+	@NotNull
+	@Override
 	public Numeric acoth() {
-		return JsclDouble.valueOf(1).add(this).divide(JsclDouble.valueOf(1).subtract(this)).negate().ln().divide(JsclDouble.valueOf(2));
+		return JsclDouble.ONE.add(this).divide(JsclDouble.ONE.subtract(this)).negate().ln().divide(JsclDouble.valueOf(2));
 	}
 
+	@NotNull
+	@Override
 	public Numeric cosh() {
-		return JsclDouble.valueOf(1).add(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp()));
+		return JsclDouble.ONE.add(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp()));
 	}
 
+	@NotNull
+	@Override
 	public Numeric sinh() {
-		return JsclDouble.valueOf(1).subtract(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp())).negate();
+		return JsclDouble.ONE.subtract(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp())).negate();
 	}
 
+	@NotNull
+	@Override
 	public Numeric tanh() {
-		return JsclDouble.valueOf(1).subtract(exp().pow(2)).divide(JsclDouble.valueOf(1).add(exp().pow(2))).negate();
+		return JsclDouble.ONE.subtract(exp().pow(2)).divide(JsclDouble.ONE.add(exp().pow(2))).negate();
 	}
 
+	@NotNull
+	@Override
 	public Numeric coth() {
-		return JsclDouble.valueOf(1).add(exp().pow(2)).divide(JsclDouble.valueOf(1).subtract(exp().pow(2))).negate();
+		return JsclDouble.ONE.add(exp().pow(2)).divide(JsclDouble.ONE.subtract(exp().pow(2))).negate();
 	}
 
 	public abstract Numeric valueOf(Numeric numeric);

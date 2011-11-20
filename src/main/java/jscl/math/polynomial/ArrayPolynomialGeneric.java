@@ -8,6 +8,7 @@ import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.Literal;
+import org.jetbrains.annotations.NotNull;
 
 class ArrayPolynomialGeneric extends Polynomial {
     Generic coef[];
@@ -87,7 +88,8 @@ class ArrayPolynomialGeneric extends Polynomial {
         return n<0?-n-1:direction?n:n+1;
     }
 
-    public Polynomial subtract(Polynomial polynomial) {
+    @NotNull
+	public Polynomial subtract(@NotNull Polynomial polynomial) {
         if(polynomial.signum()==0) return this;
         ArrayPolynomialGeneric q=(ArrayPolynomialGeneric)polynomial;
         ArrayPolynomialGeneric p=newinstance(size+q.size);
@@ -210,7 +212,8 @@ class ArrayPolynomialGeneric extends Polynomial {
         return p;
     }
 
-    public Polynomial multiply(Polynomial polynomial) {
+    @NotNull
+	public Polynomial multiply(@NotNull Polynomial polynomial) {
         Polynomial p=newinstance(0);
         for(int i=0;i<size;i++) p=p.multiplyAndSubtract(monomial[i],getCoef(i).negate(),polynomial);
         return p;

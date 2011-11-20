@@ -4,6 +4,7 @@ import jscl.math.function.*;
 import jscl.math.polynomial.Monomial;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
+import org.jetbrains.annotations.NotNull;
 
 public class AntiDerivative {
 	UnivariatePolynomial factory;
@@ -146,7 +147,8 @@ class PolynomialWithSyzygy extends UnivariatePolynomial {
 		super(variable);
 	}
 
-	public Polynomial subtract(Polynomial polynomial) {
+	@NotNull
+	public Polynomial subtract(@NotNull Polynomial polynomial) {
 		PolynomialWithSyzygy p2 = (PolynomialWithSyzygy) polynomial;
 		PolynomialWithSyzygy p = (PolynomialWithSyzygy) super.subtract(p2);
 		for (int i = 0; i < syzygy.length; i++) p.syzygy[i] = syzygy[i].subtract(p2.syzygy[i]);

@@ -1,10 +1,9 @@
 package jscl.math.operator;
 
+import jscl.AngleUnits;
+import jscl.JsclMathEngine;
 import jscl.math.Generic;
-import jscl.math.NumericWrapper;
 import jscl.math.Variable;
-import jscl.math.function.Constant;
-import jscl.math.numeric.JsclDouble;
 import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,9 +43,13 @@ public class Degree extends PostfixFunction {
 	@Override
 	public Generic numeric() {
 		// todo serso: check
-		Generic parameter0 = parameters[0].numeric();
-		Generic multiply = parameter0.multiply(Constant.pi.numeric());
-		return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
+		/*if (JsclMathEngine.instance.getDefaultAngleUnits()) {
+			Generic parameter0 = parameters[0].numeric();
+			Generic multiply = parameter0.multiply(Constant.pi.numeric());
+			return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
+		}*/
+
+		return AngleUnits.deg.transform(JsclMathEngine.instance.getDefaultAngleUnits(), parameters[0].numeric());
 	}
 
 	@NotNull

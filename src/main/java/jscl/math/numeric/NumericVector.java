@@ -1,6 +1,7 @@
 package jscl.math.numeric;
 
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.NotNull;
 
 public class NumericVector extends Numeric {
     protected final Numeric element[];
@@ -16,12 +17,13 @@ public class NumericVector extends Numeric {
     }
 
     public NumericVector add(NumericVector vector) {
-        NumericVector v=(NumericVector)newinstance();
+        NumericVector v= newinstance();
         for(int i=0;i<n;i++) v.element[i]=element[i].add(vector.element[i]);
         return v;
     }
 
-    public Numeric add(Numeric numeric) {
+    @NotNull
+	public Numeric add(@NotNull Numeric numeric) {
         if(numeric instanceof NumericVector) {
             return add((NumericVector)numeric);
         } else {
@@ -30,12 +32,15 @@ public class NumericVector extends Numeric {
     }
 
     public NumericVector subtract(NumericVector vector) {
-        NumericVector v=(NumericVector)newinstance();
-        for(int i=0;i<n;i++) v.element[i]=element[i].subtract(vector.element[i]);
+        NumericVector v= newinstance();
+		for (int i = 0; i < n; i++) {
+			v.element[i] = element[i].subtract(vector.element[i]);
+		}
         return v;
     }
 
-    public Numeric subtract(Numeric numeric) {
+    @NotNull
+	public Numeric subtract(@NotNull Numeric numeric) {
         if(numeric instanceof NumericVector) {
             return subtract((NumericVector)numeric);
         } else {
@@ -43,34 +48,37 @@ public class NumericVector extends Numeric {
         }
     }
 
-    public Numeric multiply(Numeric numeric) {
+    @NotNull
+	public Numeric multiply(@NotNull Numeric numeric) {
         if(numeric instanceof NumericVector) {
             return scalarProduct((NumericVector)numeric);
         } else if(numeric instanceof NumericMatrix) {
             return ((NumericMatrix)numeric).transpose().multiply(this);
         } else {
-            NumericVector v=(NumericVector)newinstance();
-            for(int i=0;i<n;i++) v.element[i]=element[i].multiply((Numeric)numeric);
+            NumericVector v= newinstance();
+            for(int i=0;i<n;i++) v.element[i]=element[i].multiply(numeric);
             return v;
         }
     }
 
-    public Numeric divide(Numeric numeric) throws ArithmeticException {
+    @NotNull
+	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
         if(numeric instanceof NumericVector) {
             throw new ArithmeticException();
         } else if(numeric instanceof NumericMatrix) {
-            return multiply(((NumericMatrix)numeric).inverse());
+            return multiply(numeric.inverse());
         } else {
-            NumericVector v=(NumericVector)newinstance();
+            NumericVector v= newinstance();
             for(int i=0;i<n;i++) {
-                v.element[i]=element[i].divide((Numeric)numeric);
+                v.element[i]=element[i].divide(numeric);
             }
             return v;
         }
     }
 
-    public Numeric negate() {
-        NumericVector v=(NumericVector)newinstance();
+    @NotNull
+	public Numeric negate() {
+        NumericVector v= newinstance();
         for(int i=0;i<n;i++) v.element[i]=element[i].negate();
         return v;
     }
@@ -101,28 +109,31 @@ public class NumericVector extends Numeric {
     }
 
     public Numeric scalarProduct(NumericVector vector) {
-        Numeric a= JsclDouble.valueOf(0);
+        Numeric a= JsclDouble.ZERO;
         for(int i=0;i<n;i++) {
             a=a.add(element[i].multiply(vector.element[i]));
         }
         return a;
     }
 
-    public Numeric ln() {
+    @NotNull
+	public Numeric ln() {
         throw new ArithmeticException();
     }
 
+	@NotNull
 	@Override
 	public Numeric lg() {
 		throw new ArithmeticException();
 	}
 
+	@NotNull
 	public Numeric exp() {
         throw new ArithmeticException();
     }
 
     public Numeric conjugate() {
-        NumericVector v=(NumericVector)newinstance();
+        NumericVector v= newinstance();
         for(int i=0;i<n;i++) v.element[i]=element[i].conjugate();
         return v;
     }
@@ -142,8 +153,8 @@ public class NumericVector extends Numeric {
     public static NumericVector unity(int dimension) {
         NumericVector v=new NumericVector(new Numeric[dimension]);
         for(int i=0;i<v.n;i++) {
-            if(i==0) v.element[i]= JsclDouble.valueOf(1);
-            else v.element[i]= JsclDouble.valueOf(0);
+            if(i==0) v.element[i]= JsclDouble.ONE;
+            else v.element[i]= JsclDouble.ZERO;
         }
         return v;
     }

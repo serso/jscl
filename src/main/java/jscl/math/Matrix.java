@@ -6,6 +6,7 @@ import jscl.math.function.trigonometric.Cos;
 import jscl.math.function.trigonometric.Sin;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.NotNull;
 
 public class Matrix extends Generic {
     protected final Generic element[][];
@@ -31,7 +32,8 @@ public class Matrix extends Generic {
         return m;
     }
 
-    public Generic add(Generic generic) {
+    @NotNull
+	public Generic add(@NotNull Generic generic) {
         if(generic instanceof Matrix) {
             return add((Matrix)generic);
         } else {
@@ -49,7 +51,8 @@ public class Matrix extends Generic {
         return m;
     }
 
-    public Generic subtract(Generic generic) {
+    @NotNull
+	public Generic subtract(@NotNull Generic generic) {
         if(generic instanceof Matrix) {
             return subtract((Matrix)generic);
         } else {
@@ -75,7 +78,8 @@ public class Matrix extends Generic {
         return m;
     }
 
-    public Generic multiply(Generic generic) {
+    @NotNull
+	public Generic multiply(@NotNull Generic generic) {
         if(generic instanceof Matrix) {
             return multiply((Matrix)generic);
         } else if(generic instanceof JsclVector) {
@@ -100,7 +104,8 @@ public class Matrix extends Generic {
         }
     }
 
-    public Generic divide(Generic generic) throws ArithmeticException {
+    @NotNull
+	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
         if(generic instanceof Matrix) {
             return multiply(((Matrix)generic).inverse());
         } else if(generic instanceof JsclVector) {

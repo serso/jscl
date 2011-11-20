@@ -11,6 +11,7 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.Literal;
 import jscl.util.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 
 final class ListPolynomial extends Polynomial {
     final List content=new LinkedList();
@@ -81,7 +82,8 @@ final class ListPolynomial extends Polynomial {
         return n<0?-n-1:direction?n:n+1;
     }
 
-    public Polynomial subtract(Polynomial polynomial) {
+    @NotNull
+	public Polynomial subtract(@NotNull Polynomial polynomial) {
         if(polynomial.signum()==0) return this;
         if(mutable) {
             ListPolynomial q=(ListPolynomial)polynomial;

@@ -3,6 +3,7 @@ package jscl.math.polynomial;
 import java.math.BigInteger;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
+import org.jetbrains.annotations.NotNull;
 
 class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     BigInteger coef[];
@@ -35,7 +36,8 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
         }
     }
 
-    public Polynomial subtract(Polynomial polynomial) {
+    @NotNull
+	public Polynomial subtract(@NotNull Polynomial polynomial) {
         if(polynomial.signum()==0) return this;
         ArrayPolynomialInteger q=(ArrayPolynomialInteger)polynomial;
         ArrayPolynomialInteger p=(ArrayPolynomialInteger)newinstance(size+q.size);

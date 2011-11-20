@@ -30,8 +30,9 @@ public class Ln extends Function {
 	public Generic evaluateSimplify() {
 		try {
 			JsclInteger en = parameters[0].integerValue();
-			if (en.signum() < 0) return Constant.i.multiply(Constant.pi).add(new Ln(en.negate()).evaluateSimplify());
-			else {
+			if (en.signum() < 0) {
+				return Constant.i.multiply(Constant.pi).add(new Ln(en.negate()).evaluateSimplify());
+			} else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();
 				Generic s = JsclInteger.valueOf(0);

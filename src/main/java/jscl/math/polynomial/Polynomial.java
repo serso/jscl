@@ -2,12 +2,13 @@ package jscl.math.polynomial;
 
 import jscl.math.*;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-public abstract class Polynomial implements Arithmetic, Comparable {
+public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     final Monomial monomialFactory;
     final Generic coefFactory;
     final Ordering ordering;
@@ -45,11 +46,13 @@ public abstract class Polynomial implements Arithmetic, Comparable {
 
     public abstract Iterator iterator(boolean direction, Monomial current);
 
-    public Polynomial add(Polynomial polynomial) {
+    @NotNull
+	public Polynomial add(@NotNull Polynomial polynomial) {
         return multiplyAndSubtract(coefficient(JsclInteger.valueOf(-1)),polynomial);
     }
 
-    public abstract Polynomial subtract(Polynomial polynomial);
+    @NotNull
+	public abstract Polynomial subtract(@NotNull Polynomial polynomial);
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {
         return subtract(polynomial.multiply(generic));
@@ -59,7 +62,8 @@ public abstract class Polynomial implements Arithmetic, Comparable {
         return subtract(polynomial.multiply(monomial).multiply(generic));
     }
 
-    public Polynomial multiply(Polynomial polynomial) {
+    @NotNull
+	public Polynomial multiply(@NotNull Polynomial polynomial) {
         Polynomial p=valueof(JsclInteger.valueOf(0));
         Iterator it=iterator();
         while(it.hasNext()) {
@@ -76,7 +80,8 @@ public abstract class Polynomial implements Arithmetic, Comparable {
         return remainder(polynomial).signum()==0;
     }
 
-    public Polynomial divide(Polynomial polynomial) throws ArithmeticException {
+    @NotNull
+	public Polynomial divide(@NotNull Polynomial polynomial) throws ArithmeticException {
         Polynomial p[]=divideAndRemainder(polynomial);
         if(p[1].signum()==0) return p[0];
         else throw new NotDivisibleException();
@@ -85,21 +90,21 @@ public abstract class Polynomial implements Arithmetic, Comparable {
     public abstract Polynomial divide(Generic generic) throws ArithmeticException;
     public abstract Polynomial divide(Monomial monomial) throws ArithmeticException;
 
-    public Arithmetic add(Arithmetic arithmetic) {
+ /*   public Arithmetic add(@NotNull Arithmetic arithmetic) {
         return add((Polynomial)arithmetic);
     }
 
-    public Arithmetic subtract(Arithmetic arithmetic) {
+    public Arithmetic subtract(@NotNull Arithmetic arithmetic) {
         return subtract((Polynomial)arithmetic);
     }
 
-    public Arithmetic multiply(Arithmetic arithmetic) {
+    public Arithmetic multiply(@NotNull Arithmetic arithmetic) {
         return multiply((Polynomial)arithmetic);
     }
 
-    public Arithmetic divide(Arithmetic arithmetic) throws ArithmeticException {
+    public Arithmetic divide(@NotNull Arithmetic arithmetic) throws ArithmeticException {
         return divide((Polynomial)arithmetic);
-    }
+    }*/
 
     public Polynomial[] divideAndRemainder(Polynomial polynomial) throws ArithmeticException {
         Polynomial p[]={valueof(JsclInteger.valueOf(0)),this};
