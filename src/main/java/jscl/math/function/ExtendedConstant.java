@@ -161,7 +161,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	@Override
 	@Nullable
 	public String getValue() {
-		return getValue0();
+		return value;
 	}
 
 	@Override
@@ -184,18 +184,6 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 			result = AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), Double.valueOf(value));
 		} else {
 			result = Double.valueOf(value);
-		}
-
-		return result;
-	}
-
-	private String getValue0() {
-		String result;
-
-		if (Constant.PI_CONST.getName().equals(getName())) {
-			result = String.valueOf(AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), Double.valueOf(value)));
-		} else {
-			result = value;
 		}
 
 		return result;
