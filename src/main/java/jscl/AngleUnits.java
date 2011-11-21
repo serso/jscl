@@ -2,7 +2,7 @@ package jscl;
 
 import jscl.math.Generic;
 import jscl.math.NumericWrapper;
-import jscl.math.numeric.JsclDouble;
+import jscl.math.numeric.Real;
 import jscl.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +32,7 @@ public enum AngleUnits {
 				case deg:
 					return value;
 				case rad:
-					return value.multiply(JsclDouble.valueOf(FROM_DEG_TO_RAD));
+					return value.multiply(Real.valueOf(FROM_DEG_TO_RAD));
 				default:
 					throw new UnsupportedOperationException(to + " is not supported yet!");
 			}
@@ -44,7 +44,7 @@ public enum AngleUnits {
 				case deg:
 					return value;
 				case rad:
-					return value.multiply(new NumericWrapper(JsclDouble.valueOf(FROM_DEG_TO_RAD)));
+					return value.multiply(new NumericWrapper(Real.valueOf(FROM_DEG_TO_RAD)));
 				default:
 					throw new UnsupportedOperationException(to + " is not supported yet!");
 			}
@@ -68,7 +68,7 @@ public enum AngleUnits {
 		public Numeric transform(@NotNull AngleUnits to, Numeric value) {
 			switch (to) {
 				case deg:
-					return value.multiply(JsclDouble.valueOf(FROM_RAD_TO_DEG));
+					return value.multiply(Real.valueOf(FROM_RAD_TO_DEG));
 				case rad:
 					return value;
 				default:
@@ -80,7 +80,7 @@ public enum AngleUnits {
 		public Generic transform(@NotNull AngleUnits to, Generic value) {
 			switch (to) {
 				case deg:
-					return value.multiply(new NumericWrapper(JsclDouble.valueOf(FROM_RAD_TO_DEG)));
+					return value.multiply(new NumericWrapper(Real.valueOf(FROM_RAD_TO_DEG)));
 				case rad:
 					return value;
 				default:
