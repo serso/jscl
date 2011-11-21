@@ -10,8 +10,6 @@ public final class JsclDouble extends Numeric {
 	public static final JsclDouble ONE = new JsclDouble(1d);
 	public static final JsclDouble TWO = new JsclDouble(2d);
 
-	public static final JsclDouble PI_DIV_2 = JsclDouble.valueOf(Math.PI).divide(TWO);
-
 	private final double content;
 
 	JsclDouble(double val) {
@@ -177,10 +175,12 @@ public final class JsclDouble extends Numeric {
 		return new JsclDouble(Math.atan(content));
 	}
 
+	private final static JsclDouble PI_DIV_BY_2_RAD = JsclDouble.valueOf(Math.PI).divide(TWO);
+
 	@NotNull
 	@Override
 	public Numeric acot() {
-		return out(PI_DIV_2.subtract(atanRad()));
+		return out(PI_DIV_BY_2_RAD.subtract(atanRad()));
 	}
 
 	@NotNull

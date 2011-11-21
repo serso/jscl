@@ -110,7 +110,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	public Numeric cos() {
 		// e = exp(ix)
 		final Numeric e = this.multiply(ONE_I).exp();
-		// e1 = e^2
+		// e1 = exp(2ix)
 		final Numeric e1 = e.pow(2);
 
 		return ONE.add(e1).divide(TWO.multiply(e));
@@ -119,7 +119,10 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric sin() {
-		return ONE_I.subtract(this.multiply(ONE_I).exp().pow(2).multiply(ONE_I)).divide(TWO.multiply(multiply(ONE_I).exp()));
+		// e = exp(i)
+		final Numeric e = this.multiply(ONE_I).exp();
+		// result = [i - i * exp(i)] / [2exp(i)]
+		return ONE_I.subtract(e.multiply(ONE_I)).divide(TWO.multiply(e));
 	}
 
 	@NotNull
