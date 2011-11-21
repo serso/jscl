@@ -11,12 +11,7 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Root rootValue() {
-		return new Root(
-				new Generic[]{
-						parameters[0].negate(),
-						JsclInteger.valueOf(0),
-						JsclInteger.valueOf(1)
-				}, 0);
+		return new Root(new Generic[]{ parameters[0].negate(), JsclInteger.valueOf(0),JsclInteger.valueOf(1)}, 0);
 	}
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
@@ -30,11 +25,7 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Generic derivative(int n) {
-		return Constant.half.multiply(
-				new Inv(
-						evaluate()
-				).evaluate()
-		);
+		return Constant.half.multiply(new Inv( evaluate()).evaluate());
 	}
 
 	public boolean imaginary() {
@@ -110,11 +101,14 @@ public class Sqrt extends Algebraic {
 	}
 
 	public String toJava() {
-		if (parameters[0].compareTo(JsclInteger.valueOf(-1)) == 0) return "Complex.valueOf(0, 1)";
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(parameters[0].toJava());
-		buffer.append(".").append(name).append("()");
-		return buffer.toString();
+		if (parameters[0].compareTo(JsclInteger.valueOf(-1)) == 0) {
+			return "Complex.valueOf(0, 1)";
+		} else {
+			final StringBuilder result = new StringBuilder();
+			result.append(parameters[0].toJava());
+			result.append(".").append(name).append("()");
+			return result.toString();
+		}
 	}
 
 	void bodyToMathML(MathML element, boolean fenced) {

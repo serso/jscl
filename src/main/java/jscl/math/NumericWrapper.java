@@ -12,17 +12,17 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	private final Numeric content;
 
 	public NumericWrapper(JsclInteger integer) {
-		content = JsclDouble.valueOf(integer.content().doubleValue());
+		content = Real.valueOf(integer.content().doubleValue());
 	}
 
 	public NumericWrapper(Rational rational) {
-		content = JsclDouble.valueOf(rational.numerator().doubleValue() / rational.denominator().doubleValue());
+		content = Real.valueOf(rational.numerator().doubleValue() / rational.denominator().doubleValue());
 	}
 
 	public NumericWrapper(JsclVector vector) {
 		Numeric v[] = new Numeric[vector.n];
 		for (int i = 0; i < vector.n; i++) v[i] = ((NumericWrapper) vector.element[i].numeric()).content();
-		content = new NumericVector(v);
+		content = new Vector(v);
 	}
 
 	public NumericWrapper(Matrix matrix) {
@@ -32,7 +32,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 				m[i][j] = ((NumericWrapper) matrix.element[i][j].numeric()).content();
 			}
 		}
-		content = new NumericMatrix(m);
+		content = new jscl.math.numeric.Matrix(m);
 	}
 
 	public NumericWrapper(Constant constant) {
@@ -40,14 +40,14 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 		if (constantFromRegistry != null ) {
 			if (constantFromRegistry.getName().equals(Constant.I_CONST.getName())) {
-				content = Complex.ONE_I;
+				content = Complex.I;
 			} else {
 				if (constantFromRegistry.getValue() != null) {
 					final Double value = constantFromRegistry.getDoubleValue();
 					if (value == null) {
 						throw new ArithmeticException("Constant " + constant.getName() + " has invalid definition: " + constantFromRegistry.getValue());
 					} else {
-						content = JsclDouble.valueOf(value);
+						content = Real.valueOf(value);
 					}
 				} else {
 					throw new ArithmeticException();
@@ -207,8 +207,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	public JsclInteger integerValue() throws NotIntegerException {
-		if (content instanceof JsclDouble) {
-			double doubleValue = ((JsclDouble) content).doubleValue();
+		if (content instanceof Real) {
+			double doubleValue = ((Real) content).doubleValue();
 			if (Math.floor(doubleValue) == doubleValue) {
 				return JsclInteger.valueOf((int) doubleValue);
 			} else {
@@ -221,8 +221,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	@Override
 	public boolean isInteger() {
-		if (content instanceof JsclDouble) {
-			double value = ((JsclDouble) content).doubleValue();
+		if (content instanceof Real) {
+			double value = ((Real) content).doubleValue();
 			return Math.floor(value) == value;
 		}
 		return false;
@@ -284,8 +284,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	@NotNull
-	public NumericWrapper nthrt(int n) {
-		return new NumericWrapper(content.nthrt(n));
+	public NumericWrapper nThRoot(int n) {
+		return new NumericWrapper(content.nThRoot(n));
 	}
 
 
@@ -397,7 +397,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	public String toJava() {
-		return "JsclDouble.valueOf(" + new Double(((JsclDouble) content).doubleValue()) + ")";
+		return "JsclDouble.valueOf(" + new Double(((Real) content).doubleValue()) + ")";
 	}
 
 	public void toMathML(MathML element, Object data) {
@@ -415,7 +415,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	void bodyToMathML(MathML element) {
 		MathML e1 = element.element("mn");
-		e1.appendChild(element.text(String.valueOf(new Double(((JsclDouble) content).doubleValue()))));
+		e1.appendChild(element.text(String.valueOf(new Double(((Real) content).doubleValue()))));
 		element.appendChild(e1);
 	}
 

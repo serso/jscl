@@ -19,7 +19,7 @@ public final class Complex extends Numeric {
 	public Numeric add(@NotNull Numeric that) {
 		if (that instanceof Complex) {
 			return add((Complex) that);
-		} else if (that instanceof JsclDouble) {
+		} else if (that instanceof Real) {
 			return add(valueOf(that));
 		} else {
 			return that.valueOf(this).add(that);
@@ -34,7 +34,7 @@ public final class Complex extends Numeric {
 	public Numeric subtract(@NotNull Numeric that) {
 		if (that instanceof Complex) {
 			return subtract((Complex) that);
-		} else if (that instanceof JsclDouble) {
+		} else if (that instanceof Real) {
 			return subtract(valueOf(that));
 		} else {
 			return that.valueOf(this).subtract(that);
@@ -49,7 +49,7 @@ public final class Complex extends Numeric {
 	public Numeric multiply(@NotNull Numeric that) {
 		if (that instanceof Complex) {
 			return multiply((Complex) that);
-		} else if (that instanceof JsclDouble) {
+		} else if (that instanceof Real) {
 			return multiply(valueOf(that));
 		} else {
 			return that.multiply(this);
@@ -64,7 +64,7 @@ public final class Complex extends Numeric {
 	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
 		if (that instanceof Complex) {
 			return divide((Complex) that);
-		} else if (that instanceof JsclDouble) {
+		} else if (that instanceof Real) {
 			return divide(valueOf(that));
 		} else {
 			return that.valueOf(this).divide(that);
@@ -79,8 +79,8 @@ public final class Complex extends Numeric {
 	@NotNull
 	@Override
 	public Numeric abs() {
-		final Numeric realSquare = new JsclDouble(real).pow(2);
-		final Numeric imaginarySquare = new JsclDouble(imaginary).pow(2);
+		final Numeric realSquare = new Real(real).pow(2);
+		final Numeric imaginarySquare = new Real(imaginary).pow(2);
 		final Numeric sum = realSquare.add(imaginarySquare);
 		return sum.sqrt();
 	}
@@ -93,7 +93,7 @@ public final class Complex extends Numeric {
 		} else if (real < .0) {
 			result = -1;
 		} else {
-			result = JsclDouble.signum(imaginary);
+			result = Real.signum(imaginary);
 		}
 
 		return result;
@@ -114,7 +114,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public Numeric ln() {
 		if (signum() == 0) {
-			return JsclDouble.ZERO.ln();
+			return Real.ZERO.ln();
 		} else {
 			return new Complex(Math.log(magnitude()), angle());
 		}
@@ -123,7 +123,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public Numeric lg() {
 		if (signum() == 0) {
-			return JsclDouble.ZERO.lg();
+			return Real.ZERO.lg();
 		} else {
 			return new Complex(Math.log10(magnitude()), angle());
 		}
@@ -178,7 +178,7 @@ public final class Complex extends Numeric {
 	public int compareTo(Numeric that) {
 		if (that instanceof Complex) {
 			return compareTo((Complex) that);
-		} else if (that instanceof JsclDouble) {
+		} else if (that instanceof Real) {
 			return compareTo(valueOf(that));
 		} else {
 			return that.valueOf(this).compareTo(that);
@@ -189,22 +189,23 @@ public final class Complex extends Numeric {
 		return new Complex(complex.real, complex.imaginary);
 	}
 
-	public Numeric valueOf(Numeric numeric) {
+	@NotNull
+	public Numeric valueOf(@NotNull Numeric numeric) {
 		if (numeric instanceof Complex) {
 			return copyOf((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			JsclDouble d = (JsclDouble) numeric;
+		} else if (numeric instanceof Real) {
+			Real d = (Real) numeric;
 			return d.toComplex();
 		} else throw new ArithmeticException();
 	}
 
 	@NotNull
-	public static final Complex ONE_I = new Complex(0, 1);
+	public static final Complex I = new Complex(0, 1);
 
 	@NotNull
 	public static Complex valueOf(double real, double imaginary) {
 		if (real == 0d && imaginary == 1d) {
-			return ONE_I;
+			return I;
 		} else {
 			return new Complex(real, imaginary);
 		}

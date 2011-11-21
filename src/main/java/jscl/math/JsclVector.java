@@ -337,7 +337,7 @@ public class JsclVector extends Generic {
 
     public String toJava() {
 		final StringBuilder result = new StringBuilder();
-        result.append("new NumericVector(new Numeric[] {");
+        result.append("new Vector(new Numeric[] {");
         for(int i=0;i<n;i++) {
             result.append(element[i].toJava()).append(i<n-1?", ":"");
         }

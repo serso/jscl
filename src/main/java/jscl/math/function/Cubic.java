@@ -66,7 +66,7 @@ public class Cubic extends Algebraic {
     }
 
     public Generic evaluateNumerically() {
-        return ((NumericWrapper) parameters[0]).nthrt(3);
+        return ((NumericWrapper) parameters[0]).nThRoot(3);
     }
 
     public String toJava() {

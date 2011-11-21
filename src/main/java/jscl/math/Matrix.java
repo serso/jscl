@@ -456,7 +456,7 @@ public class Matrix extends Generic {
 
     public String toJava() {
         StringBuffer buffer=new StringBuffer();
-        buffer.append("new NumericMatrix(new Numeric[][] {");
+        buffer.append("new Matrix(new Numeric[][] {");
         for(int i=0;i<n;i++) {
             buffer.append("{");
             for(int j=0;j<p;j++) {

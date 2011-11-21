@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.NumericWrapper;
-import jscl.math.numeric.JsclDouble;
+import jscl.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class DoubleParser implements Parser<NumericWrapper> {
 	@NotNull
 	public NumericWrapper parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
-		return new NumericWrapper(JsclDouble.valueOf(multiTryParser.parse(expression, position, previousSumElement)));
+		return new NumericWrapper(Real.valueOf(multiTryParser.parse(expression, position, previousSumElement)));
 	}
 }
 

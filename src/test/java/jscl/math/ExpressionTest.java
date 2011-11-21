@@ -324,8 +324,16 @@ public class ExpressionTest {
 			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
 		}
 
-		//Assert.assertEquals(mathEngine.evaluate("cosh(i*x)"), mathEngine.evaluate("cos(x)"));
-
+		try {
+			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
+			Assert.assertEquals(mathEngine.evaluate("1.5707963267948966-0.8813735870195429*i"), mathEngine.evaluate("acos(i)"));
+			Assert.assertEquals(mathEngine.evaluate("0.9045568943023813-1.0612750619050355*i"), mathEngine.evaluate("acos(1+i)"));
+			Assert.assertEquals(mathEngine.evaluate("1.0-0.9999999999999998*i"), mathEngine.evaluate("cos(acos(1-i))"));
+			// todo serso: wolfram alpha returns 0.9045568943023813+1.0612750619050355*i for acos(1-i)
+			Assert.assertEquals(mathEngine.evaluate("0.9045568943023813+1.0612750619050355*i"), mathEngine.evaluate("-acos(1-i)"));
+		} finally {
+			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+		}
 
 	}
 

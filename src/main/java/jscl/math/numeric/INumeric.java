@@ -39,7 +39,7 @@ public interface INumeric<T extends INumeric<T>> {
 	T sqrt();
 
 	@NotNull
-	T nthrt(int n);
+	T nThRoot(int n);
 
 	@NotNull
 	T acos();
