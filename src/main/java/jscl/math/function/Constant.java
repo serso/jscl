@@ -11,6 +11,7 @@ public class Constant extends Variable {
 	public static final Constant PI_CONST = new Constant("π");
 	public static final Generic pi = PI_CONST.expressionValue();
 
+	public static final Constant I_CONST = new Constant("i");
 	public static final Constant INF_CONST2 = new Constant("Infinity");
 	public static final Constant INF_CONST = new Constant("∞");
 	public static final Generic infinity = INF_CONST.expressionValue();

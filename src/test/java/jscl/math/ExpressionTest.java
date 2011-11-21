@@ -7,6 +7,8 @@ import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.text.ParseException;
 import junit.framework.Assert;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 
 import static junit.framework.Assert.fail;
@@ -296,6 +298,47 @@ public class ExpressionTest {
 			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
 		}
 
+		try {
+			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
+			testSinEqualsToSinh(mathEngine, 0d);
+			testSinEqualsToSinh(mathEngine, 1d, "0.8414709848078965");
+			testSinEqualsToSinh(mathEngine, 3d, "0.1411200080598672");
+			testSinEqualsToSinh(mathEngine, 6d);
+			testSinEqualsToSinh(mathEngine, -1d, "-0.8414709848078965");
+			testSinEqualsToSinh(mathEngine, -3.3d, "0.1577456941432482");
+			testSinEqualsToSinh(mathEngine, -232.2d, "0.27429486373689577");
+		} finally {
+			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+		}
+
+		try {
+			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
+			testSinEqualsToSinh(mathEngine, 0d);
+			testSinEqualsToSinh(mathEngine, 1d);
+			testSinEqualsToSinh(mathEngine, 3d);
+			testSinEqualsToSinh(mathEngine, 6d);
+			testSinEqualsToSinh(mathEngine, -1d);
+			testSinEqualsToSinh(mathEngine, -3.3d);
+			testSinEqualsToSinh(mathEngine, -232.2d);
+		} finally {
+			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+		}
+
+		//Assert.assertEquals(mathEngine.evaluate("cosh(i*x)"), mathEngine.evaluate("cos(x)"));
+
+
+	}
+
+	private void testSinEqualsToSinh(@NotNull MathEngine mathEngine, @NotNull Double x) throws ParseException {
+		testSinEqualsToSinh(mathEngine, x, null);
+	}
+
+	private void testSinEqualsToSinh(@NotNull MathEngine mathEngine, @NotNull Double x, @Nullable  String expected) throws ParseException {
+		if (expected == null) {
+			Assert.assertEquals(mathEngine.evaluate("sinh(√(-1)*" + x + ")/√(-1)"), mathEngine.evaluate("sin(" + x + ")"));
+		} else {
+			Assert.assertEquals(expected, mathEngine.evaluate("sin(" + x + ")"));
+		}
 	}
 
 	@Test

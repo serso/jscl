@@ -75,7 +75,11 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric acos() {
-		return add(JsclDouble.valueOf(-1).add(this.pow(2)).sqrt()).ln().multiply(ONE_I);
+		// e = √(-1 + x^2)
+		final Numeric e = JsclDouble.valueOf(-1).add(this.pow(2)).sqrt();
+
+		// result = x + i * ln[ √(-1 + x^2) ]
+		return this.add(e).ln().multiply(ONE_I);
 	}
 
 	@NotNull
@@ -83,8 +87,8 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	public Numeric asin() {
 		// e = √(1 - x^2)
 		final Numeric e = ONE.subtract(this.pow(2)).sqrt();
-		// result = iln[-i + √(1 - x^2)]
-		return multiply(ONE_I).negate().add(e).ln().multiply(ONE_I);
+		// result = iln[-xi + √(1 - x^2)]
+		return this.multiply(ONE_I).negate().add(e).ln().multiply(ONE_I);
 	}
 
 	@NotNull
@@ -170,7 +174,13 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric sinh() {
-		return ONE.subtract(exp().pow(2)).divide(TWO.multiply(exp())).negate();
+		// e = exp(2x)
+		final Numeric e = this.exp().pow(2);
+		// e1 = 2exp(x)
+		final Numeric e1 = TWO.multiply(this.exp());
+
+		// result = -[1 - exp(2x)]/[2exp(x)]
+		return ONE.subtract(e).divide(e1).negate();
 	}
 
 	@NotNull
