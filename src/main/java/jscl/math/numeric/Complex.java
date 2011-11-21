@@ -131,7 +131,7 @@ public final class Complex extends Numeric {
 
 	@NotNull
 	public Numeric exp() {
-		return new Complex(Math.cos(imaginary), Math.sin(imaginary)).multiply(Math.exp(real));
+		return new Complex(Math.cos(defaultToRad(imaginary)), Math.sin(defaultToRad(imaginary))).multiply(Math.exp(real));
 	}
 
 	@NotNull
@@ -218,8 +218,9 @@ public final class Complex extends Numeric {
 		} else {
 			if (real != 0.) {
 				result.append(real);
-				if (imaginary <= 0.) ;
-				else result.append("+");
+				if (imaginary > 0.) {
+					result.append("+");
+				}
 			}
 
 			if (imaginary != 1.) {
@@ -230,7 +231,7 @@ public final class Complex extends Numeric {
 					result.append("*");
 				}
 			}
-			result.append("√(-1)");
+			result.append("i");
 		}
 
 		return result.toString();

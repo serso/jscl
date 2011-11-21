@@ -137,13 +137,13 @@ public class ExpressionTest {
 		Assert.assertEquals("1.0", Expression.valueOf("abs(-1)").numeric().toString());
 		Assert.assertEquals("Infinity", Expression.valueOf("abs(-∞)").numeric().toString());
 
-		Assert.assertEquals("1.0", Expression.valueOf("abs(√(-1))").numeric().toString());
-		Assert.assertEquals("0.0", Expression.valueOf("abs(0+0*√(-1))").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("abs(-√(-1))").numeric().toString());
-		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2-√(-1))").numeric().toString());
-		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2+√(-1))").numeric().toString());
-		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*√(-1))").numeric().toString());
-		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*√(-1))").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("abs(i)").numeric().toString());
+		Assert.assertEquals("0.0", Expression.valueOf("abs(0+0*i)").numeric().toString());
+		Assert.assertEquals("1.0", Expression.valueOf("abs(-i)").numeric().toString());
+		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2-i)").numeric().toString());
+		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2+i)").numeric().toString());
+		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*i)").numeric().toString());
+		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*i)").numeric().toString());
 
 		JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("k").numeric().toString());
@@ -314,12 +314,12 @@ public class ExpressionTest {
 		try {
 			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
 			testSinEqualsToSinh(mathEngine, 0d);
-			testSinEqualsToSinh(mathEngine, 1d);
-			testSinEqualsToSinh(mathEngine, 3d);
-			testSinEqualsToSinh(mathEngine, 6d);
-			testSinEqualsToSinh(mathEngine, -1d);
-			testSinEqualsToSinh(mathEngine, -3.3d);
-			testSinEqualsToSinh(mathEngine, -232.2d);
+			testSinEqualsToSinh(mathEngine, 1d, "0.01745240643728351");
+			testSinEqualsToSinh(mathEngine, 3d, "0.052335956242943835");
+			testSinEqualsToSinh(mathEngine, 6d, "0.10452846326765347");
+			testSinEqualsToSinh(mathEngine, -1d, "-0.01745240643728351");
+			testSinEqualsToSinh(mathEngine, -3.3d, "-0.05756402695956728");
+			testSinEqualsToSinh(mathEngine, -232.2d, "0.7901550123756904");
 		} finally {
 			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
 		}
@@ -335,9 +335,12 @@ public class ExpressionTest {
 
 	private void testSinEqualsToSinh(@NotNull MathEngine mathEngine, @NotNull Double x, @Nullable  String expected) throws ParseException {
 		if (expected == null) {
-			Assert.assertEquals(mathEngine.evaluate("sinh(√(-1)*" + x + ")/√(-1)"), mathEngine.evaluate("sin(" + x + ")"));
+			Assert.assertEquals(mathEngine.evaluate("sinh(i*" + x + ")/i"), mathEngine.evaluate("sin(" + x + ")"));
+//			Assert.assertEquals(mathEngine.evaluate("exp("+x+")-sinh(" + x + ")"), mathEngine.evaluate("cosh(" + x + ")"));
 		} else {
 			Assert.assertEquals(expected, mathEngine.evaluate("sin(" + x + ")"));
+			Assert.assertEquals(expected, mathEngine.evaluate("(exp(i * "+x+") - cos(" + x + "))/i"));
+			Assert.assertEquals(expected, mathEngine.evaluate("(exp(i * "+x+") - cos(" + x + "))/i"));
 		}
 	}
 

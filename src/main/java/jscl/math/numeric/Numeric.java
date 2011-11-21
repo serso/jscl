@@ -1,11 +1,14 @@
 package jscl.math.numeric;
 
+import jscl.AngleUnits;
+import jscl.JsclMathEngine;
 import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
 
 import static jscl.math.numeric.Complex.ONE_I;
 import static jscl.math.numeric.JsclDouble.ONE;
 import static jscl.math.numeric.JsclDouble.TWO;
+import static jscl.math.numeric.Numeric.radToDefault;
 
 public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>, Comparable {
 
@@ -72,6 +75,93 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 
 	public abstract Numeric conjugate();
 
+	protected static double defaultToRad(double value) {
+		return JsclMathEngine.instance.getDefaultAngleUnits().transform(AngleUnits.rad, value);
+	}
+
+	protected  static double radToDefault(double value) {
+		return AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), value);
+	}
+
+	protected  static Numeric defaultToRad(@NotNull Numeric value) {
+		return JsclMathEngine.instance.getDefaultAngleUnits().transform(AngleUnits.rad, value);
+	}
+
+	protected  static Numeric radToDefault(@NotNull Numeric value) {
+		return AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), value);
+	}
+
+	@NotNull
+	@Override
+	public Numeric sinh() {
+		final Numeric thisRad = defaultToRad(this);
+
+		// e = exp(2x)
+		final Numeric e = thisRad.exp().pow(2);
+
+		// e1 = 2exp(x)
+		final Numeric e1 = TWO.multiply(thisRad.exp());
+
+		// result = -[1 - exp(2x)]/[2exp(x)]
+		return ONE.subtract(e).divide(e1).negate();
+	}
+
+	@NotNull
+	@Override
+	public Numeric cosh() {
+		final Numeric thisExpRad = defaultToRad(this).exp();
+
+		// e = exp(2x)
+		final Numeric e = thisExpRad.pow(2);
+
+		// e1 = 2exp(x)
+		final Numeric e1 = TWO.multiply(thisExpRad);
+
+		// result = [ 1 + exp(2x )] / 2exp(x)
+		return ONE.add(e).divide(e1);
+	}
+
+
+	@NotNull
+	@Override
+	public Numeric tanh() {
+		// e = exp(2x)
+		final Numeric e = defaultToRad(this).exp().pow(2);
+
+		// result = - (1 - exp(2x)) / (1 + exp(2x))
+		return ONE.subtract(e).divide(ONE.add(e)).negate();
+	}
+
+	@NotNull
+	@Override
+	public Numeric coth() {
+		// e = exp(2x)
+		final Numeric e = defaultToRad(this).exp().pow(2);
+
+		// result = - (1 + exp(2x)) / (1 - exp(2x))
+		return ONE.add(e).divide(ONE.subtract(e)).negate();
+	}
+
+	@NotNull
+	@Override
+	public Numeric sin() {
+		// e = exp(i)
+		final Numeric e = defaultToRad(this).multiply(ONE_I).exp();
+		// result = [i - i * exp(i)] / [2exp(i)]
+		return ONE_I.subtract(e.multiply(ONE_I)).divide(TWO.multiply(e));
+	}
+
+	@NotNull
+	@Override
+	public Numeric cos() {
+		// e = exp(ix)
+		final Numeric e = defaultToRad(this).multiply(ONE_I).exp();
+		// e1 = exp(2ix)
+		final Numeric e1 = e.pow(2);
+
+		return ONE.add(e1).divide(TWO.multiply(e));
+	}
+
 	@NotNull
 	@Override
 	public Numeric acos() {
@@ -111,34 +201,21 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 
 	@NotNull
 	@Override
-	public Numeric cos() {
-		// e = exp(ix)
-		final Numeric e = this.multiply(ONE_I).exp();
-		// e1 = exp(2ix)
-		final Numeric e1 = e.pow(2);
-
-		return ONE.add(e1).divide(TWO.multiply(e));
-	}
-
-	@NotNull
-	@Override
-	public Numeric sin() {
-		// e = exp(i)
-		final Numeric e = this.multiply(ONE_I).exp();
-		// result = [i - i * exp(i)] / [2exp(i)]
-		return ONE_I.subtract(e.multiply(ONE_I)).divide(TWO.multiply(e));
-	}
-
-	@NotNull
-	@Override
 	public Numeric tan() {
-		return ONE_I.subtract(multiply(ONE_I).exp().pow(2).multiply(ONE_I)).divide(ONE.add(multiply(ONE_I).exp().pow(2)));
+		// e = exp(2xi)
+		final Numeric e = this.multiply(ONE_I).exp().pow(2);
+
+		final Numeric e1 = e.multiply(ONE_I);
+		return ONE_I.subtract(e1).divide(ONE.add(e));
 	}
 
 	@NotNull
 	@Override
 	public Numeric cot() {
-		return ONE_I.add(ONE_I.multiply(ONE_I.multiply(this).exp().pow(2))).divide(ONE.subtract(ONE_I.multiply(this).exp().pow(2))).negate();
+		// e = exp(2xi)
+		final Numeric e = ONE_I.multiply(this).exp().pow(2);
+
+		return ONE_I.add(ONE_I.multiply(e)).divide(ONE.subtract(e)).negate();
 	}
 
 	@NotNull
@@ -163,36 +240,6 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@Override
 	public Numeric acoth() {
 		return ONE.add(this).divide(ONE.subtract(this)).negate().ln().divide(TWO);
-	}
-
-	@NotNull
-	@Override
-	public Numeric cosh() {
-		return ONE.add(exp().pow(2)).divide(TWO.multiply(exp()));
-	}
-
-	@NotNull
-	@Override
-	public Numeric sinh() {
-		// e = exp(2x)
-		final Numeric e = this.exp().pow(2);
-		// e1 = 2exp(x)
-		final Numeric e1 = TWO.multiply(this.exp());
-
-		// result = -[1 - exp(2x)]/[2exp(x)]
-		return ONE.subtract(e).divide(e1).negate();
-	}
-
-	@NotNull
-	@Override
-	public Numeric tanh() {
-		return ONE.subtract(exp().pow(2)).divide(ONE.add(exp().pow(2))).negate();
-	}
-
-	@NotNull
-	@Override
-	public Numeric coth() {
-		return ONE.add(exp().pow(2)).divide(ONE.subtract(exp().pow(2))).negate();
 	}
 
 	public abstract Numeric valueOf(Numeric numeric);

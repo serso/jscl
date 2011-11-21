@@ -38,12 +38,21 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	public NumericWrapper(Constant constant) {
 		final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
 
-		if (constantFromRegistry != null && constantFromRegistry.getValue() != null) {
-			final Double value = constantFromRegistry.getDoubleValue();
-			if (value == null) {
-				throw new ArithmeticException("Constant " + constant.getName() + " has invalid definition: " + constantFromRegistry.getValue());
+		if (constantFromRegistry != null ) {
+			if (constantFromRegistry.getName().equals(Constant.I_CONST.getName())) {
+				content = Complex.ONE_I;
+			} else {
+				if (constantFromRegistry.getValue() != null) {
+					final Double value = constantFromRegistry.getDoubleValue();
+					if (value == null) {
+						throw new ArithmeticException("Constant " + constant.getName() + " has invalid definition: " + constantFromRegistry.getValue());
+					} else {
+						content = JsclDouble.valueOf(value);
+					}
+				} else {
+					throw new ArithmeticException();
+				}
 			}
-			content = JsclDouble.valueOf(value);
 		} else {
 			throw new ArithmeticException();
 		}

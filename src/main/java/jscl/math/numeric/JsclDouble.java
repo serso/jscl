@@ -139,35 +139,19 @@ public final class JsclDouble extends Numeric {
 		return this;
 	}
 
-	public static double in(double value) {
-		return JsclMathEngine.instance.getDefaultAngleUnits().transform(AngleUnits.rad, value);
-	}
-
-	public static double out(double value) {
-		return AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), value);
-	}
-
-	public static Numeric in(Numeric value) {
-		return JsclMathEngine.instance.getDefaultAngleUnits().transform(AngleUnits.rad, value);
-	}
-
-	public static Numeric out(Numeric value) {
-		return AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), value);
-	}
-
 	@NotNull
 	public Numeric acos() {
-		return new JsclDouble(out(Math.acos(content)));
+		return new JsclDouble(radToDefault(Math.acos(content)));
 	}
 
 	@NotNull
 	public Numeric asin() {
-		return new JsclDouble(out(Math.asin(content)));
+		return new JsclDouble(radToDefault(Math.asin(content)));
 	}
 
 	@NotNull
 	public Numeric atan() {
-		return out(atanRad());
+		return radToDefault(atanRad());
 	}
 
 	@NotNull
@@ -180,22 +164,22 @@ public final class JsclDouble extends Numeric {
 	@NotNull
 	@Override
 	public Numeric acot() {
-		return out(PI_DIV_BY_2_RAD.subtract(atanRad()));
+		return radToDefault(PI_DIV_BY_2_RAD.subtract(atanRad()));
 	}
 
 	@NotNull
 	public Numeric cos() {
-		return new JsclDouble(Math.cos(in(content)));
+		return new JsclDouble(Math.cos(defaultToRad(content)));
 	}
 
 	@NotNull
 	public Numeric sin() {
-		return new JsclDouble(Math.sin(in(content)));
+		return new JsclDouble(Math.sin(defaultToRad(content)));
 	}
 
 	@NotNull
 	public Numeric tan() {
-		return new JsclDouble(Math.tan(in(content)));
+		return new JsclDouble(Math.tan(defaultToRad(content)));
 	}
 
 	@NotNull

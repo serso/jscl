@@ -76,6 +76,14 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	}
 
 	ExtendedConstant(@NotNull Constant constant,
+					 @Nullable String value,
+					 @Nullable String javaString) {
+		this.constant = constant;
+		this.value = value;
+		this.javaString = javaString;
+	}
+
+	ExtendedConstant(@NotNull Constant constant,
 					 @Nullable Double value,
 					 @Nullable String javaString) {
 		this.constant = constant;
