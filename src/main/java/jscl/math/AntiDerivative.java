@@ -52,8 +52,8 @@ public class AntiDerivative {
 
 	Generic[] reduce(Generic n, Generic d) {
 		Debug.println("reduce(" + n + ", " + d + ")");
-		Polynomial pn = factory.valueof(n);
-		Polynomial pd = factory.valueof(d);
+		Polynomial pn = factory.valueOf(n);
+		Polynomial pd = factory.valueOf(d);
 		Polynomial gcd = pn.gcd(pd);
 		return new Generic[]{
 				pn.divide(gcd).genericValue(),
@@ -87,7 +87,7 @@ public class AntiDerivative {
 
 	Generic hermite(Generic a, Generic d) {
 		Debug.println("hermite(" + a + ", " + d + ")");
-		UnivariatePolynomial sd[] = ((UnivariatePolynomial) factory.valueof(d)).squarefreeDecomposition();
+		UnivariatePolynomial sd[] = ((UnivariatePolynomial) factory.valueOf(d)).squarefreeDecomposition();
 		int m = sd.length - 1;
 		if (m < 2) return trager(a, d);
 		else {
@@ -108,7 +108,7 @@ public class AntiDerivative {
 			s = new Inv(s.multiply(r[2]).multiply(JsclInteger.valueOf(1 - m))).evaluate();
 			b = b.multiply(s);
 			c = c.multiply(s);
-			Generic bprime = ((UnivariatePolynomial) factory.valueof(b)).derivative().genericValue();
+			Generic bprime = ((UnivariatePolynomial) factory.valueOf(b)).derivative().genericValue();
 			return new Frac(b, v.pow(m - 1)).evaluate().add(hermite(JsclInteger.valueOf(1 - m).multiply(c).subtract(u.multiply(bprime)), u.multiply(v.pow(m - 1))));
 		}
 	}
@@ -116,13 +116,13 @@ public class AntiDerivative {
 	Generic trager(Generic a, Generic d) {
 		Debug.println("trager(" + a + ", " + d + ")");
 		Variable t = new TechnicalVariable("t");
-		UnivariatePolynomial pd = (UnivariatePolynomial) factory.valueof(d);
-		UnivariatePolynomial pa = (UnivariatePolynomial) factory.valueof(a).subtract(pd.derivative().multiply(t.expressionValue()));
+		UnivariatePolynomial pd = (UnivariatePolynomial) factory.valueOf(d);
+		UnivariatePolynomial pa = (UnivariatePolynomial) factory.valueOf(a).subtract(pd.derivative().multiply(t.expressionValue()));
 		UnivariatePolynomial rs[] = pd.remainderSequence(pa);
 		Polynomial fact = UnivariatePolynomial.factory(t);
 		for (int i = 0; i < rs.length; i++)
 			if (rs[i] != null)
-				rs[i] = (UnivariatePolynomial) fact.valueof((i > 0 ? rs[i].normalize() : rs[i]).genericValue());
+				rs[i] = (UnivariatePolynomial) fact.valueOf((i > 0 ? rs[i].normalize() : rs[i]).genericValue());
 		UnivariatePolynomial q[] = rs[0].squarefreeDecomposition();
 		int m = q.length - 1;
 		Generic s = JsclInteger.valueOf(0);
@@ -220,7 +220,7 @@ class PolynomialWithSyzygy extends UnivariatePolynomial {
 	void init(Generic generic, int n) {
 		init(generic);
 		for (int i = 0; i < syzygy.length; i++)
-			syzygy[i] = Polynomial.factory(variable).valueof(JsclInteger.valueOf(i == n ? 1 : 0));
+			syzygy[i] = Polynomial.factory(variable).valueOf(JsclInteger.valueOf(i == n ? 1 : 0));
 	}
 
 	protected UnivariatePolynomial newinstance() {

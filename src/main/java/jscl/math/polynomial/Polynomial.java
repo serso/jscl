@@ -64,7 +64,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
 
     @NotNull
 	public Polynomial multiply(@NotNull Polynomial polynomial) {
-        Polynomial p=valueof(JsclInteger.valueOf(0));
+        Polynomial p= valueOf(JsclInteger.valueOf(0));
         Iterator it=iterator();
         while(it.hasNext()) {
             Term t=(Term)it.next();
@@ -107,7 +107,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }*/
 
     public Polynomial[] divideAndRemainder(Polynomial polynomial) throws ArithmeticException {
-        Polynomial p[]={valueof(JsclInteger.valueOf(0)),this};
+        Polynomial p[]={valueOf(JsclInteger.valueOf(0)),this};
         Polynomial q=polynomial;
         Iterator it=p[1].iterator(true);
         while(it.hasNext()) {
@@ -119,7 +119,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
                 Generic c1=t.coef();
                 Generic c2=q.head().coef();
                 Generic c=c1.divide(c2);
-                p[0]=p[0].multiplyAndSubtract(m,c,valueof(JsclInteger.valueOf(-1)));
+                p[0]=p[0].multiplyAndSubtract(m,c, valueOf(JsclInteger.valueOf(-1)));
                 p[1]=p[1].multiplyAndSubtract(m,c,q);
                 it=p[1].iterator(true);
             }
@@ -168,7 +168,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
 
     public final Polynomial[] gcdAndNormalize() {
         Generic gcd=gcd();
-        return new Polynomial[] {valueof(gcd),gcd.signum()==0?this:divide(gcd)};
+        return new Polynomial[] {valueOf(gcd),gcd.signum()==0?this:divide(gcd)};
     }
 
     public final Polynomial normalize() {
@@ -187,7 +187,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     public Polynomial pow(int exponent) {
-        Polynomial a=valueof(JsclInteger.valueOf(1));
+        Polynomial a= valueOf(JsclInteger.valueOf(1));
         for(int i=0;i<exponent;i++) a=a.multiply(this);
         return a;
     }
@@ -209,12 +209,12 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     public abstract int degree();
-    public abstract Polynomial valueof(Polynomial polynomial);
-    public abstract Polynomial valueof(Generic generic);
-    public abstract Polynomial valueof(Monomial monomial);
+    public abstract Polynomial valueOf(Polynomial polynomial);
+    public abstract Polynomial valueOf(Generic generic);
+    public abstract Polynomial valueOf(Monomial monomial);
 
     public final Polynomial copy() {
-        return valueof(this);
+        return valueOf(this);
     }
 
     public abstract Polynomial freeze();

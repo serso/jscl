@@ -95,14 +95,14 @@ final class GeoBucket extends Polynomial {
 
     Term behead(Term t, int n, int i) {
         Monomial m=t.monomial();
-        Polynomial p=factory.valueof(m).multiply(t.coef());
+        Polynomial p=factory.valueOf(m).multiply(t.coef());
         content[n]=content[n].subtract(p);
         content[i]=content[i].add(p);
         return new Term(m,content[i].coefficient(m));
     }
 
     void canonicalize() {
-        Polynomial s=factory.valueof(JsclInteger.valueOf(0));
+        Polynomial s=factory.valueOf(JsclInteger.valueOf(0));
         int sugar=0;
         for(int i=0;i<size;i++) {
             Polynomial p=content[i];
@@ -140,7 +140,7 @@ final class GeoBucket extends Polynomial {
             int n=log(q.size());
             if(n>=size) resize(n+1);
             Polynomial p=content[n];
-            Polynomial s=(p==null?factory.valueof(JsclInteger.valueOf(0)):p).subtract(q);
+            Polynomial s=(p==null?factory.valueOf(JsclInteger.valueOf(0)):p).subtract(q);
             content[n]=null;
             while(n<log(s.size())) {
                 n++;
@@ -162,7 +162,7 @@ final class GeoBucket extends Polynomial {
             int n=log(q.size());
             if(n>=size) resize(n+1);
             Polynomial p=content[n];
-            Polynomial s=(p==null?factory.valueof(JsclInteger.valueOf(0)):p).multiplyAndSubtract(generic,q);
+            Polynomial s=(p==null?factory.valueOf(JsclInteger.valueOf(0)):p).multiplyAndSubtract(generic,q);
             content[n]=null;
             while(n<log(s.size())) {
                 n++;
@@ -184,7 +184,7 @@ final class GeoBucket extends Polynomial {
             int n=log(q.size());
             if(n>=size) resize(n+1);
             Polynomial p=content[n];
-            Polynomial s=(p==null?factory.valueof(JsclInteger.valueOf(0)):p).multiplyAndSubtract(monomial,generic,q);
+            Polynomial s=(p==null?factory.valueOf(JsclInteger.valueOf(0)):p).multiplyAndSubtract(monomial,generic,q);
             content[n]=null;
             while(n<log(s.size())) {
                 n++;
@@ -252,10 +252,10 @@ final class GeoBucket extends Polynomial {
     }
 
     public Polynomial valueof(GeoBucket bucket) {
-        return valueof(bucket.polynomial().copy());
+        return valueOf(bucket.polynomial().copy());
     }
 
-    public Polynomial valueof(Polynomial polynomial) {
+    public Polynomial valueOf(Polynomial polynomial) {
         if(polynomial instanceof GeoBucket) {
             return valueof((GeoBucket)polynomial);
         } else {
@@ -265,12 +265,12 @@ final class GeoBucket extends Polynomial {
         }
     }
 
-    public Polynomial valueof(Generic generic) {
-        return valueof(factory.valueof(generic));
+    public Polynomial valueOf(Generic generic) {
+        return valueOf(factory.valueOf(generic));
     }
 
-    public Polynomial valueof(Monomial monomial) {
-        return valueof(factory.valueof(monomial));
+    public Polynomial valueOf(Monomial monomial) {
+        return valueOf(factory.valueOf(monomial));
     }
 
     public Polynomial freeze() {
@@ -329,7 +329,7 @@ final class GeoBucket extends Polynomial {
             buffer.append("{");
             for(int i=0;i<size;i++) {
                 Polynomial p=content[i];
-                buffer.append(p==null?factory.valueof(JsclInteger.valueOf(0)):p).append(i<size-1?", ":"");
+                buffer.append(p==null?factory.valueOf(JsclInteger.valueOf(0)):p).append(i<size-1?", ":"");
             }
             buffer.append("}");
             return buffer.toString();
@@ -345,7 +345,7 @@ final class GeoBucket extends Polynomial {
                 MathML e3=element.element("mtr");
                 MathML e4=element.element("mtd");
                 Polynomial p=content[i];
-                (p==null?factory.valueof(JsclInteger.valueOf(0)):p).toMathML(e4,null);
+                (p==null?factory.valueOf(JsclInteger.valueOf(0)):p).toMathML(e4,null);
                 e3.appendChild(e4);
                 e2.appendChild(e3);
             }

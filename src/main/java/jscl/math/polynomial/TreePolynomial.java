@@ -144,7 +144,7 @@ final class TreePolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.signum()==0) return valueOf(JsclInteger.valueOf(0));
         if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         if(mutable) {
             Iterator it=content.entrySet().iterator();
@@ -220,19 +220,19 @@ final class TreePolynomial extends Polynomial {
         return degree;
     }
 
-    public Polynomial valueof(Polynomial polynomial) {
+    public Polynomial valueOf(Polynomial polynomial) {
         TreePolynomial p=newinstance();
         p.init(polynomial);
         return p;
     }
 
-    public Polynomial valueof(Generic generic) {
+    public Polynomial valueOf(Generic generic) {
         TreePolynomial p=newinstance();
         p.init(generic);
         return p;
     }
 
-    public Polynomial valueof(Monomial monomial) {
+    public Polynomial valueOf(Monomial monomial) {
         TreePolynomial p=newinstance();
         p.init(monomial);
         return p;

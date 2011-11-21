@@ -153,9 +153,9 @@ final class PolynomialWrapper extends Generic {
 
     public Generic valueOf(Generic generic) {
         if(generic instanceof PolynomialWrapper) {
-            return new PolynomialWrapper(content.valueof(((PolynomialWrapper)generic).content));
+            return new PolynomialWrapper(content.valueOf(((PolynomialWrapper) generic).content));
         } else {
-            return new PolynomialWrapper(content.valueof(generic));
+            return new PolynomialWrapper(content.valueOf(generic));
         }
     }
 

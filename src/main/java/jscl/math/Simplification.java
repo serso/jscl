@@ -111,7 +111,7 @@ public final class Simplification {
 			}
 			a = solve(a, unk, k);
 			for (Generic anA : a) {
-				UnivariatePolynomial p = (UnivariatePolynomial) fact.valueof(anA);
+				UnivariatePolynomial p = (UnivariatePolynomial) fact.valueOf(anA);
 				if (p.degree() == 1) return p;
 			}
 			return null;
@@ -122,7 +122,7 @@ public final class Simplification {
 				unk[i] = c.unknown;
 			}
 			a = solve(a, unk, n);
-			return (UnivariatePolynomial) fact.valueof(a[0]);
+			return (UnivariatePolynomial) fact.valueOf(a[0]);
 		}
 	}
 

@@ -13,7 +13,7 @@ public abstract class Trigonometric extends Function {
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         Generic s= parameters[0];
         if(s.isPolynomial(variable)) {
-            Polynomial p=Polynomial.factory(variable).valueof(s);
+            Polynomial p=Polynomial.factory(variable).valueOf(s);
             if(p.degree()==1) {
                 Generic a[]=p.elements();
                 return new Inv(a[1]).evaluate().multiply(antiDerivative(0));

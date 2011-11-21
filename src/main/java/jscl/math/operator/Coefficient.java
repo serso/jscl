@@ -26,7 +26,7 @@ public class Coefficient extends Operator {
 	public Generic compute() {
         Variable variable= parameters[1].variableValue();
         if(parameters[0].isPolynomial(variable)) {
-            return new JsclVector(Polynomial.factory(variable).valueof(parameters[0]).elements());
+            return new JsclVector(Polynomial.factory(variable).valueOf(parameters[0]).elements());
         }
         return expressionValue();
     }

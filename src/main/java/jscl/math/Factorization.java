@@ -49,7 +49,7 @@ public class Factorization {
 
     void computeValue(Generic generic) {
         Debug.println("factorization");
-        Polynomial n[]=factory.valueof(generic).gcdAndNormalize();
+        Polynomial n[]=factory.valueOf(generic).gcdAndNormalize();
         Monomial m=n[1].monomialGcd();
         Polynomial s=n[1].divide(m);
         Generic a= JsclInteger.valueOf(1);
@@ -87,7 +87,7 @@ public class Factorization {
     }
 
     static Polynomial[] remainder(Polynomial s, Polynomial p, Generic t[]) {
-        Polynomial zero=s.valueof(JsclInteger.valueOf(0));
+        Polynomial zero=s.valueOf(JsclInteger.valueOf(0));
         Generic a[]=Basis.augment(t,s.remainderUpToCoefficient(p).elements());
         Variable unk[]=Basis.augmentUnknown(new Variable[] {},p.elements());
         {
@@ -107,18 +107,18 @@ public class Factorization {
 
     static Polynomial substitute(Polynomial p, Generic a[], Variable unk[]) {
         Generic s[]=new Generic[] {p.genericValue()};
-        return p.valueof(Basis.compute(Basis.augment(a,s),Basis.augmentUnknown(unk,s)).elements()[0]);
+        return p.valueOf(Basis.compute(Basis.augment(a, s), Basis.augmentUnknown(unk, s)).elements()[0]);
     }
 
     private static final String ter="t";
 
     static Polynomial polynomial(Polynomial s, Monomial monomial[]) {
-        Polynomial p=s.valueof(JsclInteger.valueOf(0));
+        Polynomial p=s.valueOf(JsclInteger.valueOf(0));
         Iterator it=monomial[1].iterator(monomial[0]);
         for(int i=0;it.hasNext();i++) {
             Monomial m=(Monomial)it.next();
             Variable t=it.hasNext()?new TechnicalVariable(ter,new int[] {i}):new TechnicalVariable(ter);
-            p=p.add(p.valueof(m).multiply(t.expressionValue()));
+            p=p.add(p.valueOf(m).multiply(t.expressionValue()));
         }
         return p;
     }
@@ -184,7 +184,7 @@ class Linearization {
             Variable va[]=s.variables();
             if(va.length==1) {
                 Variable t=va[0];
-                Polynomial p=Polynomial.factory(t).valueof(s);
+                Polynomial p=Polynomial.factory(t).valueOf(s);
                 if(p.degree()>1) {
                     flag=false;
                     Polynomial r[]=linearize(p,t);
@@ -202,7 +202,7 @@ class Linearization {
         Generic x=variable.expressionValue();
         Polynomial s=polynomial;
         try {
-            Polynomial r=s.valueof(x);
+            Polynomial r=s.valueOf(x);
             s=s.divide(r);
             l.add(r);
             while(true) s=s.divide(r);
@@ -220,7 +220,7 @@ class Linearization {
                 q[0]=d[0].integer(d[0].complementary());
                 if(ArrayComparator.comparator.compare(q,p)<0) break loop;
                 for(int i=0;i<2;i++) {
-                    Polynomial r=s.valueof(i==0?p[1].multiply(x).subtract(p[0]):p[1].multiply(x).add(p[0]));
+                    Polynomial r=s.valueOf(i == 0 ? p[1].multiply(x).subtract(p[0]) : p[1].multiply(x).add(p[0]));
                     for(boolean flag=true;true;flag=false) {
                         try { s=s.divide(r); } catch (NotDivisibleException e) { break; }
                         d[1].divide();
@@ -272,7 +272,7 @@ class Divisor implements Iterator {
 
 class IntegerDivisor extends Divisor {
     IntegerDivisor(Generic generic, Variable unknown[], Ordering ordering) {
-        super(Polynomial.factory(unknown,ordering).valueof(generic).head().monomial());
+        super(Polynomial.factory(unknown,ordering).valueOf(generic).head().monomial());
     }
 
     public Object next() {

@@ -203,7 +203,7 @@ public class Expression extends Generic {
 				}
 			} else {
 				Polynomial fact = Polynomial.factory(va[0]);
-				Polynomial p[] = fact.valueof(this).divideAndRemainder(fact.valueof(ex));
+				Polynomial p[] = fact.valueOf(this).divideAndRemainder(fact.valueOf(ex));
 				return new Generic[]{p[0].genericValue(), p[1].genericValue()};
 			}
 		} else if (generic instanceof JsclInteger) {
@@ -236,7 +236,7 @@ public class Expression extends Generic {
 				else return gcd(ex.gcd());
 			} else {
 				Polynomial fact = Polynomial.factory(va[0]);
-				return fact.valueof(this).gcd(fact.valueof(ex)).genericValue();
+				return fact.valueOf(this).gcd(fact.valueOf(ex)).genericValue();
 			}
 		} else if (generic instanceof JsclInteger) {
 			if (generic.signum() == 0) return this;
@@ -276,7 +276,7 @@ public class Expression extends Generic {
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
 		if (isPolynomial(variable)) {
-			return ((UnivariatePolynomial) Polynomial.factory(variable).valueof(this)).antiderivative().genericValue();
+			return ((UnivariatePolynomial) Polynomial.factory(variable).valueOf(this)).antiderivative().genericValue();
 		} else {
 			try {
 				Variable v = variableValue();
@@ -326,7 +326,7 @@ public class Expression extends Generic {
 		int n = l.size;
 		for (int i = 0; i < n; i++) {
 			Variable v = l.variables[i];
-			Generic a = ((UnivariatePolynomial) Polynomial.factory(v).valueof(this)).derivative(variable).genericValue();
+			Generic a = ((UnivariatePolynomial) Polynomial.factory(v).valueOf(this)).derivative(variable).genericValue();
 			s = s.add(a);
 		}
 		return s;

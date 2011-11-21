@@ -171,7 +171,7 @@ final class ArrayPolynomial extends Polynomial {
 
     @NotNull
 	public Polynomial multiply(@NotNull Polynomial polynomial) {
-        Polynomial p=valueof(JsclInteger.valueOf(0));
+        Polynomial p= valueOf(JsclInteger.valueOf(0));
         for(int i=0;i<size;i++) {
             Term t=content[i];
             p=p.multiplyAndSubtract(t.monomial(),t.coef().negate(),polynomial);
@@ -180,7 +180,7 @@ final class ArrayPolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.signum()==0) return valueOf(JsclInteger.valueOf(0));
         if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         ArrayPolynomial p=newinstance(size);
         for(int i=0;i<size;i++) p.content[i]=content[i].multiply(generic);
@@ -238,19 +238,19 @@ final class ArrayPolynomial extends Polynomial {
         return degree;
     }
 
-    public Polynomial valueof(Polynomial polynomial) {
+    public Polynomial valueOf(Polynomial polynomial) {
         ArrayPolynomial p=newinstance(0);
         p.init(polynomial);
         return p;
     }
 
-    public Polynomial valueof(Generic generic) {
+    public Polynomial valueOf(Generic generic) {
         ArrayPolynomial p=newinstance(0);
         p.init(generic);
         return p;
     }
 
-    public Polynomial valueof(Monomial monomial) {
+    public Polynomial valueOf(Monomial monomial) {
         ArrayPolynomial p=newinstance(0);
         p.init(monomial);
         return p;

@@ -220,7 +220,7 @@ class ArrayPolynomialGeneric extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.signum()==0) return valueOf(JsclInteger.valueOf(0));
         if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         ArrayPolynomialGeneric p=newinstance(size);
         System.arraycopy(monomial,0,p.monomial,0,size);
@@ -286,19 +286,19 @@ class ArrayPolynomialGeneric extends Polynomial {
         return degree;
     }
 
-    public Polynomial valueof(Polynomial polynomial) {
+    public Polynomial valueOf(Polynomial polynomial) {
         ArrayPolynomialGeneric p=newinstance(0);
         p.init(polynomial);
         return p;
     }
 
-    public Polynomial valueof(Generic generic) {
+    public Polynomial valueOf(Generic generic) {
         ArrayPolynomialGeneric p=newinstance(0);
         p.init(generic);
         return p;
     }
 
-    public Polynomial valueof(Monomial monomial) {
+    public Polynomial valueOf(Monomial monomial) {
         ArrayPolynomialGeneric p=newinstance(0);
         p.init(monomial);
         return p;

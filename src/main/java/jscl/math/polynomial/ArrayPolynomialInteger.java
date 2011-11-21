@@ -163,7 +163,7 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.signum()==0) return valueOf(JsclInteger.valueOf(0));
         BigInteger g=generic.integerValue().content();
         if(g.compareTo(BigInteger.valueOf(1))==0) return this;
         ArrayPolynomialInteger p=(ArrayPolynomialInteger)newinstance(size);
@@ -203,7 +203,7 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     }
 
     public Polynomial gcd(Polynomial polynomial) {
-        return valueof(genericValue().gcd(polynomial.genericValue()));
+        return valueOf(genericValue().gcd(polynomial.genericValue()));
     }
 
     public Generic gcd() {

@@ -183,7 +183,7 @@ final class ListPolynomial extends Polynomial {
     }
 
     public Polynomial multiply(Generic generic) {
-        if(generic.signum()==0) return valueof(JsclInteger.valueOf(0));
+        if(generic.signum()==0) return valueOf(JsclInteger.valueOf(0));
         if(generic.compareTo(JsclInteger.valueOf(1))==0) return this;
         if(mutable) {
             ListIterator it=content.listIterator();
@@ -234,19 +234,19 @@ final class ListPolynomial extends Polynomial {
         return degree;
     }
 
-    public Polynomial valueof(Polynomial polynomial) {
+    public Polynomial valueOf(Polynomial polynomial) {
         ListPolynomial p=newinstance(0);
         p.init(polynomial);
         return p;
     }
 
-    public Polynomial valueof(Generic generic) {
+    public Polynomial valueOf(Generic generic) {
         ListPolynomial p=newinstance(0);
         p.init(generic);
         return p;
     }
 
-    public Polynomial valueof(Monomial monomial) {
+    public Polynomial valueOf(Monomial monomial) {
         ListPolynomial p=newinstance(0);
         p.init(monomial);
         return p;

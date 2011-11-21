@@ -110,7 +110,7 @@ public class Basis {
     }
 
     public Polynomial polynomial(Generic generic) {
-        return factory.valueof(generic).normalize().freeze();
+        return factory.valueOf(generic).normalize().freeze();
     }
 
     public String toString() {

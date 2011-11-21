@@ -247,17 +247,17 @@ public class UnivariatePolynomial extends Polynomial {
         return p;
     }
 
-    public Polynomial valueof(Polynomial polynomial) {
+    public Polynomial valueOf(Polynomial polynomial) {
         throw new UnsupportedOperationException();
     }
 
-    public Polynomial valueof(Generic generic) {
+    public Polynomial valueOf(Generic generic) {
         UnivariatePolynomial p=newinstance();
         p.init(generic);
         return p;
     }
 
-    public Polynomial valueof(Monomial monomial) {
+    public Polynomial valueOf(Monomial monomial) {
         throw new UnsupportedOperationException();
     }
 
