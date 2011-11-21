@@ -6,7 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 public final class JsclDouble extends Numeric {
 
-	public static final JsclDouble PI_DIV_2 = JsclDouble.valueOf(Math.PI).divide(JsclDouble.valueOf(2d));
+	public static final JsclDouble ZERO = new JsclDouble(0d);
+	public static final JsclDouble ONE = new JsclDouble(1d);
+	public static final JsclDouble TWO = new JsclDouble(2d);
+
+	public static final JsclDouble PI_DIV_2 = JsclDouble.valueOf(Math.PI).divide(TWO);
 
 	private final double content;
 
@@ -32,11 +36,11 @@ public final class JsclDouble extends Numeric {
 	}
 
 	@NotNull
-	public Numeric subtract(@NotNull Numeric numeric) {
-		if (numeric instanceof JsclDouble) {
-			return subtract((JsclDouble) numeric);
+	public Numeric subtract(@NotNull Numeric that) {
+		if (that instanceof JsclDouble) {
+			return subtract((JsclDouble) that);
 		} else {
-			return numeric.valueOf(this).subtract(numeric);
+			return that.valueOf(this).subtract(that);
 		}
 	}
 
@@ -45,11 +49,11 @@ public final class JsclDouble extends Numeric {
 	}
 
 	@NotNull
-	public Numeric multiply(@NotNull Numeric numeric) {
-		if (numeric instanceof JsclDouble) {
-			return multiply((JsclDouble) numeric);
+	public Numeric multiply(@NotNull Numeric that) {
+		if (that instanceof JsclDouble) {
+			return multiply((JsclDouble) that);
 		} else {
-			return numeric.multiply(this);
+			return that.multiply(this);
 		}
 	}
 
@@ -58,11 +62,11 @@ public final class JsclDouble extends Numeric {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
-		if (numeric instanceof JsclDouble) {
-			return divide((JsclDouble) numeric);
+	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
+		if (that instanceof JsclDouble) {
+			return divide((JsclDouble) that);
 		} else {
-			return numeric.valueOf(this).divide(numeric);
+			return that.valueOf(this).divide(that);
 		}
 	}
 
@@ -226,14 +230,13 @@ public final class JsclDouble extends Numeric {
 		}
 	}
 
-	public static final JsclDouble ZERO = new JsclDouble(0d);
-	public static final JsclDouble ONE = new JsclDouble(1d);
-
 	public static JsclDouble valueOf(double value) {
 		if (value == 0d) {
 			return ZERO;
 		} else if ( value == 1d ) {
 			return ONE;
+		} else if ( value == 2d ) {
+			return TWO;
 		} else {
 			return new JsclDouble(value);
 		}

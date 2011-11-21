@@ -3,55 +3,56 @@ package jscl.math.numeric;
 import org.jetbrains.annotations.NotNull;
 
 public final class Complex extends Numeric {
-	double real, imag;
 
-	Complex(double real, double imag) {
+	private final double real, imaginary;
+
+	Complex(double real, double imaginary) {
 		this.real = real;
-		this.imag = imag;
+		this.imaginary = imaginary;
 	}
 
 	public Complex add(Complex complex) {
-		return new Complex(real + complex.real, imag + complex.imag);
+		return new Complex(real + complex.real, imaginary + complex.imaginary);
 	}
 
 	@NotNull
-	public Numeric add(@NotNull Numeric numeric) {
-		if (numeric instanceof Complex) {
-			return add((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			return add(valueOf(numeric));
+	public Numeric add(@NotNull Numeric that) {
+		if (that instanceof Complex) {
+			return add((Complex) that);
+		} else if (that instanceof JsclDouble) {
+			return add(valueOf(that));
 		} else {
-			return numeric.valueOf(this).add(numeric);
+			return that.valueOf(this).add(that);
 		}
 	}
 
 	public Complex subtract(Complex complex) {
-		return new Complex(real - complex.real, imag - complex.imag);
+		return new Complex(real - complex.real, imaginary - complex.imaginary);
 	}
 
 	@NotNull
-	public Numeric subtract(@NotNull Numeric numeric) {
-		if (numeric instanceof Complex) {
-			return subtract((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			return subtract(valueOf(numeric));
+	public Numeric subtract(@NotNull Numeric that) {
+		if (that instanceof Complex) {
+			return subtract((Complex) that);
+		} else if (that instanceof JsclDouble) {
+			return subtract(valueOf(that));
 		} else {
-			return numeric.valueOf(this).subtract(numeric);
+			return that.valueOf(this).subtract(that);
 		}
 	}
 
 	public Complex multiply(Complex complex) {
-		return new Complex(real * complex.real - imag * complex.imag, real * complex.imag + imag * complex.real);
+		return new Complex(real * complex.real - imaginary * complex.imaginary, real * complex.imaginary + imaginary * complex.real);
 	}
 
 	@NotNull
-	public Numeric multiply(@NotNull Numeric numeric) {
-		if (numeric instanceof Complex) {
-			return multiply((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			return multiply(valueOf(numeric));
+	public Numeric multiply(@NotNull Numeric that) {
+		if (that instanceof Complex) {
+			return multiply((Complex) that);
+		} else if (that instanceof JsclDouble) {
+			return multiply(valueOf(that));
 		} else {
-			return numeric.multiply(this);
+			return that.multiply(this);
 		}
 	}
 
@@ -60,27 +61,27 @@ public final class Complex extends Numeric {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
-		if (numeric instanceof Complex) {
-			return divide((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			return divide(valueOf(numeric));
+	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
+		if (that instanceof Complex) {
+			return divide((Complex) that);
+		} else if (that instanceof JsclDouble) {
+			return divide(valueOf(that));
 		} else {
-			return numeric.valueOf(this).divide(numeric);
+			return that.valueOf(this).divide(that);
 		}
 	}
 
 	@NotNull
 	public Numeric negate() {
-		return new Complex(-real, -imag);
+		return new Complex(-real, -imaginary);
 	}
 
 	@NotNull
 	@Override
 	public Numeric abs() {
 		final Numeric realSquare = new JsclDouble(real).pow(2);
-		final Numeric imagSquare = new JsclDouble(imag).pow(2);
-		final Numeric sum = realSquare.add(imagSquare);
+		final Numeric imaginarySquare = new JsclDouble(imaginary).pow(2);
+		final Numeric sum = realSquare.add(imaginarySquare);
 		return sum.sqrt();
 	}
 
@@ -92,35 +93,22 @@ public final class Complex extends Numeric {
 		} else if (real < .0) {
 			result = -1;
 		} else {
-			result = JsclDouble.signum(imag);
+			result = JsclDouble.signum(imaginary);
 		}
 
 		return result;
 	}
 
-	public Complex valueof(Complex complex) {
-		return new Complex(complex.real, complex.imag);
-	}
-
-	public Numeric valueOf(Numeric numeric) {
-		if (numeric instanceof Complex) {
-			return valueof((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			JsclDouble d = (JsclDouble) numeric;
-			return d.toComplex();
-		} else throw new ArithmeticException();
-	}
-
 	public double magnitude() {
-		return Math.sqrt(real * real + imag * imag);
+		return Math.sqrt(real * real + imaginary * imaginary);
 	}
 
 	public double magnitude2() {
-		return real * real + imag * imag;
+		return real * real + imaginary * imaginary;
 	}
 
 	public double angle() {
-		return Math.atan2(imag, real);
+		return Math.atan2(imaginary, real);
 	}
 
 	@NotNull
@@ -143,7 +131,7 @@ public final class Complex extends Numeric {
 
 	@NotNull
 	public Numeric exp() {
-		return new Complex(Math.cos(imag), Math.sin(imag)).multiply(Math.exp(real));
+		return new Complex(Math.cos(imaginary), Math.sin(imaginary)).multiply(Math.exp(real));
 	}
 
 	@NotNull
@@ -152,15 +140,15 @@ public final class Complex extends Numeric {
 	}
 
 	Complex multiply(double d) {
-		return new Complex(real * d, imag * d);
+		return new Complex(real * d, imaginary * d);
 	}
 
 	Complex divide(double d) {
-		return new Complex(real / d, imag / d);
+		return new Complex(real / d, imaginary / d);
 	}
 
 	public Numeric conjugate() {
-		return new Complex(real, -imag);
+		return new Complex(real, -imaginary);
 	}
 
 	public double realPart() {
@@ -168,53 +156,83 @@ public final class Complex extends Numeric {
 	}
 
 	public double imaginaryPart() {
-		return imag;
+		return imaginary;
 	}
 
-	public int compareTo(Complex complex) {
-		if (imag < complex.imag) return -1;
-		else if (imag > complex.imag) return 1;
-		else if (imag == complex.imag) {
-			if (real < complex.real) return -1;
-			else if (real > complex.real) return 1;
-			else if (real == complex.real) return 0;
-			else throw new ArithmeticException();
+	public int compareTo(Complex that) {
+		if (imaginary < that.imaginary) {
+			return -1;
+		} else if (imaginary > that.imaginary) {
+			return 1;
+		} else if (imaginary == that.imaginary) {
+			if (real < that.real) {
+				return -1;
+			} else if (real > that.real) {
+				return 1;
+			} else if (real == that.real) {
+				return 0;
+			} else throw new ArithmeticException();
 		} else throw new ArithmeticException();
 	}
 
-	public int compareTo(Numeric numeric) {
-		if (numeric instanceof Complex) {
-			return compareTo((Complex) numeric);
-		} else if (numeric instanceof JsclDouble) {
-			return compareTo(valueOf(numeric));
+	public int compareTo(Numeric that) {
+		if (that instanceof Complex) {
+			return compareTo((Complex) that);
+		} else if (that instanceof JsclDouble) {
+			return compareTo(valueOf(that));
 		} else {
-			return numeric.valueOf(this).compareTo(numeric);
+			return that.valueOf(this).compareTo(that);
 		}
 	}
 
-	public static Complex valueOf(double real, double imag) {
-		return new Complex(real, imag);
+	public Complex copyOf(@NotNull Complex complex) {
+		return new Complex(complex.real, complex.imaginary);
+	}
+
+	public Numeric valueOf(Numeric numeric) {
+		if (numeric instanceof Complex) {
+			return copyOf((Complex) numeric);
+		} else if (numeric instanceof JsclDouble) {
+			JsclDouble d = (JsclDouble) numeric;
+			return d.toComplex();
+		} else throw new ArithmeticException();
+	}
+
+	@NotNull
+	public static final Complex ONE_I = new Complex(0, 1);
+
+	@NotNull
+	public static Complex valueOf(double real, double imaginary) {
+		if (real == 0d && imaginary == 1d) {
+			return ONE_I;
+		} else {
+			return new Complex(real, imaginary);
+		}
 	}
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		if (imag == 0.) {
-			buffer.append(real);
+		final StringBuilder result = new StringBuilder();
+
+		if (imaginary == 0.) {
+			result.append(real);
 		} else {
-			if (real == 0.) ;
-			else {
-				buffer.append(real);
-				if (imag <= 0.) ;
-				else buffer.append("+");
+			if (real != 0.) {
+				result.append(real);
+				if (imaginary <= 0.) ;
+				else result.append("+");
 			}
-			if (imag == 1.) ;
-			else if (imag == -1.) buffer.append("-");
-			else {
-				buffer.append(imag);
-				buffer.append("*");
+
+			if (imaginary != 1.) {
+				if (imaginary == -1.) {
+					result.append("-");
+				} else {
+					result.append(imaginary);
+					result.append("*");
+				}
 			}
-			buffer.append("√(-1)");
+			result.append("√(-1)");
 		}
-		return buffer.toString();
+
+		return result.toString();
 	}
 }

@@ -39,9 +39,9 @@ class ArrayPolynomialModular extends ArrayPolynomialGeneric {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
-        ArrayPolynomialModular q=(ArrayPolynomialModular)polynomial;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
+        ArrayPolynomialModular q=(ArrayPolynomialModular) that;
         ArrayPolynomialModular p=(ArrayPolynomialModular)newinstance(size+q.size);
         int i=p.size;
         int i1=size;

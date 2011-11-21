@@ -81,10 +81,10 @@ final class TreePolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
         if(mutable) {
-            TreePolynomial q=(TreePolynomial)polynomial;
+            TreePolynomial q=(TreePolynomial) that;
             Iterator it=q.content.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry e=(Map.Entry)it.next();
@@ -98,7 +98,7 @@ final class TreePolynomial extends Polynomial {
             sugar=Math.max(sugar,q.sugar);
             normalized=false;
             return this;
-        } else return copy().subtract(polynomial);
+        } else return copy().subtract(that);
     }
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {

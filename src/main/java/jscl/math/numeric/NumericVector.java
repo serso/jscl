@@ -23,11 +23,11 @@ public class NumericVector extends Numeric {
     }
 
     @NotNull
-	public Numeric add(@NotNull Numeric numeric) {
-        if(numeric instanceof NumericVector) {
-            return add((NumericVector)numeric);
+	public Numeric add(@NotNull Numeric that) {
+        if(that instanceof NumericVector) {
+            return add((NumericVector) that);
         } else {
-            return add(valueOf(numeric));
+            return add(valueOf(that));
         }
     }
 
@@ -40,37 +40,37 @@ public class NumericVector extends Numeric {
     }
 
     @NotNull
-	public Numeric subtract(@NotNull Numeric numeric) {
-        if(numeric instanceof NumericVector) {
-            return subtract((NumericVector)numeric);
+	public Numeric subtract(@NotNull Numeric that) {
+        if(that instanceof NumericVector) {
+            return subtract((NumericVector) that);
         } else {
-            return subtract(valueOf(numeric));
+            return subtract(valueOf(that));
         }
     }
 
     @NotNull
-	public Numeric multiply(@NotNull Numeric numeric) {
-        if(numeric instanceof NumericVector) {
-            return scalarProduct((NumericVector)numeric);
-        } else if(numeric instanceof NumericMatrix) {
-            return ((NumericMatrix)numeric).transpose().multiply(this);
+	public Numeric multiply(@NotNull Numeric that) {
+        if(that instanceof NumericVector) {
+            return scalarProduct((NumericVector) that);
+        } else if(that instanceof NumericMatrix) {
+            return ((NumericMatrix) that).transpose().multiply(this);
         } else {
             NumericVector v= newinstance();
-            for(int i=0;i<n;i++) v.element[i]=element[i].multiply(numeric);
+            for(int i=0;i<n;i++) v.element[i]=element[i].multiply(that);
             return v;
         }
     }
 
     @NotNull
-	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
-        if(numeric instanceof NumericVector) {
+	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
+        if(that instanceof NumericVector) {
             throw new ArithmeticException();
-        } else if(numeric instanceof NumericMatrix) {
-            return multiply(numeric.inverse());
+        } else if(that instanceof NumericMatrix) {
+            return multiply(that.inverse());
         } else {
             NumericVector v= newinstance();
             for(int i=0;i<n;i++) {
-                v.element[i]=element[i].divide(numeric);
+                v.element[i]=element[i].divide(that);
             }
             return v;
         }

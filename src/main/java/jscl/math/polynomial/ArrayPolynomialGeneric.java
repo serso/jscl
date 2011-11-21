@@ -89,9 +89,9 @@ class ArrayPolynomialGeneric extends Polynomial {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
-        ArrayPolynomialGeneric q=(ArrayPolynomialGeneric)polynomial;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
+        ArrayPolynomialGeneric q=(ArrayPolynomialGeneric) that;
         ArrayPolynomialGeneric p=newinstance(size+q.size);
         int i=p.size;
         int i1=size;
@@ -213,9 +213,9 @@ class ArrayPolynomialGeneric extends Polynomial {
     }
 
     @NotNull
-	public Polynomial multiply(@NotNull Polynomial polynomial) {
+	public Polynomial multiply(@NotNull Polynomial that) {
         Polynomial p=newinstance(0);
-        for(int i=0;i<size;i++) p=p.multiplyAndSubtract(monomial[i],getCoef(i).negate(),polynomial);
+        for(int i=0;i<size;i++) p=p.multiplyAndSubtract(monomial[i],getCoef(i).negate(), that);
         return p;
     }
 

@@ -44,11 +44,11 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic add(@NotNull Generic generic) {
-        if(generic instanceof PolynomialWrapper) {
-            return add((PolynomialWrapper)generic);
+	public Generic add(@NotNull Generic that) {
+        if(that instanceof PolynomialWrapper) {
+            return add((PolynomialWrapper) that);
         } else {
-            return add(valueOf(generic));
+            return add(valueOf(that));
         }
     }
 
@@ -57,11 +57,11 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic subtract(@NotNull Generic generic) {
-        if(generic instanceof PolynomialWrapper) {
-            return subtract((PolynomialWrapper)generic);
+	public Generic subtract(@NotNull Generic that) {
+        if(that instanceof PolynomialWrapper) {
+            return subtract((PolynomialWrapper) that);
         } else {
-            return subtract(valueOf(generic));
+            return subtract(valueOf(that));
         }
     }
 
@@ -70,11 +70,11 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic generic) {
-        if(generic instanceof PolynomialWrapper) {
-            return multiply((PolynomialWrapper)generic);
+	public Generic multiply(@NotNull Generic that) {
+        if(that instanceof PolynomialWrapper) {
+            return multiply((PolynomialWrapper) that);
         } else {
-            return multiply(valueOf(generic));
+            return multiply(valueOf(that));
         }
     }
 
@@ -83,11 +83,11 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-        if(generic instanceof PolynomialWrapper) {
-            return divide((PolynomialWrapper)generic);
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+        if(that instanceof PolynomialWrapper) {
+            return divide((PolynomialWrapper) that);
         } else {
-            return divide(valueOf(generic));
+            return divide(valueOf(that));
         }
     }
 

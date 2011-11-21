@@ -34,9 +34,9 @@ class ArrayPolynomialBoolean extends ArrayPolynomialModular {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
-        ArrayPolynomialBoolean q=(ArrayPolynomialBoolean)polynomial;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
+        ArrayPolynomialBoolean q=(ArrayPolynomialBoolean) that;
         ArrayPolynomialBoolean p=(ArrayPolynomialBoolean)newinstance(size+q.size);
         int i=p.size;
         int i1=size;

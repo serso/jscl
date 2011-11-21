@@ -134,9 +134,9 @@ final class GeoBucket extends Polynomial {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
+	public Polynomial subtract(@NotNull Polynomial that) {
         if(mutable) {
-            Polynomial q=((GeoBucket)polynomial).polynomial();
+            Polynomial q=((GeoBucket) that).polynomial();
             int n=log(q.size());
             if(n>=size) resize(n+1);
             Polynomial p=content[n];
@@ -153,7 +153,7 @@ final class GeoBucket extends Polynomial {
             canonicalized=false;
             normalized=false;
             return this;
-        } else return copy().subtract(polynomial);
+        } else return copy().subtract(that);
     }
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {

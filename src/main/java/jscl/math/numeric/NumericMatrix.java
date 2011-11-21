@@ -28,11 +28,11 @@ public class NumericMatrix extends Numeric {
     }
 
     @NotNull
-	public Numeric add(@NotNull Numeric numeric) {
-        if(numeric instanceof NumericMatrix) {
-            return add((NumericMatrix)numeric);
+	public Numeric add(@NotNull Numeric that) {
+        if(that instanceof NumericMatrix) {
+            return add((NumericMatrix) that);
         } else {
-            return add(valueOf(numeric));
+            return add(valueOf(that));
         }
     }
 
@@ -47,11 +47,11 @@ public class NumericMatrix extends Numeric {
     }
 
     @NotNull
-	public Numeric subtract(@NotNull Numeric numeric) {
-        if(numeric instanceof NumericMatrix) {
-            return subtract((NumericMatrix)numeric);
+	public Numeric subtract(@NotNull Numeric that) {
+        if(that instanceof NumericMatrix) {
+            return subtract((NumericMatrix) that);
         } else {
-            return subtract(valueOf(numeric));
+            return subtract(valueOf(that));
         }
     }
 
@@ -70,12 +70,12 @@ public class NumericMatrix extends Numeric {
     }
 
     @NotNull
-	public Numeric multiply(@NotNull Numeric numeric) {
-        if(numeric instanceof NumericMatrix) {
-            return multiply((NumericMatrix)numeric);
-        } else if(numeric instanceof NumericVector) {
-            NumericVector v= ((NumericVector)numeric).newinstance(new Numeric[n]);
-            NumericVector v2=(NumericVector)numeric;
+	public Numeric multiply(@NotNull Numeric that) {
+        if(that instanceof NumericMatrix) {
+            return multiply((NumericMatrix) that);
+        } else if(that instanceof NumericVector) {
+            NumericVector v= ((NumericVector) that).newinstance(new Numeric[n]);
+            NumericVector v2=(NumericVector) that;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {
                 v.element[i]= JsclDouble.ZERO;
@@ -88,7 +88,7 @@ public class NumericMatrix extends Numeric {
             NumericMatrix m= newinstance();
             for(int i=0;i<n;i++) {
                 for(int j=0;j<p;j++) {
-                    m.element[i][j]=element[i][j].multiply(numeric);
+                    m.element[i][j]=element[i][j].multiply(that);
                 }
             }
             return m;
@@ -96,17 +96,17 @@ public class NumericMatrix extends Numeric {
     }
 
     @NotNull
-	public Numeric divide(@NotNull Numeric numeric) throws ArithmeticException {
+	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
 
-		if (numeric instanceof NumericMatrix) {
-			return multiply(numeric.inverse());
-		} else if (numeric instanceof NumericVector) {
+		if (that instanceof NumericMatrix) {
+			return multiply(that.inverse());
+		} else if (that instanceof NumericVector) {
 			throw new ArithmeticException();
 		} else {
 			NumericMatrix m = newinstance();
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < p; j++) {
-					m.element[i][j] = element[i][j].divide(numeric);
+					m.element[i][j] = element[i][j].divide(that);
 				}
 			}
 			return m;

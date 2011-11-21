@@ -25,11 +25,11 @@ public final class JsclInteger extends Generic {
     }
 
     @NotNull
-	public Generic add(@NotNull Generic generic) {
-        if(generic instanceof JsclInteger) {
-            return add((JsclInteger)generic);
+	public Generic add(@NotNull Generic that) {
+        if(that instanceof JsclInteger) {
+            return add((JsclInteger) that);
         } else {
-            return generic.valueOf(this).add(generic);
+            return that.valueOf(this).add(that);
         }
     }
 
@@ -38,11 +38,11 @@ public final class JsclInteger extends Generic {
     }
 
     @NotNull
-	public Generic subtract(@NotNull Generic generic) {
-        if(generic instanceof JsclInteger) {
-            return subtract((JsclInteger)generic);
+	public Generic subtract(@NotNull Generic that) {
+        if(that instanceof JsclInteger) {
+            return subtract((JsclInteger) that);
         } else {
-            return generic.valueOf(this).subtract(generic);
+            return that.valueOf(this).subtract(that);
         }
     }
 
@@ -51,11 +51,11 @@ public final class JsclInteger extends Generic {
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic generic) {
-        if(generic instanceof JsclInteger) {
-            return multiply((JsclInteger)generic);
+	public Generic multiply(@NotNull Generic that) {
+        if(that instanceof JsclInteger) {
+            return multiply((JsclInteger) that);
         } else {
-            return generic.multiply(this);
+            return that.multiply(this);
         }
     }
 
@@ -66,11 +66,11 @@ public final class JsclInteger extends Generic {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-        if(generic instanceof JsclInteger) {
-            return divide((JsclInteger)generic);
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+        if(that instanceof JsclInteger) {
+            return divide((JsclInteger) that);
         } else {
-            return generic.valueOf(this).divide(generic);
+            return that.valueOf(this).divide(that);
         }
     }
 

@@ -99,13 +99,13 @@ public class Expression extends Generic {
 	}
 
 	@NotNull
-	public Generic add(@NotNull Generic generic) {
-		if (generic instanceof Expression) {
-			return add((Expression) generic);
-		} else if (generic instanceof JsclInteger || generic instanceof Rational) {
-			return add(valueOf(generic));
+	public Generic add(@NotNull Generic that) {
+		if (that instanceof Expression) {
+			return add((Expression) that);
+		} else if (that instanceof JsclInteger || that instanceof Rational) {
+			return add(valueOf(that));
 		} else {
-			return generic.valueOf(this).add(generic);
+			return that.valueOf(this).add(that);
 		}
 	}
 
@@ -114,13 +114,13 @@ public class Expression extends Generic {
 	}
 
 	@NotNull
-	public Generic subtract(@NotNull Generic generic) {
-		if (generic instanceof Expression) {
-			return subtract((Expression) generic);
-		} else if (generic instanceof JsclInteger || generic instanceof Rational) {
-			return subtract(valueOf(generic));
+	public Generic subtract(@NotNull Generic that) {
+		if (that instanceof Expression) {
+			return subtract((Expression) that);
+		} else if (that instanceof JsclInteger || that instanceof Rational) {
+			return subtract(valueOf(that));
 		} else {
-			return generic.valueOf(this).subtract(generic);
+			return that.valueOf(this).subtract(that);
 		}
 	}
 
@@ -168,21 +168,21 @@ public class Expression extends Generic {
 	}
 
 	@NotNull
-	public Generic multiply(@NotNull Generic generic) {
-		if (generic instanceof Expression) {
-			return multiply((Expression) generic);
-		} else if (generic instanceof JsclInteger) {
-			return multiply(valueOf(generic));
-		} else if (generic instanceof Rational) {
-			return multiply(valueOf(generic));
+	public Generic multiply(@NotNull Generic that) {
+		if (that instanceof Expression) {
+			return multiply((Expression) that);
+		} else if (that instanceof JsclInteger) {
+			return multiply(valueOf(that));
+		} else if (that instanceof Rational) {
+			return multiply(valueOf(that));
 		} else {
-			return generic.multiply(this);
+			return that.multiply(this);
 		}
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-		Generic a[] = divideAndRemainder(generic);
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+		Generic a[] = divideAndRemainder(that);
 		if (a[1].signum() == 0) return a[0];
 		else throw new NotDivisibleException();
 	}

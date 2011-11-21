@@ -3,6 +3,10 @@ package jscl.math.numeric;
 import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
 
+import static jscl.math.numeric.Complex.ONE_I;
+import static jscl.math.numeric.JsclDouble.ONE;
+import static jscl.math.numeric.JsclDouble.TWO;
+
 public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>, Comparable {
 
 	/*@NotNull
@@ -13,7 +17,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@Override
 	@NotNull
 	public Numeric pow(int exponent) {
-		Numeric result = JsclDouble.ONE;
+		Numeric result = ONE;
 
 		for (int i = 0; i < exponent; i++) {
 			result = result.multiply(this);
@@ -37,13 +41,13 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric inverse() {
-		return JsclDouble.ONE.divide(this);
+		return ONE.divide(this);
 	}
 
 	public Numeric pow(Numeric numeric) {
 		if (numeric.signum() == 0) {
-			return JsclDouble.ONE;
-		} else if (numeric.compareTo(JsclDouble.ONE) == 0) {
+			return ONE;
+		} else if (numeric.compareTo(ONE) == 0) {
 			return this;
 		} else {
 			return numeric.multiply(ln()).exp();
@@ -71,49 +75,63 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric acos() {
-		return add(JsclDouble.valueOf(-1).add(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
+		return add(JsclDouble.valueOf(-1).add(this.pow(2)).sqrt()).ln().multiply(ONE_I);
 	}
 
 	@NotNull
 	@Override
 	public Numeric asin() {
-		return multiply(Complex.valueOf(0, 1)).negate().add(JsclDouble.ONE.subtract(pow(2)).sqrt()).ln().multiply(Complex.valueOf(0, 1));
+		// e = √(1 - x^2)
+		final Numeric e = ONE.subtract(this.pow(2)).sqrt();
+		// result = iln[-i + √(1 - x^2)]
+		return multiply(ONE_I).negate().add(e).ln().multiply(ONE_I);
 	}
 
 	@NotNull
 	@Override
 	public Numeric atan() {
-		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).ln()).divide(JsclDouble.valueOf(2));
+		// e = ln[(i + x)/(i-x)]
+		final Numeric e = ONE_I.add(this).divide(ONE_I.subtract(this)).ln();
+		// result = iln[(i + x)/(i-x)]/2
+		return ONE_I.multiply(e).divide(TWO);
 	}
 
 	@NotNull
 	@Override
 	public Numeric acot() {
-		return Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).add(this).divide(Complex.valueOf(0, 1).subtract(this)).negate().ln()).divide(JsclDouble.valueOf(2));
+		// e = ln[-(i + x)/(i-x)]		
+		final Numeric e = ONE_I.add(this).divide(ONE_I.subtract(this)).negate().ln();
+		// result = iln[-(i + x)/(i-x)]/2
+		return ONE_I.multiply(e).divide(TWO);
 	}
 
 	@NotNull
 	@Override
 	public Numeric cos() {
-		return JsclDouble.ONE.add(multiply(Complex.valueOf(0, 1)).exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
+		// e = exp(ix)
+		final Numeric e = this.multiply(ONE_I).exp();
+		// e1 = e^2
+		final Numeric e1 = e.pow(2);
+
+		return ONE.add(e1).divide(TWO.multiply(e));
 	}
 
 	@NotNull
 	@Override
 	public Numeric sin() {
-		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.valueOf(2).multiply(multiply(Complex.valueOf(0, 1)).exp()));
+		return ONE_I.subtract(this.multiply(ONE_I).exp().pow(2).multiply(ONE_I)).divide(TWO.multiply(multiply(ONE_I).exp()));
 	}
 
 	@NotNull
 	@Override
 	public Numeric tan() {
-		return Complex.valueOf(0, 1).subtract(multiply(Complex.valueOf(0, 1)).exp().pow(2).multiply(Complex.valueOf(0, 1))).divide(JsclDouble.ONE.add(multiply(Complex.valueOf(0, 1)).exp().pow(2)));
+		return ONE_I.subtract(multiply(ONE_I).exp().pow(2).multiply(ONE_I)).divide(ONE.add(multiply(ONE_I).exp().pow(2)));
 	}
 
 	@NotNull
 	@Override
 	public Numeric cot() {
-		return Complex.valueOf(0, 1).add(Complex.valueOf(0, 1).multiply(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).divide(JsclDouble.ONE.subtract(Complex.valueOf(0, 1).multiply(this).exp().pow(2))).negate();
+		return ONE_I.add(ONE_I.multiply(ONE_I.multiply(this).exp().pow(2))).divide(ONE.subtract(ONE_I.multiply(this).exp().pow(2))).negate();
 	}
 
 	@NotNull
@@ -125,43 +143,43 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric asinh() {
-		return add(JsclDouble.ONE.add(pow(2)).sqrt()).ln();
+		return add(ONE.add(pow(2)).sqrt()).ln();
 	}
 
 	@NotNull
 	@Override
 	public Numeric atanh() {
-		return JsclDouble.ONE.add(this).divide(JsclDouble.ONE.subtract(this)).ln().divide(JsclDouble.valueOf(2));
+		return ONE.add(this).divide(ONE.subtract(this)).ln().divide(TWO);
 	}
 
 	@NotNull
 	@Override
 	public Numeric acoth() {
-		return JsclDouble.ONE.add(this).divide(JsclDouble.ONE.subtract(this)).negate().ln().divide(JsclDouble.valueOf(2));
+		return ONE.add(this).divide(ONE.subtract(this)).negate().ln().divide(TWO);
 	}
 
 	@NotNull
 	@Override
 	public Numeric cosh() {
-		return JsclDouble.ONE.add(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp()));
+		return ONE.add(exp().pow(2)).divide(TWO.multiply(exp()));
 	}
 
 	@NotNull
 	@Override
 	public Numeric sinh() {
-		return JsclDouble.ONE.subtract(exp().pow(2)).divide(JsclDouble.valueOf(2).multiply(exp())).negate();
+		return ONE.subtract(exp().pow(2)).divide(TWO.multiply(exp())).negate();
 	}
 
 	@NotNull
 	@Override
 	public Numeric tanh() {
-		return JsclDouble.ONE.subtract(exp().pow(2)).divide(JsclDouble.ONE.add(exp().pow(2))).negate();
+		return ONE.subtract(exp().pow(2)).divide(ONE.add(exp().pow(2))).negate();
 	}
 
 	@NotNull
 	@Override
 	public Numeric coth() {
-		return JsclDouble.ONE.add(exp().pow(2)).divide(JsclDouble.ONE.subtract(exp().pow(2))).negate();
+		return ONE.add(exp().pow(2)).divide(ONE.subtract(exp().pow(2))).negate();
 	}
 
 	public abstract Numeric valueOf(Numeric numeric);

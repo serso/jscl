@@ -81,9 +81,9 @@ public class UnivariatePolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial add(@NotNull Polynomial polynomial) {
+	public Polynomial add(@NotNull Polynomial that) {
         UnivariatePolynomial p=newinstance();
-        UnivariatePolynomial q=(UnivariatePolynomial)polynomial;
+        UnivariatePolynomial q=(UnivariatePolynomial) that;
         int d=Math.max(degree,q.degree);
         for(int i=d;i>=0;i--) {
             p.put(i,get(i).add(q.get(i)));
@@ -92,9 +92,9 @@ public class UnivariatePolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
+	public Polynomial subtract(@NotNull Polynomial that) {
         UnivariatePolynomial p=newinstance();
-        UnivariatePolynomial q=(UnivariatePolynomial)polynomial;
+        UnivariatePolynomial q=(UnivariatePolynomial) that;
         int d=Math.max(degree,q.degree);
         for(int i=d;i>=0;i--) {
             p.put(i,get(i).subtract(q.get(i)));
@@ -103,9 +103,9 @@ public class UnivariatePolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial multiply(@NotNull Polynomial polynomial) {
+	public Polynomial multiply(@NotNull Polynomial that) {
         UnivariatePolynomial p=newinstance();
-        UnivariatePolynomial q=(UnivariatePolynomial)polynomial;
+        UnivariatePolynomial q=(UnivariatePolynomial) that;
         for(int i=degree;i>=0;i--) {
             for(int j=q.degree;j>=0;j--) {
                 p.put(i+j,get(i).multiply(q.get(j)));

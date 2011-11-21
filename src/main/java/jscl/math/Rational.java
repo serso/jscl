@@ -41,13 +41,13 @@ public final class Rational extends Generic implements Field {
     }
 
     @NotNull
-	public Generic add(@NotNull Generic generic) {
-        if(generic instanceof Rational) {
-            return add((Rational)generic);
-        } else if(generic instanceof JsclInteger) {
-            return add(valueOf(generic));
+	public Generic add(@NotNull Generic that) {
+        if(that instanceof Rational) {
+            return add((Rational) that);
+        } else if(that instanceof JsclInteger) {
+            return add(valueOf(that));
         } else {
-            return generic.valueOf(this).add(generic);
+            return that.valueOf(this).add(that);
         }
     }
 
@@ -58,24 +58,24 @@ public final class Rational extends Generic implements Field {
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic generic) {
-        if(generic instanceof Rational) {
-            return multiply((Rational)generic);
-        } else if(generic instanceof JsclInteger) {
-            return multiply(valueOf(generic));
+	public Generic multiply(@NotNull Generic that) {
+        if(that instanceof Rational) {
+            return multiply((Rational) that);
+        } else if(that instanceof JsclInteger) {
+            return multiply(valueOf(that));
         } else {
-            return generic.multiply(this);
+            return that.multiply(this);
         }
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-        if(generic instanceof Rational) {
-            return multiply(generic.inverse());
-        } else if(generic instanceof JsclInteger) {
-            return divide(valueOf(generic));
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+        if(that instanceof Rational) {
+            return multiply(that.inverse());
+        } else if(that instanceof JsclInteger) {
+            return divide(valueOf(that));
         } else {
-            return generic.valueOf(this).divide(generic);
+            return that.valueOf(this).divide(that);
         }
     }
 

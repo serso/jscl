@@ -28,8 +28,8 @@ public class ModularInteger extends Generic implements Field {
     }
 
     @NotNull
-	public Generic add(@NotNull Generic generic) {
-        return add((ModularInteger)generic);
+	public Generic add(@NotNull Generic that) {
+        return add((ModularInteger) that);
     }
 
     public ModularInteger subtract(ModularInteger integer) {
@@ -37,8 +37,8 @@ public class ModularInteger extends Generic implements Field {
     }
 
     @NotNull
-	public Generic subtract(@NotNull Generic generic) {
-        return subtract((ModularInteger)generic);
+	public Generic subtract(@NotNull Generic that) {
+        return subtract((ModularInteger) that);
     }
 
     public ModularInteger multiply(ModularInteger integer) {
@@ -46,13 +46,13 @@ public class ModularInteger extends Generic implements Field {
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic generic) {
-        return multiply((ModularInteger)generic);
+	public Generic multiply(@NotNull Generic that) {
+        return multiply((ModularInteger) that);
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-        return multiply(generic.inverse());
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+        return multiply(that.inverse());
     }
 
     public Generic inverse() {

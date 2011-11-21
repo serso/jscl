@@ -33,11 +33,11 @@ public class Matrix extends Generic {
     }
 
     @NotNull
-	public Generic add(@NotNull Generic generic) {
-        if(generic instanceof Matrix) {
-            return add((Matrix)generic);
+	public Generic add(@NotNull Generic that) {
+        if(that instanceof Matrix) {
+            return add((Matrix) that);
         } else {
-            return add(valueOf(generic));
+            return add(valueOf(that));
         }
     }
 
@@ -52,11 +52,11 @@ public class Matrix extends Generic {
     }
 
     @NotNull
-	public Generic subtract(@NotNull Generic generic) {
-        if(generic instanceof Matrix) {
-            return subtract((Matrix)generic);
+	public Generic subtract(@NotNull Generic that) {
+        if(that instanceof Matrix) {
+            return subtract((Matrix) that);
         } else {
-            return subtract(valueOf(generic));
+            return subtract(valueOf(that));
         }
     }
 
@@ -79,12 +79,12 @@ public class Matrix extends Generic {
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic generic) {
-        if(generic instanceof Matrix) {
-            return multiply((Matrix)generic);
-        } else if(generic instanceof JsclVector) {
-            JsclVector v=(JsclVector)((JsclVector)generic).newInstance(new Generic[n]);
-            JsclVector v2=(JsclVector)generic;
+	public Generic multiply(@NotNull Generic that) {
+        if(that instanceof Matrix) {
+            return multiply((Matrix) that);
+        } else if(that instanceof JsclVector) {
+            JsclVector v=(JsclVector)((JsclVector) that).newInstance(new Generic[n]);
+            JsclVector v2=(JsclVector) that;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {
                 v.element[i]= JsclInteger.valueOf(0);
@@ -97,7 +97,7 @@ public class Matrix extends Generic {
             Matrix m=(Matrix)newinstance();
             for(int i=0;i<n;i++) {
                 for(int j=0;j<p;j++) {
-                    m.element[i][j]=element[i][j].multiply(generic);
+                    m.element[i][j]=element[i][j].multiply(that);
                 }
             }
             return m;
@@ -105,19 +105,19 @@ public class Matrix extends Generic {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-        if(generic instanceof Matrix) {
-            return multiply(((Matrix)generic).inverse());
-        } else if(generic instanceof JsclVector) {
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+        if(that instanceof Matrix) {
+            return multiply(((Matrix) that).inverse());
+        } else if(that instanceof JsclVector) {
             throw new ArithmeticException();
         } else {
             Matrix m=(Matrix)newinstance();
             for(int i=0;i<n;i++) {
                 for(int j=0;j<p;j++) {
                     try {
-                        m.element[i][j]=element[i][j].divide(generic);
+                        m.element[i][j]=element[i][j].divide(that);
                     } catch (NotDivisibleException e) {
-                        m.element[i][j]=new Frac(element[i][j],generic).evaluate();
+                        m.element[i][j]=new Frac(element[i][j], that).evaluate();
                     }
                 }
             }

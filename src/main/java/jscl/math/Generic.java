@@ -8,8 +8,8 @@ import org.jetbrains.annotations.Nullable;
 public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
     @NotNull
-	public Generic subtract(@NotNull Generic generic) {
-        return add(generic.negate());
+	public Generic subtract(@NotNull Generic that) {
+        return add(that.negate());
     }
 
     public boolean multiple(Generic generic) throws ArithmeticException {

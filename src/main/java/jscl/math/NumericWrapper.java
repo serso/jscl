@@ -62,11 +62,11 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	@NotNull
-	public Generic add(@NotNull Generic generic) {
-		if (generic instanceof NumericWrapper) {
-			return add((NumericWrapper) generic);
+	public Generic add(@NotNull Generic that) {
+		if (that instanceof NumericWrapper) {
+			return add((NumericWrapper) that);
 		} else {
-			return add(valueOf(generic));
+			return add(valueOf(that));
 		}
 	}
 
@@ -75,11 +75,11 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	@NotNull
-	public Generic subtract(@NotNull Generic generic) {
-		if (generic instanceof NumericWrapper) {
-			return subtract((NumericWrapper) generic);
+	public Generic subtract(@NotNull Generic that) {
+		if (that instanceof NumericWrapper) {
+			return subtract((NumericWrapper) that);
 		} else {
-			return subtract(valueOf(generic));
+			return subtract(valueOf(that));
 		}
 	}
 
@@ -88,11 +88,11 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	@NotNull
-	public Generic multiply(@NotNull Generic generic) {
-		if (generic instanceof NumericWrapper) {
-			return multiply((NumericWrapper) generic);
+	public Generic multiply(@NotNull Generic that) {
+		if (that instanceof NumericWrapper) {
+			return multiply((NumericWrapper) that);
 		} else {
-			return multiply(valueOf(generic));
+			return multiply(valueOf(that));
 		}
 	}
 
@@ -101,11 +101,11 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic generic) throws ArithmeticException {
-		if (generic instanceof NumericWrapper) {
-			return divide((NumericWrapper) generic);
+	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+		if (that instanceof NumericWrapper) {
+			return divide((NumericWrapper) that);
 		} else {
-			return divide(valueOf(generic));
+			return divide(valueOf(that));
 		}
 	}
 

@@ -37,9 +37,9 @@ class ArrayPolynomialInteger extends ArrayPolynomialGeneric {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
-        ArrayPolynomialInteger q=(ArrayPolynomialInteger)polynomial;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
+        ArrayPolynomialInteger q=(ArrayPolynomialInteger) that;
         ArrayPolynomialInteger p=(ArrayPolynomialInteger)newinstance(size+q.size);
         int i=p.size;
         int i1=size;

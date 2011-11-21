@@ -83,10 +83,10 @@ final class ListPolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
         if(mutable) {
-            ListPolynomial q=(ListPolynomial)polynomial;
+            ListPolynomial q=(ListPolynomial) that;
             ListIterator it1=content.listIterator(content.size());
             ListIterator it2=q.content.listIterator(q.content.size());
             Term t1=it1.hasPrevious()?(Term)it1.previous():null;
@@ -112,7 +112,7 @@ final class ListPolynomial extends Polynomial {
             sugar=Math.max(sugar,q.sugar);
             normalized=false;
             return this;
-        } else return copy().subtract(polynomial);
+        } else return copy().subtract(that);
     }
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {

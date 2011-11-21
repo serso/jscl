@@ -47,12 +47,12 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     public abstract Iterator iterator(boolean direction, Monomial current);
 
     @NotNull
-	public Polynomial add(@NotNull Polynomial polynomial) {
-        return multiplyAndSubtract(coefficient(JsclInteger.valueOf(-1)),polynomial);
+	public Polynomial add(@NotNull Polynomial that) {
+        return multiplyAndSubtract(coefficient(JsclInteger.valueOf(-1)), that);
     }
 
     @NotNull
-	public abstract Polynomial subtract(@NotNull Polynomial polynomial);
+	public abstract Polynomial subtract(@NotNull Polynomial that);
 
     public Polynomial multiplyAndSubtract(Generic generic, Polynomial polynomial) {
         return subtract(polynomial.multiply(generic));
@@ -63,12 +63,12 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     @NotNull
-	public Polynomial multiply(@NotNull Polynomial polynomial) {
+	public Polynomial multiply(@NotNull Polynomial that) {
         Polynomial p= valueOf(JsclInteger.valueOf(0));
         Iterator it=iterator();
         while(it.hasNext()) {
             Term t=(Term)it.next();
-            p=p.multiplyAndSubtract(t.monomial(),t.coef().negate(),polynomial);
+            p=p.multiplyAndSubtract(t.monomial(),t.coef().negate(), that);
         }
         return p;
     }
@@ -81,8 +81,8 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     @NotNull
-	public Polynomial divide(@NotNull Polynomial polynomial) throws ArithmeticException {
-        Polynomial p[]=divideAndRemainder(polynomial);
+	public Polynomial divide(@NotNull Polynomial that) throws ArithmeticException {
+        Polynomial p[]=divideAndRemainder(that);
         if(p[1].signum()==0) return p[0];
         else throw new NotDivisibleException();
     }

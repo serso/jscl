@@ -76,9 +76,9 @@ final class ArrayPolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-        if(polynomial.signum()==0) return this;
-        ArrayPolynomial q=(ArrayPolynomial)polynomial;
+	public Polynomial subtract(@NotNull Polynomial that) {
+        if(that.signum()==0) return this;
+        ArrayPolynomial q=(ArrayPolynomial) that;
         ArrayPolynomial p=newinstance(size+q.size);
         int i=p.size;
         int i1=size;
@@ -170,11 +170,11 @@ final class ArrayPolynomial extends Polynomial {
     }
 
     @NotNull
-	public Polynomial multiply(@NotNull Polynomial polynomial) {
+	public Polynomial multiply(@NotNull Polynomial that) {
         Polynomial p= valueOf(JsclInteger.valueOf(0));
         for(int i=0;i<size;i++) {
             Term t=content[i];
-            p=p.multiplyAndSubtract(t.monomial(),t.coef().negate(),polynomial);
+            p=p.multiplyAndSubtract(t.monomial(),t.coef().negate(), that);
         }
         return p;
     }

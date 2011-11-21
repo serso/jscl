@@ -148,8 +148,8 @@ class PolynomialWithSyzygy extends UnivariatePolynomial {
 	}
 
 	@NotNull
-	public Polynomial subtract(@NotNull Polynomial polynomial) {
-		PolynomialWithSyzygy p2 = (PolynomialWithSyzygy) polynomial;
+	public Polynomial subtract(@NotNull Polynomial that) {
+		PolynomialWithSyzygy p2 = (PolynomialWithSyzygy) that;
 		PolynomialWithSyzygy p = (PolynomialWithSyzygy) super.subtract(p2);
 		for (int i = 0; i < syzygy.length; i++) p.syzygy[i] = syzygy[i].subtract(p2.syzygy[i]);
 		return p;
