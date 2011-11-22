@@ -205,6 +205,9 @@ public class ExpressionTest {
 		Assert.assertEquals("0.49999999999999994", Expression.valueOf("sin(30°)").numeric().toString());
 		Assert.assertEquals("π", Expression.valueOf("√(π)^2").simplify().toString());
 		Assert.assertEquals("π", Expression.valueOf("√(π^2)").simplify().toString());
+		Assert.assertEquals("π^2", Expression.valueOf("√(π^2*π^2)").simplify().toString());
+		Assert.assertEquals("π^3", Expression.valueOf("√(π^4*π^2)").simplify().toString());
+		Assert.assertEquals("e*π^2", Expression.valueOf("√(π^4*e^2)").simplify().toString());
 	}
 
 	@Test
