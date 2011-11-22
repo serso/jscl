@@ -13,7 +13,7 @@ public class Debug {
 	public static void println(Object x) {
 		if (out != null) {
 			for (int i = 0; i < indentation; i++) {
-				out.print(' ');
+				out.print("   ");
 			}
 			out.println(x);
 		}

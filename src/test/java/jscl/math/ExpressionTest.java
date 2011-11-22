@@ -202,7 +202,9 @@ public class ExpressionTest {
 		} catch (ParseException e) {
 		}
 
-		org.junit.Assert.assertEquals("0.49999999999999994", Expression.valueOf("sin(30°)").numeric().toString());
+		Assert.assertEquals("0.49999999999999994", Expression.valueOf("sin(30°)").numeric().toString());
+		Assert.assertEquals("π", Expression.valueOf("√(π)^2").simplify().toString());
+		Assert.assertEquals("π", Expression.valueOf("√(π^2)").simplify().toString());
 	}
 
 	@Test

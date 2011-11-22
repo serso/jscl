@@ -3,20 +3,19 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Frac extends Algebraic {
-    public Frac(Generic numerator, Generic denominator) {
+
+	// fraction: n/d
+	// where 	n = numerator,
+	//			d = denominator
+	public Frac(Generic numerator, Generic denominator) {
         super("frac",new Generic[] {numerator,denominator});
     }
 
     public Root rootValue() {
-        return new Root(
-            new Generic[] {
-                parameters[0].negate(),
-                parameters[1]
-            },
-            0
-        );
+        return new Root( new Generic[] { parameters[0].negate(), parameters[1] }, 0 );
     }
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
@@ -74,32 +73,33 @@ public class Frac extends Algebraic {
 		//}
 	}
 
-    static Generic[] separateCoefficient(Generic generic) {
-        if(generic.signum()<0) {
-            Generic n[]=separateCoefficient(generic.negate());
-            return new Generic[] {n[0],n[1],n[2].negate()};
-        }
-        try {
-            Variable v=generic.variableValue();
-            if(v instanceof Frac) {
-                Generic g[]=((Frac)v).getParameters();
-                Generic a=g[0].expressionValue();
-                Generic d=g[1].expressionValue();
-                Generic na[]=a.gcdAndNormalize();
-                Generic nd[]=d.gcdAndNormalize();
-                return new Generic[] {na[0],nd[0],new Frac(na[1],nd[1]).evaluate()};
-            }
-        } catch (NotVariableException e) {
-            try {
-                Generic a=generic.expressionValue();
-                Generic n[]=a.gcdAndNormalize();
-                return new Generic[] {n[0], JsclInteger.valueOf(1),n[1]};
-            } catch (NotExpressionException e2) {}
-        }
-        return new Generic[] {JsclInteger.valueOf(1), JsclInteger.valueOf(1),generic};
-    }
+	static Generic[] separateCoefficient(@NotNull Generic generic) {
+		if (generic.signum() < 0) {
+			Generic n[] = separateCoefficient(generic.negate());
+			return new Generic[]{n[0], n[1], n[2].negate()};
+		}
+		try {
+			Variable v = generic.variableValue();
+			if (v instanceof Frac) {
+				Generic g[] = ((Frac) v).getParameters();
+				Generic a = g[0].expressionValue();
+				Generic d = g[1].expressionValue();
+				Generic na[] = a.gcdAndNormalize();
+				Generic nd[] = d.gcdAndNormalize();
+				return new Generic[]{na[0], nd[0], new Frac(na[1], nd[1]).evaluate()};
+			}
+		} catch (NotVariableException e) {
+			try {
+				Generic a = generic.expressionValue();
+				Generic n[] = a.gcdAndNormalize();
+				return new Generic[]{n[0], JsclInteger.valueOf(1), n[1]};
+			} catch (NotExpressionException e2) {
+			}
+		}
+		return new Generic[]{JsclInteger.valueOf(1), JsclInteger.valueOf(1), generic};
+	}
 
-    public String toString() {
+	public String toString() {
         StringBuffer buffer=new StringBuffer();
         try {
             parameters[0].powerValue();
