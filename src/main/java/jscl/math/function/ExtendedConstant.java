@@ -177,7 +177,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 		Double result = null;
 		if (value != null) {
 			try {
-				result = getDoubleValue0();
+				result = getDoubleValue0(getName(), getValue());
 			} catch (NumberFormatException e) {
 				// do nothing - string is not a double
 			}
@@ -185,10 +185,10 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 		return result;
 	}
 
-	private Double getDoubleValue0() {
+	public static Double getDoubleValue0(@NotNull String name, @NotNull String value) {
 		Double result;
 
-		if (Constant.PI_CONST.getName().equals(getName())) {
+		if (Constant.PI_CONST.getName().equals(name)) {
 			result = AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), Double.valueOf(value));
 		} else {
 			result = Double.valueOf(value);
