@@ -41,23 +41,18 @@ public interface INumeric<T extends INumeric<T>> {
 	@NotNull
 	T nThRoot(int n);
 
-	@NotNull
-	T acos();
-
-	@NotNull
-	T asin();
-
-	@NotNull
-	T atan();
-
-	@NotNull
-	T acot();
-
-	@NotNull
-	T cos();
+	/*
+	* ******************************************************************************************
+	* <p/>
+	* TRIGONOMETRIC FUNCTIONS
+	* <p/>
+	* *******************************************************************************************/
 
 	@NotNull
 	T sin();
+
+	@NotNull
+	T cos();
 
 	@NotNull
 	T tan();
@@ -65,27 +60,60 @@ public interface INumeric<T extends INumeric<T>> {
 	@NotNull
 	T cot();
 
-	@NotNull
-	T acosh();
+	/*
+	 * ******************************************************************************************
+	 * <p/>
+	 * INVERSE TRIGONOMETRIC FUNCTIONS
+	 * <p/>
+	 * *******************************************************************************************/
 
 	@NotNull
-	T asinh();
+	T asin();
 
 	@NotNull
-	T atanh();
+	T acos();
 
 	@NotNull
-	T acoth();
+	T atan();
 
 	@NotNull
-	T cosh();
+	T acot();
+
+	/*
+	 * ******************************************************************************************
+	 * <p/>
+	 * HYPERBOLIC TRIGONOMETRIC FUNCTIONS
+	 * <p/>
+	 * *******************************************************************************************/
 
 	@NotNull
 	T sinh();
+
+	@NotNull
+	T cosh();
 
 	@NotNull
 	T tanh();
 
 	@NotNull
 	T coth();
+
+	/*
+	 * ******************************************************************************************
+	 * <p/>
+	 * INVERSE HYPERBOLIC TRIGONOMETRIC FUNCTIONS
+	 * <p/>
+	 * *******************************************************************************************/
+
+ 	@NotNull
+	T asinh();
+
+	@NotNull
+	T acosh();
+
+	@NotNull
+	T atanh();
+
+	@NotNull
+	T acoth();
 }
