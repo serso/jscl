@@ -208,6 +208,12 @@ public class ExpressionTest {
 		Assert.assertEquals("π^2", Expression.valueOf("√(π^2*π^2)").simplify().toString());
 		Assert.assertEquals("π^3", Expression.valueOf("√(π^4*π^2)").simplify().toString());
 		Assert.assertEquals("e*π^2", Expression.valueOf("√(π^4*e^2)").simplify().toString());
+
+		Assert.assertEquals("1.0", Expression.valueOf("(π/π)!").numeric().toString());
+
+		// in deg mode π=180 and factorial of 180 is calculating
+		Assert.assertEquals("0", Expression.valueOf("π/π!").numeric().toString());
+
 	}
 
 	@Test

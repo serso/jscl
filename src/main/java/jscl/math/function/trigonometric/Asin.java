@@ -20,11 +20,11 @@ public class Asin extends ArcTrigonometric {
     }
 
     public Generic evaluate() {
-        if(parameters[0].signum()<0) {
-            return new Asin(parameters[0].negate()).evaluate().negate();
-        } else if(parameters[0].signum()==0) {
-            return JsclInteger.valueOf(0);
-        }
+		if (parameters[0].signum() < 0) {
+			return new Asin(parameters[0].negate()).evaluate().negate();
+		} else if (parameters[0].signum() == 0) {
+			return JsclInteger.valueOf(0);
+		}
         return expressionValue();
     }
 
