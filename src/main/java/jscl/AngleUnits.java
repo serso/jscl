@@ -2,9 +2,11 @@ package jscl;
 
 import jscl.math.Generic;
 import jscl.math.NumericWrapper;
-import jscl.math.numeric.Real;
 import jscl.math.numeric.Numeric;
+import jscl.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 /**
  * User: serso
@@ -15,87 +17,109 @@ public enum AngleUnits {
 
 	deg {
 		@Override
-		public double transform(@NotNull AngleUnits to, double value) {
+		protected double getCoefficientTo(@NotNull AngleUnits to) {
 			switch (to) {
 				case deg:
-					return value;
+					return 1d;
 				case rad:
-					return value * FROM_DEG_TO_RAD;
+					return FROM_DEG_TO_RAD;
+				case grad:
+					return FROM_DEG_TO_GRAD;
+				case turns:
+					return FROM_DEG_TO_TURNS;
 				default:
-					throw new UnsupportedOperationException(to + " is not supported yet!");
-			}
-		}
-
-		@Override
-		public Numeric transform(@NotNull AngleUnits to, Numeric value) {
-			switch (to) {
-				case deg:
-					return value;
-				case rad:
-					return value.multiply(Real.valueOf(FROM_DEG_TO_RAD));
-				default:
-					throw new UnsupportedOperationException(to + " is not supported yet!");
-			}
-		}
-
-		@Override
-		public Generic transform(@NotNull AngleUnits to, Generic value) {
-			switch (to) {
-				case deg:
-					return value;
-				case rad:
-					return value.multiply(new NumericWrapper(Real.valueOf(FROM_DEG_TO_RAD)));
-				default:
-					throw new UnsupportedOperationException(to + " is not supported yet!");
+					throw new UnsupportedOperationException("Conversion from " + this + " to " + to + " is not supported!");
 			}
 		}
 	},
 
 	rad {
 		@Override
-		public double transform(@NotNull AngleUnits to, double value) {
+		protected double getCoefficientTo(@NotNull AngleUnits to) {
 			switch (to) {
 				case deg:
-					return value * FROM_RAD_TO_DEG;
+					return FROM_RAD_TO_DEG;
 				case rad:
-					return value;
+					return 1d;
+				case grad:
+					return FROM_RAD_TO_GRAD;
+				case turns:
+					return FROM_RAD_TO_TURNS;
 				default:
-					throw new UnsupportedOperationException(to + " is not supported yet!");
+					throw new UnsupportedOperationException("Conversion from " + this + " to " + to + " is not supported!");
 			}
 		}
+	},
 
+	grad {
 		@Override
-		public Numeric transform(@NotNull AngleUnits to, Numeric value) {
+		protected double getCoefficientTo(@NotNull AngleUnits to) {
 			switch (to) {
 				case deg:
-					return value.multiply(Real.valueOf(FROM_RAD_TO_DEG));
+					return FROM_GRAD_TO_DEG;
 				case rad:
-					return value;
+					return FROM_GRAD_TO_RAD;
+				case grad:
+					return 1d;
+				case turns:
+					return FROM_GRAD_TO_TURNS;
 				default:
-					throw new UnsupportedOperationException(to + " is not supported yet!");
+					throw new UnsupportedOperationException("Conversion from " + this + " to " + to + " is not supported!");
 			}
 		}
+	},
 
+	turns {
 		@Override
-		public Generic transform(@NotNull AngleUnits to, Generic value) {
+		protected double getCoefficientTo(@NotNull AngleUnits to) {
 			switch (to) {
 				case deg:
-					return value.multiply(new NumericWrapper(Real.valueOf(FROM_RAD_TO_DEG)));
+					return FROM_TURNS_TO_DEG;
 				case rad:
-					return value;
+					return FROM_TURNS_TO_RAD;
+				case grad:
+					return FROM_TURNS_TO_GRAD;
+				case turns:
+					return 1d;
 				default:
-					throw new UnsupportedOperationException(to + " is not supported yet!");
+					throw new UnsupportedOperationException("Conversion from " + this + " to " + to + " is not supported!");
 			}
 		}
 	};
 
-	private static final double FROM_DEG_TO_RAD = Math.PI / 180d;
+
 	private static final double FROM_RAD_TO_DEG = 180d / Math.PI;
+	private static final double FROM_RAD_TO_GRAD = 200d / Math.PI;
+	private static final double FROM_RAD_TO_TURNS = 0.5d / Math.PI;
+
+	private static final double FROM_DEG_TO_RAD = Math.PI / 180d;
+	private static final double FROM_DEG_TO_TURNS = 0.5d / 180d;
+	private static final double FROM_DEG_TO_GRAD = 10d / 9d;
+
+	private static final double FROM_GRAD_TO_RAD = Math.PI / 200d;
+	private static final double FROM_GRAD_TO_TURNS = 0.5d / 200d;
+	private static final double FROM_GRAD_TO_DEG = 9d / 10d;
+
+	private static final double FROM_TURNS_TO_GRAD = 200d / 0.5d;
+	private static final double FROM_TURNS_TO_RAD = Math.PI / 0.5d;
+	private static final double FROM_TURNS_TO_DEG = 180d / 0.5d;
 
 
-	public abstract double transform(@NotNull AngleUnits to, double value);
+	public final double transform(@NotNull AngleUnits to, double value) {
+		return value * getCoefficientTo(to);
+	}
 
-	public abstract Numeric transform(@NotNull AngleUnits to, Numeric value);
+	protected abstract double getCoefficientTo(@NotNull AngleUnits to);
 
-	public abstract Generic transform(@NotNull AngleUnits to, Generic value);
+	public final Numeric transform(@NotNull AngleUnits to, @NotNull Numeric value) {
+		return value.multiply(getRealCoefficientTo(to));
+	}
+
+	private Real getRealCoefficientTo(@NotNull AngleUnits to) {
+		return Real.valueOf(getCoefficientTo(to));
+	}
+
+	public final Generic transform(@NotNull AngleUnits to, @NotNull Generic value) {
+		return value.multiply(new NumericWrapper(getRealCoefficientTo(to)));
+	}
 }

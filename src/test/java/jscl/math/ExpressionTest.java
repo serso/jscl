@@ -210,6 +210,17 @@ public class ExpressionTest {
 		final MathEngine mathEngine = JsclMathEngine.instance;
 
 		final AngleUnits defaultAngleUnits = mathEngine.getDefaultAngleUnits();
+
+		for (AngleUnits angleUnits : AngleUnits.values()) {
+			try {
+				mathEngine.setDefaultAngleUnits(angleUnits);
+				mathEngine.evaluate("sin(2)");
+				mathEngine.evaluate("asin(2)");
+			} finally {
+				mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			}
+		}
+
 		try {
 			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(2)"));
@@ -227,6 +238,27 @@ public class ExpressionTest {
 			Assert.assertEquals(mathEngine.evaluate("0.6420926159343306"), mathEngine.evaluate("cot(1)"));
 			Assert.assertEquals(mathEngine.evaluate("-0.457657554360285763750277410432047276428486329231674329641"), mathEngine.evaluate("cot(2)"));
 			Assert.assertEquals(mathEngine.evaluate("-7.015252551434533469428551379526476578293103352096353838156"), mathEngine.evaluate("cot(3)"));
+		} finally {
+			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+		}
+
+		try {
+			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
+			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(deg(2))"));
+			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(deg(3))"));
+			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(deg(0))"));
+
+			Assert.assertEquals(mathEngine.evaluate("1.0"), mathEngine.evaluate("cos(deg(0))"));
+			Assert.assertEquals(mathEngine.evaluate("0.8623188722876839341019385139508425355100840085355108292801"), mathEngine.evaluate("cos(deg(100))"));
+			Assert.assertEquals(mathEngine.evaluate("-0.416146836547142386997568229500762189766000771075544890755"), mathEngine.evaluate("cos(deg(2))"));
+
+			Assert.assertEquals(mathEngine.evaluate("-2.185039863261518991643306102313682543432017746227663164562"), mathEngine.evaluate("tan(deg(2))"));
+			Assert.assertEquals(mathEngine.evaluate("-0.142546543074277805295635410533913493226092284901804647633"), mathEngine.evaluate("tan(deg(3))"));
+			Assert.assertEquals(mathEngine.evaluate("0.6483608274590866712591249330098086768168743429837249756336"), mathEngine.evaluate("tan(deg(10))"));
+
+			Assert.assertEquals(mathEngine.evaluate("0.6420926159343306"), mathEngine.evaluate("cot(deg(1))"));
+			Assert.assertEquals(mathEngine.evaluate("-0.457657554360285763750277410432047276428486329231674329641"), mathEngine.evaluate("cot(deg(2))"));
+			Assert.assertEquals(mathEngine.evaluate("-7.015252551434533469428551379526476578293103352096353838156"), mathEngine.evaluate("cot(deg(3))"));
 		} finally {
 			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
 		}
