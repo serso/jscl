@@ -212,7 +212,7 @@ public class ExpressionTest {
 		Assert.assertEquals("1.0", Expression.valueOf("(π/π)!").numeric().toString());
 
 		// in deg mode π=180 and factorial of 180 is calculating
-		Assert.assertEquals("0", Expression.valueOf("π/π!").numeric().toString());
+		Assert.assertEquals("0.0", Expression.valueOf("π/π!").numeric().toString());
 
 	}
 
