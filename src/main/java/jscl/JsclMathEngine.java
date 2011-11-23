@@ -19,7 +19,7 @@ public enum JsclMathEngine implements MathEngine {
 	instance;
 
 	@NotNull
-	private AngleUnits defaultAngleUnits = AngleUnits.deg;
+	private AngleUnit defaultAngleUnit = AngleUnit.deg;
 
 	@Override
 	public String evaluate(@NotNull String expression) throws ParseException {
@@ -64,13 +64,13 @@ public enum JsclMathEngine implements MathEngine {
 
 	@NotNull
 	@Override
-	public AngleUnits getDefaultAngleUnits() {
-		return defaultAngleUnits;
+	public AngleUnit getDefaultAngleUnit() {
+		return defaultAngleUnit;
 	}
 
 	@Override
-	public void setDefaultAngleUnits(@NotNull AngleUnits defaultAngleUnits) {
-		this.defaultAngleUnits = defaultAngleUnits;
+	public void setDefaultAngleUnit(@NotNull AngleUnit defaultAngleUnit) {
+		this.defaultAngleUnit = defaultAngleUnit;
 	}
 
 	@NotNull

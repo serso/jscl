@@ -1,5 +1,6 @@
 package jscl.math.numeric;
 
+import jscl.JsclMathEngine;
 import org.jetbrains.annotations.NotNull;
 
 public final class Real extends Numeric {

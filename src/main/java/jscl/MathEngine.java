@@ -33,7 +33,7 @@ public interface MathEngine {
 	MathRegistry<Operator> getPostfixFunctionsRegistry();
 
 	@NotNull
-	AngleUnits getDefaultAngleUnits();
+	AngleUnit getDefaultAngleUnit();
 
-	void setDefaultAngleUnits(@NotNull AngleUnits defaultAngleUnits);
+	void setDefaultAngleUnit(@NotNull AngleUnit defaultAngleUnits);
 }

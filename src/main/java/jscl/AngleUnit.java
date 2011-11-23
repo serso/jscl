@@ -6,18 +6,16 @@ import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 /**
  * User: serso
  * Date: 11/19/11
  * Time: 8:55 PM
  */
-public enum AngleUnits {
+public enum AngleUnit {
 
 	deg {
 		@Override
-		protected double getCoefficientTo(@NotNull AngleUnits to) {
+		protected double getCoefficientTo(@NotNull AngleUnit to) {
 			switch (to) {
 				case deg:
 					return 1d;
@@ -35,7 +33,7 @@ public enum AngleUnits {
 
 	rad {
 		@Override
-		protected double getCoefficientTo(@NotNull AngleUnits to) {
+		protected double getCoefficientTo(@NotNull AngleUnit to) {
 			switch (to) {
 				case deg:
 					return FROM_RAD_TO_DEG;
@@ -53,7 +51,7 @@ public enum AngleUnits {
 
 	grad {
 		@Override
-		protected double getCoefficientTo(@NotNull AngleUnits to) {
+		protected double getCoefficientTo(@NotNull AngleUnit to) {
 			switch (to) {
 				case deg:
 					return FROM_GRAD_TO_DEG;
@@ -71,7 +69,7 @@ public enum AngleUnits {
 
 	turns {
 		@Override
-		protected double getCoefficientTo(@NotNull AngleUnits to) {
+		protected double getCoefficientTo(@NotNull AngleUnit to) {
 			switch (to) {
 				case deg:
 					return FROM_TURNS_TO_DEG;
@@ -105,21 +103,21 @@ public enum AngleUnits {
 	private static final double FROM_TURNS_TO_DEG = 180d / 0.5d;
 
 
-	public final double transform(@NotNull AngleUnits to, double value) {
+	public final double transform(@NotNull AngleUnit to, double value) {
 		return value * getCoefficientTo(to);
 	}
 
-	protected abstract double getCoefficientTo(@NotNull AngleUnits to);
+	protected abstract double getCoefficientTo(@NotNull AngleUnit to);
 
-	public final Numeric transform(@NotNull AngleUnits to, @NotNull Numeric value) {
+	public final Numeric transform(@NotNull AngleUnit to, @NotNull Numeric value) {
 		return value.multiply(getRealCoefficientTo(to));
 	}
 
-	private Real getRealCoefficientTo(@NotNull AngleUnits to) {
+	private Real getRealCoefficientTo(@NotNull AngleUnit to) {
 		return Real.valueOf(getCoefficientTo(to));
 	}
 
-	public final Generic transform(@NotNull AngleUnits to, @NotNull Generic value) {
+	public final Generic transform(@NotNull AngleUnit to, @NotNull Generic value) {
 		return value.multiply(new NumericWrapper(getRealCoefficientTo(to)));
 	}
 }

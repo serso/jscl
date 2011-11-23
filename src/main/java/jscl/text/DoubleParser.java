@@ -1,5 +1,7 @@
 package jscl.text;
 
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.numeric.Real;
@@ -64,6 +66,8 @@ class FloatingPointLiteral implements Parser<Double> {
 	public Double parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
+		final NumeralBase nb = NumeralBaseParser.parser.parse(expression, position, previousSumElement);
+
 		final StringBuilder result = new StringBuilder();
 
 		boolean digits = false;
@@ -103,7 +107,12 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 
-		return new Double(result.toString());
+		final String doubleString = result.toString();
+		try {
+			return nb.toDouble(doubleString);
+		} catch (NumberFormatException e) {
+			throw new ParseException(e.getMessage(), position, expression);
+		}
 	}
 }
 

@@ -1,5 +1,7 @@
 package jscl.math.numeric;
 
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 
 public final class Complex extends Numeric {

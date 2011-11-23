@@ -1,6 +1,6 @@
 package jscl.math.operator;
 
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Generic;
 import jscl.math.Variable;
@@ -49,7 +49,7 @@ public class Degree extends PostfixFunction {
 			return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
 		}*/
 
-		return AngleUnits.deg.transform(JsclMathEngine.instance.getDefaultAngleUnits(), parameters[0].numeric());
+		return AngleUnit.deg.transform(JsclMathEngine.instance.getDefaultAngleUnit(), parameters[0].numeric());
 	}
 
 	@NotNull

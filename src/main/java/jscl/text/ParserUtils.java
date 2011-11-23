@@ -43,6 +43,23 @@ public class ParserUtils {
 		}
 	}
 
+	public static void tryToParse(@NotNull String expression,
+								  @NotNull MutableInt position,
+								  int pos0,
+								  @NotNull String s) throws ParseException {
+		skipWhitespaces(expression, position);
+
+		if (position.intValue() < expression.length()) {
+			if (expression.startsWith(s, position.intValue())) {
+				position.add(s.length());
+			} else {
+				throwParseException(expression, position, pos0, "Expected character is: " + s);
+			}
+		} else {
+			throwParseException(expression, position, pos0, "Expected character is: " + s + " but the end of expression was reached");
+		}
+	}
+
 	private static void throwParseException(@NotNull String expression,
 											@NotNull MutableInt position,
 											int pos0,

@@ -1,8 +1,9 @@
 package jscl.math;
 
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
+import jscl.NumeralBase;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.text.ParseException;
@@ -42,12 +43,12 @@ public class ExpressionTest {
 		Assert.assertEquals("48.0", Expression.valueOf("2*4.0!").numeric().toString());
 		Assert.assertEquals("40320.0", Expression.valueOf("(2*4.0)!").numeric().toString());
 
-		final AngleUnits angleUnits = JsclMathEngine.instance.getDefaultAngleUnits();
+		final AngleUnit angleUnits = JsclMathEngine.instance.getDefaultAngleUnit();
 		try {
-			JsclMathEngine.instance.setDefaultAngleUnits(AngleUnits.rad);
+			JsclMathEngine.instance.setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("-0.9055783620066238", Expression.valueOf("sin(4!)").numeric().toString());
 		} finally {
-			JsclMathEngine.instance.setDefaultAngleUnits(angleUnits);
+			JsclMathEngine.instance.setDefaultAngleUnit(angleUnits);
 		}
 		Assert.assertEquals("1.0", Expression.valueOf("(3.14/3.14)!").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("2/2!").numeric().toString());
@@ -86,9 +87,9 @@ public class ExpressionTest {
 
 		Assert.assertEquals("100.0", Expression.valueOf("0.1E3").numeric().toString());
 
-		final AngleUnits defaultAngleUnits = JsclMathEngine.instance.getDefaultAngleUnits();
+		final AngleUnit defaultAngleUnits = JsclMathEngine.instance.getDefaultAngleUnit();
 		try {
-			JsclMathEngine.instance.setDefaultAngleUnits(AngleUnits.rad);
+			JsclMathEngine.instance.setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("0.017453292519943295", Expression.valueOf("1°").numeric().toString());
 			Assert.assertEquals("0.03490658503988659", Expression.valueOf("2°").numeric().toString());
 			Assert.assertEquals("0.05235987755982989", Expression.valueOf("3°").numeric().toString());
@@ -99,11 +100,11 @@ public class ExpressionTest {
 			Assert.assertEquals("0.08726646259971647", Expression.valueOf("5°").numeric().toString());
 			Assert.assertEquals("2.0523598775598297", Expression.valueOf("2+3°").numeric().toString());
 		} finally {
-			JsclMathEngine.instance.setDefaultAngleUnits(defaultAngleUnits);
+			JsclMathEngine.instance.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			JsclMathEngine.instance.setDefaultAngleUnits(AngleUnits.deg);
+			JsclMathEngine.instance.setDefaultAngleUnit(AngleUnit.deg);
 			Assert.assertEquals("1.0", Expression.valueOf("1°").numeric().toString());
 			Assert.assertEquals("2.0", Expression.valueOf("2°").numeric().toString());
 			Assert.assertEquals("3.0", Expression.valueOf("3°").numeric().toString());
@@ -114,7 +115,7 @@ public class ExpressionTest {
 			Assert.assertEquals("5.0", Expression.valueOf("5°").numeric().toString());
 			Assert.assertEquals("5.0", Expression.valueOf("2+3°").numeric().toString());
 		} finally {
-			JsclMathEngine.instance.setDefaultAngleUnits(defaultAngleUnits);
+			JsclMathEngine.instance.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		Assert.assertEquals("6", Expression.valueOf("2*∂(3*x,x)").expand().toString());
@@ -220,20 +221,20 @@ public class ExpressionTest {
 	public void testAngleUnits() throws Exception {
 		final MathEngine mathEngine = JsclMathEngine.instance;
 
-		final AngleUnits defaultAngleUnits = mathEngine.getDefaultAngleUnits();
+		final AngleUnit defaultAngleUnits = mathEngine.getDefaultAngleUnit();
 
-		for (AngleUnits angleUnits : AngleUnits.values()) {
+		for (AngleUnit angleUnits : AngleUnit.values()) {
 			try {
-				mathEngine.setDefaultAngleUnits(angleUnits);
+				mathEngine.setDefaultAngleUnit(angleUnits);
 				mathEngine.evaluate("sin(2)");
 				mathEngine.evaluate("asin(2)");
 			} finally {
-				mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+				mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 			}
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
+			mathEngine.setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(2)"));
 			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(3)"));
 			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(0)"));
@@ -250,11 +251,11 @@ public class ExpressionTest {
 			Assert.assertEquals(mathEngine.evaluate("-0.457657554360285763750277410432047276428486329231674329641"), mathEngine.evaluate("cot(2)"));
 			Assert.assertEquals(mathEngine.evaluate("-7.015252551434533469428551379526476578293103352096353838156"), mathEngine.evaluate("cot(3)"));
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
+			mathEngine.setDefaultAngleUnit(AngleUnit.deg);
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(deg(2))"));
 			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(deg(3))"));
 			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(deg(0))"));
@@ -271,11 +272,11 @@ public class ExpressionTest {
 			Assert.assertEquals(mathEngine.evaluate("-0.457657554360285763750277410432047276428486329231674329641"), mathEngine.evaluate("cot(deg(2))"));
 			Assert.assertEquals(mathEngine.evaluate("-7.015252551434533469428551379526476578293103352096353838156"), mathEngine.evaluate("cot(deg(3))"));
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
+			mathEngine.setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals(mathEngine.evaluate("-0.5235987755982989"), mathEngine.evaluate("asin(-0.5)"));
 			Assert.assertEquals(mathEngine.evaluate("-0.47349551215005636"), mathEngine.evaluate("asin(-0.456)"));
 			Assert.assertEquals(mathEngine.evaluate("0.32784124364198347"), mathEngine.evaluate("asin(0.322)"));
@@ -294,11 +295,11 @@ public class ExpressionTest {
 			// todo serso: wolfram alpha returns -1.373401 instead of 1.7681918866447774 (-PI)
 			Assert.assertEquals(mathEngine.evaluate("1.7681918866447774"), mathEngine.evaluate("acot(-0.2)"));
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
+			mathEngine.setDefaultAngleUnit(AngleUnit.deg);
 			Assert.assertEquals(mathEngine.evaluate("deg(-0.5235987755982989)"), mathEngine.evaluate("asin(-0.5)"));
 			Assert.assertEquals(mathEngine.evaluate("-27.129294464583623"), mathEngine.evaluate("asin(-0.456)"));
 			Assert.assertEquals(mathEngine.evaluate("18.783919611005786"), mathEngine.evaluate("asin(0.322)"));
@@ -317,11 +318,11 @@ public class ExpressionTest {
 			// todo serso: wolfram alpha returns -1.373401 instead of 1.7681918866447774 (-PI)
 			Assert.assertEquals(mathEngine.evaluate("deg(1.7681918866447774)"), mathEngine.evaluate("acot(-0.2)"));
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
+			mathEngine.setDefaultAngleUnit(AngleUnit.deg);
 			Assert.assertEquals(mathEngine.evaluate("0.0348994967025009716459951816253329373548245760432968714250"), mathEngine.evaluate("(sin(2))"));
 			Assert.assertEquals(mathEngine.evaluate("0.0523359562429438327221186296090784187310182539401649204835"), mathEngine.evaluate("(sin(3))"));
 			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(0)"));
@@ -338,11 +339,11 @@ public class ExpressionTest {
 			Assert.assertEquals(mathEngine.evaluate("28.636253282915604"), mathEngine.evaluate("(cot(2))"));
 			Assert.assertEquals(mathEngine.evaluate("19.081136687728208"), mathEngine.evaluate("(cot(3))"));
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
+			mathEngine.setDefaultAngleUnit(AngleUnit.rad);
 			testSinEqualsToSinh(mathEngine, 0d);
 			testSinEqualsToSinh(mathEngine, 1d, "0.8414709848078965");
 			testSinEqualsToSinh(mathEngine, 3d, "0.1411200080598672");
@@ -351,11 +352,11 @@ public class ExpressionTest {
 			testSinEqualsToSinh(mathEngine, -3.3d, "0.1577456941432482");
 			testSinEqualsToSinh(mathEngine, -232.2d, "0.27429486373689577");
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.deg);
+			mathEngine.setDefaultAngleUnit(AngleUnit.deg);
 			testSinEqualsToSinh(mathEngine, 0d);
 			testSinEqualsToSinh(mathEngine, 1d, "0.01745240643728351");
 			testSinEqualsToSinh(mathEngine, 3d, "0.052335956242943835");
@@ -364,18 +365,18 @@ public class ExpressionTest {
 			testSinEqualsToSinh(mathEngine, -3.3d, "-0.05756402695956728");
 			testSinEqualsToSinh(mathEngine, -232.2d, "0.7901550123756904");
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		try {
-			mathEngine.setDefaultAngleUnits(AngleUnits.rad);
+			mathEngine.setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals(mathEngine.evaluate("1.5707963267948966-0.8813735870195429*i"), mathEngine.evaluate("acos(i)"));
 			Assert.assertEquals(mathEngine.evaluate("0.9045568943023813-1.0612750619050355*i"), mathEngine.evaluate("acos(1+i)"));
 			Assert.assertEquals(mathEngine.evaluate("1.0-0.9999999999999998*i"), mathEngine.evaluate("cos(acos(1-i))"));
 			// todo serso: wolfram alpha returns 0.9045568943023813+1.0612750619050355*i for acos(1-i)
 			Assert.assertEquals(mathEngine.evaluate("0.9045568943023813+1.0612750619050355*i"), mathEngine.evaluate("-acos(1-i)"));
 		} finally {
-			mathEngine.setDefaultAngleUnits(defaultAngleUnits);
+			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 	}
@@ -430,9 +431,9 @@ public class ExpressionTest {
 
 	@Test
 	public void testDerivations() throws Exception {
-		final AngleUnits defaultAngleUnits = JsclMathEngine.instance.getDefaultAngleUnits();
+		final AngleUnit defaultAngleUnits = JsclMathEngine.instance.getDefaultAngleUnit();
 		try {
-			JsclMathEngine.instance.setDefaultAngleUnits(AngleUnits.rad);
+			JsclMathEngine.instance.setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("-0.9092974268256817", Expression.valueOf("∂(cos(t),t,2)").numeric().toString());
 			Assert.assertEquals("∂(cos(t), t, 2, 1)", Expression.valueOf("∂(cos(t),t,2)").simplify().toString());
 			Assert.assertEquals("-2.234741690198506", Expression.valueOf("∂(t*cos(t),t,2)").numeric().toString());
@@ -442,7 +443,7 @@ public class ExpressionTest {
 			org.junit.Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t,t,1)").expand().simplify().toString());
 			org.junit.Assert.assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().simplify().toString());
 		} finally {
-			JsclMathEngine.instance.setDefaultAngleUnits(defaultAngleUnits);
+			JsclMathEngine.instance.setDefaultAngleUnit(defaultAngleUnits);
 		}
 
 		// todo serso: uncomment and check!!!
@@ -467,5 +468,20 @@ public class ExpressionTest {
 		Assert.assertEquals("200.0", Expression.valueOf("Σ(n°/n°,n,1,200)").expand().numeric().toString());
 		Assert.assertEquals("-sin(1)-sin(2)", Expression.valueOf("Σ(∂(cos(t),t,n),n,1,2)").expand().toString());
 		Assert.assertEquals("-0.05235190313978448", Expression.valueOf("Σ(∂(cos(t),t,n),n,1,2)").expand().numeric().toString());
+	}
+
+	@Test
+	public void testNumeralBases() throws Exception {
+		final JsclMathEngine me = JsclMathEngine.instance;
+		//final NumeralBase defaultNumeralBase = me.getDefaultNumeralBase();
+		try {
+			//me.setDefaultNumeralBase(NumeralBase.bin);
+			Assert.assertEquals("10.0", me.evaluate("0b01010"));
+			Assert.assertEquals("10.0", me.evaluate("0b1010"));
+			Assert.assertEquals("1010.0", me.evaluate("1010"));
+			Assert.assertEquals("1010.1", me.evaluate("1010.1"));
+		} finally {
+			//me.setDefaultNumeralBase(defaultNumeralBase);
+		}
 	}
 }

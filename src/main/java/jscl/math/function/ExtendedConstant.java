@@ -1,6 +1,6 @@
 package jscl.math.function;
 
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -189,7 +189,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 		Double result;
 
 		if (Constant.PI_CONST.getName().equals(name)) {
-			result = AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), Double.valueOf(value));
+			result = AngleUnit.rad.transform(JsclMathEngine.instance.getDefaultAngleUnit(), Double.valueOf(value));
 		} else {
 			result = Double.valueOf(value);
 		}

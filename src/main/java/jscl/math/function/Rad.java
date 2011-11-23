@@ -1,6 +1,6 @@
 package jscl.math.function;
 
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.math.Generic;
 import jscl.math.Variable;
 
@@ -17,7 +17,7 @@ public class Rad extends AbstractDms {
 
 	@Override
 	public Generic evaluateNumerically() {
-		return AngleUnits.deg.transform(AngleUnits.rad, super.evaluateNumerically());
+		return AngleUnit.deg.transform(AngleUnit.rad, super.evaluateNumerically());
 	}
 
 	@Override

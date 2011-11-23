@@ -1,6 +1,6 @@
 package jscl.math.numeric;
 
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
@@ -83,21 +83,21 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	 */
 
 	protected static double defaultToRad(double value) {
-		return JsclMathEngine.instance.getDefaultAngleUnits().transform(AngleUnits.rad, value);
+		return JsclMathEngine.instance.getDefaultAngleUnit().transform(AngleUnit.rad, value);
 	}
 
 	protected static double radToDefault(double value) {
-		return AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), value);
+		return AngleUnit.rad.transform(JsclMathEngine.instance.getDefaultAngleUnit(), value);
 	}
 
 	@NotNull
 	protected static Numeric defaultToRad(@NotNull Numeric value) {
-		return JsclMathEngine.instance.getDefaultAngleUnits().transform(AngleUnits.rad, value);
+		return JsclMathEngine.instance.getDefaultAngleUnit().transform(AngleUnit.rad, value);
 	}
 
 	@NotNull
 	protected static Numeric radToDefault(@NotNull Numeric value) {
-		return AngleUnits.rad.transform(JsclMathEngine.instance.getDefaultAngleUnits(), value);
+		return AngleUnit.rad.transform(JsclMathEngine.instance.getDefaultAngleUnit(), value);
 	}
 
 	/*

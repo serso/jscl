@@ -1,5 +1,7 @@
 package jscl.text;
 
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +17,16 @@ public class JsclIntegerParser implements Parser<Generic> {
 	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		final StringBuilder sb = new StringBuilder();
-		try {
-			sb.append(Digits.parser.parse(expression, position, previousSumElement));
-		} catch (ParseException e) {
-			throw e;
-		}
+		final NumeralBase nb = NumeralBaseParser.parser.parse(expression, position, previousSumElement);
 
-		return new JsclInteger(new BigInteger(sb.toString()));
+		final StringBuilder result = new StringBuilder();
+
+		result.append(Digits.parser.parse(expression, position, previousSumElement));
+
+		try {
+			return nb.toJsclInteger(result.toString());
+		} catch (NumberFormatException e) {
+			throw new ParseException(e.getMessage(), position, expression);
+		}
 	}
 }
