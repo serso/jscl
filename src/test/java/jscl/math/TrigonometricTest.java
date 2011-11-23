@@ -1,6 +1,7 @@
 package jscl.math;
 
 import au.com.bytecode.opencsv.CSVReader;
+import jscl.AngleUnits;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import junit.framework.Assert;
@@ -69,6 +70,23 @@ public class TrigonometricTest {
 				testValue(coshValue, Double.valueOf(me.evaluate("cosh(" + degrees + "°)")), degrees);
 				testValue(tghValue, Double.valueOf(me.evaluate("tanh(" + degrees + "°)")), degrees);
 				testValue(cthgValue, Double.valueOf(me.evaluate("coth(" + degrees + "°)")), degrees);
+
+				final AngleUnits angleUnits = me.getDefaultAngleUnits();
+				try {
+					me.setDefaultAngleUnits(AngleUnits.rad);
+
+					testValue(sinValue, Double.valueOf(me.evaluate("sin(" + radians + ")")), degrees);
+					testValue(cosValue, Double.valueOf(me.evaluate("cos(" + radians + ")")), degrees);
+					testValue(tgValue, Double.valueOf(me.evaluate("tan(" + radians + ")")), degrees);
+					testValue(ctgValue, Double.valueOf(me.evaluate("cot(" + radians + ")")), degrees);
+
+					testValue(sinhValue, Double.valueOf(me.evaluate("sinh(" + radians + ")")), degrees);
+					testValue(coshValue, Double.valueOf(me.evaluate("cosh(" + radians + ")")), degrees);
+					testValue(tghValue, Double.valueOf(me.evaluate("tanh(" + radians + ")")), degrees);
+					testValue(cthgValue, Double.valueOf(me.evaluate("coth(" + radians + ")")), degrees);
+				} finally {
+					me.setDefaultAngleUnits(angleUnits);
+				}
 
 				testValue(asinValue, Double.valueOf(me.evaluate("rad(asin(" + sinValue + "))")), degrees);
 				testValue(acosValue, Double.valueOf(me.evaluate("rad(acos(" + cosValue + "))")), degrees);
