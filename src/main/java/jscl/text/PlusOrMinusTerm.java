@@ -20,13 +20,12 @@ class PlusOrMinusTerm implements Parser<Generic> {
 
 		ParserUtils.skipWhitespaces(expression, position);
 
-		boolean sign;
+		boolean sign = false;
 		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == '+' || expression.charAt(position.intValue()) == '-')) {
 			sign = expression.charAt(position.intValue()) == '-';
 			position.increment();
 		} else {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "+ or - are expected");
 		}
 
 		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, expression, position, pos0, previousSumElement);

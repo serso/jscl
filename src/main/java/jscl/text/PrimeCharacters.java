@@ -13,7 +13,7 @@ public class PrimeCharacters implements Parser<Integer> {
 
 		int pos0 = position.intValue();
 
-		int result;
+		int result = 0;
 
 		ParserUtils.skipWhitespaces(expression, position);
 
@@ -21,8 +21,7 @@ public class PrimeCharacters implements Parser<Integer> {
 			position.increment();
 			result = 1;
 		} else {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "\' is expected");
 		}
 
 		while (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '\'') {

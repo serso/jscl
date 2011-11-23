@@ -5,9 +5,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class ParseException extends Exception {
 
-	public ParseException() {
-	}
-
 	public ParseException(@NotNull MutableInt position, @NotNull String expression) {
 		this(null, position, expression);
 	}

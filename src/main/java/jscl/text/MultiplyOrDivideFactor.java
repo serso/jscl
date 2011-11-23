@@ -27,8 +27,7 @@ class MultiplyOrDivideFactor implements Parser<Generic> {
 		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == (multiplication ? '*' : '/')) {
 			position.increment();
 		} else {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "* or / are expected");
 		}
 
 		return ParserUtils.parseWithRollback(Factor.parser, expression, position, pos0, previousSumElement);

@@ -60,7 +60,7 @@ public class ParserUtils {
 		}
 	}
 
-	private static void throwParseException(@NotNull String expression,
+	public static void throwParseException(@NotNull String expression,
 											@NotNull MutableInt position,
 											int pos0,
 											@NotNull String message) throws ParseException {

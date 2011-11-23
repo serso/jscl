@@ -9,46 +9,37 @@ import jscl.math.Matrix;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class MatrixParser implements Parser {
-    public static final Parser parser=new MatrixParser();
+public class MatrixParser implements Parser<Matrix> {
 
-    private MatrixParser() {}
+	public static final Parser<Matrix> parser = new MatrixParser();
 
-    public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-        int pos0= position.intValue();
-        List l=new ArrayList();
-        ParserUtils.skipWhitespaces(expression, position);
-        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='{') {
-            expression.charAt(position.intValue());
-			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        try {
-            JsclVector v=(JsclVector)VectorParser.parser.parse(expression, position, previousSumElement);
-            l.add(v);
-        } catch (ParseException e) {
-            position.setValue(pos0);
-            throw e;
-        }
-        while(true) {
-            try {
-                JsclVector v=(JsclVector)CommaAndVector.parser.parse(expression, position, previousSumElement);
-                l.add(v);
-            } catch (ParseException e) {
-                break;
-            }
-        }
-        ParserUtils.skipWhitespaces(expression, position);
-        if(position.intValue()< expression.length() && expression.charAt(position.intValue())=='}') {
-            expression.charAt(position.intValue());
-			position.increment();
-        } else {
-            position.setValue(pos0);
-            throw new ParseException();
-        }
-        JsclVector v[]=(JsclVector[])ArrayUtils.toArray(l,new JsclVector[l.size()]);
-        return Matrix.frame(v).transpose();
-    }
+	private MatrixParser() {
+	}
+
+	public Matrix parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+		int pos0 = position.intValue();
+
+		final List<Generic> vectors = new ArrayList<Generic>();
+
+		ParserUtils.tryToParse(expression, position, pos0, '{');
+
+		try {
+			vectors.add(VectorParser.parser.parse(expression, position, previousSumElement));
+		} catch (ParseException e) {
+			position.setValue(pos0);
+			throw e;
+		}
+
+		while (true) {
+			try {
+				vectors.add(CommaAndVector.parser.parse(expression, position, previousSumElement));
+			} catch (ParseException e) {
+				break;
+			}
+		}
+
+		ParserUtils.tryToParse(expression, position, pos0, '}');
+
+		return Matrix.frame((JsclVector[])ArrayUtils.toArray(vectors, new JsclVector[vectors.size()])).transpose();
+	}
 }

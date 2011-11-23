@@ -88,15 +88,7 @@ class SuperscriptList implements Parser<int[]> {
 	public int[] parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
-
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '{') {
-			expression.charAt(position.intValue());
-			position.increment();
-		} else {
-			position.setValue(pos0);
-			throw new ParseException();
-		}
+		ParserUtils.tryToParse(expression, position, pos0, '{');
 
 		final List<Integer> result = new ArrayList<Integer>();
 		try {
@@ -114,15 +106,9 @@ class SuperscriptList implements Parser<int[]> {
 			}
 		}
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.tryToParse(expression, position, pos0, '}');
 
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '}') {
-			expression.charAt(position.intValue());
-			position.increment();
-		} else {
-			position.setValue(pos0);
-			throw new ParseException();
-		}
+		ParserUtils.skipWhitespaces(expression, position);
 
 		return ArrayUtils.toArray(result, new int[result.size()]);
 	}

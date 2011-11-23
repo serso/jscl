@@ -6,6 +6,7 @@ import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ class Singularity implements Parser<Double> {
 	public Double parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
-		final double result;
+		double result = 0d;
 
 		String s = Identifier.parser.parse(expression, position, previousSumElement);
 		if (s.equals("NaN")) {
@@ -48,8 +49,7 @@ class Singularity implements Parser<Double> {
 		} else if (s.equals("Infinity") || s.equals("∞")) {
 			result = Double.POSITIVE_INFINITY;
 		} else {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "NaN or Infinity or ∞ are expected");
 		}
 
 		return result;
@@ -98,7 +98,7 @@ class FloatingPointLiteral implements Parser<Double> {
 			}
 		}
 		try {
-			String s = (String) ExponentPart.parser.parse(expression, position, previousSumElement);
+			String s = ExponentPart.parser.parse(expression, position, previousSumElement);
 			result.append(s);
 		} catch (ParseException e) {
 			if (!point) {
@@ -116,63 +116,68 @@ class FloatingPointLiteral implements Parser<Double> {
 	}
 }
 
-class DecimalPoint implements Parser {
-	public static final Parser parser = new DecimalPoint();
+class DecimalPoint implements Parser<Void> {
+
+	public static final Parser<Void> parser = new DecimalPoint();
 
 	private DecimalPoint() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	@Nullable
+	public Void parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
+
 		ParserUtils.skipWhitespaces(expression, position);
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '.') {
-			expression.charAt(position.intValue());
-			position.increment();
-		} else {
-			position.setValue(pos0);
-			throw new ParseException();
-		}
+
+		ParserUtils.tryToParse(expression, position, pos0, '.');
+
 		return null;
 	}
 }
 
-class ExponentPart implements Parser {
-	public static final Parser parser = new ExponentPart();
+class ExponentPart implements Parser<String> {
+
+	public static final Parser<String> parser = new ExponentPart();
 
 	private ExponentPart() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	@NotNull
+	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
-		StringBuilder buffer = new StringBuilder();
+
+		final StringBuilder result = new StringBuilder();
+
 		ParserUtils.skipWhitespaces(expression, position);
+
 		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == 'e' || expression.charAt(position.intValue()) == 'E')) {
 			char c = expression.charAt(position.intValue());
 			position.increment();
-			buffer.append(c);
+			result.append(c);
 		} else {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "Expected characters are 'e' and 'E'");
 		}
+
 		try {
-			String s = (String) SignedInteger.parser.parse(expression, position, previousSumElement);
-			buffer.append(s);
+			result.append(SignedInteger.parser.parse(expression, position, previousSumElement));
 		} catch (ParseException e) {
 			position.setValue(pos0);
 			throw e;
 		}
-		return buffer.toString();
+
+		return result.toString();
 	}
 }
 
-class SignedInteger implements Parser {
+class SignedInteger implements Parser<String> {
 
-	public static final Parser parser = new SignedInteger();
+	public static final Parser<String> parser = new SignedInteger();
 
 	private SignedInteger() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	@NotNull
+	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
 
 		final StringBuilder result = new StringBuilder();

@@ -2,21 +2,24 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class PowerParser implements Parser {
+class PowerParser implements Parser<Void> {
 
-	public static final Parser parser = new PowerParser();
+	public static final Parser<Void> parser = new PowerParser();
 
 	private PowerParser() {
 	}
 
-	public Object parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	@Nullable
+	public Void parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
 		int pos0 = position.intValue();
+
 		ParserUtils.skipWhitespaces(expression, position);
 
 		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '^') {
@@ -26,10 +29,10 @@ class PowerParser implements Parser {
 				position.increment();
 				position.increment();
 			} else {
-				position.setValue(pos0);
-				throw new ParseException();
+				ParserUtils.throwParseException(expression, position, pos0, "^ or ** are expected");
 			}
 		}
+
 		return null;
 	}
 

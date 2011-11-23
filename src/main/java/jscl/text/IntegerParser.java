@@ -44,7 +44,7 @@ public class IntegerParser implements Parser<Integer> {
 			result.append(c);
 		} else {
 			position.setValue(pos0);
-			throw new ParseException();
+			throw new ParseException("Digit is expected", position, expression);
 		}
 
 		while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {

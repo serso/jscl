@@ -307,7 +307,7 @@ public class Matrix extends Generic {
         return m;
     }
 
-    public Generic transpose() {
+    public Matrix transpose() {
         Matrix m=(Matrix)newinstance(new Generic[p][n]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {

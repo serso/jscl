@@ -27,8 +27,7 @@ class UsualFunctionParser implements Parser<Function> {
 		final String name = Identifier.parser.parse(expression, position, previousSumElement);
 
 		if (!valid(name)) {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "Function name is not valid");
 		}
 
 		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
@@ -37,8 +36,7 @@ class UsualFunctionParser implements Parser<Function> {
 		if (result != null && result.getMinimumNumberOfParameters() <= parameters.length && result.getMaximumNumberOfParameters() >= parameters.length ) {
 			result.setParameters(parameters);
 		} else {
-			position.setValue(pos0);
-			throw new ParseException();
+			ParserUtils.throwParseException(expression, position, pos0, "Number of parameters differs from expected");
 		}
 
 		return result;

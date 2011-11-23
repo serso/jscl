@@ -642,7 +642,7 @@ public class Expression extends Generic {
 		ParserUtils.skipWhitespaces(expression, position);
 
 		if (position.intValue() < expression.length()) {
-			throw new ParseException();
+			throw new ParseException("Premature end of processing", position, expression);
 		}
 
 		return new Expression().init(generic);
