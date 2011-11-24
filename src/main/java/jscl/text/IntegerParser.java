@@ -44,7 +44,7 @@ public class IntegerParser implements Parser<Integer> {
 			result.append(c);
 		} else {
 			position.setValue(pos0);
-			throw new ParseException("Digit is expected", position, expression);
+			throw new ParseException(Messages.MSG_7, position.intValue(), expression);
 		}
 
 		while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
@@ -53,10 +53,11 @@ public class IntegerParser implements Parser<Integer> {
 			result.append(c);
 		}
 
+		final String number = result.toString();
 		try {
-			return nb.toInteger(result.toString());
+			return nb.toInteger(number);
 		} catch (NumberFormatException e) {
-			throw new ParseException(e.getMessage(), position, expression);
+			throw new ParseException(Messages.MSG_8, position.intValue(), expression, number);
 		}
 	}
 }

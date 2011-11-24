@@ -24,7 +24,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
 		final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, expression, position, pos0, previousSumElement);
 		if (FunctionsRegistry.getInstance().getNames().contains(name) || OperatorsRegistry.getInstance().getNames().contains(name)) {
 			position.setValue(pos0);
-			throw new ParseException("Cannot be implicit function - usual function or operator with same name is defined!", position, expression);
+			throw new ParseException(Messages.MSG_6, position.intValue(), expression, name);
 		}
 
 		final List<Generic> subscripts = new ArrayList<Generic>();

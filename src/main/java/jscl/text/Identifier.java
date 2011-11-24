@@ -26,9 +26,7 @@ public class Identifier implements Parser<String> {
 			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		} else {
-			final ParseException e = new ParseException("First symbol of constant or variable must be letter!", position, expression);
-			position.setValue(pos0);
-			throw e;
+			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_5);
 		}
 
 		while (position.intValue() < expression.length() && isValidNotFirstCharacter(expression, position)) {

@@ -16,7 +16,7 @@ public class RootParser implements Parser<Function> {
 
 		final String name = Identifier.parser.parse(expression, position, previousSumElement);
 		if (name.compareTo("root") != 0) {
-			ParserUtils.throwParseException(expression, position, pos0, "root expected");
+			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_11, "root");
 		}
 
 		final Generic subscript = ParserUtils.parseWithRollback(Subscript.parser, expression, position, pos0, previousSumElement);

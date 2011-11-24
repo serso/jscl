@@ -22,9 +22,7 @@ public class Digits implements Parser<String> {
 			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		} else {
-			final ParseException e = new ParseException("First symbol of number must be digit!", position, expression);
-			position.setValue(pos0);
-			throw e;
+			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_9);
 		}
 
 		while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {

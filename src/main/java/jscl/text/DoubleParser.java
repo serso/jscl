@@ -49,7 +49,7 @@ class Singularity implements Parser<Double> {
 		} else if (s.equals("Infinity") || s.equals("∞")) {
 			result = Double.POSITIVE_INFINITY;
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, "NaN or Infinity or ∞ are expected");
+			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_10, "NaN", "∞");
 		}
 
 		return result;
@@ -111,7 +111,7 @@ class FloatingPointLiteral implements Parser<Double> {
 		try {
 			return nb.toDouble(doubleString);
 		} catch (NumberFormatException e) {
-			throw new ParseException(e.getMessage(), position, expression);
+			throw new ParseException(Messages.MSG_8, position.intValue(), expression, doubleString);
 		}
 	}
 }
@@ -155,7 +155,7 @@ class ExponentPart implements Parser<String> {
 			position.increment();
 			result.append(c);
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, "Expected characters are 'e' and 'E'");
+			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_10, 'e', 'E');
 		}
 
 		try {

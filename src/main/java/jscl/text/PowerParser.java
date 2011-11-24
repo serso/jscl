@@ -29,7 +29,7 @@ class PowerParser implements Parser<Void> {
 				position.increment();
 				position.increment();
 			} else {
-				ParserUtils.throwParseException(expression, position, pos0, "^ or ** are expected");
+				ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_10, '^', "**");
 			}
 		}
 

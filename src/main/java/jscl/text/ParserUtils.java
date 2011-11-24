@@ -36,10 +36,10 @@ public class ParserUtils {
 			if (actual == ch) {
 				position.increment();
 			} else {
-				throwParseException(expression, position, pos0, "Expected character is: " + ch + ", actual: " + actual);
+				throwParseException(expression, position, pos0, Messages.MSG_12, ch);
 			}
 		} else {
-			throwParseException(expression, position, pos0, "Expected character is: " + ch + " but the end of expression was reached");
+			throwParseException(expression, position, pos0, Messages.MSG_12, ch);
 		}
 	}
 
@@ -53,18 +53,19 @@ public class ParserUtils {
 			if (expression.startsWith(s, position.intValue())) {
 				position.add(s.length());
 			} else {
-				throwParseException(expression, position, pos0, "Expected character is: " + s);
+				throwParseException(expression, position, pos0, Messages.MSG_11, s);
 			}
 		} else {
-			throwParseException(expression, position, pos0, "Expected character is: " + s + " but the end of expression was reached");
+			throwParseException(expression, position, pos0, Messages.MSG_11, s);
 		}
 	}
 
 	public static void throwParseException(@NotNull String expression,
 											@NotNull MutableInt position,
 											int pos0,
-											@NotNull String message) throws ParseException {
-		final ParseException parseException = new ParseException(message, position, expression);
+											@NotNull String messageId,
+											Object... parameters) throws ParseException {
+		final ParseException parseException = new ParseException(messageId, position.intValue(), expression, parameters);
 		position.setValue(pos0);
 		throw parseException;
 	}

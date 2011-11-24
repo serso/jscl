@@ -5,10 +5,7 @@ import jscl.math.function.Inv;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
-import jscl.text.ExpressionParser;
-import jscl.text.MutableInt;
-import jscl.text.ParseException;
-import jscl.text.ParserUtils;
+import jscl.text.*;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -642,7 +639,7 @@ public class Expression extends Generic {
 		ParserUtils.skipWhitespaces(expression, position);
 
 		if (position.intValue() < expression.length()) {
-			throw new ParseException("Premature end of processing", position, expression);
+			throw new ParseException(Messages.MSG_1, position.intValue(), expression);
 		}
 
 		return new Expression().init(generic);

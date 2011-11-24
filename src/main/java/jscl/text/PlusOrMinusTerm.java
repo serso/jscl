@@ -25,7 +25,7 @@ class PlusOrMinusTerm implements Parser<Generic> {
 			sign = expression.charAt(position.intValue()) == '-';
 			position.increment();
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, "+ or - are expected");
+			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_10, '+', '-');
 		}
 
 		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, expression, position, pos0, previousSumElement);

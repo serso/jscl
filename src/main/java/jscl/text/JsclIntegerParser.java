@@ -23,10 +23,11 @@ public class JsclIntegerParser implements Parser<Generic> {
 
 		result.append(Digits.parser.parse(expression, position, previousSumElement));
 
+		final String number = result.toString();
 		try {
-			return nb.toJsclInteger(result.toString());
+			return nb.toJsclInteger(number);
 		} catch (NumberFormatException e) {
-			throw new ParseException(e.getMessage(), position, expression);
+			throw new ParseException(Messages.MSG_8, position.intValue(), expression, number);
 		}
 	}
 }
