@@ -21,7 +21,7 @@ public class PrimeCharacters implements Parser<Integer> {
 			position.increment();
 			result = 1;
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_12, '\'');
+			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_12, '\'');
 		}
 
 		while (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '\'') {

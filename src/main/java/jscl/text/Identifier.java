@@ -26,7 +26,7 @@ public class Identifier implements Parser<String> {
 			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_5);
+			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_5);
 		}
 
 		while (position.intValue() < expression.length() && isValidNotFirstCharacter(expression, position)) {

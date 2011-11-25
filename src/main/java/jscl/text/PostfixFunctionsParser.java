@@ -54,7 +54,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 				}
 
 				if (postfixFunction == null) {
-					throw new ParseException(Messages.MSG_4, position.intValue(), expression, postfixResult.getPostfixFunctionName());
+					throw new ParseException(Messages.msg_4, position.intValue(), expression, postfixResult.getPostfixFunctionName());
 				}
 
 				result = parsePostfix(parsers, expression, position, postfixFunction.expressionValue(), previousSumElement);

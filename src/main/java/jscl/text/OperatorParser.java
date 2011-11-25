@@ -19,14 +19,14 @@ public class OperatorParser implements Parser<Operator> {
 
 		final String operatorName = Identifier.parser.parse(expression, position, previousSumElement);
 		if (!valid(operatorName)) {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_3, operatorName);
+			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_3, operatorName);
 		}
 
 		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
 
 		final Operator result = OperatorsRegistry.getInstance().get(operatorName, parameters);
 		if ( result == null ) {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_2, operatorName);
+			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_2, operatorName);
 			assert false;
 		}
 

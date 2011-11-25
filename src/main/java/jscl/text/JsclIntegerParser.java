@@ -27,7 +27,7 @@ public class JsclIntegerParser implements Parser<Generic> {
 		try {
 			return nb.toJsclInteger(number);
 		} catch (NumberFormatException e) {
-			throw new ParseException(Messages.MSG_8, position.intValue(), expression, number);
+			throw new ParseException(Messages.msg_8, position.intValue(), expression, number);
 		}
 	}
 }

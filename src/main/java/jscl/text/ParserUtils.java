@@ -36,10 +36,10 @@ public class ParserUtils {
 			if (actual == ch) {
 				position.increment();
 			} else {
-				throwParseException(expression, position, pos0, Messages.MSG_12, ch);
+				throwParseException(expression, position, pos0, Messages.msg_12, ch);
 			}
 		} else {
-			throwParseException(expression, position, pos0, Messages.MSG_12, ch);
+			throwParseException(expression, position, pos0, Messages.msg_12, ch);
 		}
 	}
 
@@ -53,10 +53,10 @@ public class ParserUtils {
 			if (expression.startsWith(s, position.intValue())) {
 				position.add(s.length());
 			} else {
-				throwParseException(expression, position, pos0, Messages.MSG_11, s);
+				throwParseException(expression, position, pos0, Messages.msg_11, s);
 			}
 		} else {
-			throwParseException(expression, position, pos0, Messages.MSG_11, s);
+			throwParseException(expression, position, pos0, Messages.msg_11, s);
 		}
 	}
 

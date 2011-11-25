@@ -22,7 +22,7 @@ public class Digits implements Parser<String> {
 			result.append(expression.charAt(position.intValue()));
 			position.increment();
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.MSG_9);
+			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_9);
 		}
 
 		while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {

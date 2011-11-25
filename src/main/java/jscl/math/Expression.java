@@ -639,7 +639,7 @@ public class Expression extends Generic {
 		ParserUtils.skipWhitespaces(expression, position);
 
 		if (position.intValue() < expression.length()) {
-			throw new ParseException(Messages.MSG_1, position.intValue(), expression);
+			throw new ParseException(Messages.msg_1, position.intValue(), expression);
 		}
 
 		return new Expression().init(generic);

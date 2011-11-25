@@ -14,44 +14,44 @@ public final class Messages {
 	}
 
 	/** Premature end of processing */
-	public static final String MSG_1 = "MSG_1";
+	public static final String msg_1 = "msg_1";
 
 	/** There is no operator with name: {0} */
-	public static final String MSG_2 = "MSG_2";
+	public static final String msg_2 = "msg_2";
 
 	/** Operator name is not valid: {0} */
-	public static final String 	MSG_3 = "MSG_3";
+	public static final String 	msg_3 = "msg_3";
 
 	/** Postfix function with name {0} doesn't exist */
-	public static final String 	MSG_4 = "MSG_4";
+	public static final String 	msg_4 = "msg_4";
 
 	/** Constant name must start with character */
-	public static final String 	MSG_5 = "MSG_5";
+	public static final String 	msg_5 = "msg_5";
 
 	/** Cannot be implicit function - usual function or operator with same name is defined: {0} */
-	public static final String 	MSG_6 = "MSG_6";
+	public static final String 	msg_6 = "msg_6";
 
 	/** Digit is expected */
-	public static final String 	MSG_7 = "MSG_7";
+	public static final String 	msg_7 = "msg_7";
 
 	/** Invalid number: {0} */
-	public static final String 	MSG_8 = "MSG_8";
+	public static final String 	msg_8 = "msg_8";
 
 	/** First letter of number must be digit */
-	public static final String 	MSG_9 = "MSG_9";
+	public static final String 	msg_9 = "msg_9";
 
 	/** Expected characters are {0} or {1} */
-	public static final String 	MSG_10 = "MSG_10";
+	public static final String 	msg_10 = "msg_10";
 
 	/** Expected characters are {0} */
-	public static final String 	MSG_11 = "MSG_11";
+	public static final String 	msg_11 = "msg_11";
 
 	/** Expected character is {0} */
-	public static final String 	MSG_12 = "MSG_12";
+	public static final String 	msg_12 = "msg_12";
 
 	/** Function name is not valid: {0} */
-	public static final String 	MSG_13 = "MSG_13";
+	public static final String 	msg_13 = "msg_13";
 
 	/** Expected number of parameters differs from actual {0} */
-	public static final String MSG_14 = "MSG_14";
+	public static final String msg_14 = "msg_14";
 }
