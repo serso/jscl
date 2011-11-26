@@ -1,45 +1,49 @@
 package jscl.text;
 
+import jscl.text.msg.JsclMessage;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageType;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
-public class ParseException extends Exception {
-
-	@NotNull
-	private final String messageId;
+public class ParseException extends Exception implements Message {
 
 	@NotNull
-	private final List<Object> parameters;
+	private final Message message;
 
 	private final int position;
 
 	@NotNull
 	private final String expression;
 
-	public ParseException(@NotNull String messageId, int position, @NotNull String expression, Object... parameters) {
-		this.messageId = messageId;
+	public ParseException(@NotNull String messageCode, int position, @NotNull String expression, Object... parameters) {
+		this.message = new JsclMessage(messageCode, MessageType.error, parameters);
 		this.position = position;
 		this.expression = expression;
-
-		if (CollectionsUtils.isEmpty(parameters)) {
-			this.parameters = Collections.emptyList();
-		} else {
-			this.parameters = Arrays.asList(parameters);
-		}
 	}
 
 	@NotNull
-	public String getMessageId() {
-		return messageId;
+	public String getMessageCode() {
+		return this.message.getMessageCode();
 	}
 
 	@NotNull
 	public List<Object> getParameters() {
-		return parameters;
+		return this.message.getParameters();
+	}
+
+	@NotNull
+	@Override
+	public MessageType getMessageType() {
+		return this.message.getMessageType();
+	}
+
+	@NotNull
+	@Override
+	public String getLocalizedMessage(@NotNull Locale locale) {
+		return this.message.getLocalizedMessage(locale);
 	}
 
 	public int getPosition() {

@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -6,6 +6,7 @@ import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
 import jscl.text.*;
+import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

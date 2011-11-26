@@ -1,8 +1,8 @@
 package jscl.text;
 
-import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.Generic;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 
 public class IntegerParser implements Parser<Integer> {

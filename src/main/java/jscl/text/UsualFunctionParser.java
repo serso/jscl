@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.FunctionsRegistry;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathRegistry;

@@ -1,6 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

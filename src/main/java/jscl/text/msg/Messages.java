@@ -1,4 +1,4 @@
-package jscl.text;
+package jscl.text.msg;
 
 /**
  * User: serso

@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.Root;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 
 public class RootParser implements Parser<Function> {

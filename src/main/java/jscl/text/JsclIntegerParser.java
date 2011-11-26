@@ -1,12 +1,9 @@
 package jscl.text;
 
-import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import jscl.math.JsclInteger;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
-
-import java.math.BigInteger;
 
 public class JsclIntegerParser implements Parser<Generic> {
 	public static final Parser<Generic> parser = new JsclIntegerParser();

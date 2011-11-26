@@ -5,6 +5,7 @@ import jscl.math.function.Function;
 import jscl.math.function.FunctionsRegistry;
 import jscl.math.function.ImplicitFunction;
 import jscl.math.operator.matrix.OperatorsRegistry;
+import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 

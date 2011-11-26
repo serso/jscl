@@ -1,10 +1,10 @@
 package jscl.text;
 
-import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.numeric.Real;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
