@@ -3,14 +3,16 @@ package jscl.math;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
-import jscl.NumeralBase;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
+import jscl.math.function.IConstant;
 import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
+
+import java.util.Set;
 
 import static junit.framework.Assert.fail;
 
@@ -20,6 +22,36 @@ import static junit.framework.Assert.fail;
  * Time: 3:54 PM
  */
 public class ExpressionTest {
+
+	@Test
+	public void testConstants() throws Exception {
+		Assert.assertTrue(Expression.valueOf("3+4").getConstants().isEmpty());
+
+		Set<? extends Constant> constants = Expression.valueOf("3+4*t").getConstants();
+		Assert.assertTrue(constants.size() == 1);
+		Assert.assertTrue(constants.contains(new Constant("t")));
+
+		IConstant constant = null;
+		try{
+			constant = JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t_0"), 1d));
+
+			constants = Expression.valueOf("3+4*t_0+t_0+t_1").getConstants();
+			Assert.assertTrue(constants.size() == 2);
+			Assert.assertTrue(constants.contains(new Constant("t_0")));
+			Assert.assertTrue(constants.contains(new Constant("t_1")));
+
+			final Expression expression = Expression.valueOf("2*t_0+5*t_1");
+
+			Assert.assertEquals("7.0", expression.substitute(new Constant("t_1"), Expression.valueOf(1.0)).numeric().toString());
+			Assert.assertEquals("12.0", expression.substitute(new Constant("t_1"), Expression.valueOf(2.0)).numeric().toString());
+			Assert.assertEquals("27.0", expression.substitute(new Constant("t_1"), Expression.valueOf(5.0)).numeric().toString());
+
+		} finally {
+			if (constant != null) {
+				JsclMathEngine.instance.getConstantsRegistry().remove(constant);
+			}
+		}
+	}
 
 	@Test
 	public void testExpressions() throws Exception {

@@ -307,7 +307,7 @@ final class ListPolynomial extends Polynomial {
         } else {
             Generic a=coefficient(generic);
             if(a.signum()!=0) {
-                content.add(new Term(monomial(Literal.valueOf()),a));
+                content.add(new Term(monomial(Literal.newInstance()),a));
             }
             degree=0;
             sugar=0;

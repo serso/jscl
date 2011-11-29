@@ -23,7 +23,7 @@ public class IndefiniteIntegral extends Operator {
 		return 2;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         Variable variable= parameters[1].variableValue();
         try {
             return parameters[0].antiDerivative(variable);

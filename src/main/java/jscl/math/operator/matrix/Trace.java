@@ -24,7 +24,7 @@ public class Trace extends Operator {
 		return 1;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         if(parameters[0] instanceof Matrix) {
             Matrix matrix=(Matrix) parameters[0];
             return matrix.trace();

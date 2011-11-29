@@ -295,13 +295,13 @@ public class Root extends Algebraic {
 		return NumericWrapper.root(subscript.integerValue().intValue(), parameters);
 	}
 
-	public int compareTo(Variable variable) {
-		if (this == variable) return 0;
-		int c = comparator.compare(this, variable);
+	public int compareTo(Variable that) {
+		if (this == that) return 0;
+		int c = comparator.compare(this, that);
 		if (c < 0) return -1;
 		else if (c > 0) return 1;
 		else {
-			Root v = (Root) variable;
+			Root v = (Root) that;
 			c = ArrayComparator.comparator.compare(parameters, v.parameters);
 			if (c < 0) return -1;
 			else if (c > 0) return 1;

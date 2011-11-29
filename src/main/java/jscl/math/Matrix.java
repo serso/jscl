@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.math.function.Conjugate;
+import jscl.math.function.Constant;
 import jscl.math.function.Frac;
 import jscl.math.function.trigonometric.Cos;
 import jscl.math.function.trigonometric.Sin;
@@ -8,25 +9,28 @@ import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Matrix extends Generic {
-    protected final Generic element[][];
+    protected final Generic elements[][];
     protected final int n,p;
 
-    public Matrix(Generic element[][]) {
-        this.element=element;
-        n=element.length;
-        p=element.length>0?element[0].length:0;
+    public Matrix(Generic elements[][]) {
+        this.elements = elements;
+        n= elements.length;
+        p= elements.length>0? elements[0].length:0;
     }
 
     public Generic[][] elements() {
-        return element;
+        return elements;
     }
 
     public Matrix add(Matrix matrix) {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].add(matrix.element[i][j]);
+                m.elements[i][j]= elements[i][j].add(matrix.elements[i][j]);
             }
         }
         return m;
@@ -45,7 +49,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].subtract(matrix.element[i][j]);
+                m.elements[i][j]= elements[i][j].subtract(matrix.elements[i][j]);
             }
         }
         return m;
@@ -60,8 +64,10 @@ public class Matrix extends Generic {
         }
     }
 
-    public static boolean product(Generic a, Generic b) {
-        return (a instanceof Matrix && b instanceof Matrix) || (a instanceof Matrix && b instanceof JsclVector) || (a instanceof JsclVector && b instanceof Matrix);
+    public static boolean isMatrixProduct(@NotNull Generic a, @NotNull Generic b) {
+        return (a instanceof Matrix && b instanceof Matrix) ||
+				(a instanceof Matrix && b instanceof JsclVector) ||
+					(a instanceof JsclVector && b instanceof Matrix);
     }
 
     public Matrix multiply(Matrix matrix) {
@@ -69,9 +75,9 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance(new Generic[n][matrix.p]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<matrix.p;j++) {
-                m.element[i][j]= JsclInteger.valueOf(0);
+                m.elements[i][j]= JsclInteger.valueOf(0);
                 for(int k=0;k<p;k++) {
-                    m.element[i][j]=m.element[i][j].add(element[i][k].multiply(matrix.element[k][j]));
+                    m.elements[i][j]=m.elements[i][j].add(elements[i][k].multiply(matrix.elements[k][j]));
                 }
             }
         }
@@ -87,9 +93,9 @@ public class Matrix extends Generic {
             JsclVector v2=(JsclVector) that;
             if(p!=v2.n) throw new ArithmeticException();
             for(int i=0;i<n;i++) {
-                v.element[i]= JsclInteger.valueOf(0);
+                v.elements[i]= JsclInteger.valueOf(0);
                 for(int k=0;k<p;k++) {
-                    v.element[i]=v.element[i].add(element[i][k].multiply(v2.element[k]));
+                    v.elements[i]=v.elements[i].add(elements[i][k].multiply(v2.elements[k]));
                 }
             }
             return v;
@@ -97,7 +103,7 @@ public class Matrix extends Generic {
             Matrix m=(Matrix)newinstance();
             for(int i=0;i<n;i++) {
                 for(int j=0;j<p;j++) {
-                    m.element[i][j]=element[i][j].multiply(that);
+                    m.elements[i][j]= elements[i][j].multiply(that);
                 }
             }
             return m;
@@ -115,9 +121,9 @@ public class Matrix extends Generic {
             for(int i=0;i<n;i++) {
                 for(int j=0;j<p;j++) {
                     try {
-                        m.element[i][j]=element[i][j].divide(that);
+                        m.elements[i][j]= elements[i][j].divide(that);
                     } catch (NotDivisibleException e) {
-                        m.element[i][j]=new Frac(element[i][j], that).evaluate();
+                        m.elements[i][j]=new Frac(elements[i][j], that).evaluate();
                     }
                 }
             }
@@ -137,7 +143,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].negate();
+                m.elements[i][j]= elements[i][j].negate();
             }
         }
         return m;
@@ -146,7 +152,7 @@ public class Matrix extends Generic {
     public int signum() {
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                int c=element[i][j].signum();
+                int c= elements[i][j].signum();
                 if(c<0) return -1;
                 else if(c>0) return 1;
             }
@@ -162,7 +168,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].antiDerivative(variable);
+                m.elements[i][j]= elements[i][j].antiDerivative(variable);
             }
         }
         return m;
@@ -172,7 +178,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].derivative(variable);
+                m.elements[i][j]= elements[i][j].derivative(variable);
             }
         }
         return m;
@@ -182,7 +188,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].substitute(variable,generic);
+                m.elements[i][j]= elements[i][j].substitute(variable,generic);
             }
         }
         return m;
@@ -192,7 +198,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].expand();
+                m.elements[i][j]= elements[i][j].expand();
             }
         }
         return m;
@@ -202,7 +208,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].factorize();
+                m.elements[i][j]= elements[i][j].factorize();
             }
         }
         return m;
@@ -212,7 +218,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].elementary();
+                m.elements[i][j]= elements[i][j].elementary();
             }
         }
         return m;
@@ -222,7 +228,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=element[i][j].simplify();
+                m.elements[i][j]= elements[i][j].simplify();
             }
         }
         return m;
@@ -237,7 +243,7 @@ public class Matrix extends Generic {
             throw new ArithmeticException();
         } else {
             Matrix m=(Matrix)identity(n,p).multiply(generic);
-                        return newinstance(m.element);
+                        return newinstance(m.elements);
         }
     }
 
@@ -287,7 +293,7 @@ public class Matrix extends Generic {
         for(int i=0;i<n;i++) {
             v[i]=new JsclVector(new Generic[p]);
             for(int j=0;j<p;j++) {
-                v[i].element[j]=element[i][j];
+                v[i].elements[j]= elements[i][j];
             }
         }
         return v;
@@ -299,7 +305,7 @@ public class Matrix extends Generic {
             for(int j=0;j<p;j++) {
                 for(int k=0;k<matrix.n;k++) {
                     for(int l=0;l<matrix.p;l++) {
-                        m.element[i*matrix.n+k][j*matrix.p+l]=element[i][j].multiply(matrix.element[k][l]);
+                        m.elements[i*matrix.n+k][j*matrix.p+l]= elements[i][j].multiply(matrix.elements[k][l]);
                     }
                 }
             }
@@ -311,7 +317,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance(new Generic[p][n]);
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[j][i]=element[i][j];
+                m.elements[j][i]= elements[i][j];
             }
         }
         return m;
@@ -320,7 +326,7 @@ public class Matrix extends Generic {
     public Generic trace() {
         Generic s= JsclInteger.valueOf(0);
         for(int i=0;i<n;i++) {
-            s=s.add(element[i][i]);
+            s=s.add(elements[i][i]);
         }
         return s;
     }
@@ -329,7 +335,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<n;j++) {
-                m.element[i][j]=inverseElement(i,j);
+                m.elements[i][j]=inverseElement(i,j);
             }
         }
         return m.transpose().divide(determinant());
@@ -339,7 +345,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<n;j++) {
-                m.element[i][j]=i==k? JsclInteger.valueOf(j == l ? 1 : 0):element[i][j];
+                m.elements[i][j]=i==k? JsclInteger.valueOf(j == l ? 1 : 0): elements[i][j];
             }
         }
         return m.determinant();
@@ -349,18 +355,18 @@ public class Matrix extends Generic {
         if(n>1) {
             Generic a= JsclInteger.valueOf(0);
             for(int i=0;i<n;i++) {
-                if(element[i][0].signum()==0);
+                if(elements[i][0].signum()==0);
                 else {
                     Matrix m=(Matrix)newinstance(new Generic[n-1][n-1]);
                     for(int j=0;j<n-1;j++) {
-                        for(int k=0;k<n-1;k++) m.element[j][k]=element[j<i?j:j+1][k+1];
+                        for(int k=0;k<n-1;k++) m.elements[j][k]= elements[j<i?j:j+1][k+1];
                     }
-                    if(i%2==0) a=a.add(element[i][0].multiply(m.determinant()));
-                    else a=a.subtract(element[i][0].multiply(m.determinant()));
+                    if(i%2==0) a=a.add(elements[i][0].multiply(m.determinant()));
+                    else a=a.subtract(elements[i][0].multiply(m.determinant()));
                 }
             }
             return a;
-        } else if(n>0) return element[0][0];
+        } else if(n>0) return elements[0][0];
         else return JsclInteger.valueOf(0);
     }
 
@@ -368,7 +374,7 @@ public class Matrix extends Generic {
         Matrix m=(Matrix)newinstance();
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
-                m.element[i][j]=new Conjugate(element[i][j]).evaluate();
+                m.elements[i][j]=new Conjugate(elements[i][j]).evaluate();
             }
         }
         return m;
@@ -395,9 +401,9 @@ public class Matrix extends Generic {
         for(int i=0;i<n;i++) {
             for(int j=0;j<p;j++) {
                 if(i==j) {
-                    m.element[i][j]= JsclInteger.valueOf(1);
+                    m.elements[i][j]= JsclInteger.valueOf(1);
                 } else {
-                    m.element[i][j]= JsclInteger.valueOf(0);
+                    m.elements[i][j]= JsclInteger.valueOf(0);
                 }
             }
         }
@@ -408,7 +414,7 @@ public class Matrix extends Generic {
         Matrix m=new Matrix(new Generic[vector.length>0?vector[0].n:0][vector.length]);
         for(int i=0;i<m.n;i++) {
             for(int j=0;j<m.p;j++) {
-                m.element[i][j]=vector[j].element[i];
+                m.elements[i][j]=vector[j].elements[i];
             }
         }
         return m;
@@ -423,17 +429,17 @@ public class Matrix extends Generic {
         for(int i=0;i<m.n;i++) {
             for(int j=0;j<m.p;j++) {
                 if(i==axis1 && j==axis1) {
-                    m.element[i][j]=new Cos(angle).evaluate();
+                    m.elements[i][j]=new Cos(angle).evaluate();
                 } else if(i==axis1 && j==axis2) {
-                    m.element[i][j]=new Sin(angle).evaluate().negate();
+                    m.elements[i][j]=new Sin(angle).evaluate().negate();
                 } else if(i==axis2 && j==axis1) {
-                    m.element[i][j]=new Sin(angle).evaluate();
+                    m.elements[i][j]=new Sin(angle).evaluate();
                 } else if(i==axis2 && j==axis2) {
-                    m.element[i][j]=new Cos(angle).evaluate();
+                    m.elements[i][j]=new Cos(angle).evaluate();
                 } else if(i==j) {
-                    m.element[i][j]= JsclInteger.valueOf(1);
+                    m.elements[i][j]= JsclInteger.valueOf(1);
                 } else {
-                    m.element[i][j]= JsclInteger.valueOf(0);
+                    m.elements[i][j]= JsclInteger.valueOf(0);
                 }
             }
         }
@@ -446,7 +452,7 @@ public class Matrix extends Generic {
         for(int i=0;i<n;i++) {
             buffer.append("{");
             for(int j=0;j<p;j++) {
-                buffer.append(element[i][j]).append(j<p-1?", ":"");
+                buffer.append(elements[i][j]).append(j<p-1?", ":"");
             }
             buffer.append("}").append(i<n-1?",\n":"");
         }
@@ -460,7 +466,7 @@ public class Matrix extends Generic {
         for(int i=0;i<n;i++) {
             buffer.append("{");
             for(int j=0;j<p;j++) {
-                buffer.append(element[i][j].toJava()).append(j<p-1?", ":"");
+                buffer.append(elements[i][j].toJava()).append(j<p-1?", ":"");
             }
             buffer.append("}").append(i<n-1?", ":"");
         }
@@ -481,14 +487,28 @@ public class Matrix extends Generic {
         }
     }
 
-    protected void bodyToMathML(MathML e0) {
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		final Set<Constant> result = new HashSet<Constant>();
+
+		for (Generic[] element : elements) {
+			for (Generic generic : element) {
+				result.addAll(generic.getConstants());
+			}
+		}
+
+		return result;
+	}
+
+	protected void bodyToMathML(MathML e0) {
         MathML e1=e0.element("mfenced");
         MathML e2=e0.element("mtable");
         for(int i=0;i<n;i++) {
             MathML e3=e0.element("mtr");
             for(int j=0;j<p;j++) {
                 MathML e4=e0.element("mtd");
-                element[i][j].toMathML(e4,null);
+                elements[i][j].toMathML(e4,null);
                 e3.appendChild(e4);
             }
             e2.appendChild(e3);

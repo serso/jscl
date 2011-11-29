@@ -25,8 +25,8 @@ public class MatrixProduct extends VectorOperator {
 		return 2;
 	}
 
-	public Generic compute() {
-        if(Matrix.product(parameters[0], parameters[1])) {
+	public Generic evaluate() {
+        if(Matrix.isMatrixProduct(parameters[0], parameters[1])) {
             return parameters[0].multiply(parameters[1]);
         }
         return expressionValue();

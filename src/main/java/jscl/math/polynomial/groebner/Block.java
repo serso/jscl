@@ -18,7 +18,7 @@ class Block extends Standard {
     }
 
     void compute() {
-        Debug.println("compute");
+        Debug.println("evaluate");
         int degree=0;
         while(!pairs.isEmpty()) {
             List list=new ArrayList();

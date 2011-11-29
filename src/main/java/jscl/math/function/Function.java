@@ -4,30 +4,19 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
+import jscl.math.operator.AbstractFunction;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
 
-public abstract class Function extends Variable {
+public abstract class Function extends AbstractFunction {
 
 	public static final String VARIABLE_NAMES = "xyzabcdefghijklmnopqrstuvw";
 
-	protected Generic parameters[];
-
 	public Function(String name, Generic parameters[]) {
-		super(name);
-		this.parameters = parameters;
-	}
-
-	public Generic[] getParameters() {
-		return parameters;
-	}
-
-	public void setParameters(Generic[] parameters) {
-		this.parameters = parameters;
+		super(name, parameters);
 	}
 
 	// todo serso: make abstract
@@ -38,7 +27,6 @@ public abstract class Function extends Variable {
 	public int getMaximumNumberOfParameters(){
 		return getMinimumNumberOfParameters();
 	}
-
 
 	@Override
 	public void copy(@NotNull MathEntity that) {
@@ -51,12 +39,6 @@ public abstract class Function extends Variable {
 			}
 		}
 	}
-
-	public abstract Generic evaluate();
-
-	public abstract Generic evaluateElementary();
-
-	public abstract Generic evaluateSimplify();
 
 	public abstract Generic evaluateNumerically();
 
@@ -101,38 +83,6 @@ public abstract class Function extends Variable {
 		}
 	}
 
-	public Generic expand() {
-		Function v = (Function) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].expand();
-		}
-		return v.evaluate();
-	}
-
-	public Generic factorize() {
-		Function v = (Function) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].factorize();
-		}
-		return v.expressionValue();
-	}
-
-	public Generic elementary() {
-		Function v = (Function) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].elementary();
-		}
-		return v.evaluateElementary();
-	}
-
-	public Generic simplify() {
-		Function v = (Function) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].simplify();
-		}
-		return v.evaluateSimplify();
-	}
-
 	public Generic numeric() {
 		Function v = (Function) newInstance();
 		for (int i = 0; i < parameters.length; i++) {
@@ -149,17 +99,25 @@ public abstract class Function extends Variable {
 		return s;
 	}
 
-	public int compareTo(Variable variable) {
-		if (this == variable) return 0;
-		int c = comparator.compare(this, variable);
-		if (c < 0) return -1;
-		else if (c > 0) return 1;
-		else {
-			Function v = (Function) variable;
-			c = name.compareTo(v.name);
-			if (c < 0) return -1;
-			else if (c > 0) return 1;
-			else return ArrayComparator.comparator.compare(parameters, v.parameters);
+	public int compareTo(Variable that) {
+		if (this == that) return 0;
+
+		int c = comparator.compare(this, that);
+
+		if (c < 0) {
+			return -1;
+		} else if (c > 0) {
+			return 1;
+		} else {
+			final Function thatFunction = (Function) that;
+			c = name.compareTo(thatFunction.name);
+			if (c < 0) {
+				return -1;
+			} else if (c > 0) {
+				return 1;
+			} else {
+				return ArrayComparator.comparator.compare(parameters, thatFunction.parameters);
+			}
 		}
 	}
 
@@ -216,10 +174,5 @@ public abstract class Function extends Variable {
 			parameter.toMathML(e1, null);
 		}
 		element.appendChild(e1);
-	}
-
-	@Nullable
-	public static Generic getParameter(@Nullable Generic[] parameters, final int i) {
-		return parameters == null ? null : (parameters.length > i ? parameters[i] : null);
 	}
 }

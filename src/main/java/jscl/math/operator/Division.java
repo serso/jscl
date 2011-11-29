@@ -21,7 +21,7 @@ public class Division extends Operator {
 		return 2;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         return parameters[0].divideAndRemainder(parameters[1])[0];
     }
 

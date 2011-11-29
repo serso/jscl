@@ -11,8 +11,11 @@ import jscl.math.NotProductException;
 import jscl.math.NotVariableException;
 import jscl.math.Power;
 import jscl.math.Variable;
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 class NestedPolynomial extends UnivariatePolynomial {
     NestedPolynomial(Variable variable[]) {
@@ -232,4 +235,10 @@ final class PolynomialWrapper extends Generic {
     }
 
     public void toMathML(MathML element, Object data) {}
+
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		return content.getConstants();
+	}
 }

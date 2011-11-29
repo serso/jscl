@@ -1,5 +1,11 @@
 package jscl.math;
 
+import jscl.math.function.Constant;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.Set;
+
 public class TechnicalVariable extends Variable {
         public int subscript[];
 
@@ -93,4 +99,11 @@ public class TechnicalVariable extends Variable {
         public Variable newInstance() {
                 return new TechnicalVariable(name);
         }
+
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		// todo serso: check
+		return Collections.emptySet();
+	}
 }

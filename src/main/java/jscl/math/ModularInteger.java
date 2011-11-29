@@ -1,9 +1,12 @@
 package jscl.math;
 
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
+import java.util.Collections;
+import java.util.Set;
 
 public class ModularInteger extends Generic implements Field {
     public static final ModularInteger booleanFactory=new ModularInteger(0,2);
@@ -194,7 +197,13 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-    protected ModularInteger newinstance(long content) {
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		return Collections.emptySet();
+	}
+
+	protected ModularInteger newinstance(long content) {
         return new ModularInteger(content,modulo);
     }
 }

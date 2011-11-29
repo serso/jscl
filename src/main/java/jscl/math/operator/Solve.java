@@ -41,7 +41,7 @@ public class Solve extends Operator {
 		return 3;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
 		final Variable variable = parameters[1].variableValue();
 
 		int subscript = parameters[2].integerValue().intValue();

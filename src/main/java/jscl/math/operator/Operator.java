@@ -1,25 +1,16 @@
 package jscl.math.operator;
 
 import jscl.math.*;
-import jscl.math.JsclInteger;
 import jscl.math.function.Function;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public abstract class Operator extends Variable {
-
-	protected Generic parameters[];
+public abstract class Operator extends AbstractFunction {
 
 	public Operator(String name, Generic parameters[]) {
-		super(name);
+		super(name, parameters);
 		assert getMinimumNumberOfParameters() <= parameters.length && getMaximumNumberOfParameters() >= parameters.length;
-		this.parameters = parameters;
-	}
-
-	public Generic[] getParameters() {
-		return parameters;
 	}
 
 	public abstract int getMinimumNumberOfParameters();
@@ -27,13 +18,6 @@ public abstract class Operator extends Variable {
 	public int getMaximumNumberOfParameters(){
 		return getMinimumNumberOfParameters();
 	}
-
-	@Nullable
-	protected static Generic getParameter(@Nullable Generic[] parameters, int i) {
-		return Function.getParameter(parameters, i);
-	}
-
-	public abstract Generic compute();
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
 		return null;
@@ -50,39 +34,17 @@ public abstract class Operator extends Variable {
 			v.parameters[i] = parameters[i].substitute(variable, generic);
 		}
 		if (v.isIdentity(variable)) return generic;
-		else return v.compute();
+		else return v.evaluate();
 	}
 
-	public Generic expand() {
-		Operator v = (Operator) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].expand();
-		}
-		return v.compute();
+	@Override
+	public Generic evaluateElementary() {
+		return expressionValue();
 	}
 
-	public Generic factorize() {
-		Operator v = (Operator) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].factorize();
-		}
-		return v.expressionValue();
-	}
-
-	public Generic elementary() {
-		Operator v = (Operator) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].elementary();
-		}
-		return v.expressionValue();
-	}
-
-	public Generic simplify() {
-		Operator v = (Operator) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].simplify();
-		}
-		return v.expressionValue();
+	@Override
+	public Generic evaluateSimplify() {
+		return expressionValue();
 	}
 
 	public Generic numeric() {

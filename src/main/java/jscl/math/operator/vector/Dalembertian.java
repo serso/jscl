@@ -25,7 +25,7 @@ public class Dalembertian extends VectorOperator {
 		return 2;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         Variable variable[]=variables(parameters[1]);
         Expression expression= parameters[0].expressionValue();
         return expression.dalembertian(variable);

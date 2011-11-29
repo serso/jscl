@@ -1,7 +1,8 @@
 package jscl.math;
 
 public class DoubleVariable extends GenericVariable {
-    public DoubleVariable(Generic generic) {
+
+	public DoubleVariable(Generic generic) {
         super(generic);
     }
 

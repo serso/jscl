@@ -1,12 +1,15 @@
 package jscl.math.polynomial;
 
 import jscl.math.*;
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Set;
 
 public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     final Monomial monomialFactory;
@@ -236,7 +239,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     Monomial monomial(Term term) {
-        return term==null?monomial(Literal.valueOf()):term.monomial();
+        return term==null?monomial(Literal.newInstance()):term.monomial();
     }
 
     Generic coefficient(Term term) {
@@ -286,7 +289,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     public Polynomial reduce(Generic generic, Polynomial polynomial) {
-        return reduce(generic,monomial(Literal.valueOf()),polynomial);
+        return reduce(generic,monomial(Literal.newInstance()),polynomial);
     }
 
     public int sugar() {
@@ -474,4 +477,10 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
         }
         element.appendChild(e1);
     }
+
+	// todo serso: make abstract and implement in extensions
+	@NotNull
+	public Set<? extends Constant> getConstants() {
+		return Collections.emptySet();
+	}
 }

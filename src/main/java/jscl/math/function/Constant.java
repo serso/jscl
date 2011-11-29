@@ -3,6 +3,11 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.utils.history.HashCodeBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Constant extends Variable {
 
@@ -119,7 +124,7 @@ public class Constant extends Variable {
 			final Constant that = (Constant) variable;
 			c = name.compareTo(that.name);
 			if (c == 0) {
-				c = ArrayComparator.comparator.compare(subscripts, that.subscripts);
+				c = ArrayComparator.comparator.compare(this.subscripts, that.subscripts);
 				if (c == 0) {
 					if (prime < that.prime) {
 						return -1;
@@ -135,6 +140,18 @@ public class Constant extends Variable {
 		} else {
 			return c;
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final HashCodeBuilder result = new HashCodeBuilder();
+
+		result.append(Constant.class);
+		result.append(name);
+		result.append(subscripts);
+		result.append(prime);
+
+		return result.toHashCode();
 	}
 
 	public String toString() {
@@ -253,5 +270,13 @@ public class Constant extends Variable {
 
 	public Variable newInstance() {
 		return new Constant(name, prime, new Generic[subscripts.length]);
+	}
+
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		final Set<Constant> result = new HashSet<Constant>();
+		result.add(this);
+		return result;
 	}
 }

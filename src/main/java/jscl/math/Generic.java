@@ -1,9 +1,12 @@
 package jscl.math;
 
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
@@ -154,4 +157,7 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
     }
 
     public abstract void toMathML(MathML element, @Nullable Object data);
+
+	@NotNull
+	public abstract Set<? extends Constant> getConstants();
 }

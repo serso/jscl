@@ -311,7 +311,7 @@ final class ArrayPolynomial extends Polynomial {
             Generic a=coefficient(generic);
             if(a.signum()!=0) {
                 init(1);
-                content[0]=new Term(monomial(Literal.valueOf()),a);
+                content[0]=new Term(monomial(Literal.newInstance()),a);
             } else init(0);
             degree=0;
             sugar=0;

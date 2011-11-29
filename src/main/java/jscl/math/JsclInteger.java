@@ -1,11 +1,13 @@
 package jscl.math;
 
-import jscl.JsclMathEngine;
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.Collections;
+import java.util.Set;
 
 public final class JsclInteger extends Generic {
 
@@ -335,6 +337,12 @@ public final class JsclInteger extends Generic {
 			e1.appendChild(e2);
 			element.appendChild(e1);
 		}
+	}
+
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		return Collections.emptySet();
 	}
 
 	void bodyToMathML(MathML element) {

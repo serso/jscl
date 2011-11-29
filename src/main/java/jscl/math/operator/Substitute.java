@@ -23,7 +23,7 @@ public class Substitute extends Operator {
 		return 3;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
 		if (parameters[1] instanceof JsclVector && parameters[2] instanceof JsclVector) {
 			Generic a = parameters[0];
 			Variable variable[] = variables(parameters[1]);
@@ -45,7 +45,7 @@ public class Substitute extends Operator {
 	}
 
 	public Generic expand() {
-		return compute();
+		return evaluate();
 	}
 
 	@NotNull

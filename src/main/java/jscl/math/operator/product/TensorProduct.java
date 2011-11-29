@@ -25,7 +25,7 @@ public class TensorProduct extends VectorOperator {
 		return 2;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         if(parameters[0] instanceof Matrix && parameters[1] instanceof Matrix) {
             Matrix m1=(Matrix) parameters[0];
             Matrix m2=(Matrix) parameters[1];

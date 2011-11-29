@@ -9,7 +9,7 @@ import org.solovyev.common.math.MathEntity;
  * Date: 11/10/11
  * Time: 6:01 PM
  */
-public interface IConstant extends MathEntity{
+public interface IConstant extends MathEntity {
 
 	@NotNull
 	Constant getConstant();

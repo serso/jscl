@@ -4,7 +4,9 @@ import jscl.math.function.Frac;
 import jscl.math.function.Pow;
 import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.utils.Converter;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -12,10 +14,10 @@ import java.util.TreeMap;
 
 public class Literal implements Comparable {
 
-	Variable variables[];
-	int powers[];
-	int degree;
-	int size;
+	private Variable variables[];
+	private int powers[];
+	private int degree;
+	private int size;
 
 	Literal() {
 	}
@@ -28,12 +30,13 @@ public class Literal implements Comparable {
 		return size;
 	}
 
-	public Variable variable(int n) {
-		return variables[n];
+	@NotNull
+	public Variable getVariable(int i) {
+		return variables[i];
 	}
 
-	public int power(int n) {
-		return powers[n];
+	public int getPower(int i) {
+		return powers[i];
 	}
 
 	void init(int size) {
@@ -55,7 +58,7 @@ public class Literal implements Comparable {
 	}
 
 	public Literal multiply(Literal literal) {
-		Literal l = newinstance(size + literal.size);
+		Literal l = newInstance(size + literal.size);
 		int i = 0;
 		int i1 = 0;
 		int i2 = 0;
@@ -96,7 +99,7 @@ public class Literal implements Comparable {
 	}
 
 	public Literal divide(Literal literal) throws ArithmeticException {
-		Literal l = newinstance(size + literal.size);
+		Literal l = newInstance(size + literal.size);
 		int i = 0;
 		int i1 = 0;
 		int i2 = 0;
@@ -135,7 +138,7 @@ public class Literal implements Comparable {
 	}
 
 	public Literal gcd(Literal literal) {
-		Literal l = newinstance(Math.min(size, literal.size));
+		Literal l = newInstance(Math.min(size, literal.size));
 		int i = 0;
 		int i1 = 0;
 		int i2 = 0;
@@ -165,45 +168,64 @@ public class Literal implements Comparable {
 		return l;
 	}
 
-	public Literal scm(Literal literal) {
-		Literal l = newinstance(size + literal.size);
+	public Literal scm(@NotNull Literal that) {
+		final Literal result = newInstance(this.size + that.size);
 		int i = 0;
-		int i1 = 0;
-		int i2 = 0;
-		Variable v1 = i1 < size ? variables[i1] : null;
-		Variable v2 = i2 < literal.size ? literal.variables[i2] : null;
-		while (v1 != null || v2 != null) {
-			int c = v1 == null ? 1 : (v2 == null ? -1 : v1.compareTo(v2));
-			if (c < 0) {
-				int s = powers[i1];
-				l.variables[i] = v1;
-				l.powers[i] = s;
-				l.degree += s;
-				i++;
-				i1++;
-				v1 = i1 < size ? variables[i1] : null;
-			} else if (c > 0) {
-				int s = literal.powers[i2];
-				l.variables[i] = v2;
-				l.powers[i] = s;
-				l.degree += s;
-				i++;
-				i2++;
-				v2 = i2 < literal.size ? literal.variables[i2] : null;
+
+		int thisI = 0;
+		int thatI = 0;
+
+		Variable thisVariable = thisI < this.size ? this.variables[thisI] : null;
+		Variable thatVariable = thatI < that.size ? that.variables[thatI] : null;
+
+		while (thisVariable != null || thatVariable != null) {
+			int c;
+			if (thisVariable == null) {
+				c = 1;
+			} else if (thatVariable == null) {
+				c = -1;
 			} else {
-				int s = Math.max(powers[i1], literal.powers[i2]);
-				l.variables[i] = v1;
-				l.powers[i] = s;
-				l.degree += s;
+				c = thisVariable.compareTo(thatVariable);
+			}
+
+			if (c < 0) {
+				int thisPower = this.powers[thisI];
+
+				result.variables[i] = thisVariable;
+				result.powers[i] = thisPower;
+				result.degree += thisPower;
+
 				i++;
-				i1++;
-				i2++;
-				v1 = i1 < size ? variables[i1] : null;
-				v2 = i2 < literal.size ? literal.variables[i2] : null;
+				thisI++;
+				thisVariable = thisI < size ? variables[thisI] : null;
+			} else if (c > 0) {
+				int thatPower = that.powers[thatI];
+
+				result.variables[i] = thatVariable;
+				result.powers[i] = thatPower;
+				result.degree += thatPower;
+
+				i++;
+				thatI++;
+				thatVariable = thatI < that.size ? that.variables[thatI] : null;
+			} else {
+				int maxPower = Math.max(this.powers[thisI], that.powers[thatI]);
+				result.variables[i] = thisVariable;
+				result.powers[i] = maxPower;
+				result.degree += maxPower;
+
+				i++;
+				thisI++;
+				thatI++;
+
+				thisVariable = thisI < this.size ? variables[thisI] : null;
+				thatVariable = thatI < that.size ? that.variables[thatI] : null;
 			}
 		}
-		l.resize(i);
-		return l;
+
+		result.resize(i);
+
+		return result;
 	}
 
 	public Generic[] productValue() throws NotProductException {
@@ -241,22 +263,39 @@ public class Literal implements Comparable {
 		return degree;
 	}
 
-	public int compareTo(Literal literal) {
-		int i1 = size;
-		int i2 = literal.size;
-		Variable v1 = i1 == 0 ? null : variables[--i1];
-		Variable v2 = i2 == 0 ? null : literal.variables[--i2];
-		while (v1 != null || v2 != null) {
-			int c = v1 == null ? -1 : (v2 == null ? 1 : v1.compareTo(v2));
-			if (c < 0) return -1;
-			else if (c > 0) return 1;
-			else {
-				int c1 = powers[i1];
-				int c2 = literal.powers[i2];
-				if (c1 < c2) return -1;
-				else if (c1 > c2) return 1;
-				v1 = i1 == 0 ? null : variables[--i1];
-				v2 = i2 == 0 ? null : literal.variables[--i2];
+	public int compareTo(@NotNull Literal that) {
+		int thisI = this.size;
+		int thatI = that.size;
+
+		Variable thisVariable = thisI == 0 ? null : this.variables[--thisI];
+		Variable thatVariable = thatI == 0 ? null : that.variables[--thatI];
+
+		while (thisVariable != null || thatVariable != null) {
+			int c;
+			if (thisVariable == null) {
+				c = -1;
+			} else if (thatVariable == null) {
+				c = 1;
+			} else {
+				c = thisVariable.compareTo(thatVariable);
+			}
+
+			if (c < 0) {
+				return -1;
+			} else if (c > 0) {
+				return 1;
+			} else {
+
+				int thisPower = this.powers[thisI];
+				int thatPower = that.powers[thatI];
+				if (thisPower < thatPower) {
+					return -1;
+				} else if (thisPower > thatPower) {
+					return 1;
+				}
+
+				thisVariable = thisI == 0 ? null : this.variables[--thisI];
+				thatVariable = thatI == 0 ? null : that.variables[--thatI];
 			}
 		}
 		return 0;
@@ -266,7 +305,7 @@ public class Literal implements Comparable {
 		return compareTo((Literal) o);
 	}
 
-	public static Literal valueOf() {
+	public static Literal newInstance() {
 		return new Literal(0);
 	}
 
@@ -314,11 +353,11 @@ public class Literal implements Comparable {
 		}
 	}
 
-	Map<Variable, Integer> content() {
-		final Map<Variable, Integer> result = new TreeMap<Variable, Integer>();
+	Map<Variable, Generic> content(@NotNull Converter<Variable, Generic> c) {
+		final Map<Variable, Generic> result = new TreeMap<Variable, Generic>();
 
 		for (int i = 0; i < size; i++) {
-			result.put(variables[i], powers[i]);
+			result.put(variables[i], c.convert(variables[i]));
 		}
 
 		return result;
@@ -380,7 +419,8 @@ public class Literal implements Comparable {
 		}
 	}
 
-	protected Literal newinstance(int n) {
+	@NotNull
+	private Literal newInstance(int n) {
 		return new Literal(n);
 	}
 }

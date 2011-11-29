@@ -25,7 +25,7 @@ public class VectorProduct extends VectorOperator {
 		return 2;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
             JsclVector v1=(JsclVector) parameters[0];
             JsclVector v2=(JsclVector) parameters[1];

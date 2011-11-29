@@ -1,8 +1,10 @@
 package jscl.math;
 
 import jscl.JsclMathEngine;
+import jscl.math.function.Constant;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
+import jscl.math.numeric.Real;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
@@ -17,9 +19,9 @@ import java.util.*;
 
 public class Expression extends Generic {
 
-	Literal literals[];
+	private Literal literals[];
 
-	JsclInteger coefficients[];
+	private JsclInteger coefficients[];
 
 	int size;
 
@@ -61,40 +63,55 @@ public class Expression extends Generic {
 		}
 	}
 
-	public Expression add(Expression expression) {
-		Expression ex = newInstance(size + expression.size);
-		int i = ex.size;
-		int i1 = size;
-		int i2 = expression.size;
-		Literal l1 = i1 > 0 ? literals[--i1] : null;
-		Literal l2 = i2 > 0 ? expression.literals[--i2] : null;
-		while (l1 != null || l2 != null) {
-			int c = l1 == null ? 1 : (l2 == null ? -1 : -l1.compareTo(l2));
-			if (c < 0) {
-				JsclInteger en = coefficients[i1];
-				--i;
-				ex.literals[i] = l1;
-				ex.coefficients[i] = en;
-				l1 = i1 > 0 ? literals[--i1] : null;
-			} else if (c > 0) {
-				JsclInteger en = expression.coefficients[i2];
-				--i;
-				ex.literals[i] = l2;
-				ex.coefficients[i] = en;
-				l2 = i2 > 0 ? expression.literals[--i2] : null;
+	public Expression add(@NotNull Expression that) {
+		final Expression result = newInstance(size + that.size);
+		int i = result.size;
+
+		int thisI = this.size;
+		int thatI = that.size;
+
+		Literal thisLiteral = thisI > 0 ? this.literals[--thisI] : null;
+		Literal thatLiteral = thatI > 0 ? that.literals[--thatI] : null;
+
+		while (thisLiteral != null || thatLiteral != null) {
+			int c;
+
+			if (thisLiteral == null) {
+				c = 1;
+			} else if (thatLiteral == null) {
+				c = -1;
 			} else {
-				JsclInteger en = coefficients[i1].add(expression.coefficients[i2]);
-				if (en.signum() != 0) {
+				c = -thisLiteral.compareTo(thatLiteral);
+			}
+
+			if (c < 0) {
+				final JsclInteger thisCoefficient = this.coefficients[thisI];
+				--i;
+				result.literals[i] = thisLiteral;
+				result.coefficients[i] = thisCoefficient;
+				thisLiteral = thisI > 0 ? literals[--thisI] : null;
+			} else if (c > 0) {
+				JsclInteger en = that.coefficients[thatI];
+				--i;
+				result.literals[i] = thatLiteral;
+				result.coefficients[i] = en;
+				thatLiteral = thatI > 0 ? that.literals[--thatI] : null;
+			} else {
+				JsclInteger sum = coefficients[thisI].add(that.coefficients[thatI]);
+				if (sum.signum() != 0) {
 					--i;
-					ex.literals[i] = l1;
-					ex.coefficients[i] = en;
+					result.literals[i] = thisLiteral;
+					result.coefficients[i] = sum;
 				}
-				l1 = i1 > 0 ? literals[--i1] : null;
-				l2 = i2 > 0 ? expression.literals[--i2] : null;
+
+				thisLiteral = thisI > 0 ? literals[--thisI] : null;
+				thatLiteral = thatI > 0 ? that.literals[--thatI] : null;
 			}
 		}
-		ex.resize(ex.size - i);
-		return ex;
+
+		result.resize(result.size - i);
+
+		return result;
 	}
 
 	@NotNull
@@ -109,7 +126,7 @@ public class Expression extends Generic {
 	}
 
 	public Expression subtract(Expression expression) {
-		return multiplyAndAdd(Literal.valueOf(), JsclInteger.valueOf(-1), expression);
+		return multiplyAndAdd(Literal.newInstance(), JsclInteger.valueOf(-1), expression);
 	}
 
 	@NotNull
@@ -253,8 +270,9 @@ public class Expression extends Generic {
 		return en;
 	}
 
+	@NotNull
 	public Literal literalScm() {
-		Literal result = Literal.valueOf();
+		Literal result = Literal.newInstance();
 		for (int i = 0; i < size; i++) {
 			result = result.scm(literals[i]);
 		}
@@ -322,91 +340,66 @@ public class Expression extends Generic {
 	public Generic derivative(Variable variable) {
 		Generic s = JsclInteger.valueOf(0);
 		Literal l = literalScm();
-		int n = l.size;
+		int n = l.size();
 		for (int i = 0; i < n; i++) {
-			Variable v = l.variables[i];
+			Variable v = l.getVariable(i);
 			Generic a = ((UnivariatePolynomial) Polynomial.factory(v).valueOf(this)).derivative(variable).genericValue();
 			s = s.add(a);
 		}
 		return s;
 	}
 
-	public Generic substitute(Variable variable, Generic generic) {
-		Map content = literalScm().content();
-
-		for (Map.Entry entry : (Set<Map.Entry>)content.entrySet()) {
-			Variable v = (Variable) entry.getKey();
-			entry.setValue(v.substitute(variable, generic));
-		}
+	public Generic substitute(final Variable variable, final Generic generic) {
+		final Map<Variable, Generic> content = literalScm().content(new Converter<Variable, Generic>() {
+			@NotNull
+			@Override
+			public Generic convert(@NotNull Variable v) {
+				return v.substitute(variable, generic);
+			}
+		});
 
 		return substitute(content);
 	}
 
 	@NotNull
-	private Generic substitute(@NotNull Map content) {
-		Generic result = JsclInteger.ZERO;
+	private Generic substitute(@NotNull Map<Variable, Generic> content) {
+		// sum = sumElement_0 + sumElement_1 + ... + sumElement_size
+		Generic sum = JsclInteger.ZERO;
 
 		for (int i = 0; i < size; i++) {
 			final Literal literal = literals[i];
 
-			Generic coefficient = coefficients[i];
+			// sumElement = variable_1 ^ power_1 * variable_2 ^ power_2 * ... * variable_size ^ power_size
+			Generic sumElement = coefficients[i];
 
-			for (int j = 0; j < literal.size; j++) {
-				final Variable variable = literal.variables[j];
-				int power = literal.powers[j];
+			for (int j = 0; j < literal.size(); j++) {
+				final Variable variable = literal.getVariable(j);
 
-				Generic b = ((Generic) content.get(variable)).pow(power);
+				Generic b = content.get(variable).pow(literal.getPower(j));
 
-				if (Matrix.product(coefficient, b)) {
+				if (Matrix.isMatrixProduct(sumElement, b)) {
 					throw new ArithmeticException();
 				}
 
-				coefficient = coefficient.multiply(b);
+				sumElement = sumElement.multiply(b);
 			}
 
-			result = result.add(coefficient);
+			sum = sum.add(sumElement);
 		}
 
-		return result;
+		return sum;
 	}
 
 	public Generic expand() {
-		return substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
-			@NotNull
-			@Override
-			public Generic convert(@NotNull Variable variable) {
-				return variable.expand();
-			}
-		}));
-	}
-
-	@NotNull
-	private Map transform(@NotNull Map m, @NotNull Converter<Variable, Generic> converter) {
-		// WE MUST USE THE PASSED MAP (in other cases - some problems were found, see tests)
-		for (Map.Entry e : ((Map<Object, Object>) m).entrySet()) {
-			e.setValue(converter.convert(((Variable) e.getKey())));
-		}
-		return m;
+		return substitute(literalScm().content(EXPAND_CONVERTER));
 	}
 
 	public Generic factorize() {
-		return Factorization.compute(substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
-			@NotNull
-			@Override
-			public Generic convert(@NotNull Variable variable) {
-				return variable.factorize();
-			}
-		})));
+		return Factorization.compute(substitute(literalScm().content(FACTORIZE_CONVERTER)));
 	}
 
 	public Generic elementary() {
-		return substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
-			@NotNull
-			@Override
-			public Generic convert(@NotNull Variable variable) {
-				return variable.elementary();
-			}
-		}));
+		return substitute(literalScm().content(ELEMENTARY_CONVERTER));
 	}
 
 	public Generic simplify() {
@@ -417,13 +410,11 @@ public class Expression extends Generic {
 		try {
 			return integerValue().numeric();
 		} catch (NotIntegerException ex) {
-			return substitute(transform(literalScm().content(), new Converter<Variable, Generic>() {
-				@NotNull
-				@Override
-				public Generic convert(@NotNull Variable variable) {
-					return variable.numeric();
-				}
-			}));
+			final Literal literal = literalScm();
+
+			final Map<Variable, Generic> content = literal.content(NUMERIC_CONVERTER);
+
+			return substitute(content);
 		}
 	}
 
@@ -536,23 +527,24 @@ public class Expression extends Generic {
 	public boolean isPolynomial(Variable variable) {
 		boolean s = true;
 		Literal l = literalScm();
-		int n = l.size;
+		int n = l.size();
 		for (int i = 0; i < n; i++) {
-			Variable v = l.variables[i];
+			Variable v = l.getVariable(i);
 			s = s && (v.isConstant(variable) || v.isIdentity(variable));
 		}
 		return s;
 	}
 
-	public boolean isConstant(Variable variable) {
-		boolean s = true;
+	public boolean isConstant(@NotNull Variable variable) {
+
 		Literal l = literalScm();
-		int n = l.size;
-		for (int i = 0; i < n; i++) {
-			Variable v = l.variables[i];
-			s = s && v.isConstant(variable);
+		for (int i = 0; i < l.size(); i++) {
+			if (!l.getVariable(i).isConstant(variable)) {
+				return false;
+			}
 		}
-		return s;
+
+		return true;
 	}
 
 	public JsclVector grad(Variable variable[]) {
@@ -610,7 +602,7 @@ public class Expression extends Generic {
 	}
 
 	public static Expression valueOf(JsclInteger integer) {
-		return valueOf(Literal.valueOf(), integer);
+		return valueOf(Literal.newInstance(), integer);
 	}
 
 	public static Expression valueOf(Literal literal, JsclInteger integer) {
@@ -631,6 +623,14 @@ public class Expression extends Generic {
 		Expression ex = new Expression();
 		ex.init(rational);
 		return ex;
+	}
+
+	public static Expression valueOf(@NotNull Double value) {
+		final Expression expression = new Expression(1);
+		Literal literal = new Literal();
+		literal.init(new DoubleVariable(new NumericWrapper(Real.valueOf(value))), 1);
+		expression.init(literal,JsclInteger.ONE);
+		return expression;
 	}
 
 	public static Expression valueOf(@NotNull String expression) throws ParseException {
@@ -656,12 +656,12 @@ public class Expression extends Generic {
 	}
 
 	void init(JsclInteger integer) {
-		init(Literal.valueOf(), integer);
+		init(Literal.newInstance(), integer);
 	}
 
 	void init(Rational rational) {
 		try {
-			init(Literal.valueOf(), rational.integerValue());
+			init(Literal.newInstance(), rational.integerValue());
 		} catch (NotIntegerException e) {
 			init(Literal.valueOf(rational.variableValue()), JsclInteger.valueOf(1));
 		}
@@ -688,21 +688,21 @@ public class Expression extends Generic {
 
 		for (int i = 0; i < size; i++) {
 			final Literal literal = literals[i];
-			JsclInteger c = coefficients[i];
+			final JsclInteger coefficient = coefficients[i];
 
-			if (c.signum() > 0 && i > 0) {
+			if (coefficient.signum() > 0 && i > 0) {
 				result.append("+");
 			}
 
 			if (literal.degree() == 0) {
-				result.append(c);
+				result.append(coefficient);
 			} else {
-				if (c.abs().compareTo(JsclInteger.valueOf(1)) == 0) {
-					if (c.signum() < 0) {
+				if (coefficient.abs().compareTo(JsclInteger.valueOf(1)) == 0) {
+					if (coefficient.signum() < 0) {
 						result.append("-");
 					}
 				} else {
-					result.append(c).append("*");
+					result.append(coefficient).append("*");
 				}
 				result.append(literal);
 			}
@@ -769,6 +769,20 @@ public class Expression extends Generic {
 		element.appendChild(e1);
 	}
 
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		final Set<Constant> result = new HashSet<Constant>();
+
+		for (Literal literal : literals) {
+			for (Variable variable : literal.variables()) {
+				result.addAll(variable.getConstants());
+			}
+		}
+
+		return result;
+	}
+
 	public static void separateSign(MathML element, Generic generic) {
 		if (generic.signum() < 0) {
 			MathML e1 = element.element("mo");
@@ -780,7 +794,40 @@ public class Expression extends Generic {
 		}
 	}
 
-	protected Expression newInstance(int n) {
+	@NotNull
+	private Expression newInstance(int n) {
 		return new Expression(n);
 	}
+
+	protected static final Converter<Variable, Generic> FACTORIZE_CONVERTER = new Converter<Variable, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Variable variable) {
+			return variable.factorize();
+		}
+	};
+
+	protected static final Converter<Variable, Generic> ELEMENTARY_CONVERTER = new Converter<Variable, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Variable variable) {
+			return variable.elementary();
+		}
+	};
+
+	protected static final Converter<Variable, Generic> EXPAND_CONVERTER = new Converter<Variable, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Variable variable) {
+			return variable.expand();
+		}
+	};
+
+	protected static final Converter<Variable, Generic> NUMERIC_CONVERTER = new Converter<Variable, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Variable variable) {
+			return variable.numeric();
+		}
+	};
 }

@@ -1,11 +1,14 @@
 package jscl.math;
 
+import jscl.math.function.Constant;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
+import java.util.Collections;
+import java.util.Set;
 
 public final class Rational extends Generic implements Field {
 
@@ -279,7 +282,13 @@ public final class Rational extends Generic implements Field {
         }
     }
 
-    void bodyToMathML(MathML element) {
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		return Collections.emptySet();
+	}
+
+	void bodyToMathML(MathML element) {
         try {
             MathML e1=element.element("mn");
             e1.appendChild(element.text(String.valueOf(integerValue())));

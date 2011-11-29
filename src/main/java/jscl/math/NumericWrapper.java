@@ -7,6 +7,9 @@ import jscl.math.numeric.*;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.Set;
+
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
 	private final Numeric content;
@@ -21,7 +24,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	public NumericWrapper(JsclVector vector) {
 		Numeric v[] = new Numeric[vector.n];
-		for (int i = 0; i < vector.n; i++) v[i] = ((NumericWrapper) vector.element[i].numeric()).content();
+		for (int i = 0; i < vector.n; i++) v[i] = ((NumericWrapper) vector.elements[i].numeric()).content();
 		content = new Vector(v);
 	}
 
@@ -29,7 +32,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 		Numeric m[][] = new Numeric[matrix.n][matrix.p];
 		for (int i = 0; i < matrix.n; i++) {
 			for (int j = 0; j < matrix.p; j++) {
-				m[i][j] = ((NumericWrapper) matrix.element[i][j].numeric()).content();
+				m[i][j] = ((NumericWrapper) matrix.elements[i][j].numeric()).content();
 			}
 		}
 		content = new jscl.math.numeric.Matrix(m);
@@ -411,6 +414,12 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 			e1.appendChild(e2);
 			element.appendChild(e1);
 		}
+	}
+
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		return Collections.emptySet();
 	}
 
 	void bodyToMathML(MathML element) {

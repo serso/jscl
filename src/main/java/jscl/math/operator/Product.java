@@ -24,7 +24,7 @@ public class Product extends Operator {
 		return 4;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         Variable variable= parameters[1].variableValue();
         try {
             int n1= parameters[2].integerValue().intValue();

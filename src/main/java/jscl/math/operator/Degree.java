@@ -29,7 +29,7 @@ public class Degree extends PostfixFunction {
 		return 1;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
 		/*try {
 			return numeric();
 			// todo serso: check if really need to catch arithmetic exception

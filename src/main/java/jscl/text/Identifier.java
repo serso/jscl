@@ -15,7 +15,7 @@ public class Identifier implements Parser<String> {
 	private Identifier() {
 	}
 
-	// returns variable/constant getName
+	// returns getVariable/constant getName
 	@NotNull
 	public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 		int pos0 = p.getPosition().intValue();

@@ -406,7 +406,7 @@ class ArrayPolynomialGeneric extends Polynomial {
             Generic a=coefficient(generic);
             if(a.signum()!=0) {
                 init(1);
-                monomial[0]=monomial(Literal.valueOf());
+                monomial[0]=monomial(Literal.newInstance());
                 setCoef(0,a);
             } else init(0);
             degree=0;

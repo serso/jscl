@@ -78,13 +78,13 @@ public class ImplicitFunction extends Function {
 		return evaluateNumerically();
 	}*/
 
-	public int compareTo(Variable variable) {
-		if (this == variable) return 0;
-		int c = comparator.compare(this, variable);
+	public int compareTo(Variable that) {
+		if (this == that) return 0;
+		int c = comparator.compare(this, that);
 		if (c < 0) return -1;
 		else if (c > 0) return 1;
 		else {
-			ImplicitFunction v = (ImplicitFunction) variable;
+			ImplicitFunction v = (ImplicitFunction) that;
 			c = name.compareTo(v.name);
 			if (c < 0) return -1;
 			else if (c > 0) return 1;

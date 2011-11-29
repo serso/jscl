@@ -82,7 +82,7 @@ public class Standard {
     }
 
     void compute() {
-        Debug.println("compute");
+        Debug.println("evaluate");
         while(!pairs.isEmpty()) {
             Pair pa=(Pair)pairs.keySet().iterator().next();
             process(pa);

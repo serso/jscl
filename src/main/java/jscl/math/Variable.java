@@ -8,10 +8,9 @@ import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
+import org.solovyev.common.utils.Converter;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Variable implements Comparable, MathEntity {
 
@@ -183,6 +182,41 @@ public abstract class Variable implements Comparable, MathEntity {
             special.put("lagran","\u2112");
             special.put("square","\u25A1");
         }
+
+	@NotNull
+	public abstract Set<? extends Constant> getConstants();
+	
+	protected static final Converter<Generic, Generic> FACTORIZE_CONVERTER = new Converter<Generic, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Generic generic) {
+			return generic.factorize();
+		}
+	};
+
+	protected static final Converter<Generic, Generic> ELEMENTARY_CONVERTER = new Converter<Generic, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Generic generic) {
+			return generic.elementary();
+		}
+	};
+
+	protected static final Converter<Generic, Generic> EXPAND_CONVERTER = new Converter<Generic, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Generic generic) {
+			return generic.expand();
+		}
+	};
+
+	protected static final Converter<Generic, Generic> NUMERIC_CONVERTER = new Converter<Generic, Generic>() {
+		@NotNull
+		@Override
+		public Generic convert(@NotNull Generic generic) {
+			return generic.numeric();
+		}
+	};
 }
 
 class VariableComparator implements Comparator<Variable> {

@@ -287,7 +287,7 @@ final class TreePolynomial extends Polynomial {
             init((Expression)generic);
         } else {
             Generic a=coefficient(generic);
-            if(a.signum()!=0) content.put(monomial(Literal.valueOf()),a);
+            if(a.signum()!=0) content.put(monomial(Literal.newInstance()),a);
             degree=0;
             sugar=0;
         }

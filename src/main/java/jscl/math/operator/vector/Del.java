@@ -37,7 +37,7 @@ public class Del extends VectorOperator {
 		return 2;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
 		Variable variable[] = variables(parameters[1]);
 		int algebra[] = GeometricProduct.algebra(parameters[2]);
 		if (parameters[0] instanceof JsclVector) {

@@ -1,7 +1,11 @@
 package jscl.math;
 
+import jscl.math.function.Constant;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public abstract class GenericVariable extends Variable {
     Generic content;
@@ -103,4 +107,10 @@ public abstract class GenericVariable extends Variable {
     public void toMathML(MathML element, @Nullable Object data) {
         content.toMathML(element,data);
     }
+
+	@NotNull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		return content.getConstants();
+	}
 }

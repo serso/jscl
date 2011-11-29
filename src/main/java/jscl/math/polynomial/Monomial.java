@@ -173,8 +173,8 @@ public class Monomial implements Comparable {
     void init(Literal literal) {
         int s=literal.size();
         for(int i=0;i<s;i++) {
-            Variable v=literal.variable(i);
-            int c=literal.power(i);
+            Variable v=literal.getVariable(i);
+            int c=literal.getPower(i);
             int n=variable(v,unknown);
             if(n<unknown.length) put(n,c);
         }

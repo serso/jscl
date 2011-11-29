@@ -24,7 +24,7 @@ public class ModPow extends Operator {
 		return 3;
 	}
 
-	public Generic compute() {
+	public Generic evaluate() {
         try {
             JsclInteger en= parameters[0].integerValue();
             JsclInteger exponent= parameters[1].integerValue();
