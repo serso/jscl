@@ -11,20 +11,20 @@ public class BracketedExpression implements Parser<ExpressionVariable> {
 	private BracketedExpression() {
 	}
 
-	public ExpressionVariable parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public ExpressionVariable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.tryToParse(expression, position, pos0, '(');
+		ParserUtils.tryToParse(p, pos0, '(');
 
 		Generic result;
 		try {
-			result = ExpressionParser.parser.parse(expression, position, previousSumElement);
+			result = ExpressionParser.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
-		ParserUtils.tryToParse(expression, position, pos0, ')');
+		ParserUtils.tryToParse(p, pos0, ')');
 
 		return new ExpressionVariable(result);
 	}

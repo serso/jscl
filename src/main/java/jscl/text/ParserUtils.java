@@ -20,53 +20,54 @@ public class ParserUtils {
 		}
 	}
 
-	public static void skipWhitespaces(@NotNull String string, @NotNull MutableInt position) {
-		while (position.intValue() < string.length() && Character.isWhitespace(string.charAt(position.intValue()))) {
+	public static void skipWhitespaces(@NotNull Parser.Parameters p) {
+		final MutableInt position = p.getPosition();
+		final String expression = p.getExpression();
+
+		while (position.intValue() < expression.length() && Character.isWhitespace(expression.charAt(position.intValue()))) {
 			position.increment();
 		}
 	}
 
-	public static void tryToParse(@NotNull String expression,
-								  @NotNull MutableInt position,
+	public static void tryToParse(@NotNull Parser.Parameters p,
 								  int pos0,
 								  char ch) throws ParseException {
-		skipWhitespaces(expression, position);
+		skipWhitespaces(p);
 
-		if (position.intValue() < expression.length()) {
-			char actual = expression.charAt(position.intValue());
+		if (p.getPosition().intValue() < p.getExpression().length()) {
+			char actual = p.getExpression().charAt(p.getPosition().intValue());
 			if (actual == ch) {
-				position.increment();
+				p.getPosition().increment();
 			} else {
-				throwParseException(expression, position, pos0, Messages.msg_12, ch);
+				throwParseException(p, pos0, Messages.msg_12, ch);
 			}
 		} else {
-			throwParseException(expression, position, pos0, Messages.msg_12, ch);
+			throwParseException(p, pos0, Messages.msg_12, ch);
 		}
 	}
 
-	public static void tryToParse(@NotNull String expression,
-								  @NotNull MutableInt position,
+	public static void tryToParse(@NotNull Parser.Parameters p,
 								  int pos0,
 								  @NotNull String s) throws ParseException {
-		skipWhitespaces(expression, position);
+		skipWhitespaces(p);
 
-		if (position.intValue() < expression.length()) {
-			if (expression.startsWith(s, position.intValue())) {
-				position.add(s.length());
+		if (p.getPosition().intValue() < p.getExpression().length()) {
+			if (p.getExpression().startsWith(s, p.getPosition().intValue())) {
+				p.getPosition().add(s.length());
 			} else {
-				throwParseException(expression, position, pos0, Messages.msg_11, s);
+				throwParseException(p, pos0, Messages.msg_11, s);
 			}
 		} else {
-			throwParseException(expression, position, pos0, Messages.msg_11, s);
+			throwParseException(p, pos0, Messages.msg_11, s);
 		}
 	}
 
-	public static void throwParseException(@NotNull String expression,
-											@NotNull MutableInt position,
+	public static void throwParseException(@NotNull Parser.Parameters p,
 											int pos0,
 											@NotNull String messageId,
 											Object... parameters) throws ParseException {
-		final ParseException parseException = new ParseException(messageId, position.intValue(), expression, parameters);
+		final MutableInt position = p.getPosition();
+		final ParseException parseException = new ParseException(messageId, position.intValue(), p.getExpression(), parameters);
 		position.setValue(pos0);
 		throw parseException;
 	}
@@ -74,16 +75,15 @@ public class ParserUtils {
 
 	@NotNull
 	static <T> T parseWithRollback(@NotNull Parser<T> parser,
-								   @NotNull String expression,
-								   @NotNull MutableInt position,
 								   int initialPosition,
-								   @Nullable final Generic previousSumParser) throws ParseException {
+								   @Nullable final Generic previousSumParser,
+								   @NotNull final Parser.Parameters p) throws ParseException {
 		T result;
 
 		try {
-			result = parser.parse(expression, position, previousSumParser);
+			result = parser.parse(p, previousSumParser);
 		} catch (ParseException e) {
-			position.setValue(initialPosition);
+			p.getPosition().setValue(initialPosition);
 			throw e;
 		}
 

@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ExpressionParser implements Parser<Generic> {
 
@@ -10,11 +11,11 @@ public class ExpressionParser implements Parser<Generic> {
 	private ExpressionParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 
-		boolean sign = MinusParser.parser.parse(expression, position, previousSumElement).isSign();
+		boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
 
-		Generic result = TermParser.parser.parse(expression, position, previousSumElement);
+		Generic result = TermParser.parser.parse(p, previousSumElement);
 
 		if (sign) {
 			result = result.negate();
@@ -22,7 +23,7 @@ public class ExpressionParser implements Parser<Generic> {
 
 		while (true) {
 			try {
-				result = result.add(PlusOrMinusTerm.parser.parse(expression, position, result));
+				result = result.add(PlusOrMinusTerm.parser.parse(p, result));
 			} catch (ParseException e) {
 				break;
 			}

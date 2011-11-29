@@ -54,4 +54,26 @@ public class ParseException extends Exception implements Message {
 	public String getExpression() {
 		return expression;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		ParseException that = (ParseException) o;
+
+		if (position != that.position) return false;
+		if (!expression.equals(that.expression)) return false;
+		if (!message.equals(that.message)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = message.hashCode();
+		result = 31 * result + position;
+		result = 31 * result + expression.hashCode();
+		return result;
+	}
 }

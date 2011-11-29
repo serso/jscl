@@ -12,16 +12,16 @@ public class RootParser implements Parser<Function> {
 	private RootParser() {
 	}
 
-	public Function parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		final String name = Identifier.parser.parse(expression, position, previousSumElement);
+		final String name = Identifier.parser.parse(p, previousSumElement);
 		if (name.compareTo("root") != 0) {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_11, "root");
+			ParserUtils.throwParseException(p, pos0, Messages.msg_11, "root");
 		}
 
-		final Generic subscript = ParserUtils.parseWithRollback(Subscript.parser, expression, position, pos0, previousSumElement);
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
+		final Generic subscript = ParserUtils.parseWithRollback(Subscript.parser, pos0, previousSumElement, p);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, pos0, previousSumElement, p);
 
 		return new Root(parameters, subscript);
 	}

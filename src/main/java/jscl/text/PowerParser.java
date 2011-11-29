@@ -18,19 +18,19 @@ class PowerParser implements Parser<Void> {
 	}
 
 	@Nullable
-	public Void parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Void parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '^') {
-			position.increment();
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '^') {
+			p.getPosition().increment();
 		} else {
-			if (isDoubleStar(expression, position)) {
-				position.increment();
-				position.increment();
+			if (isDoubleStar(p.getExpression(), p.getPosition())) {
+				p.getPosition().increment();
+				p.getPosition().increment();
 			} else {
-				ParserUtils.throwParseException(expression, position, pos0, Messages.msg_10, '^', "**");
+				ParserUtils.throwParseException(p, pos0, Messages.msg_10, '^', "**");
 			}
 		}
 

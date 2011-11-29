@@ -22,22 +22,22 @@ class UsualFunctionParser implements Parser<Function> {
 	private UsualFunctionParser() {
 	}
 
-	public Function parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		final String name = Identifier.parser.parse(expression, position, previousSumElement);
+		final String name = Identifier.parser.parse(p, previousSumElement);
 
 		if (!valid(name)) {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_13);
+			ParserUtils.throwParseException(p, pos0, Messages.msg_13);
 		}
 
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, pos0, previousSumElement, p);
 
 		final Function result = functionsRegistry.get(name);
 		if (result != null && result.getMinimumNumberOfParameters() <= parameters.length && result.getMaximumNumberOfParameters() >= parameters.length ) {
 			result.setParameters(parameters);
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_14, parameters.length);
+			ParserUtils.throwParseException(p, pos0, Messages.msg_14, parameters.length);
 		}
 
 		return result;

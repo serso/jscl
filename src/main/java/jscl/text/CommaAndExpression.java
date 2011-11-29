@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CommaAndExpression implements Parser<Generic> {
 
@@ -10,13 +11,13 @@ public class CommaAndExpression implements Parser<Generic> {
 	private CommaAndExpression() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		ParserUtils.tryToParse(expression, position, pos0, ',');
+		ParserUtils.tryToParse(p, pos0, ',');
 
-		return ParserUtils.parseWithRollback(ExpressionParser.parser, expression, position, pos0, previousSumElement);
+		return ParserUtils.parseWithRollback(ExpressionParser.parser, pos0, previousSumElement, p);
 	}
 }

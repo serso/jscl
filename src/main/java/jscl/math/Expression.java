@@ -1,5 +1,6 @@
 package jscl.math;
 
+import jscl.JsclMathEngine;
 import jscl.math.function.Frac;
 import jscl.math.function.Inv;
 import jscl.math.polynomial.Polynomial;
@@ -635,9 +636,11 @@ public class Expression extends Generic {
 	public static Expression valueOf(@NotNull String expression) throws ParseException {
 		final MutableInt position = new MutableInt(0);
 
-		final Generic generic = ExpressionParser.parser.parse(expression, position, null);
+		final Parser.Parameters p = Parser.Parameters.newInstance(expression, position, JsclMathEngine.instance);
 
-		ParserUtils.skipWhitespaces(expression, position);
+		final Generic generic = ExpressionParser.parser.parse(p, null);
+
+		ParserUtils.skipWhitespaces(p);
 
 		if (position.intValue() < expression.length()) {
 			throw new ParseException(Messages.msg_1, position.intValue(), expression);

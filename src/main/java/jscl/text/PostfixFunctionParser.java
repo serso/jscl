@@ -18,18 +18,18 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 	}
 
 	@NotNull
-	public Result parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Result parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
 		final boolean postfixFunction;
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		if (position.intValue() < expression.length() && expression.startsWith(postfixFunctionName, position.intValue())) {
-			position.add(postfixFunctionName.length());
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().startsWith(postfixFunctionName, p.getPosition().intValue())) {
+			p.getPosition().add(postfixFunctionName.length());
 			postfixFunction = true;
 		} else {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			postfixFunction = false;
 		}
 

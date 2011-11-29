@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Subscript implements Parser<Generic> {
 
@@ -10,20 +11,20 @@ public class Subscript implements Parser<Generic> {
 	private Subscript() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.tryToParse(expression, position, pos0, '[');
+		ParserUtils.tryToParse(p, pos0, '[');
 
 		Generic a;
 		try {
-			a = ExpressionParser.parser.parse(expression, position, previousSumElement);
+			a = ExpressionParser.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
-		ParserUtils.tryToParse(expression, position, pos0, ']');
+		ParserUtils.tryToParse(p, pos0, ']');
 
 		return a;
 	}

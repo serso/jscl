@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,23 +17,23 @@ public class Identifier implements Parser<String> {
 
 	// returns variable/constant getName
 	@NotNull
-	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
 		final StringBuilder result = new StringBuilder();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		if (position.intValue() < expression.length() && isValidFirstCharacter(expression.charAt(position.intValue()))) {
-			result.append(expression.charAt(position.intValue()));
-			position.increment();
+		if (p.getPosition().intValue() < p.getExpression().length() && isValidFirstCharacter(p.getExpression().charAt(p.getPosition().intValue()))) {
+			result.append(p.getExpression().charAt(p.getPosition().intValue()));
+			p.getPosition().increment();
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_5);
+			ParserUtils.throwParseException(p, pos0, Messages.msg_5);
 		}
 
-		while (position.intValue() < expression.length() && isValidNotFirstCharacter(expression, position)) {
-			result.append(expression.charAt(position.intValue()));
-			position.increment();
+		while (p.getPosition().intValue() < p.getExpression().length() && isValidNotFirstCharacter(p.getExpression(), p.getPosition())) {
+			result.append(p.getExpression().charAt(p.getPosition().intValue()));
+			p.getPosition().increment();
 		}
 
 		return result.toString();

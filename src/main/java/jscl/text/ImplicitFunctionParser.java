@@ -18,20 +18,20 @@ public class ImplicitFunctionParser implements Parser<Function> {
 	private ImplicitFunctionParser() {
 	}
 
-	public Function parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 		Generic a[];
 
-		final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, expression, position, pos0, previousSumElement);
+		final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, pos0, previousSumElement, p);
 		if (FunctionsRegistry.getInstance().getNames().contains(name) || OperatorsRegistry.getInstance().getNames().contains(name)) {
-			position.setValue(pos0);
-			throw new ParseException(Messages.msg_6, position.intValue(), expression, name);
+			p.getPosition().setValue(pos0);
+			throw new ParseException(Messages.msg_6, p.getPosition().intValue(), p.getExpression(), name);
 		}
 
 		final List<Generic> subscripts = new ArrayList<Generic>();
 		while (true) {
 			try {
-				subscripts.add(Subscript.parser.parse(expression, position, previousSumElement));
+				subscripts.add(Subscript.parser.parse(p, previousSumElement));
 			} catch (ParseException e) {
 				break;
 			}
@@ -39,14 +39,14 @@ public class ImplicitFunctionParser implements Parser<Function> {
 
 		int b[];
 		try {
-			b = Derivation.parser.parse(expression, position, previousSumElement);
+			b = Derivation.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
 			b = new int[0];
 		}
 		try {
-			a = ParameterListParser.parser.parse(expression, position, previousSumElement);
+			a = ParameterListParser.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
@@ -66,13 +66,13 @@ class Derivation implements Parser<int[]> {
 	private Derivation() {
 	}
 
-	public int[] parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	public int[] parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
 
 		int result[];
 		try {
-			result = new int[]{PrimeCharacters.parser.parse(expression, position, previousSumElement)};
+			result = new int[]{PrimeCharacters.parser.parse(p, previousSumElement)};
 		} catch (ParseException e) {
-			result = SuperscriptList.parser.parse(expression, position, previousSumElement);
+			result = SuperscriptList.parser.parse(p, previousSumElement);
 		}
 
 		return result;
@@ -86,30 +86,30 @@ class SuperscriptList implements Parser<int[]> {
 	private SuperscriptList() {
 	}
 
-	public int[] parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public int[] parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.tryToParse(expression, position, pos0, '{');
+		ParserUtils.tryToParse(p, pos0, '{');
 
 		final List<Integer> result = new ArrayList<Integer>();
 		try {
-			result.add(IntegerParser.parser.parse(expression, position, previousSumElement));
+			result.add(IntegerParser.parser.parse(p, previousSumElement));
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
 		while (true) {
 			try {
-				result.add(CommaAndInteger.parser.parse(expression, position, previousSumElement));
+				result.add(CommaAndInteger.parser.parse(p, previousSumElement));
 			} catch (ParseException e) {
 				break;
 			}
 		}
 
-		ParserUtils.tryToParse(expression, position, pos0, '}');
+		ParserUtils.tryToParse(p, pos0, '}');
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
 		return ArrayUtils.toArray(result, new int[result.size()]);
 	}
@@ -122,11 +122,11 @@ class CommaAndInteger implements Parser<Integer> {
 	private CommaAndInteger() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Integer parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		return ParserUtils.parseWithRollback(IntegerParser.parser, expression, position, pos0, previousSumElement);
+		return ParserUtils.parseWithRollback(IntegerParser.parser, pos0, previousSumElement, p);
 	}
 }

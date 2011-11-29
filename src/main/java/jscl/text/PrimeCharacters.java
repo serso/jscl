@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PrimeCharacters implements Parser<Integer> {
 	public static final Parser<Integer> parser = new PrimeCharacters();
@@ -10,23 +11,23 @@ public class PrimeCharacters implements Parser<Integer> {
 	private PrimeCharacters() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	public Integer parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 
-		int pos0 = position.intValue();
+		int pos0 = p.getPosition().intValue();
 
 		int result = 0;
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '\'') {
-			position.increment();
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '\'') {
+			p.getPosition().increment();
 			result = 1;
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_12, '\'');
+			ParserUtils.throwParseException(p, pos0, Messages.msg_12, '\'');
 		}
 
-		while (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '\'') {
-			position.increment();
+		while (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '\'') {
+			p.getPosition().increment();
 			result++;
 		}
 

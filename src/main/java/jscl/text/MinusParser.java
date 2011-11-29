@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -16,19 +17,19 @@ class MinusParser implements Parser<MinusParser.Result> {
 	}
 
 	@NotNull
-	public Result parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement){
+	public Result parse(@NotNull Parameters p, @Nullable Generic previousSumElement){
 		final boolean result;
 
-		int pos0 = position.intValue();
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == '-') {
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '-') {
 			result = true;
-			position.increment();
+			p.getPosition().increment();
 		} else {
 			result = false;
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 		}
 
 		return new Result(result);

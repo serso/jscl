@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -15,12 +16,12 @@ class ExponentParser implements Parser<Generic> {
 	private ExponentParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		boolean sign = MinusParser.parser.parse(expression, position, previousSumElement).isSign();
+		boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
 
-		final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, expression, position, pos0, previousSumElement);
+		final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, pos0, previousSumElement, p);
 		return sign ? result.negate() : result;
 	}
 }

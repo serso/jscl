@@ -4,6 +4,7 @@ import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IntegerParser implements Parser<Integer> {
 
@@ -12,8 +13,8 @@ public class IntegerParser implements Parser<Integer> {
 	private IntegerParser() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Integer parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
 		/*int n;
 
@@ -33,23 +34,23 @@ public class IntegerParser implements Parser<Integer> {
 			n = 10 * n + (c - '0');
 		}*/
 
-		final NumeralBase nb = NumeralBaseParser.parser.parse(expression, position, previousSumElement);
+		final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
 
 		final StringBuilder result = new StringBuilder();
 
-		ParserUtils.skipWhitespaces(expression, position);
-		if (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
-			char c = expression.charAt(position.intValue());
-			position.increment();
+		ParserUtils.skipWhitespaces(p);
+		if (p.getPosition().intValue() < p.getExpression().length() && Character.isDigit(p.getExpression().charAt(p.getPosition().intValue()))) {
+			char c = p.getExpression().charAt(p.getPosition().intValue());
+			p.getPosition().increment();
 			result.append(c);
 		} else {
-			position.setValue(pos0);
-			throw new ParseException(Messages.msg_7, position.intValue(), expression);
+			p.getPosition().setValue(pos0);
+			throw new ParseException(Messages.msg_7, p.getPosition().intValue(), p.getExpression());
 		}
 
-		while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
-			char c = expression.charAt(position.intValue());
-			position.increment();
+		while (p.getPosition().intValue() < p.getExpression().length() && Character.isDigit(p.getExpression().charAt(p.getPosition().intValue()))) {
+			char c = p.getExpression().charAt(p.getPosition().intValue());
+			p.getPosition().increment();
 			result.append(c);
 		}
 
@@ -57,7 +58,7 @@ public class IntegerParser implements Parser<Integer> {
 		try {
 			return nb.toInteger(number);
 		} catch (NumberFormatException e) {
-			throw new ParseException(Messages.msg_8, position.intValue(), expression, number);
+			throw new ParseException(Messages.msg_8, p.getPosition().intValue(), p.getExpression(), number);
 		}
 	}
 }

@@ -15,8 +15,8 @@ class UnsignedExponent implements Parser<Generic> {
 	private UnsignedExponent() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		final Generic content = PrimaryExpressionParser.parser.parse(expression, position, previousSumElement);
-		return new PostfixFunctionsParser(content).parse(expression, position, previousSumElement);
+	public Generic parse(@NotNull Parameters p, final Generic previousSumElement) throws ParseException {
+		final Generic content = PrimaryExpressionParser.parser.parse(p, previousSumElement);
+		return new PostfixFunctionsParser(content).parse(p, previousSumElement);
 	}
 }

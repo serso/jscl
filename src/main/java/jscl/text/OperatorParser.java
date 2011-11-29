@@ -15,19 +15,19 @@ public class OperatorParser implements Parser<Operator> {
 	}
 
 	@NotNull
-	public Operator parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Operator parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		final String operatorName = Identifier.parser.parse(expression, position, previousSumElement);
+		final String operatorName = Identifier.parser.parse(p, previousSumElement);
 		if (!valid(operatorName)) {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_3, operatorName);
+			ParserUtils.throwParseException(p, pos0, Messages.msg_3, operatorName);
 		}
 
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, expression, position, pos0, previousSumElement);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, pos0, previousSumElement, p);
 
 		final Operator result = OperatorsRegistry.getInstance().get(operatorName, parameters);
 		if ( result == null ) {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_2, operatorName);
+			ParserUtils.throwParseException(p, pos0, Messages.msg_2, operatorName);
 			assert false;
 		}
 

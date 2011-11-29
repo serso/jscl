@@ -24,7 +24,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 		this.content = content;
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
 
 		final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
 
@@ -33,18 +33,17 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 			parsers.add(new PostfixFunctionParser(postfixFunctionName));
 		}
 
-		return parsePostfix(parsers, expression, position, content, previousSumElement);
+		return parsePostfix(parsers, content, previousSumElement, p);
 	}
 
 	private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,
-										@NotNull String expression,
-										@NotNull MutableInt position,
 										Generic content,
-										@Nullable final Generic previousSumElement) throws ParseException {
+										@Nullable final Generic previousSumElement,
+										@NotNull final Parameters parseParameters) throws ParseException {
 		Generic result = content;
 
 		for (PostfixFunctionParser parser : parsers) {
-			final PostfixFunctionParser.Result postfixResult = parser.parse(expression, position, previousSumElement);
+			final PostfixFunctionParser.Result postfixResult = parser.parse(parseParameters, previousSumElement);
 			if (postfixResult.isPostfixFunction()) {
 				final Operator postfixFunction;
 
@@ -55,10 +54,10 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 				}
 
 				if (postfixFunction == null) {
-					throw new ParseException(Messages.msg_4, position.intValue(), expression, postfixResult.getPostfixFunctionName());
+					throw new ParseException(Messages.msg_4, parseParameters.getPosition().intValue(), parseParameters.getExpression(), postfixResult.getPostfixFunctionName());
 				}
 
-				result = parsePostfix(parsers, expression, position, postfixFunction.expressionValue(), previousSumElement);
+				result = parsePostfix(parsers, postfixFunction.expressionValue(), previousSumElement, parseParameters);
 			}
 		}
 

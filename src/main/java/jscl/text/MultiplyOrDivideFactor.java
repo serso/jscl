@@ -21,16 +21,16 @@ class MultiplyOrDivideFactor implements Parser<Generic> {
 		this.multiplication = multiplication;
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
-		if (position.intValue() < expression.length() && expression.charAt(position.intValue()) == (multiplication ? '*' : '/')) {
-			position.increment();
+		ParserUtils.skipWhitespaces(p);
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == (multiplication ? '*' : '/')) {
+			p.getPosition().increment();
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_10, '*', '/');
+			ParserUtils.throwParseException(p, pos0, Messages.msg_10, '*', '/');
 		}
 
-		return ParserUtils.parseWithRollback(Factor.parser, expression, position, pos0, previousSumElement);
+		return ParserUtils.parseWithRollback(Factor.parser, pos0, previousSumElement, p);
 	}
 }

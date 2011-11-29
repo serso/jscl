@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -15,21 +16,21 @@ class PowerExponentParser implements Parser<Generic> {
 	private PowerExponentParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
 		try {
-			PowerParser.parser.parse(expression, position, previousSumElement);
+			PowerParser.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
 		Generic result;
 		try {
-			result = ExponentParser.parser.parse(expression, position, previousSumElement);
+			result = ExponentParser.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 

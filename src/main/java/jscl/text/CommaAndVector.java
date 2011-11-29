@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.JsclVector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CommaAndVector implements Parser<JsclVector> {
 
@@ -12,13 +13,13 @@ public class CommaAndVector implements Parser<JsclVector> {
 	}
 
 	@NotNull
-	public JsclVector parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public JsclVector parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
-		ParserUtils.tryToParse(expression , position, pos0, ',');
+		ParserUtils.tryToParse(p, pos0, ',');
 
-		return ParserUtils.parseWithRollback(VectorParser.parser, expression, position, pos0, previousSumElement);
+		return ParserUtils.parseWithRollback(VectorParser.parser, pos0, previousSumElement, p);
 	}
 }

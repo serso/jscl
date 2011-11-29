@@ -18,18 +18,18 @@ public class NumeralBaseParser implements Parser<NumeralBase> {
 	}
 
 	@Override
-	public NumeralBase parse(@NotNull String expression, @NotNull MutableInt position, @Nullable Generic previousSumElement){
-		int pos0 = position.intValue();
+	public NumeralBase parse(@NotNull Parameters p, @Nullable Generic previousSumElement){
+		int pos0 = p.getPosition().intValue();
 
 		NumeralBase result = NumeralBase.dec;
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
 		for (NumeralBase numeralBase : NumeralBase.values()) {
 			try {
 				final String jsclPrefix = numeralBase.getJsclPrefix();
 				if (jsclPrefix != null) {
-					ParserUtils.tryToParse(expression, position, pos0, jsclPrefix);
+					ParserUtils.tryToParse(p, pos0, jsclPrefix);
 					result = numeralBase;
 					break;
 				}

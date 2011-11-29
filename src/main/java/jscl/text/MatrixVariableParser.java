@@ -11,10 +11,10 @@ class MatrixVariableParser implements Parser<Variable> {
 
     private MatrixVariableParser() {}
 
-    public Variable parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+    public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
         Matrix m;
         try {
-            m=(Matrix)MatrixParser.parser.parse(expression, position, previousSumElement);
+            m=(Matrix)MatrixParser.parser.parse(p, previousSumElement);
         } catch (ParseException e) {
             throw e;
         }

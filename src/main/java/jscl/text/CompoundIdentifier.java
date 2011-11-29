@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CompoundIdentifier implements Parser<String> {
 
@@ -11,23 +12,23 @@ public class CompoundIdentifier implements Parser<String> {
 	}
 
 	@NotNull
-	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
 		StringBuilder result = new StringBuilder();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 		try {
-			String s = Identifier.parser.parse(expression, position, previousSumElement);
+			String s = Identifier.parser.parse(p, previousSumElement);
 			result.append(s);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
 		while (true) {
 			try {
-				final String dotAndId = DotAndIdentifier.parser.parse(expression, position, previousSumElement);
+				final String dotAndId = DotAndIdentifier.parser.parse(p, previousSumElement);
 				// NOTE: '.' must be appended after parsing
 				result.append(".").append(dotAndId);
 			} catch (ParseException e) {
@@ -46,16 +47,16 @@ class DotAndIdentifier implements Parser<String> {
 	private DotAndIdentifier() {
 	}
 
-	public String parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public String parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.tryToParse(expression, position, pos0, '.');
+		ParserUtils.tryToParse(p, pos0, '.');
 
 		String result;
 		try {
-			result = Identifier.parser.parse(expression, position, previousSumElement);
+			result = Identifier.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 

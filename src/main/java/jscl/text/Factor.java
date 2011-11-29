@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -15,11 +16,11 @@ class Factor implements Parser<Generic> {
 	private Factor() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 
-		boolean sign = MinusParser.parser.parse(expression, position, previousSumElement).isSign();
+		boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
 
-		final Generic result = (Generic) UnsignedFactor.parser.parse(expression, position, previousSumElement);
+		final Generic result = (Generic) UnsignedFactor.parser.parse(p, previousSumElement);
 
 		return sign ? result.negate() : result;
 	}

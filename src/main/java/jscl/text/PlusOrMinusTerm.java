@@ -16,20 +16,20 @@ class PlusOrMinusTerm implements Parser<Generic> {
 	private PlusOrMinusTerm() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(expression, position);
+		ParserUtils.skipWhitespaces(p);
 
 		boolean sign = false;
-		if (position.intValue() < expression.length() && (expression.charAt(position.intValue()) == '+' || expression.charAt(position.intValue()) == '-')) {
-			sign = expression.charAt(position.intValue()) == '-';
-			position.increment();
+		if (p.getPosition().intValue() < p.getExpression().length() && (p.getExpression().charAt(p.getPosition().intValue()) == '+' || p.getExpression().charAt(p.getPosition().intValue()) == '-')) {
+			sign = p.getExpression().charAt(p.getPosition().intValue()) == '-';
+			p.getPosition().increment();
 		} else {
-			ParserUtils.throwParseException(expression, position, pos0, Messages.msg_10, '+', '-');
+			ParserUtils.throwParseException(p, pos0, Messages.msg_10, '+', '-');
 		}
 
-		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, expression, position, pos0, previousSumElement);
+		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, pos0, previousSumElement, p);
 
 		return sign ? result.negate() : result;
 	}

@@ -16,14 +16,14 @@ public class ConstantParser implements Parser<Constant> {
 	private ConstantParser() {
 	}
 
-	public Constant parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
+	public Constant parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
 
-		final String name = CompoundIdentifier.parser.parse(expression, position, previousSumElement);
+		final String name = CompoundIdentifier.parser.parse(p, previousSumElement);
 
 		List<Generic> l = new ArrayList<Generic>();
 		while (true) {
 			try {
-				l.add(Subscript.parser.parse(expression, position, previousSumElement));
+				l.add(Subscript.parser.parse(p, previousSumElement));
 			} catch (ParseException e) {
 				break;
 			}
@@ -31,7 +31,7 @@ public class ConstantParser implements Parser<Constant> {
 
 		Integer prime = 0;
 		try {
-			prime = Prime.parser.parse(expression, position, previousSumElement);
+			prime = Prime.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
 		}
 
@@ -52,9 +52,8 @@ class Prime implements Parser<Integer> {
 	private Prime() {
 	}
 
-	public Integer parse(@NotNull String expression,
-						 @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		return internalParser.parse(expression, position, previousSumElement);
+	public Integer parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		return internalParser.parse(p, previousSumElement);
 	}
 }
 
@@ -64,21 +63,21 @@ class Superscript implements Parser<Integer> {
 	private Superscript() {
 	}
 
-	public Integer parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		int pos0 = position.intValue();
+	public Integer parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
 
-		ParserUtils.tryToParse(expression, position, pos0, '{');
+		ParserUtils.tryToParse(p, pos0, '{');
 
 		int result;
 		try {
-			result = IntegerParser.parser.parse(expression, position, previousSumElement);
+			result = IntegerParser.parser.parse(p, previousSumElement);
 		} catch (ParseException e) {
-			position.setValue(pos0);
+			p.getPosition().setValue(pos0);
 			throw e;
 		}
 
-		ParserUtils.tryToParse(expression, position, pos0, '}');
+		ParserUtils.tryToParse(p, pos0, '}');
 
 		return result;
 	}

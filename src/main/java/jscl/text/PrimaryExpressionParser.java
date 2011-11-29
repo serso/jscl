@@ -31,7 +31,7 @@ public class PrimaryExpressionParser implements Parser<Generic> {
 	private PrimaryExpressionParser() {
 	}
 
-	public Generic parse(@NotNull String expression, @NotNull MutableInt position, Generic previousSumElement) throws ParseException {
-		return internalParser.parse(expression, position, previousSumElement);
+	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		return internalParser.parse(p, previousSumElement);
 	}
 }
