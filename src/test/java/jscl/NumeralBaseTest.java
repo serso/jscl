@@ -37,6 +37,14 @@ public class NumeralBaseTest {
 
 		Assert.assertEquals("2748.0", me.evaluate("0xabc"));
 
+		try {
+			me.evaluate("0x");
+			Assert.fail();
+		} catch (ParseException e) {
+		}
+
+		Assert.assertEquals("0.0", me.evaluate("0x0"));
+
 		IConstant constant = null;
 		try {
 			constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), 2d));
