@@ -153,4 +153,15 @@ public enum NumeralBase {
 
 	@NotNull
 	public abstract List<Character> getAcceptableCharacters();
+
+	@Nullable
+	public static NumeralBase getByPrefix ( @NotNull String prefix ) {
+		for (NumeralBase nb : NumeralBase.values()) {
+			if ( prefix.equals(nb.getJsclPrefix()) ) {
+				return nb;
+			}
+		}
+
+		return null;
+	}
 }
