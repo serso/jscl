@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class JsclIntegerParser implements Parser<Generic> {
+
 	public static final Parser<Generic> parser = new JsclIntegerParser();
 
 	private JsclIntegerParser() {
@@ -19,7 +20,7 @@ public class JsclIntegerParser implements Parser<Generic> {
 
 		final StringBuilder result = new StringBuilder();
 
-		result.append(Digits.parser.parse(p, previousSumElement));
+		result.append(new Digits(nb).parse(p, previousSumElement));
 
 		final String number = result.toString();
 		try {

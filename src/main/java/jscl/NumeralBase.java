@@ -4,7 +4,10 @@ import jscl.math.JsclInteger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Array;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: serso
@@ -14,6 +17,8 @@ import java.math.BigInteger;
 public enum NumeralBase {
 
 	dec(10) {
+
+		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
 		@NotNull
 		@Override
@@ -31,9 +36,40 @@ public enum NumeralBase {
 		public String getJsclPrefix() {
 			return null;
 		}
+
+		@NotNull
+		@Override
+		public List<Character> getAcceptableCharacters() {
+			return characters;
+		}
+	},
+
+	hex(16) {
+
+		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+
+		@NotNull
+		public String toString(@NotNull Double value) {
+			return Long.toHexString(Double.doubleToRawLongBits(value));
+		}
+
+		@Nullable
+		@Override
+		public String getJsclPrefix() {
+			return "0x";
+		}
+
+		@NotNull
+		@Override
+		public List<Character> getAcceptableCharacters() {
+			return characters;
+		}
 	},
 
 	oct(8) {
+
+		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7');
+
 		@NotNull
 		public String toString(@NotNull Double value) {
 			return Long.toOctalString(Double.doubleToRawLongBits(value));
@@ -44,9 +80,18 @@ public enum NumeralBase {
 		public String getJsclPrefix() {
 			return "0o";
 		}
+
+		@NotNull
+		@Override
+		public List<Character> getAcceptableCharacters() {
+			return characters;
+		}
 	},
 
 	bin(2) {
+
+		private final List<Character> characters = Arrays.asList('0', '1');
+
 		@NotNull
 		public String toString(@NotNull Double value) {
 			return Long.toBinaryString(Double.doubleToRawLongBits(value));
@@ -57,11 +102,15 @@ public enum NumeralBase {
 		public String getJsclPrefix() {
 			return "0b";
 		}
+
+		@NotNull
+		@Override
+		public List<Character> getAcceptableCharacters() {
+			return characters;
+		}
 	};
 
 	private final int radix;
-
-	private int y = 0x34;
 
 	NumeralBase(int radix) {
 		this.radix = radix;
@@ -101,4 +150,7 @@ public enum NumeralBase {
 
 	@Nullable
 	public abstract String getJsclPrefix();
+
+	@NotNull
+	public abstract List<Character> getAcceptableCharacters();
 }

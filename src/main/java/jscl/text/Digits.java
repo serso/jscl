@@ -1,5 +1,6 @@
 package jscl.text;
 
+import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
@@ -7,9 +8,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class Digits implements Parser<String> {
 
-	public static final Parser<String> parser = new Digits();
+	@NotNull
+	private final NumeralBase nb;
 
-	private Digits() {
+	public Digits(@NotNull NumeralBase nb) {
+		this.nb = nb;
 	}
 
 	// returns digit
@@ -20,14 +23,14 @@ public class Digits implements Parser<String> {
 
 		ParserUtils.skipWhitespaces(p);
 
-		if (p.getPosition().intValue() < p.getExpression().length() && Character.isDigit(p.getExpression().charAt(p.getPosition().intValue()))) {
+		if (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
 			result.append(p.getExpression().charAt(p.getPosition().intValue()));
 			p.getPosition().increment();
 		} else {
 			ParserUtils.throwParseException(p, pos0, Messages.msg_9);
 		}
 
-		while (p.getPosition().intValue() < p.getExpression().length() && Character.isDigit(p.getExpression().charAt(p.getPosition().intValue()))) {
+		while (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
 			result.append(p.getExpression().charAt(p.getPosition().intValue()));
 			p.getPosition().increment();
 		}

@@ -54,4 +54,7 @@ public final class Messages {
 
 	/** Expected number of parameters differs from actual {0} */
 	public static final String msg_14 = "msg_14";
+
+	/** Only decimal numeral base supports decimal numbers */
+	public static final String msg_15 = "msg_15";
 }

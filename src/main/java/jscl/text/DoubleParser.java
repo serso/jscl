@@ -72,9 +72,12 @@ class FloatingPointLiteral implements Parser<Double> {
 
 		boolean digits = false;
 		boolean point = false;
+		boolean exponent = false;
+
+		final Digits digitsParser = new Digits(nb);
 
 		try {
-			result.append(Digits.parser.parse(p, previousSumElement));
+			result.append(digitsParser.parse(p, previousSumElement));
 			digits = true;
 		} catch (ParseException e) {
 		}
@@ -89,22 +92,32 @@ class FloatingPointLiteral implements Parser<Double> {
 				throw e;
 			}
 		}
+
+		if ( point && nb != NumeralBase.dec) {
+	   		ParserUtils.throwParseException(p, pos0, Messages.msg_15);
+		}
+
 		try {
-			result.append(Digits.parser.parse(p, previousSumElement));
+			result.append(digitsParser.parse(p, previousSumElement));
 		} catch (ParseException e) {
 			if (!digits) {
 				p.getPosition().setValue(pos0);
 				throw e;
 			}
 		}
+
 		try {
-			String s = ExponentPart.parser.parse(p, previousSumElement);
-			result.append(s);
+			result.append(ExponentPart.parser.parse(p, previousSumElement));
+			exponent = true;
 		} catch (ParseException e) {
 			if (!point) {
 				p.getPosition().setValue(pos0);
 				throw e;
 			}
+		}
+
+		if ( exponent && nb != NumeralBase.dec) {
+	   		ParserUtils.throwParseException(p, pos0, Messages.msg_15);
 		}
 
 		final String doubleString = result.toString();
