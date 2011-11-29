@@ -12,7 +12,7 @@ import org.solovyev.common.math.MathRegistry;
  * Date: 11/1/11
  * Time: 12:00 PM
  */
-public interface MathEngine {
+public interface MathEngine extends MathContext {
 
 	String evaluate(@NotNull String expression) throws ParseException;
 
@@ -20,20 +20,4 @@ public interface MathEngine {
 
 	String elementary(@NotNull String expression) throws ParseException;
 
-	@NotNull
-	MathRegistry<Function> getFunctionsRegistry();
-
-	@NotNull
-	MathRegistry<Operator> getOperatorsRegistry();
-
-	@NotNull
-	MathRegistry<IConstant> getConstantsRegistry();
-
-	@NotNull
-	MathRegistry<Operator> getPostfixFunctionsRegistry();
-
-	@NotNull
-	AngleUnit getDefaultAngleUnit();
-
-	void setDefaultAngleUnit(@NotNull AngleUnit defaultAngleUnits);
 }

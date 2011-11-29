@@ -1,6 +1,7 @@
 package jscl.text;
 
 import jscl.AngleUnit;
+import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.math.Generic;
 import jscl.math.function.Function;
@@ -33,7 +34,7 @@ public interface Parser<T> {
 	 */
 	T parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException;
 
-	static class Parameters implements MathEngine{
+	static class Parameters {
 
 		@NotNull
 		private final String expression;
@@ -45,21 +46,21 @@ public interface Parser<T> {
 		private final List<ParseException> exceptions = new ArrayList<ParseException>();
 
 		@NotNull
-		private final MathEngine mathEngine;
+		private final MathContext mathContext;
 
 		/**
 		 * @param expression expression to be parsed
 		 * @param position current position of expression. Side effect: if parsing is successful this parameter should be increased on the number of parsed letters (incl whitespaces etc)
-		 * @param mathEngine math engine to be used in parsing
+		 * @param mathContext math engine to be used in parsing
 		 */
-		Parameters(@NotNull String expression, @NotNull MutableInt position, @NotNull MathEngine mathEngine) {
+		Parameters(@NotNull String expression, @NotNull MutableInt position, @NotNull MathContext mathContext) {
 			this.expression = expression;
 			this.position = position;
-			this.mathEngine = mathEngine;
+			this.mathContext = mathContext;
 		}
 
 		@NotNull
-		public static Parameters newInstance(@NotNull String expression, @NotNull MutableInt position, @NotNull final MathEngine mathEngine) {
+		public static Parameters newInstance(@NotNull String expression, @NotNull MutableInt position, @NotNull final MathContext mathEngine) {
 			return new Parameters(expression, position, mathEngine);
 		}
 
@@ -80,59 +81,13 @@ public interface Parser<T> {
 		}
 
 		@NotNull
+		public MathContext getMathContext() {
+			return mathContext;
+		}
+
+		@NotNull
 		public List<ParseException> getExceptions() {
 			return Collections.unmodifiableList(exceptions);
-		}
-
-
-		@Override
-		public String evaluate(@NotNull String expression) throws ParseException {
-			return mathEngine.evaluate(expression);
-		}
-
-		@Override
-		public String simplify(@NotNull String expression) throws ParseException {
-			return mathEngine.simplify(expression);
-		}
-
-		@Override
-		public String elementary(@NotNull String expression) throws ParseException {
-			return mathEngine.elementary(expression);
-		}
-
-		@Override
-		@NotNull
-		public MathRegistry<Function> getFunctionsRegistry() {
-			return mathEngine.getFunctionsRegistry();
-		}
-
-		@Override
-		@NotNull
-		public MathRegistry<Operator> getOperatorsRegistry() {
-			return mathEngine.getOperatorsRegistry();
-		}
-
-		@Override
-		@NotNull
-		public MathRegistry<IConstant> getConstantsRegistry() {
-			return mathEngine.getConstantsRegistry();
-		}
-
-		@Override
-		@NotNull
-		public MathRegistry<Operator> getPostfixFunctionsRegistry() {
-			return mathEngine.getPostfixFunctionsRegistry();
-		}
-
-		@Override
-		@NotNull
-		public AngleUnit getDefaultAngleUnit() {
-			return mathEngine.getDefaultAngleUnit();
-		}
-
-		@Override
-		public void setDefaultAngleUnit(@NotNull AngleUnit defaultAngleUnits) {
-			mathEngine.setDefaultAngleUnit(defaultAngleUnits);
 		}
 	}
 }
