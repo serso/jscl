@@ -1,11 +1,8 @@
 package jscl;
 
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
+import jscl.math.Generic;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.math.MathRegistry;
 
 /**
  * User: serso
@@ -14,10 +11,21 @@ import org.solovyev.common.math.MathRegistry;
  */
 public interface MathEngine extends MathContext {
 
+	@NotNull
 	String evaluate(@NotNull String expression) throws ParseException;
 
+	@NotNull
 	String simplify(@NotNull String expression) throws ParseException;
 
+	@NotNull
 	String elementary(@NotNull String expression) throws ParseException;
 
+	@NotNull
+	Generic evaluateGeneric(@NotNull String expression) throws ParseException;
+
+	@NotNull
+	Generic simplifyGeneric(@NotNull String expression) throws ParseException;
+
+	@NotNull
+	Generic elementaryGeneric(@NotNull String expression) throws ParseException;
 }

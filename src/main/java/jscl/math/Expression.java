@@ -642,8 +642,9 @@ public class Expression extends Generic {
 
 		ParserUtils.skipWhitespaces(p);
 
-		if (position.intValue() < expression.length()) {
-			throw new ParseException(Messages.msg_1, position.intValue(), expression);
+		int index = position.intValue();
+		if (index < expression.length()) {
+			throw new ParseException(Messages.msg_1, index, expression, index + 1 );
 		}
 
 		return new Expression().init(generic);

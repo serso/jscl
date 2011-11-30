@@ -24,6 +24,12 @@ public class ParseException extends Exception implements Message {
 		this.expression = expression;
 	}
 
+	public ParseException(@NotNull Message message, int position, @NotNull String expression) {
+		this.message = message;
+		this.position = position;
+		this.expression = expression;
+	}
+
 	@NotNull
 	public String getMessageCode() {
 		return this.message.getMessageCode();

@@ -13,7 +13,10 @@ public final class Messages {
 		throw new AssertionError();
 	}
 
-	/** Premature end of processing */
+	/**	Parsing error near {0} symbol: {1} */
+	public static final String msg_0 = "msg_0";
+
+	/** Parsing error occurred near {0} symbol: check expression validity */
 	public static final String msg_1 = "msg_1";
 
 	/** There is no operator with name: {0} */
@@ -57,4 +60,7 @@ public final class Messages {
 
 	/** Only decimal numeral base supports decimal numbers */
 	public static final String msg_15 = "msg_15";
+
+	/** Next errors occurred while calculations: */
+	public static final String msg_16 = "msg_16";
 }

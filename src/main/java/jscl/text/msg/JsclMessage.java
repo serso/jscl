@@ -29,7 +29,7 @@ public class JsclMessage extends AbstractMessage {
 
 	@Override
 	protected String getMessagePattern(@NotNull Locale locale) {
-		final ResourceBundle rb = ResourceBundle.getBundle("jscl/text/msg/messages.properties", locale);
+		final ResourceBundle rb = ResourceBundle.getBundle("jscl/text/msg/messages", locale);
 		return rb.getString(getMessageCode());
 	}
 }
