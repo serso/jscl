@@ -190,6 +190,9 @@ public class ExpressionTest {
 		Assert.assertEquals("3.0", Expression.valueOf("k_1[0]").numeric().toString());
 		Assert.assertEquals("3.0", Expression.valueOf("k_1[2]").numeric().toString());
 
+		final Generic expression = JsclMathEngine.instance.simplifyGeneric("cos(t)+10%");
+		expression.substitute(new Constant("t"), Expression.valueOf(100d));
+
 		Assert.assertEquals("i*t", Expression.valueOf("i*t").expand().simplify().toString());
 		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
 		Assert.assertEquals("t^3", Expression.valueOf("t*t*t").simplify().toString());
