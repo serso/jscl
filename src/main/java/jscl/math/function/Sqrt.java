@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class Sqrt extends Algebraic {
 
-	public Sqrt(Generic generic) {
-		super("√", new Generic[]{generic});
+	public Sqrt(Generic parameter) {
+		super("√", new Generic[]{parameter});
 	}
 
 	public Root rootValue() {
@@ -122,6 +122,24 @@ public class Sqrt extends Algebraic {
 			result.append(parameters[0].toJava());
 			result.append(".").append(name).append("()");
 			return result.toString();
+		}
+	}
+
+	@Override
+	public String toString() {
+		final Generic parameter = parameters[0];
+		if (parameter != null ) {
+			try {
+				if ( JsclInteger.ONE.negate().equals(parameter.integerValue()) ) {
+					return Constant.I_CONST.getName();
+				} else {
+					return super.toString();
+				}
+			} catch (NotIntegerException e) {
+				return super.toString();
+			}
+		} else {
+			return super.toString();
 		}
 	}
 
