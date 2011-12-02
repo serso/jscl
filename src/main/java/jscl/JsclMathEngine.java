@@ -54,7 +54,7 @@ public enum JsclMathEngine implements MathEngine {
 	@Override
 	public Generic simplifyGeneric(@NotNull String expression) throws ParseException {
 		if (expression.contains(Percent.NAME)) {
-			return Expression.valueOf(expression).simplify();
+			return Expression.valueOf(expression);
 		} else {
 			return Expression.valueOf(expression).expand().simplify();
 		}

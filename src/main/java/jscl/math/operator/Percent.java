@@ -57,7 +57,7 @@ public class Percent extends PostfixFunction {
 
 	@Override
 	public Generic simplify() {
-		throw new ArithmeticException("Simplify is not supported for percents yet!");
+		return expressionValue();
 	}
 
 	@Override
