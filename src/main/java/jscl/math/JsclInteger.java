@@ -189,10 +189,14 @@ public final class JsclInteger extends Generic {
 
 	public JsclInteger nthrt(int n) {
 //      return JsclInteger.valueOf((int)Math.pow((double)intValue(),1./n));
-		if (signum() == 0) return JsclInteger.valueOf(0);
-		else if (signum() < 0) {
-			if (n % 2 == 0) throw new ArithmeticException();
-			else return (JsclInteger) ((JsclInteger) negate()).nthrt(n).negate();
+		if (signum() == 0) {
+			return JsclInteger.valueOf(0);
+		} else if (signum() < 0) {
+			if (n % 2 == 0) {
+				throw new ArithmeticException("Could not calculate root of negative argument: " + this + " of odd order: " + n);
+			} else {
+				return (JsclInteger) ((JsclInteger) negate()).nthrt(n).negate();
+			}
 		} else {
 			Generic x0;
 			Generic x = this;

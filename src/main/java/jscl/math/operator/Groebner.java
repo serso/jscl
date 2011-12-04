@@ -146,8 +146,8 @@ class PolynomialVector extends JsclVector {
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
 		result.append("{");
-		for (int i = 0; i < n; i++) {
-			result.append(basis.polynomial(elements[i])).append(i < n - 1 ? ", " : "");
+		for (int i = 0; i < rows; i++) {
+			result.append(basis.polynomial(elements[i])).append(i < rows - 1 ? ", " : "");
 		}
 		result.append("}");
 		return result.toString();
@@ -156,7 +156,7 @@ class PolynomialVector extends JsclVector {
 	protected void bodyToMathML(MathML e0) {
 		MathML e1 = e0.element("mfenced");
 		MathML e2 = e0.element("mtable");
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < rows; i++) {
 			MathML e3 = e0.element("mtr");
 			MathML e4 = e0.element("mtd");
 			basis.polynomial(elements[i]).toMathML(e4, null);

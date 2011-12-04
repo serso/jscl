@@ -49,7 +49,7 @@ public class TechnicalVariable extends Variable {
         }
 
         public Generic numeric() {
-                throw new ArithmeticException();
+                throw new ArithmeticException("Could not evaluate numeric value for technical variable!");
         }
 
         public boolean isConstant(Variable variable) {

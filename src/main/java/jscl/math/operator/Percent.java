@@ -46,12 +46,6 @@ public class Percent extends PostfixFunction {
 	}
 
 	public Generic evaluate() {
-		try {
-			return numeric();
-			// check if really need to catch arithmetic exception
-		} catch (ArithmeticException e) {
-		}
-
 		return expressionValue();
 	}
 

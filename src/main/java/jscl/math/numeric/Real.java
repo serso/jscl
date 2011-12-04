@@ -1,6 +1,5 @@
 package jscl.math.numeric;
 
-import jscl.JsclMathEngine;
 import org.jetbrains.annotations.NotNull;
 
 public final class Real extends Numeric {
@@ -82,12 +81,20 @@ public final class Real extends Numeric {
 
 	@NotNull
 	public Numeric ln() {
-		return new Real(Math.log(content));
+		if (signum() >= 0) {
+			return new Real(Math.log(content));
+		} else {
+			return new Complex(Math.log(-content), Math.PI);
+		}
 	}
 
 	@NotNull
 	public Numeric lg() {
-		return new Real(Math.log10(content));
+		if (signum() >= 0) {
+			return new Real(Math.log10(content));
+		} else {
+			return new Complex(Math.log10(-content), Math.PI);
+		}
 	}
 
 	@NotNull

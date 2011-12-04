@@ -190,8 +190,65 @@ public class ExpressionTest {
 		Assert.assertEquals("3.0", Expression.valueOf("k_1[0]").numeric().toString());
 		Assert.assertEquals("3.0", Expression.valueOf("k_1[2]").numeric().toString());
 
-		final Generic expression = JsclMathEngine.instance.simplifyGeneric("cos(t)+10%");
-		expression.substitute(new Constant("t"), Expression.valueOf(100d));
+		Generic expression = JsclMathEngine.instance.simplifyGeneric("cos(t)+∂(cos(t),t)");
+		Generic substituted = expression.substitute(new Constant("t"), Expression.valueOf(100d));
+		Assert.assertEquals("-1.1584559306791382", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("abs(t)^2+2!");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("102.0", substituted.numeric().toString());
+
+
+		expression = JsclMathEngine.instance.simplifyGeneric("abs(t)^2+10%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("110.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("abs(t)^2-10%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("90.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("(abs(t)^2)*10%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("10.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("(abs(t)^2)/10%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("1000.0", substituted.numeric().toString());
+
+				expression = JsclMathEngine.instance.simplifyGeneric("abs(t)^2+t%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("110.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("abs(t)^2-t%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("90.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("(abs(t)^2)*t%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("10.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("(abs(t)^2)/t%");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("1000.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("Σ(t, t, 0, 10)");
+		Assert.assertEquals("55.0", expression.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("Σ(t, t, 0, 10)");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("55.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("10*Σ(t, t, 0, 10)");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("550.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("t*Σ(t, t, 0, 10)");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("550.0", substituted.numeric().toString());
+
+		expression = JsclMathEngine.instance.simplifyGeneric("t*Σ(t+100%, t, 0, 10)");
+		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
+		Assert.assertEquals("1100.0", substituted.numeric().toString());
 
 		Assert.assertEquals("i*t", Expression.valueOf("i*t").expand().simplify().toString());
 		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
@@ -212,6 +269,12 @@ public class ExpressionTest {
 		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
 		Assert.assertEquals("t^3", Expression.valueOf("t*t*t").simplify().toString());
 
+		try {
+			JsclMathEngine.instance.setDefaultAngleUnit(AngleUnit.rad);
+			Assert.assertEquals("0.6931471805599453+3.141592653589793*i", Expression.valueOf("ln(-2)").numeric().toString());
+		} finally {
+			JsclMathEngine.instance.setDefaultAngleUnit(AngleUnit.deg);
+		}
 		Assert.assertEquals("-2/57", Expression.valueOf("1/(-57/2)").simplify().toString());
 		Assert.assertEquals("sin(30)", Expression.valueOf("sin(30)").expand().toString());
 		Assert.assertEquals("sin(n)", Expression.valueOf("sin(n)").expand().toString());

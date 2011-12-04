@@ -30,25 +30,11 @@ public class Degree extends PostfixFunction {
 	}
 
 	public Generic evaluate() {
-		/*try {
-			return numeric();
-			// todo serso: check if really need to catch arithmetic exception
-		} catch (ArithmeticException e) {
-			// ok
-		}*/
-
 		return expressionValue();
 	}
 
 	@Override
 	public Generic numeric() {
-		// todo serso: check
-		/*if (JsclMathEngine.instance.getDefaultAngleUnits()) {
-			Generic parameter0 = parameters[0].numeric();
-			Generic multiply = parameter0.multiply(Constant.pi.numeric());
-			return multiply.divide(new NumericWrapper(JsclDouble.valueOf(180)));
-		}*/
-
 		return AngleUnit.deg.transform(JsclMathEngine.instance.getDefaultAngleUnit(), parameters[0].numeric());
 	}
 

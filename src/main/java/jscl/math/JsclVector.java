@@ -11,12 +11,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class JsclVector extends Generic {
-    protected final Generic elements[];
-    protected final int n;
+
+	protected final Generic elements[];
+
+	protected final int rows;
 
     public JsclVector(Generic elements[]) {
         this.elements = elements;
-        n= elements.length;
+        rows = elements.length;
     }
 
     public Generic[] elements() {
@@ -25,7 +27,7 @@ public class JsclVector extends Generic {
 
     public JsclVector add(JsclVector vector) {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].add(vector.elements[i]);
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].add(vector.elements[i]);
         return v;
     }
 
@@ -40,7 +42,7 @@ public class JsclVector extends Generic {
 
     public JsclVector subtract(JsclVector vector) {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].subtract(vector.elements[i]);
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].subtract(vector.elements[i]);
         return v;
     }
 
@@ -61,7 +63,7 @@ public class JsclVector extends Generic {
             return ((Matrix) that).transpose().multiply(this);
         } else {
             JsclVector v=(JsclVector) newInstance();
-            for(int i=0;i<n;i++) v.elements[i]= elements[i].multiply(that);
+            for(int i=0;i< rows;i++) v.elements[i]= elements[i].multiply(that);
             return v;
         }
     }
@@ -69,12 +71,12 @@ public class JsclVector extends Generic {
     @NotNull
 	public Generic divide(@NotNull Generic that) throws ArithmeticException {
         if(that instanceof JsclVector) {
-            throw new ArithmeticException();
+            throw new ArithmeticException("Unable to divide vector by vector!");
         } else if(that instanceof Matrix) {
-            return multiply(((Matrix) that).inverse());
+            return multiply(that.inverse());
         } else {
             JsclVector v=(JsclVector) newInstance();
-            for(int i=0;i<n;i++) {
+            for(int i=0;i< rows;i++) {
                 try {
                     v.elements[i]= elements[i].divide(that);
                 } catch (NotDivisibleException e) {
@@ -95,12 +97,12 @@ public class JsclVector extends Generic {
 
     public Generic negate() {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].negate();
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].negate();
         return v;
     }
 
     public int signum() {
-        for(int i=0;i<n;i++) {
+        for(int i=0;i< rows;i++) {
             int c= elements[i].signum();
             if(c<0) return -1;
             else if(c>0) return 1;
@@ -114,43 +116,43 @@ public class JsclVector extends Generic {
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].antiDerivative(variable);
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].antiDerivative(variable);
         return v;
     }
 
     public Generic derivative(Variable variable) {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].derivative(variable);
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].derivative(variable);
         return v;
     }
 
     public Generic substitute(Variable variable, Generic generic) {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].substitute(variable,generic);
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].substitute(variable,generic);
         return v;
     }
 
     public Generic expand() {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].expand();
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].expand();
         return v;
     }
 
     public Generic factorize() {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].factorize();
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].factorize();
         return v;
     }
 
     public Generic elementary() {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].elementary();
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].elementary();
         return v;
     }
 
     public Generic simplify() {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= elements[i].simplify();
+        for(int i=0;i< rows;i++) v.elements[i]= elements[i].simplify();
         return v;
     }
 
@@ -160,9 +162,9 @@ public class JsclVector extends Generic {
 
     public Generic valueOf(Generic generic) {
         if(generic instanceof JsclVector ||  generic instanceof Matrix) {
-            throw new ArithmeticException();
+            throw new ArithmeticException("Unable to create vector: vector of vectors or vector of matrices are forbidden!");
         } else {
-            JsclVector v=(JsclVector)unity(n).multiply(generic);
+            JsclVector v=(JsclVector)unity(rows).multiply(generic);
             return newInstance(v.elements);
         }
     }
@@ -214,7 +216,7 @@ public class JsclVector extends Generic {
 
     public Generic scalarProduct(JsclVector vector) {
         Generic a= JsclInteger.valueOf(0);
-        for(int i=0;i<n;i++) {
+        for(int i=0;i< rows;i++) {
             a=a.add(elements[i].multiply(vector.elements[i]));
         }
         return a;
@@ -228,7 +230,7 @@ public class JsclVector extends Generic {
             {elements[1].negate(), elements[0], JsclInteger.valueOf(0)}
         };
         JsclVector v2=(JsclVector)new Matrix(m).multiply(vector);
-        for(int i=0;i<n;i++) v.elements[i]=i<v2.n?v2.elements[i]: JsclInteger.valueOf(0);
+        for(int i=0;i< rows;i++) v.elements[i]=i<v2.rows ?v2.elements[i]: JsclInteger.valueOf(0);
         return v;
     }
 
@@ -241,14 +243,14 @@ public class JsclVector extends Generic {
     }
 
     public JsclVector geometricProduct(JsclVector vector, int algebra[]) {
-        return product(new Clifford(algebra==null?new int[] {Clifford.log2e(n),0}:algebra).operator(),vector);
+        return product(new Clifford(algebra==null?new int[] {Clifford.log2e(rows),0}:algebra).operator(),vector);
     }
 
     JsclVector product(int product[][], JsclVector vector) {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= JsclInteger.valueOf(0);
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<n;j++) {
+        for(int i=0;i< rows;i++) v.elements[i]= JsclInteger.valueOf(0);
+        for(int i=0;i< rows;i++) {
+            for(int j=0;j< rows;j++) {
                 Generic a= elements[i].multiply(vector.elements[j]);
                 int k=Math.abs(product[i][j])-1;
                 v.elements[k]=v.elements[k].add(product[i][j]<0?a.negate():a);
@@ -259,7 +261,7 @@ public class JsclVector extends Generic {
 
     public Generic divergence(Variable variable[]) {
         Generic a= JsclInteger.valueOf(0);
-        for(int i=0;i<n;i++) a=a.add(elements[i].derivative(variable[i]));
+        for(int i=0;i< rows;i++) a=a.add(elements[i].derivative(variable[i]));
         return a;
     }
 
@@ -268,13 +270,13 @@ public class JsclVector extends Generic {
         v.elements[0]= elements[2].derivative(variable[1]).subtract(elements[1].derivative(variable[2]));
         v.elements[1]= elements[0].derivative(variable[2]).subtract(elements[2].derivative(variable[0]));
         v.elements[2]= elements[1].derivative(variable[0]).subtract(elements[0].derivative(variable[1]));
-        for(int i=3;i<n;i++) v.elements[i]= elements[i];
+        for(int i=3;i< rows;i++) v.elements[i]= elements[i];
         return v;
     }
 
     public Matrix jacobian(Variable variable[]) {
-        Matrix m=new Matrix(new Generic[n][variable.length]);
-        for(int i=0;i<n;i++) {
+        Matrix m=new Matrix(new Generic[rows][variable.length]);
+        for(int i=0;i< rows;i++) {
             for(int j=0;j<variable.length;j++) {
                 m.elements[i][j]= elements[i].derivative(variable[j]);
             }
@@ -283,15 +285,15 @@ public class JsclVector extends Generic {
     }
 
     public Generic del(Variable variable[], int algebra[]) {
-        return differential(new Clifford(algebra==null?new int[] {Clifford.log2e(n),0}:algebra).operator(),variable);
+        return differential(new Clifford(algebra==null?new int[] {Clifford.log2e(rows),0}:algebra).operator(),variable);
     }
 
     JsclVector differential(int product[][], Variable variable[]) {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) v.elements[i]= JsclInteger.valueOf(0);
-        int l=Clifford.log2e(n);
+        for(int i=0;i< rows;i++) v.elements[i]= JsclInteger.valueOf(0);
+        int l=Clifford.log2e(rows);
         for(int i=1;i<=l;i++) {
-            for(int j=0;j<n;j++) {
+            for(int j=0;j< rows;j++) {
                 Generic a= elements[j].derivative(variable[i-1]);
                 int k=Math.abs(product[i][j])-1;
                 v.elements[k]=v.elements[k].add(product[i][j]<0?a.negate():a);
@@ -302,7 +304,7 @@ public class JsclVector extends Generic {
 
     public Generic conjugate() {
         JsclVector v=(JsclVector) newInstance();
-        for(int i=0;i<n;i++) {
+        for(int i=0;i< rows;i++) {
             v.elements[i]=new Conjugate(elements[i]).evaluate();
         }
         return v;
@@ -322,7 +324,7 @@ public class JsclVector extends Generic {
 
     public static JsclVector unity(int dimension) {
         JsclVector v=new JsclVector(new Generic[dimension]);
-        for(int i=0;i<v.n;i++) {
+        for(int i=0;i<v.rows;i++) {
             if(i==0) v.elements[i]= JsclInteger.valueOf(1);
             else v.elements[i]= JsclInteger.valueOf(0);
         }
@@ -332,8 +334,8 @@ public class JsclVector extends Generic {
     public String toString() {
 		StringBuilder buffer = new StringBuilder();
         buffer.append("{");
-        for(int i=0;i<n;i++) {
-            buffer.append(elements[i]).append(i<n-1?", ":"");
+        for(int i=0;i< rows;i++) {
+            buffer.append(elements[i]).append(i< rows -1?", ":"");
         }
         buffer.append("}");
         return buffer.toString();
@@ -342,8 +344,8 @@ public class JsclVector extends Generic {
     public String toJava() {
 		final StringBuilder result = new StringBuilder();
         result.append("new Vector(new Numeric[] {");
-        for(int i=0;i<n;i++) {
-            result.append(elements[i].toJava()).append(i<n-1?", ":"");
+        for(int i=0;i< rows;i++) {
+            result.append(elements[i].toJava()).append(i< rows -1?", ":"");
         }
         result.append("})");
         return result.toString();
@@ -377,7 +379,7 @@ public class JsclVector extends Generic {
 	protected void bodyToMathML(MathML e0) {
         MathML e1=e0.element("mfenced");
         MathML e2=e0.element("mtable");
-        for(int i=0;i<n;i++) {
+        for(int i=0;i< rows;i++) {
             MathML e3=e0.element("mtr");
             MathML e4=e0.element("mtd");
             elements[i].toMathML(e4,null);
@@ -389,7 +391,7 @@ public class JsclVector extends Generic {
     }
 
     protected Generic newInstance() {
-        return newInstance(new Generic[n]);
+        return newInstance(new Generic[rows]);
     }
 
     protected Generic newInstance(Generic element[]) {

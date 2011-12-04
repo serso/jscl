@@ -7,7 +7,7 @@ public class DoubleVariable extends GenericVariable {
     }
 
     public JsclInteger symbolic() {
-        return ((NumericWrapper)content).integerValue();
+        return content.integerValue();
     }
 
     public Generic antiDerivative(Variable variable) throws NotIntegrableException {

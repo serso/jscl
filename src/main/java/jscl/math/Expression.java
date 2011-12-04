@@ -118,7 +118,7 @@ public class Expression extends Generic {
 	public Generic add(@NotNull Generic that) {
 		if (that instanceof Expression) {
 			return add((Expression) that);
-		} else if (that instanceof JsclInteger || that instanceof Rational) {
+		} else if (that instanceof JsclInteger || that instanceof Rational || that instanceof NumericWrapper) {
 			return add(valueOf(that));
 		} else {
 			return that.valueOf(this).add(that);
@@ -133,7 +133,7 @@ public class Expression extends Generic {
 	public Generic subtract(@NotNull Generic that) {
 		if (that instanceof Expression) {
 			return subtract((Expression) that);
-		} else if (that instanceof JsclInteger || that instanceof Rational) {
+		} else if (that instanceof JsclInteger || that instanceof Rational || that instanceof NumericWrapper) {
 			return subtract(valueOf(that));
 		} else {
 			return that.valueOf(this).subtract(that);
@@ -187,9 +187,7 @@ public class Expression extends Generic {
 	public Generic multiply(@NotNull Generic that) {
 		if (that instanceof Expression) {
 			return multiply((Expression) that);
-		} else if (that instanceof JsclInteger) {
-			return multiply(valueOf(that));
-		} else if (that instanceof Rational) {
+		} else if (that instanceof JsclInteger || that instanceof Rational || that instanceof NumericWrapper) {
 			return multiply(valueOf(that));
 		} else {
 			return that.multiply(this);
@@ -233,7 +231,7 @@ public class Expression extends Generic {
 			} catch (NotDivisibleException e) {
 				return new Generic[]{JsclInteger.valueOf(0), this};
 			}
-		} else if (generic instanceof Rational) {
+		} else if (generic instanceof Rational || generic instanceof NumericWrapper) {
 			return divideAndRemainder(valueOf(generic));
 		} else {
 			return generic.valueOf(this).divideAndRemainder(generic);
@@ -257,7 +255,7 @@ public class Expression extends Generic {
 		} else if (generic instanceof JsclInteger) {
 			if (generic.signum() == 0) return this;
 			else return gcd().gcd(generic);
-		} else if (generic instanceof Rational) {
+		} else if (generic instanceof Rational|| generic instanceof NumericWrapper) {
 			return gcd(valueOf(generic));
 		} else {
 			return generic.valueOf(this).gcd(generic);
@@ -378,7 +376,7 @@ public class Expression extends Generic {
 				Generic b = content.get(variable).pow(literal.getPower(j));
 
 				if (Matrix.isMatrixProduct(sumElement, b)) {
-					throw new ArithmeticException();
+					throw new ArithmeticException("Should not be matrix!");
 				}
 
 				sumElement = sumElement.multiply(b);
@@ -583,29 +581,29 @@ public class Expression extends Generic {
 		return 0;
 	}
 
-	public int compareTo(Generic generic) {
+	public int compareTo(@NotNull Generic generic) {
 		if (generic instanceof Expression) {
 			return compareTo((Expression) generic);
-		} else if (generic instanceof JsclInteger || generic instanceof Rational) {
+		} else if (generic instanceof JsclInteger || generic instanceof Rational || generic instanceof NumericWrapper) {
 			return compareTo(valueOf(generic));
 		} else {
 			return generic.valueOf(this).compareTo(generic);
 		}
 	}
 
-	public static Expression valueOf(Variable variable) {
+	public static Expression valueOf(@NotNull Variable variable) {
 		return valueOf(Literal.valueOf(variable));
 	}
 
-	public static Expression valueOf(Literal literal) {
+	public static Expression valueOf(@NotNull Literal literal) {
 		return valueOf(literal, JsclInteger.valueOf(1));
 	}
 
-	public static Expression valueOf(JsclInteger integer) {
+	public static Expression valueOf(@NotNull JsclInteger integer) {
 		return valueOf(Literal.newInstance(), integer);
 	}
 
-	public static Expression valueOf(Literal literal, JsclInteger integer) {
+	public static Expression valueOf(@NotNull Literal literal, @NotNull JsclInteger integer) {
 		Expression ex = new Expression();
 		ex.init(literal, integer);
 		return ex;
@@ -629,7 +627,7 @@ public class Expression extends Generic {
 		final Expression expression = new Expression(1);
 		Literal literal = new Literal();
 		literal.init(new DoubleVariable(new NumericWrapper(Real.valueOf(value))), 1);
-		expression.init(literal,JsclInteger.ONE);
+		expression.init(literal, JsclInteger.ONE);
 		return expression;
 	}
 
@@ -650,6 +648,14 @@ public class Expression extends Generic {
 		return new Expression().init(generic);
 	}
 
+	public static Expression init(@NotNull NumericWrapper numericWrapper) {
+		final Expression expression = new Expression(1);
+		Literal literal = new Literal();
+		literal.init(new ExpressionVariable(numericWrapper), 1);
+		expression.init(literal,JsclInteger.ONE);
+		return expression;
+	}
+
 	void init(Expression expression) {
 		init(expression.size);
 		System.arraycopy(expression.literals, 0, literals, 0, size);
@@ -668,14 +674,16 @@ public class Expression extends Generic {
 		}
 	}
 
-	Expression init(Generic generic) {
+	Expression init(@NotNull Generic generic) {
 		if (generic instanceof Expression) {
 			init((Expression) generic);
 		} else if (generic instanceof JsclInteger) {
 			init((JsclInteger) generic);
+		} else if (generic instanceof NumericWrapper) {
+			init((NumericWrapper) generic);
 		} else if (generic instanceof Rational) {
 			init((Rational) generic);
-		} else throw new ArithmeticException();
+		} else throw new ArithmeticException("Could not initialize expression with " + generic.getClass() );
 
 		return this;
 	}

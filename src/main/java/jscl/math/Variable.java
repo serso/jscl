@@ -247,7 +247,7 @@ class VariableComparator implements Comparator<Variable> {
 		else if (v instanceof ExpressionVariable) n = 12;
 		else if (v instanceof VectorVariable) n = 13;
 		else if (v instanceof MatrixVariable) n = 14;
-		else throw new ArithmeticException();
+		else throw new ArithmeticException("Forget to add compare object of type: " + v.getClass() );
 		return n;
 	}
 }

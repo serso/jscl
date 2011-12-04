@@ -12,33 +12,40 @@ import java.util.Set;
 
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
+	@NotNull
 	private final Numeric content;
 
-	public NumericWrapper(JsclInteger integer) {
+	public NumericWrapper(@NotNull JsclInteger integer) {
 		content = Real.valueOf(integer.content().doubleValue());
 	}
 
-	public NumericWrapper(Rational rational) {
+	public NumericWrapper(@NotNull Rational rational) {
 		content = Real.valueOf(rational.numerator().doubleValue() / rational.denominator().doubleValue());
 	}
 
-	public NumericWrapper(JsclVector vector) {
-		Numeric v[] = new Numeric[vector.n];
-		for (int i = 0; i < vector.n; i++) v[i] = ((NumericWrapper) vector.elements[i].numeric()).content();
-		content = new Vector(v);
+	public NumericWrapper(@NotNull JsclVector vector) {
+		final Numeric elements[] = new Numeric[vector.rows];
+
+		for (int i = 0; i < vector.rows; i++) {
+			elements[i] = ((NumericWrapper) vector.elements[i].numeric()).content();
+		}
+
+		content = new Vector(elements);
 	}
 
-	public NumericWrapper(Matrix matrix) {
-		Numeric m[][] = new Numeric[matrix.n][matrix.p];
-		for (int i = 0; i < matrix.n; i++) {
-			for (int j = 0; j < matrix.p; j++) {
-				m[i][j] = ((NumericWrapper) matrix.elements[i][j].numeric()).content();
+	public NumericWrapper(@NotNull Matrix matrix) {
+		final Numeric elements[][] = new Numeric[matrix.rows][matrix.cols];
+
+		for (int i = 0; i < matrix.rows; i++) {
+			for (int j = 0; j < matrix.cols; j++) {
+				elements[i][j] = ((NumericWrapper) matrix.elements[i][j].numeric()).content();
 			}
 		}
-		content = new jscl.math.numeric.Matrix(m);
+
+		content = new jscl.math.numeric.Matrix(elements);
 	}
 
-	public NumericWrapper(Constant constant) {
+	public NumericWrapper(@NotNull Constant constant) {
 		final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
 
 		if (constantFromRegistry != null ) {
@@ -53,15 +60,15 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 						content = Real.valueOf(value);
 					}
 				} else {
-					throw new ArithmeticException();
+					throw new ArithmeticException("Could not create numeric wrapper: constant in registry doesn't have specified value: " + constant.getName());
 				}
 			}
 		} else {
-			throw new ArithmeticException();
+			throw new ArithmeticException("Could not create numeric wrapper: constant is not registered in constants registry: " + constant.getName());
 		}
 	}
 
-	public NumericWrapper(Numeric numeric) {
+	public NumericWrapper(@NotNull Numeric numeric) {
 		content = numeric;
 	}
 
@@ -75,7 +82,9 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	@NotNull
 	public Generic add(@NotNull Generic that) {
-		if (that instanceof NumericWrapper) {
+		if (that instanceof Expression) {
+			return that.add(this);
+		} else if (that instanceof NumericWrapper) {
 			return add((NumericWrapper) that);
 		} else {
 			return add(valueOf(that));
@@ -88,7 +97,9 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	@NotNull
 	public Generic subtract(@NotNull Generic that) {
-		if (that instanceof NumericWrapper) {
+		if (that instanceof Expression) {
+			return that.add(this);
+		} else if (that instanceof NumericWrapper) {
 			return subtract((NumericWrapper) that);
 		} else {
 			return subtract(valueOf(that));
@@ -101,7 +112,9 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	@NotNull
 	public Generic multiply(@NotNull Generic that) {
-		if (that instanceof NumericWrapper) {
+		if (that instanceof Expression) {
+			return that.add(this);
+		} else if (that instanceof NumericWrapper) {
 			return multiply((NumericWrapper) that);
 		} else {
 			return multiply(valueOf(that));
@@ -114,7 +127,9 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
 	@NotNull
 	public Generic divide(@NotNull Generic that) throws ArithmeticException {
-		if (that instanceof NumericWrapper) {
+		if (that instanceof Expression) {
+			return that.add(this);
+		} else if (that instanceof NumericWrapper) {
 			return divide((NumericWrapper) that);
 		} else {
 			return divide(valueOf(that));
@@ -179,17 +194,17 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 		return this;
 	}
 
-	public NumericWrapper valueof(NumericWrapper wrapper) {
+	public NumericWrapper valueOf(NumericWrapper wrapper) {
 		return new NumericWrapper(content.valueOf(wrapper.content));
 	}
 
-	public Generic valueOf(Generic generic) {
+	public Generic valueOf(@NotNull Generic generic) {
 		if (generic instanceof NumericWrapper) {
-			return valueof((NumericWrapper) generic);
+			return valueOf((NumericWrapper) generic);
 		} else if (generic instanceof JsclInteger) {
 			return new NumericWrapper((JsclInteger) generic);
 		} else {
-			throw new ArithmeticException();
+			throw new ArithmeticException("Could not create numeric wrapper for class: " + generic.getClass());
 		}
 	}
 
@@ -427,10 +442,4 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 		e1.appendChild(element.text(String.valueOf(new Double(((Real) content).doubleValue()))));
 		element.appendChild(e1);
 	}
-
-	protected Generic newinstance() {
-		return null;
-	}
-
-
 }
