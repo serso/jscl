@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Sqrt extends Algebraic {
 
@@ -61,6 +62,7 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Generic evaluateSimplify() {
+		Generic result = null;
 		try {
 			final JsclInteger p = parameters[0].integerValue();
 			if (p.signum() < 0) {
@@ -71,42 +73,57 @@ public class Sqrt extends Algebraic {
 					return sqrt;
 				}
 			}
-
-			return simplify0(p);
-
+			result = simplify0(p);
 		} catch (NotIntegerException e) {
-
-			try {
-				return simplify0(parameters[0]);
-			} catch (NotPowerException e1) {
-				Generic n[] = Frac.separateCoefficient(parameters[0]);
-
-				if (n[0].compareTo(JsclInteger.valueOf(1)) != 0 || n[1].compareTo(JsclInteger.valueOf(1)) != 0) {
-					// n
-					final Generic numerator = new Sqrt(n[0]).evaluateSimplify();
-					// d
-					final Generic denominator = new Sqrt(n[1]).evaluateSimplify();
-					// fraction = n / d
-					final Generic fraction = new Frac(numerator, denominator).evaluateSimplify();
-					return new Sqrt(n[2]).evaluateSimplify().multiply(fraction);
-				}
-			}
+			result =  simplify0(parameters[0]);
 		}
-		return expressionValue();
+
+		if (result == null) {
+			return expressionValue();
+		} else {
+			return result;
+		}
 	}
 
-	private Generic simplify0(@NotNull Generic generic) {
-		// let's try to present sqrt expression as products
-		final Generic products[] = generic.factorize().productValue();
+	@Nullable
+	private Generic simplifyFractions() {
+		final Generic n[] = Frac.separateCoefficient(parameters[0]);
 
-		Generic result = JsclInteger.valueOf(1);
-		for (Generic product : products) {
-			// and try sqrt for each product
-			final Power power = product.powerValue();
-			Generic q = power.value(true);
-			int c = power.exponent();
-			result = result.multiply(q.pow(c / 2).multiply(new Sqrt(q).expressionValue().pow(c % 2)));
+		if (n[0].compareTo(JsclInteger.valueOf(1)) != 0 || n[1].compareTo(JsclInteger.valueOf(1)) != 0) {
+			// n
+			final Generic numerator = new Sqrt(n[0]).evaluateSimplify();
+			// d
+			final Generic denominator = new Sqrt(n[1]).evaluateSimplify();
+			// fraction = n / d
+			final Generic fraction = new Frac(numerator, denominator).evaluateSimplify();
+			return new Sqrt(n[2]).evaluateSimplify().multiply(fraction);
 		}
+
+		return null;
+	}
+
+	@Nullable
+	private Generic simplify0(@NotNull Generic generic) {
+		Generic result;
+
+		try {
+			// let's try to present sqrt expression as products
+			final Generic products[] = generic.factorize().productValue();
+
+			result = JsclInteger.valueOf(1);
+			for (Generic product : products) {
+				// and try sqrt for each product
+				final Power power = product.powerValue();
+				Generic q = power.value(true);
+				int c = power.exponent();
+				result = result.multiply(q.pow(c / 2).multiply(new Sqrt(q).expressionValue().pow(c % 2)));
+			}
+		} catch (NotPowerException e) {
+			result = simplifyFractions();
+		} catch (NotProductException e) {
+			result = simplifyFractions();
+		}
+
 		return result;
 	}
 

@@ -2,8 +2,6 @@ package jscl.math.function;
 
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -21,7 +19,7 @@ public class PiConstant extends ExtendedConstant {
 		Double result = null;
 
 		try {
-			result = AngleUnit.rad.transform(JsclMathEngine.instance.getDefaultAngleUnit(), Double.valueOf(getValue()));
+			result = AngleUnit.rad.transform(JsclMathEngine.instance.getAngleUnits(), Double.valueOf(getValue()));
 		} catch (NumberFormatException e) {
 			// do nothing - string is not a double
 		}

@@ -21,7 +21,7 @@ public class NumeralBaseParser implements Parser<NumeralBase> {
 	public NumeralBase parse(@NotNull Parameters p, @Nullable Generic previousSumElement){
 		int pos0 = p.getPosition().intValue();
 
-		NumeralBase result = NumeralBase.dec;
+		NumeralBase result = p.getMathContext().getNumeralBase();
 
 		ParserUtils.skipWhitespaces(p);
 

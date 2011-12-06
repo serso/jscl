@@ -26,7 +26,12 @@ public interface MathContext {
 	MathRegistry<Operator> getPostfixFunctionsRegistry();
 
 	@NotNull
-	AngleUnit getDefaultAngleUnit();
+	AngleUnit getAngleUnits();
 
-	void setDefaultAngleUnit(@NotNull AngleUnit defaultAngleUnits);
+	void setAngleUnits(@NotNull AngleUnit defaultAngleUnits);
+
+	@NotNull
+	NumeralBase getNumeralBase();
+
+	void setNumeralBase(@NotNull NumeralBase numeralBase);
 }

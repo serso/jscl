@@ -1,5 +1,6 @@
 package jscl.math.numeric;
 
+import jscl.math.NotIntegerException;
 import org.jetbrains.annotations.NotNull;
 
 public final class Real extends Numeric {
@@ -234,7 +235,7 @@ public final class Real extends Numeric {
 	}
 
 	public String toString() {
-		return Double.toString(content);
+		return toString(content);
 	}
 
 	@NotNull

@@ -217,10 +217,10 @@ public final class Complex extends Numeric {
 		final StringBuilder result = new StringBuilder();
 
 		if (imaginary == 0.) {
-			result.append(real);
+			result.append(toString(real));
 		} else {
 			if (real != 0.) {
-				result.append(real);
+				result.append(toString(real));
 				if (imaginary > 0.) {
 					result.append("+");
 				}
@@ -230,7 +230,7 @@ public final class Complex extends Numeric {
 				if (imaginary == -1.) {
 					result.append("-");
 				} else {
-					result.append(imaginary);
+					result.append(toString(imaginary));
 					result.append("*");
 				}
 			}

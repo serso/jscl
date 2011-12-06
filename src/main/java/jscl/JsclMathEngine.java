@@ -20,7 +20,10 @@ public enum JsclMathEngine implements MathEngine {
 	instance;
 
 	@NotNull
-	private AngleUnit defaultAngleUnit = AngleUnit.deg;
+	private AngleUnit angleUnits = AngleUnit.deg;
+
+	@NotNull
+	private NumeralBase numeralBase = NumeralBase.dec;
 
 	@NotNull
 	@Override
@@ -86,13 +89,24 @@ public enum JsclMathEngine implements MathEngine {
 
 	@NotNull
 	@Override
-	public AngleUnit getDefaultAngleUnit() {
-		return defaultAngleUnit;
+	public AngleUnit getAngleUnits() {
+		return angleUnits;
 	}
 
 	@Override
-	public void setDefaultAngleUnit(@NotNull AngleUnit defaultAngleUnit) {
-		this.defaultAngleUnit = defaultAngleUnit;
+	public void setAngleUnits(@NotNull AngleUnit angleUnits) {
+		this.angleUnits = angleUnits;
+	}
+
+	@Override
+	@NotNull
+	public NumeralBase getNumeralBase() {
+		return numeralBase;
+	}
+
+	@Override
+	public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+		this.numeralBase = numeralBase;
 	}
 
 	@NotNull

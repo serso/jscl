@@ -56,6 +56,30 @@ public class NumeralBaseTest {
 				me.getConstantsRegistry().remove(constant);
 			}
 		}
+	}
 
+	@Test
+	public void testNumeralBases() throws Exception {
+		MathEngine me = JsclMathEngine.instance;
+
+		final NumeralBase defaultNumeralBase = me.getNumeralBase();
+		try{
+			me.setNumeralBase(NumeralBase.bin);
+			Assert.assertEquals("11", me.evaluate("0b1+0b10"));
+			Assert.assertEquals("11", me.evaluate("1+10"));
+			Assert.assertEquals("-1", me.evaluate("1-10"));
+			Assert.assertEquals("11-i", me.evaluate("1+i+10-10*i"));
+			Assert.assertEquals("11111110", me.evaluate("111001+11000101"));
+			Assert.assertEquals("1101100100101111", me.evaluate("11011001001011110/10"));
+			Assert.assertEquals("1001000011001010", me.evaluate("11011001001011110/11"));
+			try {
+				Assert.assertEquals("0.101010101", me.evaluate("10/11"));
+				Assert.fail();
+			} catch (NumeralBaseException e) {
+				// ok
+			}
+		} finally {
+			me.setNumeralBase(defaultNumeralBase);
+		}
 	}
 }

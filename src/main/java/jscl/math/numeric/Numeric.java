@@ -2,7 +2,12 @@ package jscl.math.numeric;
 
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
 import jscl.math.Arithmetic;
+import jscl.math.JsclInteger;
+import jscl.math.NotIntegerException;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 
 import static jscl.math.numeric.Complex.I;
@@ -83,21 +88,21 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	 */
 
 	protected static double defaultToRad(double value) {
-		return JsclMathEngine.instance.getDefaultAngleUnit().transform(AngleUnit.rad, value);
+		return JsclMathEngine.instance.getAngleUnits().transform(AngleUnit.rad, value);
 	}
 
 	protected static double radToDefault(double value) {
-		return AngleUnit.rad.transform(JsclMathEngine.instance.getDefaultAngleUnit(), value);
+		return AngleUnit.rad.transform(JsclMathEngine.instance.getAngleUnits(), value);
 	}
 
 	@NotNull
 	protected static Numeric defaultToRad(@NotNull Numeric value) {
-		return JsclMathEngine.instance.getDefaultAngleUnit().transform(AngleUnit.rad, value);
+		return JsclMathEngine.instance.getAngleUnits().transform(AngleUnit.rad, value);
 	}
 
 	@NotNull
 	protected static Numeric radToDefault(@NotNull Numeric value) {
-		return AngleUnit.rad.transform(JsclMathEngine.instance.getDefaultAngleUnit(), value);
+		return AngleUnit.rad.transform(JsclMathEngine.instance.getAngleUnits(), value);
 	}
 
 	/*
@@ -317,5 +322,26 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 		return obj instanceof Numeric && compareTo((Numeric) obj) == 0;
 	}
 
+	private int integerValue(final double value) throws NotIntegerException {
+		if (Math.floor(value) == value) {
+			return (int) value;
+		} else {
+			throw new NotIntegerException();
+		}
+	}
 
+	@NotNull
+	protected String toString(final double value) {
+		final NumeralBase numeralBase = JsclMathEngine.instance.getNumeralBase();
+		if (numeralBase == NumeralBase.dec) {
+			return Double.toString(value);
+		} else {
+			try {
+				final int intValue = integerValue(value);
+				return numeralBase.toString(intValue);
+			} catch (NotIntegerException e) {
+				throw new NumeralBaseException(Messages.msg_17, value);
+			}
+		}
+	}
 }

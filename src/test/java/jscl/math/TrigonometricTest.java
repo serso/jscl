@@ -68,9 +68,9 @@ public class TrigonometricTest {
 				testValue(tghValue, Double.valueOf(me.evaluate("tanh(" + degrees + "°)")), degrees);
 				testValue(cthgValue, Double.valueOf(me.evaluate("coth(" + degrees + "°)")), degrees);
 
-				final AngleUnit angleUnits = me.getDefaultAngleUnit();
+				final AngleUnit angleUnits = me.getAngleUnits();
 				try {
-					me.setDefaultAngleUnit(AngleUnit.rad);
+					me.setAngleUnits(AngleUnit.rad);
 
 					testValue(sinValue, Double.valueOf(me.evaluate("sin(" + radians + ")")), degrees);
 					testValue(cosValue, Double.valueOf(me.evaluate("cos(" + radians + ")")), degrees);
@@ -82,7 +82,7 @@ public class TrigonometricTest {
 					testValue(tghValue, Double.valueOf(me.evaluate("tanh(" + radians + ")")), degrees);
 					testValue(cthgValue, Double.valueOf(me.evaluate("coth(" + radians + ")")), degrees);
 				} finally {
-					me.setDefaultAngleUnit(angleUnits);
+					me.setAngleUnits(angleUnits);
 				}
 
 				testValue(asinValue, Double.valueOf(me.evaluate("rad(asin(" + sinValue + "))")), degrees);

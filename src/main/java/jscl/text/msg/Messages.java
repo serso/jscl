@@ -63,4 +63,7 @@ public final class Messages {
 
 	/** Next errors occurred while calculations: */
 	public static final String msg_16 = "msg_16";
+
+	/** Unable to convert numeral base of {0}. Change default numeral base to decimal and try again. */
+	public static final String msg_17 = "msg_17";
 }
