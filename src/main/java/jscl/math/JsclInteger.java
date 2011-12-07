@@ -1,5 +1,6 @@
 package jscl.math;
 
+import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
@@ -323,7 +324,7 @@ public final class JsclInteger extends Generic {
     }
 
     public String toString() {
-        return content.toString();
+        return JsclMathEngine.instance.getNumeralBase().toString(content);
     }
 
 	public String toJava() {

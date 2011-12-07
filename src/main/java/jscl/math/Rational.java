@@ -199,10 +199,13 @@ public final class Rational extends Generic implements Field {
         return Expression.valueOf(this);
     }
 
-    public JsclInteger integerValue() throws NotIntegerException {
-        if(denominator.compareTo(BigInteger.valueOf(1))==0) return new JsclInteger(numerator);
-        else throw new NotIntegerException();
-    }
+	public JsclInteger integerValue() throws NotIntegerException {
+		if (denominator.compareTo(BigInteger.ONE) == 0) {
+			return new JsclInteger(numerator);
+		} else {
+			throw new NotIntegerException();
+		}
+	}
 
 	@Override
 	public boolean isInteger() {
@@ -254,15 +257,15 @@ public final class Rational extends Generic implements Field {
     }
 
     public String toString() {
-        StringBuffer buffer=new StringBuffer();
+		final StringBuilder result = new StringBuilder();
         try {
-            buffer.append(integerValue());
+            result.append(integerValue());
         } catch (NotIntegerException e) {
-            buffer.append(numerator);
-            buffer.append("/");
-            buffer.append(denominator);
+            result.append(numerator);
+            result.append("/");
+            result.append(denominator);
         }
-        return buffer.toString();
+        return result.toString();
     }
 
     public String toJava() {
@@ -270,7 +273,7 @@ public final class Rational extends Generic implements Field {
     }
 
     public void toMathML(MathML element, Object data) {
-        int exponent=data instanceof Integer?((Integer)data).intValue():1;
+        int exponent=data instanceof Integer? (Integer) data :1;
         if(exponent==1) bodyToMathML(element);
         else {
             MathML e1=element.element("msup");

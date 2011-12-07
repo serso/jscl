@@ -1,7 +1,7 @@
 package jscl;
 
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.msg.Message;
 
 /**
  * User: serso
@@ -10,11 +10,7 @@ import org.solovyev.common.msg.Message;
  */
 public class NumeralBaseException extends AbstractJsclArithmeticException {
 
-	public NumeralBaseException(@NotNull Message message) {
-		super(message);
-	}
-
-	public NumeralBaseException(@NotNull String messageCode, Object... parameters) {
-		super(messageCode, parameters);
+	public NumeralBaseException(@NotNull Double value) {
+		super(Messages.msg_17, value);
 	}
 }

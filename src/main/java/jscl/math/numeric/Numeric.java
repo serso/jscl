@@ -5,7 +5,6 @@ import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.NumeralBaseException;
 import jscl.math.Arithmetic;
-import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
@@ -340,7 +339,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 				final int intValue = integerValue(value);
 				return numeralBase.toString(intValue);
 			} catch (NotIntegerException e) {
-				throw new NumeralBaseException(Messages.msg_17, value);
+				throw new NumeralBaseException(value);
 			}
 		}
 	}
