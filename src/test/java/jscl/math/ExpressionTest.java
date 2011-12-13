@@ -168,7 +168,7 @@ public class ExpressionTest {
 		Assert.assertEquals("0.0", Expression.valueOf("abs(0)").numeric().toString());
 		Assert.assertEquals("0.0", Expression.valueOf("abs(-0)").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("abs(-1)").numeric().toString());
-		Assert.assertEquals("Infinity", Expression.valueOf("abs(-∞)").numeric().toString());
+		Assert.assertEquals("∞", Expression.valueOf("abs(-∞)").numeric().toString());
 
 		Assert.assertEquals("1.0", Expression.valueOf("abs(i)").numeric().toString());
 		Assert.assertEquals("0.0", Expression.valueOf("abs(0+0*i)").numeric().toString());
@@ -316,6 +316,11 @@ public class ExpressionTest {
 
 		// in deg mode π=180 and factorial of 180 is calculating
 		Assert.assertEquals("0.0", Expression.valueOf("π/π!").numeric().toString());
+
+		Assert.assertEquals("1.2246467991473532E-16*i", Expression.valueOf("exp((π*i))+1").numeric().toString());
+		Assert.assertEquals("20*x^3", Expression.valueOf("∂(5*x^4, x)").expand().simplify().toString());
+		Assert.assertEquals("25*x", Expression.valueOf("5*x*5").expand().simplify().toString());
+		Assert.assertEquals("20*x", Expression.valueOf("5*x*4").expand().simplify().toString());
 
 	}
 

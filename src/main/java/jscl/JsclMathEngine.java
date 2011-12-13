@@ -10,6 +10,11 @@ import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.math.MathRegistry;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 /**
  * User: serso
  * Date: 11/1/11
@@ -18,6 +23,23 @@ import org.solovyev.common.math.MathRegistry;
 public enum JsclMathEngine implements MathEngine {
 
 	instance;
+
+	public static final String GROUPING_SEPARATOR_DEFAULT = " ";
+
+
+    @NotNull
+	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+
+	{
+		decimalGroupSymbols.setDecimalSeparator('.');
+		decimalGroupSymbols.setGroupingSeparator(GROUPING_SEPARATOR_DEFAULT.charAt(0));
+	}
+
+	private boolean roundResult = false;
+
+	private int precision = 5;
+
+	private boolean useGroupingSeparator = false;
 
 	@NotNull
 	private AngleUnit angleUnits = AngleUnit.deg;
@@ -114,4 +136,52 @@ public enum JsclMathEngine implements MathEngine {
 	public MathRegistry<IConstant> getConstantsRegistry() {
 		return ConstantsRegistry.getInstance();
 	}
+
+	@Override
+	@NotNull
+	public String format(@NotNull Double value, boolean round) {
+		if (!value.isInfinite() && !value.isNaN()) {
+			final DecimalFormat df = new DecimalFormat();
+			df.setDecimalFormatSymbols(decimalGroupSymbols);
+			df.setGroupingUsed(useGroupingSeparator);
+			if (round) {
+				if (roundResult) {
+					df.setMaximumFractionDigits(precision);
+					return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
+				} else {
+					return String.valueOf(value);
+				}
+			} else {
+				return df.format(value);
+			}
+		} else {
+			return String.valueOf(value);
+		}
+	}
+
+	@Override
+	public void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
+		this.decimalGroupSymbols = decimalGroupSymbols;
+	}
+
+	@Override
+	public void setRoundResult(boolean roundResult) {
+		this.roundResult = roundResult;
+	}
+
+	@Override
+	public void setPrecision(int precision) {
+		this.precision = precision;
+	}
+
+	@Override
+	public void setUseGroupingSeparator(boolean useGroupingSeparator) {
+		this.useGroupingSeparator = useGroupingSeparator;
+	}
+
+	@Override
+	public void setGroupingSeparator(char groupingSeparator) {
+		this.decimalGroupSymbols.setGroupingSeparator(groupingSeparator);
+	}
+
 }

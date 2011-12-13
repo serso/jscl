@@ -78,6 +78,11 @@ public class NumeralBaseTest {
 			} catch (NumeralBaseException e) {
 				// ok
 			}
+
+			me.setNumeralBase(NumeralBase.hex);
+			org.junit.Assert.assertEquals("637b", me.evaluate("56ce+cad"));
+			org.junit.Assert.assertEquals("637b", me.simplify("56ce+cad"));
+
 		} finally {
 			me.setNumeralBase(defaultNumeralBase);
 		}

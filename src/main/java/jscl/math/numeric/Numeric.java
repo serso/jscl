@@ -6,7 +6,7 @@ import jscl.NumeralBase;
 import jscl.NumeralBaseException;
 import jscl.math.Arithmetic;
 import jscl.math.NotIntegerException;
-import jscl.text.msg.Messages;
+import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 
 import static jscl.math.numeric.Complex.I;
@@ -321,7 +321,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 		return obj instanceof Numeric && compareTo((Numeric) obj) == 0;
 	}
 
-	private int integerValue(final double value) throws NotIntegerException {
+	private static int integerValue(final double value) throws NotIntegerException {
 		if (Math.floor(value) == value) {
 			return (int) value;
 		} else {
@@ -332,8 +332,17 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	protected String toString(final double value) {
 		final NumeralBase numeralBase = JsclMathEngine.instance.getNumeralBase();
+		return toString(value, numeralBase);
+	}
+
+	@NotNull
+	public static String toString(double value, @NotNull NumeralBase numeralBase) {
 		if (numeralBase == NumeralBase.dec) {
-			return Double.toString(value);
+			if (Double.isInfinite(value)) {
+				return Constant.INF_CONST.getName();
+			} else {
+				return JsclMathEngine.instance.format(value, true);
+			}
 		} else {
 			try {
 				final int intValue = integerValue(value);
