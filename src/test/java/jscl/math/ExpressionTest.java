@@ -583,9 +583,9 @@ public class ExpressionTest {
 		//final NumeralBase defaultNumeralBase = me.getDefaultNumeralBase();
 		try {
 			//me.setDefaultNumeralBase(NumeralBase.bin);
-			Assert.assertEquals("10.0", me.evaluate("0b01010"));
-			Assert.assertEquals("10.0", me.evaluate("0b1010"));
-			Assert.assertEquals("520.0", me.evaluate("0o1010"));
+			Assert.assertEquals("10.0", me.evaluate("0b:01010"));
+			Assert.assertEquals("10.0", me.evaluate("0b:1010"));
+			Assert.assertEquals("520.0", me.evaluate("0o:1010"));
 			Assert.assertEquals("1010.0", me.evaluate("1010"));
 			Assert.assertEquals("1010.1", me.evaluate("1010.1"));
 		} finally {

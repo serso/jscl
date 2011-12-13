@@ -4,7 +4,6 @@ import jscl.math.JsclInteger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +55,7 @@ public enum NumeralBase {
 		@Nullable
 		@Override
 		public String getJsclPrefix() {
-			return "0x";
+			return "0x:";
 		}
 
 		@NotNull
@@ -78,7 +77,7 @@ public enum NumeralBase {
 		@Nullable
 		@Override
 		public String getJsclPrefix() {
-			return "0o";
+			return "0o:";
 		}
 
 		@NotNull
@@ -100,7 +99,7 @@ public enum NumeralBase {
 		@Nullable
 		@Override
 		public String getJsclPrefix() {
-			return "0b";
+			return "0b:";
 		}
 
 		@NotNull

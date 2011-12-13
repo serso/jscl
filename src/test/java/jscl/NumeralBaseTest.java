@@ -18,39 +18,39 @@ public class NumeralBaseTest {
 	public void testEvaluation() throws Exception {
 		MathEngine me = JsclMathEngine.instance;
 
-		Assert.assertEquals("3.0", me.evaluate("0b1+0b10"));
-		Assert.assertEquals("5.0", me.evaluate("0b1+0b100"));
-		Assert.assertEquals("8.0", me.evaluate("0b1+0b100+(0b1+0b10)"));
-		Assert.assertEquals("18.0", me.evaluate("0b1+0b100+(0b1+0b10)+10"));
-		Assert.assertEquals("18.5", me.evaluate("0b1+0b100+(0b1+0b10)+10.5"));
+		Assert.assertEquals("3.0", me.evaluate("0b:1+0b:10"));
+		Assert.assertEquals("5.0", me.evaluate("0b:1+0b:100"));
+		Assert.assertEquals("8.0", me.evaluate("0b:1+0b:100+(0b:1+0b:10)"));
+		Assert.assertEquals("18.0", me.evaluate("0b:1+0b:100+(0b:1+0b:10)+10"));
+		Assert.assertEquals("18.5", me.evaluate("0b:1+0b:100+(0b:1+0b:10)+10.5"));
 		try {
-			me.evaluate("0b1+0b100.+(0b1+0b10)+10.5");
+			me.evaluate("0b:1+0b:100.+(0b:1+0b:10)+10.5");
 			Assert.fail();
 		} catch (ParseException e) {
 		}
 
 		try {
-			me.evaluate("0b1+0b100E-2+(0b1+0b10)+10.5");
+			me.evaluate("0b:1+0b:100E-2+(0b:1+0b:10)+10.5");
 			Assert.fail();
 		} catch (ParseException e) {
 		}
 
-		Assert.assertEquals("2748.0", me.evaluate("0xabc"));
+		Assert.assertEquals("2748.0", me.evaluate("0x:abc"));
 
 		try {
-			me.evaluate("0x");
+			me.evaluate("0x:");
 			Assert.fail();
 		} catch (ParseException e) {
 		}
 
-		Assert.assertEquals("0.0", me.evaluate("0x0"));
+		Assert.assertEquals("0.0", me.evaluate("0x:0"));
 
 		IConstant constant = null;
 		try {
 			constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), 2d));
-			Assert.assertEquals("2748.0", me.evaluate("0xabc"));
-			Assert.assertEquals("5496.0", me.evaluate("0xabc*a"));
-			Assert.assertEquals("27480.0", me.evaluate("0xabc*0xa"));
+			Assert.assertEquals("2748.0", me.evaluate("0x:abc"));
+			Assert.assertEquals("5496.0", me.evaluate("0x:abc*a"));
+			Assert.assertEquals("27480.0", me.evaluate("0x:abc*0x:a"));
 		} finally {
 			if (constant != null) {
 				me.getConstantsRegistry().remove(constant);
@@ -65,7 +65,7 @@ public class NumeralBaseTest {
 		final NumeralBase defaultNumeralBase = me.getNumeralBase();
 		try{
 			me.setNumeralBase(NumeralBase.bin);
-			Assert.assertEquals("11", me.evaluate("0b1+0b10"));
+			Assert.assertEquals("11", me.evaluate("0b:1+0b:10"));
 			Assert.assertEquals("11", me.evaluate("1+10"));
 			Assert.assertEquals("-1", me.evaluate("1-10"));
 			Assert.assertEquals("11-i", me.evaluate("1+i+10-10*i"));
