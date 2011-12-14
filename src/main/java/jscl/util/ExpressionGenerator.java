@@ -1,6 +1,7 @@
 package jscl.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,35 +38,25 @@ public class ExpressionGenerator {
 		int i = 0;
 		while ( i < depth ) {
 
-			final String operation;
+			final String operation = generateOperation();
+			final String function = generateFunction();
+			final boolean brackets = generateBrackets();
 
-			final int operationId = (int)(Math.random() * 4d);
-			switch (operationId) {
-				case 0:
-					operation = "+";
-					break;
-				case 1:
-					operation = "-";
-					break;
-				case 2:
-					operation = "*";
-					break;
-				case 3:
-					operation = "/";
-					break;
-/*				case 4:
-					operation = "^";
-					break;*/
-				default:
-					operation = null;
-			}
+			for ( int j = 0; j < subExpressions.size(); j++ ) {
+				final StringBuilder expression = expressions.get(j);
+				expression.append(operation);
 
-			if ( operation != null ) {
-				for ( int j = 0; j < subExpressions.size(); j++ ) {
-					expressions.get(j).append(operation).append(subExpressions.get(j));
+				if (function == null) {
+					expression.append(subExpressions.get(j));
+				} else {
+					expression.append(function).append("(").append(subExpressions.get(j)).append(")");
 				}
-				i++;
+
+				if ( brackets ) {
+					expressions.set(j, new StringBuilder("(").append(expression).append(")"));
+				}
 			}
+			i++;
 		}
 
 		final List<String> result = new ArrayList<String>();
@@ -73,6 +64,63 @@ public class ExpressionGenerator {
 			result.add(expression.toString());
 		}
 
+		return result;
+	}
+
+	private boolean generateBrackets() {
+		return Math.random() > 0.8d;
+	}
+
+	@NotNull
+	private String generateOperation() {
+		String result;
+
+		final int operationId = (int)(Math.random() * 4d);
+		switch (operationId) {
+			case 0:
+				result = "+";
+				break;
+			case 1:
+				result = "-";
+				break;
+			case 2:
+				result = "*";
+				break;
+			case 3:
+				result = "/";
+				break;
+/*				case 4:
+				operation = "^";
+				break;*/
+			default:
+				throw new UnsupportedOperationException("Check!");
+		}
+
+		return result;
+	}
+
+	private String generateFunction() {
+		String result;
+		final int operationId = (int)(Math.random() * 8d);
+		switch (operationId) {
+			case 0:
+				result = "sin";
+				break;
+			case 1:
+				result = "cos";
+				break;
+			case 2:
+				result = "√";
+				break;
+			case 3:
+				result = "ln";
+				break;
+/*				case 4:
+				operation = "^";
+				break;*/
+			default:
+				result = null;
+		}
 		return result;
 	}
 
