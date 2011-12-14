@@ -39,7 +39,7 @@ public class IntegerParser implements Parser<Integer> {
 		final StringBuilder result = new StringBuilder();
 
 		ParserUtils.skipWhitespaces(p);
-		if (p.getPosition().intValue() < p.getExpression().length() && Character.isDigit(p.getExpression().charAt(p.getPosition().intValue()))) {
+		if (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
 			char c = p.getExpression().charAt(p.getPosition().intValue());
 			p.getPosition().increment();
 			result.append(c);
@@ -48,7 +48,7 @@ public class IntegerParser implements Parser<Integer> {
 			throw new ParseException(Messages.msg_7, p.getPosition().intValue(), p.getExpression());
 		}
 
-		while (p.getPosition().intValue() < p.getExpression().length() && Character.isDigit(p.getExpression().charAt(p.getPosition().intValue()))) {
+		while (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
 			char c = p.getExpression().charAt(p.getPosition().intValue());
 			p.getPosition().increment();
 			result.append(c);

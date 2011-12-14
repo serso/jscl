@@ -3,6 +3,7 @@ package jscl.math;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
+import jscl.NumeralBase;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
@@ -596,6 +597,15 @@ public class ExpressionTest {
 			Assert.assertEquals("1010.1", me.evaluate("1010.1"));
 		} finally {
 			//me.setDefaultNumeralBase(defaultNumeralBase);
+		}
+
+		try{
+			me.setNumeralBase(NumeralBase.hex);
+			Assert.assertEquals("22F", me.evaluate("22F*exp(F)/exp(F)"));
+			Assert.assertEquals("E", me.evaluate("E"));
+		} finally {
+			me.setNumeralBase(NumeralBase.dec);
+
 		}
 	}
 

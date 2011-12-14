@@ -18,7 +18,7 @@ public class PrimaryExpressionParser implements Parser<Generic> {
 
 	public static final Parser<Generic> parser = new PrimaryExpressionParser();
 
-	private static final List<Parser<Generic>> parsers = Arrays.asList(
+	private static final List<Parser<? extends Generic>> parsers = Arrays.asList(
 			new VariableConverter<Variable>(DoubleVariableParser.parser),
 			JsclIntegerParser.parser,
 			new VariableConverter<Variable>(VariableParser.parser),

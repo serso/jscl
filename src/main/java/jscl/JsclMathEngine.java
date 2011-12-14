@@ -140,10 +140,16 @@ public enum JsclMathEngine implements MathEngine {
 	@Override
 	@NotNull
 	public String format(@NotNull Double value, boolean round) {
+		return format(value, numeralBase, round);
+	}
+
+	@NotNull
+	public String format(@NotNull Double value, @NotNull NumeralBase nb, boolean round) {
 		if (!value.isInfinite() && !value.isNaN()) {
 			final DecimalFormat df = new DecimalFormat();
 			df.setDecimalFormatSymbols(decimalGroupSymbols);
 			df.setGroupingUsed(useGroupingSeparator);
+			df.setGroupingSize(nb.getGroupingSize());
 			if (round) {
 				if (roundResult) {
 					df.setMaximumFractionDigits(precision);

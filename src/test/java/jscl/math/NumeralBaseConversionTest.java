@@ -39,9 +39,9 @@ public class NumeralBaseConversionTest {
 				testExpression(line, new Expression2());
 				testExpression(line, new Expression3());
 
-				final String dec = line[0];
-				final String hex = "0x:" + line[1];
-				final String bin = "0b:" + line[2];
+				final String dec = line[0].toUpperCase();
+				final String hex = "0x:" + line[1].toUpperCase();
+				final String bin = "0b:" + line[2].toUpperCase();
 
 				final List<String> input = new ArrayList<String>();
 				input.add(dec);
@@ -84,9 +84,9 @@ public class NumeralBaseConversionTest {
 	}
 
 	public static void testExpression(@NotNull String[] line, @NotNull Converter<String, String> converter) throws ParseException {
-		final String dec = line[0];
-		final String hex = "0x:" + line[1];
-		final String bin = "0b:" + line[2];
+		final String dec = line[0].toUpperCase();
+		final String hex = "0x:" + line[1].toUpperCase();
+		final String bin = "0b:" + line[2].toUpperCase();
 
 		final String decResult = Expression.valueOf(converter.convert(dec)).numeric().toString();
 		final String hexResult = Expression.valueOf(converter.convert(hex)).numeric().toString();

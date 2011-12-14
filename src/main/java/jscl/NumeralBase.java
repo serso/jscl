@@ -15,7 +15,7 @@ import java.util.List;
  */
 public enum NumeralBase {
 
-	dec(10) {
+	dec(10, 3) {
 
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
@@ -43,13 +43,13 @@ public enum NumeralBase {
 		}
 	},
 
-	hex(16) {
+	hex(16, 2) {
 
-		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 
 		@NotNull
 		public String toString(@NotNull Double value) {
-			return Long.toHexString(Double.doubleToRawLongBits(value));
+			return Long.toHexString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
 		@Nullable
@@ -65,13 +65,13 @@ public enum NumeralBase {
 		}
 	},
 
-	oct(8) {
+	oct(8, 4) {
 
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7');
 
 		@NotNull
 		public String toString(@NotNull Double value) {
-			return Long.toOctalString(Double.doubleToRawLongBits(value));
+			return Long.toOctalString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
 		@Nullable
@@ -87,13 +87,13 @@ public enum NumeralBase {
 		}
 	},
 
-	bin(2) {
+	bin(2, 4) {
 
 		private final List<Character> characters = Arrays.asList('0', '1');
 
 		@NotNull
 		public String toString(@NotNull Double value) {
-			return Long.toBinaryString(Double.doubleToRawLongBits(value));
+			return Long.toBinaryString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
 		@Nullable
@@ -110,9 +110,11 @@ public enum NumeralBase {
 	};
 
 	private final int radix;
+	private final int groupingSize;
 
-	NumeralBase(int radix) {
+	NumeralBase(int radix, int groupingSize) {
 		this.radix = radix;
+		this.groupingSize = groupingSize;
 	}
 
 	@NotNull
@@ -137,11 +139,11 @@ public enum NumeralBase {
 
 	@NotNull
 	public String toString(@NotNull BigInteger value) {
-		return value.toString(radix);
+		return value.toString(radix).toUpperCase();
 	}
 
 	public String toString(@NotNull Integer value) {
-		return Integer.toString(value, radix);
+		return Integer.toString(value, radix).toUpperCase();
 	}
 
 	@NotNull
@@ -162,5 +164,9 @@ public enum NumeralBase {
 		}
 
 		return null;
+	}
+
+	public int getGroupingSize() {
+		return groupingSize;
 	}
 }

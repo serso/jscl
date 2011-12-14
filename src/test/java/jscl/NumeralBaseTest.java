@@ -35,7 +35,7 @@ public class NumeralBaseTest {
 		} catch (ParseException e) {
 		}
 
-		Assert.assertEquals("2748.0", me.evaluate("0x:abc"));
+		Assert.assertEquals("2748.0", me.evaluate("0x:ABC"));
 
 		try {
 			me.evaluate("0x:");
@@ -48,9 +48,9 @@ public class NumeralBaseTest {
 		IConstant constant = null;
 		try {
 			constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), 2d));
-			Assert.assertEquals("2748.0", me.evaluate("0x:abc"));
-			Assert.assertEquals("5496.0", me.evaluate("0x:abc*a"));
-			Assert.assertEquals("27480.0", me.evaluate("0x:abc*0x:a"));
+			Assert.assertEquals("2748.0", me.evaluate("0x:ABC"));
+			Assert.assertEquals("5496.0", me.evaluate("0x:ABC*a"));
+			Assert.assertEquals("27480.0", me.evaluate("0x:ABC*0x:A"));
 		} finally {
 			if (constant != null) {
 				me.getConstantsRegistry().remove(constant);
@@ -80,8 +80,8 @@ public class NumeralBaseTest {
 			}
 
 			me.setNumeralBase(NumeralBase.hex);
-			org.junit.Assert.assertEquals("637b", me.evaluate("56ce+cad"));
-			org.junit.Assert.assertEquals("637b", me.simplify("56ce+cad"));
+			org.junit.Assert.assertEquals("637B", me.evaluate("56CE+CAD"));
+			org.junit.Assert.assertEquals("637B", me.simplify("56CE+CAD"));
 
 		} finally {
 			me.setNumeralBase(defaultNumeralBase);

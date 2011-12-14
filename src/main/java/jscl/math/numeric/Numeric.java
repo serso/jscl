@@ -9,6 +9,8 @@ import jscl.math.NotIntegerException;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 import static jscl.math.numeric.Complex.I;
 import static jscl.math.numeric.Real.ONE;
 import static jscl.math.numeric.Real.TWO;
@@ -345,8 +347,10 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 			}
 		} else {
 			try {
-				final int intValue = integerValue(value);
-				return numeralBase.toString(intValue);
+				// check not integer
+				integerValue(value);
+
+				return numeralBase.toString(new BigDecimal(value).toBigInteger());
 			} catch (NotIntegerException e) {
 				throw new NumeralBaseException(value);
 			}
