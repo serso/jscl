@@ -4,7 +4,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.text.ParseException;
-import jscl.util.ExpressionGenerator;
+import jscl.util.ExpressionGeneratorWithInput;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +12,6 @@ import org.solovyev.common.utils.Converter;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ public class NumeralBaseConversionTest {
 				System.out.println("Hex: " + hex);
 				System.out.println("Bin: " + bin);
 
-				final ExpressionGenerator eg = new ExpressionGenerator(input, 20);
+				final ExpressionGeneratorWithInput eg = new ExpressionGeneratorWithInput(input, 20);
 				final List<String> expressions = eg.generate();
 
 				final String decExpression = expressions.get(0);
