@@ -180,25 +180,31 @@ public enum JsclMathEngine implements MathEngine {
 				integerValue(value);
 
 				final String ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
-
-				if (useGroupingSeparator) {
-					// inject group separator in the resulted string
-					// NOTE: space symbol is always used!!!
-					final StringBuilder result = new StringBuilder();
-					for (  int i = ungroupedValue.length() - 1; i >= 0; i-- ) {
-						result.append(ungroupedValue.charAt(i));
-						if (i != 0 && (ungroupedValue.length() - i) % nb.getGroupingSize() == 0) {
-							result.append(" ");
-						}
-					}
-
-					return result.reverse().toString();
-				} else {
-					return ungroupedValue;
-				}
+				return addGroupingSeparators(nb, ungroupedValue);
 			} catch (NotIntegerException e) {
 				throw new NumeralBaseException(value);
 			}
+		}
+	}
+
+	@Override
+	@NotNull
+	public String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedIntValue) {
+		if (useGroupingSeparator) {
+			String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(decimalGroupSymbols.getGroupingSeparator()) : " ";
+			// inject group separator in the resulted string
+			// NOTE: space symbol is always used!!!
+			final StringBuilder result = new StringBuilder();
+			for (int i = ungroupedIntValue.length() - 1; i >= 0; i--) {
+				result.append(ungroupedIntValue.charAt(i));
+				if (i != 0 && (ungroupedIntValue.length() - i) % nb.getGroupingSize() == 0) {
+					result.append(groupingSeparator);
+				}
+			}
+
+			return result.reverse().toString();
+		} else {
+			return ungroupedIntValue;
 		}
 	}
 

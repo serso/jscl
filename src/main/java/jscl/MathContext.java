@@ -56,4 +56,7 @@ public interface MathContext {
 
 	@NotNull
 	String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException;
+
+	@NotNull
+	String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedIntValue);
 }
