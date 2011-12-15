@@ -18,7 +18,7 @@ public class DegTest {
 
 		Assert.assertEquals("2.0", mathEngine.evaluate("deg(0.03490658503988659)"));
 		Assert.assertEquals("-2.0", mathEngine.evaluate("deg(-0.03490658503988659)"));
-		Assert.assertEquals("180.0", mathEngine.evaluate("deg(" + String.valueOf(Math.PI) + ")"));
+		Assert.assertEquals("π", mathEngine.evaluate("deg(" + String.valueOf(Math.PI) + ")"));
 
 		for (int i = 0; i < 1000; i++) {
 			double value = Math.random() * 100000;

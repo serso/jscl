@@ -9,7 +9,10 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathRegistry;
+import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.utils.Finder;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -146,7 +149,7 @@ public enum JsclMathEngine implements MathEngine {
 
 	@Override
 	@NotNull
-	public String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
+	public String format(@NotNull final Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
 		if (nb == NumeralBase.dec) {
 			// decimal numeral base => do specific formatting
 			if (Double.isInfinite(value)) {
@@ -154,19 +157,32 @@ public enum JsclMathEngine implements MathEngine {
 				return Constant.INF_CONST.getName();
 			} else {
 				if (!value.isNaN()) {
-					// prepare decimal format
-					final DecimalFormat df = new DecimalFormat();
-					df.setDecimalFormatSymbols(decimalGroupSymbols);
-					df.setGroupingUsed(useGroupingSeparator);
-					df.setGroupingSize(nb.getGroupingSize());
 
-					// using default round logic => try roundResult variable
-					if (roundResult) {
-						df.setMaximumFractionDigits(precision);
-						return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
+					// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
+					final IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
+						@Override
+						public boolean isFound(@Nullable IConstant constant) {
+							return constant != null && value.equals(constant.getDoubleValue());
+						}
+					});
+
+					if (constant == null) {
+						// prepare decimal format
+						final DecimalFormat df = new DecimalFormat();
+						df.setDecimalFormatSymbols(decimalGroupSymbols);
+						df.setGroupingUsed(useGroupingSeparator);
+						df.setGroupingSize(nb.getGroupingSize());
+
+						// using default round logic => try roundResult variable
+						if (roundResult) {
+							df.setMaximumFractionDigits(precision);
+							return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
+						} else {
+							//return df.format(value);
+							return String.valueOf(value);
+						}
 					} else {
-						//return df.format(value);
-						return String.valueOf(value);
+						return constant.getName();
 					}
 
 				} else {

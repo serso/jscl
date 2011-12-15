@@ -53,7 +53,7 @@ public class NumeralBaseTest {
 			Assert.assertEquals("27480.0", me.evaluate("0x:ABC*0x:A"));
 		} finally {
 			if (constant != null) {
-				me.getConstantsRegistry().remove(constant);
+				me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), (String)null));
 			}
 		}
 	}

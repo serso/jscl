@@ -52,7 +52,7 @@ public class ExpressionTest {
 
 		} finally {
 			if (constant != null) {
-				JsclMathEngine.instance.getConstantsRegistry().remove(constant);
+				JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant(constant.getName()), (String)null));
 			}
 		}
 	}
@@ -182,17 +182,25 @@ public class ExpressionTest {
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*i)").numeric().toString());
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*i)").numeric().toString());
 
-		JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
-		Assert.assertEquals("2.8284271247461903", Expression.valueOf("k").numeric().toString());
-		Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
-		Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
-		Assert.assertEquals("k^3", Expression.valueOf("k*k*k").simplify().toString());
-		Assert.assertEquals("22.627416997969526", Expression.valueOf("k*k*k").numeric().toString());
+		try {
+			JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
+			Assert.assertEquals("k", Expression.valueOf("k").numeric().toString());
+			Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
+			Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
+			Assert.assertEquals("k^3", Expression.valueOf("k*k*k").simplify().toString());
+			Assert.assertEquals("22.627416997969526", Expression.valueOf("k*k*k").numeric().toString());
+		} finally {
+			JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), (String)null));
+		}
 
-		JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k_1"), 3d));
-		Assert.assertEquals("3.0", Expression.valueOf("k_1").numeric().toString());
-		Assert.assertEquals("3.0", Expression.valueOf("k_1[0]").numeric().toString());
-		Assert.assertEquals("3.0", Expression.valueOf("k_1[2]").numeric().toString());
+		try {
+			JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k_1"), 3d));
+			Assert.assertEquals("k_1", Expression.valueOf("k_1").numeric().toString());
+			Assert.assertEquals("k_1", Expression.valueOf("k_1[0]").numeric().toString());
+			Assert.assertEquals("k_1", Expression.valueOf("k_1[2]").numeric().toString());
+		} finally {
+			JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k_1"), (String)null));
+		}
 
 		Generic expression = JsclMathEngine.instance.simplifyGeneric("cos(t)+∂(cos(t),t)");
 		Generic substituted = expression.substitute(new Constant("t"), Expression.valueOf(100d));
@@ -278,7 +286,7 @@ public class ExpressionTest {
 
 		try {
 			JsclMathEngine.instance.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.6931471805599453+3.141592653589793*i", Expression.valueOf("ln(-2)").numeric().toString());
+			Assert.assertEquals("0.6931471805599453+π*i", Expression.valueOf("ln(-2)").numeric().toString());
 		} finally {
 			JsclMathEngine.instance.setAngleUnits(AngleUnit.deg);
 		}
