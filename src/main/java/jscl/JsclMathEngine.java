@@ -2,6 +2,7 @@ package jscl;
 
 import jscl.math.Expression;
 import jscl.math.Generic;
+import jscl.math.NotIntegerException;
 import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
@@ -139,29 +140,73 @@ public enum JsclMathEngine implements MathEngine {
 
 	@Override
 	@NotNull
-	public String format(@NotNull Double value, boolean round) {
-		return format(value, numeralBase, round);
+	public String format(@NotNull Double value) throws NumeralBaseException {
+		return format(value, numeralBase);
 	}
 
+	@Override
 	@NotNull
-	public String format(@NotNull Double value, @NotNull NumeralBase nb, boolean round) {
-		if (!value.isInfinite() && !value.isNaN()) {
-			final DecimalFormat df = new DecimalFormat();
-			df.setDecimalFormatSymbols(decimalGroupSymbols);
-			df.setGroupingUsed(useGroupingSeparator);
-			df.setGroupingSize(nb.getGroupingSize());
-			if (round) {
-				if (roundResult) {
-					df.setMaximumFractionDigits(precision);
-					return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
+	public String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
+		if (nb == NumeralBase.dec) {
+			// decimal numeral base => do specific formatting
+			if (Double.isInfinite(value)) {
+				// return predefined constant for infinity
+				return Constant.INF_CONST.getName();
+			} else {
+				if (!value.isNaN()) {
+					// prepare decimal format
+					final DecimalFormat df = new DecimalFormat();
+					df.setDecimalFormatSymbols(decimalGroupSymbols);
+					df.setGroupingUsed(useGroupingSeparator);
+					df.setGroupingSize(nb.getGroupingSize());
+
+					// using default round logic => try roundResult variable
+					if (roundResult) {
+						df.setMaximumFractionDigits(precision);
+						return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
+					} else {
+						//return df.format(value);
+						return String.valueOf(value);
+					}
+
 				} else {
+					// just return "NaN"
 					return String.valueOf(value);
 				}
-			} else {
-				return df.format(value);
 			}
 		} else {
-			return String.valueOf(value);
+			try {
+				// check if double can be converted to integer
+				integerValue(value);
+
+				final String ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
+
+				if (useGroupingSeparator) {
+					// inject group separator in the resulted string
+					// NOTE: space symbol is always used!!!
+					final StringBuilder result = new StringBuilder();
+					for (  int i = ungroupedValue.length() - 1; i >= 0; i-- ) {
+						result.append(ungroupedValue.charAt(i));
+						if (i != 0 && (ungroupedValue.length() - i) % nb.getGroupingSize() == 0) {
+							result.append(" ");
+						}
+					}
+
+					return result.reverse().toString();
+				} else {
+					return ungroupedValue;
+				}
+			} catch (NotIntegerException e) {
+				throw new NumeralBaseException(value);
+			}
+		}
+	}
+
+	private static int integerValue(final double value) throws NotIntegerException {
+		if (Math.floor(value) == value) {
+			return (int) value;
+		} else {
+			throw new NotIntegerException();
 		}
 	}
 

@@ -52,5 +52,8 @@ public interface MathContext {
 	void setGroupingSeparator(char groupingSeparator);
 
 	@NotNull
-	String format(@NotNull Double value, boolean round);
+	String format(@NotNull Double value) throws NumeralBaseException ;
+
+	@NotNull
+	String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException;
 }

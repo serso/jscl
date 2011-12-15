@@ -2,14 +2,8 @@ package jscl.math.numeric;
 
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
 import jscl.math.Arithmetic;
-import jscl.math.NotIntegerException;
-import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
-
-import java.math.BigDecimal;
 
 import static jscl.math.numeric.Complex.I;
 import static jscl.math.numeric.Real.ONE;
@@ -323,37 +317,8 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 		return obj instanceof Numeric && compareTo((Numeric) obj) == 0;
 	}
 
-	private static int integerValue(final double value) throws NotIntegerException {
-		if (Math.floor(value) == value) {
-			return (int) value;
-		} else {
-			throw new NotIntegerException();
-		}
-	}
-
 	@NotNull
 	protected String toString(final double value) {
-		final NumeralBase numeralBase = JsclMathEngine.instance.getNumeralBase();
-		return toString(value, numeralBase);
-	}
-
-	@NotNull
-	public static String toString(double value, @NotNull NumeralBase numeralBase) {
-		if (numeralBase == NumeralBase.dec) {
-			if (Double.isInfinite(value)) {
-				return Constant.INF_CONST.getName();
-			} else {
-				return JsclMathEngine.instance.format(value, true);
-			}
-		} else {
-			try {
-				// check not integer
-				integerValue(value);
-
-				return numeralBase.toString(new BigDecimal(value).toBigInteger());
-			} catch (NotIntegerException e) {
-				throw new NumeralBaseException(value);
-			}
-		}
+		return JsclMathEngine.instance.format(value, JsclMathEngine.instance.getNumeralBase());
 	}
 }
