@@ -118,7 +118,7 @@ public class ExpressionTest {
 
 		Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
 		Assert.assertEquals("1.0", Expression.valueOf("(π/π)!").numeric().toString());
-		Assert.assertEquals("720.0", Expression.valueOf("3!!").numeric().toString());
+		Assert.assertEquals("720.0", Expression.valueOf("(3!)!").numeric().toString());
 		Assert.assertEquals("36.0", Expression.valueOf("3!*3!").numeric().toString());
 
 		Assert.assertEquals("100.0", Expression.valueOf("0.1E3").numeric().toString());

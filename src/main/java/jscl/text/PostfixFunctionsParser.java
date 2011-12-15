@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
+import jscl.math.operator.TripleFactorial;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 		final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
 
 		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctionNames.size());
+		parsers.add(new PostfixFunctionParser(TripleFactorial.NAME));
 		for (String postfixFunctionName : postfixFunctionNames) {
 			parsers.add(new PostfixFunctionParser(postfixFunctionName));
 		}
@@ -54,7 +56,11 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 				}
 
 				if (postfixFunction == null) {
-					throw new ParseException(Messages.msg_4, parseParameters.getPosition().intValue(), parseParameters.getExpression(), postfixResult.getPostfixFunctionName());
+					if (TripleFactorial.NAME.equals(postfixResult.getPostfixFunctionName())) {
+						throw new ParseException(Messages.msg_18, parseParameters.getPosition().intValue(), parseParameters.getExpression());
+					} else {
+						throw new ParseException(Messages.msg_4, parseParameters.getPosition().intValue(), parseParameters.getExpression(), postfixResult.getPostfixFunctionName());
+					}
 				}
 
 				result = parsePostfix(parsers, postfixFunction.expressionValue(), previousSumElement, parseParameters);

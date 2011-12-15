@@ -1,10 +1,7 @@
 package jscl.math.function;
 
 import jscl.math.Generic;
-import jscl.math.operator.Degree;
-import jscl.math.operator.Factorial;
-import jscl.math.operator.Operator;
-import jscl.math.operator.Percent;
+import jscl.math.operator.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.AbstractMathRegistry;
@@ -19,6 +16,7 @@ public class PostfixFunctionsRegistry extends AbstractMathRegistry<Operator> {
 	private final static PostfixFunctionsRegistry instance = new PostfixFunctionsRegistry();
 
 	static {
+		instance.add(new DoubleFactorial(null));
 		instance.add(new Factorial(null));
 		instance.add(new Degree(null));
 		instance.add(new Percent(null, null));

@@ -66,4 +66,7 @@ public final class Messages {
 
 	/** Unable to convert numeral base of {0}. Change default numeral base to decimal and try again. */
 	public static final String msg_17 = "msg_17";
+
+	/**	Calculation of triple factorial is not supported! */
+	public static final String msg_18 = "msg_18";
 }
