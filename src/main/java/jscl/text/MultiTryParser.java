@@ -26,7 +26,8 @@ public class MultiTryParser<T> implements Parser<T> {
 
 		for (final Iterator<Parser<? extends T>> it = parsers.iterator(); it.hasNext(); ) {
 			try {
-				result = it.next().parse(p, previousSumElement);
+				final Parser<? extends T> parser = it.next();
+				result = parser.parse(p, previousSumElement);
 			} catch (ParseException e) {
 
 				p.addException(e);

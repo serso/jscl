@@ -1,9 +1,6 @@
 package jscl.math;
 
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
+import jscl.*;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
@@ -329,6 +326,42 @@ public class ExpressionTest {
 		Assert.assertEquals("25*x", Expression.valueOf("5*x*5").expand().simplify().toString());
 		Assert.assertEquals("20*x", Expression.valueOf("5*x*4").expand().simplify().toString());
 
+		try {
+			JsclMathEngine.instance.evaluate("0b:π");
+			fail();
+		} catch (ParseException e) {
+			// ok
+		}
+
+		try {
+			JsclMathEngine.instance.evaluate("0b:10π");
+			fail();
+		} catch (ParseException e) {
+			// ok
+		}
+
+		try {
+			JsclMathEngine.instance.setNumeralBase(NumeralBase.hex);
+			try {
+				Assert.assertEquals("E/F", JsclMathEngine.instance.evaluate("0x:E/0x:F"));
+				fail();
+			} catch (NumeralBaseException e) {
+				// ok
+			}
+			Assert.assertEquals("E/F", JsclMathEngine.instance.simplify("0x:E/0x:F"));
+
+			try {
+				Assert.assertEquals("E/F", JsclMathEngine.instance.evaluate("E/F"));
+				fail();
+			} catch (NumeralBaseException e) {
+				// ok
+			}
+
+			Assert.assertEquals("E/F", JsclMathEngine.instance.simplify("E/F"));
+
+		} finally {
+			JsclMathEngine.instance.setNumeralBase(NumeralBase.dec);
+		}
 	}
 
 	@Test

@@ -21,7 +21,12 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
 
 		final StringBuilder result = new StringBuilder();
 
-		result.append(new Digits(nb).parse(p, previousSumElement));
+		try {
+			result.append(new Digits(nb).parse(p, previousSumElement));
+		} catch (ParseException e) {
+			p.getPosition().setValue(pos0);
+			throw e;
+		}
 
 		final String number = result.toString();
 		try {
