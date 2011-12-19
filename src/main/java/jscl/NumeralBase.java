@@ -30,10 +30,10 @@ public enum NumeralBase {
 			return value.toString();
 		}
 
-		@Nullable
+		@NotNull
 		@Override
 		public String getJsclPrefix() {
-			return null;
+			return "0d:";
 		}
 
 		@NotNull
@@ -52,7 +52,7 @@ public enum NumeralBase {
 			return Long.toHexString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
-		@Nullable
+		@NotNull
 		@Override
 		public String getJsclPrefix() {
 			return "0x:";
@@ -74,7 +74,7 @@ public enum NumeralBase {
 			return Long.toOctalString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
-		@Nullable
+		@NotNull
 		@Override
 		public String getJsclPrefix() {
 			return "0o:";
@@ -96,7 +96,7 @@ public enum NumeralBase {
 			return Long.toBinaryString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
-		@Nullable
+		@NotNull
 		@Override
 		public String getJsclPrefix() {
 			return "0b:";
@@ -149,7 +149,7 @@ public enum NumeralBase {
 	@NotNull
 	public abstract String toString(@NotNull Double value);
 
-	@Nullable
+	@NotNull
 	public abstract String getJsclPrefix();
 
 	@NotNull

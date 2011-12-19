@@ -66,6 +66,10 @@ public class NumeralBaseTest {
 		try{
 			me.setNumeralBase(NumeralBase.bin);
 			Assert.assertEquals("11", me.evaluate("0b:1+0b:10"));
+			Assert.assertEquals("10", me.evaluate("0d:2"));
+			Assert.assertEquals("11", me.evaluate("0d:3"));
+			Assert.assertEquals("100", me.evaluate("0d:4"));
+			Assert.assertEquals("11111111", me.evaluate("0d:255"));
 			Assert.assertEquals("11", me.evaluate("1+10"));
 			Assert.assertEquals("-1", me.evaluate("1-10"));
 			Assert.assertEquals("11-i", me.evaluate("1+i+10-10*i"));

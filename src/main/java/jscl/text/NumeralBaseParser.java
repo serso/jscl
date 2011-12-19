@@ -28,11 +28,9 @@ public class NumeralBaseParser implements Parser<NumeralBase> {
 		for (NumeralBase numeralBase : NumeralBase.values()) {
 			try {
 				final String jsclPrefix = numeralBase.getJsclPrefix();
-				if (jsclPrefix != null) {
-					ParserUtils.tryToParse(p, pos0, jsclPrefix);
-					result = numeralBase;
-					break;
-				}
+				ParserUtils.tryToParse(p, pos0, jsclPrefix);
+				result = numeralBase;
+				break;
 			} catch (ParseException e) {
 			}
 		}
