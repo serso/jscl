@@ -3,6 +3,7 @@ package jscl.math.function;
 import jscl.CustomFunctionCalculationException;
 import jscl.math.*;
 import jscl.text.ParseException;
+import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.definitions.IBuilder;
@@ -39,6 +40,35 @@ public class CustomFunction extends Function {
 			this.content = content;
 			this.parameterNames = parameterNames;
 			this.name = name;
+		}
+
+		public Builder(@NotNull CustomFunction function) {
+			this.system = function.isSystem();
+			this.content = function.getContent();
+			this.parameterNames = ParserUtils.copyOf(function.getParameterNames());
+			this.name = function.getName();
+		}
+		
+		public Builder() {
+			this.system = false;
+		}
+
+		@NotNull
+		public Builder setContent(@NotNull String content) {
+			this.content = content;
+			return this;
+		}
+
+		@NotNull
+		public Builder setParameterNames(@NotNull String[] parameterNames) {
+			this.parameterNames = parameterNames;
+			return this;
+		}
+		
+		@NotNull
+		public Builder setName(@NotNull String name) {
+			this.name = name;
+			return this;
 		}
 
 		Builder(boolean system,
