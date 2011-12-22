@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathEntity;
+import org.solovyev.common.utils.StringUtils;
 
 /**
  * User: serso
@@ -195,6 +196,26 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 			return String.valueOf(value);
 		} else {
 			return constant.getName();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return toString(this);
+	}
+
+	@NotNull
+	public static String toString(@NotNull IConstant constant) {
+		final Double doubleValue = constant.getDoubleValue();
+		if (doubleValue == null) {
+			final String stringValue = constant.getValue();
+			if (!StringUtils.isEmpty(stringValue)) {
+				return constant.getName() + " = " + stringValue;
+			} else {
+				return constant.getName();
+			}
+		} else {
+			return constant.getName() + " = " + doubleValue;
 		}
 	}
 

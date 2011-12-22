@@ -20,9 +20,11 @@ public abstract class Variable implements Comparable, MathEntity {
 	private Integer id;
 
 	@NotNull
-    protected String name;
+	protected String name;
 
-    public Variable(@NotNull String name) {
+	private boolean system = true;
+
+	public Variable(@NotNull String name) {
         this.name=name;
     }
 
@@ -47,7 +49,11 @@ public abstract class Variable implements Comparable, MathEntity {
     }
 
 	public boolean isSystem() {
-		return true;
+		return system;
+	}
+
+	protected void setSystem(boolean system) {
+		this.system = system;
 	}
 
 	public void copy(@NotNull MathEntity that) {

@@ -69,4 +69,7 @@ public final class Messages {
 
 	/**	Calculation of triple factorial is not supported! */
 	public static final String msg_18 = "msg_18";
+
+	/** Custom function with name {0} could not be calculated due to next error: {1} */
+	public static final String msg_19 = "msg_19";
 }
