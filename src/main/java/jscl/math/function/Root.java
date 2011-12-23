@@ -17,6 +17,11 @@ public class Root extends Algebraic {
 		this.subscript = subscript;
 	}
 
+	@Override
+	public int getMaxParameters() {
+		return Integer.MAX_VALUE;
+	}
+
 	public Root(Generic parameters[], int s) {
 		this(parameters, JsclInteger.valueOf(s));
 	}
@@ -33,7 +38,7 @@ public class Root extends Algebraic {
 		return this;
 	}
 
-	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
 		boolean polynomial = true;
 		for (Generic parameter : parameters) {
 			polynomial = parameter.isPolynomial(variable);
@@ -49,9 +54,11 @@ public class Root extends Algebraic {
 		}
 	}
 
-	public Generic derivative(Variable variable) {
-		if (compareTo(variable) == 0) return JsclInteger.valueOf(1);
-		else {
+	@NotNull
+	public Generic derivative(@NotNull Variable variable) {
+		if (compareTo(variable) == 0) {
+			return JsclInteger.valueOf(1);
+		} else {
 			Variable t = new TechnicalVariable("t");
 			Generic a[] = new Generic[parameters.length];
 			for (int i = 0; i < parameters.length; i++) a[i] = parameters[i].derivative(variable);
@@ -67,7 +74,7 @@ public class Root extends Algebraic {
 		return null;
 	}
 
-	public Generic substitute(Variable variable, Generic generic) {
+	public Generic substitute(@NotNull Variable variable, @NotNull Generic generic) {
 		Root v = (Root) newInstance();
 		for (int i = 0; i < parameters.length; i++) {
 			v.parameters[i] = parameters[i].substitute(variable, generic);
@@ -101,7 +108,7 @@ public class Root extends Algebraic {
 			v.parameters[i] = parameters[i].elementary();
 		}
 		v.subscript = subscript.elementary();
-		return v.evaluateElementary();
+		return v.selfElementary();
 	}
 
 	public Generic simplify() {
@@ -110,7 +117,7 @@ public class Root extends Algebraic {
 			v.parameters[i] = parameters[i].simplify();
 		}
 		v.subscript = subscript.simplify();
-		return v.evaluateSimplify();
+		return v.selfSimplify();
 	}
 
 	public Generic numeric() {
@@ -119,7 +126,7 @@ public class Root extends Algebraic {
 			v.parameters[i] = parameters[i].numeric();
 		}
 		v.subscript = subscript;
-		return v.evaluateNumerically();
+		return v.selfNumeric();
 	}
 
 	public Generic evaluate() {
@@ -135,11 +142,11 @@ public class Root extends Algebraic {
 		return expressionValue();
 	}
 
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return evaluate();
 	}
 
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		if (isZero()) return JsclInteger.valueOf(0);
 		try {
 			int s = subscript.integerValue().intValue();
@@ -176,42 +183,42 @@ public class Root extends Algebraic {
 
 	static Generic nth(Generic parameter[]) {
 		int degree = parameter.length - 1;
-		Generic a = new Frac(parameter[0], parameter[degree]).evaluateSimplify();
+		Generic a = new Frac(parameter[0], parameter[degree]).selfSimplify();
 		return new Pow(
 				a.negate(),
-				new Inv(JsclInteger.valueOf(degree)).evaluateSimplify()
-		).evaluateSimplify();
+				new Inv(JsclInteger.valueOf(degree)).selfSimplify()
+		).selfSimplify();
 	}
 
 	static Generic linear(Generic parameter[]) {
-		Generic a = new Frac(parameter[0], parameter[1]).evaluateSimplify();
+		Generic a = new Frac(parameter[0], parameter[1]).selfSimplify();
 		return a.negate();
 	}
 
 	static Generic quadratic(Generic parameter[], int subscript) {
-		Generic a = new Frac(parameter[1], parameter[2]).evaluateSimplify();
-		Generic b = new Frac(parameter[0], parameter[2]).evaluateSimplify();
+		Generic a = new Frac(parameter[1], parameter[2]).selfSimplify();
+		Generic b = new Frac(parameter[0], parameter[2]).selfSimplify();
 		Generic y = new Sqrt(
 				a.pow(2).subtract(JsclInteger.valueOf(4).multiply(b))
-		).evaluateSimplify();
+		).selfSimplify();
 		switch (subscript) {
 			case 0:
 				return new Frac(
 						a.subtract(y),
 						JsclInteger.valueOf(2)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 			default:
 				return new Frac(
 						a.add(y),
 						JsclInteger.valueOf(2)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 		}
 	}
 
 	static Generic cubic(Generic parameter[], int subscript) {
-		Generic a = new Frac(parameter[2], parameter[3]).evaluateSimplify();
-		Generic b = new Frac(parameter[1], parameter[3]).evaluateSimplify();
-		Generic c = new Frac(parameter[0], parameter[3]).evaluateSimplify();
+		Generic a = new Frac(parameter[2], parameter[3]).selfSimplify();
+		Generic b = new Frac(parameter[1], parameter[3]).selfSimplify();
+		Generic c = new Frac(parameter[0], parameter[3]).selfSimplify();
 		Generic y[] = new Generic[2];
 		for (int i = 0; i < y.length; i++) {
 			y[i] = new Cubic(
@@ -222,33 +229,33 @@ public class Root extends Algebraic {
 									JsclInteger.valueOf(1)
 							},
 							i
-					).evaluateSimplify()
-			).evaluateSimplify();
+					).selfSimplify()
+			).selfSimplify();
 		}
 		switch (subscript) {
 			case 0:
 				return new Frac(
 						a.subtract(y[0]).subtract(y[1]),
 						JsclInteger.valueOf(3)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 			case 1:
 				return new Frac(
 						a.subtract(Constant.j.multiply(y[0])).subtract(Constant.jbar.multiply(y[1])),
 						JsclInteger.valueOf(3)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 			default:
 				return new Frac(
 						a.subtract(Constant.jbar.multiply(y[0])).subtract(Constant.j.multiply(y[1])),
 						JsclInteger.valueOf(3)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 		}
 	}
 
 	static Generic quartic(Generic parameter[], int subscript) {
-		Generic a = new Frac(parameter[3], parameter[4]).evaluateSimplify();
-		Generic b = new Frac(parameter[2], parameter[4]).evaluateSimplify();
-		Generic c = new Frac(parameter[1], parameter[4]).evaluateSimplify();
-		Generic d = new Frac(parameter[0], parameter[4]).evaluateSimplify();
+		Generic a = new Frac(parameter[3], parameter[4]).selfSimplify();
+		Generic b = new Frac(parameter[2], parameter[4]).selfSimplify();
+		Generic c = new Frac(parameter[1], parameter[4]).selfSimplify();
+		Generic d = new Frac(parameter[0], parameter[4]).selfSimplify();
 		Generic y[] = new Generic[3];
 		for (int i = 0; i < y.length; i++) {
 			y[i] = new Sqrt(
@@ -260,30 +267,30 @@ public class Root extends Algebraic {
 									JsclInteger.valueOf(-1)
 							},
 							i
-					).evaluateSimplify()
-			).evaluateSimplify();
+					).selfSimplify()
+			).selfSimplify();
 		}
 		switch (subscript) {
 			case 0:
 				return new Frac(
 						a.add(y[0]).subtract(y[1]).subtract(y[2]),
 						JsclInteger.valueOf(4)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 			case 1:
 				return new Frac(
 						a.subtract(y[0]).subtract(y[1]).add(y[2]),
 						JsclInteger.valueOf(4)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 			case 2:
 				return new Frac(
 						a.add(y[0]).add(y[1]).add(y[2]),
 						JsclInteger.valueOf(4)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 			default:
 				return new Frac(
 						a.subtract(y[0]).add(y[1]).subtract(y[2]),
 						JsclInteger.valueOf(4)
-				).evaluateSimplify().negate();
+				).selfSimplify().negate();
 		}
 	}
 
@@ -291,7 +298,7 @@ public class Root extends Algebraic {
 		return parameters.length - 1;
 	}
 
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		return NumericWrapper.root(subscript.integerValue().intValue(), parameters);
 	}
 

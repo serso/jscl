@@ -20,7 +20,12 @@ public class Derivative extends Operator {
 	}
 
 	@Override
-	public int getMaximumNumberOfParameters() {
+	public int getMinParameters() {
+		return 2;
+	}
+
+	@Override
+	public int getMaxParameters() {
 		return 4;
 	}
 
@@ -37,7 +42,7 @@ public class Derivative extends Operator {
 
 		@NotNull
 	@Override
-	protected String substituteUndefinedParameter(int i) {
+	protected String formatUndefinedParameter(int i) {
 		switch (i){
 			case 0:
 				return "f(x)";
@@ -48,13 +53,8 @@ public class Derivative extends Operator {
 			case 3:
 				return "order";
 			default:
-				return super.substituteUndefinedParameter(i);
+				return super.formatUndefinedParameter(i);
 		}
-	}
-
-	@Override
-	public int getMinimumNumberOfParameters() {
-		return 2;
 	}
 
 	public Generic evaluate() {

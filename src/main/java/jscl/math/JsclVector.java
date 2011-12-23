@@ -87,11 +87,12 @@ public class JsclVector extends Generic {
         }
     }
 
-    public Generic gcd(Generic generic) {
+    public Generic gcd(@NotNull Generic generic) {
         return null;
     }
 
-    public Generic gcd() {
+    @NotNull
+	public Generic gcd() {
         return null;
     }
 
@@ -206,7 +207,7 @@ public class JsclVector extends Generic {
         return false;
     }
 
-    public boolean isConstant(Variable variable) {
+    public boolean isConstant(@NotNull Variable variable) {
         return false;
     }
 

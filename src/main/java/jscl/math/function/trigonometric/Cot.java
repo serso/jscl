@@ -31,14 +31,14 @@ public class Cot extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Frac(
-            new Cos(parameters[0]).evaluateElementary(),
-            new Sin(parameters[0]).evaluateElementary()
-        ).evaluateElementary();
+            new Cos(parameters[0]).selfElementary(),
+            new Sin(parameters[0]).selfElementary()
+        ).selfElementary();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
             return new Cot(parameters[0].negate()).evaluate().negate();
         }
@@ -53,15 +53,15 @@ public class Cot extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        Generic ta=new Cot(a).evaluateSimplify();
-        Generic tb=new Cot(b).evaluateSimplify();
+        Generic ta=new Cot(a).selfSimplify();
+        Generic tb=new Cot(b).selfSimplify();
         return new Frac(
             ta.multiply(tb).subtract(JsclInteger.valueOf(1)),
                         ta.add(tb)
-        ).evaluateSimplify();
+        ).selfSimplify();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).cot();
     }
 

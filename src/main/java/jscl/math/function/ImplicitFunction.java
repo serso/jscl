@@ -42,15 +42,15 @@ public class ImplicitFunction extends Function {
 		return expressionValue();
 	}
 
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return expressionValue();
 	}
 
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		return expressionValue();
 	}
 
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		throw new ArithmeticException();
 		/*Function function = FunctionsRegistry.getInstance().get(this.name);
 

@@ -26,7 +26,7 @@ public class Acoth extends ArcTrigonometric {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Ln(
             new Root(
                 new Generic[] {
@@ -35,11 +35,11 @@ public class Acoth extends ArcTrigonometric {
                     JsclInteger.valueOf(1).subtract(parameters[0])
                 },
                 0
-            ).evaluateElementary()
-        ).evaluateElementary();
+            ).selfElementary()
+        ).selfElementary();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).acoth();
     }
 

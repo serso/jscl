@@ -3,13 +3,19 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Pow extends Algebraic {
     public Pow(Generic generic, Generic exponent) {
         super("pow",new Generic[] {generic,exponent});
     }
 
-    public Root rootValue() throws NotRootException {
+	@Override
+	public int getMinParameters() {
+		return 2;
+	}
+
+	public Root rootValue() throws NotRootException {
         try {
             Variable v= parameters[1].variableValue();
             if(v instanceof Inv) {
@@ -29,7 +35,7 @@ public class Pow extends Algebraic {
         throw new NotRootException();
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         try {
             Root r=rootValue();
             Generic g[]=r.getParameters();
@@ -84,22 +90,22 @@ public class Pow extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Exp(
             new Ln(
                 parameters[0]
-            ).evaluateElementary().multiply(
+            ).selfElementary().multiply(
                 parameters[1]
             )
-        ).evaluateElementary();
+        ).selfElementary();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         if(parameters[0].compareTo(JsclInteger.valueOf(1))==0) {
             return JsclInteger.valueOf(1);
         }
         if(parameters[1].signum()<0) {
-            return new Pow(new Inv(parameters[0]).evaluateSimplify(), parameters[1].negate()).evaluateSimplify();
+            return new Pow(new Inv(parameters[0]).selfSimplify(), parameters[1].negate()).selfSimplify();
         }
         try {
             int c= parameters[1].integerValue().intValue();
@@ -120,7 +126,7 @@ public class Pow extends Algebraic {
             } catch (NotIntegerException e) {}
             switch(d) {
                 case 2:
-                    return new Sqrt(a).evaluateSimplify();
+                    return new Sqrt(a).selfSimplify();
                 case 3:
                 case 4:
                 case 6:
@@ -134,13 +140,13 @@ public class Pow extends Algebraic {
                     new Pow(
                         parameters[0],
                         n[2]
-                    ).evaluateSimplify(),
+                    ).selfSimplify(),
                     new Inv(
                         n[1]
-                    ).evaluateSimplify()
-                ).evaluateSimplify(),
+                    ).selfSimplify()
+                ).selfSimplify(),
                 n[0]
-            ).evaluateSimplify();
+            ).selfSimplify();
         }
         return expressionValue();
     }
@@ -162,7 +168,7 @@ public class Pow extends Algebraic {
         }
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).pow((NumericWrapper) parameters[1]);
     }
 

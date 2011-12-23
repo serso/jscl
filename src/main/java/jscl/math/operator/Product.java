@@ -20,7 +20,7 @@ public class Product extends Operator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 4;
 	}
 
@@ -40,7 +40,7 @@ public class Product extends Operator {
 
 		@NotNull
 	@Override
-	protected String substituteUndefinedParameter(int i) {
+	protected String formatUndefinedParameter(int i) {
 		switch (i){
 			case 0:
 				return "f(i)";
@@ -51,7 +51,7 @@ public class Product extends Operator {
 			case 3:
 				return "to";
 			default:
-				return super.substituteUndefinedParameter(i);
+				return super.formatUndefinedParameter(i);
 		}
 	}
 

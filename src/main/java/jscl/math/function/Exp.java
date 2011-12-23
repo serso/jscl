@@ -4,13 +4,14 @@ import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.math.polynomial.Polynomial;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Exp extends Function {
     public Exp(Generic generic) {
         super("exp",new Generic[] {generic});
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         Generic s= parameters[0];
         if(s.isPolynomial(variable)) {
             Polynomial p=Polynomial.factory(variable).valueOf(s);
@@ -38,14 +39,14 @@ public class Exp extends Function {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return evaluate();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
 
 		if (parameters[0].signum() < 0) {
-			return new Inv(new Exp(parameters[0].negate()).evaluateSimplify()).evaluateSimplify();
+			return new Inv(new Exp(parameters[0].negate()).selfSimplify()).selfSimplify();
 		} else if (parameters[0].signum() == 0) {
 			return JsclInteger.valueOf(1);
 		} else if (parameters[0].compareTo(Constant.i.multiply(Constant.pi)) == 0) {
@@ -63,7 +64,7 @@ public class Exp extends Function {
 			if (sumElements.length > 1) {
 				Generic result = JsclInteger.valueOf(1);
 				for (Generic sumElement : sumElements) {
-					result = result.multiply(new Exp(sumElement).evaluateSimplify());
+					result = result.multiply(new Exp(sumElement).selfSimplify());
 				}
 				return result;
 			}
@@ -72,13 +73,13 @@ public class Exp extends Function {
         Generic n[]=Frac.separateCoefficient(parameters[0]);
         if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Pow(
-            new Exp(n[2]).evaluateSimplify(),
-            new Frac(n[0],n[1]).evaluateSimplify()
-        ).evaluateSimplify();
+            new Exp(n[2]).selfSimplify(),
+            new Frac(n[0],n[1]).selfSimplify()
+        ).selfSimplify();
         return expressionValue();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).exp();
     }
 

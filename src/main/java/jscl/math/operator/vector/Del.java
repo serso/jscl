@@ -33,12 +33,12 @@ public class Del extends VectorOperator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
 	public Generic evaluate() {
-		Variable variable[] = variables(parameters[1]);
+		Variable variable[] = toVariables((JsclVector)parameters[1]);
 		int algebra[] = GeometricProduct.algebra(parameters[2]);
 		if (parameters[0] instanceof JsclVector) {
 			JsclVector vector = (JsclVector) parameters[0];

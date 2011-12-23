@@ -35,7 +35,8 @@ public abstract class GenericVariable extends Variable {
         return content.antiDerivative(variable);
     }
 
-    public Generic derivative(Variable variable) {
+    @NotNull
+	public Generic derivative(Variable variable) {
         return content.derivative(variable);
     }
 

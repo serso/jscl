@@ -63,7 +63,9 @@ public abstract class Variable implements Comparable, MathEntity {
 	}
 
 	public abstract Generic antiDerivative(Variable variable) throws NotIntegrableException;
-    public abstract Generic derivative(Variable variable);
+    @NotNull
+	public abstract Generic derivative(Variable variable);
+
     public abstract Generic substitute(Variable variable, Generic generic);
     public abstract Generic expand();
     public abstract Generic factorize();
@@ -71,15 +73,16 @@ public abstract class Variable implements Comparable, MathEntity {
     public abstract Generic simplify();
     public abstract Generic numeric();
 
+	@NotNull
     public Expression expressionValue() {
         return Expression.valueOf(this);
     }
 
     public abstract boolean isConstant(Variable variable);
 
-    public boolean isIdentity(Variable variable) {
-        return compareTo(variable)==0;
-    }
+	public boolean isIdentity(@NotNull Variable variable) {
+		return this.compareTo(variable) == 0;
+	}
 
     public abstract int compareTo(Variable variable);
 

@@ -19,7 +19,7 @@ public class IndefiniteIntegral extends Operator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
@@ -33,14 +33,14 @@ public class IndefiniteIntegral extends Operator {
 
 		@NotNull
 	@Override
-	protected String substituteUndefinedParameter(int i) {
+	protected String formatUndefinedParameter(int i) {
 		switch (i){
 			case 0:
 				return "f(x)";
 			case 1:
 				return "x";
 			default:
-				return super.substituteUndefinedParameter(i);
+				return super.formatUndefinedParameter(i);
 		}
 	}
 

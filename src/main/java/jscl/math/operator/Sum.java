@@ -20,13 +20,13 @@ public class Sum extends Operator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 4;
 	}
 
 	@NotNull
 	@Override
-	protected String substituteUndefinedParameter(int i) {
+	protected String formatUndefinedParameter(int i) {
 		switch (i){
 			case 0:
 				return "f(i)";
@@ -37,7 +37,7 @@ public class Sum extends Operator {
 			case 3:
 				return "to";
 			default:
-				return super.substituteUndefinedParameter(i);
+				return super.formatUndefinedParameter(i);
 		}
 	}
 

@@ -103,11 +103,12 @@ public final class JsclInteger extends Generic {
 		}
 	}
 
-	public JsclInteger gcd(JsclInteger integer) {
+	@NotNull
+	public JsclInteger gcd(@NotNull JsclInteger integer) {
 		return new JsclInteger(content.gcd(integer.content));
 	}
 
-	public Generic gcd(Generic generic) {
+	public Generic gcd(@NotNull Generic generic) {
 		if (generic instanceof JsclInteger) {
 			return gcd((JsclInteger) generic);
 		} else {
@@ -115,6 +116,7 @@ public final class JsclInteger extends Generic {
 		}
 	}
 
+	@NotNull
 	public Generic gcd() {
 		return new JsclInteger(BigInteger.valueOf(signum()));
 	}
@@ -285,7 +287,7 @@ public final class JsclInteger extends Generic {
 		return true;
 	}
 
-	public boolean isConstant(Variable variable) {
+	public boolean isConstant(@NotNull Variable variable) {
 		return true;
 	}
 

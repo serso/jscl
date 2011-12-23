@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.JsclInteger;
 
 public class Ln extends Function {
+
 	public Ln(Generic generic) {
 		super("ln", new Generic[]{generic});
 	}
@@ -23,15 +24,15 @@ public class Ln extends Function {
 		return expressionValue();
 	}
 
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return evaluate();
 	}
 
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		try {
 			JsclInteger en = parameters[0].integerValue();
 			if (en.signum() < 0) {
-				return Constant.i.multiply(Constant.pi).add(new Ln(en.negate()).evaluateSimplify());
+				return Constant.i.multiply(Constant.pi).add(new Ln(en.negate()).selfSimplify());
 			} else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();
@@ -48,21 +49,21 @@ public class Ln extends Function {
 			Variable v = parameters[0].variableValue();
 			if (v instanceof Sqrt) {
 				Generic g[] = ((Sqrt) v).getParameters();
-				return Constant.half.multiply(new Ln(g[0]).evaluateSimplify());
+				return Constant.half.multiply(new Ln(g[0]).selfSimplify());
 			}
 		} catch (NotVariableException e) {
 		}
 		Generic n[] = Frac.separateCoefficient(parameters[0]);
 		if (n[0].compareTo(JsclInteger.valueOf(1)) == 0 && n[1].compareTo(JsclInteger.valueOf(1)) == 0) ;
-		else return new Ln(n[2]).evaluateSimplify().add(
-				new Ln(n[0]).evaluateSimplify()
+		else return new Ln(n[2]).selfSimplify().add(
+				new Ln(n[0]).selfSimplify()
 		).subtract(
-				new Ln(n[1]).evaluateSimplify()
+				new Ln(n[1]).selfSimplify()
 		);
 		return expressionValue();
 	}
 
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		return ((NumericWrapper) parameters[0]).ln();
 	}
 

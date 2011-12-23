@@ -98,7 +98,7 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.gcd(wrapper.content));
     }
 
-    public Generic gcd(Generic generic) {
+    public Generic gcd(@NotNull Generic generic) {
         if(generic instanceof PolynomialWrapper) {
             return gcd((PolynomialWrapper)generic);
         } else {
@@ -106,7 +106,8 @@ final class PolynomialWrapper extends Generic {
         }
     }
 
-    public Generic gcd() {
+    @NotNull
+	public Generic gcd() {
         return content.gcd();
     }
 
@@ -199,7 +200,7 @@ final class PolynomialWrapper extends Generic {
         return false;
     }
 
-    public boolean isConstant(Variable variable) {
+    public boolean isConstant(@NotNull Variable variable) {
         return false;
     }
 

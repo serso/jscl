@@ -21,12 +21,12 @@ public class Divergence extends VectorOperator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
 	public Generic evaluate() {
-        Variable variable[]=variables(parameters[1]);
+        Variable variable[]= toVariables((JsclVector)parameters[1]);
         if(parameters[0] instanceof JsclVector) {
             JsclVector vector=(JsclVector) parameters[0];
             return vector.divergence(variable);

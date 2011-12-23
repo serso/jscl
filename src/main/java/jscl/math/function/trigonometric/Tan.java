@@ -36,14 +36,14 @@ public class Tan extends Trigonometric {
 		}
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Frac(
-            new Sin(parameters[0]).evaluateElementary(),
-            new Cos(parameters[0]).evaluateElementary()
-        ).evaluateElementary();
+            new Sin(parameters[0]).selfElementary(),
+            new Cos(parameters[0]).selfElementary()
+        ).selfElementary();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
 		final Generic result = trySimplify();
 
 		if (result != null) {
@@ -80,17 +80,17 @@ public class Tan extends Trigonometric {
 	}
 
 	public Generic identity(Generic a, Generic b) {
-        Generic ta=new Tan(a).evaluateSimplify();
-        Generic tb=new Tan(b).evaluateSimplify();
+        Generic ta=new Tan(a).selfSimplify();
+        Generic tb=new Tan(b).selfSimplify();
         return new Frac(
             ta.add(tb),
             JsclInteger.valueOf(1).subtract(
                 ta.multiply(tb)
             )
-        ).evaluateSimplify();
+        ).selfSimplify();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).tan();
     }
 

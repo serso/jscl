@@ -16,8 +16,8 @@ public class Rad extends AbstractDms {
 	}
 
 	@Override
-	public Generic evaluateNumerically() {
-		return AngleUnit.deg.transform(AngleUnit.rad, super.evaluateNumerically());
+	public Generic selfNumeric() {
+		return AngleUnit.deg.transform(AngleUnit.rad, super.selfNumeric());
 	}
 
 	@Override

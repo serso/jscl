@@ -1,5 +1,7 @@
 package jscl.math;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DoubleVariable extends GenericVariable {
 
 	public DoubleVariable(Generic generic) {
@@ -14,7 +16,8 @@ public class DoubleVariable extends GenericVariable {
         return expressionValue().multiply(variable.expressionValue());
     }
 
-    public Generic derivative(Variable variable) {
+    @NotNull
+	public Generic derivative(Variable variable) {
         return JsclInteger.valueOf(0);
     }
 

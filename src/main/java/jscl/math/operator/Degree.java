@@ -25,7 +25,7 @@ public class Degree extends PostfixFunction {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 1;
 	}
 

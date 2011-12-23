@@ -25,7 +25,7 @@ public class Acot extends ArcTrigonometric {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return Constant.i.multiply(
             new Ln(
                 new Root(
@@ -35,12 +35,12 @@ public class Acot extends ArcTrigonometric {
                         Constant.i.subtract(parameters[0])
                     },
                     0
-                ).evaluateElementary()
-            ).evaluateElementary()
+                ).selfElementary()
+            ).selfElementary()
         );
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).acot();
     }
 

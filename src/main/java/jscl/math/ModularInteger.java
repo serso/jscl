@@ -62,11 +62,12 @@ public class ModularInteger extends Generic implements Field {
         return newinstance(BigInteger.valueOf(content).modInverse(BigInteger.valueOf(modulo)).intValue());
     }
 
-    public Generic gcd(Generic generic) {
+    public Generic gcd(@NotNull Generic generic) {
         throw new UnsupportedOperationException();
     }
 
-    public Generic gcd() {
+    @NotNull
+	public Generic gcd() {
         throw new UnsupportedOperationException();
     }
 
@@ -163,7 +164,7 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isConstant(Variable variable) {
+    public boolean isConstant(@NotNull Variable variable) {
         throw new UnsupportedOperationException();
     }
 

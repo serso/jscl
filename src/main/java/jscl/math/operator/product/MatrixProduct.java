@@ -21,7 +21,7 @@ public class MatrixProduct extends VectorOperator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 

@@ -17,7 +17,7 @@ abstract class PostfixFunction extends Operator {
 		final StringBuilder result = new StringBuilder();
 
 		/*try {*/
-			result.append(substituteParameter(0));
+			result.append(formatParameter(0));
 		/*} catch (NotIntegerException e) {
 			try {
 				final Variable v = parameters[0].variableValue();

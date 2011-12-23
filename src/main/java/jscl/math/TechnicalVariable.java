@@ -22,7 +22,8 @@ public class TechnicalVariable extends Variable {
                 throw new NotIntegrableException();
         }
 
-        public Generic derivative(Variable variable) {
+        @NotNull
+		public Generic derivative(Variable variable) {
                 if(isIdentity(variable)) return JsclInteger.valueOf(1);
                 else return JsclInteger.valueOf(0);
         }

@@ -88,24 +88,25 @@ public final class Rational extends Generic implements Field {
     }
 
     public Rational gcd(Rational rational) {
-        return new Rational(numerator.gcd(rational.numerator),scm(denominator,rational.denominator));
-    }
+		return new Rational(numerator.gcd(rational.numerator), scm(denominator, rational.denominator));
+	}
 
-    public Generic gcd(Generic generic) {
-        if(generic instanceof Rational) {
-            return gcd((Rational)generic);
-        } else if(generic instanceof JsclInteger) {
-            return gcd(valueOf(generic));
-        } else {
-            return generic.valueOf(this).gcd(generic);
-        }
-    }
+	public Generic gcd(@NotNull Generic generic) {
+		if (generic instanceof Rational) {
+			return gcd((Rational) generic);
+		} else if (generic instanceof JsclInteger) {
+			return gcd(valueOf(generic));
+		} else {
+			return generic.valueOf(this).gcd(generic);
+		}
+	}
 
     static BigInteger scm(BigInteger b1, BigInteger b2) {
         return b1.multiply(b2).divide(b1.gcd(b2));
     }
 
-    public Generic gcd() {
+    @NotNull
+	public Generic gcd() {
         return null;
     }
 
@@ -235,7 +236,7 @@ public final class Rational extends Generic implements Field {
         return true;
     }
 
-    public boolean isConstant(Variable variable) {
+    public boolean isConstant(@NotNull Variable variable) {
         return true;
     }
 

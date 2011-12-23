@@ -28,7 +28,7 @@ public class Atanh extends ArcTrigonometric {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Ln(
             new Root(
                 new Generic[] {
@@ -37,11 +37,11 @@ public class Atanh extends ArcTrigonometric {
                     JsclInteger.valueOf(-1).add(parameters[0])
                 },
                 0
-            ).evaluateElementary()
-        ).evaluateElementary();
+            ).selfElementary()
+        ).selfElementary();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).atanh();
     }
 

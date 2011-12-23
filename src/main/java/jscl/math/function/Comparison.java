@@ -24,7 +24,7 @@ public class Comparison extends Function {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
@@ -44,24 +44,24 @@ public class Comparison extends Function {
 		return expressionValue();
 	}
 
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return expressionValue();
 	}
 
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		return expressionValue();
 	}
 
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		return compare((NumericWrapper) parameters[0], (NumericWrapper) parameters[1]);
 	}
 
 	JsclInteger compare(JsclInteger a1, JsclInteger a2) {
-		return JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0);
+		return JsclInteger.valueOf(compare((Generic) a1, a2) ? 1 : 0);
 	}
 
 	NumericWrapper compare(NumericWrapper a1, NumericWrapper a2) {
-		return new NumericWrapper(JsclInteger.valueOf(compare((Generic) a1, (Generic) a2) ? 1 : 0));
+		return new NumericWrapper(JsclInteger.valueOf(compare(a1, (Generic) a2) ? 1 : 0));
 	}
 
 	boolean compare(Generic a1, Generic a2) {

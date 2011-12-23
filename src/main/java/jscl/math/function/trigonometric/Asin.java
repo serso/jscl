@@ -7,7 +7,8 @@ import jscl.math.Variable;
 import jscl.math.function.*;
 
 public class Asin extends ArcTrigonometric {
-    public Asin(Generic generic) {
+
+	public Asin(Generic generic) {
         super("asin",new Generic[] {generic});
     }
 
@@ -28,7 +29,7 @@ public class Asin extends ArcTrigonometric {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return Constant.i.multiply(
             new Ln(
                 new Root(
@@ -38,12 +39,12 @@ public class Asin extends ArcTrigonometric {
                         JsclInteger.valueOf(1)
                     },
                     0
-                ).evaluateElementary()
-            ).evaluateElementary()
+                ).selfElementary()
+            ).selfElementary()
         );
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).asin();
     }
 

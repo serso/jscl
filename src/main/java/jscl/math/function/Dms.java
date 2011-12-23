@@ -22,7 +22,7 @@ public class Dms extends AbstractDms {
 
 	@NotNull
 	@Override
-	protected String substituteUndefinedParameter(int i) {
+	protected String formatUndefinedParameter(int i) {
 		switch (i){
 			case 0:
 				return "d";
@@ -31,7 +31,7 @@ public class Dms extends AbstractDms {
 			case 2:
 				return "s";
 			default:
-				return super.substituteUndefinedParameter(i);
+				return super.formatUndefinedParameter(i);
 
 		}
 	}

@@ -103,7 +103,7 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 		if (operator == null) {
 			return null;
 		} else {
-			if (operator.getMinimumNumberOfParameters() <= parameters.length && operator.getMaximumNumberOfParameters() >= parameters.length) {
+			if (operator.getMinParameters() <= parameters.length && operator.getMaxParameters() >= parameters.length) {
 				return operator.newInstance(parameters);
 			} else {
 				return null;

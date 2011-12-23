@@ -51,13 +51,14 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
         return JsclInteger.valueOf(1).divide(this);
     }
 
-    public abstract Generic gcd(Generic generic);
+    public abstract Generic gcd(@NotNull Generic generic);
 
     public Generic scm(Generic generic) {
         return divide(gcd(generic)).multiply(generic);
     }
 
-    public abstract Generic gcd();
+	@NotNull
+    protected abstract Generic gcd();
 
     public Generic[] gcdAndNormalize() {
         Generic gcd=gcd();
@@ -118,9 +119,10 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
     public abstract Variable variableValue() throws NotVariableException;
     public abstract Variable[] variables();
     public abstract boolean isPolynomial(Variable variable);
-    public abstract boolean isConstant(Variable variable);
 
-    public boolean isIdentity(Variable variable) {
+	public abstract boolean isConstant(@NotNull Variable variable);
+
+    public boolean isIdentity(@NotNull Variable variable) {
         try {
             return variableValue().isIdentity(variable);
         } catch (NotVariableException e) {

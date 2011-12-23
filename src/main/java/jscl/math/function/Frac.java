@@ -11,14 +11,19 @@ public class Frac extends Algebraic {
 	// where 	n = numerator,
 	//			d = denominator
 	public Frac(Generic numerator, Generic denominator) {
-        super("frac",new Generic[] {numerator,denominator});
-    }
+		super("frac", new Generic[]{numerator, denominator});
+	}
 
-    public Root rootValue() {
+	@Override
+	public int getMinParameters() {
+		return 2;
+	}
+
+	public Root rootValue() {
         return new Root( new Generic[] { parameters[0].negate(), parameters[1] }, 0 );
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         if(parameters[0].isPolynomial(variable) && parameters[1].isPolynomial(variable)) {
             return AntiDerivative.compute(this, variable);
         } else throw new NotIntegrableException();
@@ -48,24 +53,26 @@ public class Frac extends Algebraic {
         try {
             return parameters[0].divide(parameters[1]);
         } catch (NotDivisibleException e) {}
+		catch (ArithmeticException e){}
+
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return evaluate();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
-            return new Frac(parameters[0].negate(), parameters[1]).evaluateSimplify().negate();
+            return new Frac(parameters[0].negate(), parameters[1]).selfSimplify().negate();
         }
         if(parameters[1].signum()<0) {
-            return new Frac(parameters[0].negate(), parameters[1].negate()).evaluateSimplify();
+            return new Frac(parameters[0].negate(), parameters[1].negate()).selfSimplify();
         }
         return evaluate();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
 		//if (parameter[0] instanceof NumericWrapper && parameter[1] instanceof NumericWrapper) {
 			return ((NumericWrapper) parameters[0]).divide((NumericWrapper) parameters[1]);
 		//} else {

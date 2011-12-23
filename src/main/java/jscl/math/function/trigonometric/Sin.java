@@ -28,17 +28,17 @@ public class Sin extends Trigonometric {
 		}
 	}
 
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return new Exp(
 				Constant.i.multiply(parameters[0])
-		).evaluateElementary().subtract(
+		).selfElementary().subtract(
 				new Exp(
 						Constant.i.multiply(parameters[0].negate())
-				).evaluateElementary()
+				).selfElementary()
 		).multiply(Constant.i.negate().multiply(Constant.half));
 	}
 
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		final Generic result = trySimplify();
 
 		if (result != null) {
@@ -72,16 +72,16 @@ public class Sin extends Trigonometric {
 	}
 
 	public Generic identity(Generic a, Generic b) {
-		return new Cos(b).evaluateSimplify().multiply(
-				new Sin(a).evaluateSimplify()
+		return new Cos(b).selfSimplify().multiply(
+				new Sin(a).selfSimplify()
 		).add(
-				new Cos(a).evaluateSimplify().multiply(
-						new Sin(b).evaluateSimplify()
+				new Cos(a).selfSimplify().multiply(
+						new Sin(b).selfSimplify()
 				)
 		);
 	}
 
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		return ((NumericWrapper) parameters[0]).sin();
 	}
 

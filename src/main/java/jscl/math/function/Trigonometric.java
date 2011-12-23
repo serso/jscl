@@ -4,13 +4,14 @@ import jscl.math.Generic;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.math.polynomial.Polynomial;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Trigonometric extends Function {
     public Trigonometric(String name, Generic parameter[]) {
         super(name,parameter);
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         Generic s= parameters[0];
         if(s.isPolynomial(variable)) {
             Polynomial p=Polynomial.factory(variable).valueOf(s);

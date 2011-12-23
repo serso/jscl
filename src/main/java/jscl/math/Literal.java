@@ -137,35 +137,53 @@ public class Literal implements Comparable {
 		return l;
 	}
 
-	public Literal gcd(Literal literal) {
-		Literal l = newInstance(Math.min(size, literal.size));
+	@NotNull
+	public Literal gcd(@NotNull Literal that) {
+		Literal result = newInstance(Math.min(this.size, that.size));
 		int i = 0;
-		int i1 = 0;
-		int i2 = 0;
-		Variable v1 = i1 < size ? variables[i1] : null;
-		Variable v2 = i2 < literal.size ? literal.variables[i2] : null;
-		while (v1 != null || v2 != null) {
-			int c = v1 == null ? 1 : (v2 == null ? -1 : v1.compareTo(v2));
-			if (c < 0) {
-				i1++;
-				v1 = i1 < size ? variables[i1] : null;
-			} else if (c > 0) {
-				i2++;
-				v2 = i2 < literal.size ? literal.variables[i2] : null;
+
+		int thisI = 0;
+		int thatI = 0;
+
+		Variable thisVariable = thisI < this.size ? this.variables[thisI] : null;
+		Variable thatVariable = thatI < that.size ? that.variables[thatI] : null;
+
+		while (thisVariable != null || thatVariable != null) {
+			int c;
+
+			if (thisVariable == null) {
+				c = 1;
+			} else if (thatVariable == null) {
+				c = -1;
 			} else {
-				int s = Math.min(powers[i1], literal.powers[i2]);
-				l.variables[i] = v1;
-				l.powers[i] = s;
-				l.degree += s;
+				c = thisVariable.compareTo(thatVariable);
+			}
+
+			if (c < 0) {
+				thisI++;
+				thisVariable = thisI < this.size ? this.variables[thisI] : null;
+			} else if (c > 0) {
+				thatI++;
+				thatVariable = thatI < that.size ? that.variables[thatI] : null;
+			} else {
+				int minPower = Math.min(this.powers[thisI], that.powers[thatI]);
+
+				result.variables[i] = thisVariable;
+				result.powers[i] = minPower;
+				result.degree += minPower;
+
 				i++;
-				i1++;
-				i2++;
-				v1 = i1 < size ? variables[i1] : null;
-				v2 = i2 < literal.size ? literal.variables[i2] : null;
+				thisI++;
+				thatI++;
+
+				thisVariable = thisI < this.size ? this.variables[thisI] : null;
+				thatVariable = thatI < that.size ? that.variables[thatI] : null;
 			}
 		}
-		l.resize(i);
-		return l;
+
+		result.resize(i);
+
+		return result;
 	}
 
 	public Literal scm(@NotNull Literal that) {
@@ -210,6 +228,7 @@ public class Literal implements Comparable {
 				thatVariable = thatI < that.size ? that.variables[thatI] : null;
 			} else {
 				int maxPower = Math.max(this.powers[thisI], that.powers[thatI]);
+
 				result.variables[i] = thisVariable;
 				result.powers[i] = maxPower;
 				result.degree += maxPower;
@@ -218,7 +237,7 @@ public class Literal implements Comparable {
 				thisI++;
 				thatI++;
 
-				thisVariable = thisI < this.size ? variables[thisI] : null;
+				thisVariable = thisI < this.size ? this.variables[thisI] : null;
 				thatVariable = thatI < that.size ? that.variables[thatI] : null;
 			}
 		}
@@ -370,6 +389,7 @@ public class Literal implements Comparable {
 			result.append("1");
 		}
 
+		// result = var[0] ^ power[0] * var[1] ^ power[1]* ...
 		for (int i = 0; i < size; i++) {
 			if (i > 0) {
 				result.append("*");

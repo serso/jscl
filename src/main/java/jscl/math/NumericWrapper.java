@@ -136,10 +136,11 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 		}
 	}
 
-	public Generic gcd(Generic generic) {
+	public Generic gcd(@NotNull Generic generic) {
 		return null;
 	}
 
+	@NotNull
 	public Generic gcd() {
 		return null;
 	}
@@ -258,7 +259,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 		return true;
 	}
 
-	public boolean isConstant(Variable variable) {
+	public boolean isConstant(@NotNull Variable variable) {
 		return true;
 	}
 

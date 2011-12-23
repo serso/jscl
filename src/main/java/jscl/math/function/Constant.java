@@ -54,6 +54,7 @@ public class Constant extends Variable {
 		return null;
 	}
 
+	@NotNull
 	public Generic derivative(Variable variable) {
 		if (isIdentity(variable)) {
 			return JsclInteger.valueOf(1);

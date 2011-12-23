@@ -19,7 +19,7 @@ public class Integral extends Operator {
     }
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 4;
 	}
 
@@ -34,7 +34,7 @@ public class Integral extends Operator {
 
 	@NotNull
 	@Override
-	protected String substituteUndefinedParameter(int i) {
+	protected String formatUndefinedParameter(int i) {
 		switch (i){
 			case 0:
 				return "f(x)";
@@ -45,7 +45,7 @@ public class Integral extends Operator {
 			case 3:
 				return "b";
 			default:
-				return super.substituteUndefinedParameter(i);
+				return super.formatUndefinedParameter(i);
 		}
 	}
 

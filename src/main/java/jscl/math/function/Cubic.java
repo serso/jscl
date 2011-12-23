@@ -3,6 +3,7 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Cubic extends Algebraic {
     public Cubic(Generic generic) {
@@ -21,7 +22,7 @@ public class Cubic extends Algebraic {
         );
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         Root r=rootValue();
         Generic g[]=r.getParameters();
         if(g[0].isPolynomial(variable)) {
@@ -49,14 +50,14 @@ public class Cubic extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return evaluate();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         try {
             JsclInteger en= parameters[0].integerValue();
-            if(en.signum()<0) return new Cubic(en.negate()).evaluateSimplify().negate();
+            if(en.signum()<0) return new Cubic(en.negate()).selfSimplify().negate();
             else {
                 Generic rt=en.nthrt(3);
                 if(rt.pow(3).compareTo(en)==0) return rt;
@@ -65,7 +66,7 @@ public class Cubic extends Algebraic {
         return expressionValue();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).nThRoot(3);
     }
 

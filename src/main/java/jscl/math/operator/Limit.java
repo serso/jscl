@@ -31,12 +31,12 @@ public class Limit extends Operator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 3;
 	}
 
 	@Override
-	public int getMaximumNumberOfParameters() {
+	public int getMaxParameters() {
 		return 4;
 	}
 

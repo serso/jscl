@@ -28,14 +28,14 @@ public class Sgn extends Function {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Frac(
             parameters[0],
-            new Abs(parameters[0]).evaluateElementary()
-        ).evaluateElementary();
+            new Abs(parameters[0]).selfElementary()
+        ).selfElementary();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
             return new Sgn(parameters[0].negate()).evaluate().negate();
         } else if(parameters[0].signum()==0) {
@@ -50,13 +50,13 @@ public class Sgn extends Function {
                 return JsclInteger.valueOf(1);
             } else if(v instanceof Sgn) {
                 Function f=(Function)v;
-                return f.evaluateSimplify();
+                return f.selfSimplify();
             }
         } catch (NotVariableException e) {}
         return expressionValue();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).sgn();
     }
 

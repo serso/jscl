@@ -23,12 +23,12 @@ public class Jacobian extends VectorOperator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
 	public Generic evaluate() {
-        Variable variable[]=variables(parameters[1]);
+        Variable variable[]= toVariables(parameters[1]);
         if(parameters[0] instanceof JsclVector) {
             JsclVector vector=(JsclVector) parameters[0];
             return vector.jacobian(variable);
@@ -53,7 +53,7 @@ public class Jacobian extends VectorOperator {
     }
 
     protected void operator(MathML element, String name) {
-        Variable variable[]=variables(GenericVariable.content(parameters[1]));
+        Variable variable[]= toVariables(GenericVariable.content(parameters[1]));
         MathML e1=element.element("msubsup");
         new Constant(name).toMathML(e1,null);
         MathML e2=element.element("mrow");

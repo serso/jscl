@@ -31,12 +31,12 @@ public abstract class AbstractDms extends Algebraic {
 	}
 
 	@Override
-	public int getMaximumNumberOfParameters() {
+	public int getMaxParameters() {
 		return 3;
 	}
 
 	@Override
-	public void setParameters(Generic[] parameters) {
+	public void setParameters(@Nullable Generic[] parameters) {
 		super.setParameters(createParameters(getParameter(parameters, 0), getParameter(parameters, 1), getParameter(parameters, 2)));
 	}
 
@@ -69,17 +69,17 @@ public abstract class AbstractDms extends Algebraic {
 	}
 
 	@Override
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return evaluate();
 	}
 
 	@Override
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		return evaluate();
 	}
 
 	@Override
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		Generic degrees = parameters[0];
 
 		if ( parameters.length > 1 && parameters[1] != null ) {

@@ -31,14 +31,14 @@ public class Coth extends Trigonometric {
         return expressionValue();
     }
 
-    public Generic evaluateElementary() {
+    public Generic selfElementary() {
         return new Frac(
-            new Cosh(parameters[0]).evaluateElementary(),
-            new Sinh(parameters[0]).evaluateElementary()
-        ).evaluateElementary();
+            new Cosh(parameters[0]).selfElementary(),
+            new Sinh(parameters[0]).selfElementary()
+        ).selfElementary();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
             return new Coth(parameters[0].negate()).evaluate().negate();
         }
@@ -53,15 +53,15 @@ public class Coth extends Trigonometric {
     }
 
     public Generic identity(Generic a, Generic b) {
-        Generic ta=new Coth(a).evaluateSimplify();
-        Generic tb=new Coth(b).evaluateSimplify();
+        Generic ta=new Coth(a).selfSimplify();
+        Generic tb=new Coth(b).selfSimplify();
         return new Frac(
             ta.multiply(tb).add(JsclInteger.valueOf(1)),
                         ta.add(tb)
-        ).evaluateSimplify();
+        ).selfSimplify();
     }
 
-    public Generic evaluateNumerically() {
+    public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).coth();
     }
 

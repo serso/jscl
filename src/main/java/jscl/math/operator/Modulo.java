@@ -10,8 +10,8 @@ public class Modulo extends Operator {
 
 	public static final String NAME = "mod";
 
-	public Modulo(Generic expression1, Generic expression2) {
-		super(NAME, new Generic[]{expression1, expression2});
+	public Modulo(Generic first, Generic second) {
+		super(NAME, new Generic[]{first, second});
 	}
 
 	private Modulo(Generic parameters[]) {
@@ -19,15 +19,17 @@ public class Modulo extends Operator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
 	public Generic evaluate() {
 		try {
-			JsclInteger en = parameters[0].integerValue();
-			JsclInteger en2 = parameters[1].integerValue();
-			return en.mod(en2);
+			final JsclInteger first = parameters[0].integerValue();
+			final JsclInteger second = parameters[1].integerValue();
+
+			return first.mod(second);
+
 		} catch (NotIntegerException e) {
 		}
 		return parameters[0].remainder(parameters[1]);

@@ -34,17 +34,17 @@ public class Deg extends Algebraic {
 	}
 
 	@Override
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return evaluate();
 	}
 
 	@Override
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		return evaluate();
 	}
 
 	@Override
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		return AngleUnit.rad.transform(AngleUnit.deg, parameters[0]);
 	}
 

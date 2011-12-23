@@ -4,7 +4,8 @@ import jscl.math.Generic;
 import jscl.math.NotIntegrableException;
 
 public abstract class ArcTrigonometric extends Function {
-    public ArcTrigonometric(String name, Generic parameter[]) {
+
+	public ArcTrigonometric(String name, Generic parameter[]) {
         super(name,parameter);
     }
 
@@ -12,7 +13,7 @@ public abstract class ArcTrigonometric extends Function {
         throw new NotIntegrableException();
     }
 
-    public Generic evaluateSimplify() {
+    public Generic selfSimplify() {
         return evaluate();
     }
 }

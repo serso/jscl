@@ -2,6 +2,7 @@ package jscl.math.operator.vector;
 
 import jscl.math.Expression;
 import jscl.math.Generic;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
@@ -21,12 +22,12 @@ public class Dalembertian extends VectorOperator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
 	public Generic evaluate() {
-        Variable variable[]=variables(parameters[1]);
+        Variable variable[]= toVariables((JsclVector)parameters[1]);
         Expression expression= parameters[0].expressionValue();
         return expression.dalembertian(variable);
     }

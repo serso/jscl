@@ -16,7 +16,7 @@ public class Sqrt extends Algebraic {
 		return new Root(new Generic[]{ parameters[0].negate(), JsclInteger.valueOf(0),JsclInteger.valueOf(1)}, 0);
 	}
 
-	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
 		Root r = rootValue();
 		Generic g[] = r.getParameters();
 		if (g[0].isPolynomial(variable)) {
@@ -57,16 +57,16 @@ public class Sqrt extends Algebraic {
 		return result;
 	}
 
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return evaluate();
 	}
 
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		Generic result = null;
 		try {
 			final JsclInteger p = parameters[0].integerValue();
 			if (p.signum() < 0) {
-				return Constant.i.multiply(new Sqrt(p.negate()).evaluateSimplify());
+				return Constant.i.multiply(new Sqrt(p.negate()).selfSimplify());
 			} else {
 				final Generic sqrt = p.sqrt();
 				if (sqrt.pow(2).compareTo(p) == 0) {
@@ -91,12 +91,12 @@ public class Sqrt extends Algebraic {
 
 		if (n[0].compareTo(JsclInteger.valueOf(1)) != 0 || n[1].compareTo(JsclInteger.valueOf(1)) != 0) {
 			// n
-			final Generic numerator = new Sqrt(n[0]).evaluateSimplify();
+			final Generic numerator = new Sqrt(n[0]).selfSimplify();
 			// d
-			final Generic denominator = new Sqrt(n[1]).evaluateSimplify();
+			final Generic denominator = new Sqrt(n[1]).selfSimplify();
 			// fraction = n / d
-			final Generic fraction = new Frac(numerator, denominator).evaluateSimplify();
-			return new Sqrt(n[2]).evaluateSimplify().multiply(fraction);
+			final Generic fraction = new Frac(numerator, denominator).selfSimplify();
+			return new Sqrt(n[2]).selfSimplify().multiply(fraction);
 		}
 
 		return null;
@@ -127,7 +127,7 @@ public class Sqrt extends Algebraic {
 		return result;
 	}
 
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		return ((NumericWrapper) parameters[0]).sqrt();
 	}
 

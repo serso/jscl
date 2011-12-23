@@ -18,6 +18,7 @@ public class CustomFunction extends Function {
 	@NotNull
 	private Generic content;
 
+	@NotNull
 	private String[] parameterNames;
 
 	public static class Builder implements IBuilder<CustomFunction> {
@@ -113,17 +114,17 @@ public class CustomFunction extends Function {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return parameterNames == null ? 0 : parameterNames.length;
 	}
 
 	@Override
-	public int getMaximumNumberOfParameters() {
-		return parameterNames == null ? 0 : parameterNames.length;
+	public int getMaxParameters() {
+		return parameterNames == null ? Integer.MAX_VALUE : parameterNames.length;
 	}
 
 	@Override
-	public Generic substitute(Variable variable, Generic generic) {
+	public Generic substitute(@NotNull Variable variable, @NotNull Generic generic) {
 		return super.substitute(variable, generic);
 	}
 
@@ -150,6 +151,7 @@ public class CustomFunction extends Function {
 	@Override
 	public Generic evaluate() {
 		Generic localContent = content;
+
 		for (int i = 0; i < parameterNames.length; i++) {
 			localContent = localContent.substitute(new Constant(parameterNames[i]), parameters[i]);
 		}
@@ -158,23 +160,50 @@ public class CustomFunction extends Function {
 	}
 
 	@Override
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		throw new ArithmeticException();
 	}
 
 	@Override
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		return expressionValue();
 	}
 
 	@Override
-	public Generic evaluateNumerically() {
+	public Generic selfNumeric() {
 		throw new ArithmeticException();
+	}
+
+	@Override
+	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+		if ( getParameterForAntiDerivation(variable) < 0 ) {
+			throw new NotIntegrableException();
+		} else {
+			return this.content.antiDerivative(variable);
+		}
 	}
 
 	@Override
 	public Generic antiDerivative(int n) throws NotIntegrableException {
 		throw new NotIntegrableException();
+	}
+
+	@NotNull
+	@Override
+	public Generic derivative(@NotNull Variable variable) {
+		Generic result = JsclInteger.valueOf(0);
+
+		for (int i = 0; i < parameters.length; i++) {
+			// chain rule: f(x) = g(h(x)) => f'(x) = g'(h(x)) * h'(x)
+			// hd = h'(x)
+			// gd = g'(x)
+			final Generic hd = parameters[i].derivative(variable);
+			final Generic gd = this.content.derivative(variable);
+
+			result = result.add(hd.multiply(gd));
+		}
+
+		return result;
 	}
 
 	@Override
@@ -187,6 +216,7 @@ public class CustomFunction extends Function {
 		return this.content.toString();
 	}
 
+	@NotNull
 	public String[] getParameterNames() {
 		return parameterNames;
 	}

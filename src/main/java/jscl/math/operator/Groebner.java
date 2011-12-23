@@ -41,13 +41,13 @@ public class Groebner extends Operator {
 
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 2;
 	}
 
 	public Generic evaluate() {
 		Generic generic[] = ((JsclVector) parameters[0]).elements();
-		Variable variable[] = variables(parameters[1]);
+		Variable variable[] = toVariables((JsclVector)parameters[1]);
 		Ordering ord = ordering(parameters[2]);
 		int m = parameters[3].integerValue().intValue();
 		return new PolynomialVector(Basis.compute(generic, variable, ord, m));
@@ -57,7 +57,7 @@ public class Groebner extends Operator {
 		Generic p[] = new Generic[]{GenericVariable.content(parameters[0]), GenericVariable.content(parameters[1])};
 		if (p[0] instanceof JsclVector && p[1] instanceof JsclVector) {
 			Generic generic[] = ((JsclVector) p[0]).elements();
-			Variable variable[] = variables(p[1]);
+			Variable variable[] = toVariables((JsclVector)p[1]);
 			Ordering ord = ordering(parameters[2]);
 			int m = parameters[3].integerValue().intValue();
 			return new Groebner(new PolynomialVector(new Basis(generic, Polynomial.factory(variable, ord, m))), p[1], parameters[2], parameters[3]);

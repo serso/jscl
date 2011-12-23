@@ -19,7 +19,7 @@ public class Factorial extends PostfixFunction {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 1;
 	}
 

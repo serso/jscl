@@ -20,7 +20,7 @@ public class ModPow extends Operator {
 	}
 
 	@Override
-	public int getMinimumNumberOfParameters() {
+	public int getMinParameters() {
 		return 3;
 	}
 

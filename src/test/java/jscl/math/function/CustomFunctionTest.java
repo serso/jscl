@@ -14,6 +14,55 @@ import org.junit.Test;
 public class CustomFunctionTest {
 
 	@Test
+	public void testLog() throws Exception {
+		JsclMathEngine mathEngine = JsclMathEngine.instance;
+
+		Assert.assertEquals("∞", Expression.valueOf("1/0").numeric().toString());
+		Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
+
+		// logarithm
+		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder(true, "log", new String[]{"a", "b"}, "ln(b)/ln(a)"));
+		Assert.assertEquals("∞", Expression.valueOf("log(1, 10)").numeric().toString());
+		Assert.assertEquals("3.3219280948873626", Expression.valueOf("log(2, 10)").numeric().toString());
+		Assert.assertEquals("1.4306765580733933", Expression.valueOf("log(5, 10)").numeric().toString());
+		Assert.assertEquals("0.9602525677891275", Expression.valueOf("log(11, 10)").numeric().toString());
+		Assert.assertEquals("1/b*1/ln(a)", Expression.valueOf("∂(log(a, b), b)").expand().toString());
+		Assert.assertEquals("-1/a*(1/ln(a))^2*ln(b)", Expression.valueOf("∂(log(a, b), a)").expand().toString());
+
+	}
+
+	@Test
+	public void testDerivative() throws Exception {
+		JsclMathEngine mathEngine = JsclMathEngine.instance;
+
+		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1", new String[]{"a"}, "sin(a)"));
+		Assert.assertEquals("1.0", Expression.valueOf("t1(90)").numeric().toString());
+		Assert.assertEquals("cos(t)", Expression.valueOf("∂(t1(t), t)").expand().toString());
+		Assert.assertEquals("0", Expression.valueOf("∂(t1(t), t2)").expand().toString());
+		Assert.assertEquals("cos(a)", Expression.valueOf("∂(t1(a), a)").expand().toString());
+		Assert.assertEquals("1", Expression.valueOf("∂(t1(a), t1(a))").expand().toString());
+		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t2", new String[]{"a", "b"}, "b*sin(a)"));
+		Assert.assertEquals("y*cos(x)", Expression.valueOf("∂(t2(x, y), x)").expand().toString());
+		Assert.assertEquals("sin(x)", Expression.valueOf("∂(t2(x, y), y)").expand().toString());
+	}
+
+	@Test
+	public void testAntiDerivative() throws Exception {
+		JsclMathEngine mathEngine = JsclMathEngine.instance;
+
+		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1", new String[]{"a"}, "sin(a)"));
+		Assert.assertEquals("1.0", Expression.valueOf("t1(90)").numeric().toString());
+		Assert.assertEquals("-cos(t)", Expression.valueOf("∫(t1(t), t)").expand().toString());
+		Assert.assertEquals("t2*sin(t)", Expression.valueOf("∫(t1(t), t2)").expand().toString());
+		Assert.assertEquals("-cos(a)", Expression.valueOf("∫(t1(a), a)").expand().toString());
+		Assert.assertEquals("1/2*sin(a)^2", Expression.valueOf("∫(t1(a), t1(a))").expand().toString());
+		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t2", new String[]{"a", "b"}, "b*sin(a)"));
+		Assert.assertEquals("-y*cos(x)", Expression.valueOf("∫(t2(x, y), x)").expand().toString());
+		Assert.assertEquals("1/2*y^2*sin(x)", Expression.valueOf("∫(t2(x, y), y)").expand().toString());
+	}
+
+
+	@Test
 	public void testFunction() throws Exception {
 		JsclMathEngine mathEngine = JsclMathEngine.instance;
 

@@ -1,6 +1,5 @@
 package jscl.math;
 
-import com.sun.org.apache.bcel.internal.classfile.ConstantInteger;
 import jscl.math.function.*;
 import jscl.math.polynomial.Basis;
 import jscl.math.polynomial.Monomial;
@@ -45,7 +44,7 @@ public final class Simplification {
 				result = generic;
 				break;
 			case 1:
-				result = new Root(p, 0).evaluateSimplify();
+				result = new Root(p, 0).selfSimplify();
 				break;
 //          case 2:
 //              int n=branch(generic,p);
@@ -70,7 +69,7 @@ public final class Simplification {
 				result = generic;
 				break;
 			default:
-				result = new Root(p, 0).evaluateSimplify();
+				result = new Root(p, 0).selfSimplify();
 		}
 	}
 

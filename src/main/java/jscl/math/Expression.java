@@ -238,34 +238,48 @@ public class Expression extends Generic {
 		}
 	}
 
-	public Generic gcd(Generic generic) {
+	public Generic gcd(@NotNull Generic generic) {
 		if (generic instanceof Expression) {
-			Expression ex = (Expression) generic;
-			Literal l1 = literalScm();
-			Literal l2 = ex.literalScm();
-			Literal l = l1.gcd(l2);
-			Variable va[] = l.variables();
-			if (va.length == 0) {
-				if (signum() == 0) return ex;
-				else return gcd(ex.gcd());
+			final Expression that = (Expression) generic;
+
+			final Literal thisL = this.literalScm();
+			final Literal thatL = that.literalScm();
+
+			final Literal gcdL = thisL.gcd(thatL);
+
+			final Variable vars[] = gcdL.variables();
+			if (vars.length == 0) {
+				if (signum() == 0) {
+					return that;
+				} else {
+					return this.gcd(that.gcd());
+				}
 			} else {
-				Polynomial fact = Polynomial.factory(va[0]);
-				return fact.valueOf(this).gcd(fact.valueOf(ex)).genericValue();
+				Polynomial p = Polynomial.factory(vars[0]);
+				return p.valueOf(this).gcd(p.valueOf(that)).genericValue();
 			}
 		} else if (generic instanceof JsclInteger) {
-			if (generic.signum() == 0) return this;
-			else return gcd().gcd(generic);
-		} else if (generic instanceof Rational|| generic instanceof NumericWrapper) {
+			if (generic.signum() == 0) {
+				return this;
+			}else {
+				return this.gcd().gcd(generic);
+			}
+		} else if (generic instanceof Rational || generic instanceof NumericWrapper) {
 			return gcd(valueOf(generic));
 		} else {
 			return generic.valueOf(this).gcd(generic);
 		}
 	}
 
+	@NotNull
 	public Generic gcd() {
-		JsclInteger en = JsclInteger.valueOf(0);
-		for (int i = size - 1; i >= 0; i--) en = en.gcd(coefficients[i]);
-		return en;
+		JsclInteger result = JsclInteger.valueOf(0);
+
+		for (int i = size - 1; i >= 0; i--) {
+			result = result.gcd(coefficients[i]);
+		}
+
+		return result;
 	}
 
 	@NotNull
@@ -416,18 +430,23 @@ public class Expression extends Generic {
 		}
 	}
 
-	public Generic valueOf(Generic generic) {
-		Expression ex = newInstance(0);
-		ex.init(generic);
-		return ex;
+	@NotNull
+	public Generic valueOf(@NotNull Generic generic) {
+		final Expression result = newInstance(0);
+
+		result.init(generic);
+
+		return result;
 	}
 
 	@NotNull
 	public Generic[] sumValue() {
 		final Generic result[] = new Generic[size];
+
 		for (int i = 0; i < result.length; i++) {
 			result[i] = valueOf(literals[i], coefficients[i]);
 		}
+
 		return result;
 	}
 
@@ -495,13 +514,19 @@ public class Expression extends Generic {
 	}
 
 	public Variable variableValue() throws NotVariableException {
-		if (size == 0) throw new NotVariableException();
-		else if (size == 1) {
-			Literal l = literals[0];
-			JsclInteger en = coefficients[0];
-			if (en.compareTo(JsclInteger.valueOf(1)) == 0) return l.variableValue();
-			else throw new NotVariableException();
-		} else throw new NotVariableException();
+		if (size == 0) {
+			throw new NotVariableException();
+		} else if (size == 1) {
+			final Literal l = literals[0];
+			final JsclInteger c = coefficients[0];
+			if (c.compareTo(JsclInteger.valueOf(1)) == 0) {
+				return l.variableValue();
+			} else {
+				throw new NotVariableException();
+			}
+		} else {
+			throw new NotVariableException();
+		}
 	}
 
 	public Variable[] variables() {
@@ -591,22 +616,26 @@ public class Expression extends Generic {
 		}
 	}
 
+	@NotNull
 	public static Expression valueOf(@NotNull Variable variable) {
 		return valueOf(Literal.valueOf(variable));
 	}
 
+	@NotNull
 	public static Expression valueOf(@NotNull Literal literal) {
 		return valueOf(literal, JsclInteger.valueOf(1));
 	}
 
+	@NotNull
 	public static Expression valueOf(@NotNull JsclInteger integer) {
 		return valueOf(Literal.newInstance(), integer);
 	}
 
+	@NotNull
 	public static Expression valueOf(@NotNull Literal literal, @NotNull JsclInteger integer) {
-		Expression ex = new Expression();
-		ex.init(literal, integer);
-		return ex;
+		final Expression result = new Expression();
+		result.init(literal, integer);
+		return result;
 	}
 
 	void init(Literal lit, JsclInteger integer) {
@@ -695,6 +724,7 @@ public class Expression extends Generic {
 			result.append("0");
 		}
 
+		// result = coef[0] * literal[0] + coef[1] * literal[1] + ... +
 		for (int i = 0; i < size; i++) {
 			final Literal literal = literals[i];
 			final JsclInteger coefficient = coefficients[i];

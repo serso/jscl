@@ -1,49 +1,34 @@
 package jscl.math.operator;
 
 import jscl.math.*;
-import jscl.math.function.Function;
-import jscl.mathml.MathML;
-import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Operator extends AbstractFunction {
 
-	public Operator(String name, Generic parameters[]) {
+	protected Operator(String name, Generic parameters[]) {
 		super(name, parameters);
-		assert getMinimumNumberOfParameters() <= parameters.length && getMaximumNumberOfParameters() >= parameters.length;
-	}
-
-	public abstract int getMinimumNumberOfParameters();
-
-	public int getMaximumNumberOfParameters(){
-		return getMinimumNumberOfParameters();
 	}
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-		return null;
+		throw new NotIntegrableException();
 	}
 
+	@NotNull
 	public Generic derivative(Variable variable) {
-		if (isIdentity(variable)) return JsclInteger.valueOf(1);
-		else return JsclInteger.valueOf(0);
-	}
-
-	public Generic substitute(Variable variable, Generic generic) {
-		Operator v = (Operator) newInstance();
-		for (int i = 0; i < parameters.length; i++) {
-			v.parameters[i] = parameters[i].substitute(variable, generic);
+		if (isIdentity(variable)) {
+			return JsclInteger.valueOf(1);
+		} else {
+			return JsclInteger.valueOf(0);
 		}
-		if (v.isIdentity(variable)) return generic;
-		else return v.evaluate();
 	}
 
 	@Override
-	public Generic evaluateElementary() {
+	public Generic selfElementary() {
 		return expressionValue();
 	}
 
 	@Override
-	public Generic evaluateSimplify() {
+	public Generic selfSimplify() {
 		return expressionValue();
 	}
 
@@ -55,87 +40,21 @@ public abstract class Operator extends AbstractFunction {
 		return !isIdentity(variable);
 	}
 
-	public int compareTo(Variable variable) {
-		if (this == variable) {
-			return 0;
-		}
-
-		int result = comparator.compare(this, variable);
-		if (result < 0) {
-			return -1;
-		} else if (result > 0) {
-			return 1;
-		} else {
-			result = name.compareTo(((Operator) variable).name);
-			if (result < 0) {
-				return -1;
-			} else if (result > 0) {
-				return 1;
-			} else {
-				return ArrayComparator.comparator.compare(parameters, ((Operator) variable).parameters);
-			}
-		}
-	}
-
-	protected static Variable[] variables(Generic generic) throws NotVariableException {
-		Generic element[] = ((JsclVector) generic).elements();
-		Variable variable[] = new Variable[element.length];
-		for (int i = 0; i < element.length; i++) {
-			variable[i] = element[i].variableValue();
-		}
-		return variable;
-	}
-
-	public String toString() {
-		final StringBuilder result = new StringBuilder();
-		result.append(name);
-		result.append("(");
-		for (int i = 0; i < parameters.length; i++) {
-			result.append(substituteParameter(i)).append(i < parameters.length - 1 ? ", " : "");
-		}
-		result.append(")");
-		return result.toString();
-	}
-
-	protected final String substituteParameter(int i) {
-		Generic parameter = parameters[i];
-
-		String result;
-		if (parameter != null) {
-			result = parameter.toString();
-		} else {
-			result = substituteUndefinedParameter(i);
-		}
-
-		return result;
+	@NotNull
+	protected static Variable[] toVariables(@NotNull Generic vector) throws NotVariableException {
+		return toVariables((JsclVector)vector);
 	}
 
 	@NotNull
-	protected String substituteUndefinedParameter(int i) {
-		return String.valueOf(Function.VARIABLE_NAMES.charAt(i - (i / Function.VARIABLE_NAMES.length()) * Function.VARIABLE_NAMES.length()));
-	}
+	protected static Variable[] toVariables(@NotNull JsclVector vector) throws NotVariableException {
+		final Generic element[] = vector.elements();
+		final Variable variable[] = new Variable[element.length];
 
-	public String toJava() {
-		throw new ArithmeticException();
-	}
+		for (int i = 0; i < element.length; i++) {
+			variable[i] = element[i].variableValue();
+		}
 
-	public void toMathML(MathML element, Object data) {
-		MathML e1;
-		int exponent = data instanceof Integer ? (Integer) data : 1;
-		if (exponent == 1) nameToMathML(element);
-		else {
-			e1 = element.element("msup");
-			nameToMathML(e1);
-			MathML e2 = element.element("mn");
-			e2.appendChild(element.text(String.valueOf(exponent)));
-			e1.appendChild(e2);
-			element.appendChild(e1);
-		}
-		e1 = element.element("mfenced");
-		for (int i = 0; i < parameters.length; i++) {
-			parameters[i].toMathML(e1, null);
-		}
-		element.appendChild(e1);
+		return variable;
 	}
 
 	@NotNull

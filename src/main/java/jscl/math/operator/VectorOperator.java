@@ -2,6 +2,7 @@ package jscl.math.operator;
 
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
+import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
@@ -29,7 +30,7 @@ public abstract class VectorOperator extends Operator {
     protected abstract void bodyToMathML(MathML element);
 
     protected void operator(MathML element, String name) {
-        Variable variable[]=variables(GenericVariable.content(parameters[1]));
+        Variable variable[]= toVariables((JsclVector)GenericVariable.content(parameters[1]));
         MathML e1=element.element("msub");
         new Constant(name).toMathML(e1,null);
         MathML e2=element.element("mrow");
