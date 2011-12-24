@@ -5,7 +5,6 @@ import jscl.math.*;
 import jscl.text.ParseException;
 import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.definitions.IBuilder;
 
 /**
@@ -85,26 +84,24 @@ public class CustomFunction extends Function {
 		@NotNull
 		@Override
 		public CustomFunction create() {
-			final CustomFunction customFunction = new CustomFunction(name, null, parameterNames, content);
+			final CustomFunction customFunction = new CustomFunction(name, parameterNames, content);
 			customFunction.setSystem(system);
 			return customFunction;
 		}
 	}
 
 	private CustomFunction(@NotNull String name,
-						  @Nullable Generic parameters[],
 						  @NotNull String parameterNames[],
 						  @NotNull Generic content) {
-		super(name, parameters);
+		super(name, new Generic[parameterNames.length]);
 		this.parameterNames = parameterNames;
 		this.content = content;
 	}
 
 	private CustomFunction(@NotNull String name,
-						  @Nullable Generic parameters[],
 						  @NotNull String parameterNames[],
 						  @NotNull String content) {
-		super(name, parameters);
+		super(name, new Generic[parameterNames.length]);
 		this.parameterNames = parameterNames;
 		try {
 			this.content = Expression.valueOf(content);
@@ -221,8 +218,18 @@ public class CustomFunction extends Function {
 		return ParserUtils.copyOf(parameterNames);
 	}
 
+	@NotNull
+	@Override
+	protected String formatUndefinedParameter(int i) {
+		if ( i < this.parameterNames.length ) {
+			return parameterNames[i];
+		} else {
+			return super.formatUndefinedParameter(i);
+		}
+	}
+
 	@Override
 	public CustomFunction newInstance() {
-		return new CustomFunction(name, new Generic[parameterNames.length], parameterNames, content);
+		return new CustomFunction(name, parameterNames, content);
 	}
 }

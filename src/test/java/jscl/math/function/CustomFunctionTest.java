@@ -21,7 +21,8 @@ public class CustomFunctionTest {
 		Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
 
 		// logarithm
-		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder(true, "log", new String[]{"a", "b"}, "ln(b)/ln(a)"));
+		Function function = mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder(true, "log", new String[]{"a", "b"}, "ln(b)/ln(a)"));
+		Assert.assertEquals("log(a, b)", function.toString());
 		Assert.assertEquals("ln(b)/ln(a)", ((CustomFunction) mathEngine.getFunctionsRegistry().get("log")).getContent());
 		Assert.assertEquals("∞", Expression.valueOf("log(1, 10)").numeric().toString());
 		Assert.assertEquals("3.3219280948873626", Expression.valueOf("log(2, 10)").numeric().toString());
