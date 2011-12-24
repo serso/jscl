@@ -218,7 +218,7 @@ public class CustomFunction extends Function {
 
 	@NotNull
 	public String[] getParameterNames() {
-		return parameterNames;
+		return ParserUtils.copyOf(parameterNames);
 	}
 
 	@Override

@@ -181,7 +181,7 @@ public class Standard {
             pairs.put(pa,null);
             map.put(pa,null);
         }
-        list=ArrayUtils.list(map.keySet());
+        list=ArrayUtils.toList(map.keySet());
         n=list.size();
         for(int i=0;i<n;i++) {
             Pair pa=(Pair)list.get(i);

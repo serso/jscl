@@ -1,115 +1,117 @@
 package jscl.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.RandomAccess;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
 
 public class ArrayUtils {
-    private ArrayUtils() {}
 
-    public static Object[] concat(Object o1[], Object o2[], Object res[]) {
-        System.arraycopy(o1,0,res,0,o1.length);
-        System.arraycopy(o2,0,res,o1.length,o2.length);
-        return res;
-    }
+	private ArrayUtils() {
+	}
 
-    public static <T> T[] toArray(List<T> list, T res[]) {
-        int n=list.size();
+	public static Object[] concat(Object o1[], Object o2[], Object res[]) {
+		System.arraycopy(o1, 0, res, 0, o1.length);
+		System.arraycopy(o2, 0, res, o1.length, o2.length);
+		return res;
+	}
 
-		for(int i=0;i<n;i++) {
-			res[i]=list.get(i);
+	public static <T> T[] toArray(@NotNull List<T> list, T res[]) {
+		int n = list.size();
+
+		for (int i = 0; i < n; i++) {
+			res[i] = list.get(i);
 		}
 
-        return res;
-    }
+		return res;
+	}
 
-    public static int[] toArray(List list, int res[]) {
-        int n=list.size();
-        for(int i=0;i<n;i++) res[i]=((Integer)list.get(i)).intValue();
-        return res;
-    }
+	public static int[] toArray(@NotNull List<Integer> list, @NotNull int result[]) {
+		int n = list.size();
 
-    public static List list(Collection collection) {
-//      List list=new ArrayList(collection);
-        List list=new ArrayList();
-        Iterator it=collection.iterator();
-        while(it.hasNext()) list.add(it.next());
-        return list;
-    }
+		for (int i = 0; i < n; i++) {
+			result[i] = list.get(i);
+		}
 
-    public static String toString(Object obj[]) {
-        StringBuffer buffer=new StringBuffer();
-        buffer.append("{");
-        for(int i=0;i<obj.length;i++) {
-            buffer.append(obj[i]).append(i<obj.length-1?", ":"");
-        }
-        buffer.append("}");
-        return buffer.toString();
-    }
+		return result;
+	}
 
-    private static final int BINARYSEARCH_THRESHOLD   = 5000;
+	public static <T> List<T> toList(@NotNull Collection<T> collection) {
+		return new ArrayList<T>(collection);
+	}
 
-    public static int binarySearch(List list, Object key) {
-        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
-            return indexedBinarySearch(list, key);
-        else
-            return iteratorBinarySearch(list, key);
-    }
+	public static String toString(@NotNull Object array[]) {
+		final StringBuilder result = new StringBuilder();
+		result.append("{");
+		for (int i = 0; i < array.length; i++) {
+			result.append(array[i]).append(i < array.length - 1 ? ", " : "");
+		}
+		result.append("}");
+		return result.toString();
+	}
 
-    private static int indexedBinarySearch(List list, Object key) {
-        int low = 0;
-        int high = list.size()-1;
+	private static final int BINARY_SEARCH_THRESHOLD = 5000;
 
-        while (low <= high) {
-            int mid = (low + high) >> 1;
-            Object midVal = list.get(mid);
-            int cmp = ((Comparable)midVal).compareTo(key);
+	public static <T extends Comparable<T>> int binarySearch(@NotNull List<T> list, @NotNull T key) {
+		if (list instanceof RandomAccess || list.size() < BINARY_SEARCH_THRESHOLD)
+			return indexedBinarySearch(list, key);
+		else
+			return iteratorBinarySearch(list, key);
+	}
 
-            if (cmp < 0)
-                low = mid + 1;
-            else if (cmp > 0)
-                high = mid - 1;
-            else
-                return mid; // key found
-        }
-        return -(low + 1);  // key not found
-    }
+	private static <T extends Comparable<T>> int indexedBinarySearch(@NotNull List<T> list, @NotNull T key) {
+		int low = 0;
+		int high = list.size() - 1;
 
-    private static int iteratorBinarySearch(List list, Object key) {
-        int low = 0;
-        int high = list.size()-1;
-        ListIterator i = list.listIterator();
+		while (low <= high) {
+			int mid = (low + high) >> 1;
+			T midVal = list.get(mid);
+			int cmp = midVal.compareTo(key);
 
-        while (low <= high) {
-            int mid = (low + high) >> 1;
-            Object midVal = get(i, mid);
-            int cmp = ((Comparable)midVal).compareTo(key);
+			if (cmp < 0)
+				low = mid + 1;
+			else if (cmp > 0)
+				high = mid - 1;
+			else
+				return mid; // key found
+		}
+		return -(low + 1);  // key not found
+	}
 
-            if (cmp < 0)
-                low = mid + 1;
-            else if (cmp > 0)
-                high = mid - 1;
-            else
-                return mid; // key found
-        }
-        return -(low + 1);  // key not found
-    }
+	private static <T extends Comparable<T>> int iteratorBinarySearch(@NotNull List<T> list, @NotNull T key) {
+		int low = 0;
+		int high = list.size() - 1;
+		final ListIterator<T> it = list.listIterator();
 
-    private static Object get(ListIterator i, int index) {
-        Object obj = null;
-        int pos = i.nextIndex();
-        if (pos <= index) {
-            do {
-                obj = i.next();
-            } while (pos++ < index);
-        } else {
-            do {
-                obj = i.previous();
-            } while (--pos > index);
-        }
-        return obj;
-    }
+		while (low <= high) {
+			int mid = (low + high) >> 1;
+			T midVal = get(it, mid);
+			int cmp = midVal.compareTo(key);
+
+			if (cmp < 0)
+				low = mid + 1;
+			else if (cmp > 0)
+				high = mid - 1;
+			else
+				return mid; // key found
+		}
+		return -(low + 1);  // key not found
+	}
+
+	@NotNull
+	private static <T> T get(@NotNull ListIterator<T> it, int index) {
+		T result;
+
+		int pos = it.nextIndex();
+		if (pos <= index) {
+			do {
+				result = it.next();
+			} while (pos++ < index);
+		} else {
+			do {
+				result = it.previous();
+			} while (--pos > index);
+		}
+
+		return result;
+	}
 }
