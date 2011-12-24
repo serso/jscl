@@ -72,7 +72,7 @@ public class CustomFunction extends Function {
 			return this;
 		}
 
-		Builder(boolean system,
+		public Builder(boolean system,
 				@NotNull String name,
 				@NotNull String[] parameterNames,
 				@NotNull String content) {
