@@ -14,7 +14,7 @@ public class Constant extends Variable {
 	public static final Generic e = new Exp(JsclInteger.valueOf(1)).expressionValue();
 
 	public static final Constant PI_CONST = new Constant("π");
-	public static final Constant PI_INV_CONST = new Constant("PI");
+	public static final Constant PI_INV_CONST = new Constant("Π");
 	public static final Generic pi = PI_CONST.expressionValue();
 
 	public static final Constant I_CONST = new Constant("i");
