@@ -150,13 +150,16 @@ public enum JsclMathEngine implements MathEngine {
 	@Override
 	@NotNull
 	public String format(@NotNull final Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
-		if (nb == NumeralBase.dec) {
-			// decimal numeral base => do specific formatting
-			if (Double.isInfinite(value)) {
-				// return predefined constant for infinity
-				return Constant.INF_CONST.getName();
+		if (value.isInfinite()) {
+			// return predefined constant for infinity
+			return Constant.INF_CONST.getName();
+		} else {
+			if (value.isNaN()) {
+				// return "NaN"
+				return String.valueOf(value);
 			} else {
-				if (!value.isNaN()) {
+				if (nb == NumeralBase.dec) {
+					// decimal numeral base => do specific formatting
 
 					// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
 					final IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
@@ -185,21 +188,17 @@ public enum JsclMathEngine implements MathEngine {
 					} else {
 						return constant.getName();
 					}
-
 				} else {
-					// just return "NaN"
-					return String.valueOf(value);
-				}
-			}
-		} else {
-			try {
-				// check if double can be converted to integer
-				integerValue(value);
+					try {
+						// check if double can be converted to integer
+						integerValue(value);
 
-				final String ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
-				return addGroupingSeparators(nb, ungroupedValue);
-			} catch (NotIntegerException e) {
-				throw new NumeralBaseException(value);
+						final String ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
+						return addGroupingSeparators(nb, ungroupedValue);
+					} catch (NotIntegerException e) {
+						throw new NumeralBaseException(value);
+					}
+				}
 			}
 		}
 	}
