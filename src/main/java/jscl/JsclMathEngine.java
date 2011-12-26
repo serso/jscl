@@ -163,13 +163,20 @@ public enum JsclMathEngine implements MathEngine {
 					// decimal numeral base => do specific formatting
 
 					// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
-					final IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
+					IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
 						@Override
 						public boolean isFound(@Nullable IConstant constant) {
 							// priority to angle dependent PI
 							return constant != null && value.equals(constant.getDoubleValue()) && !constant.getName().equals(Constant.PI_INV_CONST.getName());
 						}
 					});
+
+					if (constant == null) {
+						final IConstant piInv = this.getConstantsRegistry().get(Constant.PI_INV_CONST.getName());
+						if (piInv != null && value.equals(piInv.getDoubleValue())) {
+							constant = piInv;
+						}
+					}
 
 					if (constant == null) {
 						// prepare decimal format
