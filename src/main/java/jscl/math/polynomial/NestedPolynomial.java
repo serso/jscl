@@ -123,15 +123,15 @@ final class PolynomialWrapper extends Generic {
         return content.degree();
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         return null;
     }
 
-    public Generic derivative(Variable variable) {
+    public Generic derivative(@NotNull Variable variable) {
         return null;
     }
 
-    public Generic substitute(Variable variable, Generic generic) {
+    public Generic substitute(@NotNull Variable variable, Generic generic) {
         return null;
     }
 

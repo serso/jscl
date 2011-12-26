@@ -140,47 +140,58 @@ public class Expression extends Generic {
 		}
 	}
 
-	Expression multiplyAndAdd(Literal lit, JsclInteger integer, Expression expression) {
-		if (integer.signum() == 0) return this;
-		Expression ex = newInstance(size + expression.size);
-		int i = ex.size;
-		int i1 = size;
-		int i2 = expression.size;
-		Literal l1 = i1 > 0 ? literals[--i1] : null;
-		Literal l2 = i2 > 0 ? expression.literals[--i2].multiply(lit) : null;
-		while (l1 != null || l2 != null) {
-			int c = l1 == null ? 1 : (l2 == null ? -1 : -l1.compareTo(l2));
+	Expression multiplyAndAdd(@NotNull Literal literal, @NotNull JsclInteger coefficient, @NotNull Expression that) {
+		if (coefficient.signum() == 0) return this;
+
+		final Expression result = newInstance(size + that.size);
+		int i = result.size;
+
+		int thisI = this.size;
+		int thatI = that.size;
+
+		Literal thisLiteral = thisI > 0 ? literals[--thisI] : null;
+		Literal thatLiteral = thatI > 0 ? that.literals[--thatI].multiply(literal) : null;
+
+		while (thisLiteral != null || thatLiteral != null) {
+			int c = thisLiteral == null ? 1 : (thatLiteral == null ? -1 : -thisLiteral.compareTo(thatLiteral));
+
 			if (c < 0) {
-				JsclInteger en = coefficients[i1];
+				JsclInteger en = coefficients[thisI];
 				--i;
-				ex.literals[i] = l1;
-				ex.coefficients[i] = en;
-				l1 = i1 > 0 ? literals[--i1] : null;
+				result.literals[i] = thisLiteral;
+				result.coefficients[i] = en;
+				thisLiteral = thisI > 0 ? literals[--thisI] : null;
 			} else if (c > 0) {
-				JsclInteger en = expression.coefficients[i2].multiply(integer);
+				JsclInteger en = that.coefficients[thatI].multiply(coefficient);
 				--i;
-				ex.literals[i] = l2;
-				ex.coefficients[i] = en;
-				l2 = i2 > 0 ? expression.literals[--i2].multiply(lit) : null;
+				result.literals[i] = thatLiteral;
+				result.coefficients[i] = en;
+				thatLiteral = thatI > 0 ? that.literals[--thatI].multiply(literal) : null;
 			} else {
-				JsclInteger en = coefficients[i1].add(expression.coefficients[i2].multiply(integer));
+				JsclInteger en = coefficients[thisI].add(that.coefficients[thatI].multiply(coefficient));
 				if (en.signum() != 0) {
 					--i;
-					ex.literals[i] = l1;
-					ex.coefficients[i] = en;
+					result.literals[i] = thisLiteral;
+					result.coefficients[i] = en;
 				}
-				l1 = i1 > 0 ? literals[--i1] : null;
-				l2 = i2 > 0 ? expression.literals[--i2].multiply(lit) : null;
+				thisLiteral = thisI > 0 ? literals[--thisI] : null;
+				thatLiteral = thatI > 0 ? that.literals[--thatI].multiply(literal) : null;
 			}
 		}
-		ex.resize(ex.size - i);
-		return ex;
+
+		result.resize(result.size - i);
+
+		return result;
 	}
 
 	public Expression multiply(Expression expression) {
-		Expression ex = newInstance(0);
-		for (int i = 0; i < size; i++) ex = ex.multiplyAndAdd(literals[i], coefficients[i], expression);
-		return ex;
+		Expression result = newInstance(0);
+
+		for (int i = 0; i < size; i++) {
+			result = result.multiplyAndAdd(literals[i], coefficients[i], expression);
+		}
+
+		return result;
 	}
 
 	@NotNull
@@ -303,7 +314,7 @@ public class Expression extends Generic {
 		return 0;
 	}
 
-	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
 		if (isPolynomial(variable)) {
 			return ((UnivariatePolynomial) Polynomial.factory(variable).valueOf(this)).antiderivative().genericValue();
 		} else {
@@ -349,7 +360,7 @@ public class Expression extends Generic {
 		throw new NotIntegrableException();
 	}
 
-	public Generic derivative(Variable variable) {
+	public Generic derivative(@NotNull Variable variable) {
 		Generic s = JsclInteger.valueOf(0);
 		Literal l = literalScm();
 		int n = l.size();
@@ -361,7 +372,7 @@ public class Expression extends Generic {
 		return s;
 	}
 
-	public Generic substitute(final Variable variable, final Generic generic) {
+	public Generic substitute(@NotNull final Variable variable, final Generic generic) {
 		final Map<Variable, Generic> content = literalScm().content(new Converter<Variable, Generic>() {
 			@NotNull
 			@Override

@@ -44,7 +44,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
 			b = new int[0];
 		}
 		try {
-			a = ParameterListParser.parser.parse(p, previousSumElement);
+			a = ParameterListParser.parser1.parse(p, previousSumElement);
 		} catch (ParseException e) {
 			p.getPosition().setValue(pos0);
 			throw e;

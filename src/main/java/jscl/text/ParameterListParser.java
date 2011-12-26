@@ -9,9 +9,16 @@ import java.util.List;
 
 public class ParameterListParser implements Parser<Generic[]> {
 
-	public static final Parser<Generic[]> parser = new ParameterListParser();
+	private final int minNumberOfParameters;
+
+	public static final Parser<Generic[]> parser1 = new ParameterListParser();
 
 	private ParameterListParser() {
+		this.minNumberOfParameters = 1;
+	}
+
+	public ParameterListParser(int minNumberOfParameters) {
+		this.minNumberOfParameters = minNumberOfParameters;
 	}
 
 	@NotNull
@@ -25,8 +32,10 @@ public class ParameterListParser implements Parser<Generic[]> {
 		try {
 			result.add(ExpressionParser.parser.parse(p, previousSumElement));
 		} catch (ParseException e) {
-			p.getPosition().setValue(pos0);
-			throw e;
+			if (minNumberOfParameters > 0) {
+				p.getPosition().setValue(pos0);
+				throw e;
+			}
 		}
 
 		while (true) {

@@ -99,9 +99,9 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
 //    public abstract Generic modPow(Generic exponent, Generic generic);
 //    public abstract Generic modInverse(Generic generic);
 //    public abstract boolean isProbablePrime(int certainty);
-    public abstract Generic antiDerivative(Variable variable) throws NotIntegrableException;
-    public abstract Generic derivative(Variable variable);
-    public abstract Generic substitute(Variable variable, Generic generic);
+    public abstract Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException;
+    public abstract Generic derivative(@NotNull Variable variable);
+    public abstract Generic substitute(@NotNull Variable variable, Generic generic);
     public abstract Generic expand();
     public abstract Generic factorize();
     public abstract Generic elementary();

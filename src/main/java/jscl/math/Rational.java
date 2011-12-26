@@ -126,15 +126,15 @@ public final class Rational extends Generic implements Field {
         return 0;
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         return multiply(variable.expressionValue());
     }
 
-    public Generic derivative(Variable variable) {
+    public Generic derivative(@NotNull Variable variable) {
         return JsclInteger.valueOf(0);
     }
 
-    public Generic substitute(Variable variable, Generic generic) {
+    public Generic substitute(@NotNull Variable variable, Generic generic) {
         return this;
     }
 

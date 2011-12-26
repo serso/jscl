@@ -6,6 +6,7 @@ import jscl.math.NotIntegerException;
 import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
+import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
@@ -72,7 +73,7 @@ public enum JsclMathEngine implements MathEngine {
 	@NotNull
 	@Override
 	public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
-		if (expression.contains(Percent.NAME)) {
+		if (expression.contains(Percent.NAME) || expression.contains(Rand.NAME)) {
 			return Expression.valueOf(expression).numeric();
 		} else {
 			return Expression.valueOf(expression).expand().numeric();
@@ -82,7 +83,7 @@ public enum JsclMathEngine implements MathEngine {
 	@NotNull
 	@Override
 	public Generic simplifyGeneric(@NotNull String expression) throws ParseException {
-		if (expression.contains(Percent.NAME)) {
+		if (expression.contains(Percent.NAME) || expression.contains(Rand.NAME)) {
 			return Expression.valueOf(expression);
 		} else {
 			return Expression.valueOf(expression).expand().simplify();

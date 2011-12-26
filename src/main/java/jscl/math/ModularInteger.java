@@ -87,15 +87,15 @@ public class ModularInteger extends Generic implements Field {
         return 0;
     }
 
-    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
         throw new UnsupportedOperationException();
     }
 
-    public Generic derivative(Variable variable) {
+    public Generic derivative(@NotNull Variable variable) {
         throw new UnsupportedOperationException();
     }
 
-    public Generic substitute(Variable variable, Generic generic) {
+    public Generic substitute(@NotNull Variable variable, Generic generic) {
         throw new UnsupportedOperationException();
     }
 

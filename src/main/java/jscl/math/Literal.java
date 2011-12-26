@@ -57,45 +57,54 @@ public class Literal implements Comparable {
 		}
 	}
 
-	public Literal multiply(Literal literal) {
-		Literal l = newInstance(size + literal.size);
+	public Literal multiply(@NotNull Literal that) {
+		final Literal result = newInstance(size + that.size);
 		int i = 0;
-		int i1 = 0;
-		int i2 = 0;
-		Variable v1 = i1 < size ? variables[i1] : null;
-		Variable v2 = i2 < literal.size ? literal.variables[i2] : null;
-		while (v1 != null || v2 != null) {
-			int c = v1 == null ? 1 : (v2 == null ? -1 : v1.compareTo(v2));
+
+		int thisI = 0;
+		int thatI = 0;
+
+		Variable thisVariable = thisI < this.size ? this.variables[thisI] : null;
+		Variable thatVariable = thatI < that.size ? that.variables[thatI] : null;
+
+		while (thisVariable != null || thatVariable != null) {
+			int c = thisVariable == null ? 1 : (thatVariable == null ? -1 : thisVariable.compareTo(thatVariable));
+
 			if (c < 0) {
-				int s = powers[i1];
-				l.variables[i] = v1;
-				l.powers[i] = s;
-				l.degree += s;
+				int s = powers[thisI];
+				result.variables[i] = thisVariable;
+				result.powers[i] = s;
+				result.degree += s;
 				i++;
-				i1++;
-				v1 = i1 < size ? variables[i1] : null;
+				thisI++;
+				thisVariable = thisI < size ? variables[thisI] : null;
 			} else if (c > 0) {
-				int s = literal.powers[i2];
-				l.variables[i] = v2;
-				l.powers[i] = s;
-				l.degree += s;
+				int s = that.powers[thatI];
+				result.variables[i] = thatVariable;
+				result.powers[i] = s;
+				result.degree += s;
 				i++;
-				i2++;
-				v2 = i2 < literal.size ? literal.variables[i2] : null;
+				thatI++;
+				thatVariable = thatI < that.size ? that.variables[thatI] : null;
 			} else {
-				int s = powers[i1] + literal.powers[i2];
-				l.variables[i] = v1;
-				l.powers[i] = s;
-				l.degree += s;
+				int s = powers[thisI] + that.powers[thatI];
+
+				result.variables[i] = thisVariable;
+				result.powers[i] = s;
+				result.degree += s;
+
 				i++;
-				i1++;
-				i2++;
-				v1 = i1 < size ? variables[i1] : null;
-				v2 = i2 < literal.size ? literal.variables[i2] : null;
+				thisI++;
+				thatI++;
+
+				thisVariable = thisI < this.size ? this.variables[thisI] : null;
+				thatVariable = thatI < that.size ? that.variables[thatI] : null;
 			}
 		}
-		l.resize(i);
-		return l;
+
+		result.resize(i);
+
+		return result;
 	}
 
 	public Literal divide(Literal literal) throws ArithmeticException {

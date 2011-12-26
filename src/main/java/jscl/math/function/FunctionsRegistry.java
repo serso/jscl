@@ -2,6 +2,7 @@ package jscl.math.function;
 
 import jscl.math.function.hyperbolic.*;
 import jscl.math.function.trigonometric.*;
+import jscl.math.operator.Rand;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.math.AbstractMathRegistry;
 

@@ -23,14 +23,21 @@ public class OperatorParser implements Parser<Operator> {
 			ParserUtils.throwParseException(p, pos0, Messages.msg_3, operatorName);
 		}
 
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, pos0, previousSumElement, p);
+		final Operator operator = OperatorsRegistry.getInstance().get(operatorName);
 
-		final Operator result = OperatorsRegistry.getInstance().get(operatorName, parameters);
-		if ( result == null ) {
-			ParserUtils.throwParseException(p, pos0, Messages.msg_2, operatorName);
-			assert false;
+		Operator result = null;
+		if (operator != null) {
+			final Generic parameters[] = ParserUtils.parseWithRollback(new ParameterListParser(operator.getMinParameters()), pos0, previousSumElement, p);
+
+			result = OperatorsRegistry.getInstance().get(operatorName, parameters);
+			if ( result == null ) {
+				ParserUtils.throwParseException(p, pos0, Messages.msg_2, operatorName);
+			}
+		} else {
+			ParserUtils.throwParseException(p, pos0, Messages.msg_3, operatorName);
 		}
 
+		assert result != null;
 		return result;
 	}
 

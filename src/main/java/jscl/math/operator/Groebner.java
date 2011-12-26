@@ -167,7 +167,8 @@ class PolynomialVector extends JsclVector {
 		e0.appendChild(e1);
 	}
 
-	protected Generic newInstance(Generic element[]) {
+	@NotNull
+	protected Generic newInstance(@NotNull Generic element[]) {
 		return new PolynomialVector(basis, element);
 	}
 }

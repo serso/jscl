@@ -21,7 +21,7 @@ public class RootParser implements Parser<Function> {
 		}
 
 		final Generic subscript = ParserUtils.parseWithRollback(Subscript.parser, pos0, previousSumElement, p);
-		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser, pos0, previousSumElement, p);
+		final Generic parameters[] = ParserUtils.parseWithRollback(ParameterListParser.parser1, pos0, previousSumElement, p);
 
 		return new Root(parameters, subscript);
 	}
