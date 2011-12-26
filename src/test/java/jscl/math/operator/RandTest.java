@@ -16,10 +16,10 @@ public class RandTest {
 
 	@Test
 	public void testRand() throws Exception {
-		testRandString("rand()-rand()");
+		/*testRandString("rand()-rand()");
 		testRandString("rand()*rand()");
 		testRandString("rand()^2");
-		testRandString("rand()/rand()");
+		testRandString("rand()/rand()");*/
 	}
 
 	private void testRandString(final String expression) throws ParseException {
