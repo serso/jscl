@@ -47,7 +47,8 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 		//instance.add(new EulerPhi(null));
 		instance.add(new Integral(null, null, null, null));
 		instance.add(new IndefiniteIntegral(null, null));
-		instance.add(new Rand());
+		//instance.add(new Rand());
+		//instance.add(new Mean(null));
 		//instance.add(new PrimitiveRoots(null));
 	}
 

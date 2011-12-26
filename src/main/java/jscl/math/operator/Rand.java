@@ -37,6 +37,11 @@ public class Rand extends Operator implements TimeDependent {
 	}
 
 	@Override
+	public Generic numeric() {
+		return evaluate().numeric();
+	}
+
+	@Override
 	public Variable newInstance() {
 		return new Rand();
 	}
