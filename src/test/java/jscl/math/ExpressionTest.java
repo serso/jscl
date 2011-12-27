@@ -390,6 +390,8 @@ public class ExpressionTest {
 
 		try {
 			mathEngine.setAngleUnits(AngleUnit.rad);
+			Assert.assertEquals("π", mathEngine.evaluate("Π"));
+			Assert.assertEquals("Π/2", mathEngine.simplify("Π/2"));
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(2)"));
 			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(3)"));
 			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(0)"));
@@ -519,6 +521,7 @@ public class ExpressionTest {
 			testSinEqualsToSinh(mathEngine, -1d, "-0.01745240643728351");
 			testSinEqualsToSinh(mathEngine, -3.3d, "-0.05756402695956728");
 			testSinEqualsToSinh(mathEngine, -232.2d, "0.7901550123756904");
+			Assert.assertEquals("Π/2", mathEngine.simplify("Π/2"));
 		} finally {
 			mathEngine.setAngleUnits(defaultAngleUnits);
 		}
