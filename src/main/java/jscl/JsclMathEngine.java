@@ -166,10 +166,20 @@ public enum JsclMathEngine implements MathEngine {
 					IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
 						@Override
 						public boolean isFound(@Nullable IConstant constant) {
-							// priority to angle dependent PI
-							return constant != null && value.equals(constant.getDoubleValue()) && !constant.getName().equals(Constant.PI_INV_CONST.getName());
+							if (constant != null) {
+								if (value.equals(constant.getDoubleValue())) {
+									if (!constant.getName().equals(Constant.PI_INV_CONST.getName())) {
+										if (!constant.getName().equals(Constant.PI_CONST.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
+											return true;
+										}
+									}
+								}
+							}
+
+							return false;
 						}
 					});
+
 
 					if (constant == null) {
 						final IConstant piInv = this.getConstantsRegistry().get(Constant.PI_INV_CONST.getName());

@@ -410,9 +410,15 @@ public class ExpressionTest {
 			Assert.assertEquals("0.7853981633974483", me.evaluate("acot(1)"));
 			Assert.assertEquals("0.46364760900080615", me.evaluate("acot(2)"));
 			Assert.assertEquals("0.09966865249116186", me.evaluate("acot(10)"));
+
+			Assert.assertEquals("π", me.evaluate("π"));
+			Assert.assertEquals("π", me.evaluate("3.14159265358979323846"));
 		} finally {
 			me.setAngleUnits(AngleUnit.deg);
 		}
+
+		Assert.assertEquals("180.0", me.evaluate("π"));
+		Assert.assertEquals("180.0", me.evaluate("200-10%"));
 	}
 
 	@Test
