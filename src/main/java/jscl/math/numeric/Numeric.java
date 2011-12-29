@@ -173,7 +173,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@Override
 	public Numeric acos() {
 		// e = √(-1 + x^2) = i √(1 - x^2)
-		final Numeric e = Real.valueOf(-1).add(this.pow(2)).sqrt();
+		final Numeric e = I.multiply(Real.ONE.subtract(this.pow(2)).sqrt());
 
 		// result = -i * ln[ x + √(-1 + x^2) ]
 		return radToDefault(this.add(e).ln().multiply(I.negate()));
@@ -191,7 +191,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	@NotNull
 	@Override
 	public Numeric acot() {
-		// e = ln[-(i + x)/(i-x)]		
+		// e = ln[-(i + x)/(i-x)]
 		final Numeric e = I.add(this).divide(I.subtract(this)).negate().ln();
 		// result = iln[-(i + x)/(i-x)]/2
 		return radToDefault(I.multiply(e).divide(TWO));

@@ -148,30 +148,47 @@ public final class Real extends Numeric {
 
 	@NotNull
 	public Numeric acos() {
-		return new Real(radToDefault(Math.acos(content)));
+		final Real result = new Real(radToDefault(Math.acos(content)));
+		if (Double.isNaN(result.content)) {
+			return super.acos();
+		}
+		return result;
 	}
 
 	@NotNull
 	public Numeric asin() {
-		return new Real(radToDefault(Math.asin(content)));
+		final Real result = new Real(radToDefault(Math.asin(content)));
+		if (Double.isNaN(result.content)) {
+			return super.asin();
+		}
+		return result;
 	}
 
 	@NotNull
 	public Numeric atan() {
-		return radToDefault(atanRad());
+		final Real result = new Real(radToDefault(atanRad()));
+		if (Double.isNaN(result.content)) {
+			return super.atan();
+		}
+		return result;
 	}
 
 	@NotNull
-	private Real atanRad() {
-		return new Real(Math.atan(content));
+	private Double atanRad() {
+		return Math.atan(content);
 	}
 
 	private final static Real PI_DIV_BY_2_RAD = Real.valueOf(Math.PI).divide(TWO);
+	private final static Double PI_DIV_BY_2_RAD_DOUBLE = Math.PI / 2;
 
 	@NotNull
 	@Override
 	public Numeric acot() {
-		return radToDefault(PI_DIV_BY_2_RAD.subtract(atanRad()));
+		final Real result = new Real(radToDefault(PI_DIV_BY_2_RAD_DOUBLE - atanRad()));
+		if (Double.isNaN(result.content)) {
+			return super.acot();
+		}
+		return result;
 	}
 
 	@NotNull

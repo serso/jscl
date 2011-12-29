@@ -66,7 +66,12 @@ public class NumeralBaseTest {
 		try{
 			me.setNumeralBase(NumeralBase.bin);
 			Assert.assertEquals("∞", me.evaluate("∞"));
-			Assert.assertEquals("NaN", me.evaluate("asin(-1110100101)"));
+			try {
+				Assert.assertEquals("NaN", me.evaluate("asin(-1110100101)"));
+				Assert.fail();
+			} catch (NumeralBaseException e) {
+				// ok, should be complex result
+			}
 			Assert.assertEquals("11", me.evaluate("0b:1+0b:10"));
 			Assert.assertEquals("10", me.evaluate("0d:2"));
 			Assert.assertEquals("11", me.evaluate("0d:3"));
