@@ -7,7 +7,8 @@ import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
 public class Exp extends Function {
-    public Exp(Generic generic) {
+
+	public Exp(Generic generic) {
         super("exp",new Generic[] {generic});
     }
 
@@ -49,7 +50,7 @@ public class Exp extends Function {
 			return new Inv(new Exp(parameters[0].negate()).selfSimplify()).selfSimplify();
 		} else if (parameters[0].signum() == 0) {
 			return JsclInteger.valueOf(1);
-		} else if (parameters[0].compareTo(Constants.Generic.I.multiply(Constants.Generic.PI)) == 0) {
+		} else if (parameters[0].compareTo(Constants.Generic.I_BY_PI) == 0) {
 			return JsclInteger.valueOf(-1);
 		}
 

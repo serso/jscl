@@ -19,8 +19,11 @@ public final class Constants {
 
 		public static final jscl.math.Generic E = new Exp(JsclInteger.ONE).expressionValue();
 		public static final jscl.math.Generic PI = Constants.PI.expressionValue();
+		public static final jscl.math.Generic PI_INV = Constants.PI_INV.expressionValue();
 		public static final jscl.math.Generic INF = Constants.INF.expressionValue();
 		public static final jscl.math.Generic I = new Sqrt(JsclInteger.valueOf(-1)).expressionValue();
+		// i * PI
+		public static final jscl.math.Generic I_BY_PI = I.multiply(PI_INV);
 
 		// fraction = 1/2
 		public static final jscl.math.Generic HALF = new Inv(JsclInteger.valueOf(2)).expressionValue();

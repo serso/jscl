@@ -32,7 +32,7 @@ public class Ln extends Function {
 		try {
 			JsclInteger en = parameters[0].integerValue();
 			if (en.signum() < 0) {
-				return Constants.Generic.I.multiply(Constants.Generic.PI).add(new Ln(en.negate()).selfSimplify());
+				return Constants.Generic.I_BY_PI.add(new Ln(en.negate()).selfSimplify());
 			} else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();

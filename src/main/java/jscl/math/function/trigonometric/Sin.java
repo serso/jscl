@@ -6,6 +6,7 @@ import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
 
 public class Sin extends Trigonometric {
+
 	public Sin(Generic generic) {
 		super("sin", new Generic[]{generic});
 	}
