@@ -34,7 +34,7 @@ public class Tan extends Trigonometric {
     }
 
     public Generic selfElementary() {
-        return new Frac(
+        return new Fraction(
             new Sin(parameters[0]).selfElementary(),
             new Cos(parameters[0]).selfElementary()
         ).selfElementary();
@@ -79,7 +79,7 @@ public class Tan extends Trigonometric {
 	public Generic identity(Generic a, Generic b) {
         Generic ta=new Tan(a).selfSimplify();
         Generic tb=new Tan(b).selfSimplify();
-        return new Frac(
+        return new Fraction(
             ta.add(tb),
             JsclInteger.valueOf(1).subtract(
                 ta.multiply(tb)

@@ -17,7 +17,7 @@ public abstract class Trigonometric extends Function {
             Polynomial p=Polynomial.factory(variable).valueOf(s);
             if(p.degree()==1) {
                 Generic a[]=p.elements();
-                return new Inv(a[1]).evaluate().multiply(antiDerivative(0));
+                return new Inverse(a[1]).evaluate().multiply(antiDerivative(0));
             } else throw new NotIntegrableException();
         } else throw new NotIntegrableException();
     }

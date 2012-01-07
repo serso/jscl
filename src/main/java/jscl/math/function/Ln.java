@@ -14,7 +14,7 @@ public class Ln extends Function {
 	}
 
 	public Generic derivative(int n) {
-		return new Inv(parameters[0]).evaluate();
+		return new Inverse(parameters[0]).evaluate();
 	}
 
 	public Generic evaluate() {
@@ -53,7 +53,7 @@ public class Ln extends Function {
 			}
 		} catch (NotVariableException e) {
 		}
-		Generic n[] = Frac.separateCoefficient(parameters[0]);
+		Generic n[] = Fraction.separateCoefficient(parameters[0]);
 		if (n[0].compareTo(JsclInteger.valueOf(1)) == 0 && n[1].compareTo(JsclInteger.valueOf(1)) == 0) ;
 		else return new Ln(n[2]).selfSimplify().add(
 				new Ln(n[0]).selfSimplify()

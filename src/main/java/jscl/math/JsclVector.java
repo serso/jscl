@@ -2,7 +2,7 @@ package jscl.math;
 
 import jscl.math.function.Conjugate;
 import jscl.math.function.Constant;
-import jscl.math.function.Frac;
+import jscl.math.function.Fraction;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
@@ -94,7 +94,7 @@ public class JsclVector extends Generic {
 				try {
 					result.elements[i] = elements[i].divide(that);
 				} catch (NotDivisibleException e) {
-					result.elements[i] = new Frac(elements[i], that).evaluate();
+					result.elements[i] = new Fraction(elements[i], that).evaluate();
 				}
 			}
 			return result;

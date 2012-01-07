@@ -4,7 +4,7 @@ import java.util.Iterator;
 import jscl.math.Literal;
 import jscl.math.NotDivisibleException;
 import jscl.math.Variable;
-import jscl.math.function.Frac;
+import jscl.math.function.Fraction;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 
@@ -203,7 +203,7 @@ public class Monomial implements Comparable {
                 Variable v=unknown[i];
                 if(c==1) buffer.append(v);
                 else {
-                    if(v instanceof Frac || v instanceof Pow) {
+                    if(v instanceof Fraction || v instanceof Pow) {
                         buffer.append("(").append(v).append(")");
                     } else buffer.append(v);
                     buffer.append("^").append(c);

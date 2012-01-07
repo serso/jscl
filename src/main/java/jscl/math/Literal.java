@@ -1,6 +1,6 @@
 package jscl.math;
 
-import jscl.math.function.Frac;
+import jscl.math.function.Fraction;
 import jscl.math.function.Pow;
 import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
@@ -409,7 +409,7 @@ public class Literal implements Comparable {
 			if (power == 1) {
 				result.append(var);
 			} else {
-				if (var instanceof Frac || var instanceof Pow) {
+				if (var instanceof Fraction || var instanceof Pow) {
 					result.append("(").append(var).append(")");
 				} else {
 					result.append(var);

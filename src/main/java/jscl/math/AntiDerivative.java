@@ -16,9 +16,9 @@ public class AntiDerivative {
 		syzygy = (PolynomialWithSyzygy) PolynomialWithSyzygy.factory(variable);
 	}
 
-	public static Generic compute(Frac frac, Variable variable) {
+	public static Generic compute(Fraction fraction, Variable variable) {
 		AntiDerivative s = new AntiDerivative(variable);
-		s.compute(frac);
+		s.compute(fraction);
 		return s.getValue();
 	}
 
@@ -32,18 +32,18 @@ public class AntiDerivative {
 		if (b) {
 			return new Pow(
 					a[0].negate(),
-					new Inv(JsclInteger.valueOf(d)).evaluate()
+					new Inverse(JsclInteger.valueOf(d)).evaluate()
 			).antiDerivative(0);
 		} else throw new NotIntegrableException();
 	}
 
-	void compute(Frac frac) {
+	void compute(Fraction fraction) {
 		Debug.println("antiDerivative");
 		Debug.increment();
-		Generic g[] = frac.getParameters();
+		Generic g[] = fraction.getParameters();
 		Generic r[] = reduce(g[0], g[1]);
 		r = divideAndRemainder(r[0], r[1]);
-		Generic s = new Inv(r[2]).evaluate();
+		Generic s = new Inverse(r[2]).evaluate();
 		Generic p = r[0].multiply(s);
 		Generic a = r[1].multiply(s);
 		result = p.antiDerivative(factory.variable()).add(hermite(a, g[1]));
@@ -105,11 +105,11 @@ public class AntiDerivative {
 			r = divideAndRemainder(b, v);
 			b = r[1];
 			c = c.multiply(r[2]).add(r[0].multiply(uvprime));
-			s = new Inv(s.multiply(r[2]).multiply(JsclInteger.valueOf(1 - m))).evaluate();
+			s = new Inverse(s.multiply(r[2]).multiply(JsclInteger.valueOf(1 - m))).evaluate();
 			b = b.multiply(s);
 			c = c.multiply(s);
 			Generic bprime = ((UnivariatePolynomial) factory.valueOf(b)).derivative().genericValue();
-			return new Frac(b, v.pow(m - 1)).evaluate().add(hermite(JsclInteger.valueOf(1 - m).multiply(c).subtract(u.multiply(bprime)), u.multiply(v.pow(m - 1))));
+			return new Fraction(b, v.pow(m - 1)).evaluate().add(hermite(JsclInteger.valueOf(1 - m).multiply(c).subtract(u.multiply(bprime)), u.multiply(v.pow(m - 1))));
 		}
 	}
 

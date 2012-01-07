@@ -1,8 +1,8 @@
 package jscl.math;
 
 import jscl.math.function.Constant;
-import jscl.math.function.Frac;
-import jscl.math.function.Inv;
+import jscl.math.function.Fraction;
+import jscl.math.function.Inverse;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
@@ -164,7 +164,7 @@ public final class Rational extends Generic implements Field {
             return new Rational(r.numerator,r.denominator);
         } else if(generic instanceof Expression) {
             boolean sign=generic.signum()<0;
-            Generic g[]=((Frac)(sign?generic.negate():generic).variableValue()).getParameters();
+            Generic g[]=((Fraction)(sign?generic.negate():generic).variableValue()).getParameters();
             JsclInteger numerator=(JsclInteger)(sign?g[0].negate():g[0]);
             JsclInteger denominator=(JsclInteger)g[1];
             return new Rational(numerator.content(),denominator.content());
@@ -223,8 +223,8 @@ public final class Rational extends Generic implements Field {
             integerValue();
             throw new NotVariableException();
         } catch (NotIntegerException e) {
-            if(numerator.compareTo(BigInteger.valueOf(1))==0) return new Inv(new JsclInteger(denominator));
-            else return new Frac(new JsclInteger(numerator), new JsclInteger(denominator));
+            if(numerator.compareTo(BigInteger.valueOf(1))==0) return new Inverse(new JsclInteger(denominator));
+            else return new Fraction(new JsclInteger(numerator), new JsclInteger(denominator));
         }
     }
 

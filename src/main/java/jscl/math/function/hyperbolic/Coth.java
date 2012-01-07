@@ -1,7 +1,7 @@
 package jscl.math.function.hyperbolic;
 
 import jscl.math.*;
-import jscl.math.function.Frac;
+import jscl.math.function.Fraction;
 import jscl.math.function.Ln;
 import jscl.math.function.Trigonometric;
 
@@ -32,7 +32,7 @@ public class Coth extends Trigonometric {
     }
 
     public Generic selfElementary() {
-        return new Frac(
+        return new Fraction(
             new Cosh(parameters[0]).selfElementary(),
             new Sinh(parameters[0]).selfElementary()
         ).selfElementary();
@@ -55,7 +55,7 @@ public class Coth extends Trigonometric {
     public Generic identity(Generic a, Generic b) {
         Generic ta=new Coth(a).selfSimplify();
         Generic tb=new Coth(b).selfSimplify();
-        return new Frac(
+        return new Fraction(
             ta.multiply(tb).add(JsclInteger.valueOf(1)),
                         ta.add(tb)
         ).selfSimplify();

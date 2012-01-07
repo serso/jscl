@@ -250,7 +250,7 @@ class VariableComparator implements Comparator<Variable> {
 		if (v instanceof TechnicalVariable) n = 0;
 		else if (v instanceof IntegerVariable) n = 1;
 		else if (v instanceof DoubleVariable) n = 2;
-		else if (v instanceof Frac && ((Frac) v).integer()) n = 3;
+		else if (v instanceof Fraction && ((Fraction) v).integer()) n = 3;
 		else if (v instanceof Sqrt && ((Sqrt) v).imaginary()) n = 4;
 		else if (v instanceof Constant) n = 5;
 		else if (v instanceof Root) n = 6;

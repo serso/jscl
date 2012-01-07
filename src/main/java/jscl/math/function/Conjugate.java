@@ -75,10 +75,10 @@ public class Conjugate extends Function {
                 return s;
             }
         }
-        Generic n[]=Frac.separateCoefficient(parameters[0]);
+        Generic n[]= Fraction.separateCoefficient(parameters[0]);
         if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Conjugate(n[2]).selfSimplify().multiply(
-            new Frac(n[0],n[1]).selfSimplify()
+            new Fraction(n[0],n[1]).selfSimplify()
         );
         return expressionValue();
     }

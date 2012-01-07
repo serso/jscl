@@ -27,7 +27,7 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Generic derivative(int n) {
-		return Constants.Generic.HALF.multiply(new Inv( evaluate()).evaluate());
+		return Constants.Generic.HALF.multiply(new Inverse( evaluate()).evaluate());
 	}
 
 	public boolean imaginary() {
@@ -87,7 +87,7 @@ public class Sqrt extends Algebraic {
 
 	@Nullable
 	private Generic simplifyFractions() {
-		final Generic n[] = Frac.separateCoefficient(parameters[0]);
+		final Generic n[] = Fraction.separateCoefficient(parameters[0]);
 
 		if (n[0].compareTo(JsclInteger.valueOf(1)) != 0 || n[1].compareTo(JsclInteger.valueOf(1)) != 0) {
 			// n
@@ -95,7 +95,7 @@ public class Sqrt extends Algebraic {
 			// d
 			final Generic denominator = new Sqrt(n[1]).selfSimplify();
 			// fraction = n / d
-			final Generic fraction = new Frac(numerator, denominator).selfSimplify();
+			final Generic fraction = new Fraction(numerator, denominator).selfSimplify();
 			return new Sqrt(n[2]).selfSimplify().multiply(fraction);
 		}
 

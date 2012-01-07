@@ -1,7 +1,7 @@
 package jscl.math.function.hyperbolic;
 
 import jscl.math.*;
-import jscl.math.function.Frac;
+import jscl.math.function.Fraction;
 import jscl.math.function.Ln;
 import jscl.math.function.Trigonometric;
 
@@ -34,7 +34,7 @@ public class Tanh extends Trigonometric {
     }
 
     public Generic selfElementary() {
-        return new Frac(
+        return new Fraction(
             new Sinh(parameters[0]).selfElementary(),
             new Cosh(parameters[0]).selfElementary()
         ).selfElementary();
@@ -59,7 +59,7 @@ public class Tanh extends Trigonometric {
     public Generic identity(Generic a, Generic b) {
         Generic ta=new Tanh(a).selfSimplify();
         Generic tb=new Tanh(b).selfSimplify();
-        return new Frac(
+        return new Fraction(
             ta.add(tb),
             JsclInteger.valueOf(1).add(
                 ta.multiply(tb)

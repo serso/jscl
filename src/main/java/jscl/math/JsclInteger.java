@@ -63,8 +63,8 @@ public final class JsclInteger extends Generic {
 		}
 	}
 
-	public JsclInteger divide(JsclInteger integer) throws ArithmeticException {
-		JsclInteger e[] = divideAndRemainder(integer);
+	public JsclInteger divide(@NotNull JsclInteger that) throws ArithmeticException {
+		JsclInteger e[] = divideAndRemainder(that);
 		if (e[1].signum() == 0) return e[0];
 		else throw new NotDivisibleException();
 	}
@@ -78,9 +78,10 @@ public final class JsclInteger extends Generic {
 		}
 	}
 
-	public JsclInteger[] divideAndRemainder(JsclInteger integer) throws ArithmeticException {
-		BigInteger b[] = content.divideAndRemainder(integer.content);
-		return new JsclInteger[]{new JsclInteger(b[0]), new JsclInteger(b[1])};
+	@NotNull
+	public JsclInteger[] divideAndRemainder(@NotNull JsclInteger that) throws ArithmeticException {
+		final BigInteger result[] = content.divideAndRemainder(that.content);
+		return new JsclInteger[]{new JsclInteger(result[0]), new JsclInteger(result[1])};
 	}
 
 	public Generic[] divideAndRemainder(Generic generic) throws ArithmeticException {

@@ -12,7 +12,7 @@ public class Acosh extends ArcTrigonometric {
     }
 
     public Generic derivative(int n) {
-        return new Inv(
+        return new Inverse(
             new Sqrt(
                 parameters[0].pow(2).subtract(
                     JsclInteger.valueOf(1)

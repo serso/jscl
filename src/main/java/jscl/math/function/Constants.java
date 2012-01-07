@@ -26,9 +26,9 @@ public final class Constants {
 		public static final jscl.math.Generic I_BY_PI = I.multiply(PI_INV);
 
 		// fraction = 1/2
-		public static final jscl.math.Generic HALF = new Inv(JsclInteger.valueOf(2)).expressionValue();
+		public static final jscl.math.Generic HALF = new Inverse(JsclInteger.valueOf(2)).expressionValue();
 		// fraction = 1/3
-		public static final jscl.math.Generic THIRD = new Inv(JsclInteger.valueOf(3)).expressionValue();
+		public static final jscl.math.Generic THIRD = new Inverse(JsclInteger.valueOf(3)).expressionValue();
 
 		// -1/2 * (1 - i * sqrt (3) )
 		public static final jscl.math.Generic J = HALF.negate().multiply(JsclInteger.ONE.subtract(I.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));

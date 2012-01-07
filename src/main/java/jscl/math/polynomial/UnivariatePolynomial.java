@@ -6,7 +6,7 @@ import java.util.List;
 
 import jscl.math.*;
 import jscl.math.JsclInteger;
-import jscl.math.function.Inv;
+import jscl.math.function.Inverse;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -306,7 +306,7 @@ public class UnivariatePolynomial extends Polynomial {
 
     public Generic solve() {
         if(degree==1) {
-            return get(0).multiply(new Inv(get(1)).evaluate()).negate();
+            return get(0).multiply(new Inverse(get(1)).evaluate()).negate();
         } else return null;
     }
 
@@ -384,7 +384,7 @@ public class UnivariatePolynomial extends Polynomial {
     public UnivariatePolynomial antiderivative() {
         UnivariatePolynomial p=newinstance();
         for(int i=degree;i>=0;i--) {
-            p.put(i+1,get(i).multiply(new Inv(JsclInteger.valueOf(i + 1)).evaluate()));
+            p.put(i+1,get(i).multiply(new Inverse(JsclInteger.valueOf(i + 1)).evaluate()));
         }
         return p;
     }

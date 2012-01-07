@@ -13,7 +13,7 @@ public class Acos extends ArcTrigonometric {
 	}
 
 	public Generic derivative(int n) {
-		return new Inv(new Sqrt(JsclInteger.valueOf(1).subtract(parameters[0].pow(2))).evaluate()).evaluate().negate();
+		return new Inverse(new Sqrt(JsclInteger.valueOf(1).subtract(parameters[0].pow(2))).evaluate()).evaluate().negate();
 	}
 
 	public Generic evaluate() {

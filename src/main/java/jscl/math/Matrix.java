@@ -2,7 +2,7 @@ package jscl.math;
 
 import jscl.math.function.Conjugate;
 import jscl.math.function.Constant;
-import jscl.math.function.Frac;
+import jscl.math.function.Fraction;
 import jscl.math.function.trigonometric.Cos;
 import jscl.math.function.trigonometric.Sin;
 import jscl.mathml.MathML;
@@ -127,7 +127,7 @@ public class Matrix extends Generic {
 					try {
 						m.elements[i][j] = elements[i][j].divide(that);
 					} catch (NotDivisibleException e) {
-						m.elements[i][j] = new Frac(elements[i][j], that).evaluate();
+						m.elements[i][j] = new Fraction(elements[i][j], that).evaluate();
 					}
 				}
 			}

@@ -156,8 +156,8 @@ public final class Simplification {
 
 			Constraint result = null;
 
-			if (v instanceof Frac) {
-				final Generic parameters[] = ((Frac) v).getParameters();
+			if (v instanceof Fraction) {
+				final Generic parameters[] = ((Fraction) v).getParameters();
 				result = new Constraint(v, v.expressionValue().multiply(parameters[1]).subtract(parameters[0]), false);
 			} else if (v instanceof Sqrt) {
 

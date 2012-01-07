@@ -18,7 +18,7 @@ public class Exp extends Function {
             Polynomial p=Polynomial.factory(variable).valueOf(s);
             if(p.degree()==1) {
                 Generic a[]=p.elements();
-                return new Inv(a[1]).evaluate().multiply(antiDerivative(0));
+                return new Inverse(a[1]).evaluate().multiply(antiDerivative(0));
             } else throw new NotIntegrableException();
         } else throw new NotIntegrableException();
     }
@@ -33,7 +33,7 @@ public class Exp extends Function {
 
     public Generic evaluate() {
         if(parameters[0].signum()<0) {
-            return new Inv(new Exp(parameters[0].negate()).evaluate()).evaluate();
+            return new Inverse(new Exp(parameters[0].negate()).evaluate()).evaluate();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
@@ -47,7 +47,7 @@ public class Exp extends Function {
     public Generic selfSimplify() {
 
 		if (parameters[0].signum() < 0) {
-			return new Inv(new Exp(parameters[0].negate()).selfSimplify()).selfSimplify();
+			return new Inverse(new Exp(parameters[0].negate()).selfSimplify()).selfSimplify();
 		} else if (parameters[0].signum() == 0) {
 			return JsclInteger.valueOf(1);
 		} else if (parameters[0].compareTo(Constants.Generic.I_BY_PI) == 0) {
@@ -71,11 +71,11 @@ public class Exp extends Function {
 			}
         }
 
-        Generic n[]=Frac.separateCoefficient(parameters[0]);
+        Generic n[]= Fraction.separateCoefficient(parameters[0]);
         if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
         else return new Pow(
             new Exp(n[2]).selfSimplify(),
-            new Frac(n[0],n[1]).selfSimplify()
+            new Fraction(n[0],n[1]).selfSimplify()
         ).selfSimplify();
         return expressionValue();
     }

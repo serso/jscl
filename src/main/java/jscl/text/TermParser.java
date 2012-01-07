@@ -3,8 +3,8 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.GenericVariable;
 import jscl.math.JsclInteger;
-import jscl.math.function.Frac;
-import jscl.math.function.Inv;
+import jscl.math.function.Fraction;
+import jscl.math.function.Inverse;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,9 +33,9 @@ class TermParser implements Parser<Generic> {
 				try {
 					Generic b = MultiplyOrDivideFactor.divide.parse(p, null);
 					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
-						s = new Inv(GenericVariable.content(b, true)).expressionValue();
+						s = new Inverse(GenericVariable.content(b, true)).expressionValue();
 					else
-						s = new Frac(GenericVariable.content(s, true), GenericVariable.content(b, true)).expressionValue();
+						s = new Fraction(GenericVariable.content(s, true), GenericVariable.content(b, true)).expressionValue();
 				} catch (ParseException e2) {
 					break;
 				}

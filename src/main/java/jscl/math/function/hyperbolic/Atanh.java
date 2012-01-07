@@ -12,7 +12,7 @@ public class Atanh extends ArcTrigonometric {
     }
 
     public Generic derivative(int n) {
-        return new Inv(
+        return new Inverse(
             JsclInteger.valueOf(1).subtract(
                 parameters[0].pow(2)
             )

@@ -135,7 +135,7 @@ public class Root extends Algebraic {
 			int s = subscript.integerValue().intValue();
 			switch (degree()) {
 				case 1:
-					return new Frac(parameters[0], parameters[1]).evaluate().negate();
+					return new Fraction(parameters[0], parameters[1]).evaluate().negate();
 			}
 		} catch (NotIntegerException e) {
 		}
@@ -183,32 +183,32 @@ public class Root extends Algebraic {
 
 	static Generic nth(Generic parameter[]) {
 		int degree = parameter.length - 1;
-		Generic a = new Frac(parameter[0], parameter[degree]).selfSimplify();
+		Generic a = new Fraction(parameter[0], parameter[degree]).selfSimplify();
 		return new Pow(
 				a.negate(),
-				new Inv(JsclInteger.valueOf(degree)).selfSimplify()
+				new Inverse(JsclInteger.valueOf(degree)).selfSimplify()
 		).selfSimplify();
 	}
 
 	static Generic linear(Generic parameter[]) {
-		Generic a = new Frac(parameter[0], parameter[1]).selfSimplify();
+		Generic a = new Fraction(parameter[0], parameter[1]).selfSimplify();
 		return a.negate();
 	}
 
 	static Generic quadratic(Generic parameter[], int subscript) {
-		Generic a = new Frac(parameter[1], parameter[2]).selfSimplify();
-		Generic b = new Frac(parameter[0], parameter[2]).selfSimplify();
+		Generic a = new Fraction(parameter[1], parameter[2]).selfSimplify();
+		Generic b = new Fraction(parameter[0], parameter[2]).selfSimplify();
 		Generic y = new Sqrt(
 				a.pow(2).subtract(JsclInteger.valueOf(4).multiply(b))
 		).selfSimplify();
 		switch (subscript) {
 			case 0:
-				return new Frac(
+				return new Fraction(
 						a.subtract(y),
 						JsclInteger.valueOf(2)
 				).selfSimplify().negate();
 			default:
-				return new Frac(
+				return new Fraction(
 						a.add(y),
 						JsclInteger.valueOf(2)
 				).selfSimplify().negate();
@@ -216,9 +216,9 @@ public class Root extends Algebraic {
 	}
 
 	static Generic cubic(Generic parameter[], int subscript) {
-		Generic a = new Frac(parameter[2], parameter[3]).selfSimplify();
-		Generic b = new Frac(parameter[1], parameter[3]).selfSimplify();
-		Generic c = new Frac(parameter[0], parameter[3]).selfSimplify();
+		Generic a = new Fraction(parameter[2], parameter[3]).selfSimplify();
+		Generic b = new Fraction(parameter[1], parameter[3]).selfSimplify();
+		Generic c = new Fraction(parameter[0], parameter[3]).selfSimplify();
 		Generic y[] = new Generic[2];
 		for (int i = 0; i < y.length; i++) {
 			y[i] = new Cubic(
@@ -234,17 +234,17 @@ public class Root extends Algebraic {
 		}
 		switch (subscript) {
 			case 0:
-				return new Frac(
+				return new Fraction(
 						a.subtract(y[0]).subtract(y[1]),
 						JsclInteger.valueOf(3)
 				).selfSimplify().negate();
 			case 1:
-				return new Frac(
+				return new Fraction(
 						a.subtract(Constants.Generic.J.multiply(y[0])).subtract(Constants.Generic.J_BAR.multiply(y[1])),
 						JsclInteger.valueOf(3)
 				).selfSimplify().negate();
 			default:
-				return new Frac(
+				return new Fraction(
 						a.subtract(Constants.Generic.J_BAR.multiply(y[0])).subtract(Constants.Generic.J.multiply(y[1])),
 						JsclInteger.valueOf(3)
 				).selfSimplify().negate();
@@ -252,10 +252,10 @@ public class Root extends Algebraic {
 	}
 
 	static Generic quartic(Generic parameter[], int subscript) {
-		Generic a = new Frac(parameter[3], parameter[4]).selfSimplify();
-		Generic b = new Frac(parameter[2], parameter[4]).selfSimplify();
-		Generic c = new Frac(parameter[1], parameter[4]).selfSimplify();
-		Generic d = new Frac(parameter[0], parameter[4]).selfSimplify();
+		Generic a = new Fraction(parameter[3], parameter[4]).selfSimplify();
+		Generic b = new Fraction(parameter[2], parameter[4]).selfSimplify();
+		Generic c = new Fraction(parameter[1], parameter[4]).selfSimplify();
+		Generic d = new Fraction(parameter[0], parameter[4]).selfSimplify();
 		Generic y[] = new Generic[3];
 		for (int i = 0; i < y.length; i++) {
 			y[i] = new Sqrt(
@@ -272,22 +272,22 @@ public class Root extends Algebraic {
 		}
 		switch (subscript) {
 			case 0:
-				return new Frac(
+				return new Fraction(
 						a.add(y[0]).subtract(y[1]).subtract(y[2]),
 						JsclInteger.valueOf(4)
 				).selfSimplify().negate();
 			case 1:
-				return new Frac(
+				return new Fraction(
 						a.subtract(y[0]).subtract(y[1]).add(y[2]),
 						JsclInteger.valueOf(4)
 				).selfSimplify().negate();
 			case 2:
-				return new Frac(
+				return new Fraction(
 						a.add(y[0]).add(y[1]).add(y[2]),
 						JsclInteger.valueOf(4)
 				).selfSimplify().negate();
 			default:
-				return new Frac(
+				return new Fraction(
 						a.subtract(y[0]).add(y[1]).subtract(y[2]),
 						JsclInteger.valueOf(4)
 				).selfSimplify().negate();

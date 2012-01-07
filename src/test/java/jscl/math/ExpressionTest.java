@@ -419,6 +419,19 @@ public class ExpressionTest {
 
 		Assert.assertEquals("180.0", me.evaluate("π"));
 		Assert.assertEquals("180.0", me.evaluate("200-10%"));
+
+		try {
+			System.out.println(me.evaluate("0/0"));
+		} catch (ArithmeticException e) {
+			// ok
+		}
+
+		try {
+			System.out.println(me.evaluate("0/0.0"));
+			org.junit.Assert.fail();
+		} catch (ArithmeticException e) {
+			// ok
+		}
 	}
 
 	@Test

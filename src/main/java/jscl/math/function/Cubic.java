@@ -32,7 +32,7 @@ public class Cubic extends Algebraic {
 
     public Generic derivative(int n) {
         return Constants.Generic.THIRD.multiply(
-            new Inv(
+            new Inverse(
                 evaluate().pow(2)
             ).evaluate()
         );

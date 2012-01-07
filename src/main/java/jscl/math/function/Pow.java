@@ -18,8 +18,8 @@ public class Pow extends Algebraic {
 	public Root rootValue() throws NotRootException {
         try {
             Variable v= parameters[1].variableValue();
-            if(v instanceof Inv) {
-                Generic g=((Inv)v).parameter();
+            if(v instanceof Inverse) {
+                Generic g=((Inverse)v).parameter();
                 try {
                     int d=g.integerValue().intValue();
                     if(d>0) {
@@ -48,9 +48,9 @@ public class Pow extends Algebraic {
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
         if(n==0) {
-            return new Pow(parameters[0], parameters[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inv(parameters[1].add(JsclInteger.valueOf(1))).evaluate());
+            return new Pow(parameters[0], parameters[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inverse(parameters[1].add(JsclInteger.valueOf(1))).evaluate());
         } else {
-            return new Pow(parameters[0], parameters[1]).evaluate().multiply(new Inv(new Ln(parameters[0]).evaluate()).evaluate());
+            return new Pow(parameters[0], parameters[1]).evaluate().multiply(new Inverse(new Ln(parameters[0]).evaluate()).evaluate());
         }
     }
 
@@ -67,7 +67,7 @@ public class Pow extends Algebraic {
             return JsclInteger.valueOf(1);
         }
         if(parameters[1].signum()<0) {
-            return new Pow(new Inv(parameters[0]).evaluate(), parameters[1].negate()).evaluate();
+            return new Pow(new Inverse(parameters[0]).evaluate(), parameters[1].negate()).evaluate();
         }
         try {
             int c= parameters[1].integerValue().intValue();
@@ -105,7 +105,7 @@ public class Pow extends Algebraic {
             return JsclInteger.valueOf(1);
         }
         if(parameters[1].signum()<0) {
-            return new Pow(new Inv(parameters[0]).selfSimplify(), parameters[1].negate()).selfSimplify();
+            return new Pow(new Inverse(parameters[0]).selfSimplify(), parameters[1].negate()).selfSimplify();
         }
         try {
             int c= parameters[1].integerValue().intValue();
@@ -133,7 +133,7 @@ public class Pow extends Algebraic {
                     if(a.compareTo(JsclInteger.valueOf(-1))==0) return root_minus_1(d);
             }
         } catch (NotRootException e) {
-            Generic n[]=Frac.separateCoefficient(parameters[1]);
+            Generic n[]= Fraction.separateCoefficient(parameters[1]);
             if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
             else return new Pow(
                 new Pow(
@@ -141,7 +141,7 @@ public class Pow extends Algebraic {
                         parameters[0],
                         n[2]
                     ).selfSimplify(),
-                    new Inv(
+                    new Inverse(
                         n[1]
                     ).selfSimplify()
                 ).selfSimplify(),
@@ -181,7 +181,7 @@ public class Pow extends Algebraic {
         } catch (NotIntegerException e) {
             try {
                 Variable v= parameters[0].variableValue();
-                if(v instanceof Frac || v instanceof Pow) {
+                if(v instanceof Fraction || v instanceof Pow) {
                     buffer.append(GenericVariable.valueOf(parameters[0]));
                 } else buffer.append(v);
             } catch (NotVariableException e2) {
@@ -201,7 +201,7 @@ public class Pow extends Algebraic {
         } catch (NotIntegerException e) {
             try {
                 Variable v= parameters[1].variableValue();
-                if(v instanceof Frac) {
+                if(v instanceof Fraction) {
                     buffer.append(GenericVariable.valueOf(parameters[1]));
                 } else buffer.append(v);
             } catch (NotVariableException e2) {
@@ -239,7 +239,7 @@ public class Pow extends Algebraic {
         MathML e1=element.element("msup");
         try {
             Variable v= parameters[0].variableValue();
-            if(v instanceof Frac || v instanceof Pow || v instanceof Exp) {
+            if(v instanceof Fraction || v instanceof Pow || v instanceof Exp) {
                 GenericVariable.valueOf(parameters[0]).toMathML(e1,null);
             } else parameters[0].toMathML(e1,null);
         } catch (NotVariableException e2) {

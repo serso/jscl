@@ -2,8 +2,8 @@ package jscl.math;
 
 import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
-import jscl.math.function.Frac;
-import jscl.math.function.Inv;
+import jscl.math.function.Fraction;
+import jscl.math.function.Inverse;
 import jscl.math.numeric.Real;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
@@ -323,10 +323,10 @@ public class Expression extends Generic {
 				try {
 					return v.antiDerivative(variable);
 				} catch (NotIntegrableException e) {
-					if (v instanceof Frac) {
-						Generic g[] = ((Frac) v).getParameters();
+					if (v instanceof Fraction) {
+						Generic g[] = ((Fraction) v).getParameters();
 						if (g[1].isConstant(variable)) {
-							return new Inv(g[1]).evaluate().multiply(g[0].antiDerivative(variable));
+							return new Inverse(g[1]).evaluate().multiply(g[0].antiDerivative(variable));
 						}
 					}
 				}

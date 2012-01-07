@@ -13,7 +13,7 @@ public class Asin extends ArcTrigonometric {
     }
 
     public Generic derivative(int n) {
-        return new Inv(
+        return new Inverse(
             new Sqrt(
                 JsclInteger.valueOf(1).subtract(parameters[0].pow(2))
             ).evaluate()

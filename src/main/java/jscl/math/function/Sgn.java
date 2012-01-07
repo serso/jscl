@@ -29,7 +29,7 @@ public class Sgn extends Function {
     }
 
     public Generic selfElementary() {
-        return new Frac(
+        return new Fraction(
             parameters[0],
             new Abs(parameters[0]).selfElementary()
         ).selfElementary();
