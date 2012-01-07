@@ -10,7 +10,7 @@ public class Conjugate extends Function {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return Constant.half.multiply(evaluate().pow(2));
+        return Constants.Generic.HALF.multiply(evaluate().pow(2));
     }
 
     public Generic derivative(int n) {
@@ -42,8 +42,8 @@ public class Conjugate extends Function {
         } catch (NotIntegerException e) {}
         if(parameters[0].signum()<0) {
             return new Conjugate(parameters[0].negate()).selfSimplify().negate();
-        } else if(parameters[0].compareTo(Constant.i)==0) {
-            return Constant.i.negate();
+        } else if(parameters[0].compareTo(Constants.Generic.I)==0) {
+            return Constants.Generic.I.negate();
         }
         try {
             Variable v= parameters[0].variableValue();

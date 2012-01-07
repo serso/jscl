@@ -18,7 +18,7 @@ public class Acos extends ArcTrigonometric {
 
 	public Generic evaluate() {
 		if (parameters[0].signum() < 0) {
-			return Constant.pi.subtract(new Acos(parameters[0].negate()).evaluate());
+			return Constants.Generic.PI.subtract(new Acos(parameters[0].negate()).evaluate());
 		} else if (parameters[0].compareTo(JsclInteger.valueOf(1)) == 0) {
 			return JsclInteger.valueOf(0);
 		}
@@ -27,7 +27,7 @@ public class Acos extends ArcTrigonometric {
 	}
 
 	public Generic selfElementary() {
-		return Constant.i.multiply(
+		return Constants.Generic.I.multiply(
 				new Ln(
 						new Root(
 								new Generic[]{

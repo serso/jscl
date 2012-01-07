@@ -1,7 +1,7 @@
 package jscl.math.function.trigonometric;
 
 import jscl.math.*;
-import jscl.math.function.Constant;
+import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +37,7 @@ public class Cos extends Trigonometric {
 			result = new Cos(parameters[0].negate()).evaluate();
 		} else if (parameters[0].signum() == 0) {
 			result = JsclInteger.valueOf(1);
-		} else if (parameters[0].compareTo(Constant.pi) == 0) {
+		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
 			result = JsclInteger.valueOf(-1);
 		}
 
@@ -46,12 +46,12 @@ public class Cos extends Trigonometric {
 
 	public Generic selfElementary() {
         return new Exp(
-            Constant.i.multiply(parameters[0])
+            Constants.Generic.I.multiply(parameters[0])
         ).selfElementary().add(
             new Exp(
-                Constant.i.multiply(parameters[0].negate())
+                Constants.Generic.I.multiply(parameters[0].negate())
             ).selfElementary()
-        ).multiply(Constant.half);
+        ).multiply(Constants.Generic.HALF);
     }
 
     public Generic selfSimplify() {

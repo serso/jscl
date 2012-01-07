@@ -11,7 +11,7 @@ import jscl.JsclMathEngine;
 public class PiConstant extends ExtendedConstant {
 
 	public PiConstant() {
-		super(Constant.PI_CONST, Math.PI, "JsclDouble.valueOf(Math.PI)");
+		super(Constants.PI, Math.PI, "JsclDouble.valueOf(Math.PI)");
 	}
 
 	@Override

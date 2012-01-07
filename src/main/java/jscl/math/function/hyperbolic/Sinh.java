@@ -6,7 +6,7 @@ import jscl.math.NotIntegrableException;
 import jscl.math.NotVariableException;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
-import jscl.math.function.Constant;
+import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
 
@@ -39,7 +39,7 @@ public class Sinh extends Trigonometric {
             new Exp(
                 parameters[0].negate()
             ).selfElementary()
-        ).multiply(Constant.half);
+        ).multiply(Constants.Generic.HALF);
     }
 
     public Generic selfSimplify() {

@@ -27,13 +27,13 @@ public class Atan extends ArcTrigonometric {
     }
 
     public Generic selfElementary() {
-        return Constant.i.multiply(
+        return Constants.Generic.I.multiply(
             new Ln(
                 new Root(
                     new Generic[] {
-                        JsclInteger.valueOf(-1).add(Constant.i.multiply(parameters[0])),
+                        JsclInteger.valueOf(-1).add(Constants.Generic.I.multiply(parameters[0])),
                         JsclInteger.valueOf(0),
-                        JsclInteger.valueOf(1).add(Constant.i.multiply(parameters[0]))
+                        JsclInteger.valueOf(1).add(Constants.Generic.I.multiply(parameters[0]))
                     },
                     0
                 ).selfElementary()

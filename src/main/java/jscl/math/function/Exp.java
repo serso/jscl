@@ -49,7 +49,7 @@ public class Exp extends Function {
 			return new Inv(new Exp(parameters[0].negate()).selfSimplify()).selfSimplify();
 		} else if (parameters[0].signum() == 0) {
 			return JsclInteger.valueOf(1);
-		} else if (parameters[0].compareTo(Constant.i.multiply(Constant.pi)) == 0) {
+		} else if (parameters[0].compareTo(Constants.Generic.I.multiply(Constants.Generic.PI)) == 0) {
 			return JsclInteger.valueOf(-1);
 		}
 

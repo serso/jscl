@@ -23,10 +23,10 @@ public class ConstantsRegistry extends AbstractMathRegistry<IConstant> {
 
 	static {
 		instance.add(new PiConstant());
-		instance.add(new ExtendedConstant(Constant.PI_INV_CONST, Math.PI, null));
-		instance.add(new ExtendedConstant(Constant.INF_CONST, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
-		instance.add(new ExtendedConstant(Constant.INF_CONST2, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
-		instance.add(new ExtendedConstant(Constant.I_CONST, "√(-1)", null));
+		instance.add(new ExtendedConstant(Constants.PI_INV, Math.PI, null));
+		instance.add(new ExtendedConstant(Constants.INF, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
+		instance.add(new ExtendedConstant(Constants.INF_2, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
+		instance.add(new ExtendedConstant(Constants.I, "√(-1)", null));
 		instance.add(new ExtendedConstant(new Constant(E), Math.E, null));
 		instance.add(new ExtendedConstant(new Constant(C), C_VALUE, null));
 		instance.add(new ExtendedConstant(new Constant(G), G_VALUE, null));

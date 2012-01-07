@@ -30,12 +30,12 @@ public class Asin extends ArcTrigonometric {
     }
 
     public Generic selfElementary() {
-        return Constant.i.multiply(
+        return Constants.Generic.I.multiply(
             new Ln(
                 new Root(
                     new Generic[] {
                         JsclInteger.valueOf(-1),
-                        JsclInteger.valueOf(2).multiply(Constant.i.multiply(parameters[0])),
+                        JsclInteger.valueOf(2).multiply(Constants.Generic.I.multiply(parameters[0])),
                         JsclInteger.valueOf(1)
                     },
                     0

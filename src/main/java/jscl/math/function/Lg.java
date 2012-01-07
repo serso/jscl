@@ -33,7 +33,7 @@ public class Lg extends Function {
 		try {
 			JsclInteger en = parameters[0].integerValue();
 			if (en.signum() < 0) {
-				return Constant.i.multiply(Constant.pi).add(new Lg(en.negate()).selfSimplify());
+				return Constants.Generic.I.multiply(Constants.Generic.PI).add(new Lg(en.negate()).selfSimplify());
 			} else {
 				Generic a = en.factorize();
 				Generic p[] = a.productValue();
@@ -50,7 +50,7 @@ public class Lg extends Function {
 			Variable v = parameters[0].variableValue();
 			if (v instanceof Sqrt) {
 				Generic g[] = ((Sqrt) v).getParameters();
-				return Constant.half.multiply(new Lg(g[0]).selfSimplify());
+				return Constants.Generic.HALF.multiply(new Lg(g[0]).selfSimplify());
 			}
 		} catch (NotVariableException e) {
 		}

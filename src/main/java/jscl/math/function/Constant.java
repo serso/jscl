@@ -11,23 +11,6 @@ import java.util.Set;
 
 public class Constant extends Variable {
 
-	public static final Generic e = new Exp(JsclInteger.valueOf(1)).expressionValue();
-
-	public static final Constant PI_CONST = new Constant("π");
-	public static final Constant PI_INV_CONST = new Constant("Π");
-	public static final Generic pi = PI_CONST.expressionValue();
-
-	public static final Constant I_CONST = new Constant("i");
-	public static final Constant INF_CONST2 = new Constant("Infinity");
-	public static final Constant INF_CONST = new Constant("∞");
-	public static final Generic infinity = INF_CONST.expressionValue();
-
-	public static final Generic i = new Sqrt(JsclInteger.valueOf(-1)).expressionValue();
-	public static final Generic half = new Inv(JsclInteger.valueOf(2)).expressionValue();
-	public static final Generic third = new Inv(JsclInteger.valueOf(3)).expressionValue();
-	public static final Generic j = half.negate().multiply(JsclInteger.valueOf(1).subtract(i.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));
-	public static final Generic jbar = half.negate().multiply(JsclInteger.valueOf(1).add(i.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue())));
-
 	public static final int PRIME_CHARS = 3;
 	private int prime;
 	private Generic subscripts[];

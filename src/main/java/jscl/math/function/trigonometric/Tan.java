@@ -1,10 +1,7 @@
 package jscl.math.function.trigonometric;
 
 import jscl.math.*;
-import jscl.math.function.Constant;
-import jscl.math.function.Frac;
-import jscl.math.function.Ln;
-import jscl.math.function.Trigonometric;
+import jscl.math.function.*;
 import org.jetbrains.annotations.Nullable;
 
 public class Tan extends Trigonometric {
@@ -72,7 +69,7 @@ public class Tan extends Trigonometric {
 			result = new Tan(parameters[0].negate()).evaluate().negate();
 		} else if (parameters[0].signum() == 0) {
 			result = JsclInteger.valueOf(0);
-		} else if (parameters[0].compareTo(Constant.pi) == 0) {
+		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
 			result = JsclInteger.valueOf(0);
 		}
 

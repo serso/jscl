@@ -3,7 +3,7 @@ package jscl.math.operator;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.Variable;
-import jscl.math.function.Constant;
+import jscl.math.function.Constants;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +25,7 @@ public class Limit extends Operator {
 		result[0] = parameters[0];
 		result[1] = parameters[1];
 		result[2] = parameters[2];
-		result[3] = parameters.length > 3 && (parameters[2].compareTo(Constant.infinity) != 0 && parameters[2].compareTo(Constant.infinity.negate()) != 0) ? JsclInteger.valueOf(parameters[3].signum()) : JsclInteger.valueOf(0);
+		result[3] = parameters.length > 3 && (parameters[2].compareTo(Constants.Generic.INF) != 0 && parameters[2].compareTo(Constants.Generic.INF.negate()) != 0) ? JsclInteger.valueOf(parameters[3].signum()) : JsclInteger.valueOf(0);
 
 		return result;
 	}

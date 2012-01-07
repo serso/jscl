@@ -31,7 +31,7 @@ public class Cubic extends Algebraic {
     }
 
     public Generic derivative(int n) {
-        return Constant.third.multiply(
+        return Constants.Generic.THIRD.multiply(
             new Inv(
                 evaluate().pow(2)
             ).evaluate()
@@ -74,7 +74,7 @@ public class Cubic extends Algebraic {
         StringBuffer buffer=new StringBuffer();
         buffer.append(parameters[0].toJava());
         buffer.append(".pow(");
-        buffer.append(Constant.third.toJava());
+        buffer.append(Constants.Generic.THIRD.toJava());
         buffer.append(")");
         return buffer.toString();
     }

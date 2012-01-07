@@ -1,7 +1,7 @@
 package jscl.math.function.trigonometric;
 
 import jscl.math.*;
-import jscl.math.function.Constant;
+import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
 
@@ -30,12 +30,12 @@ public class Sin extends Trigonometric {
 
 	public Generic selfElementary() {
 		return new Exp(
-				Constant.i.multiply(parameters[0])
+				Constants.Generic.I.multiply(parameters[0])
 		).selfElementary().subtract(
 				new Exp(
-						Constant.i.multiply(parameters[0].negate())
+						Constants.Generic.I.multiply(parameters[0].negate())
 				).selfElementary()
-		).multiply(Constant.i.negate().multiply(Constant.half));
+		).multiply(Constants.Generic.I.negate().multiply(Constants.Generic.HALF));
 	}
 
 	public Generic selfSimplify() {
@@ -64,7 +64,7 @@ public class Sin extends Trigonometric {
 			result = new Sin(parameters[0].negate()).evaluate().negate();
 		} else if (parameters[0].signum() == 0) {
 			result = JsclInteger.valueOf(0);
-		} else if (parameters[0].compareTo(Constant.pi) == 0) {
+		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
 			result = JsclInteger.valueOf(0);
 		}
 

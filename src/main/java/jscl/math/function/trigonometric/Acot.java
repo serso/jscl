@@ -19,20 +19,20 @@ public class Acot extends ArcTrigonometric {
 
     public Generic evaluate() {
 		if (parameters[0].signum() < 0) {
-			return Constant.pi.subtract(new Acot(parameters[0].negate()).evaluate());
+			return Constants.Generic.PI.subtract(new Acot(parameters[0].negate()).evaluate());
 		}
 
         return expressionValue();
     }
 
     public Generic selfElementary() {
-        return Constant.i.multiply(
+        return Constants.Generic.I.multiply(
             new Ln(
                 new Root(
                     new Generic[] {
-                        Constant.i.add(parameters[0]),
+                        Constants.Generic.I.add(parameters[0]),
                         JsclInteger.valueOf(0),
-                        Constant.i.subtract(parameters[0])
+                        Constants.Generic.I.subtract(parameters[0])
                     },
                     0
                 ).selfElementary()

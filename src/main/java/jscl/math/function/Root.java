@@ -240,12 +240,12 @@ public class Root extends Algebraic {
 				).selfSimplify().negate();
 			case 1:
 				return new Frac(
-						a.subtract(Constant.j.multiply(y[0])).subtract(Constant.jbar.multiply(y[1])),
+						a.subtract(Constants.Generic.J.multiply(y[0])).subtract(Constants.Generic.J_BAR.multiply(y[1])),
 						JsclInteger.valueOf(3)
 				).selfSimplify().negate();
 			default:
 				return new Frac(
-						a.subtract(Constant.jbar.multiply(y[0])).subtract(Constant.j.multiply(y[1])),
+						a.subtract(Constants.Generic.J_BAR.multiply(y[0])).subtract(Constants.Generic.J.multiply(y[1])),
 						JsclInteger.valueOf(3)
 				).selfSimplify().negate();
 		}

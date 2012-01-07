@@ -153,7 +153,7 @@ public enum JsclMathEngine implements MathEngine {
 	public String format(@NotNull final Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
 		if (value.isInfinite()) {
 			// return predefined constant for infinity
-			return Constant.INF_CONST.getName();
+			return Constants.INF.getName();
 		} else {
 			if (value.isNaN()) {
 				// return "NaN"
@@ -168,8 +168,8 @@ public enum JsclMathEngine implements MathEngine {
 						public boolean isFound(@Nullable IConstant constant) {
 							if (constant != null) {
 								if (value.equals(constant.getDoubleValue())) {
-									if (!constant.getName().equals(Constant.PI_INV_CONST.getName())) {
-										if (!constant.getName().equals(Constant.PI_CONST.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
+									if (!constant.getName().equals(Constants.PI_INV.getName())) {
+										if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
 											return true;
 										}
 									}
@@ -182,7 +182,7 @@ public enum JsclMathEngine implements MathEngine {
 
 
 					if (constant == null) {
-						final IConstant piInv = this.getConstantsRegistry().get(Constant.PI_INV_CONST.getName());
+						final IConstant piInv = this.getConstantsRegistry().get(Constants.PI_INV.getName());
 						if (piInv != null && value.equals(piInv.getDoubleValue())) {
 							constant = piInv;
 						}

@@ -9,7 +9,7 @@ public class Abs extends Function {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		return Constant.half.multiply(parameters[0]).multiply(new Abs(parameters[0]).evaluate());
+		return Constants.Generic.HALF.multiply(parameters[0]).multiply(new Abs(parameters[0]).evaluate());
 	}
 
 	public Generic derivative(int n) {

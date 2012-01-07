@@ -27,7 +27,7 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Generic derivative(int n) {
-		return Constant.half.multiply(new Inv( evaluate()).evaluate());
+		return Constants.Generic.HALF.multiply(new Inv( evaluate()).evaluate());
 	}
 
 	public boolean imaginary() {
@@ -66,7 +66,7 @@ public class Sqrt extends Algebraic {
 		try {
 			final JsclInteger p = parameters[0].integerValue();
 			if (p.signum() < 0) {
-				return Constant.i.multiply(new Sqrt(p.negate()).selfSimplify());
+				return Constants.Generic.I.multiply(new Sqrt(p.negate()).selfSimplify());
 			} else {
 				final Generic sqrt = p.sqrt();
 				if (sqrt.pow(2).compareTo(p) == 0) {
@@ -148,7 +148,7 @@ public class Sqrt extends Algebraic {
 		if (parameter != null ) {
 			try {
 				if ( JsclInteger.ONE.negate().equals(parameter.integerValue()) ) {
-					return Constant.I_CONST.getName();
+					return Constants.I.getName();
 				} else {
 					return super.toString();
 				}

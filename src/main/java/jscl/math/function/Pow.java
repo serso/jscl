@@ -156,13 +156,13 @@ public class Pow extends Algebraic {
             case 1:
                 return JsclInteger.valueOf(-1);
             case 2:
-                return Constant.i;
+                return Constants.Generic.I;
             case 3:
-                return Constant.jbar.negate();
+                return Constants.Generic.J_BAR.negate();
             case 4:
-                return new Sqrt(Constant.half).expressionValue().multiply(JsclInteger.valueOf(1).add(Constant.i));
+                return new Sqrt(Constants.Generic.HALF).expressionValue().multiply(JsclInteger.valueOf(1).add(Constants.Generic.I));
             case 6:
-                return Constant.half.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue().add(Constant.i));
+                return Constants.Generic.HALF.multiply(new Sqrt(JsclInteger.valueOf(3)).expressionValue().add(Constants.Generic.I));
             default:
                 return null;
         }
