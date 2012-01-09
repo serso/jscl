@@ -72,7 +72,7 @@ public final class Rational extends Generic implements Field {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
         if(that instanceof Rational) {
             return multiply(that.inverse());
         } else if(that instanceof JsclInteger) {

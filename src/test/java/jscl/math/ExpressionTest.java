@@ -420,18 +420,10 @@ public class ExpressionTest {
 		Assert.assertEquals("180.0", me.evaluate("π"));
 		Assert.assertEquals("180.0", me.evaluate("200-10%"));
 
-		try {
-			System.out.println(me.evaluate("0/0"));
-		} catch (ArithmeticException e) {
-			// ok
-		}
-
-		try {
-			System.out.println(me.evaluate("0/0.0"));
-			org.junit.Assert.fail();
-		} catch (ArithmeticException e) {
-			// ok
-		}
+		Assert.assertEquals("∞", me.evaluate("1/0"));
+		Assert.assertEquals("∞", me.evaluate("(1 + 2) / (5 - 3 - 2)"));
+		Assert.assertEquals("∞", me.evaluate("(1 + 2) / (5.1 - 3.1 - 2.0 )"));
+		Assert.assertEquals("∞", me.evaluate("1/0.0"));
 	}
 
 	@Test

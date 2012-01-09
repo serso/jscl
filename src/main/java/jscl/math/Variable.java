@@ -138,6 +138,7 @@ public abstract class Variable implements Comparable, MathEntity {
 		element.appendChild(e1);
 	}
 
+	@NotNull
 	public abstract Variable newInstance();
 
 	static final Map<String, String> special = new HashMap<String, String>();

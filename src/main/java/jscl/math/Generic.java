@@ -35,7 +35,7 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
         return divide((Generic)arithmetic);
     }*/
 
-    public Generic[] divideAndRemainder(Generic generic) throws ArithmeticException {
+    public Generic[] divideAndRemainder(Generic generic){
         try {
             return new Generic[] {divide(generic), JsclInteger.valueOf(0)};
         } catch (NotDivisibleException e) {
@@ -60,12 +60,19 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
 	@NotNull
     protected abstract Generic gcd();
 
-    public Generic[] gcdAndNormalize() {
-        Generic gcd=gcd();
-        if(gcd.signum()==0) return new Generic[] {gcd,this};
-        if(gcd.signum()!= signum()) gcd=gcd.negate();
-        return new Generic[] {gcd,divide(gcd)};
-    }
+	public Generic[] gcdAndNormalize() {
+		Generic gcd = gcd();
+
+		if (gcd.signum() == 0) {
+			return new Generic[]{gcd, this};
+		}
+
+		if (gcd.signum() != signum()) {
+			gcd = gcd.negate();
+		}
+
+		return new Generic[]{gcd, divide(gcd)};
+	}
 
     @SuppressWarnings({"UnusedDeclaration"})
 	public Generic normalize() {

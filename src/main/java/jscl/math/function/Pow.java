@@ -100,56 +100,69 @@ public class Pow extends Algebraic {
         ).selfElementary();
     }
 
-    public Generic selfSimplify() {
-        if(parameters[0].compareTo(JsclInteger.valueOf(1))==0) {
-            return JsclInteger.valueOf(1);
-        }
-        if(parameters[1].signum()<0) {
-            return new Pow(new Inverse(parameters[0]).selfSimplify(), parameters[1].negate()).selfSimplify();
-        }
-        try {
-            int c= parameters[1].integerValue().intValue();
-            return parameters[0].pow(c);
-        } catch (NotIntegerException e) {}
-        try {
-            Root r=rootValue();
-            int d=r.degree();
-            Generic g[]=r.getParameters();
-            Generic a=g[0].negate();
-            try {
-                JsclInteger en=a.integerValue();
-                if(en.signum()<0);
-                else {
-                    Generic rt=en.nthrt(d);
-                    if(rt.pow(d).compareTo(en)==0) return rt;
-                }
-            } catch (NotIntegerException e) {}
-            switch(d) {
-                case 2:
-                    return new Sqrt(a).selfSimplify();
-                case 3:
-                case 4:
-                case 6:
-                    if(a.compareTo(JsclInteger.valueOf(-1))==0) return root_minus_1(d);
-            }
-        } catch (NotRootException e) {
-            Generic n[]= Fraction.separateCoefficient(parameters[1]);
-            if(n[0].compareTo(JsclInteger.valueOf(1))==0 && n[1].compareTo(JsclInteger.valueOf(1))==0);
-            else return new Pow(
-                new Pow(
-                    new Pow(
-                        parameters[0],
-                        n[2]
-                    ).selfSimplify(),
-                    new Inverse(
-                        n[1]
-                    ).selfSimplify()
-                ).selfSimplify(),
-                n[0]
-            ).selfSimplify();
-        }
-        return expressionValue();
-    }
+	public Generic selfSimplify() {
+		// a ^ b
+
+		// a = 1 => for any b: 1 ^ b = 1
+		if (parameters[0].compareTo(JsclInteger.ONE) == 0) {
+			return JsclInteger.valueOf(1);
+		}
+
+		// b < 0 => a ^ b = (1 / a) ^ (-b)
+		if (parameters[1].signum() < 0) {
+			return new Pow(new Inverse(parameters[0]).selfSimplify(), parameters[1].negate()).selfSimplify();
+		}
+
+		try {
+			// if b is integer => just calculate the result
+			int intPower = parameters[1].integerValue().intValue();
+			return parameters[0].pow(intPower);
+		} catch (NotIntegerException e) {
+		}
+
+		try {
+			Root r = rootValue();
+			int d = r.degree();
+			Generic g[] = r.getParameters();
+			Generic a = g[0].negate();
+			try {
+				JsclInteger en = a.integerValue();
+				if (en.signum() < 0) ;
+				else {
+					Generic rt = en.nthrt(d);
+					if (rt.pow(d).compareTo(en) == 0) return rt;
+				}
+			} catch (NotIntegerException e) {
+			}
+			switch (d) {
+				case 2:
+					return new Sqrt(a).selfSimplify();
+				case 3:
+				case 4:
+				case 6:
+					if (a.compareTo(JsclInteger.valueOf(-1)) == 0) return root_minus_1(d);
+			}
+		} catch (NotRootException e) {
+			Generic n[] = Fraction.separateCoefficient(parameters[1]);
+			if (n[0].compareTo(JsclInteger.ONE) == 0 && n[1].compareTo(JsclInteger.ONE) == 0) {
+				// do nothing
+			} else {
+				return new Pow(
+						new Pow(
+								new Pow(
+										parameters[0],
+										n[2]
+								).selfSimplify(),
+								new Inverse(
+										n[1]
+								).selfSimplify()
+						).selfSimplify(),
+						n[0]
+				).selfSimplify();
+			}
+		}
+		return expressionValue();
+	}
 
     static Generic root_minus_1(int d) {
         switch(d) {

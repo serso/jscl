@@ -75,25 +75,34 @@ public class Fraction extends Algebraic {
 	}
 
 	public Generic selfNumeric() {
-		//if (parameter[0] instanceof NumericWrapper && parameter[1] instanceof NumericWrapper) {
 		return ((NumericWrapper) parameters[0]).divide((NumericWrapper) parameters[1]);
-		//} else {
-		//		return (parameter[0]).divide(parameter[1]);
-		//}
 	}
 
+	/**
+	 *
+	 * @param generic any generic value
+	 * @return array of 3 elements where
+	 * a[0] =
+	 */
 	static Generic[] separateCoefficient(@NotNull Generic generic) {
+
 		if (generic.signum() < 0) {
 			Generic n[] = separateCoefficient(generic.negate());
 			return new Generic[]{n[0], n[1], n[2].negate()};
 		}
+
 		try {
-			Variable v = generic.variableValue();
+			final Variable v = generic.variableValue();
 			if (v instanceof Fraction) {
-				Generic g[] = ((Fraction) v).getParameters();
-				Generic a = g[0].expressionValue();
-				Generic d = g[1].expressionValue();
-				Generic na[] = a.gcdAndNormalize();
+				final Generic parameters[] = ((Fraction) v).getParameters();
+
+				// numerator
+				final Generic n = parameters[0].expressionValue();
+
+				// denumerator
+				final Generic d = parameters[1].expressionValue();
+
+				Generic na[] = n.gcdAndNormalize();
 				Generic nd[] = d.gcdAndNormalize();
 				return new Generic[]{na[0], nd[0], new Fraction(na[1], nd[1]).evaluate()};
 			}
@@ -105,23 +114,29 @@ public class Fraction extends Algebraic {
 			} catch (NotExpressionException e2) {
 			}
 		}
+
 		return new Generic[]{JsclInteger.valueOf(1), JsclInteger.valueOf(1), generic};
 	}
 
 	public String toString() {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
+
 		try {
 			parameters[0].powerValue();
 			result.append(parameters[0]);
 		} catch (NotPowerException e) {
 			result.append(GenericVariable.valueOf(parameters[0]));
 		}
+
 		result.append("/");
+
 		try {
-			Variable v = parameters[1].variableValue();
+			final Variable v = parameters[1].variableValue();
 			if (v instanceof Fraction) {
 				result.append(GenericVariable.valueOf(parameters[1]));
-			} else result.append(v);
+			} else {
+				result.append(v);
+			}
 		} catch (NotVariableException e) {
 			try {
 				parameters[1].abs().powerValue();
@@ -134,7 +149,7 @@ public class Fraction extends Algebraic {
 	}
 
 	public String toJava() {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(parameters[0].toJava());
 		result.append(".divide(");
 		result.append(parameters[1].toJava());
@@ -159,6 +174,7 @@ public class Fraction extends Algebraic {
 		element.appendChild(e1);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Fraction(null, null);
 	}

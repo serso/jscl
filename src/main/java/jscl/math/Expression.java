@@ -206,7 +206,7 @@ public class Expression extends Generic {
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
 		Generic a[] = divideAndRemainder(that);
 		if (a[1].signum() == 0) return a[0];
 		else throw new NotDivisibleException();
@@ -512,10 +512,12 @@ public class Expression extends Generic {
 		if (size == 0) {
 			return JsclInteger.valueOf(0);
 		} else if (size == 1) {
-			Literal l = literals[0];
-			JsclInteger en = coefficients[0];
+
+			final Literal l = literals[0];
+			final JsclInteger c = coefficients[0];
+
 			if (l.degree() == 0) {
-				return en;
+				return c;
 			} else {
 				throw new NotIntegerException();
 			}

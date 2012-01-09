@@ -63,14 +63,17 @@ public final class JsclInteger extends Generic {
 		}
 	}
 
-	public JsclInteger divide(@NotNull JsclInteger that) throws ArithmeticException {
+	public JsclInteger divide(@NotNull JsclInteger that) {
 		JsclInteger e[] = divideAndRemainder(that);
-		if (e[1].signum() == 0) return e[0];
-		else throw new NotDivisibleException();
+		if (e[1].signum() == 0) {
+			return e[0];
+		} else {
+			throw new NotDivisibleException();
+		}
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
 		if (that instanceof JsclInteger) {
 			return divide((JsclInteger) that);
 		} else {
@@ -79,16 +82,20 @@ public final class JsclInteger extends Generic {
 	}
 
 	@NotNull
-	public JsclInteger[] divideAndRemainder(@NotNull JsclInteger that) throws ArithmeticException {
-		final BigInteger result[] = content.divideAndRemainder(that.content);
-		return new JsclInteger[]{new JsclInteger(result[0]), new JsclInteger(result[1])};
+	private JsclInteger[] divideAndRemainder(@NotNull JsclInteger that) {
+		try {
+			final BigInteger result[] = content.divideAndRemainder(that.content);
+			return new JsclInteger[]{new JsclInteger(result[0]), new JsclInteger(result[1])};
+		} catch (ArithmeticException e) {
+			throw new NotDivisibleException();
+		}
 	}
 
-	public Generic[] divideAndRemainder(Generic generic) throws ArithmeticException {
-		if (generic instanceof JsclInteger) {
-			return divideAndRemainder((JsclInteger) generic);
+	public Generic[] divideAndRemainder(@NotNull Generic that) {
+		if (that instanceof JsclInteger) {
+			return divideAndRemainder((JsclInteger) that);
 		} else {
-			return generic.valueOf(this).divideAndRemainder(generic);
+			return that.valueOf(this).divideAndRemainder(that);
 		}
 	}
 

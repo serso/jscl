@@ -54,7 +54,7 @@ public class ModularInteger extends Generic implements Field {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
         return multiply(that.inverse());
     }
 

@@ -1,5 +1,6 @@
 package jscl.math.numeric;
 
+import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
 
@@ -99,7 +100,7 @@ public class Matrix extends Numeric {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
+	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
 
 		if (that instanceof Matrix) {
 			return multiply(that.inverse());

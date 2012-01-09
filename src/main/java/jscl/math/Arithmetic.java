@@ -14,6 +14,6 @@ public interface Arithmetic<T extends Arithmetic<T>> {
 	T multiply(@NotNull T that);
 
 	@NotNull
-	T divide(@NotNull T that) throws ArithmeticException;
+	T divide(@NotNull T that) throws NotDivisibleException;
 
 }

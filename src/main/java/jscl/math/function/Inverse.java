@@ -1,9 +1,7 @@
 package jscl.math.function;
 
-import jscl.math.Generic;
-import jscl.math.JsclInteger;
-import jscl.math.NotDivisibleException;
-import jscl.math.Variable;
+import jscl.math.*;
+import org.jetbrains.annotations.NotNull;
 
 public class Inverse extends Fraction {
 
@@ -14,9 +12,19 @@ public class Inverse extends Fraction {
 
 	public Generic evaluate() {
 		try {
-			return JsclInteger.valueOf(1).divide(parameter());
+			Generic parameter = parameter();
+			/*try {
+				if (JsclInteger.ZERO.equals(parameter.integerValue())) {
+					throw new ArithmeticException("Division by 0!");
+				}
+			} catch (NotIntegerException e) {
+				// ok
+			}*/
+
+			return JsclInteger.ONE.divide(parameter);
 		} catch (NotDivisibleException e) {
 		}
+
 		return expressionValue();
 	}
 
@@ -24,6 +32,7 @@ public class Inverse extends Fraction {
 		return parameters[1];
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Inverse(null);
 	}

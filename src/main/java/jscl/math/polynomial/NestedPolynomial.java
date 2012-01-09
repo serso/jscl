@@ -1,16 +1,6 @@
 package jscl.math.polynomial;
 
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.JsclInteger;
-import jscl.math.NotExpressionException;
-import jscl.math.NotIntegerException;
-import jscl.math.NotIntegrableException;
-import jscl.math.NotPowerException;
-import jscl.math.NotProductException;
-import jscl.math.NotVariableException;
-import jscl.math.Power;
-import jscl.math.Variable;
+import jscl.math.*;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
@@ -86,7 +76,7 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
         if(that instanceof PolynomialWrapper) {
             return divide((PolynomialWrapper) that);
         } else {

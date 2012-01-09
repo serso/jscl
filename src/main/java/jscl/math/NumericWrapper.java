@@ -127,7 +127,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
 		if (that instanceof Expression) {
 			return that.add(this);
 		} else if (that instanceof NumericWrapper) {

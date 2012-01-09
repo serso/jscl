@@ -1,5 +1,6 @@
 package jscl.math.numeric;
 
+import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,7 +64,7 @@ public class Vector extends Numeric {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
+	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
 		if (that instanceof Vector) {
 			throw new ArithmeticException();
 		} else if (that instanceof Matrix) {

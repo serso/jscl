@@ -115,7 +115,7 @@ public class Matrix extends Generic {
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
 		if (that instanceof Matrix) {
 			return multiply(that.inverse());
 		} else if (that instanceof JsclVector) {

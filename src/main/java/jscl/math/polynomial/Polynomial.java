@@ -84,7 +84,7 @@ public abstract class Polynomial implements Arithmetic<Polynomial>, Comparable {
     }
 
     @NotNull
-	public Polynomial divide(@NotNull Polynomial that) throws ArithmeticException {
+	public Polynomial divide(@NotNull Polynomial that) throws NotDivisibleException {
         Polynomial p[]=divideAndRemainder(that);
         if(p[1].signum()==0) return p[0];
         else throw new NotDivisibleException();

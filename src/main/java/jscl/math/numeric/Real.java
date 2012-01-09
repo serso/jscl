@@ -1,6 +1,6 @@
 package jscl.math.numeric;
 
-import jscl.math.NotIntegerException;
+import jscl.math.NotDivisibleException;
 import org.jetbrains.annotations.NotNull;
 
 public final class Real extends Numeric {
@@ -59,7 +59,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws ArithmeticException {
+	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
 		if (that instanceof Real) {
 			return divide((Real) that);
 		} else {

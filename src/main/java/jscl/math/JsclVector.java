@@ -83,7 +83,7 @@ public class JsclVector extends Generic {
 	}
 
 	@NotNull
-	public Generic divide(@NotNull Generic that) throws ArithmeticException {
+	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
 		if (that instanceof JsclVector) {
 			throw new ArithmeticException("Unable to divide vector by vector!");
 		} else if (that instanceof Matrix) {
