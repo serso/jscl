@@ -15,7 +15,7 @@ import org.solovyev.common.definitions.IBuilder;
 public class CustomFunction extends Function {
 
 	@NotNull
-	private Generic content;
+	private Expression content;
 
 	@NotNull
 	private String[] parameterNames;
@@ -92,7 +92,7 @@ public class CustomFunction extends Function {
 
 	private CustomFunction(@NotNull String name,
 						  @NotNull String parameterNames[],
-						  @NotNull Generic content) {
+						  @NotNull Expression content) {
 		super(name, new Generic[parameterNames.length]);
 		this.parameterNames = parameterNames;
 		this.content = content;
@@ -145,12 +145,25 @@ public class CustomFunction extends Function {
 		return evaluate().factorize();
 	}
 
+	private static final String LOCAL_VAR_POSTFIX = "_lv_09_03_1988";
+
 	@Override
 	public Generic evaluate() {
 		Generic localContent = content;
 
-		for (int i = 0; i < parameterNames.length; i++) {
-			localContent = localContent.substitute(new Constant(parameterNames[i]), parameters[i]);
+		try {
+			for (String parameterName : parameterNames) {
+				localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(parameterName + LOCAL_VAR_POSTFIX + "_" + getName())));
+			}
+
+			for (int i = 0; i < parameterNames.length; i++) {
+				localContent = localContent.substitute(new Constant(parameterNames[i] + LOCAL_VAR_POSTFIX + "_" + getName()), parameters[i]);
+			}
+
+		} finally {
+			for (String parameterName : parameterNames) {
+				localContent = localContent.substitute(new Constant(parameterName + LOCAL_VAR_POSTFIX + "_" + getName()), Expression.valueOf(new Constant(parameterName)));
+			}
 		}
 
 		return localContent;

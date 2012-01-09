@@ -665,6 +665,14 @@ public class Expression extends Generic {
 		return ex;
 	}
 
+	public static Expression valueOf(@NotNull Constant constant) {
+		final Expression expression = new Expression(1);
+		Literal literal = new Literal();
+		literal.init(constant, 1);
+		expression.init(literal, JsclInteger.ONE);
+		return expression;
+	}
+
 	public static Expression valueOf(@NotNull Double value) {
 		final Expression expression = new Expression(1);
 		Literal literal = new Literal();
