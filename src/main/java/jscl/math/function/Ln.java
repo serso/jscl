@@ -10,7 +10,7 @@ public class Ln extends Function {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		throw new NotIntegrableException();
+		return parameters[0].multiply(new Ln(parameters[0]).evaluate().subtract(JsclInteger.ONE));
 	}
 
 	public Generic derivative(int n) {
