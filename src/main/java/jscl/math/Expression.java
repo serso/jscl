@@ -560,15 +560,20 @@ public class Expression extends Generic {
 		return ArrayUtils.toArray(result, new Variable[result.size()]);
 	}
 
-	public boolean isPolynomial(Variable variable) {
-		boolean s = true;
-		Literal l = literalScm();
-		int n = l.size();
-		for (int i = 0; i < n; i++) {
-			Variable v = l.getVariable(i);
-			s = s && (v.isConstant(variable) || v.isIdentity(variable));
+	public boolean isPolynomial(@NotNull Variable variable) {
+		boolean result = true;
+
+		final Literal l = literalScm();
+		for (int i = 0; i < l.size(); i++) {
+
+			final Variable v = l.getVariable(i);
+			if (!v.isConstant(variable) && !v.isIdentity(variable)) {
+				result = false;
+				break;
+			}
 		}
-		return s;
+
+		return result;
 	}
 
 	public boolean isConstant(@NotNull Variable variable) {

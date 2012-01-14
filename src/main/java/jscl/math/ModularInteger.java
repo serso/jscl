@@ -160,7 +160,7 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isPolynomial(Variable variable) {
+    public boolean isPolynomial(@NotNull Variable variable) {
         throw new UnsupportedOperationException();
     }
 

@@ -232,7 +232,7 @@ public final class Rational extends Generic implements Field {
         return new Variable[0];
     }
 
-    public boolean isPolynomial(Variable variable) {
+    public boolean isPolynomial(@NotNull Variable variable) {
         return true;
     }
 

@@ -125,7 +125,7 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
     public abstract Variable variableValue() throws NotVariableException;
     public abstract Variable[] variables();
-    public abstract boolean isPolynomial(Variable variable);
+    public abstract boolean isPolynomial(@NotNull Variable variable);
 
 	public abstract boolean isConstant(@NotNull Variable variable);
 

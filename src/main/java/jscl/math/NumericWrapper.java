@@ -256,7 +256,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 		return new Variable[0];
 	}
 
-	public boolean isPolynomial(Variable variable) {
+	public boolean isPolynomial(@NotNull Variable variable) {
 		return true;
 	}
 

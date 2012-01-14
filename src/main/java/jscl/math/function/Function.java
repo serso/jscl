@@ -5,9 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.math.operator.AbstractFunction;
-import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
-import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.math.MathEntity;
 
@@ -98,10 +96,17 @@ public abstract class Function extends AbstractFunction {
 
 
 	public boolean isConstant(Variable variable) {
-		boolean s = !isIdentity(variable);
-		for (Generic parameter : parameters) {
-			s = s && parameter.isConstant(variable);
+		boolean result = !isIdentity(variable);
+
+		if (result) {
+			for (Generic parameter : parameters) {
+				if ( !parameter.isConstant(variable) ) {
+					result = false;
+					break;
+				}
+			}
 		}
-		return s;
+
+		return result;
 	}
 }

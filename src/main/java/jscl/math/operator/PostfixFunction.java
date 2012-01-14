@@ -1,6 +1,7 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
+import jscl.math.Variable;
 
 /**
  * User: serso
@@ -33,5 +34,20 @@ abstract class PostfixFunction extends Operator {
 		result.append(getName());
 
 		return result.toString();
+	}
+
+	public boolean isConstant(Variable variable) {
+		boolean result = !isIdentity(variable);
+
+		if (result) {
+			for (Generic parameter : parameters) {
+				if (!parameter.isConstant(variable)) {
+					result = false;
+					break;
+				}
+			}
+		}
+
+		return result;
 	}
 }

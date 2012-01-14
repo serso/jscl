@@ -291,7 +291,7 @@ public final class JsclInteger extends Generic {
 		return new Variable[0];
 	}
 
-	public boolean isPolynomial(Variable variable) {
+	public boolean isPolynomial(@NotNull Variable variable) {
 		return true;
 	}
 
