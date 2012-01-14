@@ -27,7 +27,7 @@ public class Cubic extends Algebraic {
         Generic g[]=r.getParameters();
         if(g[0].isPolynomial(variable)) {
             return AntiDerivative.compute(r, variable);
-        } else throw new NotIntegrableException();
+        } else throw new NotIntegrableException(this);
     }
 
     public Generic derivative(int n) {

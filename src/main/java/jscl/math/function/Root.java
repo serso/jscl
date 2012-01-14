@@ -50,7 +50,7 @@ public class Root extends Algebraic {
 		if (polynomial) {
 			return AntiDerivative.compute(this, variable);
 		} else {
-			throw new NotIntegrableException();
+			throw new NotIntegrableException(this);
 		}
 	}
 

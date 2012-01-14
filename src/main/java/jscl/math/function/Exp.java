@@ -19,8 +19,8 @@ public class Exp extends Function {
             if(p.degree()==1) {
                 Generic a[]=p.elements();
                 return new Inverse(a[1]).evaluate().multiply(antiDerivative(0));
-            } else throw new NotIntegrableException();
-        } else throw new NotIntegrableException();
+            } else throw new NotIntegrableException(this);
+        } else throw new NotIntegrableException(this);
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {

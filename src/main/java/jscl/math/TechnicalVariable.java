@@ -19,7 +19,7 @@ public class TechnicalVariable extends Variable {
         }
 
         public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-                throw new NotIntegrableException();
+                throw new NotIntegrableException(this);
         }
 
         @NotNull

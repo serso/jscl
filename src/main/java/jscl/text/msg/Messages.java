@@ -7,7 +7,6 @@ package jscl.text.msg;
  */
 public final class Messages {
 
-
 	// not intended for instantiation
 	private Messages() {
 		throw new AssertionError();
@@ -72,4 +71,15 @@ public final class Messages {
 
 	/** Custom function with name {0} could not be calculated due to next error: {1} */
 	public static final String msg_19 = "msg_19";
+
+	/**	Function {0} cannot be integrated for not radian angle units! */
+	public static final String msg_20 = "msg_20";
+
+	/** Integration is not supported for {0} */
+	public static final String msg_21 = "msg_21";
+
+	/** Integration is not supported */
+	public static final String msg_22 = "msg_22";
+
+
 }

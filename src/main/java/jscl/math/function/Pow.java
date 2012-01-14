@@ -41,7 +41,7 @@ public class Pow extends Algebraic {
             Generic g[]=r.getParameters();
             if(g[0].isPolynomial(variable)) {
                 return AntiDerivative.compute(r, variable);
-            } else throw new NotIntegrableException();
+            } else throw new NotIntegrableException(this);
         } catch (NotRootException e) {}
         return super.antiDerivative(variable);
     }

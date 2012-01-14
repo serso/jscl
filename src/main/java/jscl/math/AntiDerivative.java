@@ -34,7 +34,9 @@ public class AntiDerivative {
 					a[0].negate(),
 					new Inverse(JsclInteger.valueOf(d)).evaluate()
 			).antiDerivative(0);
-		} else throw new NotIntegrableException();
+		} else {
+			throw new NotIntegrableException();
+		}
 	}
 
 	void compute(Fraction fraction) {

@@ -357,7 +357,7 @@ public class Expression extends Generic {
 				}
 			}
 		}
-		throw new NotIntegrableException();
+		throw new NotIntegrableException(this);
 	}
 
 	public Generic derivative(@NotNull Variable variable) {

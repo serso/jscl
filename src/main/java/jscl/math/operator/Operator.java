@@ -10,7 +10,7 @@ public abstract class Operator extends AbstractFunction {
 	}
 
 	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-		throw new NotIntegrableException();
+		throw new NotIntegrableException(this);
 	}
 
 	@NotNull

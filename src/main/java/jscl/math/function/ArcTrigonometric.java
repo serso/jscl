@@ -10,7 +10,7 @@ public abstract class ArcTrigonometric extends Function {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        throw new NotIntegrableException();
+        throw new NotIntegrableException(this);
     }
 
     public Generic selfSimplify() {

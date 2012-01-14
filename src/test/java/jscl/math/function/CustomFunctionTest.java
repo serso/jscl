@@ -1,5 +1,6 @@
 package jscl.math.function;
 
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Expression;
 import jscl.text.ParseException;
@@ -54,13 +55,20 @@ public class CustomFunctionTest {
 
 		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1", new String[]{"a"}, "sin(a)"));
 		Assert.assertEquals("1.0", Expression.valueOf("t1(90)").numeric().toString());
-		Assert.assertEquals("-cos(t)", Expression.valueOf("∫(t1(t), t)").expand().toString());
-		Assert.assertEquals("t2*sin(t)", Expression.valueOf("∫(t1(t), t2)").expand().toString());
-		Assert.assertEquals("-cos(a)", Expression.valueOf("∫(t1(a), a)").expand().toString());
-		Assert.assertEquals("1/2*sin(a)^2", Expression.valueOf("∫(t1(a), t1(a))").expand().toString());
-		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t2", new String[]{"a", "b"}, "b*sin(a)"));
-		Assert.assertEquals("-y*cos(x)", Expression.valueOf("∫(t2(x, y), x)").expand().toString());
-		Assert.assertEquals("1/2*y^2*sin(x)", Expression.valueOf("∫(t2(x, y), y)").expand().toString());
+
+
+		try {
+			mathEngine.setAngleUnits(AngleUnit.rad);
+			Assert.assertEquals("-cos(t)", Expression.valueOf("∫(t1(t), t)").expand().toString());
+			Assert.assertEquals("t2*sin(t)", Expression.valueOf("∫(t1(t), t2)").expand().toString());
+			Assert.assertEquals("-cos(a)", Expression.valueOf("∫(t1(a), a)").expand().toString());
+			Assert.assertEquals("1/2*sin(a)^2", Expression.valueOf("∫(t1(a), t1(a))").expand().toString());
+			mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t2", new String[]{"a", "b"}, "b*sin(a)"));
+			Assert.assertEquals("-y*cos(x)", Expression.valueOf("∫(t2(x, y), x)").expand().toString());
+			Assert.assertEquals("1/2*y^2*sin(x)", Expression.valueOf("∫(t2(x, y), y)").expand().toString());
+		} finally {
+			mathEngine.setAngleUnits(AngleUnit.deg);
+		}
 	}
 
 

@@ -35,7 +35,7 @@ public abstract class Function extends AbstractFunction {
 		final int parameter = getParameterForAntiDerivation(variable);
 
 		if (parameter < 0) {
-			throw new NotIntegrableException();
+			throw new NotIntegrableException(this);
 		} else {
 			return antiDerivative(parameter);
 		}

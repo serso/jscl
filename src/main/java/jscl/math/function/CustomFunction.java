@@ -187,7 +187,7 @@ public class CustomFunction extends Function {
 	@Override
 	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
 		if ( getParameterForAntiDerivation(variable) < 0 ) {
-			throw new NotIntegrableException();
+			throw new NotIntegrableException(this);
 		} else {
 			return this.content.antiDerivative(variable);
 		}
@@ -195,7 +195,7 @@ public class CustomFunction extends Function {
 
 	@Override
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		throw new NotIntegrableException();
+		throw new NotIntegrableException(this);
 	}
 
 	@NotNull

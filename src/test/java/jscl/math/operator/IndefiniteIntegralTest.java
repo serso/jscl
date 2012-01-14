@@ -1,5 +1,6 @@
 package jscl.math.operator;
 
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.Expression;
@@ -24,11 +25,17 @@ public class IndefiniteIntegralTest {
 			// ok
 		}
 
-		Assert.assertEquals("-cos(t)", Expression.valueOf("∫(sin(t), t)").expand().toString());
-		Assert.assertEquals("∫(sin(t!), t)", Expression.valueOf("∫(sin(t!), t)").expand().toString());
-		Assert.assertEquals("∫(sin(t!), t)", me.simplify("∫(sin(t!), t)"));
-		Assert.assertEquals("∫(sin(t°), t)", Expression.valueOf("∫(sin(t°), t)").expand().toString());
-		Assert.assertEquals("∫(sin(t°), t)", me.simplify("∫(sin(t°), t)"));
+		try {
+			me.setAngleUnits(AngleUnit.rad);
+			Assert.assertEquals("-cos(t)", Expression.valueOf("∫(sin(t), t)").expand().toString());
+			Assert.assertEquals("∫(sin(t!), t)", Expression.valueOf("∫(sin(t!), t)").expand().toString());
+			Assert.assertEquals("∫(sin(t!), t)", me.simplify("∫(sin(t!), t)"));
+			Assert.assertEquals("∫(sin(t°), t)", Expression.valueOf("∫(sin(t°), t)").expand().toString());
+			Assert.assertEquals("∫(sin(t°), t)", me.simplify("∫(sin(t°), t)"));
+		} finally {
+			me.setAngleUnits(AngleUnit.deg);
+		}
+
 
 	}
 }

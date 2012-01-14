@@ -26,7 +26,7 @@ public class Fraction extends Algebraic {
 	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
 		if (parameters[0].isPolynomial(variable) && parameters[1].isPolynomial(variable)) {
 			return AntiDerivative.compute(this, variable);
-		} else throw new NotIntegrableException();
+		} else throw new NotIntegrableException(this);
 	}
 
 	public Generic derivative(int n) {

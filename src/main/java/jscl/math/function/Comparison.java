@@ -30,7 +30,7 @@ public class Comparison extends Function {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		throw new NotIntegrableException();
+		throw new NotIntegrableException(this);
 	}
 
 	public Generic derivative(int n) {

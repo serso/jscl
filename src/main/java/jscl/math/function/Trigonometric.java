@@ -1,28 +1,40 @@
 package jscl.math.function;
 
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
 import jscl.math.Generic;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.math.polynomial.Polynomial;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Trigonometric extends Function {
-    public Trigonometric(String name, Generic parameter[]) {
-        super(name,parameter);
-    }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
-        Generic s= parameters[0];
-        if(s.isPolynomial(variable)) {
-            Polynomial p=Polynomial.factory(variable).valueOf(s);
-            if(p.degree()==1) {
-                Generic a[]=p.elements();
-                return new Inverse(a[1]).evaluate().multiply(antiDerivative(0));
-            } else throw new NotIntegrableException();
-        } else throw new NotIntegrableException();
-    }
+	public Trigonometric(String name, Generic parameter[]) {
+		super(name, parameter);
+	}
 
-    public Generic identity() {
+	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+		if (JsclMathEngine.instance.getAngleUnits() != AngleUnit.rad ) {
+			throw new NotIntegrableException(Messages.msg_20, getName());
+		}
+
+		final Generic parameter = parameters[0];
+		if (parameter.isPolynomial(variable)) {
+			final Polynomial polynomial = Polynomial.factory(variable).valueOf(parameter);
+			if (polynomial.degree() == 1) {
+				final Generic elements[] = polynomial.elements();
+				return new Inverse(elements[1]).evaluate().multiply(antiDerivative(0));
+			} else {
+				throw new NotIntegrableException(this);
+			}
+		} else {
+			throw new NotIntegrableException(this);
+		}
+	}
+
+	public Generic identity() {
 //      Generic a[]=parameter[0].sumValue();
 //      if(a.length>1) {
 //          Generic s=JsclInteger.valueOf(0);
@@ -35,8 +47,8 @@ public abstract class Trigonometric extends Function {
 //          Generic s=new Frac(n[2],n[1]).evaluateSimplify();
 //          return identity(s,n[0].subtract(JsclInteger.valueOf(1)).multiply(s));
 //      }
-        return expressionValue();
-    }
+		return expressionValue();
+	}
 
-    public abstract Generic identity(Generic a, Generic b);
+	public abstract Generic identity(Generic a, Generic b);
 }

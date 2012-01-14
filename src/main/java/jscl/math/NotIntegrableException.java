@@ -1,9 +1,24 @@
 package jscl.math;
 
-public class NotIntegrableException extends ArithmeticException {
-        public NotIntegrableException() {}
+import jscl.AbstractJsclArithmeticException;
+import jscl.text.msg.Messages;
+import org.jetbrains.annotations.NotNull;
 
-        public NotIntegrableException(String s) {
-                super(s);
-        }
+public class NotIntegrableException extends AbstractJsclArithmeticException {
+
+	public NotIntegrableException(@NotNull String messageCode, Object... parameters) {
+		super(messageCode, parameters);
+	}
+
+	public NotIntegrableException(@NotNull Expression e) {
+		this(Messages.msg_21, e.toString());
+	}
+
+	public NotIntegrableException(@NotNull Variable v) {
+		this(Messages.msg_21, v.getName());
+	}
+
+	public NotIntegrableException() {
+		this(Messages.msg_22);
+	}
 }

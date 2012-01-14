@@ -153,7 +153,11 @@ public enum JsclMathEngine implements MathEngine {
 	public String format(@NotNull final Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
 		if (value.isInfinite()) {
 			// return predefined constant for infinity
-			return Constants.INF.getName();
+			if (value >= 0) {
+				return Constants.INF.getName();
+			} else {
+				return Constants.INF.expressionValue().negate().toString();
+			}
 		} else {
 			if (value.isNaN()) {
 				// return "NaN"

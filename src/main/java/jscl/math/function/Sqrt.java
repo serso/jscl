@@ -22,7 +22,7 @@ public class Sqrt extends Algebraic {
 		if (g[0].isPolynomial(variable)) {
 			return AntiDerivative.compute(r, variable);
 		} else {
-			throw new NotIntegrableException();
+			throw new NotIntegrableException(this);
 		}
 	}
 

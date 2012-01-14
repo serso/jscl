@@ -421,6 +421,8 @@ public class ExpressionTest {
 		Assert.assertEquals("180.0", me.evaluate("200-10%"));
 
 		Assert.assertEquals("∞", me.evaluate("1/0"));
+		Assert.assertEquals("-∞", me.evaluate("-1/0.0"));
+		Assert.assertEquals("-∞", me.evaluate("-1/0"));
 		Assert.assertEquals("∞", me.evaluate("(1 + 2) / (5 - 3 - 2)"));
 		Assert.assertEquals("∞", me.evaluate("(1 + 2) / (5.1 - 3.1 - 2.0 )"));
 		Assert.assertEquals("∞", me.evaluate("1/0.0"));
@@ -635,10 +637,15 @@ public class ExpressionTest {
 
 		Assert.assertEquals("x^2/2", Expression.valueOf("∫(x, x)").expand().simplify().toString());
 		Assert.assertEquals("ln(x)", Expression.valueOf("∫(1/x, x)").expand().simplify().toString());
-		Assert.assertEquals("2*ln(2)+ln(cosh(x))", Expression.valueOf("∫(tanh(x), x)").expand().simplify().toString());
-		Assert.assertEquals("2*ln(2)+ln(sin(x))", Expression.valueOf("∫(cot(x), x)").expand().simplify().toString());
-		Assert.assertEquals("-2*ln(2)-ln(cos(x))", Expression.valueOf("∫(tan(x), x)").expand().simplify().toString());
-			}
+		try {
+			JsclMathEngine.instance.setAngleUnits(AngleUnit.rad);
+			Assert.assertEquals("2*ln(2)+ln(cosh(x))", Expression.valueOf("∫(tanh(x), x)").expand().simplify().toString());
+			Assert.assertEquals("2*ln(2)+ln(sin(x))", Expression.valueOf("∫(cot(x), x)").expand().simplify().toString());
+			Assert.assertEquals("-2*ln(2)-ln(cos(x))", Expression.valueOf("∫(tan(x), x)").expand().simplify().toString());
+		} finally {
+			JsclMathEngine.instance.setAngleUnits(AngleUnit.deg);
+		}
+	}
 
 	@Test
 	public void testDerivations() throws Exception {

@@ -24,7 +24,7 @@ public class ImplicitFunction extends Function {
 		for (int i = 0; i < c.length; i++) {
 			if (i == n) {
 				if (derivations[i] > 0) c[i] = derivations[i] - 1;
-				else throw new NotIntegrableException();
+				else throw new NotIntegrableException(this);
 			} else c[i] = derivations[i];
 		}
 		return new ImplicitFunction(name, parameters, c, subscripts).evaluate();
