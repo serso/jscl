@@ -44,6 +44,7 @@ public class Degree extends PostfixFunction {
 		return new Degree(parameters);
 	}
 
+	@NotNull
 	@Override
 	public Variable newInstance() {
 		return new Degree((Generic)null);

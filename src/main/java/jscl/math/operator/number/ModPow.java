@@ -40,6 +40,7 @@ public class ModPow extends Operator {
 		return new ModPow(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
         return new ModPow(null,null,null);
     }

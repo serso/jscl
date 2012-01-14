@@ -5,6 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.*;
+import org.jetbrains.annotations.NotNull;
 
 public class Asin extends ArcTrigonometric {
 
@@ -48,7 +49,8 @@ public class Asin extends ArcTrigonometric {
         return ((NumericWrapper) parameters[0]).asin();
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Asin(null);
     }
 }

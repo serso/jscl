@@ -253,6 +253,7 @@ public class Constant extends Variable {
 		element.appendChild(e1);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Constant(name, prime, new Generic[subscripts.length]);
 	}

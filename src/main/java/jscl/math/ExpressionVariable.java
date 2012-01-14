@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class ExpressionVariable extends GenericVariable {
         public ExpressionVariable(Generic generic) {
@@ -51,7 +52,8 @@ public class ExpressionVariable extends GenericVariable {
         element.appendChild(e1);
     }
 
-        public Variable newInstance() {
+        @NotNull
+		public Variable newInstance() {
                 return new ExpressionVariable(null);
         }
 }

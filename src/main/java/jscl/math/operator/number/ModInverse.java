@@ -39,6 +39,7 @@ public class ModInverse extends Operator {
 		return new ModInverse(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
         return new ModInverse(null,null);
     }

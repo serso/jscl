@@ -54,7 +54,8 @@ public class Transpose extends Operator {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Transpose((Matrix)null);
     }
 

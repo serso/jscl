@@ -5,6 +5,7 @@ import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
+import org.jetbrains.annotations.NotNull;
 
 public class ImplicitFunction extends Function {
 
@@ -264,6 +265,7 @@ public class ImplicitFunction extends Function {
 		}
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new ImplicitFunction(name, new Generic[parameters.length], derivations, subscripts);
 	}

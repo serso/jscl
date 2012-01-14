@@ -2,6 +2,7 @@ package jscl.math.function.trigonometric;
 
 import jscl.math.*;
 import jscl.math.function.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Tan extends Trigonometric {
@@ -91,7 +92,8 @@ public class Tan extends Trigonometric {
         return ((NumericWrapper) parameters[0]).tan();
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Tan(null);
     }
 }

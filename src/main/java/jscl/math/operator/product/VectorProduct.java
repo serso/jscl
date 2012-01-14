@@ -42,7 +42,8 @@ public class VectorProduct extends VectorOperator {
         parameters[1].toMathML(element,null);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new VectorProduct(null,null);
     }
 

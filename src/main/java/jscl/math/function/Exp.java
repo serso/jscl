@@ -116,7 +116,8 @@ public class Exp extends Function {
         element.appendChild(e1);
     }
     
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Exp(null);
     }
 }

@@ -177,6 +177,7 @@ public class Derivative extends Operator {
 		}
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Derivative(null, null, null, null);
 	}

@@ -94,7 +94,8 @@ public class Factorial extends PostfixFunction {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Factorial((Generic)null);
     }
 }

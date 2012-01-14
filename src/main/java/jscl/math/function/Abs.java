@@ -2,6 +2,7 @@ package jscl.math.function;
 
 import jscl.math.*;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Abs extends Function {
 	public Abs(Generic generic) {
@@ -88,6 +89,7 @@ public class Abs extends Function {
 		element.appendChild(e1);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Abs(null);
 	}

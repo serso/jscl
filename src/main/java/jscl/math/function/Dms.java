@@ -15,6 +15,7 @@ public class Dms extends AbstractDms {
 		super("dms", degrees, minutes, seconds);
 	}
 
+	@NotNull
 	@Override
 	public Variable newInstance() {
 		return new Dms(null, null, null);

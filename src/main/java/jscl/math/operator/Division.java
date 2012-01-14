@@ -31,6 +31,7 @@ public class Division extends Operator {
 		return new Division(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
         return new Division(null,null);
     }

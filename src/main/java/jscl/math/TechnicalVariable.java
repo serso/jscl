@@ -97,7 +97,8 @@ public class TechnicalVariable extends Variable {
                 return null;
         }
 
-        public Variable newInstance() {
+        @NotNull
+		public Variable newInstance() {
                 return new TechnicalVariable(name);
         }
 

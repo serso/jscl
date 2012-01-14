@@ -93,6 +93,7 @@ public class Solve extends Operator {
 		return new Solve(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Solve(null, null, null);
 	}

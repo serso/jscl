@@ -37,6 +37,7 @@ public class Coefficient extends Operator {
 		return new Coefficient(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
         return new Coefficient(null,null);
     }

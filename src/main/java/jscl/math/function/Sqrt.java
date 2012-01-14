@@ -172,6 +172,7 @@ public class Sqrt extends Algebraic {
 		}
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Sqrt(null);
 	}

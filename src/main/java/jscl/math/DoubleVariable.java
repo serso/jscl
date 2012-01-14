@@ -42,7 +42,8 @@ public class DoubleVariable extends GenericVariable {
         return expressionValue();
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new DoubleVariable(null);
     }
 }

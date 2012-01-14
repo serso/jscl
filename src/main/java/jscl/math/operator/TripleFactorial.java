@@ -54,6 +54,7 @@ public class TripleFactorial extends PostfixFunction {
 		throw new NotSupportedException(Messages.msg_18);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new TripleFactorial((Generic) null);
 	}

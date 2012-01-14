@@ -41,6 +41,7 @@ public class Modulo extends Operator {
 		return new Modulo(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Modulo(null, null);
 	}

@@ -74,6 +74,7 @@ public class Percent extends PostfixFunction {
 		return new Percent(parameters);
 	}
 
+	@NotNull
 	@Override
 	public Variable newInstance() {
 		return new Percent(null, null);

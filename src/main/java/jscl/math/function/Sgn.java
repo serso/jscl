@@ -2,6 +2,7 @@ package jscl.math.function;
 
 import jscl.math.*;
 import jscl.math.JsclInteger;
+import org.jetbrains.annotations.NotNull;
 
 public class Sgn extends Function {
     public Sgn(Generic generic) {
@@ -67,7 +68,8 @@ public class Sgn extends Function {
         return buffer.toString();
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Sgn(null);
     }
 }

@@ -113,6 +113,7 @@ public class DoubleFactorial extends PostfixFunction {
 		element.appendChild(e1);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new DoubleFactorial((Generic)null);
 	}

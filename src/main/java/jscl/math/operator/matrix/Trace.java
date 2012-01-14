@@ -58,6 +58,7 @@ public class Trace extends Operator {
 		return new Trace(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
         return new Trace((Matrix)null);
     }

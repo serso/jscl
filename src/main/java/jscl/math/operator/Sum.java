@@ -97,6 +97,7 @@ public class Sum extends Operator {
 		element.appendChild(e1);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Sum(null, null, null, null);
 	}

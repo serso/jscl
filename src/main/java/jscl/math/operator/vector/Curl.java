@@ -48,7 +48,8 @@ public class Curl extends VectorOperator {
         parameters[0].toMathML(element,null);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Curl(null,null);
     }
 }

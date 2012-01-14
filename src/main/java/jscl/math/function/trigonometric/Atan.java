@@ -5,6 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.*;
+import org.jetbrains.annotations.NotNull;
 
 public class Atan extends ArcTrigonometric {
     public Atan(Generic generic) {
@@ -45,7 +46,8 @@ public class Atan extends ArcTrigonometric {
         return ((NumericWrapper) parameters[0]).atan();
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Atan(null);
     }
 }

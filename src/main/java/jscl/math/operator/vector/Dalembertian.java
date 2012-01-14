@@ -43,7 +43,8 @@ public class Dalembertian extends VectorOperator {
         parameters[0].toMathML(element,null);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Dalembertian(null,null);
     }
 }

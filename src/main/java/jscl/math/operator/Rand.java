@@ -41,6 +41,7 @@ public class Rand extends Operator implements TimeDependent {
 		return evaluate().numeric();
 	}
 
+	@NotNull
 	@Override
 	public Variable newInstance() {
 		return new Rand();

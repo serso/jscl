@@ -54,6 +54,7 @@ public class Substitute extends Operator {
 		return new Substitute(parameters).transmute();
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Substitute(null, null, null);
 	}

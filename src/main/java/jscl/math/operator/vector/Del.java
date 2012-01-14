@@ -72,6 +72,7 @@ public class Del extends VectorOperator {
 		parameters[0].toMathML(element, null);
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Del(null, null, null);
 	}

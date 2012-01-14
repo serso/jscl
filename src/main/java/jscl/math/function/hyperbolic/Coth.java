@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.function.Fraction;
 import jscl.math.function.Ln;
 import jscl.math.function.Trigonometric;
+import org.jetbrains.annotations.NotNull;
 
 public class Coth extends Trigonometric {
     public Coth(Generic generic) {
@@ -65,7 +66,8 @@ public class Coth extends Trigonometric {
         return ((NumericWrapper) parameters[0]).coth();
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Coth(null);
     }
 }

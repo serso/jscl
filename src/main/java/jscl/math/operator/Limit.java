@@ -107,7 +107,8 @@ public class Limit extends Operator {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Limit(null,null,null,null);
     }
 }

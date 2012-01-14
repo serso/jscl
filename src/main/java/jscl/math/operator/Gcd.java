@@ -60,6 +60,7 @@ public class Gcd extends Operator {
 		return first.gcd(second);
 	}
 
+	@NotNull
 	@Override
 	public Gcd newInstance() {
 		return new Gcd();

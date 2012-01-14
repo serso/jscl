@@ -74,7 +74,8 @@ public class Determinant extends Operator {
         e0.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Determinant((Matrix)null);
     }
 }

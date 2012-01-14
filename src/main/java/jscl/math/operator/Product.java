@@ -95,7 +95,8 @@ public class Product extends Operator {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Product(null,null,null,null);
     }
 }

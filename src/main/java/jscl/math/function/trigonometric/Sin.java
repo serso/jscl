@@ -4,6 +4,7 @@ import jscl.math.*;
 import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
+import org.jetbrains.annotations.NotNull;
 
 public class Sin extends Trigonometric {
 
@@ -86,6 +87,7 @@ public class Sin extends Trigonometric {
 		return ((NumericWrapper) parameters[0]).sin();
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Sin(null);
 	}

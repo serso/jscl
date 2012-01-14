@@ -65,6 +65,7 @@ public class IndefiniteIntegral extends Operator {
 		return new IndefiniteIntegral(parameters);
 	}
 
+	@NotNull
 	@Override
 	public Variable newInstance() {
 		return new IndefiniteIntegral(null, null);

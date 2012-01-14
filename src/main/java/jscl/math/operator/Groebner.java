@@ -126,6 +126,7 @@ public class Groebner extends Operator {
 		return new Groebner(parameters).transmute();
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Groebner(null, null, null, null);
 	}

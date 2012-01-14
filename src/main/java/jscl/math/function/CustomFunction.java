@@ -241,6 +241,7 @@ public class CustomFunction extends Function {
 		}
 	}
 
+	@NotNull
 	@Override
 	public CustomFunction newInstance() {
 		return new CustomFunction(name, parameterNames, content);

@@ -1,6 +1,7 @@
 package jscl.math;
 
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 class IntegerVariable extends GenericVariable {
     IntegerVariable(Generic generic) {
@@ -51,7 +52,8 @@ class IntegerVariable extends GenericVariable {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new IntegerVariable(null);
     }
 }

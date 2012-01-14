@@ -3,6 +3,7 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
+import org.jetbrains.annotations.NotNull;
 
 public class Conjugate extends Function {
     public Conjugate(Generic generic) {
@@ -118,7 +119,8 @@ public class Conjugate extends Function {
         element.appendChild(e1);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new Conjugate(null);
     }
 }

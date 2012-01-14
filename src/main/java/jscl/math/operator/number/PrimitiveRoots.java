@@ -37,6 +37,7 @@ public class PrimitiveRoots extends Operator {
 		return new PrimitiveRoots(parameters);
 	}
 
+	@NotNull
 	public Variable newInstance() {
         return new PrimitiveRoots((Generic)null);
     }

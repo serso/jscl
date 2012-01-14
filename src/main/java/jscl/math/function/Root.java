@@ -373,6 +373,7 @@ public class Root extends Algebraic {
 	void bodyToMathML(MathML element, boolean fenced) {
 	}
 
+	@NotNull
 	public Variable newInstance() {
 		return new Root(new Generic[parameters.length], null);
 	}

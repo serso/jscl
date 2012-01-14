@@ -45,7 +45,8 @@ public class ComplexProduct extends VectorOperator {
         parameters[1].toMathML(element,null);
     }
 
-    public Variable newInstance() {
+    @NotNull
+	public Variable newInstance() {
         return new ComplexProduct(null,null);
     }
 }

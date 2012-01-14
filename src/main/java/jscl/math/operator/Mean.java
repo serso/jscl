@@ -58,6 +58,7 @@ public class Mean extends Operator {
 		return evaluate();
 	}
 
+	@NotNull
 	@Override
 	public Variable newInstance() {
 		return new Mean((JsclVector)null);
