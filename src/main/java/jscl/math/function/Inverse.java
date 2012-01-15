@@ -10,7 +10,7 @@ public class Inverse extends Fraction {
 		super(JsclInteger.valueOf(1), generic);
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		try {
 			Generic parameter = parameter();
 			/*try {

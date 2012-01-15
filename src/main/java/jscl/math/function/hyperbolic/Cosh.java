@@ -17,16 +17,16 @@ public class Cosh extends Trigonometric {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Sinh(parameters[0]).evaluate();
+        return new Sinh(parameters[0]).selfExpand();
     }
 
     public Generic derivative(int n) {
-        return new Sinh(parameters[0]).evaluate();
+        return new Sinh(parameters[0]).selfExpand();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Cosh(parameters[0].negate()).evaluate();
+            return new Cosh(parameters[0].negate()).selfExpand();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
@@ -45,7 +45,7 @@ public class Cosh extends Trigonometric {
 
     public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
-            return new Cosh(parameters[0].negate()).evaluate();
+            return new Cosh(parameters[0].negate()).selfExpand();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }

@@ -45,7 +45,7 @@ public class Groebner extends Operator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		Generic generic[] = ((JsclVector) parameters[0]).elements();
 		Variable variable[] = toVariables((JsclVector)parameters[1]);
 		Ordering ord = ordering(parameters[2]);
@@ -146,11 +146,15 @@ class PolynomialVector extends JsclVector {
 
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
-		result.append("{");
+
+		result.append("[");
+
 		for (int i = 0; i < rows; i++) {
 			result.append(basis.polynomial(elements[i])).append(i < rows - 1 ? ", " : "");
 		}
-		result.append("}");
+
+		result.append("]");
+
 		return result.toString();
 	}
 

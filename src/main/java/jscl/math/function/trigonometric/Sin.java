@@ -13,14 +13,14 @@ public class Sin extends Trigonometric {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		return new Cos(parameters[0]).evaluate().negate();
+		return new Cos(parameters[0]).selfExpand().negate();
 	}
 
 	public Generic derivative(int n) {
-		return new Cos(parameters[0]).evaluate();
+		return new Cos(parameters[0]).selfExpand();
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		final Generic result = trySimplify();
 
 		if (result != null) {
@@ -63,7 +63,7 @@ public class Sin extends Trigonometric {
 		Generic result = null;
 
 		if (parameters[0].signum() < 0) {
-			result = new Sin(parameters[0].negate()).evaluate().negate();
+			result = new Sin(parameters[0].negate()).selfExpand().negate();
 		} else if (parameters[0].signum() == 0) {
 			result = JsclInteger.valueOf(0);
 		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {

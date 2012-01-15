@@ -40,7 +40,7 @@ public class Limit extends Operator {
 		return 4;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         return expressionValue();
     }
 

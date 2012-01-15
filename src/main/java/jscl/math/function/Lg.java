@@ -11,14 +11,14 @@ public class Lg extends Function {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		return parameters[0].multiply(new Lg(parameters[0]).evaluate().subtract(JsclInteger.ONE));
+		return parameters[0].multiply(new Lg(parameters[0]).selfExpand().subtract(JsclInteger.ONE));
 	}
 
 	public Generic derivative(int n) {
-		return new Inverse(parameters[0]).evaluate();
+		return new Inverse(parameters[0]).selfExpand();
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		if (parameters[0].compareTo(JsclInteger.valueOf(1)) == 0) {
 			return JsclInteger.valueOf(0);
 		}
@@ -26,7 +26,7 @@ public class Lg extends Function {
 	}
 
 	public Generic selfElementary() {
-		return evaluate();
+		return selfExpand();
 	}
 
 	public Generic selfSimplify() {

@@ -29,13 +29,13 @@ public class Degree extends PostfixFunction {
 		return 1;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return expressionValue();
 	}
 
 	@Override
-	public Generic numeric() {
-		return AngleUnit.deg.transform(JsclMathEngine.instance.getAngleUnits(), parameters[0].numeric());
+	public Generic selfNumeric() {
+		return AngleUnit.deg.transform(JsclMathEngine.instance.getAngleUnits(), parameters[0]);
 	}
 
 	@NotNull

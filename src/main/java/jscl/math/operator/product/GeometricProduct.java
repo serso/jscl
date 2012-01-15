@@ -37,7 +37,7 @@ public class GeometricProduct extends VectorOperator {
 		return 3;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         int algebra[]=algebra(parameters[2]);
         if(parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
             JsclVector v1=(JsclVector) parameters[0];

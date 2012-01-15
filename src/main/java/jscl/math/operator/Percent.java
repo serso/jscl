@@ -27,7 +27,7 @@ public class Percent extends PostfixFunction {
 		final Generic[] result;
 
 		if (previousSumElement == null) {
-			result = new Generic[]{content};
+			result = new Generic[]{content, UNDEFINED_PARAMETER};
 		} else {
 			result = new Generic[]{content, previousSumElement};
 		}
@@ -45,7 +45,7 @@ public class Percent extends PostfixFunction {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return expressionValue();
 	}
 
@@ -55,12 +55,12 @@ public class Percent extends PostfixFunction {
 	}
 
 	@Override
-	public Generic numeric() {
-		Generic percentValue = parameters[0].numeric();
+	public Generic selfNumeric() {
+		Generic percentValue = parameters[0];
 
 		final Generic normalizedPercentage = percentValue.divide(JsclInteger.valueOf(100));
-		if (parameters.length > 1 && parameters[1] != null) {
-			Generic previousSumElement = parameters[1].numeric();
+		if (UNDEFINED_PARAMETER != parameters[1]) {
+			Generic previousSumElement = parameters[1];
 
 			return previousSumElement.multiply(normalizedPercentage);
 		} else {

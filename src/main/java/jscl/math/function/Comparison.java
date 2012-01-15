@@ -37,7 +37,7 @@ public class Comparison extends Function {
 		return JsclInteger.valueOf(0);
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		try {
 			return compare(parameters[0].integerValue(), parameters[1].integerValue());
 		} catch (NotIntegerException e) {

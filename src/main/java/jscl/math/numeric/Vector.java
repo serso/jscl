@@ -19,7 +19,7 @@ public class Vector extends Numeric {
 	}
 
 	public Vector add(Vector vector) {
-		Vector v = newinstance();
+		Vector v = newInstance();
 		for (int i = 0; i < n; i++) v.element[i] = element[i].add(vector.element[i]);
 		return v;
 	}
@@ -34,7 +34,7 @@ public class Vector extends Numeric {
 	}
 
 	public Vector subtract(Vector vector) {
-		Vector v = newinstance();
+		Vector v = newInstance();
 		for (int i = 0; i < n; i++) {
 			v.element[i] = element[i].subtract(vector.element[i]);
 		}
@@ -57,7 +57,7 @@ public class Vector extends Numeric {
 		} else if (that instanceof Matrix) {
 			return ((Matrix) that).transpose().multiply(this);
 		} else {
-			Vector v = newinstance();
+			Vector v = newInstance();
 			for (int i = 0; i < n; i++) v.element[i] = element[i].multiply(that);
 			return v;
 		}
@@ -70,7 +70,7 @@ public class Vector extends Numeric {
 		} else if (that instanceof Matrix) {
 			return multiply(that.inverse());
 		} else {
-			Vector v = newinstance();
+			Vector v = newInstance();
 			for (int i = 0; i < n; i++) {
 				v.element[i] = element[i].divide(that);
 			}
@@ -80,7 +80,7 @@ public class Vector extends Numeric {
 
 	@NotNull
 	public Numeric negate() {
-		Vector v = newinstance();
+		Vector v = newInstance();
 		for (int i = 0; i < n; i++) v.element[i] = element[i].negate();
 		return v;
 	}
@@ -103,7 +103,7 @@ public class Vector extends Numeric {
 			throw new ArithmeticException();
 		} else {
 			Vector v = (Vector) unity(n).multiply(numeric);
-			return newinstance(v.element);
+			return newInstance(v.element);
 		}
 	}
 
@@ -136,7 +136,7 @@ public class Vector extends Numeric {
 	}
 
 	public Numeric conjugate() {
-		Vector v = newinstance();
+		Vector v = newInstance();
 		for (int i = 0; i < n; i++) v.element[i] = element[i].conjugate();
 		return v;
 	}
@@ -163,20 +163,26 @@ public class Vector extends Numeric {
 	}
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("{");
+		final StringBuilder result = new StringBuilder();
+
+		result.append("[");
+
 		for (int i = 0; i < n; i++) {
-			buffer.append(element[i]).append(i < n - 1 ? ", " : "");
+			result.append(element[i]).append(i < n - 1 ? ", " : "");
 		}
-		buffer.append("}");
-		return buffer.toString();
+
+		result.append("]");
+
+		return result.toString();
 	}
 
-	protected Vector newinstance() {
-		return newinstance(new Numeric[n]);
+	@NotNull
+	protected Vector newInstance() {
+		return newInstance(new Numeric[n]);
 	}
 
-	protected Vector newinstance(Numeric element[]) {
+	@NotNull
+	protected Vector newInstance(@NotNull Numeric element[]) {
 		return new Vector(element);
 	}
 }

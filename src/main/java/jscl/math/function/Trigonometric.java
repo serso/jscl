@@ -25,7 +25,7 @@ public abstract class Trigonometric extends Function {
 			final Polynomial polynomial = Polynomial.factory(variable).valueOf(parameter);
 			if (polynomial.degree() == 1) {
 				final Generic elements[] = polynomial.elements();
-				return new Inverse(elements[1]).evaluate().multiply(antiDerivative(0));
+				return new Inverse(elements[1]).selfExpand().multiply(antiDerivative(0));
 			} else {
 				throw new NotIntegrableException(this);
 			}

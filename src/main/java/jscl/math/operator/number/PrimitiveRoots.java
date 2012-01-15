@@ -22,7 +22,7 @@ public class PrimitiveRoots extends Operator {
 		return 1;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         try {
             JsclInteger en= parameters[0].integerValue();
             Generic a[]=en.primitiveRoots();

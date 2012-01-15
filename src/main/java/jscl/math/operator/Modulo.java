@@ -23,7 +23,7 @@ public class Modulo extends Operator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		try {
 			final JsclInteger first = parameters[0].integerValue();
 			final JsclInteger second = parameters[1].integerValue();

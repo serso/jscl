@@ -27,14 +27,14 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Generic derivative(int n) {
-		return Constants.Generic.HALF.multiply(new Inverse( evaluate()).evaluate());
+		return Constants.Generic.HALF.multiply(new Inverse( selfExpand()).selfExpand());
 	}
 
 	public boolean imaginary() {
 		return parameters[0].compareTo(JsclInteger.valueOf(-1)) == 0;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		Generic result;
 
 		try {
@@ -58,7 +58,7 @@ public class Sqrt extends Algebraic {
 	}
 
 	public Generic selfElementary() {
-		return evaluate();
+		return selfExpand();
 	}
 
 	public Generic selfSimplify() {

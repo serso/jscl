@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Matrix extends Generic {
+	
 	protected final Generic elements[][];
 	protected final int rows, cols;
 
@@ -27,7 +28,7 @@ public class Matrix extends Generic {
 	}
 
 	public Matrix add(Matrix matrix) {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].add(matrix.elements[i][j]);
@@ -46,7 +47,7 @@ public class Matrix extends Generic {
 	}
 
 	public Matrix subtract(Matrix matrix) {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].subtract(matrix.elements[i][j]);
@@ -74,7 +75,7 @@ public class Matrix extends Generic {
 		if (cols != matrix.rows) {
 			throw new ArithmeticException("Unable to multiply matrix by matrix: number of columns of left matrix doesn't match number of rows of right matrix!");
 		}
-		Matrix m = (Matrix) newinstance(new Generic[rows][matrix.cols]);
+		Matrix m = (Matrix) newInstance(new Generic[rows][matrix.cols]);
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < matrix.cols; j++) {
 				m.elements[i][j] = JsclInteger.valueOf(0);
@@ -104,7 +105,7 @@ public class Matrix extends Generic {
 			}
 			return v;
 		} else {
-			Matrix m = (Matrix) newinstance();
+			Matrix m = (Matrix) newInstance();
 			for (int i = 0; i < rows; i++) {
 				for (int j = 0; j < cols; j++) {
 					m.elements[i][j] = elements[i][j].multiply(that);
@@ -121,13 +122,13 @@ public class Matrix extends Generic {
 		} else if (that instanceof JsclVector) {
 			throw new ArithmeticException("Unable to divide matrix by vector: matrix could not be divided by vector!");
 		} else {
-			Matrix m = (Matrix) newinstance();
+			Matrix m = (Matrix) newInstance();
 			for (int i = 0; i < rows; i++) {
 				for (int j = 0; j < cols; j++) {
 					try {
 						m.elements[i][j] = elements[i][j].divide(that);
 					} catch (NotDivisibleException e) {
-						m.elements[i][j] = new Fraction(elements[i][j], that).evaluate();
+						m.elements[i][j] = new Fraction(elements[i][j], that).selfExpand();
 					}
 				}
 			}
@@ -145,7 +146,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic negate() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].negate();
@@ -170,7 +171,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].antiDerivative(variable);
@@ -180,7 +181,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic derivative(@NotNull Variable variable) {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].derivative(variable);
@@ -190,7 +191,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic substitute(@NotNull Variable variable, Generic generic) {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].substitute(variable, generic);
@@ -200,7 +201,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic expand() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].expand();
@@ -210,7 +211,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic factorize() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].factorize();
@@ -220,7 +221,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic elementary() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].elementary();
@@ -230,7 +231,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic simplify() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[i][j] = elements[i][j].simplify();
@@ -248,7 +249,7 @@ public class Matrix extends Generic {
 			throw new ArithmeticException("Unable to create matrix: matrix of vectors and matrix of matrices are forbidden");
 		} else {
 			Matrix m = (Matrix) identity(rows, cols).multiply(generic);
-			return newinstance(m.elements);
+			return newInstance(m.elements);
 		}
 	}
 
@@ -305,7 +306,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic tensorProduct(Matrix matrix) {
-		Matrix m = (Matrix) newinstance(new Generic[rows * matrix.rows][cols * matrix.cols]);
+		Matrix m = (Matrix) newInstance(new Generic[rows * matrix.rows][cols * matrix.cols]);
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				for (int k = 0; k < matrix.rows; k++) {
@@ -319,7 +320,7 @@ public class Matrix extends Generic {
 	}
 
 	public Matrix transpose() {
-		Matrix m = (Matrix) newinstance(new Generic[cols][rows]);
+		Matrix m = (Matrix) newInstance(new Generic[cols][rows]);
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				m.elements[j][i] = elements[i][j];
@@ -337,7 +338,7 @@ public class Matrix extends Generic {
 	}
 
 	public Generic inverse() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < rows; j++) {
 				m.elements[i][j] = inverseElement(i, j);
@@ -347,7 +348,7 @@ public class Matrix extends Generic {
 	}
 
 	Generic inverseElement(int k, int l) {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < rows; j++) {
 				m.elements[i][j] = i == k ? JsclInteger.valueOf(j == l ? 1 : 0) : elements[i][j];
@@ -362,7 +363,7 @@ public class Matrix extends Generic {
 			for (int i = 0; i < rows; i++) {
 				if (elements[i][0].signum() == 0) ;
 				else {
-					Matrix m = (Matrix) newinstance(new Generic[rows - 1][rows - 1]);
+					Matrix m = (Matrix) newInstance(new Generic[rows - 1][rows - 1]);
 					for (int j = 0; j < rows - 1; j++) {
 						for (int k = 0; k < rows - 1; k++) m.elements[j][k] = elements[j < i ? j : j + 1][k + 1];
 					}
@@ -376,10 +377,10 @@ public class Matrix extends Generic {
 	}
 
 	public Generic conjugate() {
-		Matrix m = (Matrix) newinstance();
+		Matrix m = (Matrix) newInstance();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				m.elements[i][j] = new Conjugate(elements[i][j]).evaluate();
+				m.elements[i][j] = new Conjugate(elements[i][j]).selfExpand();
 			}
 		}
 		return m;
@@ -434,13 +435,13 @@ public class Matrix extends Generic {
 		for (int i = 0; i < m.rows; i++) {
 			for (int j = 0; j < m.cols; j++) {
 				if (i == axis1 && j == axis1) {
-					m.elements[i][j] = new Cos(angle).evaluate();
+					m.elements[i][j] = new Cos(angle).selfExpand();
 				} else if (i == axis1 && j == axis2) {
-					m.elements[i][j] = new Sin(angle).evaluate().negate();
+					m.elements[i][j] = new Sin(angle).selfExpand().negate();
 				} else if (i == axis2 && j == axis1) {
-					m.elements[i][j] = new Sin(angle).evaluate();
+					m.elements[i][j] = new Sin(angle).selfExpand();
 				} else if (i == axis2 && j == axis2) {
-					m.elements[i][j] = new Cos(angle).evaluate();
+					m.elements[i][j] = new Cos(angle).selfExpand();
 				} else if (i == j) {
 					m.elements[i][j] = JsclInteger.valueOf(1);
 				} else {
@@ -452,35 +453,44 @@ public class Matrix extends Generic {
 	}
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("{");
+		final StringBuilder result = new StringBuilder();
+
+		result.append("[");
 		for (int i = 0; i < rows; i++) {
-			buffer.append("{");
+			result.append("[");
+
 			for (int j = 0; j < cols; j++) {
-				buffer.append(elements[i][j]).append(j < cols - 1 ? ", " : "");
+				result.append(elements[i][j]).append(j < cols - 1 ? ", " : "");
 			}
-			buffer.append("}").append(i < rows - 1 ? ",\n" : "");
+
+			result.append("]").append(i < rows - 1 ? ",\n" : "");
 		}
-		buffer.append("}");
-		return buffer.toString();
+
+		result.append("]");
+
+		return result.toString();
 	}
 
 	public String toJava() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("new Matrix(new Numeric[][] {");
+		final StringBuilder result = new StringBuilder();
+
+		result.append("new Matrix(new Numeric[][] {");
+
 		for (int i = 0; i < rows; i++) {
-			buffer.append("{");
+			result.append("{");
 			for (int j = 0; j < cols; j++) {
-				buffer.append(elements[i][j].toJava()).append(j < cols - 1 ? ", " : "");
+				result.append(elements[i][j].toJava()).append(j < cols - 1 ? ", " : "");
 			}
-			buffer.append("}").append(i < rows - 1 ? ", " : "");
+			result.append("}").append(i < rows - 1 ? ", " : "");
 		}
-		buffer.append("})");
-		return buffer.toString();
+
+		result.append("})");
+
+		return result.toString();
 	}
 
 	public void toMathML(MathML element, Object data) {
-		int exponent = data instanceof Integer ? ((Integer) data).intValue() : 1;
+		int exponent = data instanceof Integer ? (Integer) data : 1;
 		if (exponent == 1) bodyToMathML(element);
 		else {
 			MathML e1 = element.element("msup");
@@ -522,11 +532,13 @@ public class Matrix extends Generic {
 		e0.appendChild(e1);
 	}
 
-	protected Generic newinstance() {
-		return newinstance(new Generic[rows][cols]);
+	@NotNull	
+	protected Generic newInstance() {
+		return newInstance(new Generic[rows][cols]);
 	}
 
-	protected Generic newinstance(Generic element[][]) {
+	@NotNull
+	protected static Generic newInstance(Generic element[][]) {
 		return new Matrix(element);
 	}
 }

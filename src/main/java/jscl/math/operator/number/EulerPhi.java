@@ -25,7 +25,7 @@ public class EulerPhi extends Operator {
 		return 1;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         try {
             JsclInteger en= parameters[0].integerValue();
             return en.phi();

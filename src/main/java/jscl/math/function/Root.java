@@ -66,7 +66,7 @@ public class Root extends Algebraic {
 			UnivariatePolynomial p = fact.valueof(parameters);
 			UnivariatePolynomial q = (UnivariatePolynomial) p.derivative().multiply(t.expressionValue()).add(fact.valueof(a));
 			UnivariatePolynomial r = (UnivariatePolynomial) Polynomial.factory(t).valueOf(p.resultant(q));
-			return new Root(r.elements(), subscript).evaluate();
+			return new Root(r.elements(), subscript).selfExpand();
 		}
 	}
 
@@ -81,7 +81,7 @@ public class Root extends Algebraic {
 		}
 		v.subscript = subscript.substitute(variable, generic);
 		if (v.isIdentity(variable)) return generic;
-		else return v.evaluate();
+		else return v.selfExpand();
 	}
 
 	public Generic expand() {
@@ -90,7 +90,7 @@ public class Root extends Algebraic {
 			v.parameters[i] = parameters[i].expand();
 		}
 		v.subscript = subscript.expand();
-		return v.evaluate();
+		return v.selfExpand();
 	}
 
 	public Generic factorize() {
@@ -129,13 +129,13 @@ public class Root extends Algebraic {
 		return v.selfNumeric();
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		if (isZero()) return JsclInteger.valueOf(0);
 		try {
 			int s = subscript.integerValue().intValue();
 			switch (degree()) {
 				case 1:
-					return new Fraction(parameters[0], parameters[1]).evaluate().negate();
+					return new Fraction(parameters[0], parameters[1]).selfExpand().negate();
 			}
 		} catch (NotIntegerException e) {
 		}
@@ -143,7 +143,7 @@ public class Root extends Algebraic {
 	}
 
 	public Generic selfElementary() {
-		return evaluate();
+		return selfExpand();
 	}
 
 	public Generic selfSimplify() {

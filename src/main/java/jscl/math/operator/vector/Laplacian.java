@@ -25,7 +25,7 @@ public class Laplacian extends VectorOperator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         Variable variable[]= toVariables(parameters[1]);
         Expression expression= parameters[0].expressionValue();
         return expression.laplacian(variable);

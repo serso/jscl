@@ -57,7 +57,7 @@ public class Derivative extends Operator {
 		}
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		Variable variable = parameters[1].variableValue();
 		try {
 			int n = parameters[3].integerValue().intValue();

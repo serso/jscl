@@ -10,16 +10,16 @@ public class Abs extends Function {
 	}
 
 	public Generic antiDerivative(int n) throws NotIntegrableException {
-		return Constants.Generic.HALF.multiply(parameters[0]).multiply(new Abs(parameters[0]).evaluate());
+		return Constants.Generic.HALF.multiply(parameters[0]).multiply(new Abs(parameters[0]).selfExpand());
 	}
 
 	public Generic derivative(int n) {
-		return new Sgn(parameters[0]).evaluate();
+		return new Sgn(parameters[0]).selfExpand();
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		if (parameters[0].signum() < 0) {
-			return new Abs(parameters[0].negate()).evaluate();
+			return new Abs(parameters[0].negate()).selfExpand();
 		}
 		try {
 			return parameters[0].integerValue().abs();

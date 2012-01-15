@@ -306,7 +306,7 @@ public class UnivariatePolynomial extends Polynomial {
 
     public Generic solve() {
         if(degree==1) {
-            return get(0).multiply(new Inverse(get(1)).evaluate()).negate();
+            return get(0).multiply(new Inverse(get(1)).selfExpand()).negate();
         } else return null;
     }
 
@@ -384,7 +384,7 @@ public class UnivariatePolynomial extends Polynomial {
     public UnivariatePolynomial antiderivative() {
         UnivariatePolynomial p=newinstance();
         for(int i=degree;i>=0;i--) {
-            p.put(i+1,get(i).multiply(new Inverse(JsclInteger.valueOf(i + 1)).evaluate()));
+            p.put(i+1,get(i).multiply(new Inverse(JsclInteger.valueOf(i + 1)).selfExpand()));
         }
         return p;
     }

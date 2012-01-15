@@ -32,6 +32,11 @@ public abstract class Operator extends AbstractFunction {
 		return expressionValue();
 	}
 
+	@Override
+	public Generic selfNumeric() {
+		return numeric();
+	}
+
 	public Generic numeric() {
 		throw new ArithmeticException();
 	}

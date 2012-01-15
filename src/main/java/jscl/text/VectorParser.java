@@ -1,12 +1,12 @@
 package jscl.text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VectorParser implements Parser<JsclVector> {
 
@@ -20,7 +20,7 @@ public class VectorParser implements Parser<JsclVector> {
 
 		ParserUtils.skipWhitespaces(p);
 
-		ParserUtils.tryToParse(p, pos0, '{');
+		ParserUtils.tryToParse(p, pos0, '[');
 
 		final List<Generic> result = new ArrayList<Generic>();
 		try {
@@ -40,7 +40,7 @@ public class VectorParser implements Parser<JsclVector> {
 
 		ParserUtils.skipWhitespaces(p);
 
-		ParserUtils.tryToParse(p, pos0, '}');
+		ParserUtils.tryToParse(p, pos0, ']');
 
 		return new JsclVector(ArrayUtils.toArray(result, new Generic[result.size()]));
 	}

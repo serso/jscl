@@ -25,7 +25,7 @@ public class Curl extends VectorOperator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         Variable variable[]= toVariables((JsclVector)parameters[1]);
         if(parameters[0] instanceof JsclVector) {
             JsclVector vector=(JsclVector) parameters[0];

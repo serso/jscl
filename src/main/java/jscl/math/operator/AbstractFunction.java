@@ -1,6 +1,7 @@
 package jscl.math.operator;
 
 import jscl.math.Generic;
+import jscl.math.JsclInteger;
 import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
@@ -19,6 +20,8 @@ import java.util.Set;
 public abstract class AbstractFunction extends Variable {
 
 	private static final String DEFAULT_PARAMETER_NAMES = "xyzabcdefghijklmnopqrstuvw";
+
+	protected static final Generic UNDEFINED_PARAMETER = JsclInteger.valueOf(Long.MIN_VALUE + 1);
 
 	protected Generic parameters[];
 
@@ -50,7 +53,7 @@ public abstract class AbstractFunction extends Variable {
 		return getMinParameters();
 	}
 
-	public abstract Generic evaluate();
+	public abstract Generic selfExpand();
 
 	public Generic expand() {
 		final AbstractFunction function = (AbstractFunction) newInstance();
@@ -59,7 +62,7 @@ public abstract class AbstractFunction extends Variable {
 			function.parameters[i] = parameters[i].expand();
 		}
 
-		return function.evaluate();
+		return function.selfExpand();
 	}
 
 	public Generic elementary() {
@@ -95,6 +98,18 @@ public abstract class AbstractFunction extends Variable {
 	}
 
 	public abstract Generic selfSimplify();
+
+	public Generic numeric() {
+		final AbstractFunction result = (AbstractFunction) newInstance();
+
+		for (int i = 0; i < parameters.length; i++) {
+			result.parameters[i] = parameters[i].numeric();
+		}
+
+		return result.selfNumeric();
+	}
+
+	public abstract Generic selfNumeric();
 
 	@Nullable
 	protected static Generic getParameter(@Nullable Generic[] parameters, final int i) {
@@ -178,7 +193,7 @@ public abstract class AbstractFunction extends Variable {
 		if (function.isIdentity(variable)) {
 			return generic;
 		} else {
-			return function.evaluate();
+			return function.selfExpand();
 		}
 	}
 

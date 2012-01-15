@@ -27,7 +27,7 @@ public class Jacobian extends VectorOperator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         Variable variable[]= toVariables(parameters[1]);
         if(parameters[0] instanceof JsclVector) {
             JsclVector vector=(JsclVector) parameters[0];

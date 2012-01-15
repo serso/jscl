@@ -32,7 +32,7 @@ public class AntiDerivative {
 		if (b) {
 			return new Pow(
 					a[0].negate(),
-					new Inverse(JsclInteger.valueOf(d)).evaluate()
+					new Inverse(JsclInteger.valueOf(d)).selfExpand()
 			).antiDerivative(0);
 		} else {
 			throw new NotIntegrableException();
@@ -45,7 +45,7 @@ public class AntiDerivative {
 		Generic g[] = fraction.getParameters();
 		Generic r[] = reduce(g[0], g[1]);
 		r = divideAndRemainder(r[0], r[1]);
-		Generic s = new Inverse(r[2]).evaluate();
+		Generic s = new Inverse(r[2]).selfExpand();
 		Generic p = r[0].multiply(s);
 		Generic a = r[1].multiply(s);
 		result = p.antiDerivative(factory.variable()).add(hermite(a, g[1]));
@@ -107,11 +107,11 @@ public class AntiDerivative {
 			r = divideAndRemainder(b, v);
 			b = r[1];
 			c = c.multiply(r[2]).add(r[0].multiply(uvprime));
-			s = new Inverse(s.multiply(r[2]).multiply(JsclInteger.valueOf(1 - m))).evaluate();
+			s = new Inverse(s.multiply(r[2]).multiply(JsclInteger.valueOf(1 - m))).selfExpand();
 			b = b.multiply(s);
 			c = c.multiply(s);
 			Generic bprime = ((UnivariatePolynomial) factory.valueOf(b)).derivative().genericValue();
-			return new Fraction(b, v.pow(m - 1)).evaluate().add(hermite(JsclInteger.valueOf(1 - m).multiply(c).subtract(u.multiply(bprime)), u.multiply(v.pow(m - 1))));
+			return new Fraction(b, v.pow(m - 1)).selfExpand().add(hermite(JsclInteger.valueOf(1 - m).multiply(c).subtract(u.multiply(bprime)), u.multiply(v.pow(m - 1))));
 		}
 	}
 
@@ -130,8 +130,8 @@ public class AntiDerivative {
 		Generic s = JsclInteger.valueOf(0);
 		for (int i = 1; i <= m; i++) {
 			for (int j = 0; j < q[i].degree(); j++) {
-				Generic a2 = new Root(q[i], j).evaluate();
-				s = s.add(a2.multiply(new Ln(i == pd.degree() ? d : rs[i].substitute(a2)).evaluate()));
+				Generic a2 = new Root(q[i], j).selfExpand();
+				s = s.add(a2.multiply(new Ln(i == pd.degree() ? d : rs[i].substitute(a2)).selfExpand()));
 			}
 		}
 		return s;

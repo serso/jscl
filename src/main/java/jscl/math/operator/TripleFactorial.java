@@ -30,12 +30,12 @@ public class TripleFactorial extends PostfixFunction {
 		return 1;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		throw new NotSupportedException(Messages.msg_18);
 	}
 
 	@Override
-	public Generic numeric() {
+	public Generic selfNumeric() {
 		throw new NotSupportedException(Messages.msg_18);
 	}
 

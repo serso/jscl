@@ -31,9 +31,9 @@ public class Fraction extends Algebraic {
 
 	public Generic derivative(int n) {
 		if (n == 0) {
-			return new Inverse(parameters[1]).evaluate();
+			return new Inverse(parameters[1]).selfExpand();
 		} else {
-			return parameters[0].multiply(new Inverse(parameters[1]).evaluate().pow(2).negate());
+			return parameters[0].multiply(new Inverse(parameters[1]).selfExpand().pow(2).negate());
 		}
 	}
 
@@ -47,9 +47,9 @@ public class Fraction extends Algebraic {
 		return false;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		if (parameters[0].compareTo(JsclInteger.valueOf(1)) == 0) {
-			return new Inverse(parameters[1]).evaluate();
+			return new Inverse(parameters[1]).selfExpand();
 		}
 		try {
 			return parameters[0].divide(parameters[1]);
@@ -61,7 +61,7 @@ public class Fraction extends Algebraic {
 	}
 
 	public Generic selfElementary() {
-		return evaluate();
+		return selfExpand();
 	}
 
 	public Generic selfSimplify() {
@@ -71,7 +71,7 @@ public class Fraction extends Algebraic {
 		if (parameters[1].signum() < 0) {
 			return new Fraction(parameters[0].negate(), parameters[1].negate()).selfSimplify();
 		}
-		return evaluate();
+		return selfExpand();
 	}
 
 	public Generic selfNumeric() {
@@ -104,7 +104,7 @@ public class Fraction extends Algebraic {
 
 				Generic na[] = n.gcdAndNormalize();
 				Generic nd[] = d.gcdAndNormalize();
-				return new Generic[]{na[0], nd[0], new Fraction(na[1], nd[1]).evaluate()};
+				return new Generic[]{na[0], nd[0], new Fraction(na[1], nd[1]).selfExpand()};
 			}
 		} catch (NotVariableException e) {
 			try {

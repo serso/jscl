@@ -27,7 +27,7 @@ public class ImplicitFunction extends Function {
 				else throw new NotIntegrableException(this);
 			} else c[i] = derivations[i];
 		}
-		return new ImplicitFunction(name, parameters, c, subscripts).evaluate();
+		return new ImplicitFunction(name, parameters, c, subscripts).selfExpand();
 	}
 
 	public Generic derivative(int n) {
@@ -36,10 +36,10 @@ public class ImplicitFunction extends Function {
 			if (i == n) c[i] = derivations[i] + 1;
 			else c[i] = derivations[i];
 		}
-		return new ImplicitFunction(name, parameters, c, subscripts).evaluate();
+		return new ImplicitFunction(name, parameters, c, subscripts).selfExpand();
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return expressionValue();
 	}
 

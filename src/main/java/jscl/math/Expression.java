@@ -326,7 +326,7 @@ public class Expression extends Generic {
 					if (v instanceof Fraction) {
 						Generic g[] = ((Fraction) v).getParameters();
 						if (g[1].isConstant(variable)) {
-							return new Inverse(g[1]).evaluate().multiply(g[0].antiDerivative(variable));
+							return new Inverse(g[1]).selfExpand().multiply(g[0].antiDerivative(variable));
 						}
 					}
 				}

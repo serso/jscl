@@ -14,6 +14,6 @@ public abstract class ArcTrigonometric extends Function {
     }
 
     public Generic selfSimplify() {
-        return evaluate();
+        return selfExpand();
     }
 }

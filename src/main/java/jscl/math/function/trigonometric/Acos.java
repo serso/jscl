@@ -14,12 +14,12 @@ public class Acos extends ArcTrigonometric {
 	}
 
 	public Generic derivative(int n) {
-		return new Inverse(new Sqrt(JsclInteger.valueOf(1).subtract(parameters[0].pow(2))).evaluate()).evaluate().negate();
+		return new Inverse(new Sqrt(JsclInteger.valueOf(1).subtract(parameters[0].pow(2))).selfExpand()).selfExpand().negate();
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		if (parameters[0].signum() < 0) {
-			return Constants.Generic.PI.subtract(new Acos(parameters[0].negate()).evaluate());
+			return Constants.Generic.PI.subtract(new Acos(parameters[0].negate()).selfExpand());
 		} else if (parameters[0].compareTo(JsclInteger.valueOf(1)) == 0) {
 			return JsclInteger.valueOf(0);
 		}

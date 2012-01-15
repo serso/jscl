@@ -48,26 +48,26 @@ public class Pow extends Algebraic {
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
         if(n==0) {
-            return new Pow(parameters[0], parameters[1].add(JsclInteger.valueOf(1))).evaluate().multiply(new Inverse(parameters[1].add(JsclInteger.valueOf(1))).evaluate());
+            return new Pow(parameters[0], parameters[1].add(JsclInteger.valueOf(1))).selfExpand().multiply(new Inverse(parameters[1].add(JsclInteger.valueOf(1))).selfExpand());
         } else {
-            return new Pow(parameters[0], parameters[1]).evaluate().multiply(new Inverse(new Ln(parameters[0]).evaluate()).evaluate());
+            return new Pow(parameters[0], parameters[1]).selfExpand().multiply(new Inverse(new Ln(parameters[0]).selfExpand()).selfExpand());
         }
     }
 
     public Generic derivative(int n) {
         if(n==0) {
-            return new Pow(parameters[0], parameters[1].subtract(JsclInteger.valueOf(1))).evaluate().multiply(parameters[1]);
+            return new Pow(parameters[0], parameters[1].subtract(JsclInteger.valueOf(1))).selfExpand().multiply(parameters[1]);
         } else {
-            return new Pow(parameters[0], parameters[1]).evaluate().multiply(new Ln(parameters[0]).evaluate());
+            return new Pow(parameters[0], parameters[1]).selfExpand().multiply(new Ln(parameters[0]).selfExpand());
         }
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].compareTo(JsclInteger.valueOf(1))==0) {
             return JsclInteger.valueOf(1);
         }
         if(parameters[1].signum()<0) {
-            return new Pow(new Inverse(parameters[0]).evaluate(), parameters[1].negate()).evaluate();
+            return new Pow(new Inverse(parameters[0]).selfExpand(), parameters[1].negate()).selfExpand();
         }
         try {
             int c= parameters[1].integerValue().intValue();

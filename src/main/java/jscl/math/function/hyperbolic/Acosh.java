@@ -18,11 +18,11 @@ public class Acosh extends ArcTrigonometric {
                 parameters[0].pow(2).subtract(
                     JsclInteger.valueOf(1)
                 )
-            ).evaluate()
-        ).evaluate();
+            ).selfExpand()
+        ).selfExpand();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }

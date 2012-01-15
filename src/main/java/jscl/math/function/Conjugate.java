@@ -11,14 +11,14 @@ public class Conjugate extends Function {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return Constants.Generic.HALF.multiply(evaluate().pow(2));
+        return Constants.Generic.HALF.multiply(selfExpand().pow(2));
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1);
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         try {
             return parameters[0].integerValue();
         } catch (NotIntegerException e) {}

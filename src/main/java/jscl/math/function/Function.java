@@ -82,18 +82,6 @@ public abstract class Function extends AbstractFunction {
 
 	public abstract Generic derivative(int n);
 
-	public Generic numeric() {
-		final Function result = (Function) newInstance();
-
-		for (int i = 0; i < parameters.length; i++) {
-			result.parameters[i] = parameters[i].numeric();
-		}
-
-		return result.selfNumeric();
-	}
-
-	public abstract Generic selfNumeric();
-
 
 	public boolean isConstant(Variable variable) {
 		boolean result = !isIdentity(variable);

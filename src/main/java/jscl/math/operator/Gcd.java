@@ -39,7 +39,7 @@ public class Gcd extends Operator {
 	}
 
 	@Override
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return expressionValue();
 	}
 

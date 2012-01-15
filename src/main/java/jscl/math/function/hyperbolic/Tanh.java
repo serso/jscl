@@ -14,20 +14,20 @@ public class Tanh extends Trigonometric {
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Ln(
             JsclInteger.valueOf(4).multiply(
-                new Cosh(parameters[0]).evaluate()
+                new Cosh(parameters[0]).selfExpand()
             )
-        ).evaluate();
+        ).selfExpand();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).subtract(
-            new Tanh(parameters[0]).evaluate().pow(2)
+            new Tanh(parameters[0]).selfExpand().pow(2)
         );
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Tanh(parameters[0].negate()).evaluate().negate();
+            return new Tanh(parameters[0].negate()).selfExpand().negate();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
@@ -43,7 +43,7 @@ public class Tanh extends Trigonometric {
 
     public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
-            return new Tanh(parameters[0].negate()).evaluate().negate();
+            return new Tanh(parameters[0].negate()).selfExpand().negate();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }

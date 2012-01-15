@@ -33,12 +33,12 @@ public class Cubic extends Algebraic {
     public Generic derivative(int n) {
         return Constants.Generic.THIRD.multiply(
             new Inverse(
-                evaluate().pow(2)
-            ).evaluate()
+                selfExpand().pow(2)
+            ).selfExpand()
         );
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         try {
             JsclInteger en= parameters[0].integerValue();
             if(en.signum()<0);
@@ -51,7 +51,7 @@ public class Cubic extends Algebraic {
     }
 
     public Generic selfElementary() {
-        return evaluate();
+        return selfExpand();
     }
 
     public Generic selfSimplify() {

@@ -17,12 +17,12 @@ public class Acoth extends ArcTrigonometric {
             JsclInteger.valueOf(1).subtract(
                 parameters[0].pow(2)
             )
-        ).evaluate();
+        ).selfExpand();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Acoth(parameters[0].negate()).evaluate().negate();
+            return new Acoth(parameters[0].negate()).selfExpand().negate();
         }
         return expressionValue();
     }

@@ -18,22 +18,22 @@ public class Exp extends Function {
             Polynomial p=Polynomial.factory(variable).valueOf(s);
             if(p.degree()==1) {
                 Generic a[]=p.elements();
-                return new Inverse(a[1]).evaluate().multiply(antiDerivative(0));
+                return new Inverse(a[1]).selfExpand().multiply(antiDerivative(0));
             } else throw new NotIntegrableException(this);
         } else throw new NotIntegrableException(this);
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return evaluate();
+        return selfExpand();
     }
 
     public Generic derivative(int n) {
-        return evaluate();
+        return selfExpand();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Inverse(new Exp(parameters[0].negate()).evaluate()).evaluate();
+            return new Inverse(new Exp(parameters[0].negate()).selfExpand()).selfExpand();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
@@ -41,7 +41,7 @@ public class Exp extends Function {
     }
 
     public Generic selfElementary() {
-        return evaluate();
+        return selfExpand();
     }
 
     public Generic selfSimplify() {

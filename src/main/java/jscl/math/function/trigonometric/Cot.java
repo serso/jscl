@@ -14,20 +14,20 @@ public class Cot extends Trigonometric {
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Ln(
             JsclInteger.valueOf(4).multiply(
-                new Sin(parameters[0]).evaluate()
+                new Sin(parameters[0]).selfExpand()
             )
-        ).evaluate();
+        ).selfExpand();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).add(
-            new Cot(parameters[0]).evaluate().pow(2)
+            new Cot(parameters[0]).selfExpand().pow(2)
         ).negate();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Cot(parameters[0].negate()).evaluate().negate();
+            return new Cot(parameters[0].negate()).selfExpand().negate();
         }
         return expressionValue();
     }
@@ -41,7 +41,7 @@ public class Cot extends Trigonometric {
 
     public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
-            return new Cot(parameters[0].negate()).evaluate().negate();
+            return new Cot(parameters[0].negate()).selfExpand().negate();
         }
         try {
             Variable v= parameters[0].variableValue();

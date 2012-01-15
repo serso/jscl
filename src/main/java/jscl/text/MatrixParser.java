@@ -1,13 +1,13 @@
 package jscl.text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.math.Matrix;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MatrixParser implements Parser<Matrix> {
 
@@ -21,7 +21,7 @@ public class MatrixParser implements Parser<Matrix> {
 
 		final List<Generic> vectors = new ArrayList<Generic>();
 
-		ParserUtils.tryToParse(p, pos0, '{');
+		ParserUtils.tryToParse(p, pos0, '[');
 
 		try {
 			vectors.add(VectorParser.parser.parse(p, previousSumElement));
@@ -38,8 +38,8 @@ public class MatrixParser implements Parser<Matrix> {
 			}
 		}
 
-		ParserUtils.tryToParse(p, pos0, '}');
+		ParserUtils.tryToParse(p, pos0, ']');
 
-		return Matrix.frame((JsclVector[])ArrayUtils.toArray(vectors, new JsclVector[vectors.size()])).transpose();
+		return Matrix.frame((JsclVector[]) ArrayUtils.toArray(vectors, new JsclVector[vectors.size()])).transpose();
 	}
 }

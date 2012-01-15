@@ -13,18 +13,18 @@ public class Tan extends Trigonometric {
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Ln(
             JsclInteger.valueOf(4).multiply(
-                new Cos(parameters[0]).evaluate()
+                new Cos(parameters[0]).selfExpand()
             )
-        ).evaluate().negate();
+        ).selfExpand().negate();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).add(
-            new Tan(parameters[0]).evaluate().pow(2)
+            new Tan(parameters[0]).selfExpand().pow(2)
         );
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
 		final Generic result = trySimplify();
 
 		if ( result != null ) {
@@ -67,7 +67,7 @@ public class Tan extends Trigonometric {
 		Generic result = null;
 
 		if (parameters[0].signum() < 0) {
-			result = new Tan(parameters[0].negate()).evaluate().negate();
+			result = new Tan(parameters[0].negate()).selfExpand().negate();
 		} else if (parameters[0].signum() == 0) {
 			result = JsclInteger.valueOf(0);
 		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {

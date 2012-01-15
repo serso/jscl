@@ -28,13 +28,13 @@ public class DoubleFactorial extends PostfixFunction {
 		return 1;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return expressionValue();
 	}
 
 	@Override
-	public Generic numeric() {
-		final Generic parameter = parameters[0].numeric();
+	public Generic selfNumeric() {
+		final Generic parameter = parameters[0];
 		if (parameter.isInteger()) {
 			int n = parameter.integerValue().intValue();
 			if (n < 0) {

@@ -15,12 +15,12 @@ public class Acot extends ArcTrigonometric {
     public Generic derivative(int n) {
         return new Inverse(
             JsclInteger.valueOf(1).add(parameters[0].pow(2))
-        ).evaluate().negate();
+        ).selfExpand().negate();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
 		if (parameters[0].signum() < 0) {
-			return Constants.Generic.PI.subtract(new Acot(parameters[0].negate()).evaluate());
+			return Constants.Generic.PI.subtract(new Acot(parameters[0].negate()).selfExpand());
 		}
 
         return expressionValue();

@@ -32,13 +32,13 @@ public class Rand extends Operator implements TimeDependent {
 	}
 
 	@Override
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return new NumericWrapper(Real.valueOf(Math.random()));
 	}
 
 	@Override
 	public Generic numeric() {
-		return evaluate().numeric();
+		return selfExpand().numeric();
 	}
 
 	@NotNull

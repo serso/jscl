@@ -127,28 +127,28 @@ public class CustomFunction extends Function {
 
 	@Override
 	public Generic numeric() {
-		return evaluate().numeric();
+		return selfExpand().numeric();
 	}
 
 	@Override
 	public Generic expand() {
-		return evaluate().expand();
+		return selfExpand().expand();
 	}
 
 	@Override
 	public Generic elementary() {
-		return evaluate().elementary();
+		return selfExpand().elementary();
 	}
 
 	@Override
 	public Generic factorize() {
-		return evaluate().factorize();
+		return selfExpand().factorize();
 	}
 
 	private static final String LOCAL_VAR_POSTFIX = "_lv_09_03_1988";
 
 	@Override
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		Generic localContent = content;
 
 		try {

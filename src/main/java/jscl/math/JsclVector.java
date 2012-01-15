@@ -94,7 +94,7 @@ public class JsclVector extends Generic {
 				try {
 					result.elements[i] = elements[i].divide(that);
 				} catch (NotDivisibleException e) {
-					result.elements[i] = new Fraction(elements[i], that).evaluate();
+					result.elements[i] = new Fraction(elements[i], that).selfExpand();
 				}
 			}
 			return result;
@@ -358,7 +358,7 @@ public class JsclVector extends Generic {
 	public Generic conjugate() {
 		JsclVector v = (JsclVector) newInstance();
 		for (int i = 0; i < rows; i++) {
-			v.elements[i] = new Conjugate(elements[i]).evaluate();
+			v.elements[i] = new Conjugate(elements[i]).selfExpand();
 		}
 		return v;
 	}
@@ -392,11 +392,15 @@ public class JsclVector extends Generic {
 
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
-		result.append("{");
+
+		result.append("[");
+
 		for (int i = 0; i < rows; i++) {
 			result.append(elements[i]).append(i < rows - 1 ? ", " : "");
 		}
-		result.append("}");
+
+		result.append("]");
+
 		return result.toString();
 	}
 

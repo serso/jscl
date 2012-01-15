@@ -10,16 +10,16 @@ public class Sgn extends Function {
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
-        return new Abs(parameters[0]).evaluate();
+        return new Abs(parameters[0]).selfExpand();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(0);
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Sgn(parameters[0].negate()).evaluate().negate();
+            return new Sgn(parameters[0].negate()).selfExpand().negate();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }
@@ -38,7 +38,7 @@ public class Sgn extends Function {
 
     public Generic selfSimplify() {
         if(parameters[0].signum()<0) {
-            return new Sgn(parameters[0].negate()).evaluate().negate();
+            return new Sgn(parameters[0].negate()).selfExpand().negate();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(1);
         }

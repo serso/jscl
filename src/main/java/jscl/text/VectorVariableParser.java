@@ -7,17 +7,18 @@ import jscl.math.VectorVariable;
 import org.jetbrains.annotations.NotNull;
 
 public class VectorVariableParser implements Parser<Variable> {
-    public static final Parser<Variable> parser=new VectorVariableParser();
+	public static final Parser<Variable> parser = new VectorVariableParser();
 
-    private VectorVariableParser() {}
+	private VectorVariableParser() {
+	}
 
-    public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-        JsclVector v;
-        try {
-            v=(JsclVector)VectorParser.parser.parse(p, previousSumElement);
-        } catch (ParseException e) {
-            throw e;
-        }
-        return new VectorVariable(v);
-    }
+	public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+		JsclVector result;
+		try {
+			result = VectorParser.parser.parse(p, previousSumElement);
+		} catch (ParseException e) {
+			throw e;
+		}
+		return new VectorVariable(result);
+	}
 }

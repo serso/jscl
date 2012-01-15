@@ -78,7 +78,7 @@ public class Matrix extends Numeric {
 		if (that instanceof Matrix) {
 			return multiply((Matrix) that);
 		} else if (that instanceof Vector) {
-			Vector v = ((Vector) that).newinstance(new Numeric[rows]);
+			Vector v = ((Vector) that).newInstance(new Numeric[rows]);
 			Vector v2 = (Vector) that;
 			if (cols != v2.n) throw new ArithmeticException();
 			for (int i = 0; i < rows; i++) {

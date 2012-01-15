@@ -24,7 +24,7 @@ public class ModInverse extends Operator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         try {
             JsclInteger en= parameters[0].integerValue();
             JsclInteger modulo= parameters[1].integerValue();

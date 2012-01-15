@@ -41,7 +41,7 @@ public class Sum extends Operator {
 		}
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		Variable variable = parameters[1].variableValue();
 		try {
 			int from = parameters[2].integerValue().intValue();

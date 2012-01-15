@@ -23,7 +23,7 @@ public class Integral extends Operator {
 		return 4;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		Variable variable = parameters[1].variableValue();
 		try {
 			Generic a = parameters[0].antiDerivative(variable);

@@ -25,7 +25,7 @@ public class MatrixProduct extends VectorOperator {
 		return 2;
 	}
 
-	public Generic evaluate() {
+	public Generic selfExpand() {
         if(Matrix.isMatrixProduct(parameters[0], parameters[1])) {
             return parameters[0].multiply(parameters[1]);
         }

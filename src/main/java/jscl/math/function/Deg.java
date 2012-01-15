@@ -30,18 +30,18 @@ public class Deg extends Algebraic {
 	}
 
 	@Override
-	public Generic evaluate() {
+	public Generic selfExpand() {
 		return expressionValue();
 	}
 
 	@Override
 	public Generic selfElementary() {
-		return evaluate();
+		return selfExpand();
 	}
 
 	@Override
 	public Generic selfSimplify() {
-		return evaluate();
+		return selfExpand();
 	}
 
 	@Override

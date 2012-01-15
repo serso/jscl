@@ -18,13 +18,13 @@ public class Asinh extends ArcTrigonometric {
                 JsclInteger.valueOf(1).add(
                     parameters[0].pow(2)
                 )
-            ).evaluate()
-        ).evaluate();
+            ).selfExpand()
+        ).selfExpand();
     }
 
-    public Generic evaluate() {
+    public Generic selfExpand() {
         if(parameters[0].signum()<0) {
-            return new Asinh(parameters[0].negate()).evaluate().negate();
+            return new Asinh(parameters[0].negate()).selfExpand().negate();
         } else if(parameters[0].signum()==0) {
             return JsclInteger.valueOf(0);
         }
