@@ -46,11 +46,13 @@ public class Sum extends Operator {
 		try {
 			int from = parameters[2].integerValue().intValue();
 			int to = parameters[3].integerValue().intValue();
-			Generic a = JsclInteger.valueOf(0);
+
+			Generic result = JsclInteger.ZERO;
 			for (int i = from; i <= to; i++) {
-				a = a.add(parameters[0].substitute(variable, JsclInteger.valueOf(i)));
+				result = result.add(parameters[0].substitute(variable, JsclInteger.valueOf(i)));
 			}
-			return a;
+			return result;
+
 		} catch (NotIntegerException e) {
 			// ok
 		}
