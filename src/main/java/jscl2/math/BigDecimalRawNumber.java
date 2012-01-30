@@ -23,33 +23,18 @@ public class BigDecimalRawNumber implements RawNumber {
 		return new BigDecimalRawNumber(value);
 	}
 
-	@NotNull
-	private BigDecimal toBigDecimal( @NotNull Double value ) {
-		return new BigDecimal(value);
+	private static BigDecimalRawNumber newInstance(@NotNull DoubleRawNumber value) {
+		return new BigDecimalRawNumber(BigDecimal.valueOf(value.asDouble()));
 	}
 
 	@NotNull
-	@Override
-	public RawNumber addDouble(@NotNull Double that) {
-		return add(newInstance(toBigDecimal(that)));
+	private BigDecimal toBigDecimal(@NotNull Double value) {
+		return BigDecimal.valueOf(value);
 	}
 
 	@NotNull
-	@Override
-	public RawNumber subtractDouble(@NotNull Double that) {
-		return subtract(newInstance(toBigDecimal(that)));
-	}
-
-	@NotNull
-	@Override
-	public RawNumber multiplyDouble(@NotNull Double that) {
-		return multiply(newInstance(toBigDecimal(that)));
-	}
-
-	@NotNull
-	@Override
-	public RawNumber divideDouble(@NotNull Double that) throws NotDivisibleException {
-		return divide(newInstance(toBigDecimal(that)));
+	private BigDecimal toBigDecimal(@NotNull Long value) {
+		return BigDecimal.valueOf(value);
 	}
 
 	@NotNull
@@ -66,103 +51,109 @@ public class BigDecimalRawNumber implements RawNumber {
 	@NotNull
 	@Override
 	public RawNumber sqrt() {
-		return newInstance(this.value.);
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).sqrt());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber atan2(@NotNull RawNumber that) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).atan2(that));
 	}
 
 	@NotNull
 	@Override
 	public RawNumber log() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).log());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber log10() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).log10());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber sin() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).sin());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber cos() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).cos());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber exp() {
-		return this.value.;
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).exp());
 	}
 
 	@Override
 	public boolean isZero() {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return BigDecimal.ZERO.equals(this.value);
 	}
 
 	@Override
 	public boolean isOne() {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return BigDecimal.ONE.equals(this.value);
 	}
 
 	@Override
 	public boolean positive() {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return this.value.signum() > 0;
 	}
 
 	@Override
 	public boolean negative() {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return this.value.signum() < 0;
 	}
 
 	@NotNull
 	@Override
 	public RawNumber pow(@NotNull RawNumber that) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).pow(that));
 	}
 
 	@NotNull
 	@Override
 	public RawNumber acos() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).acos());
 	}
 
 	@Override
 	public boolean isNaN() {
-		return this.value.;
+		return false;
 	}
 
 	@NotNull
 	@Override
 	public RawNumber asin() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).asin());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber atan() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).atan());
 	}
 
 	@NotNull
 	@Override
 	public RawNumber tan() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return newInstance(DoubleRawNumber.newInstance(this.value.doubleValue()).tan());
 	}
 
 	@Override
 	public double asDouble() {
 		return this.value.doubleValue();
+	}
+
+	@NotNull
+	@Override
+	public BigDecimal asBigDecimal() {
+		return value;
 	}
 
 	@NotNull
@@ -191,7 +182,6 @@ public class BigDecimalRawNumber implements RawNumber {
 
 	@Override
 	public int compareTo(RawNumber o) {
-		// todo serso:
-		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+		return this.value.compareTo(o.asBigDecimal());
 	}
 }

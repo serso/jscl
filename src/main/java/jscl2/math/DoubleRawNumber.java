@@ -3,6 +3,8 @@ package jscl2.math;
 import jscl.math.NotDivisibleException;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 /**
  * User: serso
  * Date: 1/30/12
@@ -24,31 +26,7 @@ public class DoubleRawNumber implements RawNumber {
 
 	@NotNull
 	@Override
-	public RawNumber addDouble(@NotNull Double that) {
-		return newInstance(this.value + that);
-	}
-
-	@NotNull
-	@Override
-	public RawNumber subtractDouble(@NotNull Double that) {
-		return newInstance(this.value - that);
-	}
-
-	@NotNull
-	@Override
-	public RawNumber multiplyDouble(@NotNull Double that) {
-		return newInstance(this.value * that);
-	}
-
-	@NotNull
-	@Override
-	public RawNumber divideDouble(@NotNull Double that) throws NotDivisibleException {
-		return newInstance(this.value / that);
-	}
-
-	@NotNull
-	@Override
-	public RawNumber negate() {
+	public DoubleRawNumber negate() {
 		return newInstance(-this.value);
 	}
 
@@ -59,43 +37,43 @@ public class DoubleRawNumber implements RawNumber {
 
 	@NotNull
 	@Override
-	public RawNumber sqrt() {
+	public DoubleRawNumber sqrt() {
 		return newInstance(Math.sqrt(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber atan2(@NotNull RawNumber that) {
+	public DoubleRawNumber atan2(@NotNull RawNumber that) {
 		return newInstance(Math.atan2(this.value, that.asDouble()));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber log() {
+	public DoubleRawNumber log() {
 		return newInstance(Math.log(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber log10() {
+	public DoubleRawNumber log10() {
 		return newInstance(Math.log10(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber sin() {
+	public DoubleRawNumber sin() {
 		return newInstance(Math.sin(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber cos() {
+	public DoubleRawNumber cos() {
 		return newInstance(Math.cos(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber exp() {
+	public DoubleRawNumber exp() {
 		return newInstance(Math.exp(this.value));
 	}
 
@@ -121,13 +99,13 @@ public class DoubleRawNumber implements RawNumber {
 
 	@NotNull
 	@Override
-	public RawNumber pow(@NotNull RawNumber that) {
+	public DoubleRawNumber pow(@NotNull RawNumber that) {
 		return newInstance(Math.pow(this.value, that.asDouble()));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber acos() {
+	public DoubleRawNumber acos() {
 		return newInstance(Math.acos(this.value));
 	}
 
@@ -138,54 +116,59 @@ public class DoubleRawNumber implements RawNumber {
 
 	@NotNull
 	@Override
-	public RawNumber asin() {
+	public DoubleRawNumber asin() {
 		return newInstance(Math.asin(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber atan() {
+	public DoubleRawNumber atan() {
 		return newInstance(Math.atan(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber tan() {
+	public DoubleRawNumber tan() {
 		return newInstance(Math.tan(this.value));
 	}
 
 	@NotNull
 	@Override
-	public RawNumber add(@NotNull RawNumber that) {
+	public DoubleRawNumber add(@NotNull RawNumber that) {
 		return newInstance(this.value + that.asDouble());
 	}
 
 	@NotNull
 	@Override
-	public RawNumber subtract(@NotNull RawNumber that) {
+	public DoubleRawNumber subtract(@NotNull RawNumber that) {
 		return newInstance(this.value - that.asDouble());
 	}
 
 	@NotNull
 	@Override
-	public RawNumber multiply(@NotNull RawNumber that) {
+	public DoubleRawNumber multiply(@NotNull RawNumber that) {
 		return newInstance(this.value * that.asDouble());
 	}
 
 	@NotNull
 	@Override
-	public RawNumber divide(@NotNull RawNumber that) throws NotDivisibleException {
+	public DoubleRawNumber divide(@NotNull RawNumber that) throws NotDivisibleException {
 		return newInstance(this.value / that.asDouble());
 	}
 
 	@Override
 	public int compareTo(@NotNull RawNumber that) {
-		// todo serso:
-		return 0;
+		return this.value.compareTo(that.asDouble());
 	}
 
 	@Override
 	public double asDouble() {
 		return value;
+	}
+
+	@NotNull
+	@Override
+	public BigDecimal asBigDecimal() {
+		return BigDecimal.valueOf(value);
 	}
 }

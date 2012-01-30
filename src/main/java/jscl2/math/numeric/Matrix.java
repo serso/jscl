@@ -64,7 +64,7 @@ public class Matrix extends Numeric {
 		Matrix m = newInstance(new Numeric[rows][matrix.cols]);
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < matrix.cols; j++) {
-				m.m[i][j] = Real.ZERO;
+				m.m[i][j] = ZERO();
 				for (int k = 0; k < cols; k++) {
 					m.m[i][j] = m.m[i][j].add(this.m[i][k].multiply(matrix.m[k][j]));
 				}

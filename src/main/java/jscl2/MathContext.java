@@ -1,8 +1,5 @@
 package jscl2;
 
-import jscl2.NumeralBaseException;
-import jscl2.AngleUnit;
-import jscl2.NumeralBase;
 import jscl2.math.RawNumber;
 import jscl2.math.numeric.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -40,4 +37,10 @@ public interface MathContext {
 
 	@NotNull
 	RawNumber getPI();
+
+	@NotNull
+	RawNumber toRawNumber(double value);
+
+	@NotNull
+	RawNumber getRawNumber(long n);
 }

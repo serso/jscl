@@ -14,9 +14,11 @@ public final class Complex extends Numeric {
 	@NotNull
 	private final RawNumber imaginary;
 
-	/*************************************************
+	/*
+	 ************************************************
 	 * 					CONSTRUCTORS
-	 *************************************************/
+	 ************************************************
+	 */
 
 	Complex(@NotNull final MathContext mathContext,
 			@NotNull RawNumber real,
@@ -39,9 +41,11 @@ public final class Complex extends Numeric {
 		return new Complex(mathContext, real, imaginary);
 	}
 
-	/*************************************************
+	/*
+	 *************************************************
 	 * 					ADDITION
-	 *************************************************/
+	 ************************************************
+	 */
 
 	@NotNull
 	public Complex add(@NotNull Complex that) {
@@ -64,9 +68,11 @@ public final class Complex extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					SUBTRACTION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * SUBTRACTION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Complex subtract(@NotNull Complex that) {
@@ -89,9 +95,11 @@ public final class Complex extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					MULTIPLICATION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * MULTIPLICATION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Complex multiply(@NotNull RawNumber that) {
@@ -119,9 +127,11 @@ public final class Complex extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					DIVISION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * DIVISION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Complex divide(@NotNull Complex that) throws ArithmeticException {
@@ -149,9 +159,11 @@ public final class Complex extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					OTHER
-	 *************************************************/
+	/**
+	 * **********************************************
+	 * OTHER
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Numeric negate() {
@@ -201,7 +213,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public Numeric ln() {
 		if (signum() == 0) {
-			return Real.ZERO.ln();
+			return Real.ZERO(getMathContext()).ln();
 		} else {
 			return new Complex(getMathContext(), magnitude().log(), angle());
 		}
@@ -210,7 +222,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public Numeric lg() {
 		if (signum() == 0) {
-			return Real.ZERO.lg();
+			return Real.ZERO(getMathContext()).lg();
 		} else {
 			return new Complex(getMathContext(), magnitude().log10(), angle());
 		}

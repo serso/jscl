@@ -11,9 +11,11 @@ public final class Real extends Numeric {
 	@NotNull
 	private final RawNumber content;
 
-	/*************************************************
-	 * 					CONSTRUCTORS
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * CONSTRUCTORS
+	 * ***********************************************
+	 */
 
 	Real(@NotNull final MathContext mathContext,
 		 @NotNull RawNumber content) {
@@ -21,9 +23,11 @@ public final class Real extends Numeric {
 		this.content = content;
 	}
 
-	/*************************************************
-	 * 					ADDITION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * ADDITION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Real add(@NotNull Real that) {
@@ -39,9 +43,11 @@ public final class Real extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					SUBTRACTION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * SUBTRACTION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Real subtract(@NotNull Real that) {
@@ -57,9 +63,11 @@ public final class Real extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					MULTIPLICATION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * MULTIPLICATION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Real multiply(@NotNull Real that) {
@@ -75,9 +83,11 @@ public final class Real extends Numeric {
 		}
 	}
 
-	/*************************************************
-	 * 					DIVISION
-	 *************************************************/
+	/*
+	 * **********************************************
+	 * DIVISION
+	 * ***********************************************
+	 */
 
 	@NotNull
 	public Real divide(@NotNull Real that) throws ArithmeticException {
@@ -242,11 +252,6 @@ public final class Real extends Numeric {
 		if (numeric instanceof Real) {
 			return valueOf((Real) numeric);
 		} else throw new ArithmeticException();
-	}
-
-	@NotNull
-	public RawNumber doubleValue() {
-		return content;
 	}
 
 	public int compareTo(@NotNull Real that) {

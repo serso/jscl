@@ -5,9 +5,6 @@ import jscl2.MathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
-import static jscl2.math.numeric.Real.ONE;
-import static jscl2.math.numeric.Real.TWO;
-
 public abstract class Numeric implements INumeric<Numeric>, Comparable {
 
 	@NotNull
@@ -20,6 +17,21 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 
 	protected Numeric(@NotNull MathContext mathContext) {
 		this.mathContext = mathContext;
+	}
+	
+	@NotNull
+	private Numeric ZERO() {
+		return new Real(mathContext, mathContext.get0());
+	}
+	
+	@NotNull
+	private Numeric ONE() {
+		return new Real(mathContext, mathContext.get1());
+	}
+	
+	@NotNull
+	private Numeric TWO() {
+		return new Real(mathContext, mathContext.get2());
 	}
 
 	@NotNull
@@ -42,13 +54,13 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@NotNull
 	@Override
 	public Numeric inverse() {
-		return ONE.divide(this);
+		return ONE().divide(this);
 	}
 
 	@NotNull
 	@Override
 	public Numeric pow(int exponent) {
-		Numeric result = ONE;
+		Numeric result = ONE();
 
 		for (int i = 0; i < exponent; i++) {
 			result = result.multiply(this);
@@ -59,8 +71,8 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 
 	public Numeric pow(@NotNull Numeric numeric) {
 		if (numeric.signum() == 0) {
-			return ONE;
-		} else if (numeric.compareTo(ONE) == 0) {
+			return ONE();
+		} else if (numeric.compareTo(ONE()) == 0) {
 			return this;
 		} else {
 			return numeric.multiply(this.ln()).exp();
@@ -76,7 +88,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@NotNull
 	@Override
 	public Numeric nThRoot(int n) {
-		return pow(Real.valueOf(1. / n));
+		return pow(ONE().divide(Real.valueOf(getMathContext(), getMathContext().getRawNumber(n))));
 	}
 
 	public static Numeric root(int subscript, Numeric parameter[]) {
@@ -95,22 +107,22 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 
 	@NotNull
 	protected RawNumber defaultToRad(@NotNull RawNumber value) {
-		return getMathContext().getAngleUnits().transform(AngleUnit.rad, value);
+		return getMathContext().getAngleUnits().transform(getMathContext(), AngleUnit.rad, value);
 	}
 
 	@NotNull
 	protected RawNumber radToDefault(@NotNull RawNumber value) {
-		return AngleUnit.rad.transform(this.mathContext.getAngleUnits(), value);
+		return AngleUnit.rad.transform(getMathContext(), this.mathContext.getAngleUnits(), value);
 	}
 
 	@NotNull
 	protected Numeric defaultToRad(@NotNull Numeric value) {
-		return this.mathContext.getAngleUnits().transform(AngleUnit.rad, value);
+		return this.mathContext.getAngleUnits().transform(mathContext, AngleUnit.rad, value);
 	}
 
 	@NotNull
 	protected Numeric radToDefault(@NotNull Numeric value) {
-		return AngleUnit.rad.transform(this.mathContext.getAngleUnits(), value);
+		return AngleUnit.rad.transform(mathContext, this.mathContext.getAngleUnits(), value);
 	}
 
 	/*
@@ -127,7 +139,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		// e = exp(i)
 		final Numeric e = defaultToRad(this).multiply(mathContext.I()).exp();
 		// result = [i - i * exp(i)] / [2exp(i)]
-		return mathContext.I().subtract(e.multiply(mathContext.I())).divide(TWO.multiply(e));
+		return mathContext.I().subtract(e.multiply(mathContext.I())).divide(TWO().multiply(e));
 	}
 
 	@NotNull
@@ -139,7 +151,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e1 = e.pow(2);
 
 		// result = [ 1 + exp(2ix) ] / (2 *exp(ix))
-		return ONE.add(e1).divide(TWO.multiply(e));
+		return ONE().add(e1).divide(TWO().multiply(e));
 	}
 
 	@NotNull
@@ -152,7 +164,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e1 = e.multiply(mathContext.I());
 
 		// result = (i - i * exp(2xi)) / ( 1 + exp(2xi) )
-		return mathContext.I().subtract(e1).divide(ONE.add(e));
+		return mathContext.I().subtract(e1).divide(ONE().add(e));
 	}
 
 	@NotNull
@@ -162,7 +174,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e = mathContext.I().multiply(defaultToRad(this)).exp().pow(2);
 
 		// result = - (i + i * exp(2ix)) / ( 1 - exp(2xi))
-		return mathContext.I().add(mathContext.I().multiply(e)).divide(ONE.subtract(e)).negate();
+		return mathContext.I().add(mathContext.I().multiply(e)).divide(ONE().subtract(e)).negate();
 	}
 
 	/**
@@ -177,7 +189,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@Override
 	public Numeric asin() {
 		// e = √(1 - x^2)
-		final Numeric e = ONE.subtract(this.pow(2)).sqrt();
+		final Numeric e = ONE().subtract(this.pow(2)).sqrt();
 		// result = -iln[xi + √(1 - x^2)]
 		return radToDefault(this.multiply(mathContext.I()).add(e).ln().multiply(mathContext.I().negate()));
 	}
@@ -186,7 +198,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@Override
 	public Numeric acos() {
 		// e = √(-1 + x^2) = i √(1 - x^2)
-		final Numeric e = mathContext.I().multiply(Real.ONE.subtract(this.pow(2)).sqrt());
+		final Numeric e = mathContext.I().multiply(ONE().subtract(this.pow(2)).sqrt());
 
 		// result = -i * ln[ x + √(-1 + x^2) ]
 		return radToDefault(this.add(e).ln().multiply(mathContext.I().negate()));
@@ -198,7 +210,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		// e = ln[(i + x)/(i-x)]
 		final Numeric e = mathContext.I().add(this).divide(mathContext.I().subtract(this)).ln();
 		// result = iln[(i + x)/(i-x)]/2
-		return radToDefault(mathContext.I().multiply(e).divide(TWO));
+		return radToDefault(mathContext.I().multiply(e).divide(TWO()));
 	}
 
 	@NotNull
@@ -207,7 +219,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		// e = ln[-(i + x)/(i-x)]
 		final Numeric e = mathContext.I().add(this).divide(mathContext.I().subtract(this)).negate().ln();
 		// result = iln[-(i + x)/(i-x)]/2
-		return radToDefault(mathContext.I().multiply(e).divide(TWO));
+		return radToDefault(mathContext.I().multiply(e).divide(TWO()));
 	}
 
 	/**
@@ -227,10 +239,10 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e = thisRad.exp().pow(2);
 
 		// e1 = 2exp(x)
-		final Numeric e1 = TWO.multiply(thisRad.exp());
+		final Numeric e1 = TWO().multiply(thisRad.exp());
 
 		// result = -[1 - exp(2x)]/[2exp(x)]
-		return ONE.subtract(e).divide(e1).negate();
+		return ONE().subtract(e).divide(e1).negate();
 	}
 
 	@NotNull
@@ -242,10 +254,10 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e = thisExpRad.pow(2);
 
 		// e1 = 2exp(x)
-		final Numeric e1 = TWO.multiply(thisExpRad);
+		final Numeric e1 = TWO().multiply(thisExpRad);
 
 		// result = [ 1 + exp(2x )] / 2exp(x)
-		return ONE.add(e).divide(e1);
+		return ONE().add(e).divide(e1);
 	}
 
 
@@ -256,7 +268,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e = defaultToRad(this).exp().pow(2);
 
 		// result = - (1 - exp(2x)) / (1 + exp(2x))
-		return ONE.subtract(e).divide(ONE.add(e)).negate();
+		return ONE().subtract(e).divide(ONE().add(e)).negate();
 	}
 
 	@NotNull
@@ -266,7 +278,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		final Numeric e = defaultToRad(this).exp().pow(2);
 
 		// result = - (1 + exp(2x)) / (1 - exp(2x))
-		return ONE.add(e).divide(ONE.subtract(e)).negate();
+		return ONE().add(e).divide(ONE().subtract(e)).negate();
 	}
 
 	/**
@@ -281,7 +293,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@Override
 	public Numeric asinh() {
 		// e = √( 1 + x ^ 2 )
-		final Numeric e = ONE.add(this.pow(2)).sqrt();
+		final Numeric e = ONE().add(this.pow(2)).sqrt();
 
 		// result = ln [ x + √( 1 + x ^ 2 ) ]
 		return radToDefault(this.add(e).ln());
@@ -291,7 +303,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@Override
 	public Numeric acosh() {
 		// e = √(x ^ 2 - 1)
-		final Numeric e = Real.valueOf(-1).add(this.pow(2)).sqrt();
+		final Numeric e = ONE().negate().add(this.pow(2)).sqrt();
 
 		// result = ln( x + √(x ^ 2 - 1) )
 		return radToDefault(this.add(e).ln());
@@ -301,20 +313,20 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@Override
 	public Numeric atanh() {
 		// e = 1 - x
-		final Numeric e = ONE.subtract(this);
+		final Numeric e = ONE().subtract(this);
 
 		// result = ln [ ( 1 + x ) / ( 1 - x ) ] / 2
-		return radToDefault(ONE.add(this).divide(e).ln().divide(TWO));
+		return radToDefault(ONE().add(this).divide(e).ln().divide(TWO()));
 	}
 
 	@NotNull
 	@Override
 	public Numeric acoth() {
 		// e = 1 - x
-		final Numeric e = ONE.subtract(this);
+		final Numeric e = ONE().subtract(this);
 
 		// result = ln [ - (1 + x) / (1 - x) ] / 2
-		return radToDefault(ONE.add(this).divide(e).negate().ln().divide(TWO));
+		return radToDefault(ONE().add(this).divide(e).negate().ln().divide(TWO()));
 	}
 
 	public abstract int compareTo(@NotNull Numeric numeric);
