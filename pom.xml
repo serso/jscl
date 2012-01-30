@@ -7,7 +7,6 @@
 
 	<groupId>org.solovyev</groupId>
 	<artifactId>jscl2</artifactId>
-
 	<version>0.0.1</version>
 
 	<properties>
