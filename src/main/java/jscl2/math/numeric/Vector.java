@@ -3,6 +3,7 @@ package jscl2.math.numeric;
 import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
 import jscl2.MathContext;
+import jscl2.math.ArithmeticUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class Vector extends Numeric {
@@ -20,9 +21,13 @@ public class Vector extends Numeric {
 		return element;
 	}
 
-	public Vector add(Vector vector) {
+	public Vector add(@NotNull Vector vector) {
 		Vector v = newInstance();
-		for (int i = 0; i < n; i++) v.element[i] = element[i].add(vector.element[i]);
+
+		for (int i = 0; i < n; i++) {
+			v.element[i] = element[i].add(vector.element[i]);
+		}
+
 		return v;
 	}
 
@@ -31,7 +36,7 @@ public class Vector extends Numeric {
 		if (that instanceof Vector) {
 			return add((Vector) that);
 		} else {
-			return add(valueOf(that));
+			return ArithmeticUtils.add(this, that);
 		}
 	}
 
@@ -48,7 +53,7 @@ public class Vector extends Numeric {
 		if (that instanceof Vector) {
 			return subtract((Vector) that);
 		} else {
-			return subtract(valueOf(that));
+			return ArithmeticUtils.subtract(this, that);
 		}
 	}
 
@@ -99,16 +104,6 @@ public class Vector extends Numeric {
 		return 0;
 	}
 
-	@NotNull
-	public Numeric valueOf(@NotNull Numeric numeric) {
-		if (numeric instanceof Vector || numeric instanceof Matrix) {
-			throw new ArithmeticException();
-		} else {
-			Vector v = (Vector) unity(getMathContext(), n).multiply(numeric);
-			return newInstance(v.element);
-		}
-	}
-
 	public Numeric magnitude2() {
 		return scalarProduct(this);
 	}
@@ -147,11 +142,11 @@ public class Vector extends Numeric {
 		return ArrayComparator.comparator.compare(element, vector.element);
 	}
 
-	public int compareTo(@NotNull Numeric numeric) {
-		if (numeric instanceof Vector) {
-			return compareTo((Vector) numeric);
+	public int compareTo(@NotNull Numeric that) {
+		if (that instanceof Vector) {
+			return compareTo((Vector) that);
 		} else {
-			return compareTo(valueOf(numeric));
+			return ArithmeticUtils.compare(this, that);
 		}
 	}
 

@@ -91,7 +91,7 @@ public class Matrix extends Numeric {
 		if (that instanceof Matrix) {
 			return subtract((Matrix) that);
 		} else {
-			return subtract(valueOf(that));
+			return ArithmeticUtils.subtract(this, that);
 		}
 	}
 
@@ -107,6 +107,7 @@ public class Matrix extends Numeric {
 		}
 	}
 
+	@NotNull
 	public Matrix multiply(@NotNull Matrix that) {
 		checkCrossDimensions(this, that);
 
@@ -124,30 +125,52 @@ public class Matrix extends Numeric {
 	}
 
 	@NotNull
+	private Vector multiply(@NotNull Vector that) {
+		if (this.cols != that.n) {
+			throw new ArithmeticException("Matrix dimensions must agree!");
+		}
+
+		final Vector v = that.newInstance(new Numeric[rows]);
+		for (int i = 0; i < rows; i++) {
+			v.element[i] = ZERO();
+			for (int k = 0; k < cols; k++) {
+				v.element[i] = v.element[i].add(m[i][k].multiply(that.element[k]));
+			}
+		}
+
+		return v;
+	}
+
+	@NotNull
+	private Numeric scalarMultiply(@NotNull Numeric that) {
+		Matrix m = newInstance();
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				m.m[i][j] = this.m[i][j].multiply(that);
+			}
+		}
+
+		return m;
+	}
+
+	@NotNull
 	public Numeric multiply(@NotNull Numeric that) {
 		if (that instanceof Matrix) {
 			return multiply((Matrix) that);
 		} else if (that instanceof Vector) {
-			Vector v = ((Vector) that).newInstance(new Numeric[rows]);
-			Vector v2 = (Vector) that;
-			if (cols != v2.n) throw new ArithmeticException();
-			for (int i = 0; i < rows; i++) {
-				v.element[i] = ZERO();
-				for (int k = 0; k < cols; k++) {
-					v.element[i] = v.element[i].add(m[i][k].multiply(v2.element[k]));
-				}
-			}
-			return v;
+			return multiply((Vector) that);
 		} else {
-			Matrix m = newInstance();
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < cols; j++) {
-					m.m[i][j] = this.m[i][j].multiply(that);
-				}
-			}
-			return m;
+			return scalarMultiply(that);
 		}
 	}
+
+
+	/*
+	 * **********************************************
+	 * DIVISION
+	 * ***********************************************
+	*/
 
 	@NotNull
 	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
@@ -155,18 +178,26 @@ public class Matrix extends Numeric {
 		if (that instanceof Matrix) {
 			return multiply(that.inverse());
 		} else if (that instanceof Vector) {
-			throw new ArithmeticException();
+			throw new ArithmeticException("Matrix dimensions must agree!");
 		} else {
-			Matrix m = newInstance();
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < cols; j++) {
-					m.m[i][j] = this.m[i][j].divide(that);
-				}
-			}
-			return m;
+			return scalarDivide(that);
 		}
 
 	}
+
+	@NotNull
+	private Matrix scalarDivide(@NotNull Numeric that) {
+		Matrix m = newInstance();
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				m.m[i][j] = this.m[i][j].divide(that);
+			}
+		}
+
+		return m;
+	}
+
 
 	@NotNull
 	public Numeric negate() {
@@ -180,6 +211,7 @@ public class Matrix extends Numeric {
 	}
 
 	public int signum() {
+		// todo serso: strange signum definition for matrix
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				int c = m[i][j].signum();
@@ -194,23 +226,11 @@ public class Matrix extends Numeric {
 		return 0;
 	}
 
-	@NotNull
-	public Numeric valueOf(@NotNull Numeric numeric) {
-		if (numeric instanceof Matrix || numeric instanceof Vector) {
-			throw new ArithmeticException();
-		} else {
-			final Matrix m = (Matrix) identity(getMathContext(), rows, cols).multiply(numeric);
-			return newInstance(m.m);
-		}
-	}
-
 	public Numeric[] vectors() {
 		Vector v[] = new Vector[rows];
 		for (int i = 0; i < rows; i++) {
 			v[i] = new Vector(getMathContext(), new Numeric[cols]);
-			for (int j = 0; j < cols; j++) {
-				v[i].element[j] = m[i][j];
-			}
+			System.arraycopy(m[i], 0, v[i].element, 0, cols);
 		}
 		return v;
 	}
@@ -269,7 +289,7 @@ public class Matrix extends Numeric {
 				if (m[i][0].signum() != 0) {
 					Matrix m = newInstance(new Numeric[rows - 1][rows - 1]);
 					for (int j = 0; j < rows - 1; j++) {
-						for (int k = 0; k < rows - 1; k++) m.m[j][k] = this.m[j < i ? j : j + 1][k + 1];
+						System.arraycopy(this.m[j < i ? j : j + 1], 1, m.m[j], 0, rows - 1);
 					}
 					if (i % 2 == 0) {
 						a = a.add(this.m[i][0].multiply(m.determinant()));
@@ -279,8 +299,11 @@ public class Matrix extends Numeric {
 				}
 			}
 			return a;
-		} else if (rows > 0) return m[0][0];
-		else return ZERO();
+		} else if (rows > 0) {
+			return m[0][0];
+		} else {
+			return ZERO();
+		}
 	}
 
 	@NotNull
@@ -313,11 +336,11 @@ public class Matrix extends Numeric {
 		return ArrayComparator.comparator.compare(vectors(), matrix.vectors());
 	}
 
-	public int compareTo(@NotNull Numeric numeric) {
-		if (numeric instanceof Matrix) {
-			return compareTo((Matrix) numeric);
+	public int compareTo(@NotNull Numeric that) {
+		if (that instanceof Matrix) {
+			return compareTo((Matrix) that);
 		} else {
-			return compareTo(valueOf(numeric));
+			return ArithmeticUtils.compare(this, that);
 		}
 	}
 
@@ -342,15 +365,17 @@ public class Matrix extends Numeric {
 
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
-		result.append("{");
+
+		result.append("[");
 		for (int i = 0; i < rows; i++) {
-			result.append("{");
+			result.append("[");
 			for (int j = 0; j < cols; j++) {
 				result.append(m[i][j]).append(j < cols - 1 ? ", " : "");
 			}
-			result.append("}").append(i < rows - 1 ? ",\n" : "");
+			result.append("]").append(i < rows - 1 ? ",\n" : "");
 		}
-		result.append("}");
+		result.append("]");
+
 		return result.toString();
 	}
 
