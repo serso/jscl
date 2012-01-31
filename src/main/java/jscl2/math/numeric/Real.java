@@ -23,6 +23,12 @@ public final class Real extends Numeric {
 		this.content = content;
 	}
 
+	@NotNull
+	public static Real newInstance(@NotNull final MathContext mathContext,
+		 @NotNull RawNumber content) {
+		return new Real(mathContext, content);
+	}
+
 	/*
 	 * **********************************************
 	 * ADDITION
@@ -137,12 +143,12 @@ public final class Real extends Numeric {
 
 	@NotNull
 	public Numeric inverse() {
-		return new Real(getMathContext(), getMathContext().get1().divide(content));
+		return new Real(getMathContext(), getMathContext().toRawNumber(1L).divide(content));
 	}
 
 	public Numeric pow(@NotNull Real that) {
 		if (signum() < 0) {
-			return Complex.newInstance(getMathContext(), content, getMathContext().get0()).pow(that);
+			return Complex.newInstance(getMathContext(), content, getMathContext().toRawNumber(0L)).pow(that);
 		} else {
 			return new Real(getMathContext(), content.pow(that.content));
 		}
@@ -159,7 +165,7 @@ public final class Real extends Numeric {
 	@NotNull
 	public Numeric sqrt() {
 		if (signum() < 0) {
-			return Complex.newInstance(getMathContext(), getMathContext().get0(), getMathContext().get1()).multiply(negate().sqrt());
+			return Complex.newInstance(getMathContext(), getMathContext().toRawNumber(0L), getMathContext().toRawNumber(1L)).multiply(negate().sqrt());
 		} else {
 			return new Real(getMathContext(), content.sqrt());
 		}
@@ -214,7 +220,7 @@ public final class Real extends Numeric {
 	@Override
 	public Numeric acot() {
 
-		final RawNumber PI_DIV_BY_2_RAD = getMathContext().getPI().divide(getMathContext().get2());
+		final RawNumber PI_DIV_BY_2_RAD = getMathContext().getPI().divide(getMathContext().toRawNumber(2L));
 		final Real result = new Real(getMathContext(), radToDefault(PI_DIV_BY_2_RAD.subtract(atanRad())));
 		if (result.content.isNaN()) {
 			return super.acot();
@@ -240,7 +246,7 @@ public final class Real extends Numeric {
 	@NotNull
 	@Override
 	public Numeric cot() {
-		return Real.valueOf(getMathContext(), getMathContext().get1()).divide(tan());
+		return Real.valueOf(getMathContext(), getMathContext().toRawNumber(1L)).divide(tan());
 	}
 
 	public Real valueOf(Real value) {
@@ -281,6 +287,6 @@ public final class Real extends Numeric {
 
 	@NotNull
 	public Complex toComplex() {
-		return new Complex(getMathContext(), this.content, getMathContext().get0());
+		return new Complex(getMathContext(), this.content, getMathContext().toRawNumber(0L));
 	}
 }

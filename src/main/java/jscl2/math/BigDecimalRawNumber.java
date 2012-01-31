@@ -23,7 +23,7 @@ public class BigDecimalRawNumber implements RawNumber {
 		return new BigDecimalRawNumber(value);
 	}
 
-	private static BigDecimalRawNumber newInstance(@NotNull DoubleRawNumber value) {
+	public static BigDecimalRawNumber newInstance(@NotNull DoubleRawNumber value) {
 		return new BigDecimalRawNumber(BigDecimal.valueOf(value.asDouble()));
 	}
 

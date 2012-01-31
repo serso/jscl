@@ -2,6 +2,7 @@ package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
+import jscl2.MathContext;
 import org.jetbrains.annotations.NotNull;
 
 public class Matrix extends Numeric {
@@ -11,7 +12,8 @@ public class Matrix extends Numeric {
 
 	private final int rows, cols;
 
-	public Matrix(@NotNull Numeric m[][]) {
+	public Matrix(@NotNull final MathContext mathContext, @NotNull Numeric m[][]) {
+		super(mathContext);
 		this.m = m;
 		rows = m.length;
 		cols = m.length > 0 ? m[0].length : 0;
@@ -82,7 +84,7 @@ public class Matrix extends Numeric {
 			Vector v2 = (Vector) that;
 			if (cols != v2.n) throw new ArithmeticException();
 			for (int i = 0; i < rows; i++) {
-				v.element[i] = Real.ZERO;
+				v.element[i] = ZERO();
 				for (int k = 0; k < cols; k++) {
 					v.element[i] = v.element[i].add(m[i][k].multiply(v2.element[k]));
 				}
@@ -149,7 +151,7 @@ public class Matrix extends Numeric {
 		if (numeric instanceof Matrix || numeric instanceof Vector) {
 			throw new ArithmeticException();
 		} else {
-			Matrix m = (Matrix) identity(rows, cols).multiply(numeric);
+			Matrix m = (Matrix) identity(getMathContext(), rows, cols).multiply(numeric);
 			return newInstance(m.m);
 		}
 	}
@@ -157,7 +159,7 @@ public class Matrix extends Numeric {
 	public Numeric[] vectors() {
 		Vector v[] = new Vector[rows];
 		for (int i = 0; i < rows; i++) {
-			v[i] = new Vector(new Numeric[cols]);
+			v[i] = new Vector(getMathContext(), new Numeric[cols]);
 			for (int j = 0; j < cols; j++) {
 				v[i].element[j] = m[i][j];
 			}
@@ -176,7 +178,7 @@ public class Matrix extends Numeric {
 	}
 
 	public Numeric trace() {
-		Numeric s = Real.ZERO;
+		Numeric s = ZERO();
 		for (int i = 0; i < rows; i++) {
 			s = s.add(m[i][i]);
 		}
@@ -200,7 +202,7 @@ public class Matrix extends Numeric {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (i == k) {
-					result.m[i][j] = Real.valueOf(j == l ? 1 : 0);
+					result.m[i][j] = j == l ? ONE() : ZERO();
 				} else {
 					result.m[i][j] = this.m[i][j];
 				}
@@ -212,7 +214,7 @@ public class Matrix extends Numeric {
 
 	public Numeric determinant() {
 		if (rows > 1) {
-			Numeric a = Real.ZERO;
+			Numeric a = ZERO();
 			for (int i = 0; i < rows; i++) {
 				if (m[i][0].signum() != 0) {
 					Matrix m = newInstance(new Numeric[rows - 1][rows - 1]);
@@ -228,7 +230,7 @@ public class Matrix extends Numeric {
 			}
 			return a;
 		} else if (rows > 0) return m[0][0];
-		else return Real.ZERO;
+		else return ZERO();
 	}
 
 	@NotNull
@@ -269,18 +271,19 @@ public class Matrix extends Numeric {
 		}
 	}
 
-	public static Matrix identity(int dimension) {
-		return identity(dimension, dimension);
+	@NotNull
+	public static Matrix identity(@NotNull MathContext mc, int dimension) {
+		return identity(mc, dimension, dimension);
 	}
 
-	public static Matrix identity(int n, int p) {
-		Matrix m = new Matrix(new Numeric[n][p]);
+	public static Matrix identity(@NotNull MathContext mc, int n, int p) {
+		Matrix m = new Matrix(mc, new Numeric[n][p]);
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < p; j++) {
 				if (i == j) {
-					m.m[i][j] = Real.ONE;
+					m.m[i][j] = Real.valueOf(mc, mc.toRawNumber(1L));
 				} else {
-					m.m[i][j] = Real.ZERO;
+					m.m[i][j] = Real.valueOf(mc, mc.toRawNumber(0L));
 				}
 			}
 		}
@@ -306,6 +309,6 @@ public class Matrix extends Numeric {
 	}
 
 	protected Matrix newInstance(Numeric element[][]) {
-		return new Matrix(element);
+		return new Matrix(getMathContext(), element);
 	}
 }

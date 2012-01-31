@@ -1,7 +1,9 @@
 package jscl2;
 
 import jscl2.math.RawNumber;
+import jscl2.math.RawNumberHelper;
 import jscl2.math.numeric.Complex;
+import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,19 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/30/12
  * Time: 2:01 PM
  */
-public interface MathContext {
-
-	@NotNull
-	RawNumber get1();
-
-	@NotNull
-	RawNumber get2();
-
-	@NotNull
-	RawNumber get0();
-
-	@NotNull
-	Complex I();
+public interface MathContext extends RawNumberHelper {
 
 	@NotNull
 	AngleUnit getAngleUnits();
@@ -36,11 +26,8 @@ public interface MathContext {
 	String format(@NotNull RawNumber value, @NotNull NumeralBase nb) throws NumeralBaseException;
 
 	@NotNull
-	RawNumber getPI();
+	Real newReal(long value);
 
 	@NotNull
-	RawNumber toRawNumber(double value);
-
-	@NotNull
-	RawNumber getRawNumber(long n);
+	Real newReal(double value);
 }

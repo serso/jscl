@@ -25,6 +25,11 @@ public class DoubleRawNumber implements RawNumber {
 	}
 
 	@NotNull
+	public static DoubleRawNumber newInstance(@NotNull Long value) {
+		return new DoubleRawNumber(value.doubleValue());
+	}
+
+	@NotNull
 	@Override
 	public DoubleRawNumber negate() {
 		return newInstance(-this.value);

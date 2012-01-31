@@ -20,18 +20,23 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	}
 	
 	@NotNull
-	private Numeric ZERO() {
-		return new Real(mathContext, mathContext.get0());
+	protected Real ZERO() {
+		return new Real(mathContext, mathContext.toRawNumber(0L));
 	}
 	
 	@NotNull
-	private Numeric ONE() {
-		return new Real(mathContext, mathContext.get1());
+	protected Real ONE() {
+		return new Real(mathContext, mathContext.toRawNumber(1L));
 	}
 	
 	@NotNull
-	private Numeric TWO() {
-		return new Real(mathContext, mathContext.get2());
+	protected Real TWO() {
+		return new Real(mathContext, mathContext.toRawNumber(2L));
+	}
+
+	@NotNull
+	protected Complex I() {
+		return Complex.I(getMathContext());
 	}
 
 	@NotNull
@@ -88,7 +93,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@NotNull
 	@Override
 	public Numeric nThRoot(int n) {
-		return pow(ONE().divide(Real.valueOf(getMathContext(), getMathContext().getRawNumber(n))));
+		return pow(ONE().divide(Real.valueOf(getMathContext(), getMathContext().toRawNumber(n))));
 	}
 
 	public static Numeric root(int subscript, Numeric parameter[]) {
@@ -136,17 +141,17 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@NotNull
 	@Override
 	public Numeric sin() {
-		// e = exp(i)
-		final Numeric e = defaultToRad(this).multiply(mathContext.I()).exp();
+		// e = exp(i
+		final Numeric e = defaultToRad(this).multiply(I()).exp();
 		// result = [i - i * exp(i)] / [2exp(i)]
-		return mathContext.I().subtract(e.multiply(mathContext.I())).divide(TWO().multiply(e));
+		return I().subtract(e.multiply(I())).divide(TWO().multiply(e));
 	}
 
 	@NotNull
 	@Override
 	public Numeric cos() {
 		// e = exp(ix)
-		final Numeric e = defaultToRad(this).multiply(mathContext.I()).exp();
+		final Numeric e = defaultToRad(this).multiply(I()).exp();
 		// e1 = exp(2ix)
 		final Numeric e1 = e.pow(2);
 
@@ -158,23 +163,23 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@Override
 	public Numeric tan() {
 		// e = exp(2xi)
-		final Numeric e = defaultToRad(this).multiply(mathContext.I()).exp().pow(2);
+		final Numeric e = defaultToRad(this).multiply(I()).exp().pow(2);
 
 		// e1 = i * exp(2xi)
-		final Numeric e1 = e.multiply(mathContext.I());
+		final Numeric e1 = e.multiply(I());
 
 		// result = (i - i * exp(2xi)) / ( 1 + exp(2xi) )
-		return mathContext.I().subtract(e1).divide(ONE().add(e));
+		return I().subtract(e1).divide(ONE().add(e));
 	}
 
 	@NotNull
 	@Override
 	public Numeric cot() {
 		// e = exp(2xi)
-		final Numeric e = mathContext.I().multiply(defaultToRad(this)).exp().pow(2);
+		final Numeric e = I().multiply(defaultToRad(this)).exp().pow(2);
 
 		// result = - (i + i * exp(2ix)) / ( 1 - exp(2xi))
-		return mathContext.I().add(mathContext.I().multiply(e)).divide(ONE().subtract(e)).negate();
+		return I().add(I().multiply(e)).divide(ONE().subtract(e)).negate();
 	}
 
 	/**
@@ -191,35 +196,35 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 		// e = √(1 - x^2)
 		final Numeric e = ONE().subtract(this.pow(2)).sqrt();
 		// result = -iln[xi + √(1 - x^2)]
-		return radToDefault(this.multiply(mathContext.I()).add(e).ln().multiply(mathContext.I().negate()));
+		return radToDefault(this.multiply(I()).add(e).ln().multiply(I().negate()));
 	}
 
 	@NotNull
 	@Override
 	public Numeric acos() {
 		// e = √(-1 + x^2) = i √(1 - x^2)
-		final Numeric e = mathContext.I().multiply(ONE().subtract(this.pow(2)).sqrt());
+		final Numeric e = I().multiply(ONE().subtract(this.pow(2)).sqrt());
 
 		// result = -i * ln[ x + √(-1 + x^2) ]
-		return radToDefault(this.add(e).ln().multiply(mathContext.I().negate()));
+		return radToDefault(this.add(e).ln().multiply(I().negate()));
 	}
 
 	@NotNull
 	@Override
 	public Numeric atan() {
 		// e = ln[(i + x)/(i-x)]
-		final Numeric e = mathContext.I().add(this).divide(mathContext.I().subtract(this)).ln();
+		final Numeric e = I().add(this).divide(I().subtract(this)).ln();
 		// result = iln[(i + x)/(i-x)]/2
-		return radToDefault(mathContext.I().multiply(e).divide(TWO()));
+		return radToDefault(I().multiply(e).divide(TWO()));
 	}
 
 	@NotNull
 	@Override
 	public Numeric acot() {
 		// e = ln[-(i + x)/(i-x)]
-		final Numeric e = mathContext.I().add(this).divide(mathContext.I().subtract(this)).negate().ln();
+		final Numeric e = I().add(this).divide(I().subtract(this)).negate().ln();
 		// result = iln[-(i + x)/(i-x)]/2
-		return radToDefault(mathContext.I().multiply(e).divide(TWO()));
+		return radToDefault(I().multiply(e).divide(TWO()));
 	}
 
 	/**

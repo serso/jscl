@@ -31,7 +31,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public static Complex newInstance(@NotNull final MathContext mathContext,
 									  @NotNull Real real) {
-		return new Complex(mathContext, real.getContent(), real.getMathContext().get0());
+		return new Complex(mathContext, real.getContent(), real.getMathContext().toRawNumber(0L));
 	}
 
 	@NotNull
@@ -39,6 +39,11 @@ public final class Complex extends Numeric {
 									  @NotNull RawNumber real,
 									  @NotNull RawNumber imaginary) {
 		return new Complex(mathContext, real, imaginary);
+	}
+
+	@NotNull
+	public static Complex I(@NotNull final MathContext mathContext) {
+		return new Complex(mathContext, mathContext.toRawNumber(0), mathContext.toRawNumber(1));
 	}
 
 	/*
@@ -213,7 +218,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public Numeric ln() {
 		if (signum() == 0) {
-			return Real.ZERO(getMathContext()).ln();
+			return ZERO().ln();
 		} else {
 			return new Complex(getMathContext(), magnitude().log(), angle());
 		}
@@ -222,7 +227,7 @@ public final class Complex extends Numeric {
 	@NotNull
 	public Numeric lg() {
 		if (signum() == 0) {
-			return Real.ZERO(getMathContext()).lg();
+			return ZERO().lg();
 		} else {
 			return new Complex(getMathContext(), magnitude().log10(), angle());
 		}

@@ -2,6 +2,7 @@ package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
+import jscl2.MathContext;
 import org.jetbrains.annotations.NotNull;
 
 public class Vector extends Numeric {
@@ -9,7 +10,8 @@ public class Vector extends Numeric {
 	protected final Numeric element[];
 	protected final int n;
 
-	public Vector(Numeric element[]) {
+	public Vector(@NotNull MathContext mathContext, Numeric element[]) {
+		super(mathContext);
 		this.element = element;
 		n = element.length;
 	}
@@ -102,7 +104,7 @@ public class Vector extends Numeric {
 		if (numeric instanceof Vector || numeric instanceof Matrix) {
 			throw new ArithmeticException();
 		} else {
-			Vector v = (Vector) unity(n).multiply(numeric);
+			Vector v = (Vector) unity(getMathContext(), n).multiply(numeric);
 			return newInstance(v.element);
 		}
 	}
@@ -112,7 +114,7 @@ public class Vector extends Numeric {
 	}
 
 	public Numeric scalarProduct(Vector vector) {
-		Numeric a = Real.ZERO;
+		Numeric a = ZERO();
 		for (int i = 0; i < n; i++) {
 			a = a.add(element[i].multiply(vector.element[i]));
 		}
@@ -153,11 +155,11 @@ public class Vector extends Numeric {
 		}
 	}
 
-	public static Vector unity(int dimension) {
-		Vector v = new Vector(new Numeric[dimension]);
+	public static Vector unity(@NotNull MathContext mc, int dimension) {
+		Vector v = new Vector(mc, new Numeric[dimension]);
 		for (int i = 0; i < v.n; i++) {
-			if (i == 0) v.element[i] = Real.ONE;
-			else v.element[i] = Real.ZERO;
+			if (i == 0) v.element[i] = Real.valueOf(mc, mc.toRawNumber(1L));
+			else v.element[i] = Real.valueOf(mc, mc.toRawNumber(0L));
 		}
 		return v;
 	}
@@ -183,6 +185,6 @@ public class Vector extends Numeric {
 
 	@NotNull
 	protected Vector newInstance(@NotNull Numeric element[]) {
-		return new Vector(element);
+		return new Vector(getMathContext(), element);
 	}
 }
