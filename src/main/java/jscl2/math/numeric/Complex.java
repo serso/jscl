@@ -249,12 +249,12 @@ public final class Complex extends Numeric {
 	}
 
 	@NotNull
-	public RawNumber realPart() {
+	public RawNumber getReal() {
 		return real;
 	}
 
 	@NotNull
-	public RawNumber imaginaryPart() {
+	public RawNumber getImaginary() {
 		return imaginary;
 	}
 
