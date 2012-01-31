@@ -8,6 +8,8 @@ import jscl2.math.RawNumberType;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import java.util.Date;
+
 /**
  * User: serso
  * Date: 1/31/12
@@ -49,14 +51,24 @@ public class RealTest extends TestCase {
 	public void testTime() throws Exception {
 		MathContext mc = MathContextImpl.defaultInstance();
 
+		long startTime1 = new Date().getTime();
 		Numeric result = mc.newReal(0L);
-		Long value = 0L;
 		for (long i = 0; i < 100000000; i++) {
 			result = result.add(mc.newReal(i));
+		}
+		long time1 = new Date().getTime() - startTime1;
+
+
+		long startTime2 = new Date().getTime();
+		long value = 0L;
+		for (long i = 0; i < 100000000; i++) {
 			value += i;
 		}
+		long time2 = new Date().getTime() - startTime2;
+
+		System.out.println(time1);
+		System.out.println(time2);
 
 		Assert.assertEquals(Real.newInstance(mc, mc.toRawNumber(value)), result);
-
 	}
 }
