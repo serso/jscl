@@ -21,23 +21,26 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	
 	@NotNull
 	protected Real ZERO() {
-		return new Real(mathContext, mathContext.toRawNumber(0L));
+		return Real.ZERO(getMathContext());
 	}
 	
 	@NotNull
 	protected Real ONE() {
-		return new Real(mathContext, mathContext.toRawNumber(1L));
+		return Real.ONE(getMathContext());
 	}
 	
 	@NotNull
 	protected Real TWO() {
-		return new Real(mathContext, mathContext.toRawNumber(2L));
+		return Real.TWO(getMathContext());
 	}
 
 	@NotNull
 	protected Complex I() {
 		return Complex.I(getMathContext());
 	}
+
+
+
 
 	@NotNull
 	public Numeric subtract(@NotNull Numeric numeric) {
@@ -93,7 +96,7 @@ public abstract class Numeric implements INumeric<Numeric>, Comparable {
 	@NotNull
 	@Override
 	public Numeric nThRoot(int n) {
-		return pow(ONE().divide(Real.valueOf(getMathContext(), getMathContext().toRawNumber(n))));
+		return pow(ONE().divide(Real.newInstance(getMathContext(), getMathContext().toRawNumber(n))));
 	}
 
 	public static Numeric root(int subscript, Numeric parameter[]) {

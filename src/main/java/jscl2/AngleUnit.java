@@ -113,6 +113,6 @@ public enum AngleUnit {
 	}
 
 	private Real getRealCoefficientTo(@NotNull MathContext mathContext, @NotNull AngleUnit to) {
-		return Real.valueOf(mathContext, mathContext.toRawNumber(getCoefficientTo(to)));
+		return Real.newInstance(mathContext, mathContext.toRawNumber(getCoefficientTo(to)));
 	}
 }

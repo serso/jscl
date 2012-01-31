@@ -158,8 +158,8 @@ public class Vector extends Numeric {
 	public static Vector unity(@NotNull MathContext mc, int dimension) {
 		Vector v = new Vector(mc, new Numeric[dimension]);
 		for (int i = 0; i < v.n; i++) {
-			if (i == 0) v.element[i] = Real.valueOf(mc, mc.toRawNumber(1L));
-			else v.element[i] = Real.valueOf(mc, mc.toRawNumber(0L));
+			if (i == 0) v.element[i] = Real.newInstance(mc, mc.toRawNumber(1L));
+			else v.element[i] = Real.newInstance(mc, mc.toRawNumber(0L));
 		}
 		return v;
 	}

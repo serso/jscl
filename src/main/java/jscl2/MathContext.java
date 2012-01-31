@@ -30,4 +30,7 @@ public interface MathContext extends RawNumberHelper {
 
 	@NotNull
 	Real newReal(double value);
+
+	@NotNull
+	Complex newComplex(long real, long imaginary);
 }

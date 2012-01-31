@@ -2,6 +2,7 @@ package jscl2;
 
 import jscl2.math.RawNumber;
 import jscl2.math.RawNumberType;
+import jscl2.math.numeric.Complex;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,7 +69,7 @@ public class MathContextImpl implements MathContext {
 	@NotNull
 	@Override
 	public Real newReal(long value) {
-		return Real.valueOf(this, rawNumberType.toRawNumber(value));
+		return Real.newInstance(this, rawNumberType.toRawNumber(value));
 	}
 
 	@NotNull
@@ -92,6 +93,12 @@ public class MathContextImpl implements MathContext {
 	@NotNull
 	@Override
 	public Real newReal(double value) {
-		return Real.valueOf(this, rawNumberType.toRawNumber(value));
+		return Real.newInstance(this, rawNumberType.toRawNumber(value));
+	}
+
+	@NotNull
+	@Override
+	public Complex newComplex(long real, long imaginary) {
+		return Complex.newInstance(this, rawNumberType.toRawNumber(real), rawNumberType.toRawNumber(imaginary));
 	}
 }

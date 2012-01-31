@@ -29,6 +29,21 @@ public final class Real extends Numeric {
 		return new Real(mathContext, content);
 	}
 
+	@NotNull
+	public static Real ZERO(@NotNull MathContext mc) {
+		return mc.newReal(0L);
+	}
+
+	@NotNull
+	public static Real ONE(@NotNull MathContext mc) {
+		return mc.newReal(1L);
+	}
+
+	@NotNull
+	public static Real TWO(@NotNull MathContext mc) {
+		return mc.newReal(2L);
+	}
+
 	/*
 	 * **********************************************
 	 * ADDITION
@@ -246,7 +261,7 @@ public final class Real extends Numeric {
 	@NotNull
 	@Override
 	public Numeric cot() {
-		return Real.valueOf(getMathContext(), getMathContext().toRawNumber(1L)).divide(tan());
+		return Real.newInstance(getMathContext(), getMathContext().toRawNumber(1L)).divide(tan());
 	}
 
 	public Real valueOf(Real value) {
@@ -270,10 +285,6 @@ public final class Real extends Numeric {
 		} else {
 			return ArithmeticUtils.compare(this, that);
 		}
-	}
-
-	public static Real valueOf(@NotNull MathContext mathContext, @NotNull RawNumber value) {
-		return new Real(mathContext, value);
 	}
 
 	@NotNull
