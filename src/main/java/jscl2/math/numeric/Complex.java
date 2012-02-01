@@ -43,7 +43,7 @@ public final class Complex extends Numeric {
 
 	@NotNull
 	public static Complex I(@NotNull final MathContext mathContext) {
-		return new Complex(mathContext, mathContext.toRawNumber(0), mathContext.toRawNumber(1));
+		return new Complex(mathContext, mathContext.toRawNumber(0L), mathContext.toRawNumber(1L));
 	}
 
 	/*
@@ -298,7 +298,7 @@ public final class Complex extends Numeric {
 		if (imaginary.isZero()) {
 			result.append(toString(real));
 		} else {
-			if (real.isZero()) {
+			if (!real.isZero()) {
 				result.append(toString(real));
 				if (imaginary.positive()) {
 					result.append("+");
