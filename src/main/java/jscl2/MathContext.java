@@ -1,7 +1,7 @@
 package jscl2;
 
 import jscl2.math.RawNumber;
-import jscl2.math.RawNumberHelper;
+import jscl2.math.RawNumberCreator;
 import jscl2.math.numeric.Complex;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/30/12
  * Time: 2:01 PM
  */
-public interface MathContext extends RawNumberHelper {
+public interface MathContext extends RawNumberCreator {
 
 	@NotNull
 	AngleUnit getAngleUnits();

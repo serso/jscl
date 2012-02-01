@@ -2,11 +2,10 @@ package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
 import jscl2.MathContext;
-import jscl2.math.ArithmeticUtils;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
-public final class Real extends Numeric {
+public final class Real extends AbstractNumber {
 
 	@NotNull
 	private final RawNumber content;
@@ -44,6 +43,18 @@ public final class Real extends Numeric {
 		return mc.newReal(2L);
 	}
 
+	@Override
+	@NotNull
+	public AbstractNumeric abs() {
+		return signum() < 0 ? negate() : this;
+	}
+
+	@NotNull
+	@Override
+	public AbstractNumeric sgn() {
+		return divide(abs());
+	}
+
 	/*
 	 * **********************************************
 	 * ADDITION
@@ -56,11 +67,11 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric add(@NotNull Numeric that) {
+	public AbstractNumeric add(@NotNull AbstractNumeric that) {
 		if (that instanceof Real) {
 			return add((Real) that);
 		} else {
-			return ArithmeticUtils.add(this, that);
+			return that.add(this);
 		}
 	}
 
@@ -76,11 +87,11 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric subtract(@NotNull Numeric that) {
+	public AbstractNumeric subtract(@NotNull AbstractNumeric that) {
 		if (that instanceof Real) {
 			return subtract((Real) that);
 		} else {
-			return ArithmeticUtils.subtract(this, that);
+			return that.subtract(this);
 		}
 	}
 
@@ -96,7 +107,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric multiply(@NotNull Numeric that) {
+	public AbstractNumeric multiply(@NotNull AbstractNumeric that) {
 		if (that instanceof Real) {
 			return multiply((Real) that);
 		} else {
@@ -116,16 +127,16 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+	public AbstractNumeric divide(@NotNull AbstractNumeric that) throws NotDivisibleException {
 		if (that instanceof Real) {
 			return divide((Real) that);
 		} else {
-			return ArithmeticUtils.divide(this, that);
+			return that.divide(this);
 		}
 	}
 
 	@NotNull
-	public Numeric negate() {
+	public AbstractNumeric negate() {
 		return new Real(getMathContext(), content.negate());
 	}
 
@@ -134,7 +145,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric ln() {
+	public AbstractNumeric ln() {
 		if (signum() >= 0) {
 			return new Real(getMathContext(), content.log());
 		} else {
@@ -143,7 +154,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric lg() {
+	public AbstractNumeric lg() {
 		if (signum() >= 0) {
 			return new Real(getMathContext(), content.log10());
 		} else {
@@ -152,42 +163,42 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric exp() {
+	public AbstractNumeric exp() {
 		return new Real(getMathContext(), content.exp());
 	}
 
 	@NotNull
-	public Numeric inverse() {
-		return new Real(getMathContext(), getMathContext().toRawNumber(1L).divide(content));
+	public AbstractNumeric inverse() {
+		return new Real(getMathContext(), getMathContext().fromLong(1L).divide(content));
 	}
 
-	public Numeric pow(@NotNull Real that) {
+	public AbstractNumeric pow(@NotNull Real that) {
 		if (signum() < 0) {
-			return Complex.newInstance(getMathContext(), content, getMathContext().toRawNumber(0L)).pow(that);
+			return Complex.newInstance(getMathContext(), content, getMathContext().fromLong(0L)).pow(that);
 		} else {
 			return new Real(getMathContext(), content.pow(that.content));
 		}
 	}
 
-	public Numeric pow(@NotNull Numeric that) {
+	public AbstractNumeric pow(@NotNull AbstractNumeric that) {
 		if (that instanceof Real) {
 			return pow((Real) that);
 		} else {
-			return ArithmeticUtils.pow(this, that);
+			return that.pow(this);
 		}
 	}
 
 	@NotNull
-	public Numeric sqrt() {
+	public AbstractNumeric sqrt() {
 		if (signum() < 0) {
-			return Complex.newInstance(getMathContext(), getMathContext().toRawNumber(0L), getMathContext().toRawNumber(1L)).multiply(negate().sqrt());
+			return Complex.newInstance(getMathContext(), getMathContext().fromLong(0L), getMathContext().fromLong(1L)).multiply(negate().sqrt());
 		} else {
 			return new Real(getMathContext(), content.sqrt());
 		}
 	}
 
 	@NotNull
-	public Numeric nThRoot(int n) {
+	public AbstractNumeric nThRoot(int n) {
 		if (signum() < 0) {
 			return n % 2 == 0 ? sqrt().nThRoot(n / 2) : negate().nThRoot(n).negate();
 		} else {
@@ -195,12 +206,12 @@ public final class Real extends Numeric {
 		}
 	}
 
-	public Numeric conjugate() {
+	public AbstractNumeric conjugate() {
 		return this;
 	}
 
 	@NotNull
-	public Numeric acos() {
+	public AbstractNumeric acos() {
 		final Real result = new Real(getMathContext(), radToDefault(content.acos()));
 		if (result.content.isNaN()) {
 			return super.acos();
@@ -209,7 +220,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric asin() {
+	public AbstractNumeric asin() {
 		final Real result = new Real(getMathContext(), radToDefault(content.asin()));
 		if (result.content.isNaN()) {
 			return super.asin();
@@ -218,7 +229,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric atan() {
+	public AbstractNumeric atan() {
 		final Real result = new Real(getMathContext(), radToDefault(atanRad()));
 		if (result.content.isNaN()) {
 			return super.atan();
@@ -233,9 +244,9 @@ public final class Real extends Numeric {
 
 	@NotNull
 	@Override
-	public Numeric acot() {
+	public AbstractNumeric acot() {
 
-		final RawNumber PI_DIV_BY_2_RAD = getMathContext().getPI().divide(getMathContext().toRawNumber(2L));
+		final RawNumber PI_DIV_BY_2_RAD = getMathContext().getPI().divide(getMathContext().fromLong(2L));
 		final Real result = new Real(getMathContext(), radToDefault(PI_DIV_BY_2_RAD.subtract(atanRad())));
 		if (result.content.isNaN()) {
 			return super.acot();
@@ -243,25 +254,47 @@ public final class Real extends Numeric {
 		return result;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Real)) return false;
+
+		Real real = (Real) o;
+
+		if (!content.equals(real.content)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return content.hashCode();
+	}
+
+	@Override
+	public boolean mathEquals(INumeric<AbstractNumeric> that) {
+		return equals(that);
+	}
+
 	@NotNull
-	public Numeric cos() {
+	public AbstractNumeric cos() {
 		return new Real(getMathContext(), defaultToRad(content).cos());
 	}
 
 	@NotNull
-	public Numeric sin() {
+	public AbstractNumeric sin() {
 		return new Real(getMathContext(), defaultToRad(content).sin());
 	}
 
 	@NotNull
-	public Numeric tan() {
+	public AbstractNumeric tan() {
 		return new Real(getMathContext(), defaultToRad(content).tan());
 	}
 
 	@NotNull
 	@Override
-	public Numeric cot() {
-		return Real.newInstance(getMathContext(), getMathContext().toRawNumber(1L)).divide(tan());
+	public AbstractNumeric cot() {
+		return Real.newInstance(getMathContext(), getMathContext().fromLong(1L)).divide(tan());
 	}
 
 	public Real valueOf(Real value) {
@@ -269,7 +302,7 @@ public final class Real extends Numeric {
 	}
 
 	@NotNull
-	public Numeric valueOf(@NotNull Numeric numeric) {
+	public AbstractNumeric valueOf(@NotNull AbstractNumeric numeric) {
 		if (numeric instanceof Real) {
 			return valueOf((Real) numeric);
 		} else throw new ArithmeticException();
@@ -279,13 +312,15 @@ public final class Real extends Numeric {
 		return this.content.compareTo(that.content);
 	}
 
+/*
 	public int compareTo(@NotNull Numeric that) {
 		if (that instanceof Real) {
 			return compareTo((Real) that);
 		} else {
-			return ArithmeticUtils.compare(this, that);
+			return that.compareTo(this);
 		}
 	}
+*/
 
 	@NotNull
 	RawNumber getContent() {
@@ -298,6 +333,6 @@ public final class Real extends Numeric {
 
 	@NotNull
 	public Complex toComplex() {
-		return new Complex(getMathContext(), this.content, getMathContext().toRawNumber(0L));
+		return new Complex(getMathContext(), this.content, getMathContext().fromLong(0L));
 	}
 }

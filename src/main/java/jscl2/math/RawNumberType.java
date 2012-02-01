@@ -1,6 +1,5 @@
 package jscl2.math;
 
-import jscl2.math.numeric.Complex;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
  * Date: 1/31/12
  * Time: 11:15 AM
  */
-public enum RawNumberType implements RawNumberHelper {
+public enum RawNumberType implements RawNumberCreator {
 
 	DOUBLE {
 
@@ -22,13 +21,13 @@ public enum RawNumberType implements RawNumberHelper {
 
 		@NotNull
 		@Override
-		public RawNumber toRawNumber(double value) {
+		public RawNumber fromDouble(double value) {
 			return DoubleRawNumber.newInstance(value);
 		}
 
 		@NotNull
 		@Override
-		public RawNumber toRawNumber(long value) {
+		public RawNumber fromLong(long value) {
 			/*if ( value >= 0L && value < CONSTANT_POOL_SIZE ) {
 				return DOUBLE_CONSTANTS[(int)value];
 			}*/
@@ -40,18 +39,18 @@ public enum RawNumberType implements RawNumberHelper {
 		@NotNull
 		@Override
 		public RawNumber getPI() {
-			return toRawNumber(Math.PI);
+			return fromDouble(Math.PI);
 		}
 
 		@NotNull
 		@Override
-		public RawNumber toRawNumber(double value) {
+		public RawNumber fromDouble(double value) {
 			return BigDecimalRawNumber.newInstance(DoubleRawNumber.newInstance(value));
 		}
 
 		@NotNull
 		@Override
-		public RawNumber toRawNumber(long value) {
+		public RawNumber fromLong(long value) {
 			/*if (value >= 0 && value < CONSTANT_POOL_SIZE) {
 				return BIG_DECIMAL_CONSTANTS[(int) value];
 			}*/
@@ -59,7 +58,7 @@ public enum RawNumberType implements RawNumberHelper {
 		}
 	};
 
-	/*private static final long CONSTANT_POOL_SIZE = 10;
+	private static final long CONSTANT_POOL_SIZE = 10;
 	private static final RawNumber[] DOUBLE_CONSTANTS = new RawNumber[(int)CONSTANT_POOL_SIZE];
 	private static final RawNumber[] BIG_DECIMAL_CONSTANTS = new RawNumber[(int)CONSTANT_POOL_SIZE];
 	static {
@@ -67,5 +66,5 @@ public enum RawNumberType implements RawNumberHelper {
 			DOUBLE_CONSTANTS[i] = DoubleRawNumber.newInstance((long)i);
 			BIG_DECIMAL_CONSTANTS[i] = BigDecimalRawNumber.newInstance(BigDecimal.valueOf(i));
 		}
-	}*/
+	}
 }

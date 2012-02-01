@@ -1,6 +1,5 @@
 package jscl2.math.numeric;
 
-import jscl.math.Generic;
 import jscl2.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
 
@@ -118,4 +117,15 @@ public interface INumeric<T extends INumeric<T>> extends Arithmetic<T> {
 
 	@NotNull
 	T acoth();
+
+	/*
+	 * Method returns true only if the objects are identical (e.g. real number 0 and complex number 1+0i are not equals)
+	 */
+	boolean equals(Object that);
+
+
+	/*
+	 * Method returns true only if the objects are mathemtaically equals (e.g. real number 0 and complex number 1+0i are mathematically equals)
+	 */
+	boolean mathEquals(INumeric<T> that);
 }

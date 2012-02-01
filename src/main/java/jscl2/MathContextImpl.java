@@ -69,7 +69,7 @@ public class MathContextImpl implements MathContext {
 	@NotNull
 	@Override
 	public Real newReal(long value) {
-		return Real.newInstance(this, rawNumberType.toRawNumber(value));
+		return Real.newInstance(this, rawNumberType.fromLong(value));
 	}
 
 	@NotNull
@@ -80,25 +80,25 @@ public class MathContextImpl implements MathContext {
 
 	@NotNull
 	@Override
-	public RawNumber toRawNumber(double value) {
-		return this.rawNumberType.toRawNumber(value);
+	public RawNumber fromDouble(double value) {
+		return this.rawNumberType.fromDouble(value);
 	}
 
 	@NotNull
 	@Override
-	public RawNumber toRawNumber(long value) {
-		return this.rawNumberType.toRawNumber(value);
+	public RawNumber fromLong(long value) {
+		return this.rawNumberType.fromLong(value);
 	}
 
 	@NotNull
 	@Override
 	public Real newReal(double value) {
-		return Real.newInstance(this, rawNumberType.toRawNumber(value));
+		return Real.newInstance(this, rawNumberType.fromDouble(value));
 	}
 
 	@NotNull
 	@Override
 	public Complex newComplex(long real, long imaginary) {
-		return Complex.newInstance(this, rawNumberType.toRawNumber(real), rawNumberType.toRawNumber(imaginary));
+		return Complex.newInstance(this, rawNumberType.fromLong(real), rawNumberType.fromLong(imaginary));
 	}
 }

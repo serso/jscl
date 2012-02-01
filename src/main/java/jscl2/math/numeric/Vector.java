@@ -1,100 +1,140 @@
 package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
-import jscl.util.ArrayComparator;
 import jscl2.MathContext;
-import jscl2.math.ArithmeticUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class Vector extends Numeric {
+import java.util.Arrays;
 
-	protected final Numeric element[];
-	protected final int n;
+public class Vector extends AbstractNumeric {
 
-	public Vector(@NotNull MathContext mathContext, Numeric element[]) {
-		super(mathContext);
-		this.element = element;
-		n = element.length;
+	private static final String VECTOR_DIMENSIONS_MUST_AGREE = "Vector dimensions must agree!";
+
+	@NotNull
+	private final AbstractNumeric elements[];
+	private final int length;
+	private final boolean transposed;
+
+	private Vector(@NotNull MathContext mathContext, @NotNull AbstractNumeric[] elements) {
+		this(mathContext, elements, false);
 	}
 
-	public Numeric[] elements() {
-		return element;
+	private Vector(@NotNull MathContext mathContext, @NotNull AbstractNumeric elements[], boolean transposed) {
+		super(mathContext);
+		this.elements = elements;
+		this.transposed = transposed;
+		this.length = elements.length;
+	}
+
+	@NotNull
+	public static Vector newInstance(@NotNull MathContext mathContext, @NotNull AbstractNumeric[] elements) {
+		assert elements.length > 1;
+		return new Vector(mathContext, elements);
+	}
+
+	@NotNull
+	public static Vector newInstance(@NotNull MathContext mathContext, @NotNull AbstractNumeric[] elements, boolean transposed) {
+		assert elements.length > 1;
+		return new Vector(mathContext, elements, transposed);
+	}
+
+		@NotNull
+	protected Vector newInstance() {
+		return newInstance(new AbstractNumeric[length]);
+	}
+
+	@NotNull
+	protected Vector newInstance(@NotNull AbstractNumeric element[]) {
+		return new Vector(getMathContext(), element, transposed);
+	}
+
+	public AbstractNumeric[] elements() {
+		return elements;
 	}
 
 	public Vector add(@NotNull Vector vector) {
-		Vector v = newInstance();
+		checkSameDimensions(vector);
 
-		for (int i = 0; i < n; i++) {
-			v.element[i] = element[i].add(vector.element[i]);
+		final Vector v = newInstance();
+
+		for (int i = 0; i < length; i++) {
+			v.elements[i] = elements[i].add(vector.elements[i]);
 		}
 
 		return v;
 	}
 
 	@NotNull
-	public Numeric add(@NotNull Numeric that) {
+	public AbstractNumeric add(@NotNull AbstractNumeric that) {
 		if (that instanceof Vector) {
 			return add((Vector) that);
 		} else {
-			return ArithmeticUtils.add(this, that);
+			return that.add(this);
 		}
 	}
 
-	public Vector subtract(Vector vector) {
-		Vector v = newInstance();
-		for (int i = 0; i < n; i++) {
-			v.element[i] = element[i].subtract(vector.element[i]);
+	@NotNull
+	public Vector subtract(@NotNull Vector that) {
+		checkSameDimensions(that);
+
+		final Vector v = newInstance();
+
+		for (int i = 0; i < length; i++) {
+			v.elements[i] = elements[i].subtract(that.elements[i]);
 		}
+
 		return v;
 	}
 
 	@NotNull
-	public Numeric subtract(@NotNull Numeric that) {
+	public AbstractNumeric subtract(@NotNull AbstractNumeric that) {
 		if (that instanceof Vector) {
 			return subtract((Vector) that);
 		} else {
-			return ArithmeticUtils.subtract(this, that);
+			return that.subtract(this);
 		}
 	}
 
 	@NotNull
-	public Numeric multiply(@NotNull Numeric that) {
+	public AbstractNumeric multiply(@NotNull AbstractNumeric that) {
 		if (that instanceof Vector) {
 			return scalarProduct((Vector) that);
 		} else if (that instanceof Matrix) {
 			return ((Matrix) that).transpose().multiply(this);
 		} else {
-			Vector v = newInstance();
-			for (int i = 0; i < n; i++) v.element[i] = element[i].multiply(that);
-			return v;
-		}
-	}
-
-	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
-		if (that instanceof Vector) {
-			throw new ArithmeticException();
-		} else if (that instanceof Matrix) {
-			return multiply(that.inverse());
-		} else {
-			Vector v = newInstance();
-			for (int i = 0; i < n; i++) {
-				v.element[i] = element[i].divide(that);
+			final Vector v = newInstance();
+			for (int i = 0; i < length; i++) {
+				v.elements[i] = elements[i].multiply(that);
 			}
 			return v;
 		}
 	}
 
 	@NotNull
-	public Numeric negate() {
+	public AbstractNumeric divide(@NotNull AbstractNumeric that) throws NotDivisibleException {
+		if (that instanceof Vector) {
+			throw new ArithmeticException();
+		} else if (that instanceof Matrix) {
+			return multiply(that.inverse());
+		} else {
+			Vector v = newInstance();
+			for (int i = 0; i < length; i++) {
+				v.elements[i] = elements[i].divide(that);
+			}
+			return v;
+		}
+	}
+
+	@NotNull
+	public AbstractNumeric negate() {
 		Vector v = newInstance();
-		for (int i = 0; i < n; i++) v.element[i] = element[i].negate();
+		for (int i = 0; i < length; i++) v.elements[i] = elements[i].negate();
 		return v;
 	}
 
 	public int signum() {
-		for (int i = 0; i < n; i++) {
-			int c = element[i].signum();
+		for (int i = 0; i < length; i++) {
+			int c = elements[i].signum();
 			if (c < 0) {
 				return -1;
 			} else if (c > 0) {
@@ -104,57 +144,80 @@ public class Vector extends Numeric {
 		return 0;
 	}
 
-	public Numeric magnitude2() {
+	public AbstractNumeric magnitude2() {
 		return scalarProduct(this);
 	}
 
-	public Numeric scalarProduct(Vector vector) {
-		Numeric a = ZERO();
-		for (int i = 0; i < n; i++) {
-			a = a.add(element[i].multiply(vector.element[i]));
+	@NotNull
+	public AbstractNumeric scalarProduct(@NotNull Vector that) {
+		checkCrossDimensions(that);
+
+		AbstractNumeric a = ZERO();
+		for (int i = 0; i < length; i++) {
+			a = a.add(elements[i].multiply(that.elements[i]));
 		}
 		return a;
 	}
 
+	private void checkSameDimensions(@NotNull Vector that) {
+		if ( this.isTransposed() != that.isTransposed() ) {
+			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+		}
+
+		if ( this.length != that.length ) {
+			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+		}
+	}
+
+	private void checkCrossDimensions(@NotNull Vector that) {
+		if ( this.isTransposed() == that.isTransposed() ) {
+			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+		}
+
+		if ( this.length != that.length ) {
+			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+		}
+	}
+
 	@NotNull
-	public Numeric ln() {
+	public AbstractNumeric ln() {
 		throw new ArithmeticException();
 	}
 
 	@NotNull
 	@Override
-	public Numeric lg() {
+	public AbstractNumeric lg() {
 		throw new ArithmeticException();
 	}
 
 	@NotNull
-	public Numeric exp() {
+	public AbstractNumeric exp() {
 		throw new ArithmeticException();
 	}
 
-	public Numeric conjugate() {
+	public AbstractNumeric conjugate() {
 		Vector v = newInstance();
-		for (int i = 0; i < n; i++) v.element[i] = element[i].conjugate();
+		for (int i = 0; i < length; i++) v.elements[i] = elements[i].conjugate();
 		return v;
 	}
 
-	public int compareTo(Vector vector) {
+/*	public int compareTo(Vector vector) {
 		return ArrayComparator.comparator.compare(element, vector.element);
-	}
+	}*/
 
-	public int compareTo(@NotNull Numeric that) {
+/*	public int compareTo(@NotNull Numeric that) {
 		if (that instanceof Vector) {
 			return compareTo((Vector) that);
 		} else {
-			return ArithmeticUtils.compare(this, that);
+			return that.compareTo(this);
 		}
-	}
+	}*/
 
 	public static Vector unity(@NotNull MathContext mc, int dimension) {
-		Vector v = new Vector(mc, new Numeric[dimension]);
-		for (int i = 0; i < v.n; i++) {
-			if (i == 0) v.element[i] = Real.newInstance(mc, mc.toRawNumber(1L));
-			else v.element[i] = Real.newInstance(mc, mc.toRawNumber(0L));
+		Vector v = new Vector(mc, new AbstractNumeric[dimension]);
+		for (int i = 0; i < v.length; i++) {
+			if (i == 0) v.elements[i] = Real.newInstance(mc, mc.fromLong(1L));
+			else v.elements[i] = Real.newInstance(mc, mc.fromLong(0L));
 		}
 		return v;
 	}
@@ -164,8 +227,8 @@ public class Vector extends Numeric {
 
 		result.append("[");
 
-		for (int i = 0; i < n; i++) {
-			result.append(element[i]).append(i < n - 1 ? ", " : "");
+		for (int i = 0; i < length; i++) {
+			result.append(elements[i]).append(i < length - 1 ? ", " : "");
 		}
 
 		result.append("]");
@@ -173,13 +236,51 @@ public class Vector extends Numeric {
 		return result.toString();
 	}
 
-	@NotNull
-	protected Vector newInstance() {
-		return newInstance(new Numeric[n]);
+	public boolean isTransposed() {
+		return transposed;
+	}
+
+	public int getLength() {
+		return length;
 	}
 
 	@NotNull
-	protected Vector newInstance(@NotNull Numeric element[]) {
-		return new Vector(getMathContext(), element);
+	AbstractNumeric[] getElements() {
+		return elements;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Vector)) return false;
+
+		Vector vector = (Vector) o;
+
+		if (length != vector.length) return false;
+		if (transposed != vector.transposed) return false;
+		if (!Arrays.equals(elements, vector.elements)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = elements != null ? Arrays.hashCode(elements) : 0;
+		result = 31 * result + length;
+		result = 31 * result + (transposed ? 1 : 0);
+		return result;
+	}
+
+	@Override
+	public boolean mathEquals(INumeric<AbstractNumeric> that) {
+		if ( that instanceof Vector ) {
+			return equals(that);
+		} else if ( that instanceof Matrix ) {
+			return that.mathEquals(this);
+		} else if ( this.length == 1 ) {
+			return this.elements[0].mathEquals(that);
+		} else {
+			return false;
+		}
 	}
 }

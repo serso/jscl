@@ -1,6 +1,5 @@
 package jscl2.math;
 
-import jscl2.math.numeric.Complex;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,15 +7,14 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/31/12
  * Time: 11:14 AM
  */
-public interface RawNumberHelper {
+public interface RawNumberCreator {
 
 	@NotNull
 	RawNumber getPI();
 
 	@NotNull
-	RawNumber toRawNumber(double value);
+	RawNumber fromDouble(double value);
 
 	@NotNull
-	RawNumber toRawNumber(long value);
-
+	RawNumber fromLong(long value);
 }
