@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NumeralBaseException extends AbstractJsclArithmeticException {
 
-	public NumeralBaseException(@NotNull Double value) {
+	public NumeralBaseException(double value) {
 		super(Messages.msg_17, value);
 	}
 }

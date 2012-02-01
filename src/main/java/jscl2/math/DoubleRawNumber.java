@@ -12,21 +12,20 @@ import java.math.BigDecimal;
  */
 public class DoubleRawNumber implements RawNumber {
 
-	@NotNull
-	private final Double value;
+	private final double value;
 
-	DoubleRawNumber(@NotNull Double value) {
+	DoubleRawNumber(double value) {
 		this.value = value;
 	}
 
 	@NotNull
-	public static DoubleRawNumber newInstance(@NotNull Double value) {
+	public static DoubleRawNumber newInstance(double value) {
 		return new DoubleRawNumber(value);
 	}
 
 	@NotNull
-	public static DoubleRawNumber newInstance(@NotNull Long value) {
-		return new DoubleRawNumber(value.doubleValue());
+	public static DoubleRawNumber newInstance(long value) {
+		return new DoubleRawNumber(value);
 	}
 
 	@NotNull
@@ -163,7 +162,7 @@ public class DoubleRawNumber implements RawNumber {
 
 	@Override
 	public int compareTo(@NotNull RawNumber that) {
-		return this.value.compareTo(that.asDouble());
+		return Double.compare(this.value, that.asDouble());
 	}
 
 	@Override

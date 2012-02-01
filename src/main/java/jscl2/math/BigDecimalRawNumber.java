@@ -28,12 +28,12 @@ public class BigDecimalRawNumber implements RawNumber {
 	}
 
 	@NotNull
-	private BigDecimal toBigDecimal(@NotNull Double value) {
+	private BigDecimal toBigDecimal(double value) {
 		return BigDecimal.valueOf(value);
 	}
 
 	@NotNull
-	private BigDecimal toBigDecimal(@NotNull Long value) {
+	private BigDecimal toBigDecimal(long value) {
 		return BigDecimal.valueOf(value);
 	}
 

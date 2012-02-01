@@ -17,15 +17,14 @@ public enum NumeralBase {
 
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-		@NotNull
 		@Override
-		public Double toDouble(@NotNull String doubleString) {
+		public double toDouble(@NotNull String doubleString) {
 			return Double.valueOf(doubleString);
 		}
 
 		@NotNull
-		public String toString(@NotNull Double value) {
-			return value.toString();
+		public String toString(double value) {
+			return Double.toString(value);
 		}
 
 		@NotNull
@@ -46,7 +45,7 @@ public enum NumeralBase {
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 
 		@NotNull
-		public String toString(@NotNull Double value) {
+		public String toString(double value) {
 			return Long.toHexString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
@@ -68,7 +67,7 @@ public enum NumeralBase {
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7');
 
 		@NotNull
-		public String toString(@NotNull Double value) {
+		public String toString(double value) {
 			return Long.toOctalString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
@@ -90,7 +89,7 @@ public enum NumeralBase {
 		private final List<Character> characters = Arrays.asList('0', '1');
 
 		@NotNull
-		public String toString(@NotNull Double value) {
+		public String toString(double value) {
 			return Long.toBinaryString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}
 
@@ -115,8 +114,7 @@ public enum NumeralBase {
 		this.groupingSize = groupingSize;
 	}
 
-	@NotNull
-	public Double toDouble(@NotNull String doubleString) throws NumberFormatException {
+	public double toDouble(@NotNull String doubleString) throws NumberFormatException {
 		return Double.longBitsToDouble(Long.valueOf(doubleString, radix));
 	}
 
@@ -130,7 +128,7 @@ public enum NumeralBase {
 	}
 
 	@NotNull
-	public abstract String toString(@NotNull Double value);
+	public abstract String toString(double value);
 
 	@NotNull
 	public abstract String getJsclPrefix();
