@@ -41,8 +41,8 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public static Complex I(@NotNull final MathContext mathContext) {
-		return new Complex(mathContext, mathContext.fromLong(0L), mathContext.fromLong(1L));
+	public static Complex I(@NotNull final MathContext mc) {
+		return new Complex(mc, mc.ZERO(), mc.ONE());
 	}
 
 	/*
@@ -62,7 +62,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric add(@NotNull AbstractNumeric that) {
+	public Numeric add(@NotNull Numeric that) {
 		if (that instanceof Complex) {
 			return add((Complex) that);
 		} else if (that instanceof Real) {
@@ -89,7 +89,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric subtract(@NotNull AbstractNumeric that) {
+	public Numeric subtract(@NotNull Numeric that) {
 		if (that instanceof Complex) {
 			return subtract((Complex) that);
 		} else if (that instanceof Real) {
@@ -121,7 +121,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric multiply(@NotNull AbstractNumeric that) {
+	public Numeric multiply(@NotNull Numeric that) {
 		if (that instanceof Complex) {
 			return multiply((Complex) that);
 		} else if (that instanceof Real) {
@@ -153,7 +153,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric divide(@NotNull AbstractNumeric that) throws NotDivisibleException {
+	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
 		if (that instanceof Complex) {
 			return divide((Complex) that);
 		} else if (that instanceof Real) {
@@ -170,17 +170,17 @@ public final class Complex extends AbstractNumber {
 	 */
 
 	@NotNull
-	public AbstractNumeric negate() {
+	public Numeric negate() {
 		return new Complex(getMathContext(), real.negate(), imaginary.negate());
 	}
 
 	@NotNull
 	@Override
-	public AbstractNumeric abs() {
-		final AbstractNumeric real2 = new Real(getMathContext(), real).pow(2);
-		final AbstractNumeric imag2 = new Real(getMathContext(), imaginary).pow(2);
+	public Numeric abs() {
+		final Numeric real2 = new Real(getMathContext(), real).pow(2);
+		final Numeric imag2 = new Real(getMathContext(), imaginary).pow(2);
 
-		final AbstractNumeric sum = real2.add(imag2);
+		final Numeric sum = real2.add(imag2);
 		return sum.sqrt();
 	}
 
@@ -215,7 +215,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric ln() {
+	public Numeric ln() {
 		if (signum() == 0) {
 			return ZERO().ln();
 		} else {
@@ -224,7 +224,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric lg() {
+	public Numeric lg() {
 		if (signum() == 0) {
 			return ZERO().lg();
 		} else {
@@ -233,12 +233,12 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumeric exp() {
+	public Numeric exp() {
 		return new Complex(getMathContext(), defaultToRad(imaginary).cos(), defaultToRad(imaginary).sin()).multiply(real.exp());
 	}
 
 	@NotNull
-	public AbstractNumeric inverse() {
+	public Numeric inverse() {
 		return conjugate().divide(magnitude2());
 	}
 
@@ -339,7 +339,7 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@Override
-	public boolean mathEquals(INumeric<AbstractNumeric> that) {
+	public boolean mathEquals(INumeric<Numeric> that) {
 		if ( that instanceof Complex ) {
 			return equals(that);
 		} else if ( that instanceof Real ) {

@@ -1,7 +1,7 @@
 package jscl2;
 
 import jscl2.math.RawNumber;
-import jscl2.math.numeric.AbstractNumeric;
+import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
@@ -108,7 +108,7 @@ public enum AngleUnit {
 
 	protected abstract double getCoefficientTo(@NotNull AngleUnit to);
 
-	public final AbstractNumeric transform(@NotNull MathContext mathContext, @NotNull AngleUnit to, @NotNull AbstractNumeric value) {
+	public final Numeric transform(@NotNull MathContext mathContext, @NotNull AngleUnit to, @NotNull Numeric value) {
 		return value.multiply(getRealCoefficientTo(mathContext, to));
 	}
 

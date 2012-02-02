@@ -17,4 +17,10 @@ public interface RawNumberCreator {
 
 	@NotNull
 	RawNumber fromLong(long value);
+
+	@NotNull
+	RawNumber ZERO();
+
+	@NotNull
+	RawNumber ONE();
 }

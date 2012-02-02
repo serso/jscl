@@ -18,7 +18,7 @@ public class RealTest {
 	public void testAdd() throws Exception {
 		MathContext mc = MathContextImpl.defaultInstance();
 
-		AbstractNumeric result = mc.newReal(0L);
+		Numeric result = mc.newReal(0L);
 		Long value = 0L;
 		for (long i = 0; i < 1000; i++) {
 			result = result.add(mc.newReal(i));

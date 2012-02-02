@@ -13,6 +13,9 @@ public enum RawNumberType implements RawNumberCreator {
 
 	DOUBLE {
 
+		private final DoubleRawNumber ZERO = DoubleRawNumber.newInstance(0L);
+		private final DoubleRawNumber ONE = DoubleRawNumber.newInstance(1L);
+
 		@NotNull
 		@Override
 		public RawNumber getPI() {
@@ -33,9 +36,25 @@ public enum RawNumberType implements RawNumberCreator {
 			}*/
 			return DoubleRawNumber.newInstance(value);
 		}
+
+		@NotNull
+		@Override
+		public RawNumber ZERO() {
+			return ZERO;
+		}
+
+		@NotNull
+		@Override
+		public RawNumber ONE() {
+			return ONE;
+		}
 	},
 
 	BIG_DECIMAL {
+
+		private final BigDecimalRawNumber ZERO = BigDecimalRawNumber.newInstance(0L);
+		private final BigDecimalRawNumber ONE = BigDecimalRawNumber.newInstance(1L);
+
 		@NotNull
 		@Override
 		public RawNumber getPI() {
@@ -56,9 +75,21 @@ public enum RawNumberType implements RawNumberCreator {
 			}*/
 			return BigDecimalRawNumber.newInstance(BigDecimal.valueOf(value));
 		}
+
+		@NotNull
+		@Override
+		public RawNumber ZERO() {
+			return ZERO;
+		}
+
+		@NotNull
+		@Override
+		public RawNumber ONE() {
+			return ONE;
+		}
 	};
 
-	private static final long CONSTANT_POOL_SIZE = 10;
+	/*private static final long CONSTANT_POOL_SIZE = 10;
 	private static final RawNumber[] DOUBLE_CONSTANTS = new RawNumber[(int)CONSTANT_POOL_SIZE];
 	private static final RawNumber[] BIG_DECIMAL_CONSTANTS = new RawNumber[(int)CONSTANT_POOL_SIZE];
 	static {
@@ -66,5 +97,5 @@ public enum RawNumberType implements RawNumberCreator {
 			DOUBLE_CONSTANTS[i] = DoubleRawNumber.newInstance((long)i);
 			BIG_DECIMAL_CONSTANTS[i] = BigDecimalRawNumber.newInstance(BigDecimal.valueOf(i));
 		}
-	}
+	}*/
 }

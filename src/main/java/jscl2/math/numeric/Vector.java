@@ -6,20 +6,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class Vector extends AbstractNumeric {
+public class Vector extends Numeric {
 
 	private static final String VECTOR_DIMENSIONS_MUST_AGREE = "Vector dimensions must agree!";
 
 	@NotNull
-	private final AbstractNumeric elements[];
+	private final Numeric elements[];
 	private final int length;
 	private final boolean transposed;
 
-	private Vector(@NotNull MathContext mathContext, @NotNull AbstractNumeric[] elements) {
+	private Vector(@NotNull MathContext mathContext, @NotNull Numeric[] elements) {
 		this(mathContext, elements, false);
 	}
 
-	private Vector(@NotNull MathContext mathContext, @NotNull AbstractNumeric elements[], boolean transposed) {
+	private Vector(@NotNull MathContext mathContext, @NotNull Numeric elements[], boolean transposed) {
 		super(mathContext);
 		this.elements = elements;
 		this.transposed = transposed;
@@ -27,28 +27,28 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public static Vector newInstance(@NotNull MathContext mathContext, @NotNull AbstractNumeric[] elements) {
+	public static Vector newInstance(@NotNull MathContext mathContext, @NotNull Numeric[] elements) {
 		assert elements.length > 1;
 		return new Vector(mathContext, elements);
 	}
 
 	@NotNull
-	public static Vector newInstance(@NotNull MathContext mathContext, @NotNull AbstractNumeric[] elements, boolean transposed) {
+	public static Vector newInstance(@NotNull MathContext mathContext, @NotNull Numeric[] elements, boolean transposed) {
 		assert elements.length > 1;
 		return new Vector(mathContext, elements, transposed);
 	}
 
 		@NotNull
 	protected Vector newInstance() {
-		return newInstance(new AbstractNumeric[length]);
+		return newInstance(new Numeric[length]);
 	}
 
 	@NotNull
-	protected Vector newInstance(@NotNull AbstractNumeric element[]) {
+	protected Vector newInstance(@NotNull Numeric element[]) {
 		return new Vector(getMathContext(), element, transposed);
 	}
 
-	public AbstractNumeric[] elements() {
+	public Numeric[] elements() {
 		return elements;
 	}
 
@@ -65,7 +65,7 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public AbstractNumeric add(@NotNull AbstractNumeric that) {
+	public Numeric add(@NotNull Numeric that) {
 		if (that instanceof Vector) {
 			return add((Vector) that);
 		} else {
@@ -87,7 +87,7 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public AbstractNumeric subtract(@NotNull AbstractNumeric that) {
+	public Numeric subtract(@NotNull Numeric that) {
 		if (that instanceof Vector) {
 			return subtract((Vector) that);
 		} else {
@@ -96,7 +96,7 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public AbstractNumeric multiply(@NotNull AbstractNumeric that) {
+	public Numeric multiply(@NotNull Numeric that) {
 		if (that instanceof Vector) {
 			return scalarProduct((Vector) that);
 		} else if (that instanceof Matrix) {
@@ -111,7 +111,7 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public AbstractNumeric divide(@NotNull AbstractNumeric that) throws NotDivisibleException {
+	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
 		if (that instanceof Vector) {
 			throw new ArithmeticException();
 		} else if (that instanceof Matrix) {
@@ -126,7 +126,13 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public AbstractNumeric negate() {
+	@Override
+	public Numeric abs() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	public Numeric negate() {
 		Vector v = newInstance();
 		for (int i = 0; i < length; i++) v.elements[i] = elements[i].negate();
 		return v;
@@ -144,15 +150,21 @@ public class Vector extends AbstractNumeric {
 		return 0;
 	}
 
-	public AbstractNumeric magnitude2() {
+	@NotNull
+	@Override
+	public Numeric sgn() {
+		throw new ArithmeticException();
+	}
+
+	public Numeric magnitude2() {
 		return scalarProduct(this);
 	}
 
 	@NotNull
-	public AbstractNumeric scalarProduct(@NotNull Vector that) {
+	public Numeric scalarProduct(@NotNull Vector that) {
 		checkCrossDimensions(that);
 
-		AbstractNumeric a = ZERO();
+		Numeric a = ZERO();
 		for (int i = 0; i < length; i++) {
 			a = a.add(elements[i].multiply(that.elements[i]));
 		}
@@ -180,22 +192,136 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	public AbstractNumeric ln() {
+	public Numeric ln() {
 		throw new ArithmeticException();
 	}
 
 	@NotNull
 	@Override
-	public AbstractNumeric lg() {
+	public Numeric lg() {
 		throw new ArithmeticException();
 	}
 
 	@NotNull
-	public AbstractNumeric exp() {
+	public Numeric exp() {
 		throw new ArithmeticException();
 	}
 
-	public AbstractNumeric conjugate() {
+	@NotNull
+	@Override
+	public Numeric inverse() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric sqrt() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric nThRoot(int n) {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric sin() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric cos() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric tan() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric cot() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric asin() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric acos() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric atan() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric acot() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric sinh() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric cosh() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric tanh() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric coth() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric asinh() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric acosh() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric atanh() {
+		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Numeric acoth() {
+		throw new ArithmeticException();
+	}
+
+	public Numeric conjugate() {
 		Vector v = newInstance();
 		for (int i = 0; i < length; i++) v.elements[i] = elements[i].conjugate();
 		return v;
@@ -214,7 +340,7 @@ public class Vector extends AbstractNumeric {
 	}*/
 
 	public static Vector unity(@NotNull MathContext mc, int dimension) {
-		Vector v = new Vector(mc, new AbstractNumeric[dimension]);
+		Vector v = new Vector(mc, new Numeric[dimension]);
 		for (int i = 0; i < v.length; i++) {
 			if (i == 0) v.elements[i] = Real.newInstance(mc, mc.fromLong(1L));
 			else v.elements[i] = Real.newInstance(mc, mc.fromLong(0L));
@@ -245,7 +371,7 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@NotNull
-	AbstractNumeric[] getElements() {
+	Numeric[] getElements() {
 		return elements;
 	}
 
@@ -272,10 +398,10 @@ public class Vector extends AbstractNumeric {
 	}
 
 	@Override
-	public boolean mathEquals(INumeric<AbstractNumeric> that) {
+	public boolean mathEquals(INumeric<Numeric> that) {
 		if ( that instanceof Vector ) {
 			return equals(that);
-		} else if ( that instanceof Matrix ) {
+		} else if ( that instanceof Matrix) {
 			return that.mathEquals(this);
 		} else if ( this.length == 1 ) {
 			return this.elements[0].mathEquals(that);

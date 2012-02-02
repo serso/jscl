@@ -19,10 +19,22 @@ public class BigDecimalRawNumber implements RawNumber {
 		this.value = value;
 	}
 
+	@NotNull
 	public static BigDecimalRawNumber newInstance(@NotNull BigDecimal value) {
 		return new BigDecimalRawNumber(value);
 	}
 
+	@NotNull
+	public static BigDecimalRawNumber newInstance(long value) {
+		return new BigDecimalRawNumber(BigDecimal.valueOf(value));
+	}
+
+	@NotNull
+	public static BigDecimalRawNumber newInstance(double value) {
+		return new BigDecimalRawNumber(BigDecimal.valueOf(value));
+	}
+
+	@NotNull
 	public static BigDecimalRawNumber newInstance(@NotNull DoubleRawNumber value) {
 		return new BigDecimalRawNumber(BigDecimal.valueOf(value.asDouble()));
 	}

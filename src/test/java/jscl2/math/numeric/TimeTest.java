@@ -21,7 +21,7 @@ public class TimeTest extends TestCase {
 		MathContext mc = MathContextImpl.defaultInstance();
 
 		long startTime1 = new Date().getTime();
-		AbstractNumeric result = mc.newReal(0L);
+		Numeric result = mc.newReal(0L);
 		for (long i = 0; i < COMPLEX_MAX; i++) {
 			result = (  result.add(mc.newReal(i)).add(Complex.I(mc))  ).divide(   mc.newReal(2L).multiply(Complex.I(mc))   );
 		}
@@ -51,7 +51,7 @@ public class TimeTest extends TestCase {
 		MathContext mc = MathContextImpl.defaultInstance();
 
 		long startTime1 = new Date().getTime();
-		AbstractNumeric result = mc.newReal(0L);
+		Numeric result = mc.newReal(0L);
 		final Real TWO = mc.newReal(2L);
 		for (long i = 0; i < REAL_MAX; i++) {
 			result = (  result.add(mc.newReal(i))  ).divide(TWO);
