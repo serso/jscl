@@ -1,5 +1,6 @@
 package jscl2.math;
 
+import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -23,4 +24,7 @@ public interface RawNumberCreator {
 
 	@NotNull
 	RawNumber ONE();
+
+	@NotNull
+	RawNumber random();
 }

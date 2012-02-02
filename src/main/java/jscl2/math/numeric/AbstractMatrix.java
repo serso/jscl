@@ -475,6 +475,24 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 		return m;
 	}
 
+	@NotNull
+	public static Matrix random(@NotNull MathContext mc, int dimension) {
+		return random(mc, dimension, dimension);
+	}
+
+	@NotNull
+	public static Matrix random(@NotNull MathContext mc, int rows, int cols) {
+		final DenseMatrix m = DenseMatrix.newInstance(mc, new Numeric[rows][cols]);
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				m.setIJ(i, j, mc.randomReal());
+			}
+		}
+
+		return m;
+	}
+
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
 

@@ -104,6 +104,12 @@ public class MathContextImpl implements MathContext {
 
 	@NotNull
 	@Override
+	public RawNumber random() {
+		return rawNumberType.random();
+	}
+
+	@NotNull
+	@Override
 	public Real newReal(double value) {
 		return Real.newInstance(this, rawNumberType.fromDouble(value));
 	}
@@ -112,5 +118,11 @@ public class MathContextImpl implements MathContext {
 	@Override
 	public Complex newComplex(long real, long imaginary) {
 		return Complex.newInstance(this, rawNumberType.fromLong(real), rawNumberType.fromLong(imaginary));
+	}
+
+	@NotNull
+	@Override
+	public Real randomReal() {
+		return Real.newInstance(this, random());
 	}
 }

@@ -33,4 +33,7 @@ public interface MathContext extends RawNumberCreator {
 
 	@NotNull
 	Complex newComplex(long real, long imaginary);
+
+	@NotNull
+	Real randomReal();
 }

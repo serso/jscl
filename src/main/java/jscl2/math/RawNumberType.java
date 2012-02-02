@@ -3,6 +3,8 @@ package jscl2.math;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * User: serso
@@ -15,6 +17,7 @@ public enum RawNumberType implements RawNumberCreator {
 
 		private final DoubleRawNumber ZERO = DoubleRawNumber.newInstance(0L);
 		private final DoubleRawNumber ONE = DoubleRawNumber.newInstance(1L);
+		private final Random random = new Random(System.currentTimeMillis());
 
 		@NotNull
 		@Override
@@ -48,12 +51,19 @@ public enum RawNumberType implements RawNumberCreator {
 		public RawNumber ONE() {
 			return ONE;
 		}
+
+		@NotNull
+		@Override
+		public RawNumber random() {
+			return DoubleRawNumber.newInstance(random.nextDouble());
+		}
 	},
 
 	BIG_DECIMAL {
 
 		private final BigDecimalRawNumber ZERO = BigDecimalRawNumber.newInstance(0L);
 		private final BigDecimalRawNumber ONE = BigDecimalRawNumber.newInstance(1L);
+		private final Random random = new Random(System.currentTimeMillis());
 
 		@NotNull
 		@Override
@@ -86,6 +96,12 @@ public enum RawNumberType implements RawNumberCreator {
 		@Override
 		public RawNumber ONE() {
 			return ONE;
+		}
+
+		@NotNull
+		@Override
+		public RawNumber random() {
+			return BigDecimalRawNumber.newInstance(random.nextDouble());
 		}
 	};
 

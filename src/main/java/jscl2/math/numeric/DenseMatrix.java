@@ -18,6 +18,9 @@ public class DenseMatrix extends AbstractMatrix {
 		private final MathContext mc;
 
 		public Builder(int rows, int cols, @NotNull MathContext mc) {
+			assert rows > 0 && cols > 0;
+			assert rows > 1 || cols > 1;
+
 			this.mc = mc;
 			this.m = new Numeric[rows][cols];
 		}
@@ -69,7 +72,6 @@ public class DenseMatrix extends AbstractMatrix {
 		return new DenseMatrix(getMathContext(), m, transposed);
 	}
 
-
 	@Override
 	protected void setIJ0(int row, int col, @NotNull Numeric value) {
 		m[row][col] = value;
@@ -82,7 +84,7 @@ public class DenseMatrix extends AbstractMatrix {
 	}
 
 	@NotNull
-	public static DenseMatrix newInstance(@NotNull MathContext mc, @NotNull Numeric m[][]) {
+	protected static DenseMatrix newInstance(@NotNull MathContext mc, @NotNull Numeric m[][]) {
 		assert m.length > 0 && m[0].length > 0;
 		assert m.length > 1 || m[0].length > 1;
 		return new DenseMatrix(mc, m, false);

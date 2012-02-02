@@ -196,4 +196,21 @@ public class BigDecimalRawNumber implements RawNumber {
 	public int compareTo(RawNumber o) {
 		return this.value.compareTo(o.asBigDecimal());
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		BigDecimalRawNumber that = (BigDecimalRawNumber) o;
+
+		if (!value.equals(that.value)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
 }

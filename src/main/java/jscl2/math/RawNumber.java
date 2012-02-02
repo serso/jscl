@@ -66,4 +66,6 @@ public interface RawNumber extends Arithmetic<RawNumber>, Comparable<RawNumber> 
 
 	@NotNull
 	BigDecimal asBigDecimal();
+
+	boolean equals(Object o);
 }

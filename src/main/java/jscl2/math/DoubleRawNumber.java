@@ -175,4 +175,22 @@ public class DoubleRawNumber implements RawNumber {
 	public BigDecimal asBigDecimal() {
 		return BigDecimal.valueOf(value);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		DoubleRawNumber that = (DoubleRawNumber) o;
+
+		if (Double.compare(that.value, value) != 0) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		long temp = value != +0.0d ? Double.doubleToLongBits(value) : 0L;
+		return (int) (temp ^ (temp >>> 32));
+	}
 }
