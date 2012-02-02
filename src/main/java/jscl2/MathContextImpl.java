@@ -92,6 +92,18 @@ public class MathContextImpl implements MathContext {
 
 	@NotNull
 	@Override
+	public RawNumber ZERO() {
+		return rawNumberType.ZERO();
+	}
+
+	@NotNull
+	@Override
+	public RawNumber ONE() {
+		return rawNumberType.ONE();
+	}
+
+	@NotNull
+	@Override
 	public Real newReal(double value) {
 		return Real.newInstance(this, rawNumberType.fromDouble(value));
 	}

@@ -33,6 +33,12 @@ public class DenseMatrix extends AbstractMatrix {
 		return new DenseMatrix(getMathContext(), m, false);
 	}
 
+@NotNull
+	protected DenseMatrix newInstance0(@NotNull Numeric[][] m, boolean transposed) {
+		return new DenseMatrix(getMathContext(), m, transposed);
+	}
+
+
 	@Override
 	protected void setIJ0(int row, int col, @NotNull Numeric value) {
 		m[row][col] = value;
