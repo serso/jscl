@@ -10,6 +10,37 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DenseMatrix extends AbstractMatrix {
 
+	public static class Builder {
+		@NotNull
+		private final Numeric m[][];
+
+		@NotNull
+		private final MathContext mc;
+
+		public Builder(int rows, int cols, @NotNull MathContext mc) {
+			this.mc = mc;
+			this.m = new Numeric[rows][cols];
+		}
+
+		public void setIJ(int row, int col, @NotNull Numeric value) {
+			this.m[row][col] = value;
+		}
+
+		@NotNull
+		public DenseMatrix build() {
+
+			for (int i = 0; i < m.length; i++) {
+				for (int j = 0; j < m[i].length; j++) {
+					if (this.m[i][j] == null) {
+						this.m[i][j] = Real.ZERO(mc);
+					}
+				}
+			}
+
+			return new DenseMatrix(mc, m);
+		}
+	}
+
 	@NotNull
 	private final Numeric m[][];
 
@@ -33,7 +64,7 @@ public class DenseMatrix extends AbstractMatrix {
 		return new DenseMatrix(getMathContext(), m, false);
 	}
 
-@NotNull
+	@NotNull
 	protected DenseMatrix newInstance0(@NotNull Numeric[][] m, boolean transposed) {
 		return new DenseMatrix(getMathContext(), m, transposed);
 	}
