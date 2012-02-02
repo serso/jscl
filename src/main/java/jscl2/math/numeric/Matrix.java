@@ -17,9 +17,6 @@ public interface Matrix {
 	Numeric getIJ(int row, int col);
 
 	@NotNull
-	Numeric[][] asArray();
-
-	@NotNull
 	Matrix add(@NotNull Matrix that);
 
 	@NotNull

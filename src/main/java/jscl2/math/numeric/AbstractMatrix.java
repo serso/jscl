@@ -30,7 +30,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	@NotNull
-	protected abstract AbstractMatrix copy();
+	protected abstract AbstractMatrix emptyCopy();
 
 	@NotNull
 	protected abstract AbstractMatrix newInstance0(@NotNull Numeric[][] m);
@@ -97,7 +97,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix add0(@NotNull Matrix that) {
-		final AbstractMatrix m = copy();
+		final AbstractMatrix m = emptyCopy();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -132,7 +132,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix subtract0(@NotNull Matrix that) {
-		final AbstractMatrix m = copy();
+		final AbstractMatrix m = emptyCopy();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -225,7 +225,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix scalarMultiply(@NotNull Numeric that) {
-		final AbstractMatrix m = copy();
+		final AbstractMatrix m = emptyCopy();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -294,7 +294,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix scalarDivide(@NotNull Numeric that) {
-		final AbstractMatrix m = copy();
+		final AbstractMatrix m = emptyCopy();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getCols(); j++) {
@@ -308,7 +308,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	public AbstractMatrix negate() {
-		AbstractMatrix m = copy();
+		AbstractMatrix m = emptyCopy();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getCols(); j++) {
@@ -349,12 +349,6 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	@Override
-	public Numeric transpose() {
-		return newInstance0(asArray(), !transposed);
-	}
-
-	@NotNull
-	@Override
 	public Numeric trace() {
 		Numeric s = ZERO();
 		for (int i = 0; i < this.getRows(); i++) {
@@ -365,7 +359,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	public Numeric inverse() {
-		AbstractMatrix m = copy();
+		AbstractMatrix m = emptyCopy();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getRows(); j++) {
@@ -377,7 +371,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	Numeric inverseElement(int k, int l) {
-		final AbstractMatrix result = copy();
+		final AbstractMatrix result = emptyCopy();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getRows(); j++) {
@@ -436,7 +430,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	public Numeric conjugate() {
-		AbstractMatrix m = copy();
+		AbstractMatrix m = emptyCopy();
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
 				m.setIJ(i, j, this.getIJ(i, j).conjugate());
