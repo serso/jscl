@@ -130,8 +130,23 @@ public class Vector extends Numeric {
 
 	@NotNull
 	@Override
-	public Numeric abs() {
+	public Real abs() {
 		throw new ArithmeticException();
+	}
+
+	@NotNull
+	@Override
+	public Real norm() {
+		Real result = ZERO();
+
+		for (Numeric el : elements) {
+			final Real norm = el.norm();
+				if ( result.more(norm) ) {
+					result = norm;
+				}
+		}
+
+		return result;
 	}
 
 	@NotNull
@@ -411,5 +426,11 @@ public class Vector extends Numeric {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public int compareTo(Numeric o) {
+		// todo serso:
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 }

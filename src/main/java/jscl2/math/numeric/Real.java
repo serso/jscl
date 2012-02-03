@@ -45,7 +45,7 @@ public final class Real extends AbstractNumber {
 
 	@Override
 	@NotNull
-	public Numeric abs() {
+	public Real abs() {
 		return signum() < 0 ? negate() : this;
 	}
 
@@ -130,7 +130,7 @@ public final class Real extends AbstractNumber {
 	}
 
 	@NotNull
-	public Numeric negate() {
+	public Real negate() {
 		return new Real(mc, content.negate());
 	}
 
@@ -304,20 +304,6 @@ public final class Real extends AbstractNumber {
 		} else throw new ArithmeticException();
 	}
 
-	public int compareTo(@NotNull Real that) {
-		return this.content.compareTo(that.content);
-	}
-
-/*
-	public int compareTo(@NotNull Numeric that) {
-		if (that instanceof Real) {
-			return compareTo((Real) that);
-		} else {
-			return that.compareTo(this);
-		}
-	}
-*/
-
 	@NotNull
 	RawNumber getContent() {
 		return content;
@@ -330,5 +316,18 @@ public final class Real extends AbstractNumber {
 	@NotNull
 	public Complex toComplex() {
 		return new Complex(mc, this.content, mc.fromLong(0L));
+	}
+
+	public int compareTo(@NotNull Real that) {
+		return this.content.compareTo(that.content);
+	}
+
+	@Override
+	public int compareTo(Numeric that) {
+		if ( that instanceof Real) {
+			return this.compareTo((Real)that);
+		} else {
+			return that.compareTo(this);
+		}
 	}
 }

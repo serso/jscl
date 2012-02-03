@@ -1,6 +1,7 @@
 package jscl2.math.numeric;
 
 import jscl2.math.Arithmetic;
+import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,13 +9,16 @@ import org.jetbrains.annotations.NotNull;
  * Date: 11/20/11
  * Time: 7:58 PM
  */
-public interface INumeric<T extends INumeric<T>> extends Arithmetic<T> {
+public interface INumeric<T extends INumeric<T>> extends Arithmetic<T>, Comparable<T> {
 
 	@NotNull
 	T pow(int exponent);
 
 	@NotNull
-	T abs();
+	Real abs();
+
+	@NotNull
+	Real norm();
 
 	@NotNull
 	T negate();
@@ -130,4 +134,9 @@ public interface INumeric<T extends INumeric<T>> extends Arithmetic<T> {
 	boolean mathEquals(INumeric<T> that);
 
 	Numeric conjugate();
+
+	boolean more(@NotNull Numeric that);
+	boolean moreOrEquals(@NotNull Numeric that);
+	boolean less(@NotNull Numeric that);
+	boolean lessOrEquals(@NotNull Numeric that);
 }

@@ -89,6 +89,22 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	protected abstract void setIJ0(int row, int col, @NotNull Numeric value);
 
+	@NotNull
+	@Override
+	public Real norm() {
+		Real result = ZERO();
+
+		for (int row = 0; row < getRows(); row++) {
+			for (int col = 0; col < getCols(); col++) {
+				final Real el = this.getIJ(row, col).norm();
+				if ( result.more(el) ) {
+					result = el;
+				}
+			}
+		}
+
+		return result;
+	}
 
 	/*
 	 * **********************************************
@@ -340,7 +356,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	@Override
-	public Numeric abs() {
+	public Real abs() {
 		throw new ArithmeticException();
 	}
 
@@ -458,19 +474,19 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 		return m;
 	}
 
-	public int compareTo(Matrix matrix) {
+	public int compareTo(@NotNull Matrix matrix) {
 		// todo serso:
 		return 0;
 		//return ArrayComparator.comparator.compare(vectors(), matrix.vectors());
 	}
 
-/*	public int compareTo(@NotNull Numeric that) {
+	public int compareTo(@NotNull Numeric that) {
 		if (that instanceof Matrix) {
 			return compareTo((Matrix) that);
 		} else {
-			return that.compareTo(this);
+			throw new ArithmeticException();
 		}
-	}*/
+	}
 
 	@NotNull
 	public static Matrix identity(@NotNull MathContext mc, int dimension) {

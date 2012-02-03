@@ -44,13 +44,19 @@ public abstract class AbstractNumber extends Numeric {
 		return pow(ONE().divide(Real.newInstance(getMathContext(), mc.fromLong(n))));
 	}
 
+	@NotNull
+	@Override
+	public Real norm() {
+		return abs();
+	}
+
 	/*
-		 * ******************************************************************************************
-		 * <p/>
-		 * CONVERSION FUNCTIONS (rad to default angle units and vice versa)
-		 * <p/>
-		 * *******************************************************************************************
-		 */
+			 * ******************************************************************************************
+			 * <p/>
+			 * CONVERSION FUNCTIONS (rad to default angle units and vice versa)
+			 * <p/>
+			 * *******************************************************************************************
+			 */
 
 	@NotNull
 	protected RawNumber defaultToRad(@NotNull RawNumber value) {

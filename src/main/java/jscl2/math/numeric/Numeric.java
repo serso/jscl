@@ -68,4 +68,24 @@ public abstract class Numeric implements INumeric<Numeric> {
 	protected String toString(@NotNull final RawNumber value) {
 		return this.mc.format(value);
 	}
+
+	@Override
+	public boolean more(@NotNull Numeric that) {
+		return this.compareTo(that) > 0;
+	}
+
+	@Override
+	public boolean moreOrEquals(@NotNull Numeric that) {
+		return this.compareTo(that) >= 0;
+	}
+
+	@Override
+	public boolean less(@NotNull Numeric that) {
+		return this.compareTo(that) < 0;
+	}
+
+	@Override
+	public boolean lessOrEquals(@NotNull Numeric that) {
+		return this.compareTo(that) <= 0;
+	}
 }

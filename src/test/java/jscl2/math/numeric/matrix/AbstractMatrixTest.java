@@ -2,6 +2,7 @@ package jscl2.math.numeric.matrix;
 
 import jscl2.MathContext;
 import jscl2.MathContextImpl;
+import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -15,7 +16,9 @@ import java.util.List;
  * Date: 2/2/12
  * Time: 5:39 PM
  */
-public abstract class AbstractMatrixTest<M extends Matrix> {
+public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
+
+	public static final double MIN_E = 0.001;
 
 	@NotNull
 	protected abstract Matrix.Builder<M> getBuilder(@NotNull MathContext mc, int rows, int cols);
@@ -298,7 +301,7 @@ public abstract class AbstractMatrixTest<M extends Matrix> {
 		final M A2B2 = parseMatrix(	" 0  -5\n " +
 									"-6  -7", getBuilder(mc, 2, 2), mc, false);
 
-		Assert.assertEquals(A2B2, A2.multiply(B2));
+		Assert.assertEquals(A2B2, A2.multiply((Numeric)B2));
 
 		int i = 0;
 		for (int rows = 2; rows < 6; rows++) {
@@ -306,7 +309,7 @@ public abstract class AbstractMatrixTest<M extends Matrix> {
 				final M A3 = parseMatrix(aMatrices.get(i), getBuilder(mc, rows, cols), mc, true);
 				final M B3 = parseMatrix(bMatrices.get(i), getBuilder(mc, cols, rows), mc, true);
 				final M A3B3 = parseMatrix(abMatrices.get(i), getBuilder(mc, rows, rows), mc, true);
-				Assert.assertEquals(A3B3, A3.multiply(B3));
+				Assert.assertTrue(A3B3.subtract(A3.multiply((Numeric) B3)).norm().less(mc.newReal(MIN_E)));
 				i++;
 			}
 		}

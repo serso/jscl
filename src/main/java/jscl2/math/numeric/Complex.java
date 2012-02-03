@@ -176,12 +176,12 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public Numeric abs() {
+	public Real abs() {
 		final Numeric real2 = new Real(getMathContext(), real).pow(2);
 		final Numeric imag2 = new Real(getMathContext(), imaginary).pow(2);
 
 		final Numeric sum = real2.add(imag2);
-		return sum.sqrt();
+		return (Real)sum.sqrt();
 	}
 
 	public int signum() {
@@ -358,5 +358,16 @@ public final class Complex extends AbstractNumber {
 
 	public boolean isReal() {
 		return this.imaginary.isZero();
+	}
+
+	@Override
+	public int compareTo(@NotNull Numeric that) {
+		if ( that instanceof Complex) {
+			return this.compareTo((Complex)that);
+		} else if ( that instanceof Real ) {
+			return this.compareTo(newInstance(mc, ((Real) that)));
+		} else {
+			return that.compareTo(this);
+		}
 	}
 }
