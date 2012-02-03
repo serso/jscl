@@ -1,7 +1,10 @@
-package jscl2.math.numeric;
+package jscl2.math.numeric.matrix;
 
 import jscl.math.NotDivisibleException;
 import jscl2.MathContext;
+import jscl2.math.numeric.INumeric;
+import jscl2.math.numeric.Numeric;
+import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractMatrix extends Numeric implements Matrix {
@@ -18,6 +21,25 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	* ***********************************************
 	*/
 
+	public static abstract class AbstractBuilder<T extends Matrix> implements Builder<T> {
+
+		protected final int rows;
+
+		protected final int cols;
+
+		@NotNull
+		protected final MathContext mc;
+
+		protected AbstractBuilder(@NotNull MathContext mc, int rows, int cols) {
+			assert rows > 0 && cols > 0;
+			assert rows > 1 || cols > 1;
+
+			this.rows = rows;
+			this.cols = cols;
+			this.mc = mc;
+		}
+	}
+
 	protected AbstractMatrix(@NotNull MathContext mc, int rows, int cols) {
 		this(mc, rows, cols, false);
 	}
@@ -33,10 +55,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	protected abstract AbstractMatrix emptyCopy();
 
 	@NotNull
-	protected abstract AbstractMatrix newInstance0(@NotNull Numeric[][] m);
-
-	@NotNull
-	protected abstract AbstractMatrix newInstance0(@NotNull Numeric[][] m, boolean transposed);
+	protected abstract AbstractMatrix newInstance0(int rows, int cols);
 
 	@Override
 	public final int getRows() {
@@ -209,7 +228,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix multiply0(@NotNull Matrix that) {
-		final AbstractMatrix m = newInstance0(new Numeric[this.getRows()][that.getCols()]);
+		final AbstractMatrix m = newInstance0(this.getRows(), that.getCols());
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < that.getCols(); j++) {
@@ -460,19 +479,17 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	public static Matrix identity(@NotNull MathContext mc, int rows, int cols) {
-		final DenseMatrix m = DenseMatrix.newInstance(mc, new Numeric[rows][cols]);
+		final Builder<SparseMatrix> b = new SparseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				if (i == j) {
-					m.setIJ(i, j, Real.newInstance(mc, mc.ONE()));
-				} else {
-					m.setIJ(i, j, Real.newInstance(mc, mc.ZERO()));
+					b.setIJ(i, j, Real.newInstance(mc, mc.ONE()));
 				}
 			}
 		}
 
-		return m;
+		return b.build();
 	}
 
 	@NotNull
@@ -482,15 +499,15 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	public static Matrix random(@NotNull MathContext mc, int rows, int cols) {
-		final DenseMatrix m = DenseMatrix.newInstance(mc, new Numeric[rows][cols]);
+		final Builder<DenseMatrix> b = new DenseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				m.setIJ(i, j, mc.randomReal());
+				b.setIJ(i, j, mc.randomReal());
 			}
 		}
 
-		return m;
+		return b.build();
 	}
 
 	public String toString() {

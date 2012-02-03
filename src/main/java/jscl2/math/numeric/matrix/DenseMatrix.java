@@ -1,6 +1,8 @@
-package jscl2.math.numeric;
+package jscl2.math.numeric.matrix;
 
 import jscl2.MathContext;
+import jscl2.math.numeric.Numeric;
+import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,25 +12,22 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DenseMatrix extends AbstractMatrix {
 
-	public static class Builder {
+	public static class Builder extends AbstractBuilder<DenseMatrix> {
 		@NotNull
 		private final Numeric m[][];
 
-		@NotNull
-		private final MathContext mc;
+		public Builder(@NotNull MathContext mc, int rows, int cols) {
+			super(mc, rows, cols);
 
-		public Builder(int rows, int cols, @NotNull MathContext mc) {
-			assert rows > 0 && cols > 0;
-			assert rows > 1 || cols > 1;
-
-			this.mc = mc;
 			this.m = new Numeric[rows][cols];
 		}
 
+		@Override
 		public void setIJ(int row, int col, @NotNull Numeric value) {
 			this.m[row][col] = value;
 		}
 
+		@Override
 		@NotNull
 		public DenseMatrix build() {
 
@@ -63,8 +62,9 @@ public class DenseMatrix extends AbstractMatrix {
 	}
 
 	@NotNull
-	protected DenseMatrix newInstance0(@NotNull Numeric[][] m) {
-		return new DenseMatrix(getMathContext(), m, false);
+	@Override
+	protected AbstractMatrix newInstance0(int rows, int cols) {
+		return new DenseMatrix(mc, new Numeric[rows][cols]);
 	}
 
 	@NotNull

@@ -1,7 +1,10 @@
-package jscl2.math.numeric;
+package jscl2.math.numeric.matrix;
 
 import jscl.math.NotDivisibleException;
 import jscl2.MathContext;
+import jscl2.math.numeric.INumeric;
+import jscl2.math.numeric.Numeric;
+import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
