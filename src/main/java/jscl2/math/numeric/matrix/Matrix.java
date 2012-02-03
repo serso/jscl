@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/2/12
  * Time: 12:09 PM
  */
-public interface Matrix {
+public interface Matrix<T extends Matrix<T>> {
 
 	int getRows();
 
@@ -18,16 +18,19 @@ public interface Matrix {
 	Numeric getIJ(int row, int col);
 
 	@NotNull
-	Matrix add(@NotNull Matrix that);
+	T add(@NotNull Matrix that);
 
 	@NotNull
-	Matrix subtract(@NotNull Matrix that);
+	T subtract(@NotNull Matrix that);
 
 	@NotNull
 	Numeric multiply(@NotNull Matrix that);
 
 	@NotNull
-	Numeric transpose();
+	Numeric multiply(@NotNull Vector that);
+
+	@NotNull
+	T transpose();
 
 	@NotNull
 	Numeric trace();

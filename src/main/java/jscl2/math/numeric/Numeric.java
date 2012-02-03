@@ -50,20 +50,6 @@ public abstract class Numeric implements INumeric<Numeric> {
 		return result;
 	}
 
-	/*public static Numeric root(int subscript, Numeric parameter[]) {
-		throw new ArithmeticException();
-	}*/
-
-	/*public abstract int compareTo(@NotNull Numeric numeric);
-
-	public int compareTo(Object o) {
-		return compareTo((Numeric) o);
-	}
-
-	public boolean equals(Object obj) {
-		return obj instanceof Numeric && compareTo((Numeric) obj) == 0;
-	}
-*/
 	@NotNull
 	protected String toString(@NotNull final RawNumber value) {
 		return this.mc.format(value);

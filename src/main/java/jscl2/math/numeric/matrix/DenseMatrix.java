@@ -57,7 +57,7 @@ public class DenseMatrix extends AbstractMatrix {
 
 	@NotNull
 	@Override
-	protected DenseMatrix emptyCopy() {
+	protected DenseMatrix newInstance0() {
 		return new DenseMatrix(mc, new Numeric[rows][cols], transposed);
 	}
 
@@ -92,7 +92,7 @@ public class DenseMatrix extends AbstractMatrix {
 
 	@NotNull
 	@Override
-	public Numeric transpose() {
+	public DenseMatrix transpose() {
 		return newInstance0(m, !transposed);
 	}
 }

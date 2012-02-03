@@ -7,7 +7,7 @@ import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractMatrix extends Numeric implements Matrix {
+public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractMatrix> {
 
 	private static final String MATRIX_DIMENSIONS_MUST_AGREE = "Matrix dimensions must agree!";
 
@@ -52,7 +52,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	@NotNull
-	protected abstract AbstractMatrix emptyCopy();
+	protected abstract AbstractMatrix newInstance0();
 
 	@NotNull
 	protected abstract AbstractMatrix newInstance0(int rows, int cols);
@@ -132,7 +132,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix add0(@NotNull Matrix that) {
-		final AbstractMatrix m = emptyCopy();
+		final AbstractMatrix m = newInstance0();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -167,7 +167,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix subtract0(@NotNull Matrix that) {
-		final AbstractMatrix m = emptyCopy();
+		final AbstractMatrix m = newInstance0();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -260,7 +260,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix scalarMultiply(@NotNull Numeric that) {
-		final AbstractMatrix m = emptyCopy();
+		final AbstractMatrix m = newInstance0();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -272,7 +272,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	@NotNull
-	private Numeric multiply(@NotNull Vector that) {
+	public Numeric multiply(@NotNull Vector that) {
 		if (!that.isTransposed()) {
 			if (this.getCols() != that.getLength()) {
 				throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
@@ -329,7 +329,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	protected AbstractMatrix scalarDivide(@NotNull Numeric that) {
-		final AbstractMatrix m = emptyCopy();
+		final AbstractMatrix m = newInstance0();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getCols(); j++) {
@@ -343,7 +343,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	public AbstractMatrix negate() {
-		AbstractMatrix m = emptyCopy();
+		AbstractMatrix m = newInstance0();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getCols(); j++) {
@@ -394,7 +394,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 
 	@NotNull
 	public Numeric inverse() {
-		AbstractMatrix m = emptyCopy();
+		AbstractMatrix m = newInstance0();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getRows(); j++) {
@@ -406,7 +406,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	Numeric inverseElement(int k, int l) {
-		final AbstractMatrix result = emptyCopy();
+		final AbstractMatrix result = newInstance0();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getRows(); j++) {
@@ -465,7 +465,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix {
 	}
 
 	public Numeric conjugate() {
-		AbstractMatrix m = emptyCopy();
+		AbstractMatrix m = newInstance0();
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
 				m.setIJ(i, j, this.getIJ(i, j).conjugate());

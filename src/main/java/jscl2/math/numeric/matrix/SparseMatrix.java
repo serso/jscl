@@ -57,7 +57,7 @@ public class SparseMatrix extends AbstractMatrix {
 	protected SparseMatrix(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
 		super(mc, rows, cols, transposed);
 		this.m = new ArrayList<List<Entry>>(rows);
-		for ( int i = 0; i < rows; i++ ) {
+		for (int i = 0; i < rows; i++) {
 			this.m.add(new ArrayList<Entry>(0));
 		}
 	}
@@ -66,9 +66,14 @@ public class SparseMatrix extends AbstractMatrix {
 		this(mc, rows, cols, false);
 	}
 
+	private SparseMatrix(@NotNull MathContext mc, @NotNull List<List<Entry>> m, int rows, int cols, boolean transposed) {
+		super(mc, rows, cols, transposed);
+		this.m = m;
+	}
+
 	@NotNull
 	@Override
-	protected AbstractMatrix emptyCopy() {
+	protected AbstractMatrix newInstance0() {
 		return new SparseMatrix(mc, rows, cols, transposed);
 	}
 
@@ -98,12 +103,12 @@ public class SparseMatrix extends AbstractMatrix {
 	protected void setIJ0(int row, int col, @NotNull Numeric value) {
 		final List<Entry> mRow = this.m.get(row);
 
-		for ( int i = 0; i < mRow.size(); i++ ) {
+		for (int i = 0; i < mRow.size(); i++) {
 			final Entry e = mRow.get(i);
-			if ( e.pos == col ) {
+			if (e.pos == col) {
 				mRow.set(i, new Entry(col, value));
 				return;
-			} else if ( e.pos > col ) {
+			} else if (e.pos > col) {
 				mRow.add(i, new Entry(col, value));
 				return;
 			}
@@ -115,7 +120,7 @@ public class SparseMatrix extends AbstractMatrix {
 
 	@NotNull
 	@Override
-	public Numeric transpose() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	public SparseMatrix transpose() {
+		return new SparseMatrix(mc, m, rows, cols, !transposed);
 	}
 }

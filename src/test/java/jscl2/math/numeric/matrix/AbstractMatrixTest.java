@@ -315,6 +315,26 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 		}
 	}
 
+	@Test
+	public void testTranspose() throws Exception {
+		MathContext mc = MathContextImpl.defaultInstance();
+
+		for (int rows = 2; rows < 10; rows++) {
+			for (int cols = 2; cols < 10; cols++) {
+				final Matrix A = AbstractMatrix.random(mc, rows, cols);
+				final Matrix AT = A.transpose();
+
+				Assert.assertEquals(A.getRows(), AT.getCols());
+				Assert.assertEquals(A.getCols(), AT.getRows());
+				for ( int i = 0; i < A.getRows(); i++ ) {
+					for ( int j = 0; j < A.getCols(); j++ ) {
+						Assert.assertEquals(A.getIJ(i, j), AT.getIJ(j, i));
+					}
+				}
+			}
+		}
+	}
+
 	public static <M extends Matrix> M parseMatrix(@NotNull String s, @NotNull Matrix.Builder<M> m, @NotNull MathContext mc, boolean asDouble) {
 		int row = 0;
 		int col = 0;
