@@ -427,19 +427,24 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 		if (rows > 1) {
 			Numeric a = ZERO();
 			// todo serso:
-			/*for (int i = 0; i < rows; i++) {
+			for (int i = 0; i < rows; i++) {
 				if (getIJ(i, 0).signum() != 0) {
-					AbstractMatrix m = newInstance0(new Numeric[rows - 1][rows - 1]);
-					for (int j = 0; j < rows - 1; j++) {
+					AbstractMatrix m = newInstance0(rows - 1, rows - 1);
+					/*for (int j = 0; j < rows - 1; j++) {
 						System.arraycopy(this.m[j < i ? j : j + 1], 1, m.m[j], 0, rows - 1);
+					}*/
+					for (int j = 0; j < rows - 1; j++) {
+						for (int k = 0; k < rows - 1; k++) {
+							m.setIJ(j, k, this.getIJ(j, k));
+						}
 					}
 					if (i % 2 == 0) {
-						a = a.add(this.m[i][0].multiply(m.determinant()));
+						a = a.add(this.getIJ(i, 0).multiply(m.determinant()));
 					} else {
-						a = a.subtract(this.m[i][0].multiply(m.determinant()));
+						a = a.subtract(this.getIJ(i, 0).multiply(m.determinant()));
 					}
 				}
-			}*/
+			}
 			return a;
 		} else if (rows > 0) {
 			return getIJ(0, 0);

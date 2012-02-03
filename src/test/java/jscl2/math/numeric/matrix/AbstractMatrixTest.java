@@ -318,6 +318,16 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 	}
 
 	@Test
+	public void testDeterminant() throws Exception {
+		MathContext mc = MathContextImpl.defaultInstance();
+
+		final Matrix A = parseMatrix("1 2\n" +
+					"3 4", getBuilder(mc, 2, 2), mc, false);
+
+		Assert.assertEquals(mc.newReal(-2L), A.determinant());
+	}
+
+	@Test
 	public void testTranspose() throws Exception {
 		MathContext mc = MathContextImpl.defaultInstance();
 
