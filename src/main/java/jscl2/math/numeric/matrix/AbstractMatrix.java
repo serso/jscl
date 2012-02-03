@@ -237,9 +237,9 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 
 	@Override
 	@NotNull
-	public Numeric multiply(@NotNull Matrix that) {
+	public AbstractMatrix multiply(@NotNull Matrix that) {
 		checkCrossDimensions(this, that);
-		return tryToScalar(multiply0(that));
+		return multiply0(that);
 	}
 
 	@NotNull

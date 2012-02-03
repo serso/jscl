@@ -24,7 +24,7 @@ public interface Matrix<T extends Matrix<T>> {
 	T subtract(@NotNull Matrix that);
 
 	@NotNull
-	Numeric multiply(@NotNull Matrix that);
+	Matrix multiply(@NotNull Matrix that);
 
 	@NotNull
 	Numeric multiply(@NotNull Vector that);

@@ -228,6 +228,15 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 	}
 
 
+	private static final String A2_str = 	" 1 0 -2\n " +
+											" 0 3 -1";
+	private static final String B2_str = 	" 0   3\n " +
+											"-2  -1\n " +
+											" 0   4";
+	private static final String A2B2_str = 	" 0  -5\n " +
+											"-6  -7";
+
+
 	@Test
 	public void testMultiply() throws Exception {
 		MathContext mc = MathContextImpl.defaultInstance();
@@ -290,16 +299,9 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 
 		Assert.assertEquals(A1B1, A1.multiply(B1));
 
-		final M A2 = parseMatrix(	"1 0 -2\n " +
-									"0 3 -1", getBuilder(mc, 2, 3), mc, false);
-
-		final M B2 = parseMatrix(	" 0   3\n " +
-									"-2  -1\n " +
-									" 0   4", getBuilder(mc, 3, 2), mc, false);
-
-
-		final M A2B2 = parseMatrix(	" 0  -5\n " +
-									"-6  -7", getBuilder(mc, 2, 2), mc, false);
+		final M A2 = parseMatrix(A2_str, getBuilder(mc, 2, 3), mc, false);
+		final M B2 = parseMatrix(B2_str, getBuilder(mc, 3, 2), mc, false);
+		final M A2B2 = parseMatrix(A2B2_str, getBuilder(mc, 2, 2), mc, false);
 
 		Assert.assertEquals(A2B2, A2.multiply((Numeric)B2));
 
@@ -322,7 +324,10 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 		for (int rows = 2; rows < 10; rows++) {
 			for (int cols = 2; cols < 10; cols++) {
 				final Matrix A = AbstractMatrix.random(mc, rows, cols);
+				final Matrix B = AbstractMatrix.random(mc, rows, cols);
 				final Matrix AT = A.transpose();
+				final Matrix BT = B.transpose();
+				final Matrix ATT = AT.transpose();
 
 				Assert.assertEquals(A.getRows(), AT.getCols());
 				Assert.assertEquals(A.getCols(), AT.getRows());
@@ -330,6 +335,12 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 					for ( int j = 0; j < A.getCols(); j++ ) {
 						Assert.assertEquals(A.getIJ(i, j), AT.getIJ(j, i));
 					}
+				}
+
+				Assert.assertEquals(A, ATT);
+				Assert.assertEquals(A.add(B).transpose(), AT.add(BT));
+				if (A.getRows() == B.getCols()) {
+					Assert.assertEquals(A.multiply(B).transpose(), BT.multiply(AT));
 				}
 			}
 		}
