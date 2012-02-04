@@ -2,7 +2,6 @@ package jscl.math.operator.matrix;
 
 import jscl.math.Generic;
 import jscl.math.operator.*;
-import jscl.math.operator.stat.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.AbstractMathRegistry;
@@ -49,11 +48,11 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 		instance.add(new Integral(null, null, null, null));
 		instance.add(new IndefiniteIntegral(null, null));
 		//instance.add(new Rand());
-		instance.add(new Mean(null));
-		instance.add(new Min(null));
-		instance.add(new Max(null));
-		instance.add(new MeanSquareDeviation(null));
-		instance.add(new StandardDeviation(null));
+		//instance.add(new Mean(null));
+		//instance.add(new Min(null));
+		//instance.add(new Max(null));
+		//instance.add(new MeanSquareDeviation(null));
+		//instance.add(new StandardDeviation(null));
 		//instance.add(new PrimitiveRoots(null));
 	}
 
