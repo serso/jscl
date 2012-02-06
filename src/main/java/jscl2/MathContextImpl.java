@@ -1,6 +1,7 @@
 package jscl2;
 
 import jscl2.math.RawNumber;
+import jscl2.math.RawNumberCreator;
 import jscl2.math.RawNumberType;
 import jscl2.math.numeric.Complex;
 import jscl2.math.numeric.Real;
@@ -20,11 +21,11 @@ public class MathContextImpl implements MathContext {
 	private final NumeralBase numeralBase;
 
 	@NotNull
-	private final RawNumberType rawNumberType;
+	private final RawNumberCreator rawNumberType;
 
 	private MathContextImpl(@NotNull AngleUnit angleUnit,
 							@NotNull NumeralBase numeralBase,
-							@NotNull RawNumberType rawNumberType) {
+							@NotNull RawNumberCreator rawNumberType) {
 		this.angleUnit = angleUnit;
 		this.numeralBase = numeralBase;
 		this.rawNumberType = rawNumberType;
@@ -36,7 +37,7 @@ public class MathContextImpl implements MathContext {
 
 	public static MathContext newInstance(@NotNull final AngleUnit au,
 										  @NotNull final NumeralBase nb,
-										  @NotNull final RawNumberType rnt) {
+										  @NotNull final RawNumberCreator rnt) {
 		return new MathContextImpl(au, nb, rnt);
 	}
 

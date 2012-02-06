@@ -322,7 +322,7 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 		MathContext mc = MathContextImpl.defaultInstance();
 
 		Matrix A = parseMatrix("1 2\n" +
-					"3 4", getBuilder(mc, 2, 2), mc, false);
+								"3 4", getBuilder(mc, 2, 2), mc, false);
 
 		Assert.assertEquals(mc.newReal(-2L), A.determinant());
 
@@ -354,7 +354,9 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 				}
 
 				Assert.assertEquals(A, ATT);
-				Assert.assertEquals(A.add(B).transpose(), AT.add(BT));
+				Matrix A_plus_B_T = A.add(B).transpose();
+				Matrix A_T_plus_B_T = AT.add(BT);
+				Assert.assertEquals(A_plus_B_T, A_T_plus_B_T);
 				if (A.getRows() == B.getCols()) {
 					Assert.assertEquals(A.multiply(B).transpose(), BT.multiply(AT));
 				}

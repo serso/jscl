@@ -1,7 +1,6 @@
 package jscl2.math.numeric;
 
 import jscl2.math.Arithmetic;
-import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
 /**

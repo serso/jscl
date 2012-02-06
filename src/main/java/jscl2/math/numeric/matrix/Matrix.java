@@ -43,6 +43,9 @@ public interface Matrix<T extends Matrix<T>> {
 		void setIJ(int row, int col, @NotNull Numeric value);
 
 		@NotNull
+		Numeric getIJ(int row, int col);
+
+		@NotNull
 		T build();
 	}
 }

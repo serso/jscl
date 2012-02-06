@@ -17,13 +17,23 @@ public class DenseMatrix extends AbstractMatrix {
 		private final Numeric m[][];
 
 		public Builder(@NotNull MathContext mc, int rows, int cols) {
-			super(mc, rows, cols);
+			this(mc, rows, cols, false);
+		}
+
+		public Builder(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
+			super(mc, rows, cols, transposed);
 
 			this.m = new Numeric[rows][cols];
 		}
 
+		@NotNull
 		@Override
-		public void setIJ(int row, int col, @NotNull Numeric value) {
+		protected Numeric getIJ0(int row, int col) {
+			return this.m[row][col];
+		}
+
+		@Override
+		public void setIJ0(int row, int col, @NotNull Numeric value) {
 			this.m[row][col] = value;
 		}
 
@@ -57,24 +67,13 @@ public class DenseMatrix extends AbstractMatrix {
 
 	@NotNull
 	@Override
-	protected DenseMatrix newInstance0() {
-		return new DenseMatrix(mc, new Numeric[rows][cols], transposed);
-	}
-
-	@NotNull
-	@Override
-	protected AbstractMatrix newInstance0(int rows, int cols) {
-		return new DenseMatrix(mc, new Numeric[rows][cols]);
+	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols, boolean transposed) {
+		return new Builder(this.mc, rows, cols, transposed);
 	}
 
 	@NotNull
 	protected DenseMatrix newInstance0(@NotNull Numeric[][] m, boolean transposed) {
 		return new DenseMatrix(getMathContext(), m, transposed);
-	}
-
-	@Override
-	protected void setIJ0(int row, int col, @NotNull Numeric value) {
-		m[row][col] = value;
 	}
 
 	@Override
