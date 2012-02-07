@@ -1,5 +1,6 @@
 package jscl2.math.numeric;
 
+import jscl.math.NotDivisibleException;
 import jscl2.AngleUnit;
 import jscl2.MathContext;
 import jscl2.math.RawNumber;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/1/12
  * Time: 11:18 PM
  */
-public abstract class AbstractNumber extends Numeric {
+public abstract class AbstractNumber extends Numeric implements INumber {
 
 	protected AbstractNumber(@NotNull MathContext mathContext) {
 		super(mathContext);
@@ -51,12 +52,51 @@ public abstract class AbstractNumber extends Numeric {
 	}
 
 	/*
-			 * ******************************************************************************************
-			 * <p/>
-			 * CONVERSION FUNCTIONS (rad to default angle units and vice versa)
-			 * <p/>
-			 * *******************************************************************************************
-			 */
+	 *
+	 * WE KNOW TYPES OF RETURN ARGUMENTS => LET'S SPECIFY THEM EXPLICITLY
+	 *
+	 */
+
+	@NotNull
+	@Override
+	public abstract AbstractNumber add(@NotNull Numeric that);
+
+	@NotNull
+	public abstract AbstractNumber add(@NotNull AbstractNumber that);
+
+	@NotNull
+	@Override
+	public abstract AbstractNumber subtract(@NotNull Numeric that);
+
+	@NotNull
+	public abstract AbstractNumber subtract(@NotNull AbstractNumber that);
+
+	@NotNull
+	public abstract AbstractNumber multiply(@NotNull AbstractNumber that);
+
+	@NotNull
+	public abstract AbstractNumber divide(@NotNull AbstractNumber that) ;
+
+	@NotNull
+	@Override
+	public abstract AbstractNumber divide(@NotNull Numeric that) throws NotDivisibleException;
+
+	@NotNull
+	@Override
+	public abstract AbstractNumber negate();
+
+	@NotNull
+	@Override
+	public abstract AbstractNumber conjugate();
+
+
+	/*
+					 * ******************************************************************************************
+					 * <p/>
+					 * CONVERSION FUNCTIONS (rad to default angle units and vice versa)
+					 * <p/>
+					 * *******************************************************************************************
+					 */
 
 	@NotNull
 	protected RawNumber defaultToRad(@NotNull RawNumber value) {

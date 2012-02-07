@@ -1,5 +1,6 @@
 package jscl2.math.numeric.matrix;
 
+import jscl2.math.numeric.AbstractNumber;
 import jscl2.math.numeric.Real;
 import jscl2.MathContext;
 import jscl2.math.numeric.Numeric;
@@ -20,9 +21,9 @@ public class SparseMatrix extends AbstractMatrix {
 		private final int pos;
 
 		@NotNull
-		private final Numeric value;
+		private final AbstractNumber value;
 
-		private Entry(int pos, @NotNull Numeric value) {
+		private Entry(int pos, @NotNull AbstractNumber value) {
 			this.pos = pos;
 			this.value = value;
 		}
@@ -48,7 +49,7 @@ public class SparseMatrix extends AbstractMatrix {
 
 		@NotNull
 		@Override
-		protected Numeric getIJ0(int row, int col) {
+		protected AbstractNumber getIJ0(int row, int col) {
 
 			// for each row check the entry
 			for (final Entry e : this.m.get(row)) {
@@ -63,7 +64,7 @@ public class SparseMatrix extends AbstractMatrix {
 		}
 
 		@Override
-		public void setIJ0(int row, int col, @NotNull Numeric value) {
+		public void setIJ0(int row, int col, @NotNull AbstractNumber value) {
 			final List<Entry> mRow = this.m.get(row);
 
 			for (int i = 0; i < mRow.size(); i++) {
@@ -109,13 +110,13 @@ public class SparseMatrix extends AbstractMatrix {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols, boolean transposed) {
-		return new Builder(this.mc, rows, cols, transposed);
+	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols) {
+		return new Builder(this.mc, rows, cols, false);
 	}
 
 	@NotNull
 	@Override
-	protected Numeric getIJ0(int row, int col) {
+	protected AbstractNumber getIJ0(int row, int col) {
 
 		// for each row check the entry
 		for (final Entry e : this.m.get(row)) {

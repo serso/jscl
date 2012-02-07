@@ -40,7 +40,7 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 		try {
 			b = getBuilder(mc, 1, 1);
 			Assert.fail();
-		} catch (AssertionError e) {
+		} catch (IllegalArgumentException e) {
 			// OK, should have an exception while creating 1x1 matrix
 		}
 

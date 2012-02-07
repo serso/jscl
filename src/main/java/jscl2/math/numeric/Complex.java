@@ -62,21 +62,31 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public Numeric add(@NotNull Numeric that) {
+	public Complex add(@NotNull Numeric that) {
+		if (that instanceof AbstractNumber) {
+			return add((AbstractNumber) that);
+		} else {
+			throw new ArithmeticException();
+		}
+	}
+
+	@NotNull
+	@Override
+	public Complex add(@NotNull AbstractNumber that) {
 		if (that instanceof Complex) {
 			return add((Complex) that);
 		} else if (that instanceof Real) {
 			return add((Real) that);
 		} else {
-			return that.add(this);
+			throw new ArithmeticException();
 		}
 	}
 
 	/*
-	 * **********************************************
-	 * SUBTRACTION
-	 * ***********************************************
-	 */
+		 * **********************************************
+		 * SUBTRACTION
+		 * ***********************************************
+		 */
 
 	@NotNull
 	public Complex subtract(@NotNull Complex that) {
@@ -89,21 +99,31 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public Numeric subtract(@NotNull Numeric that) {
+	public Complex subtract(@NotNull Numeric that) {
+		if (that instanceof AbstractNumber) {
+			return subtract((Complex) that);
+		} else {
+			throw new ArithmeticException();
+		}
+	}
+
+	@NotNull
+	@Override
+	public Complex subtract(@NotNull AbstractNumber that) {
 		if (that instanceof Complex) {
 			return subtract((Complex) that);
 		} else if (that instanceof Real) {
 			return subtract((Real) that);
 		} else {
-			return that.subtract(this);
+			throw new ArithmeticException();
 		}
 	}
 
 	/*
-	 * **********************************************
-	 * MULTIPLICATION
-	 * ***********************************************
-	 */
+		 * **********************************************
+		 * MULTIPLICATION
+		 * ***********************************************
+		 */
 
 	@NotNull
 	public Complex multiply(@NotNull RawNumber that) {
@@ -121,11 +141,21 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public Numeric multiply(@NotNull Numeric that) {
+	@Override
+	public Complex multiply(@NotNull AbstractNumber that) {
 		if (that instanceof Complex) {
 			return multiply((Complex) that);
 		} else if (that instanceof Real) {
 			return multiply((Real) that);
+		} else {
+			throw new ArithmeticException();
+		}
+	}
+
+	@NotNull
+	public Numeric multiply(@NotNull Numeric that) {
+		if (that instanceof AbstractNumber) {
+			return multiply((AbstractNumber) that);
 		} else {
 			return that.multiply(this);
 		}
@@ -153,13 +183,23 @@ public final class Complex extends AbstractNumber {
 	}
 
 	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+	public Complex divide(@NotNull Numeric that) throws NotDivisibleException {
+		if (that instanceof AbstractNumber) {
+			return divide((AbstractNumber) that);
+		} else {
+			throw new NotDivisibleException();
+		}
+	}
+
+	@NotNull
+	@Override
+	public Complex divide(@NotNull AbstractNumber that) {
 		if (that instanceof Complex) {
 			return divide((Complex) that);
 		} else if (that instanceof Real) {
 			return divide((Real) that);
 		} else {
-			return that.divide(this);
+			throw new NotDivisibleException();
 		}
 	}
 
@@ -170,7 +210,7 @@ public final class Complex extends AbstractNumber {
 	 */
 
 	@NotNull
-	public Numeric negate() {
+	public Complex negate() {
 		return new Complex(getMathContext(), real.negate(), imaginary.negate());
 	}
 

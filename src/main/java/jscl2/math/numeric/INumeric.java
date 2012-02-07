@@ -109,7 +109,7 @@ public interface INumeric<T extends INumeric<T>> extends Arithmetic<T>, Comparab
 	 * <p/>
 	 * *******************************************************************************************/
 
- 	@NotNull
+	@NotNull
 	T asinh();
 
 	@NotNull
@@ -134,8 +134,16 @@ public interface INumeric<T extends INumeric<T>> extends Arithmetic<T>, Comparab
 
 	Numeric conjugate();
 
+	/*
+	 * ************************************
+	 *	COMPARISON OPERATIONS
+	 * ************************************
+	 */
 	boolean more(@NotNull Numeric that);
+
 	boolean moreOrEquals(@NotNull Numeric that);
+
 	boolean less(@NotNull Numeric that);
+
 	boolean lessOrEquals(@NotNull Numeric that);
 }
