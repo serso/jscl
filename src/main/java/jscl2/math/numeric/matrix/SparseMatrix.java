@@ -3,10 +3,10 @@ package jscl2.math.numeric.matrix;
 import jscl2.math.numeric.AbstractNumber;
 import jscl2.math.numeric.Real;
 import jscl2.MathContext;
-import jscl2.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,31 +36,17 @@ public class SparseMatrix extends AbstractMatrix {
 		private final List<List<Entry>> m;
 
 		public Builder(@NotNull MathContext mc, int rows, int cols) {
-			this(mc, rows, cols, false);
-		}
-
-		public Builder(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
-			super(mc, rows, cols, transposed);
-			this.m = new ArrayList<List<Entry>>();
+			super(mc, rows, cols);
+			this.m = new ArrayList<List<Entry>>(rows);
 			for (int i = 0; i < rows; i++) {
-				this.m.add(new ArrayList<Entry>(0));
+				this.m.add(new LinkedList<Entry> ());
 			}
 		}
 
 		@NotNull
 		@Override
 		protected AbstractNumber getIJ0(int row, int col) {
-
-			// for each row check the entry
-			for (final Entry e : this.m.get(row)) {
-				if (e.pos == col) {
-					return e.value;
-				} else if (e.pos > col) {
-					break;
-				}
-			}
-
-			return Real.ZERO(mc);
+			return getIJ0FromList(this.m, mc, row, col);
 		}
 
 		@Override
@@ -91,18 +77,6 @@ public class SparseMatrix extends AbstractMatrix {
 	@NotNull
 	private final List<List<Entry>> m;
 
-	protected SparseMatrix(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
-		super(mc, rows, cols, transposed);
-		this.m = new ArrayList<List<Entry>>(rows);
-		for (int i = 0; i < rows; i++) {
-			this.m.add(new ArrayList<Entry>(0));
-		}
-	}
-
-	protected SparseMatrix(@NotNull MathContext mc, int rows, int cols) {
-		this(mc, rows, cols, false);
-	}
-
 	private SparseMatrix(@NotNull MathContext mc, @NotNull List<List<Entry>> m, int rows, int cols, boolean transposed) {
 		super(mc, rows, cols, transposed);
 		this.m = m;
@@ -111,15 +85,19 @@ public class SparseMatrix extends AbstractMatrix {
 	@NotNull
 	@Override
 	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols) {
-		return new Builder(this.mc, rows, cols, false);
+		return new Builder(this.mc, rows, cols);
 	}
 
 	@NotNull
 	@Override
 	protected AbstractNumber getIJ0(int row, int col) {
+		return getIJ0FromList(this.m, mc, row, col);
+	}
 
+	@NotNull
+	private static AbstractNumber getIJ0FromList(final List<List<Entry>> m, @NotNull final MathContext mc, int row, int col) {
 		// for each row check the entry
-		for (final Entry e : this.m.get(row)) {
+		for (final Entry e : m.get(row)) {
 			if (e.pos == col) {
 				return e.value;
 			} else if (e.pos > col) {

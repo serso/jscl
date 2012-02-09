@@ -2,7 +2,6 @@ package jscl2.math.numeric.matrix;
 
 import jscl2.MathContext;
 import jscl2.math.numeric.AbstractNumber;
-import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,11 +17,7 @@ public class DenseMatrix extends AbstractMatrix {
 		private final AbstractNumber m[][];
 
 		public Builder(@NotNull MathContext mc, int rows, int cols) {
-			this(mc, rows, cols, false);
-		}
-
-		public Builder(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
-			super(mc, rows, cols, transposed);
+			super(mc, rows, cols);
 
 			this.m = new AbstractNumber[rows][cols];
 		}
@@ -69,12 +64,7 @@ public class DenseMatrix extends AbstractMatrix {
 	@NotNull
 	@Override
 	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols) {
-		return new Builder(this.mc, rows, cols, false);
-	}
-
-	@NotNull
-	protected DenseMatrix newInstance0(@NotNull AbstractNumber[][] m, boolean transposed) {
-		return new DenseMatrix(getMathContext(), m, transposed);
+		return new Builder(this.mc, rows, cols);
 	}
 
 	@Override
@@ -84,15 +74,8 @@ public class DenseMatrix extends AbstractMatrix {
 	}
 
 	@NotNull
-	protected static DenseMatrix newInstance(@NotNull MathContext mc, @NotNull AbstractNumber m[][]) {
-		assert m.length > 0 && m[0].length > 0;
-		assert m.length > 1 || m[0].length > 1;
-		return new DenseMatrix(mc, m, false);
-	}
-
-	@NotNull
 	@Override
 	public DenseMatrix transpose() {
-		return newInstance0(m, !transposed);
+		return new DenseMatrix(mc, m, !transposed);
 	}
 }

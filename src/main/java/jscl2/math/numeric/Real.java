@@ -363,13 +363,4 @@ public final class Real extends AbstractNumber {
 	public int compareTo(@NotNull Real that) {
 		return this.content.compareTo(that.content);
 	}
-
-	@Override
-	public int compareTo(Numeric that) {
-		if ( that instanceof Real) {
-			return this.compareTo((Real)that);
-		} else {
-			return that.compareTo(this);
-		}
-	}
 }

@@ -28,7 +28,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 
 	/*
 	* **********************************************
-	* CONSTRUCTORS
+	* BUILDER
 	* ***********************************************
 	*/
 
@@ -43,7 +43,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 		@NotNull
 		protected final MathContext mc;
 
-		protected AbstractBuilder(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
+		protected AbstractBuilder(@NotNull MathContext mc, int rows, int cols) {
 			if (!(rows > 0 && cols > 0)) {
 				throw new IllegalArgumentException("Number of rows and columns must be positive!");
 			}
@@ -55,10 +55,10 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 			this.rows = rows;
 			this.cols = cols;
 			this.mc = mc;
-			this.transposed = transposed;
+			this.transposed = false;
 		}
 
-		public void setIJ(int row, int col, @NotNull AbstractNumber value) {
+		public final void setIJ(int row, int col, @NotNull AbstractNumber value) {
 			if (transposed) {
 				setIJ0(col, row, value);
 			} else {
@@ -69,7 +69,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 
 		@NotNull
 		@Override
-		public AbstractNumber getIJ(int row, int col) {
+		public final AbstractNumber getIJ(int row, int col) {
 			if (transposed) {
 				return getIJ0(col, row);
 			} else {
@@ -82,6 +82,12 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 
 		protected abstract void setIJ0(int row, int col, @NotNull AbstractNumber value);
 	}
+
+	/*
+	* **********************************************
+	* CONSTRUCTORS
+	* ***********************************************
+	*/
 
 	protected AbstractMatrix(@NotNull MathContext mc, int rows, int cols) {
 		this(mc, rows, cols, false);
@@ -109,7 +115,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 	 */
 	@NotNull
 	private Builder<? extends AbstractMatrix> getBuilder() {
-		return  getBuilder(getRows(), getCols());
+		return getBuilder(getRows(), getCols());
 	}
 
 	@Override
@@ -123,7 +129,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 	}
 
 	@NotNull
-	public AbstractNumber getIJ(int row, int col) {
+	public final AbstractNumber getIJ(int row, int col) {
 		if (transposed) {
 			return getIJ0(col, row);
 		} else {
@@ -259,16 +265,16 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 		if (n instanceof Matrix) {
 			return tryToScalar(((AbstractMatrix) n));
 		} else if (n instanceof Vector) {
-			return tryToScalar(((Vector) n));
+			return tryToScalar(((AbstractVector) n));
 		} else {
 			return n;
 		}
 	}
 
 	@NotNull
-	private static Numeric tryToScalar(@NotNull Vector v) {
+	private static Numeric tryToScalar(@NotNull AbstractVector v) {
 		if (v.getLength() == 1) {
-			return v.elements()[0];
+			return v.getI(0);
 		} else {
 			return v;
 		}
@@ -332,13 +338,12 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 			}
 		}
 
-		final Vector v = that.newInstance(new Numeric[this.getRows()]);
+		final SparseVector v = SparseVector.newInstance(getMathContext(), new AbstractNumber[this.getRows()]);
 		final Numeric[] vElements = v.getElements();
-		final Numeric[] thatElements = that.getElements();
 		for (int i = 0; i < this.getRows(); i++) {
 			vElements[i] = ZERO();
 			for (int k = 0; k < this.getCols(); k++) {
-				vElements[i] = vElements[i].add(getIJ(i, k).multiply(thatElements[k]));
+				vElements[i] = vElements[i].add(getIJ(i, k).multiply(that.getI(k)));
 			}
 		}
 
@@ -535,15 +540,15 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 		return b.build();
 	}
 
-	public int compareTo(@NotNull Matrix matrix) {
+	public int compareTo(@NotNull AbstractMatrix matrix) {
 		// todo serso:
-		return 0;
+		return mathEquals(matrix) ? 0 : 1;
 		//return ArrayComparator.comparator.compare(vectors(), matrix.vectors());
 	}
 
 	public int compareTo(@NotNull Numeric that) {
-		if (that instanceof Matrix) {
-			return compareTo((Matrix) that);
+		if (that instanceof AbstractMatrix) {
+			return compareTo((AbstractMatrix) that);
 		} else {
 			throw new ArithmeticException();
 		}
@@ -556,7 +561,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 
 	@NotNull
 	public static Matrix identity(@NotNull MathContext mc, int rows, int cols) {
-		final Builder<SparseMatrix> b = new SparseMatrix.Builder(mc, rows, cols, false);
+		final Builder<SparseMatrix> b = new SparseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -576,7 +581,7 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 
 	@NotNull
 	public static Matrix random(@NotNull MathContext mc, int rows, int cols) {
-		final Builder<DenseMatrix> b = new DenseMatrix.Builder(mc, rows, cols, false);
+		final Builder<DenseMatrix> b = new DenseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -647,14 +652,14 @@ public abstract class AbstractMatrix extends Numeric implements Matrix<AbstractM
 			final Vector v = (Vector) that;
 			if (v.isTransposed() && v.getLength() == getCols() && getRows() == 1) {
 				for (int i = 0; i < getCols(); i++) {
-					if (v.elements()[i].equals(this.getIJ(0, i))) {
+					if (v.getI(i).equals(this.getIJ(0, i))) {
 						return false;
 					}
 				}
 				return true;
 			} else if (!v.isTransposed() && v.getLength() == getRows() && getCols() == 1) {
 				for (int i = 0; i < getRows(); i++) {
-					if (v.elements()[i].equals(this.getIJ(i, 0))) {
+					if (v.getI(i).equals(this.getIJ(i, 0))) {
 						return false;
 					}
 				}
