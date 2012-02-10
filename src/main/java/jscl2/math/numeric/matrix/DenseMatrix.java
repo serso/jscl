@@ -1,7 +1,7 @@
 package jscl2.math.numeric.matrix;
 
 import jscl2.MathContext;
-import jscl2.math.numeric.AbstractNumber;
+import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,26 +10,26 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/2/12
  * Time: 12:53 PM
  */
-public class DenseMatrix extends AbstractMatrix {
+public class DenseMatrix extends NumericMatrix {
 
 	public static class Builder extends AbstractBuilder<DenseMatrix> {
 		@NotNull
-		private final AbstractNumber m[][];
+		private final NumericNumber m[][];
 
 		public Builder(@NotNull MathContext mc, int rows, int cols) {
 			super(mc, rows, cols);
 
-			this.m = new AbstractNumber[rows][cols];
+			this.m = new NumericNumber[rows][cols];
 		}
 
 		@NotNull
 		@Override
-		protected AbstractNumber getIJ0(int row, int col) {
+		protected NumericNumber getIJ0(int row, int col) {
 			return this.m[row][col];
 		}
 
 		@Override
-		public void setIJ0(int row, int col, @NotNull AbstractNumber value) {
+		public void setIJ0(int row, int col, @NotNull NumericNumber value) {
 			this.m[row][col] = value;
 		}
 
@@ -50,26 +50,26 @@ public class DenseMatrix extends AbstractMatrix {
 	}
 
 	@NotNull
-	private final AbstractNumber m[][];
+	private final NumericNumber m[][];
 
-	private DenseMatrix(@NotNull final MathContext mc, @NotNull AbstractNumber m[][]) {
+	private DenseMatrix(@NotNull final MathContext mc, @NotNull NumericNumber m[][]) {
 		this(mc, m, false);
 	}
 
-	private DenseMatrix(@NotNull final MathContext mc, @NotNull AbstractNumber m[][], final boolean transposed) {
+	private DenseMatrix(@NotNull final MathContext mc, @NotNull NumericNumber m[][], final boolean transposed) {
 		super(mc, m.length, m.length > 0 ? m[0].length : 0, transposed);
 		this.m = m;
 	}
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols) {
+	protected Matrix.Builder<? extends NumericMatrix> getBuilder(int rows, int cols) {
 		return new Builder(this.mc, rows, cols);
 	}
 
 	@Override
 	@NotNull
-	public AbstractNumber getIJ0(int row, int col) {
+	public NumericNumber getIJ0(int row, int col) {
 		return m[row][col];
 	}
 

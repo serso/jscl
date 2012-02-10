@@ -5,7 +5,7 @@ import jscl2.MathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
-public final class Real extends AbstractNumber {
+public final class Real extends NumericNumber {
 
 	@NotNull
 	private final RawNumber content;
@@ -61,9 +61,9 @@ public final class Real extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumber add(@NotNull Numeric that) {
-		if (that instanceof AbstractNumber) {
-			return add((AbstractNumber) that);
+	public NumericNumber add(@NotNull Numeric that) {
+		if (that instanceof NumericNumber) {
+			return add((NumericNumber) that);
 		} else {
 			throw new ArithmeticException();
 		}
@@ -71,7 +71,7 @@ public final class Real extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public AbstractNumber add(@NotNull AbstractNumber that) {
+	public NumericNumber add(@NotNull NumericNumber that) {
 		if (that instanceof Real) {
 			return add((Real) that);
 		} else {
@@ -91,9 +91,9 @@ public final class Real extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumber subtract(@NotNull Numeric that) {
-		if (that instanceof AbstractNumber) {
-			return subtract((AbstractNumber) that);
+	public NumericNumber subtract(@NotNull Numeric that) {
+		if (that instanceof NumericNumber) {
+			return subtract((NumericNumber) that);
 		} else {
 			throw new ArithmeticException();
 		}
@@ -101,7 +101,7 @@ public final class Real extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public AbstractNumber subtract(@NotNull AbstractNumber that) {
+	public NumericNumber subtract(@NotNull NumericNumber that) {
 		if (that instanceof Real) {
 			return subtract((Real) that);
 		} else {
@@ -122,9 +122,9 @@ public final class Real extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumber multiply(@NotNull Numeric that) {
-		if (that instanceof AbstractNumber) {
-			return multiply((AbstractNumber) that);
+	public NumericNumber multiply(@NotNull Numeric that) {
+		if (that instanceof NumericNumber) {
+			return multiply((NumericNumber) that);
 		} else {
 			throw new ArithmeticException();
 		}
@@ -132,7 +132,7 @@ public final class Real extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public AbstractNumber multiply(@NotNull AbstractNumber that) {
+	public NumericNumber multiply(@NotNull NumericNumber that) {
 		if (that instanceof Real) {
 			return multiply((Real) that);
 		} else {
@@ -152,9 +152,9 @@ public final class Real extends AbstractNumber {
 	}
 
 	@NotNull
-	public AbstractNumber divide(@NotNull Numeric that) throws NotDivisibleException {
-		if (that instanceof AbstractNumber) {
-			return divide((AbstractNumber) that);
+	public NumericNumber divide(@NotNull Numeric that) throws NotDivisibleException {
+		if (that instanceof NumericNumber) {
+			return divide((NumericNumber) that);
 		} else {
 			throw new NotDivisibleException();
 		}
@@ -162,7 +162,7 @@ public final class Real extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public AbstractNumber divide(@NotNull AbstractNumber that) {
+	public NumericNumber divide(@NotNull NumericNumber that) {
 		if (that instanceof Real) {
 			return divide((Real) that);
 		} else {
@@ -218,8 +218,8 @@ public final class Real extends AbstractNumber {
 	public Numeric pow(@NotNull Numeric that) {
 		if (that instanceof Real) {
 			return pow((Real) that);
-		} else if (that instanceof AbstractNumber) {
-			return ((AbstractNumber) that).pow(this);
+		} else if (that instanceof NumericNumber) {
+			return ((NumericNumber) that).pow(this);
 		} else {
 			throw new ArithmeticException();
 		}

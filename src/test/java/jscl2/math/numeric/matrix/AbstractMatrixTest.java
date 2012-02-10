@@ -16,7 +16,7 @@ import java.util.List;
  * Date: 2/2/12
  * Time: 5:39 PM
  */
-public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
+public abstract class AbstractMatrixTest<M extends NumericMatrix> {
 
 	public static final double MIN_E = 0.001;
 
@@ -241,9 +241,9 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 	public void testMultiply() throws Exception {
 		MathContext mc = MathContextImpl.defaultInstance();
 
-		final Matrix E = AbstractMatrix.identity(mc, 5);
-		final Matrix A = AbstractMatrix.random(mc, 5);
-		final Matrix B = AbstractMatrix.random(mc, 5, 3);
+		final Matrix E = NumericMatrix.identity(mc, 5);
+		final Matrix A = NumericMatrix.random(mc, 5);
+		final Matrix B = NumericMatrix.random(mc, 5, 3);
 
 		Assert.assertEquals(A, E.multiply(A));
 		Assert.assertEquals(A, A.multiply(E));
@@ -339,8 +339,8 @@ public abstract class AbstractMatrixTest<M extends AbstractMatrix> {
 
 		for (int rows = 2; rows < 10; rows++) {
 			for (int cols = 2; cols < 10; cols++) {
-				final Matrix A = AbstractMatrix.random(mc, rows, cols);
-				final Matrix B = AbstractMatrix.random(mc, rows, cols);
+				final Matrix A = NumericMatrix.random(mc, rows, cols);
+				final Matrix B = NumericMatrix.random(mc, rows, cols);
 				final Matrix AT = A.transpose();
 				final Matrix BT = B.transpose();
 				final Matrix ATT = AT.transpose();

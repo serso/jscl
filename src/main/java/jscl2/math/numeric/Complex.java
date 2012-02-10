@@ -5,7 +5,7 @@ import jscl2.MathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
-public final class Complex extends AbstractNumber {
+public final class Complex extends NumericNumber {
 
 	@NotNull
 	private final RawNumber real;
@@ -63,8 +63,8 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	public Complex add(@NotNull Numeric that) {
-		if (that instanceof AbstractNumber) {
-			return add((AbstractNumber) that);
+		if (that instanceof NumericNumber) {
+			return add((NumericNumber) that);
 		} else {
 			throw new ArithmeticException();
 		}
@@ -72,7 +72,7 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public Complex add(@NotNull AbstractNumber that) {
+	public Complex add(@NotNull NumericNumber that) {
 		if (that instanceof Complex) {
 			return add((Complex) that);
 		} else if (that instanceof Real) {
@@ -100,7 +100,7 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	public Complex subtract(@NotNull Numeric that) {
-		if (that instanceof AbstractNumber) {
+		if (that instanceof NumericNumber) {
 			return subtract((Complex) that);
 		} else {
 			throw new ArithmeticException();
@@ -109,7 +109,7 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public Complex subtract(@NotNull AbstractNumber that) {
+	public Complex subtract(@NotNull NumericNumber that) {
 		if (that instanceof Complex) {
 			return subtract((Complex) that);
 		} else if (that instanceof Real) {
@@ -142,7 +142,7 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public Complex multiply(@NotNull AbstractNumber that) {
+	public Complex multiply(@NotNull NumericNumber that) {
 		if (that instanceof Complex) {
 			return multiply((Complex) that);
 		} else if (that instanceof Real) {
@@ -154,8 +154,8 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	public Numeric multiply(@NotNull Numeric that) {
-		if (that instanceof AbstractNumber) {
-			return multiply((AbstractNumber) that);
+		if (that instanceof NumericNumber) {
+			return multiply((NumericNumber) that);
 		} else {
 			return that.multiply(this);
 		}
@@ -184,8 +184,8 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	public Complex divide(@NotNull Numeric that) throws NotDivisibleException {
-		if (that instanceof AbstractNumber) {
-			return divide((AbstractNumber) that);
+		if (that instanceof NumericNumber) {
+			return divide((NumericNumber) that);
 		} else {
 			throw new NotDivisibleException();
 		}
@@ -193,7 +193,7 @@ public final class Complex extends AbstractNumber {
 
 	@NotNull
 	@Override
-	public Complex divide(@NotNull AbstractNumber that) {
+	public Complex divide(@NotNull NumericNumber that) {
 		if (that instanceof Complex) {
 			return divide((Complex) that);
 		} else if (that instanceof Real) {

@@ -1,20 +1,20 @@
 package jscl2.math.numeric.matrix;
 
 import jscl2.MathContext;
-import jscl2.math.numeric.AbstractNumber;
+import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
-public class SparseVector extends AbstractVector implements Vector {
+public class DenseVector extends NumericVector implements Vector {
 
 	@NotNull
-	private final AbstractNumber elements[];
+	private final NumericNumber elements[];
 
-	public static class Builder extends AbstractBuilder<SparseVector> {
+	public static class Builder extends AbstractBuilder<DenseVector> {
 
 		@NotNull
-		private final AbstractNumber elements[];
+		private final NumericNumber elements[];
 
 		protected Builder(@NotNull MathContext mc, int length) {
 			this(mc, length, false);
@@ -23,71 +23,71 @@ public class SparseVector extends AbstractVector implements Vector {
 		protected Builder(@NotNull MathContext mc, int length, final boolean transposed) {
 			super(mc, length, transposed);
 
-			this.elements = new AbstractNumber[length];
+			this.elements = new NumericNumber[length];
 		}
 
 		@NotNull
 		@Override
-		public AbstractNumber getI(int i) {
+		public NumericNumber getI(int i) {
 			return this.elements[i];
 		}
 
 		@Override
-		public void setI(int i, @NotNull AbstractNumber value) {
+		public void setI(int i, @NotNull NumericNumber value) {
 			this.elements[i] = value;
 		}
 
 		@NotNull
 		@Override
-		public SparseVector build() {
-			return new SparseVector(mc, elements, transposed);
+		public DenseVector build() {
+			return new DenseVector(mc, elements, transposed);
 		}
 	}
 
-	private SparseVector(@NotNull MathContext mathContext, @NotNull AbstractNumber[] elements) {
+	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber[] elements) {
 		this(mathContext, elements, false);
 	}
 
-	private SparseVector(@NotNull MathContext mathContext, @NotNull AbstractNumber elements[], boolean transposed) {
+	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber elements[], boolean transposed) {
 		super(mathContext, elements.length, transposed);
 		this.elements = elements;
 	}
 
 	@NotNull
-	public static SparseVector newInstance(@NotNull MathContext mathContext, @NotNull AbstractNumber[] elements) {
+	public static DenseVector newInstance(@NotNull MathContext mathContext, @NotNull NumericNumber[] elements) {
 		assert elements.length > 1;
-		return new SparseVector(mathContext, elements);
+		return new DenseVector(mathContext, elements);
 	}
 
 	@NotNull
-	public static SparseVector newInstance(@NotNull MathContext mathContext, @NotNull AbstractNumber[] elements, boolean transposed) {
+	public static DenseVector newInstance(@NotNull MathContext mathContext, @NotNull NumericNumber[] elements, boolean transposed) {
 		assert elements.length > 1;
-		return new SparseVector(mathContext, elements, transposed);
+		return new DenseVector(mathContext, elements, transposed);
 	}
 
 	@NotNull
-	protected SparseVector newInstance() {
-		return newInstance(new AbstractNumber[length]);
+	protected DenseVector newInstance() {
+		return newInstance(new NumericNumber[length]);
 	}
 
 	@NotNull
-	protected SparseVector newInstance(@NotNull AbstractNumber element[]) {
-		return new SparseVector(getMathContext(), element, transposed);
+	protected DenseVector newInstance(@NotNull NumericNumber element[]) {
+		return new DenseVector(getMathContext(), element, transposed);
 	}
 
-	public AbstractNumber[] elements() {
+	public NumericNumber[] elements() {
 		return elements;
 	}
 
 	@NotNull
 	@Override
-	public AbstractNumber getI(int i) {
+	public NumericNumber getI(int i) {
 		return elements[i];
 	}
 
 	@NotNull
 	@Override
-	protected Vector.Builder<? extends AbstractVector> getBuilder(int length, boolean transposed) {
+	protected Vector.Builder<? extends NumericVector> getBuilder(int length, boolean transposed) {
 		return new Builder(this.mc, length, transposed);
 	}
 
@@ -109,7 +109,7 @@ public class SparseVector extends AbstractVector implements Vector {
 	}*/
 
 	public static Vector unity(@NotNull MathContext mc, int dimension) {
-		SparseVector v = new SparseVector(mc, new AbstractNumber[dimension]);
+		DenseVector v = new DenseVector(mc, new NumericNumber[dimension]);
 		for (int i = 0; i < v.length; i++) {
 			if (i == 0) v.elements[i] = Real.newInstance(mc, mc.fromLong(1L));
 			else v.elements[i] = Real.newInstance(mc, mc.fromLong(0L));

@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.math.numeric.AbstractNumber;
+import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Real;
 import jscl2.MathContext;
 import org.jetbrains.annotations.NotNull;
@@ -14,16 +14,16 @@ import java.util.List;
  * Date: 2/3/12
  * Time: 10:51 AM
  */
-public class SparseMatrix extends AbstractMatrix {
+public class SparseMatrix extends NumericMatrix {
 
 	private static class Entry {
 
 		private final int pos;
 
 		@NotNull
-		private final AbstractNumber value;
+		private final NumericNumber value;
 
-		private Entry(int pos, @NotNull AbstractNumber value) {
+		private Entry(int pos, @NotNull NumericNumber value) {
 			this.pos = pos;
 			this.value = value;
 		}
@@ -45,12 +45,12 @@ public class SparseMatrix extends AbstractMatrix {
 
 		@NotNull
 		@Override
-		protected AbstractNumber getIJ0(int row, int col) {
+		protected NumericNumber getIJ0(int row, int col) {
 			return getIJ0FromList(this.m, mc, row, col);
 		}
 
 		@Override
-		public void setIJ0(int row, int col, @NotNull AbstractNumber value) {
+		public void setIJ0(int row, int col, @NotNull NumericNumber value) {
 			final List<Entry> mRow = this.m.get(row);
 
 			for (int i = 0; i < mRow.size(); i++) {
@@ -84,18 +84,18 @@ public class SparseMatrix extends AbstractMatrix {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<? extends AbstractMatrix> getBuilder(int rows, int cols) {
+	protected Matrix.Builder<? extends NumericMatrix> getBuilder(int rows, int cols) {
 		return new Builder(this.mc, rows, cols);
 	}
 
 	@NotNull
 	@Override
-	protected AbstractNumber getIJ0(int row, int col) {
+	protected NumericNumber getIJ0(int row, int col) {
 		return getIJ0FromList(this.m, mc, row, col);
 	}
 
 	@NotNull
-	private static AbstractNumber getIJ0FromList(final List<List<Entry>> m, @NotNull final MathContext mc, int row, int col) {
+	private static NumericNumber getIJ0FromList(final List<List<Entry>> m, @NotNull final MathContext mc, int row, int col) {
 		// for each row check the entry
 		for (final Entry e : m.get(row)) {
 			if (e.pos == col) {

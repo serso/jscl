@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.math.numeric.AbstractNumber;
+import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +30,7 @@ public interface Matrix<T extends Matrix<T>> {
 	 * @return (row, col) element of matrix
 	 */
 	@NotNull
-	AbstractNumber getIJ(int row, int col);
+	NumericNumber getIJ(int row, int col);
 
 
 	/*
@@ -57,10 +57,10 @@ public interface Matrix<T extends Matrix<T>> {
 	T transpose();
 
 	@NotNull
-	AbstractNumber trace();
+	NumericNumber trace();
 
 	@NotNull
-	AbstractNumber determinant();
+	NumericNumber determinant();
 
 	/**
 	 * Main interface for building new matrix
@@ -70,9 +70,9 @@ public interface Matrix<T extends Matrix<T>> {
 	public static interface Builder<T extends Matrix> {
 
 		@NotNull
-		AbstractNumber getIJ(int row, int col);
+		NumericNumber getIJ(int row, int col);
 
-		void setIJ(int row, int col, @NotNull AbstractNumber value);
+		void setIJ(int row, int col, @NotNull NumericNumber value);
 
 		@NotNull
 		T build();

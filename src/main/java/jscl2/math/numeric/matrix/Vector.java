@@ -1,8 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.math.numeric.AbstractNumber;
-import jscl2.math.numeric.Numeric;
-import jscl2.math.numeric.Real;
+import jscl2.math.numeric.NumericNumber;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public interface Vector {
 
 	@NotNull
-	AbstractNumber getI(int i);
+	NumericNumber getI(int i);
 
 	/*
 	 * ********************************
@@ -27,7 +25,7 @@ public interface Vector {
 	Vector subtract(@NotNull Vector that);
 
 	@NotNull
-	AbstractNumber multiply(@NotNull Vector that);
+	NumericNumber multiply(@NotNull Vector that);
 
 	boolean isTransposed();
 
@@ -42,9 +40,9 @@ public interface Vector {
 	public static interface Builder<T extends Vector> {
 
 		@NotNull
-		AbstractNumber getI(int i);
+		NumericNumber getI(int i);
 
-		void setI(int i, @NotNull AbstractNumber value);
+		void setI(int i, @NotNull NumericNumber value);
 
 		@NotNull
 		T build();

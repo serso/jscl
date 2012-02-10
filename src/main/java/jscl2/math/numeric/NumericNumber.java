@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/1/12
  * Time: 11:18 PM
  */
-public abstract class AbstractNumber extends Numeric implements INumber {
+public abstract class NumericNumber extends Numeric implements INumber {
 
-	protected AbstractNumber(@NotNull MathContext mathContext) {
+	protected NumericNumber(@NotNull MathContext mathContext) {
 		super(mathContext);
 	}
 
@@ -59,35 +59,35 @@ public abstract class AbstractNumber extends Numeric implements INumber {
 
 	@NotNull
 	@Override
-	public abstract AbstractNumber add(@NotNull Numeric that);
+	public abstract NumericNumber add(@NotNull Numeric that);
 
 	@NotNull
-	public abstract AbstractNumber add(@NotNull AbstractNumber that);
-
-	@NotNull
-	@Override
-	public abstract AbstractNumber subtract(@NotNull Numeric that);
-
-	@NotNull
-	public abstract AbstractNumber subtract(@NotNull AbstractNumber that);
-
-	@NotNull
-	public abstract AbstractNumber multiply(@NotNull AbstractNumber that);
-
-	@NotNull
-	public abstract AbstractNumber divide(@NotNull AbstractNumber that) ;
+	public abstract NumericNumber add(@NotNull NumericNumber that);
 
 	@NotNull
 	@Override
-	public abstract AbstractNumber divide(@NotNull Numeric that) throws NotDivisibleException;
+	public abstract NumericNumber subtract(@NotNull Numeric that);
+
+	@NotNull
+	public abstract NumericNumber subtract(@NotNull NumericNumber that);
+
+	@NotNull
+	public abstract NumericNumber multiply(@NotNull NumericNumber that);
+
+	@NotNull
+	public abstract NumericNumber divide(@NotNull NumericNumber that) ;
 
 	@NotNull
 	@Override
-	public abstract AbstractNumber negate();
+	public abstract NumericNumber divide(@NotNull Numeric that) throws NotDivisibleException;
 
 	@NotNull
 	@Override
-	public abstract AbstractNumber conjugate();
+	public abstract NumericNumber negate();
+
+	@NotNull
+	@Override
+	public abstract NumericNumber conjugate();
 
 
 	/*

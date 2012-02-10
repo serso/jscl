@@ -2,20 +2,18 @@ package jscl2.math.numeric.matrix;
 
 import jscl.math.NotDivisibleException;
 import jscl2.MathContext;
-import jscl2.math.numeric.AbstractNumber;
+import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.INumeric;
 import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 /**
  * User: serso
  * Date: 2/9/12
  * Time: 6:23 PM
  */
-public abstract class AbstractVector extends Numeric implements Vector {
+public abstract class NumericVector extends Numeric implements Vector {
 
 	private static final String VECTOR_DIMENSIONS_MUST_AGREE = "Vector dimensions must agree!";
 
@@ -58,7 +56,7 @@ public abstract class AbstractVector extends Numeric implements Vector {
 	* ***********************************************
 	*/
 
-	protected AbstractVector(@NotNull MathContext mathContext, int length, boolean transposed) {
+	protected NumericVector(@NotNull MathContext mathContext, int length, boolean transposed) {
 		super(mathContext);
 		this.transposed = transposed;
 		this.length = length;
@@ -73,21 +71,21 @@ public abstract class AbstractVector extends Numeric implements Vector {
 	 * @return builder of vector of current type
 	 */
 	@NotNull
-	protected abstract Vector.Builder<? extends AbstractVector> getBuilder(int length, boolean transposed);
+	protected abstract Vector.Builder<? extends NumericVector> getBuilder(int length, boolean transposed);
 
 	/**
 	 * @return builder for matrix with same dimensions as this matrix
 	 */
 	@NotNull
-	private Vector.Builder<? extends AbstractVector> getBuilder() {
+	private Vector.Builder<? extends NumericVector> getBuilder() {
 		return getBuilder(length, transposed);
 	}
 
 	@NotNull
-	public AbstractVector add(@NotNull Vector that) {
+	public NumericVector add(@NotNull Vector that) {
 		checkSameDimensions(that);
 
-		final Builder<? extends AbstractVector> b = getBuilder();
+		final Builder<? extends NumericVector> b = getBuilder();
 
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).add(that.getI(i)));
@@ -106,10 +104,10 @@ public abstract class AbstractVector extends Numeric implements Vector {
 	}
 
 	@NotNull
-	public AbstractVector subtract(@NotNull Vector that) {
+	public NumericVector subtract(@NotNull Vector that) {
 		checkSameDimensions(that);
 
-		final Builder<? extends AbstractVector> b = getBuilder();
+		final Builder<? extends NumericVector> b = getBuilder();
 
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).subtract(that.getI(i)));
@@ -133,16 +131,16 @@ public abstract class AbstractVector extends Numeric implements Vector {
 			return multiply((Vector) that);
 		} else if (that instanceof Matrix) {
 			return ((Matrix) that).transpose().multiply(this);
-		} else if (that instanceof AbstractNumber) {
-			return multiply((AbstractNumber) that);
+		} else if (that instanceof NumericNumber) {
+			return multiply((NumericNumber) that);
 		} else {
 			throw new ArithmeticException();
 		}
 	}
 
 	@NotNull
-	private AbstractVector multiply(@NotNull AbstractNumber that) {
-		final Builder<? extends AbstractVector> b = getBuilder();
+	private NumericVector multiply(@NotNull NumericNumber that) {
+		final Builder<? extends NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).multiply(that));
 		}
@@ -150,10 +148,10 @@ public abstract class AbstractVector extends Numeric implements Vector {
 	}
 
 	@NotNull
-	public AbstractNumber multiply(@NotNull Vector that) {
+	public NumericNumber multiply(@NotNull Vector that) {
 		checkCrossDimensions(that);
 
-		AbstractNumber result = ZERO();
+		NumericNumber result = ZERO();
 		for (int i = 0; i < length; i++) {
 			result = result.add(this.getI(i).multiply(that.getI(i)));
 		}
@@ -167,16 +165,16 @@ public abstract class AbstractVector extends Numeric implements Vector {
 			throw new ArithmeticException();
 		} else if (that instanceof Matrix) {
 			return multiply(that.inverse());
-		} else if (that instanceof AbstractNumber) {
-			return divide((AbstractNumber)that);
+		} else if (that instanceof NumericNumber) {
+			return divide((NumericNumber)that);
 		} else {
 			throw new ArithmeticException();
 		}
 	}
 
 	@NotNull
-	private AbstractVector divide(@NotNull AbstractNumber that) {
-		final Builder<? extends AbstractVector> b = getBuilder();
+	private NumericVector divide(@NotNull NumericNumber that) {
+		final Builder<? extends NumericVector> b = getBuilder();
 
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).divide(that));
@@ -197,7 +195,7 @@ public abstract class AbstractVector extends Numeric implements Vector {
 		Real result = ZERO();
 
 		for (int i = 0; i < this.length; i++) {
-			final AbstractNumber el = this.getI(i);
+			final NumericNumber el = this.getI(i);
 			final Real norm = el.norm();
 			if (norm.more(result)) {
 				result = norm;
@@ -210,7 +208,7 @@ public abstract class AbstractVector extends Numeric implements Vector {
 
 	@NotNull
 	public Numeric negate() {
-		final Builder<? extends AbstractVector> b = getBuilder();
+		final Builder<? extends NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).negate());
 		}
@@ -386,7 +384,7 @@ public abstract class AbstractVector extends Numeric implements Vector {
 	}
 
 	public Numeric conjugate() {
-		final Builder<? extends AbstractVector> b = getBuilder();
+		final Builder<? extends NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).conjugate());
 		}
