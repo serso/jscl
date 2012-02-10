@@ -3,13 +3,12 @@ package jscl2.math.numeric.matrix;
 import jscl2.MathContext;
 import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Numeric;
-import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
 public class DenseVector extends NumericVector implements Vector {
 
 	@NotNull
-	private final NumericNumber elements[];
+	private final NumericNumber v[];
 
 	public static class Builder extends AbstractBuilder<DenseVector> {
 
@@ -28,13 +27,13 @@ public class DenseVector extends NumericVector implements Vector {
 
 		@NotNull
 		@Override
-		public NumericNumber getI(int i) {
-			return this.elements[i];
+		public NumericNumber getI(int index) {
+			return this.elements[index];
 		}
 
 		@Override
-		public void setI(int i, @NotNull NumericNumber value) {
-			this.elements[i] = value;
+		public void setI(int index, @NotNull NumericNumber value) {
+			this.elements[index] = value;
 		}
 
 		@NotNull
@@ -44,13 +43,13 @@ public class DenseVector extends NumericVector implements Vector {
 		}
 	}
 
-	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber[] elements) {
-		this(mathContext, elements, false);
+	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber[] v) {
+		this(mathContext, v, false);
 	}
 
-	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber elements[], boolean transposed) {
-		super(mathContext, elements.length, transposed);
-		this.elements = elements;
+	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber v[], boolean transposed) {
+		super(mathContext, v.length, transposed);
+		this.v = v;
 	}
 
 	@NotNull
@@ -75,14 +74,10 @@ public class DenseVector extends NumericVector implements Vector {
 		return new DenseVector(getMathContext(), element, transposed);
 	}
 
-	public NumericNumber[] elements() {
-		return elements;
-	}
-
 	@NotNull
 	@Override
-	public NumericNumber getI(int i) {
-		return elements[i];
+	public NumericNumber getI(int index) {
+		return v[index];
 	}
 
 	@NotNull
@@ -108,23 +103,8 @@ public class DenseVector extends NumericVector implements Vector {
 		}
 	}*/
 
-	public static Vector unity(@NotNull MathContext mc, int dimension) {
-		DenseVector v = new DenseVector(mc, new NumericNumber[dimension]);
-		for (int i = 0; i < v.length; i++) {
-			if (i == 0) v.elements[i] = Real.newInstance(mc, mc.fromLong(1L));
-			else v.elements[i] = Real.newInstance(mc, mc.fromLong(0L));
-		}
-		return v;
-	}
-
 	@NotNull
-	Numeric[] getElements() {
-		return elements;
-	}
-
-	@Override
-	public int compareTo(Numeric o) {
-		// todo serso:
-		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+	Numeric[] getV() {
+		return v;
 	}
 }

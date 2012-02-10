@@ -455,4 +455,19 @@ public abstract class NumericVector extends Numeric implements Vector {
 			return false;
 		}
 	}
+
+	@Override
+	public int compareTo(Numeric o) {
+		// todo serso:
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@NotNull
+	public static Vector unity(@NotNull MathContext mc, int dimension) {
+		final Builder<SparseVector> b = new SparseVector.Builder(mc, dimension);
+
+		b.setI(0, Real.ONE(mc));
+
+		return b.build();
+	}
 }

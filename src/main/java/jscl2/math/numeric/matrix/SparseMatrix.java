@@ -16,19 +16,6 @@ import java.util.List;
  */
 public class SparseMatrix extends NumericMatrix {
 
-	private static class Entry {
-
-		private final int pos;
-
-		@NotNull
-		private final NumericNumber value;
-
-		private Entry(int pos, @NotNull NumericNumber value) {
-			this.pos = pos;
-			this.value = value;
-		}
-	}
-
 
 	public static class Builder extends AbstractBuilder<SparseMatrix> {
 
@@ -55,10 +42,10 @@ public class SparseMatrix extends NumericMatrix {
 
 			for (int i = 0; i < mRow.size(); i++) {
 				final Entry e = mRow.get(i);
-				if (e.pos == col) {
+				if (e.getPos() == col) {
 					mRow.set(i, new Entry(col, value));
 					return;
-				} else if (e.pos > col) {
+				} else if (e.getPos() > col) {
 					mRow.add(i, new Entry(col, value));
 					return;
 				}
@@ -98,9 +85,9 @@ public class SparseMatrix extends NumericMatrix {
 	private static NumericNumber getIJ0FromList(final List<List<Entry>> m, @NotNull final MathContext mc, int row, int col) {
 		// for each row check the entry
 		for (final Entry e : m.get(row)) {
-			if (e.pos == col) {
-				return e.value;
-			} else if (e.pos > col) {
+			if (e.getPos() == col) {
+				return e.getValue();
+			} else if (e.getPos() > col) {
 				break;
 			}
 		}

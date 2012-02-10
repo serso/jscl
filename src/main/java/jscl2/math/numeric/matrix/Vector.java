@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public interface Vector {
 
 	@NotNull
-	NumericNumber getI(int i);
+	NumericNumber getI(int index);
 
 	/*
 	 * ********************************
@@ -40,9 +40,9 @@ public interface Vector {
 	public static interface Builder<T extends Vector> {
 
 		@NotNull
-		NumericNumber getI(int i);
+		NumericNumber getI(int index);
 
-		void setI(int i, @NotNull NumericNumber value);
+		void setI(int index, @NotNull NumericNumber value);
 
 		@NotNull
 		T build();

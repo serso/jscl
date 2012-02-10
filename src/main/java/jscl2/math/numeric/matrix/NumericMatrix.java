@@ -260,7 +260,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 		}
 	}
 
-	@NotNull
+/*	@NotNull
 	private static Numeric tryToScalar(@NotNull Numeric n) {
 		if (n instanceof Matrix) {
 			return tryToScalar(((NumericMatrix) n));
@@ -269,8 +269,9 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 		} else {
 			return n;
 		}
-	}
+	}*/
 
+/*
 	@NotNull
 	private static Numeric tryToScalar(@NotNull NumericVector v) {
 		if (v.getLength() == 1) {
@@ -279,6 +280,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 			return v;
 		}
 	}
+*/
 
 	/*
 	 * **********************************************
@@ -338,16 +340,18 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 			}
 		}
 
-		final DenseVector v = DenseVector.newInstance(getMathContext(), new NumericNumber[this.getRows()]);
-		final Numeric[] vElements = v.getElements();
+		final Vector.Builder<SparseVector> b = new SparseVector.Builder(mc, this.getRows());
+
 		for (int i = 0; i < this.getRows(); i++) {
-			vElements[i] = ZERO();
+			b.setI(i, Real.ZERO(mc));
 			for (int k = 0; k < this.getCols(); k++) {
-				vElements[i] = vElements[i].add(getIJ(i, k).multiply(that.getI(k)));
+				b.setI(i, b.getI(i).add(getIJ(i, k).multiply(that.getI(k))));
 			}
 		}
 
-		return tryToScalar(v);
+		return b.build();
+		// seems that unnecessary
+		//return tryToScalar(b.build());
 	}
 
 	@NotNull
