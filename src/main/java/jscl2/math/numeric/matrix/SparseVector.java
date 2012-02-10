@@ -1,33 +1,56 @@
 package jscl2.math.numeric.matrix;
 
-import jscl.math.NotDivisibleException;
 import jscl2.MathContext;
 import jscl2.math.numeric.AbstractNumber;
-import jscl2.math.numeric.INumeric;
 import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 public class SparseVector extends AbstractVector implements Vector {
-
-	private static final String VECTOR_DIMENSIONS_MUST_AGREE = "Vector dimensions must agree!";
 
 	@NotNull
 	private final AbstractNumber elements[];
-	private final int length;
-	private final boolean transposed;
+
+	public static class Builder extends AbstractBuilder<SparseVector> {
+
+		@NotNull
+		private final AbstractNumber elements[];
+
+		protected Builder(@NotNull MathContext mc, int length) {
+			this(mc, length, false);
+		}
+
+		protected Builder(@NotNull MathContext mc, int length, final boolean transposed) {
+			super(mc, length, transposed);
+
+			this.elements = new AbstractNumber[length];
+		}
+
+		@NotNull
+		@Override
+		public AbstractNumber getI(int i) {
+			return this.elements[i];
+		}
+
+		@Override
+		public void setI(int i, @NotNull AbstractNumber value) {
+			this.elements[i] = value;
+		}
+
+		@NotNull
+		@Override
+		public SparseVector build() {
+			return new SparseVector(mc, elements, transposed);
+		}
+	}
 
 	private SparseVector(@NotNull MathContext mathContext, @NotNull AbstractNumber[] elements) {
 		this(mathContext, elements, false);
 	}
 
 	private SparseVector(@NotNull MathContext mathContext, @NotNull AbstractNumber elements[], boolean transposed) {
-		super(mathContext);
+		super(mathContext, elements.length, transposed);
 		this.elements = elements;
-		this.transposed = transposed;
-		this.length = elements.length;
 	}
 
 	@NotNull
@@ -42,7 +65,7 @@ public class SparseVector extends AbstractVector implements Vector {
 		return new SparseVector(mathContext, elements, transposed);
 	}
 
-		@NotNull
+	@NotNull
 	protected SparseVector newInstance() {
 		return newInstance(new AbstractNumber[length]);
 	}
@@ -63,300 +86,17 @@ public class SparseVector extends AbstractVector implements Vector {
 	}
 
 	@NotNull
-	public SparseVector add(@NotNull Vector vector) {
-		checkSameDimensions(vector);
-
-		final SparseVector v = newInstance();
-
-		for (int i = 0; i < length; i++) {
-			v.elements[i] = elements[i].add(vector.getI(i));
-		}
-
-		return v;
-	}
-
-	@NotNull
-	public Numeric add(@NotNull Numeric that) {
-		if (that instanceof Vector) {
-			return add((Vector) that);
-		} else {
-			return that.add(this);
-		}
-	}
-
-	@NotNull
-	public SparseVector subtract(@NotNull Vector that) {
-		checkSameDimensions(that);
-
-		final SparseVector v = newInstance();
-
-		for (int i = 0; i < length; i++) {
-			v.elements[i] = elements[i].subtract(that.getI(i));
-		}
-
-		return v;
-	}
-
-	@NotNull
-	public Numeric subtract(@NotNull Numeric that) {
-		if (that instanceof Vector) {
-			return subtract((Vector) that);
-		} else {
-			return that.subtract(this);
-		}
-	}
-
-	@NotNull
-	public Numeric multiply(@NotNull Numeric that) {
-		if (that instanceof Vector) {
-			return multiply((Vector) that);
-		} else if (that instanceof Matrix) {
-			return ((Matrix) that).transpose().multiply(this);
-		} else {
-			// todo serso: class cast
-			final SparseVector v = newInstance();
-			for (int i = 0; i < length; i++) {
-				v.elements[i] = getI(i).multiply((AbstractNumber) that);
-			}
-			return v;
-		}
-	}
-
-	@NotNull
-	public AbstractNumber multiply(@NotNull Vector that) {
-		checkCrossDimensions(that);
-
-		AbstractNumber result = ZERO();
-		for (int i = 0; i < length; i++) {
-			result = result.add(elements[i].multiply(that.getI(i)));
-		}
-		return result;
-	}
-
-	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
-		if (that instanceof Vector) {
-			throw new ArithmeticException();
-		} else if (that instanceof Matrix) {
-			return multiply(that.inverse());
-		} else {
-			SparseVector v = newInstance();
-			for (int i = 0; i < length; i++) {
-				v.elements[i] = elements[i].divide(that);
-			}
-			return v;
-		}
-	}
-
-	@NotNull
 	@Override
-	public Real abs() {
-		throw new ArithmeticException();
+	protected Vector.Builder<? extends AbstractVector> getBuilder(int length, boolean transposed) {
+		return new Builder(this.mc, length, transposed);
 	}
 
-	@NotNull
-	@Override
-	public Real norm() {
-		Real result = ZERO();
 
-		for (Numeric el : elements) {
-			final Real norm = el.norm();
-				if ( result.more(norm) ) {
-					result = norm;
-				}
-		}
-
-		return result;
-	}
-
-	@NotNull
-	public Numeric negate() {
-		SparseVector v = newInstance();
-		for (int i = 0; i < length; i++) {
-			v.elements[i] = elements[i].negate();
-		}
-		return v;
-	}
-
-	public int signum() {
-		for (int i = 0; i < length; i++) {
-			int c = elements[i].signum();
-			if (c < 0) {
-				return -1;
-			} else if (c > 0) {
-				return 1;
-			}
-		}
-		return 0;
-	}
-
-	@NotNull
-	@Override
-	public Numeric sgn() {
-		throw new ArithmeticException();
-	}
-
-/*	public Numeric magnitude2() {
+	/*	public Numeric magnitude2() {
 		return multiply(this);
 	}*/
 
-	private void checkSameDimensions(@NotNull Vector that) {
-		if ( this.isTransposed() != that.isTransposed() ) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
-		}
-
-		if ( this.length != that.getLength() ) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
-		}
-	}
-
-	private void checkCrossDimensions(@NotNull Vector that) {
-		if ( this.isTransposed() == that.isTransposed() ) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
-		}
-
-		if ( this.length != that.getLength() ) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
-		}
-	}
-
-	@NotNull
-	public Numeric ln() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric lg() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	public Numeric exp() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric inverse() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric sqrt() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric nThRoot(int n) {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric sin() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric cos() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric tan() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric cot() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric asin() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric acos() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric atan() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric acot() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric sinh() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric cosh() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric tanh() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric coth() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric asinh() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric acosh() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric atanh() {
-		throw new ArithmeticException();
-	}
-
-	@NotNull
-	@Override
-	public Numeric acoth() {
-		throw new ArithmeticException();
-	}
-
-	public Numeric conjugate() {
-		SparseVector v = newInstance();
-		for (int i = 0; i < length; i++) v.elements[i] = elements[i].conjugate();
-		return v;
-	}
-
-/*	public int compareTo(Vector vector) {
+	/*	public int compareTo(Vector vector) {
 		return ArrayComparator.comparator.compare(element, vector.element);
 	}*/
 
@@ -377,72 +117,9 @@ public class SparseVector extends AbstractVector implements Vector {
 		return v;
 	}
 
-	public String toString() {
-		final StringBuilder result = new StringBuilder();
-
-		result.append("[");
-
-		for (int i = 0; i < length; i++) {
-			result.append(elements[i]).append(i < length - 1 ? ", " : "");
-		}
-
-		result.append("]");
-
-		return result.toString();
-	}
-
-	@Override
-	public boolean isTransposed() {
-		return transposed;
-	}
-
-	@Override
-	public int getLength() {
-		return length;
-	}
-
 	@NotNull
 	Numeric[] getElements() {
 		return elements;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Vector)) return false;
-
-		Vector vector = (Vector) o;
-
-		if (length != vector.getLength()) return false;
-		if (transposed != vector.isTransposed()) return false;
-		for (int i = 0; i < vector.getLength(); i++) {
-			if (!getI(i).equals(vector.getI(i))) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = elements != null ? Arrays.hashCode(elements) : 0;
-		result = 31 * result + length;
-		result = 31 * result + (transposed ? 1 : 0);
-		return result;
-	}
-
-	@Override
-	public boolean mathEquals(INumeric<Numeric> that) {
-		if ( that instanceof Vector ) {
-			return equals(that);
-		} else if ( that instanceof Matrix) {
-			return that.mathEquals(this);
-		} else if ( this.length == 1 ) {
-			return this.elements[0].mathEquals(that);
-		} else {
-			return false;
-		}
 	}
 
 	@Override

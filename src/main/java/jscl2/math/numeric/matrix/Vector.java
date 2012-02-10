@@ -32,4 +32,21 @@ public interface Vector {
 	boolean isTransposed();
 
 	int getLength();
+
+	/**
+	 * Main interface for building new vector
+	 * NOTE: this builder provides access to the elements and this is the last point where the elements might be modified
+	 *
+	 * @param <T>
+	 */
+	public static interface Builder<T extends Vector> {
+
+		@NotNull
+		AbstractNumber getI(int i);
+
+		void setI(int i, @NotNull AbstractNumber value);
+
+		@NotNull
+		T build();
+	}
 }
