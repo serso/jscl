@@ -117,7 +117,7 @@ public class CustomFunctionTest {
 		Assert.assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
 		Assert.assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
 		Assert.assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2*1, 3)").numeric().toString());
-		Assert.assertEquals("-1.1102230246251565E-16", Expression.valueOf("testFunction5(2*1, 2^2-1+e^0)").numeric().toString());
+		Assert.assertEquals("-111.02230246251565E-18", Expression.valueOf("testFunction5(2*1, 2^2-1+e^0)").numeric().toString());
 
 		try {
 			Expression.valueOf("testFunction5(2, 3.5)").numeric();

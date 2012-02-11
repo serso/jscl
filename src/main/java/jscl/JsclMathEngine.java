@@ -42,7 +42,7 @@ public enum JsclMathEngine implements MathEngine {
 
 	private boolean roundResult = false;
 
-	private boolean forceExponentFormat = false;
+	private boolean scienceNotation = false;
 
 	private int precision = 5;
 
@@ -152,7 +152,7 @@ public enum JsclMathEngine implements MathEngine {
 
 	@Override
 	@NotNull
-	public String format(@NotNull final Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
+	public String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
 		if (value.isInfinite()) {
 			// return predefined constant for infinity
 			if (value >= 0) {
@@ -169,11 +169,12 @@ public enum JsclMathEngine implements MathEngine {
 					// decimal numeral base => do specific formatting
 
 					// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
+					final Double localValue = value;
 					IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
 						@Override
 						public boolean isFound(@Nullable IConstant constant) {
 							if (constant != null) {
-								if (value.equals(constant.getDoubleValue())) {
+								if (localValue.equals(constant.getDoubleValue())) {
 									if (!constant.getName().equals(Constants.PI_INV.getName())) {
 										if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
 											return true;
@@ -197,30 +198,37 @@ public enum JsclMathEngine implements MathEngine {
 					if (constant == null) {
 						// prepare decimal format
 						final DecimalFormat df;
+
+						if (roundResult) {
+							value = new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue();
+						}
+
 						if ( value != 0d && value != -0d) {
-							if (Math.abs(value) < Math.pow(10, -3) || forceExponentFormat) {
-								df = new DecimalFormat("0.0E0");
+							if (Math.abs(value) < Math.pow(10, -5) || scienceNotation) {
+								df = new DecimalFormat("##0.#####E0");
 							} else {
 								df = new DecimalFormat();
 							}
 						} else {
 							df = new DecimalFormat();
 						}
+
 						df.setDecimalFormatSymbols(decimalGroupSymbols);
 						df.setGroupingUsed(useGroupingSeparator);
 						df.setGroupingSize(nb.getGroupingSize());
 
-						// using default round logic => try roundResult variable
-						if (roundResult) {
-							df.setMaximumFractionDigits(precision);
-							return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
-						} else {
-							// set maximum fraction digits high enough to show all fraction digits in case of no rounding
-							df.setMaximumFractionDigits(20);
-							// want to use grouping separators etc (i.e. still want to format number)
-							return df.format(value);
-							//return String.valueOf(value);
+						if (!scienceNotation) {
+							// using default round logic => try roundResult variable
+							if (!roundResult) {
+								// set maximum fraction digits high enough to show all fraction digits in case of no rounding
+								df.setMaximumFractionDigits(20);
+							} else {
+								df.setMaximumFractionDigits(precision);
+							}
 						}
+
+						return df.format(value);
+
 					} else {
 						return constant.getName();
 					}
@@ -293,7 +301,8 @@ public enum JsclMathEngine implements MathEngine {
 		this.decimalGroupSymbols.setGroupingSeparator(groupingSeparator);
 	}
 
-	public void setForceExponentFormat(boolean forceExponentFormat) {
-		this.forceExponentFormat = forceExponentFormat;
+	@Override
+	public void setScienceNotation(boolean scienceNotation) {
+		this.scienceNotation = scienceNotation;
 	}
 }

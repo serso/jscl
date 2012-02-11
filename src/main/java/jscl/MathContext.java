@@ -59,4 +59,6 @@ public interface MathContext {
 
 	@NotNull
 	String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedIntValue);
+
+	void setScienceNotation(boolean scienceNotation);
 }

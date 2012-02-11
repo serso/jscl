@@ -133,7 +133,7 @@ public class ExpressionTest {
 			Assert.assertEquals("0.26179938779914946", Expression.valueOf("3°*5").numeric().toString());
 			Assert.assertEquals("0.0027415567780803775", Expression.valueOf("3°^2").numeric().toString());
 			Assert.assertEquals("0.01096622711232151", Expression.valueOf("3!°^2").numeric().toString());
-			Assert.assertEquals("9.138522593601259E-4", Expression.valueOf("3°°").numeric().toString());
+			Assert.assertEquals("0.0009138522593601259", Expression.valueOf("3°°").numeric().toString());
 			Assert.assertEquals("0.08726646259971647", Expression.valueOf("5°").numeric().toString());
 			Assert.assertEquals("2.0523598775598297", Expression.valueOf("2+3°").numeric().toString());
 		} finally {
@@ -330,7 +330,7 @@ public class ExpressionTest {
 		// in deg mode π=180 and factorial of 180 is calculating
 		Assert.assertEquals("0", Expression.valueOf("π/π!").numeric().toString());
 
-		Assert.assertEquals("1.2246467991473532E-16*i", Expression.valueOf("exp((π*i))+1").numeric().toString());
+		Assert.assertEquals("122.46467991473532E-18*i", Expression.valueOf("exp((π*i))+1").numeric().toString());
 		Assert.assertEquals("20*x^3", Expression.valueOf("∂(5*x^4, x)").expand().simplify().toString());
 		Assert.assertEquals("25*x", Expression.valueOf("5*x*5").expand().simplify().toString());
 		Assert.assertEquals("20*x", Expression.valueOf("5*x*4").expand().simplify().toString());
@@ -737,15 +737,43 @@ public class ExpressionTest {
 			Assert.assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").numeric().toString());
 			Assert.assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").simplify().toString());
 			Assert.assertEquals("123 456.78910111231", Expression.valueOf("123456.7891011123123123123123").simplify().toString());
+			Assert.assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
 			Assert.assertEquals("12 345", JsclInteger.valueOf(12345L).toString());
 
-			me.setForceExponentFormat(true);
+			me.setScienceNotation(true);
 			Assert.assertEquals("0", Expression.valueOf("0.0").simplify().toString());
-			Assert.assertEquals("1.0E0", Expression.valueOf("1.0").simplify().toString());
-			Assert.assertEquals("1.0E2", Expression.valueOf("100.0").simplify().toString());
+			Assert.assertEquals("1E0", Expression.valueOf("1.0").simplify().toString());
+			Assert.assertEquals("100E0", Expression.valueOf("100.0").simplify().toString());
+
+			me.setRoundResult(true);
+			Assert.assertEquals("0", Expression.valueOf("1222/(10^9)").numeric().toString());
+
+			me.setRoundResult(true);
+			me.setPrecision(10);
+			Assert.assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
+
+			me.setRoundResult(false);
+			Assert.assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
+
+			me.setScienceNotation(false);
+			Assert.assertEquals("0.3333333333333333", Expression.valueOf("1/3").numeric().toString());
+
+			me.setScienceNotation(true);
+			Assert.assertEquals("333.33333E-3", Expression.valueOf("1/3").numeric().toString());
+
+			me.setRoundResult(true);
+			me.setPrecision(10);
+			Assert.assertEquals("333.33333E-3", Expression.valueOf("1/3").numeric().toString());
+
+			me.setScienceNotation(false);
+			me.setRoundResult(true);
+			me.setPrecision(10);
+			Assert.assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
+
 		} finally {
 			me.setUseGroupingSeparator(false);
-			me.setForceExponentFormat(false);
+			me.setScienceNotation(false);
+			me.setRoundResult(false);
 		}
 	}
 
