@@ -18,11 +18,11 @@ public class DoubleFactorialTest {
 	public void testDoubleFactorial() throws Exception {
 		final MathEngine me = JsclMathEngine.instance;
 
-		Assert.assertEquals("1.0", me.evaluate("0!"));
-		Assert.assertEquals("1.0", me.evaluate("1!"));
-		Assert.assertEquals("2.0", me.evaluate("2!"));
-		Assert.assertEquals("6.0", me.evaluate("3!"));
-		Assert.assertEquals("24.0", me.evaluate("4!"));
+		Assert.assertEquals("1", me.evaluate("0!"));
+		Assert.assertEquals("1", me.evaluate("1!"));
+		Assert.assertEquals("2", me.evaluate("2!"));
+		Assert.assertEquals("6", me.evaluate("3!"));
+		Assert.assertEquals("24", me.evaluate("4!"));
 
 		try {
 			me.evaluate("(-1)!!");
@@ -31,21 +31,21 @@ public class DoubleFactorialTest {
 			// ok
 		}
 
-		Assert.assertEquals("-1.0", me.evaluate("-1!!"));
-		Assert.assertEquals("1.0", me.evaluate("0!!"));
-		Assert.assertEquals("1.0", me.evaluate("1!!"));
-		Assert.assertEquals("2.0", me.evaluate("2!!"));
-		Assert.assertEquals("2.0", me.evaluate("(2!!)!"));
-		Assert.assertEquals("2.0", me.evaluate("(2!)!!"));
-		Assert.assertEquals("3.0", me.evaluate("3!!"));
-		Assert.assertEquals("48.0", me.evaluate("(3!)!!"));
-		Assert.assertEquals("6.0", me.evaluate("(3!!)!"));
-		Assert.assertEquals("8.0", me.evaluate("4!!"));
-		Assert.assertEquals("15.0", me.evaluate("5!!"));
-		Assert.assertEquals("48.0", me.evaluate("6!!"));
-		Assert.assertEquals("105.0", me.evaluate("7!!"));
-		Assert.assertEquals("384.0", me.evaluate("8!!"));
-		Assert.assertEquals("945.0", me.evaluate("9!!"));
+		Assert.assertEquals("-1", me.evaluate("-1!!"));
+		Assert.assertEquals("1", me.evaluate("0!!"));
+		Assert.assertEquals("1", me.evaluate("1!!"));
+		Assert.assertEquals("2", me.evaluate("2!!"));
+		Assert.assertEquals("2", me.evaluate("(2!!)!"));
+		Assert.assertEquals("2", me.evaluate("(2!)!!"));
+		Assert.assertEquals("3", me.evaluate("3!!"));
+		Assert.assertEquals("48", me.evaluate("(3!)!!"));
+		Assert.assertEquals("6", me.evaluate("(3!!)!"));
+		Assert.assertEquals("8", me.evaluate("4!!"));
+		Assert.assertEquals("15", me.evaluate("5!!"));
+		Assert.assertEquals("48", me.evaluate("6!!"));
+		Assert.assertEquals("105", me.evaluate("7!!"));
+		Assert.assertEquals("384", me.evaluate("8!!"));
+		Assert.assertEquals("945", me.evaluate("9!!"));
 
 		try {
 			me.evaluate("9!!!");

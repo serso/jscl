@@ -16,9 +16,9 @@ public class DegTest {
 	public void testDeg() throws Exception {
 		final JsclMathEngine mathEngine = JsclMathEngine.instance;
 
-		Assert.assertEquals("2.0", mathEngine.evaluate("deg(0.03490658503988659)"));
-		Assert.assertEquals("-2.0", mathEngine.evaluate("deg(-0.03490658503988659)"));
-		Assert.assertEquals("180.0", mathEngine.evaluate("deg(" + String.valueOf(Math.PI) + ")"));
+		Assert.assertEquals("2", mathEngine.evaluate("deg(0.03490658503988659)"));
+		Assert.assertEquals("-2", mathEngine.evaluate("deg(-0.03490658503988659)"));
+		Assert.assertEquals("180", mathEngine.evaluate("deg(" + String.valueOf(Math.PI) + ")"));
 
 		for (int i = 0; i < 1000; i++) {
 			double value = Math.random() * 100000;

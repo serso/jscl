@@ -42,6 +42,8 @@ public enum JsclMathEngine implements MathEngine {
 
 	private boolean roundResult = false;
 
+	private boolean forceExponentFormat = false;
+
 	private int precision = 5;
 
 	private boolean useGroupingSeparator = false;
@@ -194,7 +196,16 @@ public enum JsclMathEngine implements MathEngine {
 
 					if (constant == null) {
 						// prepare decimal format
-						final DecimalFormat df = new DecimalFormat();
+						final DecimalFormat df;
+						if ( value != 0d && value != -0d) {
+							if (Math.abs(value) < Math.pow(10, -3) || forceExponentFormat) {
+								df = new DecimalFormat("0.0E0");
+							} else {
+								df = new DecimalFormat();
+							}
+						} else {
+							df = new DecimalFormat();
+						}
 						df.setDecimalFormatSymbols(decimalGroupSymbols);
 						df.setGroupingUsed(useGroupingSeparator);
 						df.setGroupingSize(nb.getGroupingSize());
@@ -204,8 +215,11 @@ public enum JsclMathEngine implements MathEngine {
 							df.setMaximumFractionDigits(precision);
 							return df.format(new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue());
 						} else {
-							//return df.format(value);
-							return String.valueOf(value);
+							// set maximum fraction digits high enough to show all fraction digits in case of no rounding
+							df.setMaximumFractionDigits(20);
+							// want to use grouping separators etc (i.e. still want to format number)
+							return df.format(value);
+							//return String.valueOf(value);
 						}
 					} else {
 						return constant.getName();
@@ -279,4 +293,7 @@ public enum JsclMathEngine implements MathEngine {
 		this.decimalGroupSymbols.setGroupingSeparator(groupingSeparator);
 	}
 
+	public void setForceExponentFormat(boolean forceExponentFormat) {
+		this.forceExponentFormat = forceExponentFormat;
+	}
 }

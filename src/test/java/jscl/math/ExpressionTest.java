@@ -46,9 +46,9 @@ public class ExpressionTest {
 
 			final Expression expression = Expression.valueOf("2*t_0+5*t_1");
 
-			Assert.assertEquals("7.0", expression.substitute(new Constant("t_1"), Expression.valueOf(1.0)).numeric().toString());
-			Assert.assertEquals("12.0", expression.substitute(new Constant("t_1"), Expression.valueOf(2.0)).numeric().toString());
-			Assert.assertEquals("27.0", expression.substitute(new Constant("t_1"), Expression.valueOf(5.0)).numeric().toString());
+			Assert.assertEquals("7", expression.substitute(new Constant("t_1"), Expression.valueOf(1.0)).numeric().toString());
+			Assert.assertEquals("12", expression.substitute(new Constant("t_1"), Expression.valueOf(2.0)).numeric().toString());
+			Assert.assertEquals("27", expression.substitute(new Constant("t_1"), Expression.valueOf(5.0)).numeric().toString());
 
 		} finally {
 			if (constant != null) {
@@ -59,25 +59,25 @@ public class ExpressionTest {
 
 	@Test
 	public void testExpressions() throws Exception {
-		Assert.assertEquals("3.0", Expression.valueOf("3").numeric().toString());
+		Assert.assertEquals("3", Expression.valueOf("3").numeric().toString());
 		Assert.assertEquals("0.6931471805599453", Expression.valueOf("ln(2)").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("lg(10)").numeric().toString());
-		Assert.assertEquals("0.0", Expression.valueOf("eq(0, 1)").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("eq(1, 1)").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("lg(10)").numeric().toString());
+		Assert.assertEquals("0", Expression.valueOf("eq(0, 1)").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("eq(1, 1)").numeric().toString());
 
-		Assert.assertEquals("24.0", Expression.valueOf("4!").numeric().toString());
+		Assert.assertEquals("24", Expression.valueOf("4!").numeric().toString());
 		try {
 			Expression.valueOf("(-3+2)!").numeric().toString();
 			fail();
 		} catch (ArithmeticException e) {
 
 		}
-		Assert.assertEquals("24.0", Expression.valueOf("(2+2)!").numeric().toString());
-		Assert.assertEquals("120.0", Expression.valueOf("(2+2+1)!").numeric().toString());
-		Assert.assertEquals("24.0", Expression.valueOf("(2.0+2.0)!").numeric().toString());
-		Assert.assertEquals("24.0", Expression.valueOf("4.0!").numeric().toString());
-		Assert.assertEquals("48.0", Expression.valueOf("2*4.0!").numeric().toString());
-		Assert.assertEquals("40320.0", Expression.valueOf("(2*4.0)!").numeric().toString());
+		Assert.assertEquals("24", Expression.valueOf("(2+2)!").numeric().toString());
+		Assert.assertEquals("120", Expression.valueOf("(2+2+1)!").numeric().toString());
+		Assert.assertEquals("24", Expression.valueOf("(2.0+2.0)!").numeric().toString());
+		Assert.assertEquals("24", Expression.valueOf("4.0!").numeric().toString());
+		Assert.assertEquals("48", Expression.valueOf("2*4.0!").numeric().toString());
+		Assert.assertEquals("40320", Expression.valueOf("(2*4.0)!").numeric().toString());
 
 		final JsclMathEngine me = JsclMathEngine.instance;
 		final AngleUnit angleUnits = me.getAngleUnits();
@@ -87,8 +87,8 @@ public class ExpressionTest {
 		} finally {
 			me.setAngleUnits(angleUnits);
 		}
-		Assert.assertEquals("1.0", Expression.valueOf("(3.14/3.14)!").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("2/2!").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("(3.14/3.14)!").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("2/2!").numeric().toString());
 		try {
 			Assert.assertEquals("3.141592653589793!", Expression.valueOf("3.141592653589793!").numeric().toString());
 			fail();
@@ -117,12 +117,12 @@ public class ExpressionTest {
 		Assert.assertEquals("ln(7.2!)", Expression.valueOf("ln(7.2!)").simplify().toString());
 
 
-		Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("(π/π)!").numeric().toString());
-		Assert.assertEquals("720.0", Expression.valueOf("(3!)!").numeric().toString());
-		Assert.assertEquals("36.0", Expression.valueOf("3!*3!").numeric().toString());
+		Assert.assertEquals("36", Expression.valueOf("3!^2").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("(π/π)!").numeric().toString());
+		Assert.assertEquals("720", Expression.valueOf("(3!)!").numeric().toString());
+		Assert.assertEquals("36", Expression.valueOf("3!*3!").numeric().toString());
 
-		Assert.assertEquals("100.0", Expression.valueOf("0.1E3").numeric().toString());
+		Assert.assertEquals("100", Expression.valueOf("0.1E3").numeric().toString());
 
 		final AngleUnit defaultAngleUnits = me.getAngleUnits();
 		try {
@@ -142,15 +142,15 @@ public class ExpressionTest {
 
 		try {
 			me.setAngleUnits(AngleUnit.deg);
-			Assert.assertEquals("1.0", Expression.valueOf("1°").numeric().toString());
-			Assert.assertEquals("2.0", Expression.valueOf("2°").numeric().toString());
-			Assert.assertEquals("3.0", Expression.valueOf("3°").numeric().toString());
-			Assert.assertEquals("15.0", Expression.valueOf("3°*5").numeric().toString());
-			Assert.assertEquals("9.0", Expression.valueOf("3°^2").numeric().toString());
-			Assert.assertEquals("36.0", Expression.valueOf("3!°^2").numeric().toString());
-			Assert.assertEquals("3.0", Expression.valueOf("3°°").numeric().toString());
-			Assert.assertEquals("5.0", Expression.valueOf("5°").numeric().toString());
-			Assert.assertEquals("5.0", Expression.valueOf("2+3°").numeric().toString());
+			Assert.assertEquals("1", Expression.valueOf("1°").numeric().toString());
+			Assert.assertEquals("2", Expression.valueOf("2°").numeric().toString());
+			Assert.assertEquals("3", Expression.valueOf("3°").numeric().toString());
+			Assert.assertEquals("15", Expression.valueOf("3°*5").numeric().toString());
+			Assert.assertEquals("9", Expression.valueOf("3°^2").numeric().toString());
+			Assert.assertEquals("36", Expression.valueOf("3!°^2").numeric().toString());
+			Assert.assertEquals("3", Expression.valueOf("3°°").numeric().toString());
+			Assert.assertEquals("5", Expression.valueOf("5°").numeric().toString());
+			Assert.assertEquals("5", Expression.valueOf("2+3°").numeric().toString());
 		} finally {
 			me.setAngleUnits(defaultAngleUnits);
 		}
@@ -164,20 +164,20 @@ public class ExpressionTest {
 		Assert.assertEquals("ln(8)+lg(8)*ln(8)", Expression.valueOf("ln(8)*lg(8)+ln(8)").expand().toString());
 		Assert.assertEquals("3.9573643765059856", Expression.valueOf("ln(8)*lg(8)+ln(8)").numeric().toString());
 
-		Assert.assertEquals("4.0!", Expression.valueOf("4.0!").simplify().toString());
-		Assert.assertEquals("4.0°", Expression.valueOf("4.0°").simplify().toString());
+		Assert.assertEquals("4!", Expression.valueOf("4.0!").simplify().toString());
+		Assert.assertEquals("4°", Expression.valueOf("4.0°").simplify().toString());
 		Assert.assertEquals("30°", Expression.valueOf("30°").simplify().toString());
 
 
-		Assert.assertEquals("1.0", Expression.valueOf("abs(1)").numeric().toString());
-		Assert.assertEquals("0.0", Expression.valueOf("abs(0)").numeric().toString());
-		Assert.assertEquals("0.0", Expression.valueOf("abs(-0)").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("abs(-1)").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("abs(1)").numeric().toString());
+		Assert.assertEquals("0", Expression.valueOf("abs(0)").numeric().toString());
+		Assert.assertEquals("0", Expression.valueOf("abs(-0)").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("abs(-1)").numeric().toString());
 		Assert.assertEquals("∞", Expression.valueOf("abs(-∞)").numeric().toString());
 
-		Assert.assertEquals("1.0", Expression.valueOf("abs(i)").numeric().toString());
-		Assert.assertEquals("0.0", Expression.valueOf("abs(0+0*i)").numeric().toString());
-		Assert.assertEquals("1.0", Expression.valueOf("abs(-i)").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("abs(i)").numeric().toString());
+		Assert.assertEquals("0", Expression.valueOf("abs(0+0*i)").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("abs(-i)").numeric().toString());
 		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2-i)").numeric().toString());
 		Assert.assertEquals("2.23606797749979", Expression.valueOf("abs(2+i)").numeric().toString());
 		Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2+2*i)").numeric().toString());
@@ -209,59 +209,59 @@ public class ExpressionTest {
 
 		expression = me.simplifyGeneric("abs(t)^2+2!");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("102.0", substituted.numeric().toString());
+		Assert.assertEquals("102", substituted.numeric().toString());
 
 
 		expression = me.simplifyGeneric("abs(t)^2+10%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("110.0", substituted.numeric().toString());
+		Assert.assertEquals("110", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("abs(t)^2-10%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("90.0", substituted.numeric().toString());
+		Assert.assertEquals("90", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("(abs(t)^2)*10%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("10.0", substituted.numeric().toString());
+		Assert.assertEquals("10", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("(abs(t)^2)/10%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("1000.0", substituted.numeric().toString());
+		Assert.assertEquals("1000", substituted.numeric().toString());
 
 				expression = me.simplifyGeneric("abs(t)^2+t%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("110.0", substituted.numeric().toString());
+		Assert.assertEquals("110", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("abs(t)^2-t%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("90.0", substituted.numeric().toString());
+		Assert.assertEquals("90", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("(abs(t)^2)*t%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("10.0", substituted.numeric().toString());
+		Assert.assertEquals("10", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("(abs(t)^2)/t%");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("1000.0", substituted.numeric().toString());
+		Assert.assertEquals("1000", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("Σ(t, t, 0, 10)");
-		Assert.assertEquals("55.0", expression.numeric().toString());
+		Assert.assertEquals("55", expression.numeric().toString());
 
 		expression = me.simplifyGeneric("Σ(t, t, 0, 10)");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("55.0", substituted.numeric().toString());
+		Assert.assertEquals("55", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("10*Σ(t, t, 0, 10)");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("550.0", substituted.numeric().toString());
+		Assert.assertEquals("550", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("t*Σ(t, t, 0, 10)");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("550.0", substituted.numeric().toString());
+		Assert.assertEquals("550", substituted.numeric().toString());
 
 		expression = me.simplifyGeneric("t*Σ(t+100%, t, 0, 10)");
 		substituted = expression.substitute(new Constant("t"), Expression.valueOf(10d));
-		Assert.assertEquals("1100.0", substituted.numeric().toString());
+		Assert.assertEquals("1100", substituted.numeric().toString());
 
 		Assert.assertEquals("i*t", Expression.valueOf("i*t").expand().simplify().toString());
 		Assert.assertEquals("t", Expression.valueOf("t").simplify().toString());
@@ -325,10 +325,10 @@ public class ExpressionTest {
 		Assert.assertEquals("π^3", Expression.valueOf("√(π^4*π^2)").simplify().toString());
 		Assert.assertEquals("e*π^2", Expression.valueOf("√(π^4*e^2)").simplify().toString());
 
-		Assert.assertEquals("1.0", Expression.valueOf("(π/π)!").numeric().toString());
+		Assert.assertEquals("1", Expression.valueOf("(π/π)!").numeric().toString());
 
 		// in deg mode π=180 and factorial of 180 is calculating
-		Assert.assertEquals("0.0", Expression.valueOf("π/π!").numeric().toString());
+		Assert.assertEquals("0", Expression.valueOf("π/π!").numeric().toString());
 
 		Assert.assertEquals("1.2246467991473532E-16*i", Expression.valueOf("exp((π*i))+1").numeric().toString());
 		Assert.assertEquals("20*x^3", Expression.valueOf("∂(5*x^4, x)").expand().simplify().toString());
@@ -377,7 +377,7 @@ public class ExpressionTest {
 			Assert.assertEquals("-1.5707963267948966+2.993222846126381*i", me.evaluate("asin(-10)"));
 			Assert.assertEquals("-1.5707963267948966+1.3169578969248166*i", me.evaluate("asin(-2)"));
 			Assert.assertEquals("-1.5707963267948966", me.evaluate("asin(-1)"));
-			Assert.assertEquals("0.0", me.evaluate("asin(0)"));
+			Assert.assertEquals("0", me.evaluate("asin(0)"));
 			Assert.assertEquals("1.5707963267948966", me.evaluate("asin(1)"));
 			Assert.assertEquals("1.5707963267948966-1.3169578969248166*i", me.evaluate("asin(2)"));
 			Assert.assertEquals("1.5707963267948966-2.993222846126381*i", me.evaluate("asin(10)"));
@@ -386,14 +386,14 @@ public class ExpressionTest {
 			Assert.assertEquals("π-1.3169578969248164*i", me.evaluate("acos(-2)"));
 			Assert.assertEquals("π", me.evaluate("acos(-1)"));
 			Assert.assertEquals("1.5707963267948966", me.evaluate("acos(0)"));
-			Assert.assertEquals("0.0", me.evaluate("acos(1)"));
+			Assert.assertEquals("0", me.evaluate("acos(1)"));
 			Assert.assertEquals("1.3169578969248164*i", me.evaluate("acos(2)"));
 			Assert.assertEquals("2.9932228461263786*i", me.evaluate("acos(10)"));
 
 			Assert.assertEquals("-1.4711276743037347", me.evaluate("atan(-10)"));
 			Assert.assertEquals("-1.1071487177940904", me.evaluate("atan(-2)"));
 			Assert.assertEquals("-0.7853981633974483", me.evaluate("atan(-1)"));
-			Assert.assertEquals("0.0", me.evaluate("atan(0)"));
+			Assert.assertEquals("0", me.evaluate("atan(0)"));
 			Assert.assertEquals("0.7853981633974483", me.evaluate("atan(1)"));
 			Assert.assertEquals("1.1071487177940904", me.evaluate("atan(2)"));
 			Assert.assertEquals("1.4711276743037347", me.evaluate("atan(10)"));
@@ -417,15 +417,15 @@ public class ExpressionTest {
 			me.setAngleUnits(AngleUnit.deg);
 		}
 
-		Assert.assertEquals("180.0", me.evaluate("π"));
-		Assert.assertEquals("180.0", me.evaluate("200-10%"));
+		Assert.assertEquals("180", me.evaluate("π"));
+		Assert.assertEquals("180", me.evaluate("200-10%"));
 
 		Assert.assertEquals("∞", me.evaluate("1/0"));
-		Assert.assertEquals("-∞", me.evaluate("-1/0.0"));
+		Assert.assertEquals("-∞", me.evaluate("-1/0"));
 		Assert.assertEquals("-∞", me.evaluate("-1/0"));
 		Assert.assertEquals("∞", me.evaluate("(1 + 2) / (5 - 3 - 2)"));
 		Assert.assertEquals("∞", me.evaluate("(1 + 2) / (5.1 - 3.1 - 2.0 )"));
-		Assert.assertEquals("∞", me.evaluate("1/0.0"));
+		Assert.assertEquals("∞", me.evaluate("1/0"));
 	}
 
 	@Test
@@ -450,9 +450,9 @@ public class ExpressionTest {
 			Assert.assertEquals("Π/2", mathEngine.simplify("Π/2"));
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(2)"));
 			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(3)"));
-			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(0)"));
+			Assert.assertEquals(mathEngine.evaluate("0"), mathEngine.evaluate("sin(0)"));
 
-			Assert.assertEquals(mathEngine.evaluate("1.0"), mathEngine.evaluate("cos(0)"));
+			Assert.assertEquals(mathEngine.evaluate("1"), mathEngine.evaluate("cos(0)"));
 			Assert.assertEquals(mathEngine.evaluate("0.8623188722876839341019385139508425355100840085355108292801"), mathEngine.evaluate("cos(100)"));
 			Assert.assertEquals(mathEngine.evaluate("-0.416146836547142386997568229500762189766000771075544890755"), mathEngine.evaluate("cos(2)"));
 
@@ -471,9 +471,9 @@ public class ExpressionTest {
 			mathEngine.setAngleUnits(AngleUnit.deg);
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(deg(2))"));
 			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(deg(3))"));
-			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(deg(0))"));
+			Assert.assertEquals(mathEngine.evaluate("0"), mathEngine.evaluate("sin(deg(0))"));
 
-			Assert.assertEquals(mathEngine.evaluate("1.0"), mathEngine.evaluate("cos(deg(0))"));
+			Assert.assertEquals(mathEngine.evaluate("1"), mathEngine.evaluate("cos(deg(0))"));
 			Assert.assertEquals(mathEngine.evaluate("0.8623188722876839341019385139508425355100840085355108292801"), mathEngine.evaluate("cos(deg(100))"));
 			Assert.assertEquals(mathEngine.evaluate("-0.416146836547142386997568229500762189766000771075544890755"), mathEngine.evaluate("cos(deg(2))"));
 
@@ -538,9 +538,9 @@ public class ExpressionTest {
 			mathEngine.setAngleUnits(AngleUnit.deg);
 			Assert.assertEquals(mathEngine.evaluate("0.0348994967025009716459951816253329373548245760432968714250"), mathEngine.evaluate("(sin(2))"));
 			Assert.assertEquals(mathEngine.evaluate("0.0523359562429438327221186296090784187310182539401649204835"), mathEngine.evaluate("(sin(3))"));
-			Assert.assertEquals(mathEngine.evaluate("0.0"), mathEngine.evaluate("sin(0)"));
+			Assert.assertEquals(mathEngine.evaluate("0"), mathEngine.evaluate("sin(0)"));
 
-			Assert.assertEquals(mathEngine.evaluate("1.0"), mathEngine.evaluate("cos(0)"));
+			Assert.assertEquals(mathEngine.evaluate("1"), mathEngine.evaluate("cos(0)"));
 			Assert.assertEquals(mathEngine.evaluate("-0.1736481776669303"), mathEngine.evaluate("(cos(100))"));
 			Assert.assertEquals(mathEngine.evaluate("0.9993908270190958"), mathEngine.evaluate("(cos(2))"));
 
@@ -616,7 +616,7 @@ public class ExpressionTest {
 
 	@Test
 	public void testIntegrals() throws Exception {
-		Assert.assertEquals("50.0", Expression.valueOf("∫ab(x, x, 0, 10)").expand().numeric().toString());
+		Assert.assertEquals("50", Expression.valueOf("∫ab(x, x, 0, 10)").expand().numeric().toString());
 		Assert.assertEquals("1/2*a^2", Expression.valueOf("∫ab(x, x, 0, a)").expand().toString());
 		try {
 			Assert.assertEquals("∫ab(x, x, 0)", Expression.valueOf("∫ab(x, x, 0)").expand().toString());
@@ -679,11 +679,11 @@ public class ExpressionTest {
 		Assert.assertEquals("1/3", Expression.valueOf("Σ((n-1)/(n+1),n,1,2)").expand().toString());
 		Assert.assertEquals("sin(1)", Expression.valueOf("Σ(sin(n),n,1,1)").expand().toString());
 		Assert.assertEquals("1/1!", Expression.valueOf("Σ(n/n!,n,1,1)").expand().toString());
-		Assert.assertEquals("2.0", Expression.valueOf("Σ(n/n!,n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("2", Expression.valueOf("Σ(n/n!,n,1,2)").expand().numeric().toString());
 		Assert.assertEquals("2.7182818284590455", Expression.valueOf("Σ(n/n!,n,1,200)").expand().numeric().toString());
 		Assert.assertEquals("2.718281828459046", Expression.valueOf("Σ(n/(2*n/2)!,n,1,200)").expand().numeric().toString());
-		Assert.assertEquals(Expression.valueOf("3.0").numeric().toString(), Expression.valueOf("Σ(n°,n,1,2)").expand().numeric().toString());
-		Assert.assertEquals("200.0", Expression.valueOf("Σ(n°/n°,n,1,200)").expand().numeric().toString());
+		Assert.assertEquals(Expression.valueOf("3").numeric().toString(), Expression.valueOf("Σ(n°,n,1,2)").expand().numeric().toString());
+		Assert.assertEquals("200", Expression.valueOf("Σ(n°/n°,n,1,200)").expand().numeric().toString());
 		Assert.assertEquals("-sin(1)-sin(2)", Expression.valueOf("Σ(∂(cos(t),t,n),n,1,2)").expand().toString());
 		Assert.assertEquals("-0.05235190313978448", Expression.valueOf("Σ(∂(cos(t),t,n),n,1,2)").expand().numeric().toString());
 	}
@@ -694,10 +694,10 @@ public class ExpressionTest {
 		//final NumeralBase defaultNumeralBase = me.getDefaultNumeralBase();
 		try {
 			//me.setDefaultNumeralBase(NumeralBase.bin);
-			Assert.assertEquals("10.0", me.evaluate("0b:01010"));
-			Assert.assertEquals("10.0", me.evaluate("0b:1010"));
-			Assert.assertEquals("520.0", me.evaluate("0o:1010"));
-			Assert.assertEquals("1010.0", me.evaluate("1010"));
+			Assert.assertEquals("10", me.evaluate("0b:01010"));
+			Assert.assertEquals("10", me.evaluate("0b:1010"));
+			Assert.assertEquals("520", me.evaluate("0o:1010"));
+			Assert.assertEquals("1010", me.evaluate("1010"));
 			Assert.assertEquals("1010.1", me.evaluate("1010.1"));
 		} finally {
 			//me.setDefaultNumeralBase(defaultNumeralBase);
@@ -727,6 +727,26 @@ public class ExpressionTest {
 				e.printStackTrace();
 			}
 		}*/
+	}
+
+	@Test
+	public void testFormat() throws Exception {
+		final JsclMathEngine me = JsclMathEngine.instance;
+		try {
+			me.setUseGroupingSeparator(true);
+			Assert.assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").numeric().toString());
+			Assert.assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").simplify().toString());
+			Assert.assertEquals("123 456.78910111231", Expression.valueOf("123456.7891011123123123123123").simplify().toString());
+			Assert.assertEquals("12 345", JsclInteger.valueOf(12345L).toString());
+
+			me.setForceExponentFormat(true);
+			Assert.assertEquals("0", Expression.valueOf("0.0").simplify().toString());
+			Assert.assertEquals("1.0E0", Expression.valueOf("1.0").simplify().toString());
+			Assert.assertEquals("1.0E2", Expression.valueOf("100.0").simplify().toString());
+		} finally {
+			me.setUseGroupingSeparator(false);
+			me.setForceExponentFormat(false);
+		}
 	}
 
 	@Nullable

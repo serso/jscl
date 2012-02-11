@@ -15,6 +15,6 @@ public class JsclVectorTest {
 	@Test
 	public void testVector() throws Exception {
 		MathEngine me = JsclMathEngine.instance;
-		Assert.assertEquals("[1.0, 0.0, 0.0, 1.0]", me.evaluate("[1, 0, 0, 1]"));
+		Assert.assertEquals("[1, 0, 0, 1]", me.evaluate("[1, 0, 0, 1]"));
 	}
 }

@@ -18,10 +18,10 @@ public class NumeralBaseTest {
 	public void testEvaluation() throws Exception {
 		MathEngine me = JsclMathEngine.instance;
 
-		Assert.assertEquals("3.0", me.evaluate("0b:1+0b:10"));
-		Assert.assertEquals("5.0", me.evaluate("0b:1+0b:100"));
-		Assert.assertEquals("8.0", me.evaluate("0b:1+0b:100+(0b:1+0b:10)"));
-		Assert.assertEquals("18.0", me.evaluate("0b:1+0b:100+(0b:1+0b:10)+10"));
+		Assert.assertEquals("3", me.evaluate("0b:1+0b:10"));
+		Assert.assertEquals("5", me.evaluate("0b:1+0b:100"));
+		Assert.assertEquals("8", me.evaluate("0b:1+0b:100+(0b:1+0b:10)"));
+		Assert.assertEquals("18", me.evaluate("0b:1+0b:100+(0b:1+0b:10)+10"));
 		Assert.assertEquals("18.5", me.evaluate("0b:1+0b:100+(0b:1+0b:10)+10.5"));
 		try {
 			me.evaluate("0b:1+0b:100.+(0b:1+0b:10)+10.5");
@@ -35,7 +35,7 @@ public class NumeralBaseTest {
 		} catch (ParseException e) {
 		}
 
-		Assert.assertEquals("2748.0", me.evaluate("0x:ABC"));
+		Assert.assertEquals("2748", me.evaluate("0x:ABC"));
 
 		try {
 			me.evaluate("0x:");
@@ -43,14 +43,14 @@ public class NumeralBaseTest {
 		} catch (ParseException e) {
 		}
 
-		Assert.assertEquals("0.0", me.evaluate("0x:0"));
+		Assert.assertEquals("0", me.evaluate("0x:0"));
 
 		IConstant constant = null;
 		try {
 			constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), 2d));
-			Assert.assertEquals("2748.0", me.evaluate("0x:ABC"));
-			Assert.assertEquals("5496.0", me.evaluate("0x:ABC*a"));
-			Assert.assertEquals("27480.0", me.evaluate("0x:ABC*0x:A"));
+			Assert.assertEquals("2748", me.evaluate("0x:ABC"));
+			Assert.assertEquals("5496", me.evaluate("0x:ABC*a"));
+			Assert.assertEquals("27480", me.evaluate("0x:ABC*0x:A"));
 		} finally {
 			if (constant != null) {
 				me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), (String)null));
