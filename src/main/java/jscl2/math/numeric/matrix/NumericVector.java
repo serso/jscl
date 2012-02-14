@@ -37,6 +37,8 @@ public abstract class NumericVector extends Numeric implements Vector {
 		@NotNull
 		protected final MathContext mc;
 
+		private boolean built = false;
+
 		protected AbstractBuilder(@NotNull MathContext mc, int length, final boolean transposed) {
 			if (length <= 0) {
 				throw new IllegalArgumentException("Number of elements in vector must be positive!");
@@ -48,6 +50,26 @@ public abstract class NumericVector extends Numeric implements Vector {
 			this.mc = mc;
 			this.transposed = transposed;
 		}
+
+		@NotNull
+		@Override
+		public final T build() {
+			this.built = true;
+			return build0();
+		}
+
+		@Override
+		public final void setI(int index, @NotNull NumericNumber value) {
+			if ( built ) {
+				throw new IllegalStateException("Vector already built - no changes can be done!");
+			}
+			setI0(index, value);
+		}
+
+		protected abstract void setI0(int index, @NotNull NumericNumber value);
+
+		@NotNull
+		protected abstract T build0();
 	}
 
 	/*
@@ -207,7 +229,7 @@ public abstract class NumericVector extends Numeric implements Vector {
 	}
 
 	@NotNull
-	public Numeric negate() {
+	public NumericVector negate() {
 		final Builder<? extends NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).negate());

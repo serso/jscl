@@ -13,7 +13,7 @@ public class DenseVector extends NumericVector implements Vector {
 	public static class Builder extends AbstractBuilder<DenseVector> {
 
 		@NotNull
-		private final NumericNumber elements[];
+		private final NumericNumber v[];
 
 		protected Builder(@NotNull MathContext mc, int length) {
 			this(mc, length, false);
@@ -22,24 +22,24 @@ public class DenseVector extends NumericVector implements Vector {
 		protected Builder(@NotNull MathContext mc, int length, final boolean transposed) {
 			super(mc, length, transposed);
 
-			this.elements = new NumericNumber[length];
+			this.v = new NumericNumber[length];
 		}
 
 		@NotNull
 		@Override
 		public NumericNumber getI(int index) {
-			return this.elements[index];
+			return this.v[index];
 		}
 
 		@Override
-		public void setI(int index, @NotNull NumericNumber value) {
-			this.elements[index] = value;
+		protected void setI0(int index, @NotNull NumericNumber value) {
+			this.v[index] = value;
 		}
 
 		@NotNull
 		@Override
-		public DenseVector build() {
-			return new DenseVector(mc, elements, transposed);
+		protected DenseVector build0() {
+			return new DenseVector(mc, v, transposed);
 		}
 	}
 

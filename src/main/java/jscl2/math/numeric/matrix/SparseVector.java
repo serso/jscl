@@ -40,7 +40,7 @@ public class SparseVector extends NumericVector {
 		}
 
 		@Override
-		public void setI(int index, @NotNull NumericNumber value) {
+		protected void setI0(int index, @NotNull NumericNumber value) {
 			if ( index >= length ) {
 				throw new IllegalArgumentException();
 			}
@@ -61,7 +61,7 @@ public class SparseVector extends NumericVector {
 
 		@NotNull
 		@Override
-		public SparseVector build() {
+		protected SparseVector build0() {
 			return new SparseVector(mc, v, length, transposed);
 		}
 	}

@@ -37,7 +37,7 @@ public class SparseMatrix extends NumericMatrix {
 		}
 
 		@Override
-		public void setIJ0(int row, int col, @NotNull NumericNumber value) {
+		protected void setIJ0(int row, int col, @NotNull NumericNumber value) {
 			final List<Entry> mRow = this.m.get(row);
 
 			for (int i = 0; i < mRow.size(); i++) {
@@ -56,7 +56,7 @@ public class SparseMatrix extends NumericMatrix {
 
 		@NotNull
 		@Override
-		public SparseMatrix build() {
+		protected SparseMatrix build0() {
 			return new SparseMatrix(mc, this.m, rows, cols, transposed);
 		}
 	}

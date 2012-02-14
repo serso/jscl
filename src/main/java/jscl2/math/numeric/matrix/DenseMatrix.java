@@ -29,13 +29,13 @@ public class DenseMatrix extends NumericMatrix {
 		}
 
 		@Override
-		public void setIJ0(int row, int col, @NotNull NumericNumber value) {
+		protected void setIJ0(int row, int col, @NotNull NumericNumber value) {
 			this.m[row][col] = value;
 		}
 
 		@Override
 		@NotNull
-		public DenseMatrix build() {
+		protected DenseMatrix build0() {
 
 			for (int i = 0; i < m.length; i++) {
 				for (int j = 0; j < m[i].length; j++) {

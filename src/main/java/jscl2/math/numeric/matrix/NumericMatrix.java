@@ -40,6 +40,8 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 		protected final boolean transposed;
 
+		private boolean built = false;
+
 		@NotNull
 		protected final MathContext mc;
 
@@ -59,6 +61,10 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 		}
 
 		public final void setIJ(int row, int col, @NotNull NumericNumber value) {
+			if ( built ) {
+				throw new IllegalStateException("Matrix already built - no changes can be done!");
+			}
+
 			if (transposed) {
 				setIJ0(col, row, value);
 			} else {
@@ -76,6 +82,16 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 				return getIJ0(row, col);
 			}
 		}
+
+		@NotNull
+		@Override
+		public final T build() {
+			this.built = true;
+			return build0();
+		}
+
+		@NotNull
+		protected abstract T build0();
 
 		@NotNull
 		protected abstract NumericNumber getIJ0(int row, int col);

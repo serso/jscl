@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/3/12
  * Time: 11:38 AM
  */
-public class SparseMatrixTest extends AbstractMatrixTest<SparseMatrix> {
+public class SparseMatrixTest extends MatrixTest<SparseMatrix> {
 
 	@NotNull
 	@Override

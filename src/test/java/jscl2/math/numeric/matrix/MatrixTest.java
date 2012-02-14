@@ -16,7 +16,7 @@ import java.util.List;
  * Date: 2/2/12
  * Time: 5:39 PM
  */
-public abstract class AbstractMatrixTest<M extends NumericMatrix> {
+public abstract class MatrixTest<M extends NumericMatrix> {
 
 	public static final double MIN_E = 0.001;
 
