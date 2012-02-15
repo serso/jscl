@@ -312,6 +312,10 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 			throw new DimensionMustAgreeException(this, that);
 		}
 
+		if (!this.isTransposed()) {
+			throw new DimensionMustAgreeException(this, that);
+		}
+
 		if (this.length != that.getLength()) {
 			throw new DimensionMustAgreeException(this, that);
 		}

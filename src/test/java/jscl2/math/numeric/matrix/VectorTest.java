@@ -53,19 +53,20 @@ public abstract class VectorTest<V extends NumericVector> {
 		final NumericVector v2 = b.build();
 
 		try {
-			System.out.println(v1.multiply(v2));
+			v1.multiply(v2);
 			Assert.fail();
 		} catch (DimensionMustAgreeException e) {
-			// ok
+			// ok, one of the vector must be transposed
 		}
 
 		try {
-			System.out.println(v1.transpose().multiply(v2));
+			v1.multiply(v2.transpose());
 			Assert.fail();
 		} catch (DimensionMustAgreeException e) {
-			// ok
+			// ok, first vector must be transposed
 		}
 
+		Assert.assertEquals(mc.newReal(285.0), v1.transpose().multiply(v2));
 	}
 
 	@Test
