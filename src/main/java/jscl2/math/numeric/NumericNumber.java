@@ -321,4 +321,10 @@ public abstract class NumericNumber extends Numeric implements INumber {
 		// result = ln [ - (1 + x) / (1 - x) ] / 2
 		return radToDefault(ONE().add(this).divide(e).negate().ln().divide(TWO()));
 	}
+
+	@NotNull
+	@Override
+	public final NumericNumber transpose() {
+		return this;
+	}
 }

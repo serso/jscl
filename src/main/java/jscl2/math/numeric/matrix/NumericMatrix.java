@@ -10,8 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class NumericMatrix extends Numeric implements Matrix<NumericMatrix> {
 
-	private static final String MATRIX_DIMENSIONS_MUST_AGREE = "Matrix dimensions must agree!";
-
 	/*
 	* NOTE: fields below are for internal representation of matrix - use them carefully.
 	* If you want to get the actual matrix parameters use appropriate getters
@@ -181,13 +179,13 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	private void checkSameDimensions(@NotNull Matrix l, @NotNull Matrix r) {
 		if (l.getCols() != r.getCols() || l.getRows() != r.getRows()) {
-			throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
+			throw new DimensionMustAgreeException(l, r);
 		}
 	}
 
 	private void checkCrossDimensions(@NotNull Matrix l, @NotNull Matrix r) {
 		if (l.getCols() != r.getRows()) {
-			throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
+			throw new DimensionMustAgreeException(l, r);
 		}
 	}
 
@@ -212,17 +210,17 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	@Override
-	public NumericMatrix add(@NotNull Matrix that) {
+	public NumericMatrix add(@NotNull NumericMatrix that) {
 		checkSameDimensions(this, that);
 		return add0(that);
 	}
 
 	@NotNull
 	public Numeric add(@NotNull Numeric that) {
-		if (that instanceof Matrix) {
-			return add((Matrix) that);
+		if (that instanceof NumericMatrix) {
+			return add((NumericMatrix) that);
 		} else {
-			throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
+			throw new ArithmeticException();
 		}
 	}
 
@@ -233,7 +231,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	*/
 
 	@NotNull
-	protected NumericMatrix subtract0(@NotNull Matrix that) {
+	protected NumericMatrix subtract0(@NotNull NumericMatrix that) {
 		final Builder<? extends NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < getRows(); i++) {
@@ -247,17 +245,17 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	@Override
-	public final NumericMatrix subtract(@NotNull Matrix that) {
+	public final NumericMatrix subtract(@NotNull NumericMatrix that) {
 		checkSameDimensions(this, that);
 		return subtract0(that);
 	}
 
 	@NotNull
 	public Numeric subtract(@NotNull Numeric that) {
-		if (that instanceof Matrix) {
-			return subtract((Matrix) that);
+		if (that instanceof NumericMatrix) {
+			return subtract((NumericMatrix) that);
 		} else {
-			throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
+			throw new ArithmeticException();
 		}
 	}
 
@@ -306,7 +304,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@Override
 	@NotNull
-	public NumericMatrix multiply(@NotNull Matrix that) {
+	public NumericMatrix multiply(@NotNull NumericMatrix that) {
 		checkCrossDimensions(this, that);
 		return multiply0(that);
 	}
@@ -348,11 +346,11 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	public Numeric multiply(@NotNull Vector that) {
 		if (!that.isTransposed()) {
 			if (this.getCols() != that.getLength()) {
-				throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
+				throw new DimensionMustAgreeException(this, that);
 			}
 		} else {
 			if (this.getRows() != that.getLength()) {
-				throw new ArithmeticException(MATRIX_DIMENSIONS_MUST_AGREE);
+				throw new DimensionMustAgreeException(this, that);
 			}
 		}
 
@@ -372,8 +370,8 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	public Numeric multiply(@NotNull Numeric that) {
-		if (that instanceof Matrix) {
-			return multiply((Matrix) that);
+		if (that instanceof NumericMatrix) {
+			return multiply((NumericMatrix) that);
 		} else if (that instanceof Vector) {
 			return multiply((Vector) that);
 		} else if (that instanceof NumericNumber) {

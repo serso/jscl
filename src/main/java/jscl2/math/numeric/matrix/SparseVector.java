@@ -100,4 +100,10 @@ public class SparseVector extends NumericVector {
 
 		return Real.ZERO(mc);
 	}
+
+	@NotNull
+	@Override
+	public SparseVector transpose() {
+		return new SparseVector(mc, v, length, !transposed);
+	}
 }

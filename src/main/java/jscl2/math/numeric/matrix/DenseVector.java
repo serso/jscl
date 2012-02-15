@@ -5,7 +5,7 @@ import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
-public class DenseVector extends NumericVector implements Vector {
+public class DenseVector extends NumericVector {
 
 	@NotNull
 	private final NumericNumber v[];
@@ -104,7 +104,8 @@ public class DenseVector extends NumericVector implements Vector {
 	}*/
 
 	@NotNull
-	Numeric[] getV() {
-		return v;
+	@Override
+	public DenseVector transpose() {
+		return new DenseVector(mc, v, !transposed);
 	}
 }

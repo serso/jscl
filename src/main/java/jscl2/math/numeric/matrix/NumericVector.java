@@ -13,9 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/9/12
  * Time: 6:23 PM
  */
-public abstract class NumericVector extends Numeric implements Vector {
-
-	private static final String VECTOR_DIMENSIONS_MUST_AGREE = "Vector dimensions must agree!";
+public abstract class NumericVector extends Numeric implements Vector<NumericVector> {
 
 	protected final int length;
 
@@ -103,107 +101,11 @@ public abstract class NumericVector extends Numeric implements Vector {
 		return getBuilder(length, transposed);
 	}
 
-	@NotNull
-	public NumericVector add(@NotNull Vector that) {
-		checkSameDimensions(that);
-
-		final Builder<? extends NumericVector> b = getBuilder();
-
-		for (int i = 0; i < length; i++) {
-			b.setI(i, this.getI(i).add(that.getI(i)));
-		}
-
-		return b.build();
-	}
-
-	@NotNull
-	public Numeric add(@NotNull Numeric that) {
-		if (that instanceof Vector) {
-			return add((Vector) that);
-		} else {
-			return that.add(this);
-		}
-	}
-
-	@NotNull
-	public NumericVector subtract(@NotNull Vector that) {
-		checkSameDimensions(that);
-
-		final Builder<? extends NumericVector> b = getBuilder();
-
-		for (int i = 0; i < length; i++) {
-			b.setI(i, this.getI(i).subtract(that.getI(i)));
-		}
-
-		return b.build();
-	}
-
-	@NotNull
-	public Numeric subtract(@NotNull Numeric that) {
-		if (that instanceof Vector) {
-			return subtract((Vector) that);
-		} else {
-			return that.subtract(this);
-		}
-	}
-
-	@NotNull
-	public Numeric multiply(@NotNull Numeric that) {
-		if (that instanceof Vector) {
-			return multiply((Vector) that);
-		} else if (that instanceof Matrix) {
-			return ((Matrix) that).transpose().multiply(this);
-		} else if (that instanceof NumericNumber) {
-			return multiply((NumericNumber) that);
-		} else {
-			throw new ArithmeticException();
-		}
-	}
-
-	@NotNull
-	private NumericVector multiply(@NotNull NumericNumber that) {
-		final Builder<? extends NumericVector> b = getBuilder();
-		for (int i = 0; i < length; i++) {
-			b.setI(i, this.getI(i).multiply(that));
-		}
-		return b.build();
-	}
-
-	@NotNull
-	public NumericNumber multiply(@NotNull Vector that) {
-		checkCrossDimensions(that);
-
-		NumericNumber result = ZERO();
-		for (int i = 0; i < length; i++) {
-			result = result.add(this.getI(i).multiply(that.getI(i)));
-		}
-
-		return result;
-	}
-
-	@NotNull
-	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
-		if (that instanceof Vector) {
-			throw new ArithmeticException();
-		} else if (that instanceof Matrix) {
-			return multiply(that.inverse());
-		} else if (that instanceof NumericNumber) {
-			return divide((NumericNumber)that);
-		} else {
-			throw new ArithmeticException();
-		}
-	}
-
-	@NotNull
-	private NumericVector divide(@NotNull NumericNumber that) {
-		final Builder<? extends NumericVector> b = getBuilder();
-
-		for (int i = 0; i < length; i++) {
-			b.setI(i, this.getI(i).divide(that));
-		}
-
-		return b.build();
-	}
+	/*
+	* **********************************************
+	* OPERATIONS
+	* ***********************************************
+	*/
 
 	@NotNull
 	@Override
@@ -249,30 +151,181 @@ public abstract class NumericVector extends Numeric implements Vector {
 		return 0;
 	}
 
-	@NotNull
-	@Override
-	public Numeric sgn() {
-		throw new ArithmeticException();
+	public Numeric conjugate() {
+		final Builder<? extends NumericVector> b = getBuilder();
+		for (int i = 0; i < length; i++) {
+			b.setI(i, this.getI(i).conjugate());
+		}
+		return b.build();
 	}
+
+	/*
+	* ********************************
+	* 		VECTOR ARITHMETIC OPERATIONS
+	* ********************************
+	*/
+
+	/*
+	* ********************************
+	* 		ADDITION
+	* ********************************
+	*/
+
+	@NotNull
+	public NumericVector add(@NotNull NumericVector that) {
+		checkSameDimensions(that);
+
+		final Builder<? extends NumericVector> b = getBuilder();
+
+		for (int i = 0; i < length; i++) {
+			b.setI(i, this.getI(i).add(that.getI(i)));
+		}
+
+		return b.build();
+	}
+
+	@NotNull
+	public Numeric add(@NotNull Numeric that) {
+		if (that instanceof NumericVector) {
+			return add((NumericVector) that);
+		} else {
+			return that.add(this);
+		}
+	}
+
+	/*
+	* ********************************
+	* 		SUBTRACTION
+	* ********************************
+	*/
+
+	@NotNull
+	public NumericVector subtract(@NotNull NumericVector that) {
+		checkSameDimensions(that);
+
+		final Builder<? extends NumericVector> b = getBuilder();
+
+		for (int i = 0; i < length; i++) {
+			b.setI(i, this.getI(i).subtract(that.getI(i)));
+		}
+
+		return b.build();
+	}
+
+	@NotNull
+	public Numeric subtract(@NotNull Numeric that) {
+		if (that instanceof NumericVector) {
+			return subtract((NumericVector) that);
+		} else {
+			return that.subtract(this);
+		}
+	}
+
+	/*
+	* ********************************
+	* 		MULTIPLICATION
+	* ********************************
+	*/
+
+	@NotNull
+	public Numeric multiply(@NotNull Numeric that) {
+		if (that instanceof NumericVector) {
+			return multiply((NumericVector) that);
+		} else if (that instanceof Matrix) {
+			return ((Matrix) that).transpose().multiply(this);
+		} else if (that instanceof NumericNumber) {
+			return multiply((NumericNumber) that);
+		} else {
+			throw new ArithmeticException();
+		}
+	}
+
+	@Override
+	@NotNull
+	public NumericVector multiply(@NotNull NumericNumber that) {
+		final Builder<? extends NumericVector> b = getBuilder();
+		for (int i = 0; i < length; i++) {
+			b.setI(i, this.getI(i).multiply(that));
+		}
+		return b.build();
+	}
+
+	@NotNull
+	public NumericNumber multiply(@NotNull NumericVector that) {
+		checkCrossDimensions(that);
+
+		NumericNumber result = ZERO();
+		for (int i = 0; i < length; i++) {
+			result = result.add(this.getI(i).multiply(that.getI(i)));
+		}
+
+		return result;
+	}
+
+	/*
+	* ********************************
+	* 		DIVISION
+	* ********************************
+	*/
+
+	@NotNull
+	public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+		if (that instanceof Matrix) {
+			return multiply(that.inverse());
+		} else if (that instanceof NumericNumber) {
+			return divide((NumericNumber)that);
+		} else {
+			throw new ArithmeticException();
+		}
+	}
+
+	@Override
+	@NotNull
+	public NumericVector divide(@NotNull NumericNumber that) {
+		final Builder<? extends NumericVector> b = getBuilder();
+
+		for (int i = 0; i < length; i++) {
+			b.setI(i, this.getI(i).divide(that));
+		}
+
+		return b.build();
+	}
+
+	/*
+	* ********************************
+	* 		CHECKERS
+	* ********************************
+	*/
 
 	protected void checkSameDimensions(@NotNull Vector that) {
 		if (this.isTransposed() != that.isTransposed()) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+			throw new DimensionMustAgreeException(this, that);
 		}
 
 		if (this.length != that.getLength()) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+			throw new DimensionMustAgreeException(this, that);
 		}
 	}
 
 	private void checkCrossDimensions(@NotNull Vector that) {
 		if (this.isTransposed() == that.isTransposed()) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+			throw new DimensionMustAgreeException(this, that);
 		}
 
 		if (this.length != that.getLength()) {
-			throw new ArithmeticException(VECTOR_DIMENSIONS_MUST_AGREE);
+			throw new DimensionMustAgreeException(this, that);
 		}
+	}
+
+	/*
+	* ********************************
+	* 		UNSUPPORTED OPERATIONS
+	* ********************************
+	*/
+	@NotNull
+	@Override
+	public Numeric sgn() {
+		throw new ArithmeticException();
 	}
 
 	@NotNull
@@ -403,14 +456,6 @@ public abstract class NumericVector extends Numeric implements Vector {
 	@Override
 	public Numeric acoth() {
 		throw new ArithmeticException();
-	}
-
-	public Numeric conjugate() {
-		final Builder<? extends NumericVector> b = getBuilder();
-		for (int i = 0; i < length; i++) {
-			b.setI(i, this.getI(i).conjugate());
-		}
-		return b.build();
 	}
 
 	public String toString() {

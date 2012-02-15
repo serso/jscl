@@ -1,5 +1,6 @@
 package jscl2.math.numeric.matrix;
 
+import jscl2.math.numeric.INumber;
 import jscl2.math.numeric.NumericNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,28 +9,43 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/9/12
  * Time: 6:08 PM
  */
-public interface Vector {
+public interface Vector<V extends Vector<V>> {
 
 	@NotNull
 	NumericNumber getI(int index);
 
 	/*
 	 * ********************************
-	 * 		ARITHMETIC OPERATIONS
+	 * 		VECTOR ARITHMETIC OPERATIONS
 	 * ********************************
 	 */
 	@NotNull
-	Vector add(@NotNull Vector that);
+	V add(@NotNull V that);
 
 	@NotNull
-	Vector subtract(@NotNull Vector that);
+	V subtract(@NotNull V that);
 
 	@NotNull
-	NumericNumber multiply(@NotNull Vector that);
+	NumericNumber multiply(@NotNull V that);
 
 	boolean isTransposed();
 
 	int getLength();
+
+	/*
+	 * ********************************
+	 * 		SCALAR ARITHMETIC OPERATIONS
+	 * ********************************
+	 */
+
+	@NotNull
+	V multiply(@NotNull NumericNumber that);
+
+	@NotNull
+	V divide(@NotNull NumericNumber that);
+
+	@NotNull
+	V transpose();
 
 	/**
 	 * Main interface for building new vector

@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
+
 /**
  * User: serso
  * Date: 2/14/12
@@ -36,6 +38,52 @@ public abstract class VectorTest<V extends NumericVector> {
 		for (int i = 0; i < v1.getLength(); i++) {
 			Assert.assertTrue(v1.getI(i).lessOrEquals(mc.newReal(0L)));
 		}
+	}
 
+	@Test
+	public void testMultiplication() throws Exception {
+		final int length = 10;
+
+		final Vector.Builder<V> b = getBuilder(mc, length);
+		for (int i = 0; i < length; i++) {
+			b.setI(i, mc.newReal(i));
+		}
+
+		final NumericVector v1 = b.build();
+		final NumericVector v2 = b.build();
+
+		try {
+			System.out.println(v1.multiply(v2));
+			Assert.fail();
+		} catch (DimensionMustAgreeException e) {
+			// ok
+		}
+
+		try {
+			System.out.println(v1.transpose().multiply(v2));
+			Assert.fail();
+		} catch (DimensionMustAgreeException e) {
+			// ok
+		}
+
+	}
+
+	@Test
+	public void testBuilderLock() throws Exception {
+		final int length = 10;
+
+		final Vector.Builder b = getBuilder(mc, length);
+		for (int i = 0; i < length; i++) {
+			b.setI(i, mc.newReal(i));
+		}
+
+		b.build();
+
+		try {
+			b.setI(0, mc.newReal(1L));
+			fail();
+		} catch (IllegalStateException e) {
+			// trying to update already built vector
+		}
 	}
 }

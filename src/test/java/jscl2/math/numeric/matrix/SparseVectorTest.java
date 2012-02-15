@@ -62,25 +62,6 @@ public class SparseVectorTest extends VectorTest<SparseVector> {
 		}
 	}
 
-	@Test
-	public void testBuilderLock() throws Exception {
-		final int length = 10;
-
-		final SparseVector.Builder b = new SparseVector.Builder(mc, length);
-		for (int i = 0; i < length; i++) {
-			b.setI(i, mc.newReal(i));
-		}
-
-		b.build();
-
-		try {
-			b.setI(0, mc.newReal(1L));
-			fail();
-		} catch (IllegalStateException e) {
-			// trying to update already built vector
-		}
-	}
-
 	@NotNull
 	@Override
 	protected Vector.Builder<SparseVector> getBuilder(@NotNull MathContext mc, int length) {

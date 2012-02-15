@@ -146,4 +146,10 @@ public interface INumeric<T extends INumeric<T>> extends Arithmetic<T>, Comparab
 	boolean less(@NotNull Numeric that);
 
 	boolean lessOrEquals(@NotNull Numeric that);
+
+	/**
+	 * @return matrix transposed to current
+	 */
+/*	@NotNull
+	T transpose();*/
 }

@@ -4,12 +4,14 @@ import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.TabableView;
+
 /**
  * User: serso
  * Date: 2/2/12
  * Time: 12:09 PM
  */
-public interface Matrix<T extends Matrix<T>> {
+public interface Matrix<M extends Matrix<M>> {
 
 	/**
 	 * @return number of rows in matrix
@@ -39,13 +41,13 @@ public interface Matrix<T extends Matrix<T>> {
 	 * ********************************
 	 */
 	@NotNull
-	T add(@NotNull Matrix that);
+	M add(@NotNull M that);
 
 	@NotNull
-	T subtract(@NotNull Matrix that);
+	M subtract(@NotNull M that);
 
 	@NotNull
-	Matrix multiply(@NotNull Matrix that);
+	M multiply(@NotNull M that);
 
 	@NotNull
 	Numeric multiply(@NotNull Vector that);
@@ -54,7 +56,7 @@ public interface Matrix<T extends Matrix<T>> {
 	 * @return matrix transposed to current
 	 */
 	@NotNull
-	T transpose();
+	M transpose();
 
 	@NotNull
 	NumericNumber trace();
