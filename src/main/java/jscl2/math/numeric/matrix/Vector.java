@@ -1,6 +1,5 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.math.numeric.INumber;
 import jscl2.math.numeric.NumericNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,10 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/9/12
  * Time: 6:08 PM
  */
-public interface Vector<V extends Vector<V>> {
-
-	@NotNull
-	NumericNumber getI(int index);
+public interface Vector<V extends Vector<V>> extends CommonVectorInterface {
 
 	/*
 	 * ********************************
@@ -29,8 +25,6 @@ public interface Vector<V extends Vector<V>> {
 	NumericNumber multiply(@NotNull V that);
 
 	boolean isTransposed();
-
-	int getLength();
 
 	/*
 	 * ********************************
@@ -53,10 +47,7 @@ public interface Vector<V extends Vector<V>> {
 	 *
 	 * @param <T>
 	 */
-	public static interface Builder<T extends Vector> {
-
-		@NotNull
-		NumericNumber getI(int index);
+	public static interface Builder<T extends Vector> extends CommonVectorInterface {
 
 		void setI(int index, @NotNull NumericNumber value);
 

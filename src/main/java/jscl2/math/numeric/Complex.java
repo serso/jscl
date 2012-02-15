@@ -1,7 +1,7 @@
 package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,7 @@ public final class Complex extends NumericNumber {
 	 ************************************************
 	 */
 
-	Complex(@NotNull final MathContext mathContext,
+	Complex(@NotNull final JsclMathContext mathContext,
 			@NotNull RawNumber real,
 			@NotNull RawNumber imaginary) {
 		super(mathContext);
@@ -28,20 +28,20 @@ public final class Complex extends NumericNumber {
 	}
 
 	@NotNull
-	public static Complex newInstance(@NotNull final MathContext mathContext,
+	public static Complex newInstance(@NotNull final JsclMathContext mathContext,
 									  @NotNull Real real) {
 		return new Complex(mathContext, real.getContent(), real.getMathContext().fromLong(0L));
 	}
 
 	@NotNull
-	public static Complex newInstance(@NotNull final MathContext mathContext,
+	public static Complex newInstance(@NotNull final JsclMathContext mathContext,
 									  @NotNull RawNumber real,
 									  @NotNull RawNumber imaginary) {
 		return new Complex(mathContext, real, imaginary);
 	}
 
 	@NotNull
-	public static Complex I(@NotNull final MathContext mc) {
+	public static Complex I(@NotNull final JsclMathContext mc) {
 		return new Complex(mc, mc.ZERO(), mc.ONE());
 	}
 

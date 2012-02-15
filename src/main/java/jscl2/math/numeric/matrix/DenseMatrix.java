@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +16,7 @@ public class DenseMatrix extends NumericMatrix {
 		@NotNull
 		private final NumericNumber m[][];
 
-		public Builder(@NotNull MathContext mc, int rows, int cols) {
+		public Builder(@NotNull JsclMathContext mc, int rows, int cols) {
 			super(mc, rows, cols);
 
 			this.m = new NumericNumber[rows][cols];
@@ -52,11 +52,11 @@ public class DenseMatrix extends NumericMatrix {
 	@NotNull
 	private final NumericNumber m[][];
 
-	private DenseMatrix(@NotNull final MathContext mc, @NotNull NumericNumber m[][]) {
+	private DenseMatrix(@NotNull final JsclMathContext mc, @NotNull NumericNumber m[][]) {
 		this(mc, m, false);
 	}
 
-	private DenseMatrix(@NotNull final MathContext mc, @NotNull NumericNumber m[][], final boolean transposed) {
+	private DenseMatrix(@NotNull final JsclMathContext mc, @NotNull NumericNumber m[][], final boolean transposed) {
 		super(mc, m.length, m.length > 0 ? m[0].length : 0, transposed);
 		this.m = m;
 	}

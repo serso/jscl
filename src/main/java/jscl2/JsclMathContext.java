@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/30/12
  * Time: 2:01 PM
  */
-public interface MathContext extends RawNumberCreator {
+public interface JsclMathContext extends RawNumberCreator {
 
 	@NotNull
 	AngleUnit getAngleUnits();

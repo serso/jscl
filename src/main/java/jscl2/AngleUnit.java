@@ -102,17 +102,17 @@ public enum AngleUnit {
 	private static final double FROM_TURNS_TO_DEG = 180d / 0.5d;
 
 	@NotNull
-	public final RawNumber transform(@NotNull MathContext mathContext, @NotNull AngleUnit to, @NotNull RawNumber value) {
+	public final RawNumber transform(@NotNull JsclMathContext mathContext, @NotNull AngleUnit to, @NotNull RawNumber value) {
 		return value.multiply(mathContext.fromDouble(getCoefficientTo(to)));
 	}
 
 	protected abstract double getCoefficientTo(@NotNull AngleUnit to);
 
-	public final Numeric transform(@NotNull MathContext mathContext, @NotNull AngleUnit to, @NotNull Numeric value) {
+	public final Numeric transform(@NotNull JsclMathContext mathContext, @NotNull AngleUnit to, @NotNull Numeric value) {
 		return value.multiply(getRealCoefficientTo(mathContext, to));
 	}
 
-	private Real getRealCoefficientTo(@NotNull MathContext mathContext, @NotNull AngleUnit to) {
+	private Real getRealCoefficientTo(@NotNull JsclMathContext mathContext, @NotNull AngleUnit to) {
 		return Real.newInstance(mathContext, mathContext.fromDouble(getCoefficientTo(to)));
 	}
 }

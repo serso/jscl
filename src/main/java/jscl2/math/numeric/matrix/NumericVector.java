@@ -1,7 +1,7 @@
 package jscl2.math.numeric.matrix;
 
 import jscl.math.NotDivisibleException;
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.INumeric;
 import jscl2.math.numeric.Numeric;
@@ -33,11 +33,11 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 		protected final boolean transposed;
 
 		@NotNull
-		protected final MathContext mc;
+		protected final JsclMathContext mc;
 
 		private boolean built = false;
 
-		protected AbstractBuilder(@NotNull MathContext mc, int length, final boolean transposed) {
+		protected AbstractBuilder(@NotNull JsclMathContext mc, int length, final boolean transposed) {
 			if (length <= 0) {
 				throw new IllegalArgumentException("Number of elements in vector must be positive!");
 			} else if (length <= 1) {
@@ -68,6 +68,16 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 
 		@NotNull
 		protected abstract T build0();
+
+		@Override
+		public int getLength() {
+			return this.length;
+		}
+
+		@Override
+		public String toString() {
+			return NumericVector.toString(this);
+		}
 	}
 
 	/*
@@ -76,7 +86,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	* ***********************************************
 	*/
 
-	protected NumericVector(@NotNull MathContext mathContext, int length, boolean transposed) {
+	protected NumericVector(@NotNull JsclMathContext mathContext, int length, boolean transposed) {
 		super(mathContext);
 		this.transposed = transposed;
 		this.length = length;
@@ -273,7 +283,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 		if (that instanceof Matrix) {
 			return multiply(that.inverse());
 		} else if (that instanceof NumericNumber) {
-			return divide((NumericNumber)that);
+			return divide((NumericNumber) that);
 		} else {
 			throw new ArithmeticException();
 		}
@@ -462,13 +472,19 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 		throw new ArithmeticException();
 	}
 
+	@NotNull
 	public String toString() {
+		return toString(this);
+	}
+
+	public static String toString(@NotNull CommonVectorInterface v) {
 		final StringBuilder result = new StringBuilder();
 
 		result.append("[");
 
+		final int length = v.getLength();
 		for (int i = 0; i < length; i++) {
-			result.append(getI(i)).append(i < length - 1 ? ", " : "");
+			result.append(v.getI(i)).append(i < length - 1 ? ", " : "");
 		}
 
 		result.append("]");
@@ -533,12 +549,40 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 		return 0;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
+	/*
+	* **********************************************
+	* STATIC METHOD
+	* ***********************************************
+	*/
+
 	@NotNull
-	public static Vector unity(@NotNull MathContext mc, int dimension) {
+	public static NumericVector random(@NotNull JsclMathContext mathContext, int length) {
+		final Builder<? extends NumericVector> b = new SparseVector.Builder(mathContext,  length);
+
+		return random(mathContext, length, b);
+	}
+
+	// package protected for tests
+	@NotNull
+	static <T extends NumericVector> T random(@NotNull JsclMathContext mathContext, int length, @NotNull Builder<T> b) {
+		for (int i = 0; i < length; i++) {
+			  b.setI(i, mathContext.randomReal());
+		}
+
+		return b.build();
+	}
+
+	@NotNull
+	public static NumericVector unity(@NotNull JsclMathContext mc, int dimension) {
 		final Builder<SparseVector> b = new SparseVector.Builder(mc, dimension);
 
 		b.setI(0, Real.ONE(mc));
 
 		return b.build();
+	}
+
+	@NotNull
+	public static NumericVector zero(@NotNull JsclMathContext mc, int dimension) {
+		return new SparseVector.Builder(mc, dimension).build();
 	}
 }

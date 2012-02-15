@@ -1,14 +1,10 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
-import jscl2.MathContextImpl;
-import jscl2.math.numeric.NumericNumber;
+import jscl2.JsclMathContext;
+import jscl2.JsclMathContextImpl;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.fail;
 
@@ -19,7 +15,7 @@ import static org.junit.Assert.fail;
  */
 public class SparseVectorTest extends VectorTest<SparseVector> {
 
-	private static final MathContext mc = MathContextImpl.defaultInstance();
+	private static final JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 	@Test
 	public void testGetI() throws Exception {
@@ -64,7 +60,7 @@ public class SparseVectorTest extends VectorTest<SparseVector> {
 
 	@NotNull
 	@Override
-	protected Vector.Builder<SparseVector> getBuilder(@NotNull MathContext mc, int length) {
+	protected Vector.Builder<SparseVector> getBuilder(@NotNull JsclMathContext mc, int length) {
 		return new SparseVector.Builder(mc, length);
 	}
 }

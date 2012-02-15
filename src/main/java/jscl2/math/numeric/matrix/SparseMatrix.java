@@ -2,7 +2,7 @@ package jscl2.math.numeric.matrix;
 
 import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Real;
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class SparseMatrix extends NumericMatrix {
 		@NotNull
 		private final List<List<Entry>> m;
 
-		public Builder(@NotNull MathContext mc, int rows, int cols) {
+		public Builder(@NotNull JsclMathContext mc, int rows, int cols) {
 			super(mc, rows, cols);
 			this.m = new ArrayList<List<Entry>>(rows);
 			for (int i = 0; i < rows; i++) {
@@ -64,7 +64,7 @@ public class SparseMatrix extends NumericMatrix {
 	@NotNull
 	private final List<List<Entry>> m;
 
-	private SparseMatrix(@NotNull MathContext mc, @NotNull List<List<Entry>> m, int rows, int cols, boolean transposed) {
+	private SparseMatrix(@NotNull JsclMathContext mc, @NotNull List<List<Entry>> m, int rows, int cols, boolean transposed) {
 		super(mc, rows, cols, transposed);
 		this.m = m;
 	}
@@ -82,7 +82,7 @@ public class SparseMatrix extends NumericMatrix {
 	}
 
 	@NotNull
-	private static NumericNumber getIJ0FromList(final List<List<Entry>> m, @NotNull final MathContext mc, int row, int col) {
+	private static NumericNumber getIJ0FromList(final List<List<Entry>> m, @NotNull final JsclMathContext mc, int row, int col) {
 		// for each row check the entry
 		for (final Entry e : m.get(row)) {
 			if (e.getPos() == col) {

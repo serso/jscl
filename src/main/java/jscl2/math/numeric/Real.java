@@ -1,7 +1,7 @@
 package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,30 +16,30 @@ public final class Real extends NumericNumber {
 	 * ***********************************************
 	 */
 
-	Real(@NotNull final MathContext mathContext,
+	Real(@NotNull final JsclMathContext mathContext,
 		 @NotNull RawNumber content) {
 		super(mathContext);
 		this.content = content;
 	}
 
 	@NotNull
-	public static Real newInstance(@NotNull final MathContext mathContext,
+	public static Real newInstance(@NotNull final JsclMathContext mathContext,
 								   @NotNull RawNumber content) {
 		return new Real(mathContext, content);
 	}
 
 	@NotNull
-	public static Real ZERO(@NotNull MathContext mc) {
+	public static Real ZERO(@NotNull JsclMathContext mc) {
 		return new Real(mc, mc.ZERO());
 	}
 
 	@NotNull
-	public static Real ONE(@NotNull MathContext mc) {
+	public static Real ONE(@NotNull JsclMathContext mc) {
 		return new Real(mc, mc.ONE());
 	}
 
 	@NotNull
-	public static Real TWO(@NotNull MathContext mc) {
+	public static Real TWO(@NotNull JsclMathContext mc) {
 		return mc.newReal(2L);
 	}
 

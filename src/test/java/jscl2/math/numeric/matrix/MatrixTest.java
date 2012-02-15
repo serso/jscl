@@ -1,7 +1,7 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
-import jscl2.MathContextImpl;
+import jscl2.JsclMathContext;
+import jscl2.JsclMathContextImpl;
 import jscl2.math.numeric.Numeric;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
@@ -21,11 +21,11 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 	public static final double MIN_E = 0.001;
 
 	@NotNull
-	protected abstract Matrix.Builder<M> getBuilder(@NotNull MathContext mc, int rows, int cols);
+	protected abstract Matrix.Builder<M> getBuilder(@NotNull JsclMathContext mc, int rows, int cols);
 
 	@Test
 	public void testCreate() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		Matrix.Builder<M> b = getBuilder(mc, 2, 2);
 		b.setIJ(0, 0, mc.newReal(1L));
@@ -239,7 +239,7 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 
 	@Test
 	public void testMultiply() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		final Matrix E = NumericMatrix.identity(mc, 5);
 		final Matrix A = NumericMatrix.random(mc, 5);
@@ -319,7 +319,7 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 
 	@Test
 	public void testDeterminant() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		Matrix A = parseMatrix("1 2\n" +
 								"3 4", getBuilder(mc, 2, 2), mc, false);
@@ -335,7 +335,7 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 
 	@Test
 	public void testTranspose() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		for (int rows = 2; rows < 10; rows++) {
 			for (int cols = 2; cols < 10; cols++) {
@@ -364,7 +364,7 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 		}
 	}
 
-	public static <M extends Matrix> M parseMatrix(@NotNull String s, @NotNull Matrix.Builder<M> m, @NotNull MathContext mc, boolean asDouble) {
+	public static <M extends Matrix> M parseMatrix(@NotNull String s, @NotNull Matrix.Builder<M> m, @NotNull JsclMathContext mc, boolean asDouble) {
 		int row = 0;
 		int col = 0;
 		for (int i = 0; i < s.length(); i++) {

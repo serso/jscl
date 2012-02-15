@@ -1,7 +1,7 @@
 package jscl2.math.numeric.matrix;
 
 import jscl.math.NotDivisibleException;
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.INumeric;
 import jscl2.math.numeric.Numeric;
@@ -41,9 +41,9 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 		private boolean built = false;
 
 		@NotNull
-		protected final MathContext mc;
+		protected final JsclMathContext mc;
 
-		protected AbstractBuilder(@NotNull MathContext mc, int rows, int cols) {
+		protected AbstractBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
 			if (!(rows > 0 && cols > 0)) {
 				throw new IllegalArgumentException("Number of rows and columns must be positive!");
 			}
@@ -95,6 +95,21 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 		protected abstract NumericNumber getIJ0(int row, int col);
 
 		protected abstract void setIJ0(int row, int col, @NotNull NumericNumber value);
+
+		@Override
+		public int getRows() {
+			return transposed ? cols : rows;
+		}
+
+		@Override
+		public int getCols() {
+			return transposed ? rows : cols;
+		}
+
+		@Override
+		public String toString() {
+			return NumericMatrix.toString(this);
+		}
 	}
 
 	/*
@@ -103,11 +118,11 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	* ***********************************************
 	*/
 
-	protected NumericMatrix(@NotNull MathContext mc, int rows, int cols) {
+	protected NumericMatrix(@NotNull JsclMathContext mc, int rows, int cols) {
 		this(mc, rows, cols, false);
 	}
 
-	protected NumericMatrix(@NotNull MathContext mc, int rows, int cols, boolean transposed) {
+	protected NumericMatrix(@NotNull JsclMathContext mc, int rows, int cols, boolean transposed) {
 		super(mc);
 		this.rows = rows;
 		this.cols = cols;
@@ -573,12 +588,12 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	}
 
 	@NotNull
-	public static Matrix identity(@NotNull MathContext mc, int dimension) {
+	public static Matrix identity(@NotNull JsclMathContext mc, int dimension) {
 		return identity(mc, dimension, dimension);
 	}
 
 	@NotNull
-	public static Matrix identity(@NotNull MathContext mc, int rows, int cols) {
+	public static Matrix identity(@NotNull JsclMathContext mc, int rows, int cols) {
 		final Builder<SparseMatrix> b = new SparseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
@@ -593,12 +608,12 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	}
 
 	@NotNull
-	public static Matrix random(@NotNull MathContext mc, int dimension) {
+	public static Matrix random(@NotNull JsclMathContext mc, int dimension) {
 		return random(mc, dimension, dimension);
 	}
 
 	@NotNull
-	public static Matrix random(@NotNull MathContext mc, int rows, int cols) {
+	public static Matrix random(@NotNull JsclMathContext mc, int rows, int cols) {
 		final Builder<DenseMatrix> b = new DenseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
@@ -610,16 +625,26 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 		return b.build();
 	}
 
+	@NotNull
 	public String toString() {
+		return toString(this);
+	}
+
+	@NotNull
+	public static String toString(@NotNull CommonMatrixInterface m) {
 		final StringBuilder result = new StringBuilder();
 
 		result.append("[");
-		for (int i = 0; i < getRows(); i++) {
+
+		final int rows = m.getRows();
+		final int cols = m.getCols();
+
+		for (int i = 0; i < rows; i++) {
 			result.append("[");
-			for (int j = 0; j < getCols(); j++) {
-				result.append(getIJ(i, j)).append(j < getCols() - 1 ? ", " : "");
+			for (int j = 0; j < cols; j++) {
+				result.append(m.getIJ(i, j)).append(j < cols - 1 ? ", " : "");
 			}
-			result.append("]").append(i < getRows() - 1 ? ",\n" : "");
+			result.append("]").append(i < rows - 1 ? ",\n" : "");
 		}
 		result.append("]");
 

@@ -1,8 +1,7 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.numeric.NumericNumber;
-import jscl2.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
 public class DenseVector extends NumericVector {
@@ -15,11 +14,11 @@ public class DenseVector extends NumericVector {
 		@NotNull
 		private final NumericNumber v[];
 
-		protected Builder(@NotNull MathContext mc, int length) {
+		protected Builder(@NotNull JsclMathContext mc, int length) {
 			this(mc, length, false);
 		}
 
-		protected Builder(@NotNull MathContext mc, int length, final boolean transposed) {
+		protected Builder(@NotNull JsclMathContext mc, int length, final boolean transposed) {
 			super(mc, length, transposed);
 
 			this.v = new NumericNumber[length];
@@ -43,23 +42,23 @@ public class DenseVector extends NumericVector {
 		}
 	}
 
-	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber[] v) {
+	private DenseVector(@NotNull JsclMathContext mathContext, @NotNull NumericNumber[] v) {
 		this(mathContext, v, false);
 	}
 
-	private DenseVector(@NotNull MathContext mathContext, @NotNull NumericNumber v[], boolean transposed) {
+	private DenseVector(@NotNull JsclMathContext mathContext, @NotNull NumericNumber v[], boolean transposed) {
 		super(mathContext, v.length, transposed);
 		this.v = v;
 	}
 
 	@NotNull
-	public static DenseVector newInstance(@NotNull MathContext mathContext, @NotNull NumericNumber[] elements) {
+	public static DenseVector newInstance(@NotNull JsclMathContext mathContext, @NotNull NumericNumber[] elements) {
 		assert elements.length > 1;
 		return new DenseVector(mathContext, elements);
 	}
 
 	@NotNull
-	public static DenseVector newInstance(@NotNull MathContext mathContext, @NotNull NumericNumber[] elements, boolean transposed) {
+	public static DenseVector newInstance(@NotNull JsclMathContext mathContext, @NotNull NumericNumber[] elements, boolean transposed) {
 		assert elements.length > 1;
 		return new DenseVector(mathContext, elements, transposed);
 	}

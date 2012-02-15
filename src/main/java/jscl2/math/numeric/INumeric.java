@@ -128,7 +128,7 @@ public interface INumeric<T extends INumeric<T>> extends Arithmetic<T>, Comparab
 
 
 	/*
-	 * Method returns true only if the objects are mathemtaically equals (e.g. real number 0 and complex number 1+0i are mathematically equals)
+	 * Method returns true only if the objects are mathematically equals (e.g. real number 0 and complex number 1+0i are mathematically equals)
 	 */
 	boolean mathEquals(INumeric<T> that);
 

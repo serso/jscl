@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.numeric.NumericNumber;
 import jscl2.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +23,11 @@ public class SparseVector extends NumericVector {
 		@NotNull
 		private final List<Entry> v;
 
-		protected Builder(@NotNull MathContext mc, int length) {
+		protected Builder(@NotNull JsclMathContext mc, int length) {
 			this(mc, length, false);
 		}
 
-		protected Builder(@NotNull MathContext mc, int length, final boolean transposed) {
+		protected Builder(@NotNull JsclMathContext mc, int length, final boolean transposed) {
 			super(mc, length, transposed);
 
 			this.v = new LinkedList<Entry>();
@@ -66,7 +66,7 @@ public class SparseVector extends NumericVector {
 		}
 	}
 
-	private SparseVector(@NotNull MathContext mc, @NotNull List<Entry> v, int length, boolean transposed) {
+	private SparseVector(@NotNull JsclMathContext mc, @NotNull List<Entry> v, int length, boolean transposed) {
 		super(mc, length, transposed);
 		this.v = v;
 	}
@@ -84,7 +84,7 @@ public class SparseVector extends NumericVector {
 	}
 
 	@NotNull
-	private static NumericNumber getIFromList(final List<Entry> v, @NotNull final MathContext mc, int length, int index) {
+	private static NumericNumber getIFromList(final List<Entry> v, @NotNull final JsclMathContext mc, int length, int index) {
 		if (index >= length) {
 			throw new IllegalArgumentException();
 		}

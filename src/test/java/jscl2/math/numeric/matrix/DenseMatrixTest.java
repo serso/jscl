@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,7 +12,7 @@ public class DenseMatrixTest extends MatrixTest<DenseMatrix> {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<DenseMatrix> getBuilder(@NotNull MathContext mc, int rows, int cols) {
+	protected Matrix.Builder<DenseMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
 		return new DenseMatrix.Builder(mc, rows, cols);
 	}
 }

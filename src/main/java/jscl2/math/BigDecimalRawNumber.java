@@ -1,5 +1,6 @@
 package jscl2.math;
 
+import jscl.MathContext;
 import jscl.math.NotDivisibleException;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +15,8 @@ public class BigDecimalRawNumber implements RawNumber {
 
 	@NotNull
 	private final BigDecimal value;
+
+	private final static java.math.MathContext mc = java.math.MathContext.UNLIMITED;
 
 	BigDecimalRawNumber(@NotNull BigDecimal value) {
 		this.value = value;
@@ -104,12 +107,12 @@ public class BigDecimalRawNumber implements RawNumber {
 
 	@Override
 	public boolean isZero() {
-		return BigDecimal.ZERO.equals(this.value);
+		return equals(BigDecimal.ZERO, this.value);
 	}
 
 	@Override
 	public boolean isOne() {
-		return BigDecimal.ONE.equals(this.value);
+		return equals(BigDecimal.ONE, this.value);
 	}
 
 	@Override
@@ -171,25 +174,25 @@ public class BigDecimalRawNumber implements RawNumber {
 	@NotNull
 	@Override
 	public RawNumber add(@NotNull RawNumber that) {
-		return newInstance(this.value.add(that.asBigDecimal()));
+		return newInstance(this.value.add(that.asBigDecimal(), mc));
 	}
 
 	@NotNull
 	@Override
 	public RawNumber subtract(@NotNull RawNumber that) {
-		return newInstance(this.value.subtract(that.asBigDecimal()));
+		return newInstance(this.value.subtract(that.asBigDecimal(), mc));
 	}
 
 	@NotNull
 	@Override
 	public RawNumber multiply(@NotNull RawNumber that) {
-		return newInstance(this.value.multiply(that.asBigDecimal()));
+		return newInstance(this.value.multiply(that.asBigDecimal(), mc));
 	}
 
 	@NotNull
 	@Override
 	public RawNumber divide(@NotNull RawNumber that) throws NotDivisibleException {
-		return newInstance(this.value.divide(that.asBigDecimal()));
+		return newInstance(this.value.divide(that.asBigDecimal(), mc));
 	}
 
 	@Override
@@ -204,9 +207,17 @@ public class BigDecimalRawNumber implements RawNumber {
 
 		BigDecimalRawNumber that = (BigDecimalRawNumber) o;
 
-		if (!value.equals(that.value)) return false;
+		if (!equals(this, that)) return false;
 
 		return true;
+	}
+
+	private static boolean equals(@NotNull BigDecimalRawNumber l, @NotNull BigDecimalRawNumber r) {
+		return equals(l.value, r.value);
+	}
+
+	private static boolean equals(@NotNull BigDecimal l, @NotNull BigDecimal r) {
+		return l.compareTo(r) == 0;
 	}
 
 	@Override

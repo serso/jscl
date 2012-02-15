@@ -1,8 +1,8 @@
 package jscl2.math.numeric;
 
 import jscl2.AngleUnit;
-import jscl2.MathContext;
-import jscl2.MathContextImpl;
+import jscl2.JsclMathContext;
+import jscl2.JsclMathContextImpl;
 import jscl2.NumeralBase;
 import jscl2.math.RawNumberType;
 import junit.framework.Assert;
@@ -16,7 +16,7 @@ import org.junit.Test;
 public class RealTest {
 	@Test
 	public void testAdd() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		Numeric result = mc.newReal(0L);
 		Long value = 0L;
@@ -40,12 +40,12 @@ public class RealTest {
 		result = r.add(r).add(r).add(r).add(r).add(r).add(r).add(r);
 		Assert.assertEquals(mc.newReal(0.7999999999999999), result);
 
-		mc = MathContextImpl.newInstance(AngleUnit.deg, NumeralBase.dec, RawNumberType.BIG_DECIMAL);
+		mc = JsclMathContextImpl.newInstance(AngleUnit.deg, NumeralBase.dec, RawNumberType.BIG_DECIMAL);
 		r = mc.newReal(1L).divide(mc.newReal(10L));
 		result = r.add(r).add(r).add(r).add(r).add(r).add(r).add(r);
 		Assert.assertEquals(mc.newReal(0.8), result);
 
-		mc = MathContextImpl.defaultInstance();
+		mc = JsclMathContextImpl.defaultInstance();
 
 		Assert.assertEquals(mc.newComplex(4, 2), mc.newReal(2).add(mc.newComplex(2, 2)));
 	}

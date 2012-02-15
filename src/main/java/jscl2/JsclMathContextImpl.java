@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/31/12
  * Time: 11:14 AM
  */
-public class MathContextImpl implements MathContext {
+public class JsclMathContextImpl implements JsclMathContext {
 
 	@NotNull
 	private final AngleUnit angleUnit;
@@ -23,22 +23,22 @@ public class MathContextImpl implements MathContext {
 	@NotNull
 	private final RawNumberCreator rawNumberType;
 
-	private MathContextImpl(@NotNull AngleUnit angleUnit,
-							@NotNull NumeralBase numeralBase,
-							@NotNull RawNumberCreator rawNumberType) {
+	private JsclMathContextImpl(@NotNull AngleUnit angleUnit,
+								@NotNull NumeralBase numeralBase,
+								@NotNull RawNumberCreator rawNumberType) {
 		this.angleUnit = angleUnit;
 		this.numeralBase = numeralBase;
 		this.rawNumberType = rawNumberType;
 	}
 
-	public static MathContext defaultInstance() {
-		return new MathContextImpl(AngleUnit.deg, NumeralBase.dec, RawNumberType.DOUBLE);
+	public static JsclMathContext defaultInstance() {
+		return new JsclMathContextImpl(AngleUnit.deg, NumeralBase.dec, RawNumberType.DOUBLE);
 	}
 
-	public static MathContext newInstance(@NotNull final AngleUnit au,
+	public static JsclMathContext newInstance(@NotNull final AngleUnit au,
 										  @NotNull final NumeralBase nb,
 										  @NotNull final RawNumberCreator rnt) {
-		return new MathContextImpl(au, nb, rnt);
+		return new JsclMathContextImpl(au, nb, rnt);
 	}
 
 	@NotNull

@@ -1,10 +1,16 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
-import jscl2.MathContextImpl;
+import jscl2.AngleUnit;
+import jscl2.JsclMathContext;
+import jscl2.JsclMathContextImpl;
+import jscl2.NumeralBase;
+import jscl2.math.RawNumberType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 import static org.junit.Assert.fail;
 
@@ -15,10 +21,10 @@ import static org.junit.Assert.fail;
  */
 public abstract class VectorTest<V extends NumericVector> {
 
-	private static final MathContext mc = MathContextImpl.defaultInstance();
+	private static final JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 	@NotNull
-	protected abstract Vector.Builder<V> getBuilder(@NotNull MathContext mc, int length);
+	protected abstract Vector.Builder<V> getBuilder(@NotNull JsclMathContext mc, int length);
 
 	@Test
 	public void testNegate() throws Exception {
@@ -67,6 +73,33 @@ public abstract class VectorTest<V extends NumericVector> {
 		}
 
 		Assert.assertEquals(mc.newReal(285.0), v1.transpose().multiply(v2));
+	}
+
+	@Test
+	public void testSubtraction() throws Exception {
+		final int length = 10;
+
+		final V v = NumericVector.random(mc, length, getBuilder(mc, length));
+
+		Assert.assertEquals(NumericVector.zero(mc, length), v.subtract(v));
+	}
+
+	@Test
+	public void testAddition() throws Exception {
+		final int length = 10;
+
+		final JsclMathContext mc = JsclMathContextImpl.newInstance(AngleUnit.deg, NumeralBase.dec, RawNumberType.BIG_DECIMAL);
+
+		final V v = NumericVector.random(mc, length, getBuilder(mc, length));
+
+		Assert.assertEquals(NumericVector.zero(mc, length), v.add(v.negate()));
+		for (int i = 2; i < 10; i++) {
+			NumericVector sum = NumericVector.zero(mc, length);
+			for (int j = 0; j < i; j++) {
+				sum = sum.add(v);
+			}
+			Assert.assertEquals(sum, v.multiply(mc.newReal(i)));
+		}
 	}
 
 	@Test

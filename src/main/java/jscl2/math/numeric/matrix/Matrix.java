@@ -11,29 +11,7 @@ import javax.swing.text.TabableView;
  * Date: 2/2/12
  * Time: 12:09 PM
  */
-public interface Matrix<M extends Matrix<M>> {
-
-	/**
-	 * @return number of rows in matrix
-	 */
-	int getRows();
-
-	/**
-	 * @return number of columns in matrix
-	 */
-	int getCols();
-
-
-	/**
-	 * Method returns (row, col) element of matrix
-	 *
-	 * @param row row of the element
-	 * @param col column of the element
-	 * @return (row, col) element of matrix
-	 */
-	@NotNull
-	NumericNumber getIJ(int row, int col);
-
+public interface Matrix<M extends Matrix<M>> extends CommonMatrixInterface {
 
 	/*
 	 * ********************************
@@ -69,10 +47,7 @@ public interface Matrix<M extends Matrix<M>> {
 	 * NOTE: this builder provides access to the elements and this is the last point where the elements might be modified
 	 * @param <T>
 	 */
-	public static interface Builder<T extends Matrix> {
-
-		@NotNull
-		NumericNumber getIJ(int row, int col);
+	public static interface Builder<T extends Matrix> extends CommonMatrixInterface {
 
 		void setIJ(int row, int col, @NotNull NumericNumber value);
 

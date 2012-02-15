@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class DenseVectorTest extends VectorTest<DenseVector> {
 	@NotNull
 	@Override
-	protected Vector.Builder<DenseVector> getBuilder(@NotNull MathContext mc, int length) {
+	protected Vector.Builder<DenseVector> getBuilder(@NotNull JsclMathContext mc, int length) {
 		return new DenseVector.Builder(mc, length);
 	}
 }

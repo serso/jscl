@@ -1,7 +1,7 @@
 package jscl2.math.numeric;
 
-import jscl2.MathContext;
-import jscl2.MathContextImpl;
+import jscl2.JsclMathContext;
+import jscl2.JsclMathContextImpl;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -18,7 +18,7 @@ public class TimeTest extends TestCase {
 	public static final int REAL_MAX = 100000000;
 
 	public void testComplexTime() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		long startTime1 = new Date().getTime();
 		Numeric result = mc.newReal(0L);
@@ -48,7 +48,7 @@ public class TimeTest extends TestCase {
 	}
 
 	public void testRealTime() throws Exception {
-		MathContext mc = MathContextImpl.defaultInstance();
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 		long startTime1 = new Date().getTime();
 		Numeric result = mc.newReal(0L);

@@ -2,7 +2,7 @@ package jscl2.math.numeric;
 
 import jscl.math.NotDivisibleException;
 import jscl2.AngleUnit;
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class NumericNumber extends Numeric implements INumber {
 
-	protected NumericNumber(@NotNull MathContext mathContext) {
+	protected NumericNumber(@NotNull JsclMathContext mathContext) {
 		super(mathContext);
 	}
 

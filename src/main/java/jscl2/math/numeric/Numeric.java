@@ -1,20 +1,20 @@
 package jscl2.math.numeric;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import jscl2.math.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Numeric implements INumeric<Numeric> {
 
 	@NotNull
-	protected final MathContext mc;
+	protected final JsclMathContext mc;
 
-	protected Numeric(@NotNull MathContext mc) {
+	protected Numeric(@NotNull JsclMathContext mc) {
 		this.mc = mc;
 	}
 
 	@NotNull
-	protected MathContext getMathContext() {
+	protected JsclMathContext getMathContext() {
 		return mc;
 	}
 

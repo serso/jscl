@@ -1,6 +1,6 @@
 package jscl2.math.numeric.matrix;
 
-import jscl2.MathContext;
+import jscl2.JsclMathContext;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,7 +12,7 @@ public class SparseMatrixTest extends MatrixTest<SparseMatrix> {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<SparseMatrix> getBuilder(@NotNull MathContext mc, int rows, int cols) {
+	protected Matrix.Builder<SparseMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
 		return new SparseMatrix.Builder(mc, rows, cols);
 	}
 }
