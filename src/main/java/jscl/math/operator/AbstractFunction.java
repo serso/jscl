@@ -84,7 +84,12 @@ public abstract class AbstractFunction extends Variable {
 			function.parameters[i] = parameters[i].factorize();
 		}
 
-		return function.expressionValue();
+		return function.selfFactorize();
+	}
+
+	@NotNull
+	protected Generic selfFactorize() {
+		return this.expressionValue();
 	}
 
 	public Generic simplify() {

@@ -78,6 +78,25 @@ public class Fraction extends Algebraic {
 		return ((NumericWrapper) parameters[0]).divide((NumericWrapper) parameters[1]);
 	}
 
+	@NotNull
+	@Override
+	protected Generic selfFactorize() {
+		
+		final Generic factorizedNumerator = this.parameters[0].factorize();
+		final Generic[] summands = factorizedNumerator.sumValue();
+		if ( summands.length > 1 )  {
+			// exists more than one summand  => divide each summand by the denumerator
+			Expression result = Expression.valueOf(JsclInteger.ZERO);
+			for (Generic summand : summands) {
+				result = result.add(new Fraction(summand, this.parameters[1]).expressionValue());
+			}
+			return result;
+		} else {
+			// only one summand => car return self as no factorization is possible
+			return super.selfFactorize();
+		}
+	}
+
 	/**
 	 *
 	 * @param generic any generic value
