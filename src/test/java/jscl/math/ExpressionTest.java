@@ -840,4 +840,12 @@ public class ExpressionTest {
 		Assert.assertEquals("x1/x3+(x2*x4)/x3", Expression.valueOf("(x1+x2*x4)/x3").factorize().toString());
 		Assert.assertEquals("x1/x3+(x2*x4/x5)/x3", Expression.valueOf("(x1+x2*x4/x5)/x3").factorize().toString());
 	}
+
+	@Test
+	public void testTryToFactorOut() throws Exception {
+		Assert.assertEquals("x2*1/x3+x1/x3", Expression.valueOf("(x1+x2)/x3").tryToFactorOut(new Constant("x2")).toString());
+		Assert.assertEquals("x1/x3+x2*x4/x3", Expression.valueOf("(x1+x2*x4)/x3").tryToFactorOut(new Constant("x2")).toString());
+		Assert.assertEquals("x2*1/x3+x1/x3+x2*x4/x3", Expression.valueOf("(x1+x2*x4+x2)/x3").tryToFactorOut(new Constant("x2")).toString());
+
+	}
 }
