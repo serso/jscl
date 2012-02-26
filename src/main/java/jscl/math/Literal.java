@@ -14,9 +14,9 @@ import java.util.TreeMap;
 
 public class Literal implements Comparable {
 
-	Variable variables[];
-	int powers[];
-	int degree;
+	private Variable variables[];
+	private int powers[];
+	private int degree;
 	private int size;
 
 	Literal() {
@@ -37,10 +37,6 @@ public class Literal implements Comparable {
 
 	public int getPower(int i) {
 		return powers[i];
-	}
-	
-	public int[] powers() {
-		return powers;
 	}
 
 	void init(int size) {
@@ -111,8 +107,43 @@ public class Literal implements Comparable {
 		return result;
 	}
 
-	public Literal divide(Literal that) throws ArithmeticException {
-		return LiteralDivide.instance.divide(this, that);
+	public Literal divide(Literal literal) throws ArithmeticException {
+		Literal l = newInstance(size + literal.size);
+		int i = 0;
+		int i1 = 0;
+		int i2 = 0;
+		Variable v1 = i1 < size ? variables[i1] : null;
+		Variable v2 = i2 < literal.size ? literal.variables[i2] : null;
+		while (v1 != null || v2 != null) {
+			int c = v1 == null ? 1 : (v2 == null ? -1 : v1.compareTo(v2));
+			if (c < 0) {
+				int s = powers[i1];
+				l.variables[i] = v1;
+				l.powers[i] = s;
+				l.degree += s;
+				i++;
+				i1++;
+				v1 = i1 < size ? variables[i1] : null;
+			} else if (c > 0) {
+				throw new NotDivisibleException();
+			} else {
+				int s = powers[i1] - literal.powers[i2];
+				if (s < 0) throw new NotDivisibleException();
+				else if (s == 0) ;
+				else {
+					l.variables[i] = v1;
+					l.powers[i] = s;
+					l.degree += s;
+					i++;
+				}
+				i1++;
+				i2++;
+				v1 = i1 < size ? variables[i1] : null;
+				v2 = i2 < literal.size ? literal.variables[i2] : null;
+			}
+		}
+		l.resize(i);
+		return l;
 	}
 
 	@NotNull
@@ -135,19 +166,6 @@ public class Literal implements Comparable {
 				c = -1;
 			} else {
 				c = thisVariable.compareTo(thatVariable);
-
-				if (c != 0) {
-					if (thisVariable instanceof Fraction) {
-						final Generic numeratorGcd = ((Fraction) thisVariable).getParameters()[0].gcd(thatVariable.expressionValue());
-
-						if (numeratorGcd instanceof Expression) {
-							thisVariable = numeratorGcd.variableValue();
-							c = 0;
-						} else {
-
-						}
-					}
-				}
 			}
 
 			if (c < 0) {
@@ -431,7 +449,7 @@ public class Literal implements Comparable {
 	}
 
 	@NotNull
-	public static Literal newInstance(int n) {
+	private Literal newInstance(int n) {
 		return new Literal(n);
 	}
 }

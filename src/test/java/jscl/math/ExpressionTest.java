@@ -833,19 +833,4 @@ public class ExpressionTest {
 			"1.000473116354486E7-((1856.1678375267843*3375.5973472957558+8102.216834762455*460.5133278219642)+ln(1077.2976545272872)+9836.94091820254/cos(561.8742170542756)*sin(9587.941076809435))\n" +
 			"1.043950271691602E7-((((3594.0668967195334*2903.435684617801-ln(431.72508853349336)+√(2631.9717706394795)+4315.178672680215)+sin(1034.406679999502)/cos(7200.345388541185))+sin(8030.470700471927)))\n" +
 			"-4612.867091103858-(((117.31001770566519/6314.371065466436/5793.914918630644*1016.2707467350263*8539.984705173652)/3647.0016733225143*8871.091071924995-4680.559579608435))";
-
-	@Test
-	public void testFactorize() throws Exception {
-		Assert.assertEquals("x1/x3+x2/x3", Expression.valueOf("(x1+x2)/x3").factorize().toString());
-		Assert.assertEquals("x1/x3+(x2*x4)/x3", Expression.valueOf("(x1+x2*x4)/x3").factorize().toString());
-		Assert.assertEquals("x1/x3+(x2*x4/x5)/x3", Expression.valueOf("(x1+x2*x4/x5)/x3").factorize().toString());
-	}
-
-	@Test
-	public void testTryToFactorOut() throws Exception {
-		Assert.assertEquals("x2*1/x3+x1/x3", Expression.valueOf("(x1+x2)/x3").tryToFactorOut(new Constant("x2")).toString());
-		Assert.assertEquals("x1/x3+x2*x4/x3", Expression.valueOf("(x1+x2*x4)/x3").tryToFactorOut(new Constant("x2")).toString());
-		Assert.assertEquals("x2*1/x3+x1/x3+x2*x4/x3", Expression.valueOf("(x1+x2*x4+x2)/x3").tryToFactorOut(new Constant("x2")).toString());
-
-	}
 }

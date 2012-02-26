@@ -13,8 +13,6 @@ import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.collections.ManyValuedHashMap;
-import org.solovyev.common.collections.ManyValuedMap;
 import org.solovyev.common.utils.Converter;
 
 import java.util.*;
@@ -216,26 +214,22 @@ public class Expression extends Generic {
 
 	public Generic[] divideAndRemainder(Generic generic) throws ArithmeticException {
 		if (generic instanceof Expression) {
-			Expression that = (Expression) generic;
-			Literal l1 = this.literalScm();
-			Literal l2 = that.literalScm();
+			Expression ex = (Expression) generic;
+			Literal l1 = literalScm();
+			Literal l2 = ex.literalScm();
 			Literal l = l1.gcd(l2);
 			Variable va[] = l.variables();
 			if (va.length == 0) {
-				if (signum() == 0 && that.signum() != 0) return new Generic[]{this, JsclInteger.valueOf(0)};
+				if (signum() == 0 && ex.signum() != 0) return new Generic[]{this, JsclInteger.valueOf(0)};
 				else try {
-					return divideAndRemainder(that.integerValue());
+					return divideAndRemainder(ex.integerValue());
 				} catch (NotIntegerException e) {
 					return new Generic[]{JsclInteger.valueOf(0), this};
 				}
-			} else if ( va.length == 1 ) {
-				return new Generic[]{Expression.valueOf(l1.divide(Literal.valueOf(va[0]))), JsclInteger.valueOf(0)};
-				//Polynomial fact = Polynomial.factory(va[0]);
-				//Polynomial p[] = fact.valueOf(this).divideAndRemainder(fact.valueOf(that));
-				//return new Generic[]{p[0].genericValue(), p[1].genericValue()};
-				
 			} else {
-				return new Generic[]{JsclInteger.valueOf(0), this};
+				Polynomial fact = Polynomial.factory(va[0]);
+				Polynomial p[] = fact.valueOf(this).divideAndRemainder(fact.valueOf(ex));
+				return new Generic[]{p[0].genericValue(), p[1].genericValue()};
 			}
 		} else if (generic instanceof JsclInteger) {
 			try {
@@ -901,100 +895,4 @@ public class Expression extends Generic {
 			return variable.numeric();
 		}
 	};
-
-	@NotNull
-	public FactorOutResult tryToFactorOut(@NotNull Variable variable) {
-		return tryToFactorOut(Arrays.asList(variable));
-	}
-
-	
-	@NotNull
-	public FactorOutResult tryToFactorOut(@NotNull List<Variable> variables) {
-		final Expression factorizedExpression = (Expression)this.factorize();
-		final Generic[] summands = factorizedExpression.sumValue();
-		if ( summands.length > 1 ) {
-			final FactorOutResult result = new FactorOutResult();
-
-			for (Generic summand : summands) {
-				
-				boolean isDivided = false;
-
-				for (Variable variable : variables) {
-					final Expression vExp = variable.expressionValue();
-					try {
-						result.addDividedSummand(variable, summand.expand().divide(vExp));
-						isDivided = true;
-						break;
-					} catch (NotDivisibleException e) {
-						// ok
-					}
-				}
-
-				if (!isDivided) {
-					result.addNotDividedSummand(summand);
-				}
-			}
-			
-			return result;
-		} else {
-			FactorOutResult result = new FactorOutResult();
-			result.addNotDividedSummand(this);
-			return result;
-		}
-	}
-	
-	public static class FactorOutResult {
-		
-		private final ManyValuedMap<Variable, Generic> summandsPerVariable = new ManyValuedHashMap<Variable, Generic>(); 
-		
-		@NotNull
-		private final List<Generic> notDivided = new ArrayList<Generic>();
-
-		public FactorOutResult() {
-		}
-		
-		public void addDividedSummand(@NotNull Variable v, @NotNull Generic summand) {
-			summandsPerVariable.put(v, summand);
-		}
-
-		public void addNotDividedSummand(@NotNull Generic summand) {
-			notDivided.add(summand);
-		}
-		
-		@NotNull
-		public Set<Variable> getFactorizedVariables () {
-			return summandsPerVariable.keySet();
-		}
-		
-		@Nullable
-		public List<Generic> getSummandsPerVariable ( @NotNull Variable v ){
-			return summandsPerVariable.get(v);
-		}
-
-		@NotNull
-		public List<Generic> getNotDivided() {
-			return notDivided;
-		}
-
-		@Override
-		public String toString() {			
-			Expression result = Expression.valueOf(JsclInteger.ZERO);
-
-			for (Map.Entry<Variable, List<Generic>> entry : summandsPerVariable.entrySet()) {
-				Expression localE = Expression.valueOf(JsclInteger.ZERO);
-				for (Generic generic : entry.getValue()) {
-					localE = (Expression)localE.add(generic);
-				}
-				localE = entry.getKey().expressionValue().multiply(localE);
-				result = result.add(localE);
-			}
-
-			for (Generic generic : notDivided) {
-				result = (Expression)result.add(generic);
-			}
-			
-			
-			return result.toString();
-		}
-	}
 }
