@@ -16,6 +16,6 @@ public class JsclMessageTest {
 	@Test
 	public void testTranslation() throws Exception {
 		String localizedMessage = new JsclMessage(Messages.msg_1, MessageType.error).getLocalizedMessage(Locale.ENGLISH);
-		//Assert.assertTrue(localizedMessage.startsWith("Parsing error "));
+		Assert.assertTrue(localizedMessage.startsWith("Parsing error "));
 	}
 }
