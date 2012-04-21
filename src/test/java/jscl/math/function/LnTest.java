@@ -16,6 +16,14 @@ public class LnTest {
 		final MathEngine me = JsclMathEngine.instance;
 
 		Assert.assertEquals("-x+x*ln(x)", me.simplify("∫(ln(x), x)"));
-		Assert.assertEquals("-x+x*lg(x)", me.simplify("∫(lg(x), x)"));
+		Assert.assertEquals("-(x-x*ln(x))/(ln(2)+ln(5))", me.simplify("∫(lg(x), x)"));
 	}
+
+    @Test
+    public void testDerivative() throws Exception {
+        final MathEngine me = JsclMathEngine.instance;
+
+        Assert.assertEquals("1/x", me.simplify("∂(ln(x), x)"));
+        Assert.assertEquals("1/(x*ln(2)+x*ln(5))", me.simplify("∂(lg(x), x)"));
+    }
 }

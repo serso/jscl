@@ -7,6 +7,7 @@
 
 	<groupId>org.solovyev</groupId>
 	<artifactId>jscl</artifactId>
+    <name>Java Symbolic Computation Library</name>
 	<version>0.0.1</version>
 
 	<properties>
