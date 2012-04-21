@@ -287,7 +287,7 @@ public class ExpressionTest {
 
 		try {
 			me.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.6931471805599453+π*i", Expression.valueOf("ln(-2)").numeric().toString());
+			Assert.assertEquals("0.6931471805599453+Π*i", Expression.valueOf("ln(-2)").numeric().toString());
 		} finally {
 			me.setAngleUnits(AngleUnit.deg);
 		}
@@ -328,9 +328,9 @@ public class ExpressionTest {
 		Assert.assertEquals("1", Expression.valueOf("(π/π)!").numeric().toString());
 
 		// in deg mode π=180 and factorial of 180 is calculating
-		Assert.assertEquals("0", Expression.valueOf("π/π!").numeric().toString());
+		Assert.assertEquals("0", Expression.valueOf("Π/Π!").numeric().toString());
 
-		Assert.assertEquals("122.46467991473532E-18*i", Expression.valueOf("exp((π*i))+1").numeric().toString());
+		Assert.assertEquals("122.46467991473532E-18*i", Expression.valueOf("exp((Π*i))+1").numeric().toString());
 		Assert.assertEquals("20*x^3", Expression.valueOf("∂(5*x^4, x)").expand().simplify().toString());
 		Assert.assertEquals("25*x", Expression.valueOf("5*x*5").expand().simplify().toString());
 		Assert.assertEquals("20*x", Expression.valueOf("5*x*4").expand().simplify().toString());
@@ -382,9 +382,9 @@ public class ExpressionTest {
 			Assert.assertEquals("1.5707963267948966-1.3169578969248166*i", me.evaluate("asin(2)"));
 			Assert.assertEquals("1.5707963267948966-2.993222846126381*i", me.evaluate("asin(10)"));
 
-			Assert.assertEquals("π-2.9932228461263786*i", me.evaluate("acos(-10)"));
-			Assert.assertEquals("π-1.3169578969248164*i", me.evaluate("acos(-2)"));
-			Assert.assertEquals("π", me.evaluate("acos(-1)"));
+			Assert.assertEquals("Π-2.9932228461263786*i", me.evaluate("acos(-10)"));
+			Assert.assertEquals("Π-1.3169578969248164*i", me.evaluate("acos(-2)"));
+			Assert.assertEquals("Π", me.evaluate("acos(-1)"));
 			Assert.assertEquals("1.5707963267948966", me.evaluate("acos(0)"));
 			Assert.assertEquals("0", me.evaluate("acos(1)"));
 			Assert.assertEquals("1.3169578969248164*i", me.evaluate("acos(2)"));
@@ -411,13 +411,13 @@ public class ExpressionTest {
 			Assert.assertEquals("0.46364760900080615", me.evaluate("acot(2)"));
 			Assert.assertEquals("0.09966865249116186", me.evaluate("acot(10)"));
 
-			Assert.assertEquals("π", me.evaluate("π"));
-			Assert.assertEquals("π", me.evaluate("3.14159265358979323846"));
+			Assert.assertEquals("Π", me.evaluate("π"));
+			Assert.assertEquals("Π", me.evaluate("3.14159265358979323846"));
 		} finally {
 			me.setAngleUnits(AngleUnit.deg);
 		}
 
-		Assert.assertEquals("180", me.evaluate("π"));
+		Assert.assertEquals("180", me.evaluate("Π"));
 		Assert.assertEquals("180", me.evaluate("200-10%"));
 
 		Assert.assertEquals("∞", me.evaluate("1/0"));
@@ -446,8 +446,8 @@ public class ExpressionTest {
 
 		try {
 			mathEngine.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("π", mathEngine.evaluate("Π"));
-			Assert.assertEquals("Π/2", mathEngine.simplify("Π/2"));
+			Assert.assertEquals("Π", mathEngine.evaluate("π"));
+			Assert.assertEquals("π/2", mathEngine.simplify("π/2"));
 			Assert.assertEquals(mathEngine.evaluate("0.9092974268256816953960198659117448427022549714478902683789"), mathEngine.evaluate("sin(2)"));
 			Assert.assertEquals(mathEngine.evaluate("0.1411200080598672221007448028081102798469332642522655841518"), mathEngine.evaluate("sin(3)"));
 			Assert.assertEquals(mathEngine.evaluate("0"), mathEngine.evaluate("sin(0)"));

@@ -9,8 +9,8 @@ import jscl.math.JsclInteger;
  */
 public final class Constants {
 
-	public static final Constant PI = new Constant("π");
-	public static final Constant PI_INV = new Constant("Π");
+	public static final Constant PI = new Constant("Π");
+	public static final Constant PI_INV = new Constant("π");
 	public static final Constant I = new Constant("i");
 	public static final Constant INF = new Constant("∞");
 	public static final Constant INF_2 = new Constant("Infinity");

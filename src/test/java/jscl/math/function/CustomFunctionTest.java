@@ -126,7 +126,7 @@ public class CustomFunctionTest {
 
 		}
 
-		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("testFunction6", new String[]{"a", "b"}, "testFunction(a, b!, 4!, π)"));
+		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("testFunction6", new String[]{"a", "b"}, "testFunction(a, b!, 4!, Π)"));
 		Assert.assertEquals("180.24984770675476", Expression.valueOf("testFunction6(2, 3)").numeric().toString());
 
 		mathEngine.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("e"), 181d));

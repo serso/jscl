@@ -18,7 +18,7 @@ public class RadTest {
 		Assert.assertEquals("0.03490658503988659", mathEngine.evaluate("rad(1+1)"));
 		Assert.assertEquals("-0.03490658503988659", mathEngine.evaluate("rad(-2)"));
 		Assert.assertEquals("-0.03490658503988659", mathEngine.evaluate("rad(-1-1)"));
-		Assert.assertEquals("Π", mathEngine.evaluate("rad(180)"));
+		Assert.assertEquals("π", mathEngine.evaluate("rad(180)"));
 		Assert.assertEquals(String.valueOf(-Math.PI), mathEngine.evaluate("rad(-180)"));
 
 		// todo serso: think about zeroes
