@@ -231,7 +231,7 @@ public final class Complex extends Numeric {
 				} else {
                     if (imaginary < 0.) {
                         final String imagStr = toString(imaginary);
-                        // due to rounding we can
+                        // due to rounding we can forget sign (-0.00000000001 can be round to 0 => plus sign would not be added above and no sign will be before i)
                         if (imagStr.startsWith("-")) {
                             result.append(imagStr);
                         } else {
