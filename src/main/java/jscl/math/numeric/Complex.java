@@ -229,8 +229,18 @@ public final class Complex extends Numeric {
 				if (imaginary == -1.) {
 					result.append("-");
 				} else {
-					result.append(toString(imaginary));
-					result.append("*");
+                    if (imaginary < 0.) {
+                        final String imagStr = toString(imaginary);
+                        // due to rounding we can
+                        if (imagStr.startsWith("-")) {
+                            result.append(imagStr);
+                        } else {
+                            result.append("-").append(imagStr);
+                        }
+                    } else {
+                        result.append(toString(imaginary));
+                    }
+                    result.append("*");
 				}
 			}
 			result.append("i");
