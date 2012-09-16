@@ -1,11 +1,10 @@
 package jscl.math.function;
 
-import jscl.AngleUnit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso
@@ -26,7 +25,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 	@Nullable
 	private String description;
 
-	public static final class Builder implements IBuilder<ExtendedConstant> {
+	public static final class Builder implements JBuilder<ExtendedConstant> {
 		@NotNull
 		private Constant constant;
 

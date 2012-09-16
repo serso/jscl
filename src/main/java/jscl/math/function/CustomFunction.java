@@ -5,7 +5,7 @@ import jscl.math.*;
 import jscl.text.ParseException;
 import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
 
 /**
  * User: serso
@@ -20,7 +20,7 @@ public class CustomFunction extends Function {
 	@NotNull
 	private String[] parameterNames;
 
-	public static class Builder implements IBuilder<CustomFunction> {
+	public static class Builder implements JBuilder<CustomFunction> {
 
 		private final boolean system;
 

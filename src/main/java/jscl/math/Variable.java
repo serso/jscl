@@ -7,10 +7,13 @@ import jscl.mathml.MathML;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.Converter;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.utils.Converter;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class Variable implements Comparable, MathEntity {
 

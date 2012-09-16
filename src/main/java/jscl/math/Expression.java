@@ -13,7 +13,7 @@ import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.utils.Converter;
+import org.solovyev.common.Converter;
 
 import java.util.*;
 

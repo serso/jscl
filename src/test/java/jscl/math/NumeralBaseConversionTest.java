@@ -8,7 +8,7 @@ import jscl.util.ExpressionGeneratorWithInput;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
-import org.solovyev.common.utils.Converter;
+import org.solovyev.common.Converter;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;

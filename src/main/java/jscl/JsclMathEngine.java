@@ -11,9 +11,9 @@ import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.JPredicate;
+import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.math.MathRegistry;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.Finder;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -170,22 +170,22 @@ public enum JsclMathEngine implements MathEngine {
 
 					// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
 					final Double localValue = value;
-					IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
-						@Override
-						public boolean isFound(@Nullable IConstant constant) {
-							if (constant != null) {
-								if (localValue.equals(constant.getDoubleValue())) {
-									if (!constant.getName().equals(Constants.PI_INV.getName())) {
-										if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
-											return true;
-										}
-									}
-								}
-							}
+					IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new JPredicate<IConstant>() {
+                        @Override
+                        public boolean apply(@Nullable IConstant constant) {
+                            if (constant != null) {
+                                if (localValue.equals(constant.getDoubleValue())) {
+                                    if (!constant.getName().equals(Constants.PI_INV.getName())) {
+                                        if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
 
-							return false;
-						}
-					});
+                            return false;
+                        }
+                    });
 
 
 					if (constant == null) {

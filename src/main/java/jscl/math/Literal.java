@@ -6,7 +6,7 @@ import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.utils.Converter;
+import org.solovyev.common.Converter;
 
 import java.util.Iterator;
 import java.util.Map;

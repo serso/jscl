@@ -3,7 +3,7 @@ package jscl.math.function;
 import jscl.JsclMathEngine;
 import junit.framework.Assert;
 import org.junit.Test;
-import org.solovyev.common.utils.MathUtils;
+import org.solovyev.common.math.MathUtils;
 
 /**
  * User: serso

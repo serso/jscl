@@ -4,7 +4,7 @@ import jscl.math.*;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.utils.history.HashCodeBuilder;
+import org.solovyev.common.HashCodeBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
