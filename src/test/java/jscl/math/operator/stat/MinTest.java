@@ -13,7 +13,7 @@ public class MinTest {
 
 	@Test
 	public void testFunction() throws Exception {
-		final MathEngine me = JsclMathEngine.instance;
+		final MathEngine me = JsclMathEngine.getInstance();
 
 
 	}

@@ -13,7 +13,7 @@ public class SgnTest {
 
 	@Test
 	public void testSgn() throws Exception {
-		final JsclMathEngine me = JsclMathEngine.instance;
+		final JsclMathEngine me = JsclMathEngine.getInstance();
 
 		Assert.assertEquals("1", me.evaluate("sgn(10)"));
 		Assert.assertEquals("1", me.evaluate("sgn(0.5)"));

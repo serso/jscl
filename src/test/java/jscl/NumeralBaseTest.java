@@ -16,7 +16,7 @@ public class NumeralBaseTest {
 
 	@Test
 	public void testEvaluation() throws Exception {
-		MathEngine me = JsclMathEngine.instance;
+		MathEngine me = JsclMathEngine.getInstance();
 
 		Assert.assertEquals("3", me.evaluate("0b:1+0b:10"));
 		Assert.assertEquals("5", me.evaluate("0b:1+0b:100"));
@@ -60,7 +60,7 @@ public class NumeralBaseTest {
 
 	@Test
 	public void testNumeralBases() throws Exception {
-		MathEngine me = JsclMathEngine.instance;
+		MathEngine me = JsclMathEngine.getInstance();
 
 		final NumeralBase defaultNumeralBase = me.getNumeralBase();
 		try{

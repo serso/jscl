@@ -14,7 +14,7 @@ public class TanTest {
 
 	@Test
 	public void testIntegrate() throws Exception {
-		final JsclMathEngine me = JsclMathEngine.instance;
+		final JsclMathEngine me = JsclMathEngine.getInstance();
 
 		// todo serso: uncomment after variable modification issue fixed
 /*		Assert.assertEquals("-2*ln(2)-ln(cos(x))", me.simplify("∫(tan(x), x)"));

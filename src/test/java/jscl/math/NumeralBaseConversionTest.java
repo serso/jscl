@@ -25,7 +25,7 @@ public class NumeralBaseConversionTest {
 	public void testConversion() throws Exception {
 		CSVReader reader = null;
 		try {
-			final MathEngine me = JsclMathEngine.instance;
+			final MathEngine me = JsclMathEngine.getInstance();
 
 			reader = new CSVReader(new InputStreamReader(NumeralBaseConversionTest.class.getResourceAsStream("/jscl/math/nb_table.csv")), '\t');
 

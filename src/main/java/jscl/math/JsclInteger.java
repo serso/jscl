@@ -335,7 +335,7 @@ public final class JsclInteger extends Generic {
 
     public String toString() {
 		// todo serso: actually better way is to provide custom format() method for integers and not to convert integer to double
-        return JsclMathEngine.instance.format(this.content.doubleValue());
+        return JsclMathEngine.getInstance().format(this.content.doubleValue());
     }
 
 	public String toJava() {

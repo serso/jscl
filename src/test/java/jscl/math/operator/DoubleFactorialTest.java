@@ -16,7 +16,7 @@ public class DoubleFactorialTest {
 
 	@Test
 	public void testDoubleFactorial() throws Exception {
-		final MathEngine me = JsclMathEngine.instance;
+		final MathEngine me = JsclMathEngine.getInstance();
 
 		Assert.assertEquals("1", me.evaluate("0!"));
 		Assert.assertEquals("1", me.evaluate("1!"));

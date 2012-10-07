@@ -25,12 +25,28 @@ import java.util.Locale;
  * Date: 11/1/11
  * Time: 12:00 PM
  */
-public enum JsclMathEngine implements MathEngine {
+public class JsclMathEngine implements MathEngine {
 
-	instance;
+    /*
+    **********************************************************************
+    *
+    *                           CONSTANTS
+    *
+    **********************************************************************
+    */
+    @NotNull
+    private static JsclMathEngine instance = new JsclMathEngine();
 
 	public static final String GROUPING_SEPARATOR_DEFAULT = " ";
 
+
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
 
     @NotNull
 	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -54,7 +70,35 @@ public enum JsclMathEngine implements MathEngine {
 	@NotNull
 	private NumeralBase numeralBase = NumeralBase.dec;
 
-	@NotNull
+    @NotNull
+    private ConstantsRegistry constantsRegistry;
+
+    /*
+    **********************************************************************
+    *
+    *                           CONSTRUCTORS
+    *
+    **********************************************************************
+    */
+
+    private JsclMathEngine() {
+        this.constantsRegistry = new ConstantsRegistry();
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           METHODS
+    *
+    **********************************************************************
+    */
+
+    @NotNull
+    public static JsclMathEngine getInstance() {
+        return instance;
+    }
+
+    @NotNull
 	@Override
 	public String evaluate(@NotNull String expression) throws ParseException {
 	 	return evaluateGeneric(expression).toString();
@@ -141,7 +185,7 @@ public enum JsclMathEngine implements MathEngine {
 	@NotNull
 	@Override
 	public MathRegistry<IConstant> getConstantsRegistry() {
-		return ConstantsRegistry.getInstance();
+        return constantsRegistry;
 	}
 
 	@Override
@@ -176,7 +220,7 @@ public enum JsclMathEngine implements MathEngine {
                             if (constant != null) {
                                 if (localValue.equals(constant.getDoubleValue())) {
                                     if (!constant.getName().equals(Constants.PI_INV.getName())) {
-                                        if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.instance.getAngleUnits() == AngleUnit.rad) {
+                                        if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.getInstance().getAngleUnits() == AngleUnit.rad) {
                                             return true;
                                         }
                                     }

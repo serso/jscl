@@ -29,7 +29,7 @@ public class TrigonometricTest {
 	public void testValues() throws Exception {
 		CSVReader reader = null;
 		try {
-			final MathEngine me = JsclMathEngine.instance;
+			final MathEngine me = JsclMathEngine.getInstance();
 
 			reader = new CSVReader(new InputStreamReader(TrigonometricTest.class.getResourceAsStream("/jscl/math/trig_table.csv")), '\t');
 

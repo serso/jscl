@@ -14,7 +14,7 @@ public class SqrtTest {
 
     @Test
     public void testNumeric() throws Exception {
-        final JsclMathEngine me = JsclMathEngine.instance;
+        final JsclMathEngine me = JsclMathEngine.getInstance();
         final AngleUnit defaultAngleUnits = me.getAngleUnits();
 
         Assert.assertEquals("0.9999060498015505+0.013707354604707477*i", me.evaluate("√(√(-1))"));

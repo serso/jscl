@@ -1,8 +1,6 @@
 package jscl.math.operator;
 
 import jscl.JsclMathEngine;
-import jscl.math.Expression;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -13,7 +11,7 @@ import org.junit.Test;
 public class GcdTest {
 	@Test
 	public void testNumeric() throws Exception {
-	  	JsclMathEngine mathEngine = JsclMathEngine.instance;
+	  	JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		//mathEngine.getOperatorsRegistry().add(new Gcd());
 

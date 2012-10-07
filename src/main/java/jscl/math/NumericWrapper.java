@@ -1,8 +1,8 @@
 package jscl.math;
 
+import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.math.function.Constants;
-import jscl.math.function.ConstantsRegistry;
 import jscl.math.function.IConstant;
 import jscl.math.numeric.*;
 import jscl.mathml.MathML;
@@ -47,7 +47,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 	}
 
 	public NumericWrapper(@NotNull Constant constant) {
-		final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
+		final IConstant constantFromRegistry = JsclMathEngine.getInstance().getConstantsRegistry().get(constant.getName());
 
 		if (constantFromRegistry != null ) {
 			if (constantFromRegistry.getName().equals(Constants.I.getName())) {

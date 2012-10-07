@@ -12,7 +12,7 @@ import org.junit.Test;
 public class RadTest {
 	@Test
 	public void testRad() throws Exception {
-		final JsclMathEngine mathEngine = JsclMathEngine.instance;
+		final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		Assert.assertEquals("0.03490658503988659", mathEngine.evaluate("rad(2)"));
 		Assert.assertEquals("0.03490658503988659", mathEngine.evaluate("rad(1+1)"));

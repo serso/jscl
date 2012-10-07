@@ -36,8 +36,10 @@ public class ExpressionTest {
 		Assert.assertTrue(constants.contains(new Constant("t")));
 
 		IConstant constant = null;
-		try{
-			constant = JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t_0"), 1d));
+
+        final JsclMathEngine me = JsclMathEngine.getInstance();
+        try{
+			constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t_0"), 1d));
 
 			constants = Expression.valueOf("3+4*t_0+t_0+t_1").getConstants();
 			Assert.assertTrue(constants.size() == 2);
@@ -52,7 +54,7 @@ public class ExpressionTest {
 
 		} finally {
 			if (constant != null) {
-				JsclMathEngine.instance.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant(constant.getName()), (String)null));
+				me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant(constant.getName()), (String)null));
 			}
 		}
 	}
@@ -79,7 +81,7 @@ public class ExpressionTest {
 		Assert.assertEquals("48", Expression.valueOf("2*4.0!").numeric().toString());
 		Assert.assertEquals("40320", Expression.valueOf("(2*4.0)!").numeric().toString());
 
-		final JsclMathEngine me = JsclMathEngine.instance;
+		final JsclMathEngine me = JsclMathEngine.getInstance();
 		final AngleUnit angleUnits = me.getAngleUnits();
 		try {
 			me.setAngleUnits(AngleUnit.rad);
@@ -430,7 +432,7 @@ public class ExpressionTest {
 
 	@Test
 	public void testAngleUnits() throws Exception {
-		final MathEngine mathEngine = JsclMathEngine.instance;
+		final MathEngine mathEngine = JsclMathEngine.getInstance();
 
 		final AngleUnit defaultAngleUnits = mathEngine.getAngleUnits();
 
@@ -638,20 +640,20 @@ public class ExpressionTest {
 		Assert.assertEquals("x^2/2", Expression.valueOf("∫(x, x)").expand().simplify().toString());
 		Assert.assertEquals("ln(x)", Expression.valueOf("∫(1/x, x)").expand().simplify().toString());
 		try {
-			JsclMathEngine.instance.setAngleUnits(AngleUnit.rad);
+			JsclMathEngine.getInstance().setAngleUnits(AngleUnit.rad);
 			Assert.assertEquals("2*ln(2)+ln(cosh(x))", Expression.valueOf("∫(tanh(x), x)").expand().simplify().toString());
 			Assert.assertEquals("2*ln(2)+ln(sin(x))", Expression.valueOf("∫(cot(x), x)").expand().simplify().toString());
 			Assert.assertEquals("-2*ln(2)-ln(cos(x))", Expression.valueOf("∫(tan(x), x)").expand().simplify().toString());
 		} finally {
-			JsclMathEngine.instance.setAngleUnits(AngleUnit.deg);
+			JsclMathEngine.getInstance().setAngleUnits(AngleUnit.deg);
 		}
 	}
 
 	@Test
 	public void testDerivations() throws Exception {
-		final AngleUnit defaultAngleUnits = JsclMathEngine.instance.getAngleUnits();
+		final AngleUnit defaultAngleUnits = JsclMathEngine.getInstance().getAngleUnits();
 		try {
-			JsclMathEngine.instance.setAngleUnits(AngleUnit.rad);
+			JsclMathEngine.getInstance().setAngleUnits(AngleUnit.rad);
 			Assert.assertEquals("-0.9092974268256817", Expression.valueOf("∂(cos(t),t,2)").numeric().toString());
 			Assert.assertEquals("∂(cos(t), t, 2, 1)", Expression.valueOf("∂(cos(t),t,2)").simplify().toString());
 			Assert.assertEquals("-2.234741690198506", Expression.valueOf("∂(t*cos(t),t,2)").numeric().toString());
@@ -661,7 +663,7 @@ public class ExpressionTest {
 			org.junit.Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t,t,1)").expand().simplify().toString());
 			org.junit.Assert.assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().simplify().toString());
 		} finally {
-			JsclMathEngine.instance.setAngleUnits(defaultAngleUnits);
+			JsclMathEngine.getInstance().setAngleUnits(defaultAngleUnits);
 		}
 
 		// todo serso: uncomment and check!!!
@@ -690,7 +692,7 @@ public class ExpressionTest {
 
 	@Test
 	public void testNumeralBases() throws Exception {
-		final JsclMathEngine me = JsclMathEngine.instance;
+		final JsclMathEngine me = JsclMathEngine.getInstance();
 		//final NumeralBase defaultNumeralBase = me.getDefaultNumeralBase();
 		try {
 			//me.setDefaultNumeralBase(NumeralBase.bin);
@@ -731,7 +733,7 @@ public class ExpressionTest {
 
 	@Test
 	public void testFormat() throws Exception {
-		final JsclMathEngine me = JsclMathEngine.instance;
+		final JsclMathEngine me = JsclMathEngine.getInstance();
 		try {
 			me.setUseGroupingSeparator(true);
 			Assert.assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").numeric().toString());

@@ -16,7 +16,7 @@ public abstract class Trigonometric extends Function {
 	}
 
 	public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
-		if (JsclMathEngine.instance.getAngleUnits() != AngleUnit.rad ) {
+		if (JsclMathEngine.getInstance().getAngleUnits() != AngleUnit.rad ) {
 			throw new NotIntegrableException(Messages.msg_20, getName());
 		}
 

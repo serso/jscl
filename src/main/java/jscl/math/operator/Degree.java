@@ -35,7 +35,7 @@ public class Degree extends PostfixFunction {
 
 	@Override
 	public Generic selfNumeric() {
-		return AngleUnit.deg.transform(JsclMathEngine.instance.getAngleUnits(), parameters[0]);
+		return AngleUnit.deg.transform(JsclMathEngine.getInstance().getAngleUnits(), parameters[0]);
 	}
 
 	@NotNull

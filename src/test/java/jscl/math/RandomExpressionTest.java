@@ -19,7 +19,7 @@ public class RandomExpressionTest {
 		int i = 0;
 		while (i < MAX) {
 			final String expression = eg.generate();
-			final String result = JsclMathEngine.instance.evaluate(expression);
+			final String result = JsclMathEngine.getInstance().evaluate(expression);
 
 			//System.out.println(result + "-(" + expression + ")");
 

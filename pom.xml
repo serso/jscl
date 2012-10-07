@@ -8,10 +8,10 @@
 	<groupId>org.solovyev</groupId>
 	<artifactId>jscl</artifactId>
     <name>Java Symbolic Computation Library</name>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 
 	<properties>
-		<additionalLibs>${basedir}/src/misc/lib</additionalLibs>
+		<additionalLibs>${basedir}/misc/lib</additionalLibs>
 	</properties>
 
 	<repositories>
@@ -73,6 +73,7 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -86,6 +87,17 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- as some classes are singletons we must run  each test in separate JVM-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <forkMode>perTest</forkMode>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

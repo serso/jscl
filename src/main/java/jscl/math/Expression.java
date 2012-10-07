@@ -689,7 +689,7 @@ public class Expression extends Generic {
 	public static Expression valueOf(@NotNull String expression) throws ParseException {
 		final MutableInt position = new MutableInt(0);
 
-		final Parser.Parameters p = Parser.Parameters.newInstance(expression, position, JsclMathEngine.instance);
+		final Parser.Parameters p = Parser.Parameters.newInstance(expression, position, JsclMathEngine.getInstance());
 
 		final Generic generic = ExpressionParser.parser.parse(p, null);
 

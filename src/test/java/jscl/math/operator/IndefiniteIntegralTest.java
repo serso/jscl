@@ -16,7 +16,7 @@ public class IndefiniteIntegralTest {
 
 	@Test
 	public void testIntegral() throws Exception {
-		final MathEngine me = JsclMathEngine.instance;
+		final MathEngine me = JsclMathEngine.getInstance();
 
 		try {
 			Assert.assertEquals("∫(sin(t!), t)", me.evaluate("∫(sin(t!), t)"));

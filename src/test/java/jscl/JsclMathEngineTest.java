@@ -11,7 +11,7 @@ import org.junit.Test;
 public class JsclMathEngineTest {
 	@Test
 	public void testFormat() throws Exception {
-		final MathContext me = JsclMathEngine.instance;
+		final MathContext me = JsclMathEngine.getInstance();
 
 		try {
 			me.setUseGroupingSeparator(true);

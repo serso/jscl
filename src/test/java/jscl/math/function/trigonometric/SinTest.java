@@ -14,7 +14,7 @@ public class SinTest {
 
 	@Test
 	public void testIntegrate() throws Exception {
-		final JsclMathEngine me = JsclMathEngine.instance;
+		final JsclMathEngine me = JsclMathEngine.getInstance();
 
 		// todo serso: uncomment after variable modification issue fixed
 		/*Assert.assertEquals("-cos(x)", me.simplify("∫(sin(x), x)"));

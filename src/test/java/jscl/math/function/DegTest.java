@@ -14,7 +14,7 @@ public class DegTest {
 
 	@Test
 	public void testDeg() throws Exception {
-		final JsclMathEngine mathEngine = JsclMathEngine.instance;
+		final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		Assert.assertEquals("2", mathEngine.evaluate("deg(0.03490658503988659)"));
 		Assert.assertEquals("-2", mathEngine.evaluate("deg(-0.03490658503988659)"));

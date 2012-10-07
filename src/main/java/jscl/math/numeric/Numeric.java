@@ -83,21 +83,21 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 	 */
 
 	protected static double defaultToRad(double value) {
-		return JsclMathEngine.instance.getAngleUnits().transform(AngleUnit.rad, value);
+		return JsclMathEngine.getInstance().getAngleUnits().transform(AngleUnit.rad, value);
 	}
 
 	protected static double radToDefault(double value) {
-		return AngleUnit.rad.transform(JsclMathEngine.instance.getAngleUnits(), value);
+		return AngleUnit.rad.transform(JsclMathEngine.getInstance().getAngleUnits(), value);
 	}
 
 	@NotNull
 	protected static Numeric defaultToRad(@NotNull Numeric value) {
-		return JsclMathEngine.instance.getAngleUnits().transform(AngleUnit.rad, value);
+		return JsclMathEngine.getInstance().getAngleUnits().transform(AngleUnit.rad, value);
 	}
 
 	@NotNull
 	protected static Numeric radToDefault(@NotNull Numeric value) {
-		return AngleUnit.rad.transform(JsclMathEngine.instance.getAngleUnits(), value);
+		return AngleUnit.rad.transform(JsclMathEngine.getInstance().getAngleUnits(), value);
 	}
 
 	/*
@@ -319,6 +319,6 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 
 	@NotNull
 	protected String toString(final double value) {
-		return JsclMathEngine.instance.format(value, JsclMathEngine.instance.getNumeralBase());
+		return JsclMathEngine.getInstance().format(value, JsclMathEngine.getInstance().getNumeralBase());
 	}
 }

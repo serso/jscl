@@ -16,7 +16,7 @@ public class CustomFunctionTest {
 
 	@Test
 	public void testLog() throws Exception {
-		JsclMathEngine mathEngine = JsclMathEngine.instance;
+		JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		Assert.assertEquals("∞", Expression.valueOf("1/0").numeric().toString());
 		Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
@@ -36,7 +36,7 @@ public class CustomFunctionTest {
 
 	@Test
 	public void testDerivative() throws Exception {
-		JsclMathEngine mathEngine = JsclMathEngine.instance;
+		JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1", new String[]{"a"}, "sin(a)"));
 		Assert.assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
@@ -51,7 +51,7 @@ public class CustomFunctionTest {
 
 	@Test
 	public void testAntiDerivative() throws Exception {
-		JsclMathEngine mathEngine = JsclMathEngine.instance;
+		JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1", new String[]{"a"}, "sin(a)"));
 		Assert.assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
@@ -74,7 +74,7 @@ public class CustomFunctionTest {
 
 	@Test
 	public void testFunction() throws Exception {
-		JsclMathEngine mathEngine = JsclMathEngine.instance;
+		JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
 		mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("testFunction", new String[]{"a", "b", "c", "d"}, "b*cos(a)/c+d"));
 		Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction(2, 3, 4, 6)").numeric().toString());
