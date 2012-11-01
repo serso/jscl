@@ -4,6 +4,7 @@ import jscl.math.JsclInteger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
@@ -47,10 +48,10 @@ public enum NumeralBase {
 
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 
-		@NotNull
+/*		@NotNull
 		public String toString(@NotNull Double value) {
 			return Long.toHexString(Double.doubleToRawLongBits(value)).toUpperCase();
-		}
+		}*/
 
 		@NotNull
 		@Override
@@ -69,10 +70,10 @@ public enum NumeralBase {
 
 		private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7');
 
-		@NotNull
+/*		@NotNull
 		public String toString(@NotNull Double value) {
 			return Long.toOctalString(Double.doubleToRawLongBits(value)).toUpperCase();
-		}
+		}*/
 
 		@NotNull
 		@Override
@@ -91,10 +92,10 @@ public enum NumeralBase {
 
 		private final List<Character> characters = Arrays.asList('0', '1');
 
-		@NotNull
+/*		@NotNull
 		public String toString(@NotNull Double value) {
 			return Long.toBinaryString(Double.doubleToRawLongBits(value)).toUpperCase();
-		}
+		}*/
 
 		@NotNull
 		@Override
@@ -109,8 +110,8 @@ public enum NumeralBase {
 		}
 	};
 
-	private final int radix;
-	private final int groupingSize;
+	protected final int radix;
+	protected final int groupingSize;
 
 	NumeralBase(int radix, int groupingSize) {
 		this.radix = radix;
@@ -137,7 +138,6 @@ public enum NumeralBase {
 		return new BigInteger(value, radix);
 	}
 
-	@NotNull
 	public String toString(@NotNull BigInteger value) {
 		return value.toString(radix).toUpperCase();
 	}
@@ -147,13 +147,11 @@ public enum NumeralBase {
 	}
 
 	@NotNull
-	public abstract String toString(@NotNull Double value);
-
-	@NotNull
 	public abstract String getJsclPrefix();
 
 	@NotNull
 	public abstract List<Character> getAcceptableCharacters();
+
 
 	@Nullable
 	public static NumeralBase getByPrefix ( @NotNull String prefix ) {
@@ -168,5 +166,26 @@ public enum NumeralBase {
 
 	public int getGroupingSize() {
 		return groupingSize;
+	}
+
+	@NotNull
+	 public String toString(@NotNull Double value, int fractionDigits) {
+		return toString(value, radix, fractionDigits);
+	}
+
+	@NotNull
+	protected static String toString(@NotNull Double value, int radix, int fractionDigits) {
+		final BigDecimal mult = BigDecimal.valueOf(radix).pow(fractionDigits);
+		final BigDecimal bd = BigDecimal.valueOf(value).multiply(mult);
+
+		final BigInteger bi = bd.toBigInteger();
+		final StringBuilder result = new StringBuilder(bi.toString(radix));
+
+		while (result.length() < fractionDigits + 1) {  // +1 for leading zero
+			result.insert(0, "0");
+		}
+		result.insert(result.length() - fractionDigits, ".");
+
+		return result.toString().toUpperCase();
 	}
 }

@@ -38,15 +38,16 @@ public class JsclMathEngine implements MathEngine {
     private static JsclMathEngine instance = new JsclMathEngine();
 
 	public static final String GROUPING_SEPARATOR_DEFAULT = " ";
+	public static final int MAX_FRACTION_DIGITS = 20;
 
 
-    /*
-    **********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
+	/*
+		**********************************************************************
+		*
+		*                           FIELDS
+		*
+		**********************************************************************
+		*/
 
     @NotNull
 	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -265,7 +266,7 @@ public class JsclMathEngine implements MathEngine {
 							// using default round logic => try roundResult variable
 							if (!roundResult) {
 								// set maximum fraction digits high enough to show all fraction digits in case of no rounding
-								df.setMaximumFractionDigits(20);
+								df.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
 							} else {
 								df.setMaximumFractionDigits(precision);
 							}
@@ -277,15 +278,17 @@ public class JsclMathEngine implements MathEngine {
 						return constant.getName();
 					}
 				} else {
+					String ungroupedValue;
 					try {
 						// check if double can be converted to integer
 						integerValue(value);
 
-						final String ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
-						return addGroupingSeparators(nb, ungroupedValue);
+						ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
 					} catch (NotIntegerException e) {
-						throw new NumeralBaseException(value);
+						ungroupedValue = nb.toString(value, roundResult ? precision : MAX_FRACTION_DIGITS);
 					}
+
+					return addGroupingSeparators(nb, ungroupedValue);
 				}
 			}
 		}
@@ -293,23 +296,58 @@ public class JsclMathEngine implements MathEngine {
 
 	@Override
 	@NotNull
-	public String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedIntValue) {
+	public String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedDoubleValue) {
 		if (useGroupingSeparator) {
 			String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(decimalGroupSymbols.getGroupingSeparator()) : " ";
+
+			final int dotIndex = ungroupedDoubleValue.indexOf(".");
+
+			String ungroupedValue;
+			if ( dotIndex >= 0 ) {
+				ungroupedValue = ungroupedDoubleValue.substring(0, dotIndex);
+			} else {
+				ungroupedValue = ungroupedDoubleValue;
+			}
 			// inject group separator in the resulted string
 			// NOTE: space symbol is always used!!!
-			final StringBuilder result = new StringBuilder();
-			for (int i = ungroupedIntValue.length() - 1; i >= 0; i--) {
-				result.append(ungroupedIntValue.charAt(i));
-				if (i != 0 && (ungroupedIntValue.length() - i) % nb.getGroupingSize() == 0) {
+			StringBuilder result = insertSeparators(nb, groupingSeparator, ungroupedValue, true);
+
+			result = result.reverse();
+
+			if ( dotIndex >= 0 ) {
+				result.append(insertSeparators(nb, groupingSeparator, ungroupedDoubleValue.substring(dotIndex), false));
+			}
+
+			return result.toString();
+		} else {
+			return ungroupedDoubleValue;
+		}
+	}
+
+	@NotNull
+	private StringBuilder insertSeparators(@NotNull NumeralBase nb,
+										   @NotNull String groupingSeparator,
+										   @NotNull String value,
+										   boolean reversed) {
+		final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize() * groupingSeparator.length());
+
+		if (reversed) {
+			for (int i = value.length() - 1; i >= 0; i--) {
+				result.append(value.charAt(i));
+				if (i != 0 && (value.length() - i) % nb.getGroupingSize() == 0) {
 					result.append(groupingSeparator);
 				}
 			}
-
-			return result.reverse().toString();
 		} else {
-			return ungroupedIntValue;
+			for (int i = 0; i < value.length(); i++) {
+				result.append(value.charAt(i));
+				if (i != 0 && i != value.length() - 1 && i % nb.getGroupingSize() == 0) {
+					result.append(groupingSeparator);
+				}
+			}
 		}
+
+		return result;
 	}
 
 	private static int integerValue(final double value) throws NotIntegerException {
