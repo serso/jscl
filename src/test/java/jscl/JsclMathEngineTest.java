@@ -44,6 +44,7 @@ public class JsclMathEngineTest {
             Assert.assertEquals("1 3D", me.format(317d, NumeralBase.hex));
             Assert.assertEquals("13 DE 43 55.1F 08 5B EF 14", me.format(333333333.1212213321d, NumeralBase.hex));
             Assert.assertEquals("D 25 0F 77 0A.6F 73 18 FC 50", me.format(56456345354.43534534523459999d, NumeralBase.hex));
+            Assert.assertEquals("3 E7.4C CC CC CC CC", me.format(999.3d, NumeralBase.hex));
 
             me.setRoundResult(false);
             Assert.assertEquals("0.00 00 00 00 00 00 00 00 00 6C", me.format(0.00000000000000000000009d, NumeralBase.hex));
