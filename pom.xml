@@ -16,18 +16,17 @@
     <name>Java Symbolic Computation Library</name>
     <version>1.0.0-SNAPSHOT</version>
 
-    <properties>
-        <additionalLibs>${basedir}/misc/lib</additionalLibs>
-    </properties>
+    <scm>
+        <connection>scm:git:git@github.com:serso/jscl.git</connection>
+        <developerConnection>scm:git:git@github.com:serso/jscl.git</developerConnection>
+        <url>http://github.com/serso/jscl</url>
+        <tag>HEAD</tag>
+    </scm>
 
-    <repositories>
-        <repository>
-            <id>congrace.de</id>
-            <name>releases</name>
-            <url>http://nexus.congrace.de/nexus/content/repositories/releases/</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <common.version>1.0.1</common.version>
+    </properties>
 
     <dependencies>
 
@@ -36,19 +35,19 @@
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-core</artifactId>
-            <version>1.0.2</version>
+            <version>${common.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-msg</artifactId>
-            <version>1.0.2</version>
+            <version>${common.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-other</artifactId>
-            <version>1.0.2</version>
+            <version>${common.version}</version>
         </dependency>
 
         <!-- OTHER -->
@@ -85,20 +84,6 @@
 
     <build>
         <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!-- as some classes are singletons we must run  each test in separate JVM-->
             <plugin>
