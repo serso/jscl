@@ -353,21 +353,11 @@ public class ExpressionTest {
 
         try {
             me.setNumeralBase(NumeralBase.hex);
-            try {
-                Assert.assertEquals("E/F", me.evaluate("0x:E/0x:F"));
-                fail();
-            } catch (NumeralBaseException e) {
-                // ok
-            }
+
+            Assert.assertEquals("0.EEEEEEEEEEEEEC880AB7", me.evaluate("0x:E/0x:F"));
             Assert.assertEquals("E/F", me.simplify("0x:E/0x:F"));
 
-            try {
-                Assert.assertEquals("E/F", me.evaluate("E/F"));
-                fail();
-            } catch (NumeralBaseException e) {
-                // ok
-            }
-
+            Assert.assertEquals("0.EEEEEEEEEEEEEC880AB7", me.evaluate("E/F"));
             Assert.assertEquals("E/F", me.simplify("E/F"));
 
         } finally {

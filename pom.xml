@@ -3,12 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.solovyev</groupId>
     <artifactId>jscl</artifactId>
     <name>Java Symbolic Computation Library</name>
-    <version>0.0.3</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <additionalLibs>${basedir}/misc/lib</additionalLibs>
@@ -25,6 +31,42 @@
 
     <dependencies>
 
+        <!-- OWN-->
+
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>common-core</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>common-msg</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>common-other</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <!-- OTHER -->
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>7.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <!-- TEST -->
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -37,36 +79,6 @@
             <artifactId>opencsv</artifactId>
             <version>2.0</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>common-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>common-msg</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>common-other</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>annotations</artifactId>
-            <version>7.0.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.8.0</version>
         </dependency>
 
     </dependencies>

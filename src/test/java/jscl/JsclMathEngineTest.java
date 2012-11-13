@@ -38,6 +38,7 @@ public class JsclMathEngineTest {
             Assert.assertEquals("1100.0101 0101 01", me.format(12.3333d, NumeralBase.bin));
             Assert.assertEquals("1 0011 1101 1110 0100 0011 0101 0101.0001 1111 00", me.format(333333333.1212213321d, NumeralBase.bin));
 
+            Assert.assertEquals("0.EE EE EE EE EE", me.format(14d / 15d, NumeralBase.hex));
             Assert.assertEquals("7F 36", me.format(32566d, NumeralBase.hex));
             Assert.assertEquals("24", me.format(36d, NumeralBase.hex));
             Assert.assertEquals("8", me.format(8d, NumeralBase.hex));
