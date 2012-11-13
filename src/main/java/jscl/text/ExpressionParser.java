@@ -6,30 +6,30 @@ import org.jetbrains.annotations.Nullable;
 
 public class ExpressionParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new ExpressionParser();
+    public static final Parser<Generic> parser = new ExpressionParser();
 
-	private ExpressionParser() {
-	}
+    private ExpressionParser() {
+    }
 
-	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 
-		boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
+        boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
 
-		Generic result = TermParser.parser.parse(p, previousSumElement);
+        Generic result = TermParser.parser.parse(p, previousSumElement);
 
-		if (sign) {
-			result = result.negate();
-		}
+        if (sign) {
+            result = result.negate();
+        }
 
-		while (true) {
-			try {
-				result = result.add(PlusOrMinusTerm.parser.parse(p, result));
-			} catch (ParseException e) {
-				break;
-			}
-		}
+        while (true) {
+            try {
+                result = result.add(PlusOrMinusTerm.parser.parse(p, result));
+            } catch (ParseException e) {
+                break;
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 }
 

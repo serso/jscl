@@ -5,8 +5,8 @@ import jscl.math.NotIntegrableException;
 
 public abstract class ArcTrigonometric extends Function {
 
-	public ArcTrigonometric(String name, Generic parameter[]) {
-        super(name,parameter);
+    public ArcTrigonometric(String name, Generic parameter[]) {
+        super(name, parameter);
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {

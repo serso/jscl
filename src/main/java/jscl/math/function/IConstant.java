@@ -11,20 +11,20 @@ import org.solovyev.common.math.MathEntity;
  */
 public interface IConstant extends MathEntity {
 
-	@NotNull
-	Constant getConstant();
+    @NotNull
+    Constant getConstant();
 
-	@Nullable
-	String getDescription();
+    @Nullable
+    String getDescription();
 
-	boolean isDefined();
+    boolean isDefined();
 
-	@Nullable
-	String getValue();
+    @Nullable
+    String getValue();
 
-	@Nullable
-	Double getDoubleValue();
+    @Nullable
+    Double getDoubleValue();
 
-	@NotNull
-	String toJava();
+    @NotNull
+    String toJava();
 }

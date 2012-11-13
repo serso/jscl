@@ -9,21 +9,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class Acosh extends ArcTrigonometric {
     public Acosh(Generic generic) {
-        super("acosh",new Generic[] {generic});
+        super("acosh", new Generic[]{generic});
     }
 
     public Generic derivative(int n) {
         return new Inverse(
-            new Sqrt(
-                parameters[0].pow(2).subtract(
-                    JsclInteger.valueOf(1)
-                )
-            ).selfExpand()
+                new Sqrt(
+                        parameters[0].pow(2).subtract(
+                                JsclInteger.valueOf(1)
+                        )
+                ).selfExpand()
         ).selfExpand();
     }
 
     public Generic selfExpand() {
-        if(parameters[0].signum()==0) {
+        if (parameters[0].signum() == 0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -31,14 +31,14 @@ public class Acosh extends ArcTrigonometric {
 
     public Generic selfElementary() {
         return new Ln(
-            new Root(
-                new Generic[] {
-                    JsclInteger.valueOf(-1),
-                    JsclInteger.valueOf(2).multiply(parameters[0]),
-                    JsclInteger.valueOf(-1)
-                },
-                0
-            ).selfElementary()
+                new Root(
+                        new Generic[]{
+                                JsclInteger.valueOf(-1),
+                                JsclInteger.valueOf(2).multiply(parameters[0]),
+                                JsclInteger.valueOf(-1)
+                        },
+                        0
+                ).selfElementary()
         ).selfElementary();
     }
 
@@ -47,7 +47,7 @@ public class Acosh extends ArcTrigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Acosh(null);
     }
 }

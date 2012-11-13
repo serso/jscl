@@ -13,9 +13,9 @@ import java.util.Locale;
  */
 public class JsclMessageTest {
 
-	@Test
-	public void testTranslation() throws Exception {
-		String localizedMessage = new JsclMessage(Messages.msg_1, MessageType.error).getLocalizedMessage(Locale.ENGLISH);
-		Assert.assertTrue(localizedMessage.startsWith("Parsing error "));
-	}
+    @Test
+    public void testTranslation() throws Exception {
+        String localizedMessage = new JsclMessage(Messages.msg_1, MessageType.error).getLocalizedMessage(Locale.ENGLISH);
+        Assert.assertTrue(localizedMessage.startsWith("Parsing error "));
+    }
 }

@@ -11,27 +11,27 @@ import org.jetbrains.annotations.NotNull;
  */
 class PlusOrMinusTerm implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new PlusOrMinusTerm();
+    public static final Parser<Generic> parser = new PlusOrMinusTerm();
 
-	private PlusOrMinusTerm() {
-	}
+    private PlusOrMinusTerm() {
+    }
 
-	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(p);
+        ParserUtils.skipWhitespaces(p);
 
-		boolean sign = false;
-		if (p.getPosition().intValue() < p.getExpression().length() && (p.getExpression().charAt(p.getPosition().intValue()) == '+' || p.getExpression().charAt(p.getPosition().intValue()) == '-')) {
-			sign = p.getExpression().charAt(p.getPosition().intValue()) == '-';
-			p.getPosition().increment();
-		} else {
-			ParserUtils.throwParseException(p, pos0, Messages.msg_10, '+', '-');
-		}
+        boolean sign = false;
+        if (p.getPosition().intValue() < p.getExpression().length() && (p.getExpression().charAt(p.getPosition().intValue()) == '+' || p.getExpression().charAt(p.getPosition().intValue()) == '-')) {
+            sign = p.getExpression().charAt(p.getPosition().intValue()) == '-';
+            p.getPosition().increment();
+        } else {
+            ParserUtils.throwParseException(p, pos0, Messages.msg_10, '+', '-');
+        }
 
-		final Generic result = ParserUtils.parseWithRollback(TermParser.parser, pos0, previousSumElement, p);
+        final Generic result = ParserUtils.parseWithRollback(TermParser.parser, pos0, previousSumElement, p);
 
-		return sign ? result.negate() : result;
-	}
+        return sign ? result.negate() : result;
+    }
 
 }

@@ -11,40 +11,40 @@ import org.jetbrains.annotations.NotNull;
 
 public class Grad extends VectorOperator {
 
-	public static final String NAME = "grad";
+    public static final String NAME = "grad";
 
-	public Grad(Generic expression, Generic variable) {
-        super(NAME,new Generic[] {expression,variable});
+    public Grad(Generic expression, Generic variable) {
+        super(NAME, new Generic[]{expression, variable});
     }
 
-	private Grad(Generic parameter[]) {
-		super(NAME, parameter);
-	}
+    private Grad(Generic parameter[]) {
+        super(NAME, parameter);
+    }
 
-	@Override
-	public int getMinParameters() {
-		return 2;
-	}
+    @Override
+    public int getMinParameters() {
+        return 2;
+    }
 
-	public Generic selfExpand() {
-        Variable variable[]= toVariables((JsclVector)parameters[1]);
-        Expression expression= parameters[0].expressionValue();
+    public Generic selfExpand() {
+        Variable variable[] = toVariables((JsclVector) parameters[1]);
+        Expression expression = parameters[0].expressionValue();
         return expression.grad(variable);
     }
 
-	@NotNull
-	@Override
-	public Operator newInstance(@NotNull Generic[] parameters) {
-		return new Grad(parameters);
-	}
+    @NotNull
+    @Override
+    public Operator newInstance(@NotNull Generic[] parameters) {
+        return new Grad(parameters);
+    }
 
-	protected void bodyToMathML(MathML element) {
-        operator(element,"nabla");
-        parameters[0].toMathML(element,null);
+    protected void bodyToMathML(MathML element) {
+        operator(element, "nabla");
+        parameters[0].toMathML(element, null);
     }
 
     @NotNull
-	public Variable newInstance() {
-        return new Grad(null,null);
+    public Variable newInstance() {
+        return new Grad(null, null);
     }
 }

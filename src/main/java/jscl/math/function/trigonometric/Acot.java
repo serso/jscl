@@ -9,35 +9,35 @@ import org.jetbrains.annotations.NotNull;
 
 public class Acot extends ArcTrigonometric {
     public Acot(Generic generic) {
-        super("acot",new Generic[] {generic});
+        super("acot", new Generic[]{generic});
     }
 
     public Generic derivative(int n) {
         return new Inverse(
-            JsclInteger.valueOf(1).add(parameters[0].pow(2))
+                JsclInteger.valueOf(1).add(parameters[0].pow(2))
         ).selfExpand().negate();
     }
 
     public Generic selfExpand() {
-		if (parameters[0].signum() < 0) {
-			return Constants.Generic.PI.subtract(new Acot(parameters[0].negate()).selfExpand());
-		}
+        if (parameters[0].signum() < 0) {
+            return Constants.Generic.PI.subtract(new Acot(parameters[0].negate()).selfExpand());
+        }
 
         return expressionValue();
     }
 
     public Generic selfElementary() {
         return Constants.Generic.I.multiply(
-            new Ln(
-                new Root(
-                    new Generic[] {
-                        Constants.Generic.I.add(parameters[0]),
-                        JsclInteger.valueOf(0),
-                        Constants.Generic.I.subtract(parameters[0])
-                    },
-                    0
+                new Ln(
+                        new Root(
+                                new Generic[]{
+                                        Constants.Generic.I.add(parameters[0]),
+                                        JsclInteger.valueOf(0),
+                                        Constants.Generic.I.subtract(parameters[0])
+                                },
+                                0
+                        ).selfElementary()
                 ).selfElementary()
-            ).selfElementary()
         );
     }
 
@@ -46,7 +46,7 @@ public class Acot extends ArcTrigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Acot(null);
     }
 }

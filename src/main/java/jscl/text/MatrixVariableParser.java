@@ -7,14 +7,15 @@ import jscl.math.Variable;
 import org.jetbrains.annotations.NotNull;
 
 class MatrixVariableParser implements Parser<Variable> {
-    public static final Parser<Variable> parser=new MatrixVariableParser();
+    public static final Parser<Variable> parser = new MatrixVariableParser();
 
-    private MatrixVariableParser() {}
+    private MatrixVariableParser() {
+    }
 
     public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
         Matrix m;
         try {
-            m=(Matrix)MatrixParser.parser.parse(p, previousSumElement);
+            m = (Matrix) MatrixParser.parser.parse(p, previousSumElement);
         } catch (ParseException e) {
             throw e;
         }

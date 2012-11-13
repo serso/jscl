@@ -8,87 +8,87 @@ import org.jetbrains.annotations.NotNull;
 
 public class Sin extends Trigonometric {
 
-	public Sin(Generic generic) {
-		super("sin", new Generic[]{generic});
-	}
+    public Sin(Generic generic) {
+        super("sin", new Generic[]{generic});
+    }
 
-	public Generic antiDerivative(int n) throws NotIntegrableException {
-		return new Cos(parameters[0]).selfExpand().negate();
-	}
+    public Generic antiDerivative(int n) throws NotIntegrableException {
+        return new Cos(parameters[0]).selfExpand().negate();
+    }
 
-	public Generic derivative(int n) {
-		return new Cos(parameters[0]).selfExpand();
-	}
+    public Generic derivative(int n) {
+        return new Cos(parameters[0]).selfExpand();
+    }
 
-	public Generic selfExpand() {
-		final Generic result = trySimplify();
+    public Generic selfExpand() {
+        final Generic result = trySimplify();
 
-		if (result != null) {
-			return result;
-		} else {
-			return expressionValue();
-		}
-	}
+        if (result != null) {
+            return result;
+        } else {
+            return expressionValue();
+        }
+    }
 
-	public Generic selfElementary() {
-		return new Exp(
-				Constants.Generic.I.multiply(parameters[0])
-		).selfElementary().subtract(
-				new Exp(
-						Constants.Generic.I.multiply(parameters[0].negate())
-				).selfElementary()
-		).multiply(Constants.Generic.I.negate().multiply(Constants.Generic.HALF));
-	}
+    public Generic selfElementary() {
+        return new Exp(
+                Constants.Generic.I.multiply(parameters[0])
+        ).selfElementary().subtract(
+                new Exp(
+                        Constants.Generic.I.multiply(parameters[0].negate())
+                ).selfElementary()
+        ).multiply(Constants.Generic.I.negate().multiply(Constants.Generic.HALF));
+    }
 
-	public Generic selfSimplify() {
-		final Generic result = trySimplify();
+    public Generic selfSimplify() {
+        final Generic result = trySimplify();
 
-		if (result != null) {
-			return result;
-		} else {
+        if (result != null) {
+            return result;
+        } else {
 
-			try {
-				Variable v = parameters[0].variableValue();
-				if (v instanceof Asin) {
-					Generic g[] = ((Asin) v).getParameters();
-					return g[0];
-				}
-			} catch (NotVariableException e) {
-			}
-			return identity();
-		}
-	}
+            try {
+                Variable v = parameters[0].variableValue();
+                if (v instanceof Asin) {
+                    Generic g[] = ((Asin) v).getParameters();
+                    return g[0];
+                }
+            } catch (NotVariableException e) {
+            }
+            return identity();
+        }
+    }
 
-	private Generic trySimplify() {
-		Generic result = null;
+    private Generic trySimplify() {
+        Generic result = null;
 
-		if (parameters[0].signum() < 0) {
-			result = new Sin(parameters[0].negate()).selfExpand().negate();
-		} else if (parameters[0].signum() == 0) {
-			result = JsclInteger.valueOf(0);
-		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
-			result = JsclInteger.valueOf(0);
-		}
+        if (parameters[0].signum() < 0) {
+            result = new Sin(parameters[0].negate()).selfExpand().negate();
+        } else if (parameters[0].signum() == 0) {
+            result = JsclInteger.valueOf(0);
+        } else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
+            result = JsclInteger.valueOf(0);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public Generic identity(Generic a, Generic b) {
-		return new Cos(b).selfSimplify().multiply(
-				new Sin(a).selfSimplify()
-		).add(
-				new Cos(a).selfSimplify().multiply(
-						new Sin(b).selfSimplify()
-				)
-		);
-	}
+    public Generic identity(Generic a, Generic b) {
+        return new Cos(b).selfSimplify().multiply(
+                new Sin(a).selfSimplify()
+        ).add(
+                new Cos(a).selfSimplify().multiply(
+                        new Sin(b).selfSimplify()
+                )
+        );
+    }
 
-	public Generic selfNumeric() {
-		return ((NumericWrapper) parameters[0]).sin();
-	}
+    public Generic selfNumeric() {
+        return ((NumericWrapper) parameters[0]).sin();
+    }
 
-	@NotNull
-	public Variable newInstance() {
-		return new Sin(null);
-	}
+    @NotNull
+    public Variable newInstance() {
+        return new Sin(null);
+    }
 }

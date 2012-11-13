@@ -10,51 +10,51 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Result> {
 
-	@NotNull
-	private final String postfixFunctionName;
+    @NotNull
+    private final String postfixFunctionName;
 
-	protected PostfixFunctionParser(@NotNull String postfixFunctionName) {
-		this.postfixFunctionName = postfixFunctionName;
-	}
+    protected PostfixFunctionParser(@NotNull String postfixFunctionName) {
+        this.postfixFunctionName = postfixFunctionName;
+    }
 
-	@NotNull
-	public Result parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    @NotNull
+    public Result parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		final boolean postfixFunction;
+        final boolean postfixFunction;
 
-		ParserUtils.skipWhitespaces(p);
+        ParserUtils.skipWhitespaces(p);
 
-		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().startsWith(postfixFunctionName, p.getPosition().intValue())) {
-			p.getPosition().add(postfixFunctionName.length());
-			postfixFunction = true;
-		} else {
-			p.getPosition().setValue(pos0);
-			postfixFunction = false;
-		}
+        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().startsWith(postfixFunctionName, p.getPosition().intValue())) {
+            p.getPosition().add(postfixFunctionName.length());
+            postfixFunction = true;
+        } else {
+            p.getPosition().setValue(pos0);
+            postfixFunction = false;
+        }
 
-		return new Result(postfixFunctionName, postfixFunction);
-	}
+        return new Result(postfixFunctionName, postfixFunction);
+    }
 
-	public static class Result {
+    public static class Result {
 
-		@NotNull
-		private final String postfixFunctionName;
+        @NotNull
+        private final String postfixFunctionName;
 
-		private final boolean postfixFunction;
+        private final boolean postfixFunction;
 
-		public Result(@NotNull String postfixFunctionName, boolean postfixFunction) {
-			this.postfixFunctionName = postfixFunctionName;
-			this.postfixFunction = postfixFunction;
-		}
+        public Result(@NotNull String postfixFunctionName, boolean postfixFunction) {
+            this.postfixFunctionName = postfixFunctionName;
+            this.postfixFunction = postfixFunction;
+        }
 
-		public boolean isPostfixFunction() {
-			return postfixFunction;
-		}
+        public boolean isPostfixFunction() {
+            return postfixFunction;
+        }
 
-		@NotNull
-		public String getPostfixFunctionName() {
-			return postfixFunctionName;
-		}
-	}
+        @NotNull
+        public String getPostfixFunctionName() {
+            return postfixFunctionName;
+        }
+    }
 }

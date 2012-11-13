@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.Set;
 
 public class ModularInteger extends Generic implements Field {
-    public static final ModularInteger booleanFactory=new ModularInteger(0,2);
+    public static final ModularInteger booleanFactory = new ModularInteger(0, 2);
     final int modulo;
     final int content;
 
     public ModularInteger(long content, int modulo) {
-        this.modulo=modulo;
-        this.content=(int)(content%modulo);
+        this.modulo = modulo;
+        this.content = (int) (content % modulo);
     }
 
     public int content() {
@@ -27,34 +27,34 @@ public class ModularInteger extends Generic implements Field {
     }
 
     public ModularInteger add(ModularInteger integer) {
-        return newinstance((long)content+integer.content);
+        return newinstance((long) content + integer.content);
     }
 
     @NotNull
-	public Generic add(@NotNull Generic that) {
+    public Generic add(@NotNull Generic that) {
         return add((ModularInteger) that);
     }
 
     public ModularInteger subtract(ModularInteger integer) {
-        return newinstance((long)content+(modulo-integer.content));
+        return newinstance((long) content + (modulo - integer.content));
     }
 
     @NotNull
-	public Generic subtract(@NotNull Generic that) {
+    public Generic subtract(@NotNull Generic that) {
         return subtract((ModularInteger) that);
     }
 
     public ModularInteger multiply(ModularInteger integer) {
-        return newinstance((long)content*integer.content);
+        return newinstance((long) content * integer.content);
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic that) {
+    public Generic multiply(@NotNull Generic that) {
         return multiply((ModularInteger) that);
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
         return multiply(that.inverse());
     }
 
@@ -67,7 +67,7 @@ public class ModularInteger extends Generic implements Field {
     }
 
     @NotNull
-	public Generic gcd() {
+    public Generic gcd() {
         throw new UnsupportedOperationException();
     }
 
@@ -76,11 +76,11 @@ public class ModularInteger extends Generic implements Field {
     }
 
     public Generic negate() {
-        return newinstance(modulo-content);
+        return newinstance(modulo - content);
     }
 
     public int signum() {
-        return content>0?1:0;
+        return content > 0 ? 1 : 0;
     }
 
     public int degree() {
@@ -120,10 +120,10 @@ public class ModularInteger extends Generic implements Field {
     }
 
     public Generic valueOf(Generic generic) {
-        if(generic instanceof ModularInteger) {
-            return newinstance(((ModularInteger)generic).content);
+        if (generic instanceof ModularInteger) {
+            return newinstance(((ModularInteger) generic).content);
         } else {
-            return newinstance(((JsclInteger)generic).content().mod(BigInteger.valueOf(modulo)).intValue());
+            return newinstance(((JsclInteger) generic).content().mod(BigInteger.valueOf(modulo)).intValue());
         }
     }
 
@@ -147,12 +147,12 @@ public class ModularInteger extends Generic implements Field {
         return JsclInteger.valueOf(content);
     }
 
-	@Override
-	public boolean isInteger() {
-		return true;
-	}
+    @Override
+    public boolean isInteger() {
+        return true;
+    }
 
-	public Variable variableValue() throws NotVariableException {
+    public Variable variableValue() throws NotVariableException {
         throw new UnsupportedOperationException();
     }
 
@@ -169,13 +169,13 @@ public class ModularInteger extends Generic implements Field {
     }
 
     public int compareTo(ModularInteger integer) {
-        return content<integer.content?-1:content>integer.content?1:0;
+        return content < integer.content ? -1 : content > integer.content ? 1 : 0;
     }
 
     public int compareTo(Generic generic) {
-        if(generic instanceof ModularInteger) {
-            return compareTo((ModularInteger)generic);
-        } else if(generic instanceof JsclInteger) {
+        if (generic instanceof ModularInteger) {
+            return compareTo((ModularInteger) generic);
+        } else if (generic instanceof JsclInteger) {
             return compareTo(valueOf(generic));
         } else {
             throw new UnsupportedOperationException();
@@ -183,11 +183,11 @@ public class ModularInteger extends Generic implements Field {
     }
 
     public static ModularInteger factory(int modulo) {
-        return new ModularInteger(0,modulo);
+        return new ModularInteger(0, modulo);
     }
 
     public String toString() {
-        return ""+content;
+        return "" + content;
     }
 
     public String toJava() {
@@ -198,13 +198,13 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-	@NotNull
-	@Override
-	public Set<? extends Constant> getConstants() {
-		return Collections.emptySet();
-	}
+    @NotNull
+    @Override
+    public Set<? extends Constant> getConstants() {
+        return Collections.emptySet();
+    }
 
-	protected ModularInteger newinstance(long content) {
-        return new ModularInteger(content,modulo);
+    protected ModularInteger newinstance(long content) {
+        return new ModularInteger(content, modulo);
     }
 }

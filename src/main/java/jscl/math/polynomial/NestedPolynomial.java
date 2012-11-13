@@ -9,15 +9,15 @@ import java.util.Set;
 
 class NestedPolynomial extends UnivariatePolynomial {
     NestedPolynomial(Variable variable[]) {
-        this(variable[0],PolynomialWrapper.factory(variable));
+        this(variable[0], PolynomialWrapper.factory(variable));
     }
 
     NestedPolynomial(Variable variable, Generic coefFactory) {
-        super(variable,coefFactory);
+        super(variable, coefFactory);
     }
 
     protected UnivariatePolynomial newinstance() {
-        return new NestedPolynomial(variable,coefFactory);
+        return new NestedPolynomial(variable, coefFactory);
     }
 }
 
@@ -25,7 +25,7 @@ final class PolynomialWrapper extends Generic {
     final Polynomial content;
 
     PolynomialWrapper(Polynomial polynomial) {
-        content=polynomial;
+        content = polynomial;
     }
 
     Polynomial content() {
@@ -37,8 +37,8 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic add(@NotNull Generic that) {
-        if(that instanceof PolynomialWrapper) {
+    public Generic add(@NotNull Generic that) {
+        if (that instanceof PolynomialWrapper) {
             return add((PolynomialWrapper) that);
         } else {
             return add(valueOf(that));
@@ -50,8 +50,8 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic subtract(@NotNull Generic that) {
-        if(that instanceof PolynomialWrapper) {
+    public Generic subtract(@NotNull Generic that) {
+        if (that instanceof PolynomialWrapper) {
             return subtract((PolynomialWrapper) that);
         } else {
             return subtract(valueOf(that));
@@ -63,8 +63,8 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic multiply(@NotNull Generic that) {
-        if(that instanceof PolynomialWrapper) {
+    public Generic multiply(@NotNull Generic that) {
+        if (that instanceof PolynomialWrapper) {
             return multiply((PolynomialWrapper) that);
         } else {
             return multiply(valueOf(that));
@@ -76,8 +76,8 @@ final class PolynomialWrapper extends Generic {
     }
 
     @NotNull
-	public Generic divide(@NotNull Generic that) throws NotDivisibleException {
-        if(that instanceof PolynomialWrapper) {
+    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+        if (that instanceof PolynomialWrapper) {
             return divide((PolynomialWrapper) that);
         } else {
             return divide(valueOf(that));
@@ -89,15 +89,15 @@ final class PolynomialWrapper extends Generic {
     }
 
     public Generic gcd(@NotNull Generic generic) {
-        if(generic instanceof PolynomialWrapper) {
-            return gcd((PolynomialWrapper)generic);
+        if (generic instanceof PolynomialWrapper) {
+            return gcd((PolynomialWrapper) generic);
         } else {
             return gcd(valueOf(generic));
         }
     }
 
     @NotNull
-	public Generic gcd() {
+    public Generic gcd() {
         return content.gcd();
     }
 
@@ -146,7 +146,7 @@ final class PolynomialWrapper extends Generic {
     }
 
     public Generic valueOf(Generic generic) {
-        if(generic instanceof PolynomialWrapper) {
+        if (generic instanceof PolynomialWrapper) {
             return new PolynomialWrapper(content.valueOf(((PolynomialWrapper) generic).content));
         } else {
             return new PolynomialWrapper(content.valueOf(generic));
@@ -173,12 +173,12 @@ final class PolynomialWrapper extends Generic {
         throw new NotIntegerException();
     }
 
-	@Override
-	public boolean isInteger() {
-		return false;
-	}
+    @Override
+    public boolean isInteger() {
+        return false;
+    }
 
-	public Variable variableValue() throws NotVariableException {
+    public Variable variableValue() throws NotVariableException {
         throw new NotVariableException();
     }
 
@@ -199,24 +199,24 @@ final class PolynomialWrapper extends Generic {
     }
 
     public int compareTo(Generic generic) {
-        if(generic instanceof PolynomialWrapper) {
-            return compareTo((PolynomialWrapper)generic);
+        if (generic instanceof PolynomialWrapper) {
+            return compareTo((PolynomialWrapper) generic);
         } else {
             return compareTo(valueOf(generic));
         }
     }
 
     public static Generic factory(Variable variable[]) {
-        if(variable.length>1) {
-            Variable var[]=new Variable[variable.length-1];
-            for(int i=0;i<var.length;i++) var[i]=variable[i+1];
+        if (variable.length > 1) {
+            Variable var[] = new Variable[variable.length - 1];
+            for (int i = 0; i < var.length; i++) var[i] = variable[i + 1];
             return new PolynomialWrapper(NestedPolynomial.factory(var));
         } else return null;
     }
 
     public String toString() {
-        StringBuffer buffer=new StringBuffer();
-        if(signum()<0) buffer.append("-").append(negate());
+        StringBuffer buffer = new StringBuffer();
+        if (signum() < 0) buffer.append("-").append(negate());
         else buffer.append("(").append(content).append(")");
         return buffer.toString();
     }
@@ -225,11 +225,12 @@ final class PolynomialWrapper extends Generic {
         return null;
     }
 
-    public void toMathML(MathML element, Object data) {}
+    public void toMathML(MathML element, Object data) {
+    }
 
-	@NotNull
-	@Override
-	public Set<? extends Constant> getConstants() {
-		return content.getConstants();
-	}
+    @NotNull
+    @Override
+    public Set<? extends Constant> getConstants() {
+        return content.getConstants();
+    }
 }

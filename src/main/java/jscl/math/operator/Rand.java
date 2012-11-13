@@ -14,58 +14,58 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Rand extends Operator implements TimeDependent {
 
-	public static final String NAME = "rand";
+    public static final String NAME = "rand";
 
-	public Rand() {
-		super(NAME, new Generic[0]);
-	}
+    public Rand() {
+        super(NAME, new Generic[0]);
+    }
 
-	@NotNull
-	@Override
-	public Operator newInstance(@NotNull Generic[] parameters) {
-		return new Rand();
-	}
+    @NotNull
+    @Override
+    public Operator newInstance(@NotNull Generic[] parameters) {
+        return new Rand();
+    }
 
-	@Override
-	public int getMinParameters() {
-		return 0;
-	}
+    @Override
+    public int getMinParameters() {
+        return 0;
+    }
 
-	@Override
-	public Generic selfExpand() {
-		return new NumericWrapper(Real.valueOf(Math.random()));
-	}
+    @Override
+    public Generic selfExpand() {
+        return new NumericWrapper(Real.valueOf(Math.random()));
+    }
 
-	@Override
-	public Generic numeric() {
-		return selfExpand().numeric();
-	}
+    @Override
+    public Generic numeric() {
+        return selfExpand().numeric();
+    }
 
-	@NotNull
-	@Override
-	public Variable newInstance() {
-		return new Rand();
-	}
+    @NotNull
+    @Override
+    public Variable newInstance() {
+        return new Rand();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return this == obj;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
-	@Override
-	public int compareTo(Object that) {
-		if (this == that) return 0;
-		return -1;
-	}
+    @Override
+    public int compareTo(Object that) {
+        if (this == that) return 0;
+        return -1;
+    }
 
-	@Override
-	public int compareTo(Variable that) {
-		if (this == that) return 0;
-		return -1;
-	}
+    @Override
+    public int compareTo(Variable that) {
+        if (this == that) return 0;
+        return -1;
+    }
 }

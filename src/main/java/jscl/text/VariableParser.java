@@ -10,19 +10,19 @@ import java.util.List;
 
 public class VariableParser implements Parser<Variable> {
 
-	public static final Parser<Variable> parser = new VariableParser();
+    public static final Parser<Variable> parser = new VariableParser();
 
-	private final static List<Parser<? extends Variable>> parsers = Arrays.asList(
-			OperatorParser.parser,
-			FunctionParser.parser,
-			ConstantParser.parser);
+    private final static List<Parser<? extends Variable>> parsers = Arrays.asList(
+            OperatorParser.parser,
+            FunctionParser.parser,
+            ConstantParser.parser);
 
-	private final static MultiTryParser<Variable> internalParser = new MultiTryParser<Variable>(new ArrayList<Parser<? extends Variable>>(parsers));
+    private final static MultiTryParser<Variable> internalParser = new MultiTryParser<Variable>(new ArrayList<Parser<? extends Variable>>(parsers));
 
-	private VariableParser() {
-	}
+    private VariableParser() {
+    }
 
-	public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		return internalParser.parse(p, previousSumElement);
-	}
+    public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        return internalParser.parse(p, previousSumElement);
+    }
 }

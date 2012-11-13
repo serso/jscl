@@ -10,43 +10,44 @@ import org.jetbrains.annotations.NotNull;
 
 public class EulerPhi extends Operator {
 
-	public static final String NAME = "eulerphi";
+    public static final String NAME = "eulerphi";
 
-	public EulerPhi(Generic integer) {
-        super(NAME,new Generic[] {integer});
+    public EulerPhi(Generic integer) {
+        super(NAME, new Generic[]{integer});
     }
 
-	private EulerPhi(Generic parameters[]) {
-		super(NAME, parameters);
-	}
+    private EulerPhi(Generic parameters[]) {
+        super(NAME, parameters);
+    }
 
-	@Override
-	public int getMinParameters() {
-		return 1;
-	}
+    @Override
+    public int getMinParameters() {
+        return 1;
+    }
 
-	public Generic selfExpand() {
+    public Generic selfExpand() {
         try {
-            JsclInteger en= parameters[0].integerValue();
+            JsclInteger en = parameters[0].integerValue();
             return en.phi();
-        } catch (NotIntegerException e) {}
+        } catch (NotIntegerException e) {
+        }
         return expressionValue();
     }
 
     protected void nameToMathML(MathML element) {
-        MathML e1=element.element("mi");
+        MathML e1 = element.element("mi");
         e1.appendChild(element.text("\u03C6"));
         element.appendChild(e1);
     }
 
     @NotNull
-	public Variable newInstance() {
-        return new EulerPhi((Generic)null);
+    public Variable newInstance() {
+        return new EulerPhi((Generic) null);
     }
 
-	@NotNull
-	@Override
-	public Operator newInstance(@NotNull Generic[] parameters) {
-		return new EulerPhi(parameters);
-	}
+    @NotNull
+    @Override
+    public Operator newInstance(@NotNull Generic[] parameters) {
+        return new EulerPhi(parameters);
+    }
 }

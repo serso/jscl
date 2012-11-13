@@ -9,39 +9,40 @@ import org.jetbrains.annotations.NotNull;
 
 public class ModPow extends Operator {
 
-	public static final String NAME = "modpow";
+    public static final String NAME = "modpow";
 
-	public ModPow(Generic integer, Generic exponent, Generic modulo) {
-        super(NAME,new Generic[] {integer,exponent,modulo});
+    public ModPow(Generic integer, Generic exponent, Generic modulo) {
+        super(NAME, new Generic[]{integer, exponent, modulo});
     }
 
-	private ModPow(Generic parameters[]) {
-		super(NAME, parameters);
-	}
+    private ModPow(Generic parameters[]) {
+        super(NAME, parameters);
+    }
 
-	@Override
-	public int getMinParameters() {
-		return 3;
-	}
+    @Override
+    public int getMinParameters() {
+        return 3;
+    }
 
-	public Generic selfExpand() {
+    public Generic selfExpand() {
         try {
-            JsclInteger en= parameters[0].integerValue();
-            JsclInteger exponent= parameters[1].integerValue();
-            JsclInteger modulo= parameters[2].integerValue();
-            return en.modPow(exponent,modulo);
-        } catch (NotIntegerException e) {}
+            JsclInteger en = parameters[0].integerValue();
+            JsclInteger exponent = parameters[1].integerValue();
+            JsclInteger modulo = parameters[2].integerValue();
+            return en.modPow(exponent, modulo);
+        } catch (NotIntegerException e) {
+        }
         return expressionValue();
     }
 
-	@NotNull
-	@Override
-	public Operator newInstance(@NotNull Generic[] parameters) {
-		return new ModPow(parameters);
-	}
+    @NotNull
+    @Override
+    public Operator newInstance(@NotNull Generic[] parameters) {
+        return new ModPow(parameters);
+    }
 
-	@NotNull
-	public Variable newInstance() {
-        return new ModPow(null,null,null);
+    @NotNull
+    public Variable newInstance() {
+        return new ModPow(null, null, null);
     }
 }

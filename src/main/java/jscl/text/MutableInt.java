@@ -25,9 +25,9 @@ package jscl.text;
 /**
  * A mutable <code>int</code> wrapper.
  *
+ * @version $Id: MutableInt.java 437554 2006-08-28 06:21:41Z bayard $
  * @see Integer
  * @since 2.1
- * @version $Id: MutableInt.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public class MutableInt extends Number implements Comparable {
 
@@ -38,7 +38,9 @@ public class MutableInt extends Number implements Comparable {
      */
     private static final long serialVersionUID = 512176391864L;
 
-    /** The mutable value. */
+    /**
+     * The mutable value.
+     */
     private int value;
 
     /**
@@ -51,8 +53,7 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Constructs a new MutableInt with the specified value.
      *
-     * @param value
-     *                  a value.
+     * @param value a value.
      */
     public MutableInt(int value) {
         super();
@@ -62,10 +63,8 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Constructs a new MutableInt with the specified value.
      *
-     * @param value
-     *                  a value.
-     * @throws NullPointerException
-     *                  if the object is null
+     * @param value a value.
+     * @throws NullPointerException if the object is null
      */
     public MutableInt(Number value) {
         super();
@@ -73,6 +72,7 @@ public class MutableInt extends Number implements Comparable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the value as a Integer instance.
      *
@@ -85,8 +85,7 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Sets the value.
      *
-     * @param value
-     *                  the value to set
+     * @param value the value to set
      */
     public void setValue(int value) {
         this.value = value;
@@ -95,18 +94,16 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Sets the value from any Number instance.
      *
-     * @param value
-     *                  the value to set
-     * @throws NullPointerException
-     *                  if the object is null
-     * @throws ClassCastException
-     *                  if the type is not a {@link Number}
+     * @param value the value to set
+     * @throws NullPointerException if the object is null
+     * @throws ClassCastException   if the type is not a {@link Number}
      */
     public void setValue(Object value) {
         setValue(((Number) value).intValue());
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Increments the value.
      *
@@ -126,12 +123,11 @@ public class MutableInt extends Number implements Comparable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Adds a value.
      *
-     * @param operand
-     *            the value to add
-     *
+     * @param operand the value to add
      * @since Commons Lang 2.2
      */
     public void add(int operand) {
@@ -141,11 +137,8 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Adds a value.
      *
-     * @param operand
-     *            the value to add
-     * @throws NullPointerException
-     *             if the object is null
-     *
+     * @param operand the value to add
+     * @throws NullPointerException if the object is null
      * @since Commons Lang 2.2
      */
     public void add(Number operand) {
@@ -155,9 +148,7 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Subtracts a value.
      *
-     * @param operand
-     *            the value to add
-     *
+     * @param operand the value to add
      * @since Commons Lang 2.2
      */
     public void subtract(int operand) {
@@ -167,11 +158,8 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Subtracts a value.
      *
-     * @param operand
-     *            the value to add
-     * @throws NullPointerException
-     *             if the object is null
-     *
+     * @param operand the value to add
+     * @throws NullPointerException if the object is null
      * @since Commons Lang 2.2
      */
     public void subtract(Number operand) {
@@ -180,6 +168,7 @@ public class MutableInt extends Number implements Comparable {
 
     //-----------------------------------------------------------------------
     // shortValue and bytValue rely on Number implementation
+
     /**
      * Returns the value of this MutableInt as a int.
      *
@@ -217,6 +206,7 @@ public class MutableInt extends Number implements Comparable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets this mutable as an instance of Integer.
      *
@@ -227,13 +217,13 @@ public class MutableInt extends Number implements Comparable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Compares this object to the specified object. The result is <code>true</code> if and only if the argument is
      * not <code>null</code> and is an <code>MutableInt</code> object that contains the same <code>int</code> value
      * as this object.
      *
-     * @param obj
-     *                  the object to compare with.
+     * @param obj the object to compare with.
      * @return <code>true</code> if the objects are the same; <code>false</code> otherwise.
      */
     public boolean equals(Object obj) {
@@ -255,8 +245,7 @@ public class MutableInt extends Number implements Comparable {
     /**
      * Compares this mutable to another in ascending order.
      *
-     * @param obj
-     *                  the mutable to compare to
+     * @param obj the mutable to compare to
      * @return negative if this is less, zero if equal, positive if greater
      * @throws ClassCastException if the argument is not a MutableInt
      */

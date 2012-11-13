@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class Cos extends Trigonometric {
     public Cos(Generic generic) {
-        super("cos",new Generic[] {generic});
+        super("cos", new Generic[]{generic});
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
@@ -20,67 +20,67 @@ public class Cos extends Trigonometric {
         return new Sin(parameters[0]).selfExpand().negate();
     }
 
-	public Generic selfExpand() {
-		final Generic result = trySimplify();
+    public Generic selfExpand() {
+        final Generic result = trySimplify();
 
-		if ( result != null ) {
-			return result;
-		} else {
-			return expressionValue();
-		}
-	}
+        if (result != null) {
+            return result;
+        } else {
+            return expressionValue();
+        }
+    }
 
-	@Nullable
-	private Generic trySimplify() {
-		Generic result = null;
+    @Nullable
+    private Generic trySimplify() {
+        Generic result = null;
 
-		if (parameters[0].signum() < 0) {
-			result = new Cos(parameters[0].negate()).selfExpand();
-		} else if (parameters[0].signum() == 0) {
-			result = JsclInteger.valueOf(1);
-		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
-			result = JsclInteger.valueOf(-1);
-		}
+        if (parameters[0].signum() < 0) {
+            result = new Cos(parameters[0].negate()).selfExpand();
+        } else if (parameters[0].signum() == 0) {
+            result = JsclInteger.valueOf(1);
+        } else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
+            result = JsclInteger.valueOf(-1);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public Generic selfElementary() {
+    public Generic selfElementary() {
         return new Exp(
-            Constants.Generic.I.multiply(parameters[0])
+                Constants.Generic.I.multiply(parameters[0])
         ).selfElementary().add(
-            new Exp(
-                Constants.Generic.I.multiply(parameters[0].negate())
-            ).selfElementary()
+                new Exp(
+                        Constants.Generic.I.multiply(parameters[0].negate())
+                ).selfElementary()
         ).multiply(Constants.Generic.HALF);
     }
 
     public Generic selfSimplify() {
-		final Generic result = trySimplify();
+        final Generic result = trySimplify();
 
-		if (result != null) {
-			return result;
-		} else {
+        if (result != null) {
+            return result;
+        } else {
 
-			try {
-				Variable v = parameters[0].variableValue();
-				if (v instanceof Acos) {
-					Generic g[] = ((Acos) v).getParameters();
-					return g[0];
-				}
-			} catch (NotVariableException e) {
-			}
-			return identity();
-		}
+            try {
+                Variable v = parameters[0].variableValue();
+                if (v instanceof Acos) {
+                    Generic g[] = ((Acos) v).getParameters();
+                    return g[0];
+                }
+            } catch (NotVariableException e) {
+            }
+            return identity();
+        }
     }
 
     public Generic identity(Generic a, Generic b) {
         return new Cos(a).selfSimplify().multiply(
-            new Cos(b).selfSimplify()
+                new Cos(b).selfSimplify()
         ).subtract(
-            new Sin(a).selfSimplify().multiply(
-                new Sin(b).selfSimplify()
-            )
+                new Sin(a).selfSimplify().multiply(
+                        new Sin(b).selfSimplify()
+                )
         );
     }
 
@@ -89,7 +89,7 @@ public class Cos extends Trigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Cos(null);
     }
 }

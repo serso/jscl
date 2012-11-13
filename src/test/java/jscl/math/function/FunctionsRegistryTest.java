@@ -10,14 +10,14 @@ import org.junit.Test;
  */
 public class FunctionsRegistryTest {
 
-	@Test
-	public void testOrder() throws Exception {
-		Function prev = null;
-		for (Function function : FunctionsRegistry.getInstance().getEntities()) {
-			if (prev != null)	{
-				Assert.assertTrue(prev.getName() + "<" + function.getName(), prev.getName().length() >= function.getName().length());
-			}
-			prev = function;
-		}
-	}
+    @Test
+    public void testOrder() throws Exception {
+        Function prev = null;
+        for (Function function : FunctionsRegistry.getInstance().getEntities()) {
+            if (prev != null) {
+                Assert.assertTrue(prev.getName() + "<" + function.getName(), prev.getName().length() >= function.getName().length());
+            }
+            prev = function;
+        }
+    }
 }

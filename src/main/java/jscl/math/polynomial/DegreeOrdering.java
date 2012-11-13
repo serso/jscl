@@ -1,3 +1,4 @@
 package jscl.math.polynomial;
 
-public interface DegreeOrdering {}
+public interface DegreeOrdering {
+}

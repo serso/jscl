@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class DoubleVariable extends GenericVariable {
 
-	public DoubleVariable(Generic generic) {
+    public DoubleVariable(Generic generic) {
         super(generic);
     }
 
@@ -17,12 +17,12 @@ public class DoubleVariable extends GenericVariable {
     }
 
     @NotNull
-	public Generic derivative(Variable variable) {
+    public Generic derivative(Variable variable) {
         return JsclInteger.valueOf(0);
     }
 
     public Generic substitute(Variable variable, Generic generic) {
-        if(isIdentity(variable)) return generic;
+        if (isIdentity(variable)) return generic;
         else return expressionValue();
     }
 
@@ -43,7 +43,7 @@ public class DoubleVariable extends GenericVariable {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new DoubleVariable(null);
     }
 }

@@ -9,21 +9,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class Atanh extends ArcTrigonometric {
     public Atanh(Generic generic) {
-        super("atanh",new Generic[] {generic});
+        super("atanh", new Generic[]{generic});
     }
 
     public Generic derivative(int n) {
         return new Inverse(
-            JsclInteger.valueOf(1).subtract(
-                parameters[0].pow(2)
-            )
+                JsclInteger.valueOf(1).subtract(
+                        parameters[0].pow(2)
+                )
         ).selfExpand();
     }
 
     public Generic selfExpand() {
-        if(parameters[0].signum()<0) {
+        if (parameters[0].signum() < 0) {
             return new Atanh(parameters[0].negate()).selfExpand().negate();
-        } else if(parameters[0].signum()==0) {
+        } else if (parameters[0].signum() == 0) {
             return JsclInteger.valueOf(0);
         }
         return expressionValue();
@@ -31,14 +31,14 @@ public class Atanh extends ArcTrigonometric {
 
     public Generic selfElementary() {
         return new Ln(
-            new Root(
-                new Generic[] {
-                    JsclInteger.valueOf(1).add(parameters[0]),
-                    JsclInteger.valueOf(0),
-                    JsclInteger.valueOf(-1).add(parameters[0])
-                },
-                0
-            ).selfElementary()
+                new Root(
+                        new Generic[]{
+                                JsclInteger.valueOf(1).add(parameters[0]),
+                                JsclInteger.valueOf(0),
+                                JsclInteger.valueOf(-1).add(parameters[0])
+                        },
+                        0
+                ).selfElementary()
         ).selfElementary();
     }
 
@@ -47,7 +47,7 @@ public class Atanh extends ArcTrigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Atanh(null);
     }
 }

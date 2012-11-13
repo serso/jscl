@@ -10,18 +10,18 @@ import java.util.List;
 
 public class FunctionParser implements Parser<Function> {
 
-	public static final Parser<Function> parser = new FunctionParser();
+    public static final Parser<Function> parser = new FunctionParser();
 
-	private static final List<Parser<Function>> parsers = Arrays.asList(
-			UsualFunctionParser.parser,
-			RootParser.parser,
-			ImplicitFunctionParser.parser);
+    private static final List<Parser<Function>> parsers = Arrays.asList(
+            UsualFunctionParser.parser,
+            RootParser.parser,
+            ImplicitFunctionParser.parser);
 
-	private FunctionParser() {
-	}
+    private FunctionParser() {
+    }
 
-	public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(p, previousSumElement);
-	}
+    public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(p, previousSumElement);
+    }
 }
 

@@ -13,12 +13,12 @@ import org.junit.Test;
  */
 public class SumTest {
 
-	@Test
-	public void testExp() throws Exception {
-		final JsclMathEngine me = JsclMathEngine.getInstance();
-		me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("x"), 2d));
-		me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("i"), (String)null));
-		Assert.assertEquals("51.735296462438285", me.evaluate("Σ((1+x/i)^i, i, 1, 10)"));
-		Assert.assertEquals("686.0048440525586", me.evaluate("Σ((1+x/i)^i, i, 1, 100)"));
-	}
+    @Test
+    public void testExp() throws Exception {
+        final JsclMathEngine me = JsclMathEngine.getInstance();
+        me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("x"), 2d));
+        me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("i"), (String) null));
+        Assert.assertEquals("51.735296462438285", me.evaluate("Σ((1+x/i)^i, i, 1, 10)"));
+        Assert.assertEquals("686.0048440525586", me.evaluate("Σ((1+x/i)^i, i, 1, 100)"));
+    }
 }

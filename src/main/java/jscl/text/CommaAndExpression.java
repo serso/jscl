@@ -6,18 +6,18 @@ import org.jetbrains.annotations.Nullable;
 
 public class CommaAndExpression implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new CommaAndExpression();
+    public static final Parser<Generic> parser = new CommaAndExpression();
 
-	private CommaAndExpression() {
-	}
+    private CommaAndExpression() {
+    }
 
-	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		ParserUtils.skipWhitespaces(p);
+        ParserUtils.skipWhitespaces(p);
 
-		ParserUtils.tryToParse(p, pos0, ',');
+        ParserUtils.tryToParse(p, pos0, ',');
 
-		return ParserUtils.parseWithRollback(ExpressionParser.parser, pos0, previousSumElement, p);
-	}
+        return ParserUtils.parseWithRollback(ExpressionParser.parser, pos0, previousSumElement, p);
+    }
 }

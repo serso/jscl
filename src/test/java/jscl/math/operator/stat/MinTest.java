@@ -11,10 +11,10 @@ import org.junit.Test;
  */
 public class MinTest {
 
-	@Test
-	public void testFunction() throws Exception {
-		final MathEngine me = JsclMathEngine.getInstance();
+    @Test
+    public void testFunction() throws Exception {
+        final MathEngine me = JsclMathEngine.getInstance();
 
 
-	}
+    }
 }

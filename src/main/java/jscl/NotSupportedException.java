@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NotSupportedException extends AbstractJsclArithmeticException {
 
-	public NotSupportedException(@NotNull String messageCode, Object... parameters) {
-		super(messageCode, parameters);
-	}
+    public NotSupportedException(@NotNull String messageCode, Object... parameters) {
+        super(messageCode, parameters);
+    }
 }

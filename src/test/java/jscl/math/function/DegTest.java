@@ -12,22 +12,22 @@ import org.solovyev.common.math.MathUtils;
  */
 public class DegTest {
 
-	@Test
-	public void testDeg() throws Exception {
-		final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
+    @Test
+    public void testDeg() throws Exception {
+        final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
-		Assert.assertEquals("2", mathEngine.evaluate("deg(0.03490658503988659)"));
-		Assert.assertEquals("-2", mathEngine.evaluate("deg(-0.03490658503988659)"));
-		Assert.assertEquals("180", mathEngine.evaluate("deg(" + String.valueOf(Math.PI) + ")"));
+        Assert.assertEquals("2", mathEngine.evaluate("deg(0.03490658503988659)"));
+        Assert.assertEquals("-2", mathEngine.evaluate("deg(-0.03490658503988659)"));
+        Assert.assertEquals("180", mathEngine.evaluate("deg(" + String.valueOf(Math.PI) + ")"));
 
-		for (int i = 0; i < 1000; i++) {
-			double value = Math.random() * 100000;
-			assertEquals(value, Double.valueOf(mathEngine.evaluate("rad(deg(" + value + "))")));
-			assertEquals(value, Double.valueOf(mathEngine.evaluate("deg(rad(" + value + "))")));
-		}
-	}
+        for (int i = 0; i < 1000; i++) {
+            double value = Math.random() * 100000;
+            assertEquals(value, Double.valueOf(mathEngine.evaluate("rad(deg(" + value + "))")));
+            assertEquals(value, Double.valueOf(mathEngine.evaluate("deg(rad(" + value + "))")));
+        }
+    }
 
-	private void assertEquals(double expected, Double actual) {
-		Assert.assertTrue("Expected=" + expected + ", actual=" + actual, MathUtils.equals(expected, actual, 8));
-	}
+    private void assertEquals(double expected, Double actual) {
+        Assert.assertTrue("Expected=" + expected + ", actual=" + actual, MathUtils.equals(expected, actual, 8));
+    }
 }

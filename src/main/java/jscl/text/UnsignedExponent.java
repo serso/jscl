@@ -10,13 +10,13 @@ import org.jetbrains.annotations.NotNull;
  */
 class UnsignedExponent implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new UnsignedExponent();
+    public static final Parser<Generic> parser = new UnsignedExponent();
 
-	private UnsignedExponent() {
-	}
+    private UnsignedExponent() {
+    }
 
-	public Generic parse(@NotNull Parameters p, final Generic previousSumElement) throws ParseException {
-		final Generic content = PrimaryExpressionParser.parser.parse(p, previousSumElement);
-		return new PostfixFunctionsParser(content).parse(p, previousSumElement);
-	}
+    public Generic parse(@NotNull Parameters p, final Generic previousSumElement) throws ParseException {
+        final Generic content = PrimaryExpressionParser.parser.parse(p, previousSumElement);
+        return new PostfixFunctionsParser(content).parse(p, previousSumElement);
+    }
 }

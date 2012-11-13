@@ -13,58 +13,58 @@ import org.solovyev.common.math.AbstractMathRegistry;
  */
 public class FunctionsRegistry extends AbstractMathRegistry<Function> {
 
-	private final static FunctionsRegistry instance = new FunctionsRegistry();
+    private final static FunctionsRegistry instance = new FunctionsRegistry();
 
-	static {
-		instance.add(new Deg(null));
-		instance.add(new Rad(null, null, null));
-		instance.add(new Dms(null, null, null));
+    static {
+        instance.add(new Deg(null));
+        instance.add(new Rad(null, null, null));
+        instance.add(new Dms(null, null, null));
 
-		instance.add(new Sin(null));
-		instance.add(new Cos(null));
-		instance.add(new Tan(null));
-		instance.add(new Cot(null));
+        instance.add(new Sin(null));
+        instance.add(new Cos(null));
+        instance.add(new Tan(null));
+        instance.add(new Cot(null));
 
-		instance.add(new Asin(null));
-		instance.add(new Acos(null));
-		instance.add(new Atan(null));
-		instance.add(new Acot(null));
+        instance.add(new Asin(null));
+        instance.add(new Acos(null));
+        instance.add(new Atan(null));
+        instance.add(new Acot(null));
 
-		instance.add(new Ln(null));
-		instance.add(new Lg(null));
-		instance.add(new Exp(null));
-		instance.add(new Sqrt(null));
-		instance.add(new Cubic(null));
+        instance.add(new Ln(null));
+        instance.add(new Lg(null));
+        instance.add(new Exp(null));
+        instance.add(new Sqrt(null));
+        instance.add(new Cubic(null));
 
-		instance.add(new Sinh(null));
-		instance.add(new Cosh(null));
-		instance.add(new Tanh(null));
-		instance.add(new Coth(null));
+        instance.add(new Sinh(null));
+        instance.add(new Cosh(null));
+        instance.add(new Tanh(null));
+        instance.add(new Coth(null));
 
-		instance.add(new Asinh(null));
-		instance.add(new Acosh(null));
-		instance.add(new Atanh(null));
-		instance.add(new Acoth(null));
+        instance.add(new Asinh(null));
+        instance.add(new Acosh(null));
+        instance.add(new Atanh(null));
+        instance.add(new Acoth(null));
 
-		instance.add(new Abs(null));
-		instance.add(new Sgn(null));
+        instance.add(new Abs(null));
+        instance.add(new Sgn(null));
 
-		instance.add(new Conjugate(null));
+        instance.add(new Conjugate(null));
 
-		for (String name : Comparison.names) {
-			instance.add(new Comparison(name, null, null));
-		}
-	}
+        for (String name : Comparison.names) {
+            instance.add(new Comparison(name, null, null));
+        }
+    }
 
 
-	@NotNull
-	public static FunctionsRegistry getInstance() {
-		return instance;
-	}
+    @NotNull
+    public static FunctionsRegistry getInstance() {
+        return instance;
+    }
 
-	@Override
-	public Function get(@NotNull String name) {
-		final Function function = super.get(name);
-		return function == null ? null : (Function) function.newInstance();
-	}
+    @Override
+    public Function get(@NotNull String name) {
+        final Function function = super.get(name);
+        return function == null ? null : (Function) function.newInstance();
+    }
 }

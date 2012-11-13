@@ -7,84 +7,84 @@ import org.jetbrains.annotations.Nullable;
 
 public class Tan extends Trigonometric {
     public Tan(Generic generic) {
-        super("tan",new Generic[] {generic});
+        super("tan", new Generic[]{generic});
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Ln(
-            JsclInteger.valueOf(4).multiply(
-                new Cos(parameters[0]).selfExpand()
-            )
+                JsclInteger.valueOf(4).multiply(
+                        new Cos(parameters[0]).selfExpand()
+                )
         ).selfExpand().negate();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).add(
-            new Tan(parameters[0]).selfExpand().pow(2)
+                new Tan(parameters[0]).selfExpand().pow(2)
         );
     }
 
     public Generic selfExpand() {
-		final Generic result = trySimplify();
+        final Generic result = trySimplify();
 
-		if ( result != null ) {
-			return result;
-		} else {
-	        return expressionValue();
-		}
+        if (result != null) {
+            return result;
+        } else {
+            return expressionValue();
+        }
     }
 
     public Generic selfElementary() {
         return new Fraction(
-            new Sin(parameters[0]).selfElementary(),
-            new Cos(parameters[0]).selfElementary()
+                new Sin(parameters[0]).selfElementary(),
+                new Cos(parameters[0]).selfElementary()
         ).selfElementary();
     }
 
     public Generic selfSimplify() {
-		final Generic result = trySimplify();
+        final Generic result = trySimplify();
 
-		if (result != null) {
-			return result;
-		} else {
+        if (result != null) {
+            return result;
+        } else {
 
-			try {
-				Variable v = parameters[0].variableValue();
-				if (v instanceof Atan) {
-					Generic g[] = ((Atan) v).getParameters();
-					return g[0];
-				}
-			} catch (NotVariableException e) {
-				// ok
-			}
+            try {
+                Variable v = parameters[0].variableValue();
+                if (v instanceof Atan) {
+                    Generic g[] = ((Atan) v).getParameters();
+                    return g[0];
+                }
+            } catch (NotVariableException e) {
+                // ok
+            }
 
-			return identity();
-		}
+            return identity();
+        }
     }
 
-	@Nullable
-	private Generic trySimplify() {
-		Generic result = null;
+    @Nullable
+    private Generic trySimplify() {
+        Generic result = null;
 
-		if (parameters[0].signum() < 0) {
-			result = new Tan(parameters[0].negate()).selfExpand().negate();
-		} else if (parameters[0].signum() == 0) {
-			result = JsclInteger.valueOf(0);
-		} else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
-			result = JsclInteger.valueOf(0);
-		}
+        if (parameters[0].signum() < 0) {
+            result = new Tan(parameters[0].negate()).selfExpand().negate();
+        } else if (parameters[0].signum() == 0) {
+            result = JsclInteger.valueOf(0);
+        } else if (parameters[0].compareTo(Constants.Generic.PI) == 0) {
+            result = JsclInteger.valueOf(0);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public Generic identity(Generic a, Generic b) {
-        Generic ta=new Tan(a).selfSimplify();
-        Generic tb=new Tan(b).selfSimplify();
+    public Generic identity(Generic a, Generic b) {
+        Generic ta = new Tan(a).selfSimplify();
+        Generic tb = new Tan(b).selfSimplify();
         return new Fraction(
-            ta.add(tb),
-            JsclInteger.valueOf(1).subtract(
-                ta.multiply(tb)
-            )
+                ta.add(tb),
+                JsclInteger.valueOf(1).subtract(
+                        ta.multiply(tb)
+                )
         ).selfSimplify();
     }
 
@@ -93,7 +93,7 @@ public class Tan extends Trigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Tan(null);
     }
 }

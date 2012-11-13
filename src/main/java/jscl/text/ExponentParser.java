@@ -11,17 +11,17 @@ import org.jetbrains.annotations.Nullable;
  */
 class ExponentParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new ExponentParser();
+    public static final Parser<Generic> parser = new ExponentParser();
 
-	private ExponentParser() {
-	}
+    private ExponentParser() {
+    }
 
-	public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
+        boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
 
-		final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, pos0, previousSumElement, p);
-		return sign ? result.negate() : result;
-	}
+        final Generic result = ParserUtils.parseWithRollback(UnsignedExponent.parser, pos0, previousSumElement, p);
+        return sign ? result.negate() : result;
+    }
 }

@@ -12,22 +12,23 @@ public abstract class GenericVariable extends Variable {
 
     GenericVariable(Generic generic) {
         super("");
-        content=generic;
+        content = generic;
     }
 
     public static Generic content(Generic generic) {
-        return content(generic,false);
+        return content(generic, false);
     }
 
     public static Generic content(Generic generic, boolean expression) {
         try {
-            Variable v=generic.variableValue();
-            if(expression) {
-                if(v instanceof ExpressionVariable) generic=((ExpressionVariable)v).content;
+            Variable v = generic.variableValue();
+            if (expression) {
+                if (v instanceof ExpressionVariable) generic = ((ExpressionVariable) v).content;
             } else {
-                if(v instanceof GenericVariable) generic=((GenericVariable)v).content;
+                if (v instanceof GenericVariable) generic = ((GenericVariable) v).content;
             }
-        } catch (NotVariableException e) {}
+        } catch (NotVariableException e) {
+        }
         return generic;
     }
 
@@ -36,14 +37,14 @@ public abstract class GenericVariable extends Variable {
     }
 
     @NotNull
-	public Generic derivative(Variable variable) {
+    public Generic derivative(Variable variable) {
         return content.derivative(variable);
     }
 
     public Generic substitute(Variable variable, Generic generic) {
-        GenericVariable v=(GenericVariable) newInstance();
-        v.content=content.substitute(variable,generic);
-        if(v.isIdentity(variable)) return generic;
+        GenericVariable v = (GenericVariable) newInstance();
+        v.content = content.substitute(variable, generic);
+        if (v.isIdentity(variable)) return generic;
         else return v.expressionValue();
     }
 
@@ -52,20 +53,20 @@ public abstract class GenericVariable extends Variable {
     }
 
     public Generic factorize() {
-        GenericVariable v=(GenericVariable) newInstance();
-        v.content=content.factorize();
+        GenericVariable v = (GenericVariable) newInstance();
+        v.content = content.factorize();
         return v.expressionValue();
     }
 
     public Generic elementary() {
-        GenericVariable v=(GenericVariable) newInstance();
-        v.content=content.elementary();
+        GenericVariable v = (GenericVariable) newInstance();
+        v.content = content.elementary();
         return v.expressionValue();
     }
 
     public Generic simplify() {
-        GenericVariable v=(GenericVariable) newInstance();
-        v.content=content.simplify();
+        GenericVariable v = (GenericVariable) newInstance();
+        v.content = content.simplify();
         return v.expressionValue();
     }
 
@@ -78,22 +79,22 @@ public abstract class GenericVariable extends Variable {
     }
 
     public int compareTo(Variable variable) {
-        if(this==variable) return 0;
-        int c=comparator.compare(this,variable);
-        if(c<0) return -1;
-        else if(c>0) return 1;
+        if (this == variable) return 0;
+        int c = comparator.compare(this, variable);
+        if (c < 0) return -1;
+        else if (c > 0) return 1;
         else {
-            GenericVariable v=(GenericVariable)variable;
+            GenericVariable v = (GenericVariable) variable;
             return content.compareTo(v.content);
         }
     }
 
     public static GenericVariable valueOf(Generic generic) {
-        return valueOf(generic,false);
+        return valueOf(generic, false);
     }
 
     public static GenericVariable valueOf(Generic generic, boolean integer) {
-        if(integer) return new IntegerVariable(generic);
+        if (integer) return new IntegerVariable(generic);
         else return new ExpressionVariable(generic);
     }
 
@@ -106,12 +107,12 @@ public abstract class GenericVariable extends Variable {
     }
 
     public void toMathML(MathML element, @Nullable Object data) {
-        content.toMathML(element,data);
+        content.toMathML(element, data);
     }
 
-	@NotNull
-	@Override
-	public Set<? extends Constant> getConstants() {
-		return content.getConstants();
-	}
+    @NotNull
+    @Override
+    public Set<? extends Constant> getConstants() {
+        return content.getConstants();
+    }
 }

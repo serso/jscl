@@ -17,42 +17,42 @@ import java.util.ListIterator;
  * Time: 2:45 PM
  */
 class UnsignedFactor implements Parser {
-	public static final Parser parser = new UnsignedFactor();
+    public static final Parser parser = new UnsignedFactor();
 
-	private UnsignedFactor() {
-	}
+    private UnsignedFactor() {
+    }
 
-	public Object parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		final List<Generic> list = new ArrayList<Generic>();
+    public Object parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        final List<Generic> list = new ArrayList<Generic>();
 
-		Generic generic = UnsignedExponent.parser.parse(p, previousSumElement);
+        Generic generic = UnsignedExponent.parser.parse(p, previousSumElement);
 
-		list.add(generic);
+        list.add(generic);
 
-		while (true) {
-			try {
-				list.add(PowerExponentParser.parser.parse(p, null));
-			} catch (ParseException e) {
-				break;
-			}
-		}
+        while (true) {
+            try {
+                list.add(PowerExponentParser.parser.parse(p, null));
+            } catch (ParseException e) {
+                break;
+            }
+        }
 
-		final ListIterator<Generic> it = list.listIterator(list.size());
-		generic = it.previous();
-		while (it.hasPrevious()) {
-			Generic b = it.previous();
-			try {
-				int c = generic.integerValue().intValue();
-				if (c < 0) {
-					generic = new Pow(GenericVariable.content(b, true), JsclInteger.valueOf(c)).expressionValue();
-				} else {
-					generic = b.pow(c);
-				}
-			} catch (NotIntegerException e) {
-				generic = new Pow(GenericVariable.content(b, true), GenericVariable.content(generic, true)).expressionValue();
-			}
-		}
+        final ListIterator<Generic> it = list.listIterator(list.size());
+        generic = it.previous();
+        while (it.hasPrevious()) {
+            Generic b = it.previous();
+            try {
+                int c = generic.integerValue().intValue();
+                if (c < 0) {
+                    generic = new Pow(GenericVariable.content(b, true), JsclInteger.valueOf(c)).expressionValue();
+                } else {
+                    generic = b.pow(c);
+                }
+            } catch (NotIntegerException e) {
+                generic = new Pow(GenericVariable.content(b, true), GenericVariable.content(generic, true)).expressionValue();
+            }
+        }
 
-		return generic;
-	}
+        return generic;
+    }
 }

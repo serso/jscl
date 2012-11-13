@@ -12,7 +12,7 @@ import org.solovyev.common.msg.Message;
  */
 public class CustomFunctionCalculationException extends AbstractJsclArithmeticException {
 
-	public CustomFunctionCalculationException(@NotNull CustomFunction function, @NotNull Message message) {
-		super(Messages.msg_19, function.getName(), message);
-	}
+    public CustomFunctionCalculationException(@NotNull CustomFunction function, @NotNull Message message) {
+        super(Messages.msg_19, function.getName(), message);
+    }
 }

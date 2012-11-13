@@ -8,33 +8,33 @@ import org.jetbrains.annotations.Nullable;
 
 public class Digits implements Parser<String> {
 
-	@NotNull
-	private final NumeralBase nb;
+    @NotNull
+    private final NumeralBase nb;
 
-	public Digits(@NotNull NumeralBase nb) {
-		this.nb = nb;
-	}
+    public Digits(@NotNull NumeralBase nb) {
+        this.nb = nb;
+    }
 
-	// returns digit
-	public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    // returns digit
+    public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		final StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
-		ParserUtils.skipWhitespaces(p);
+        ParserUtils.skipWhitespaces(p);
 
-		if (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
-			result.append(p.getExpression().charAt(p.getPosition().intValue()));
-			p.getPosition().increment();
-		} else {
-			ParserUtils.throwParseException(p, pos0, Messages.msg_9);
-		}
+        if (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
+            result.append(p.getExpression().charAt(p.getPosition().intValue()));
+            p.getPosition().increment();
+        } else {
+            ParserUtils.throwParseException(p, pos0, Messages.msg_9);
+        }
 
-		while (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
-			result.append(p.getExpression().charAt(p.getPosition().intValue()));
-			p.getPosition().increment();
-		}
+        while (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
+            result.append(p.getExpression().charAt(p.getPosition().intValue()));
+            p.getPosition().increment();
+        }
 
-		return result.toString();
-	}
+        return result.toString();
+    }
 }

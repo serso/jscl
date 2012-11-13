@@ -14,15 +14,15 @@ import org.junit.Test;
  */
 public class RandTest {
 
-	@Test
-	public void testRand() throws Exception {
-		/*testRandString("rand()-rand()");
-		testRandString("rand()*rand()");
-		testRandString("rand()^2");
-		testRandString("rand()/rand()");*/
-	}
+    @Test
+    public void testRand() throws Exception {
+        /*testRandString("rand()-rand()");
+          testRandString("rand()*rand()");
+          testRandString("rand()^2");
+          testRandString("rand()/rand()");*/
+    }
 
-	private void testRandString(final String expression) throws ParseException {
-		Assert.assertEquals(expression, Expression.valueOf(expression).toString());
-	}
+    private void testRandString(final String expression) throws ParseException {
+        Assert.assertEquals(expression, Expression.valueOf(expression).toString());
+    }
 }

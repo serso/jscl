@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Cosh extends Trigonometric {
     public Cosh(Generic generic) {
-        super("cosh",new Generic[] {generic});
+        super("cosh", new Generic[]{generic});
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
@@ -25,9 +25,9 @@ public class Cosh extends Trigonometric {
     }
 
     public Generic selfExpand() {
-        if(parameters[0].signum()<0) {
+        if (parameters[0].signum() < 0) {
             return new Cosh(parameters[0].negate()).selfExpand();
-        } else if(parameters[0].signum()==0) {
+        } else if (parameters[0].signum() == 0) {
             return JsclInteger.valueOf(1);
         }
         return expressionValue();
@@ -35,37 +35,38 @@ public class Cosh extends Trigonometric {
 
     public Generic selfElementary() {
         return new Exp(
-            parameters[0]
+                parameters[0]
         ).selfElementary().add(
-            new Exp(
-                parameters[0].negate()
-            ).selfElementary()
+                new Exp(
+                        parameters[0].negate()
+                ).selfElementary()
         ).multiply(Constants.Generic.HALF);
     }
 
     public Generic selfSimplify() {
-        if(parameters[0].signum()<0) {
+        if (parameters[0].signum() < 0) {
             return new Cosh(parameters[0].negate()).selfExpand();
-        } else if(parameters[0].signum()==0) {
+        } else if (parameters[0].signum() == 0) {
             return JsclInteger.valueOf(1);
         }
         try {
-            Variable v= parameters[0].variableValue();
-            if(v instanceof Acosh) {
-                Generic g[]=((Acosh)v).getParameters();
+            Variable v = parameters[0].variableValue();
+            if (v instanceof Acosh) {
+                Generic g[] = ((Acosh) v).getParameters();
                 return g[0];
             }
-        } catch (NotVariableException e) {}
+        } catch (NotVariableException e) {
+        }
         return identity();
     }
 
     public Generic identity(Generic a, Generic b) {
         return new Cosh(a).selfSimplify().multiply(
-            new Cosh(b).selfSimplify()
+                new Cosh(b).selfSimplify()
         ).add(
-            new Sinh(a).selfSimplify().multiply(
-                new Sinh(b).selfSimplify()
-            )
+                new Sinh(a).selfSimplify().multiply(
+                        new Sinh(b).selfSimplify()
+                )
         );
     }
 
@@ -74,7 +75,7 @@ public class Cosh extends Trigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Cosh(null);
     }
 }

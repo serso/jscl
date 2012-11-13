@@ -9,111 +9,111 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface INumeric<T extends INumeric<T>> {
 
-	@NotNull
-	T pow(int exponent);
+    @NotNull
+    T pow(int exponent);
 
-	@NotNull
-	T abs();
+    @NotNull
+    T abs();
 
-	@NotNull
-	T negate();
+    @NotNull
+    T negate();
 
-	int signum();
+    int signum();
 
-	@NotNull
-	T sgn();
+    @NotNull
+    T sgn();
 
-	@NotNull
-	T ln();
+    @NotNull
+    T ln();
 
-	@NotNull
-	T lg();
+    @NotNull
+    T lg();
 
-	@NotNull
-	T exp();
+    @NotNull
+    T exp();
 
-	@NotNull
-	T inverse();
+    @NotNull
+    T inverse();
 
-	@NotNull
-	T sqrt();
+    @NotNull
+    T sqrt();
 
-	@NotNull
-	T nThRoot(int n);
+    @NotNull
+    T nThRoot(int n);
 
-	/*
-	* ******************************************************************************************
-	* <p/>
-	* TRIGONOMETRIC FUNCTIONS
-	* <p/>
-	* *******************************************************************************************/
+    /*
+     * ******************************************************************************************
+     * <p/>
+     * TRIGONOMETRIC FUNCTIONS
+     * <p/>
+     * *******************************************************************************************/
 
-	@NotNull
-	T sin();
+    @NotNull
+    T sin();
 
-	@NotNull
-	T cos();
+    @NotNull
+    T cos();
 
-	@NotNull
-	T tan();
+    @NotNull
+    T tan();
 
-	@NotNull
-	T cot();
+    @NotNull
+    T cot();
 
-	/*
-	 * ******************************************************************************************
-	 * <p/>
-	 * INVERSE TRIGONOMETRIC FUNCTIONS
-	 * <p/>
-	 * *******************************************************************************************/
+    /*
+      * ******************************************************************************************
+      * <p/>
+      * INVERSE TRIGONOMETRIC FUNCTIONS
+      * <p/>
+      * *******************************************************************************************/
 
-	@NotNull
-	T asin();
+    @NotNull
+    T asin();
 
-	@NotNull
-	T acos();
+    @NotNull
+    T acos();
 
-	@NotNull
-	T atan();
+    @NotNull
+    T atan();
 
-	@NotNull
-	T acot();
+    @NotNull
+    T acot();
 
-	/*
-	 * ******************************************************************************************
-	 * <p/>
-	 * HYPERBOLIC TRIGONOMETRIC FUNCTIONS
-	 * <p/>
-	 * *******************************************************************************************/
+    /*
+      * ******************************************************************************************
+      * <p/>
+      * HYPERBOLIC TRIGONOMETRIC FUNCTIONS
+      * <p/>
+      * *******************************************************************************************/
 
-	@NotNull
-	T sinh();
+    @NotNull
+    T sinh();
 
-	@NotNull
-	T cosh();
+    @NotNull
+    T cosh();
 
-	@NotNull
-	T tanh();
+    @NotNull
+    T tanh();
 
-	@NotNull
-	T coth();
+    @NotNull
+    T coth();
 
-	/*
-	 * ******************************************************************************************
-	 * <p/>
-	 * INVERSE HYPERBOLIC TRIGONOMETRIC FUNCTIONS
-	 * <p/>
-	 * *******************************************************************************************/
+    /*
+      * ******************************************************************************************
+      * <p/>
+      * INVERSE HYPERBOLIC TRIGONOMETRIC FUNCTIONS
+      * <p/>
+      * *******************************************************************************************/
 
- 	@NotNull
-	T asinh();
+    @NotNull
+    T asinh();
 
-	@NotNull
-	T acosh();
+    @NotNull
+    T acosh();
 
-	@NotNull
-	T atanh();
+    @NotNull
+    T atanh();
 
-	@NotNull
-	T acoth();
+    @NotNull
+    T acoth();
 }

@@ -14,36 +14,36 @@ import org.jetbrains.annotations.NotNull;
  */
 class TermParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new TermParser();
+    public static final Parser<Generic> parser = new TermParser();
 
-	private TermParser() {
-	}
+    private TermParser() {
+    }
 
-	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		Generic result = JsclInteger.valueOf(1);
+    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        Generic result = JsclInteger.valueOf(1);
 
-		Generic s = (Generic) UnsignedFactor.parser.parse(p, previousSumElement);
+        Generic s = (Generic) UnsignedFactor.parser.parse(p, previousSumElement);
 
-		while (true) {
-			try {
-				Generic b = MultiplyOrDivideFactor.multiply.parse(p, null);
-				result = result.multiply(s);
-				s = b;
-			} catch (ParseException e) {
-				try {
-					Generic b = MultiplyOrDivideFactor.divide.parse(p, null);
-					if (s.compareTo(JsclInteger.valueOf(1)) == 0)
-						s = new Inverse(GenericVariable.content(b, true)).expressionValue();
-					else
-						s = new Fraction(GenericVariable.content(s, true), GenericVariable.content(b, true)).expressionValue();
-				} catch (ParseException e2) {
-					break;
-				}
-			}
-		}
+        while (true) {
+            try {
+                Generic b = MultiplyOrDivideFactor.multiply.parse(p, null);
+                result = result.multiply(s);
+                s = b;
+            } catch (ParseException e) {
+                try {
+                    Generic b = MultiplyOrDivideFactor.divide.parse(p, null);
+                    if (s.compareTo(JsclInteger.valueOf(1)) == 0)
+                        s = new Inverse(GenericVariable.content(b, true)).expressionValue();
+                    else
+                        s = new Fraction(GenericVariable.content(s, true), GenericVariable.content(b, true)).expressionValue();
+                } catch (ParseException e2) {
+                    break;
+                }
+            }
+        }
 
-		result = result.multiply(s);
+        result = result.multiply(s);
 
-		return result;
-	}
+        return result;
+    }
 }

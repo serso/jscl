@@ -11,13 +11,13 @@ import org.junit.Test;
  * Time: 6:49 PM
  */
 public class LnTest {
-	@Test
-	public void testAntiDerivative() throws Exception {
-		final MathEngine me = JsclMathEngine.getInstance();
+    @Test
+    public void testAntiDerivative() throws Exception {
+        final MathEngine me = JsclMathEngine.getInstance();
 
-		Assert.assertEquals("-x+x*ln(x)", me.simplify("∫(ln(x), x)"));
-		Assert.assertEquals("-(x-x*ln(x))/(ln(2)+ln(5))", me.simplify("∫(lg(x), x)"));
-	}
+        Assert.assertEquals("-x+x*ln(x)", me.simplify("∫(ln(x), x)"));
+        Assert.assertEquals("-(x-x*ln(x))/(ln(2)+ln(5))", me.simplify("∫(lg(x), x)"));
+    }
 
     @Test
     public void testDerivative() throws Exception {

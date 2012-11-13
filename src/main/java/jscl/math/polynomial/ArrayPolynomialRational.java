@@ -7,7 +7,7 @@ class ArrayPolynomialRational extends ArrayPolynomialGeneric {
     Rational coef[];
 
     ArrayPolynomialRational(Monomial monomialFactory) {
-        super(monomialFactory,Rational.factory);
+        super(monomialFactory, Rational.factory);
     }
 
     ArrayPolynomialRational(int size, Monomial monomialFactory) {
@@ -16,21 +16,21 @@ class ArrayPolynomialRational extends ArrayPolynomialGeneric {
     }
 
     void init(int size) {
-        monomial=new Monomial[size];
-        coef=new Rational[size];
-        this.size=size;
+        monomial = new Monomial[size];
+        coef = new Rational[size];
+        this.size = size;
     }
 
     void resize(int size) {
-        int length=monomial.length;
-        if(size<length) {
-            Monomial monomial[]=new Monomial[size];
-            Rational coef[]=new Rational[size];
-            System.arraycopy(this.monomial,length-size,monomial,0,size);
-            System.arraycopy(this.coef,length-size,coef,0,size);
-            this.monomial=monomial;
-            this.coef=coef;
-            this.size=size;
+        int length = monomial.length;
+        if (size < length) {
+            Monomial monomial[] = new Monomial[size];
+            Rational coef[] = new Rational[size];
+            System.arraycopy(this.monomial, length - size, monomial, 0, size);
+            System.arraycopy(this.coef, length - size, coef, 0, size);
+            this.monomial = monomial;
+            this.coef = coef;
+            this.size = size;
         }
     }
 
@@ -43,10 +43,10 @@ class ArrayPolynomialRational extends ArrayPolynomialGeneric {
     }
 
     protected void setCoef(int n, Generic generic) {
-        coef[n]=(Rational)generic;
+        coef[n] = (Rational) generic;
     }
 
     protected ArrayPolynomialGeneric newinstance(int n) {
-        return new ArrayPolynomialRational(n,monomialFactory);
+        return new ArrayPolynomialRational(n, monomialFactory);
     }
 }

@@ -8,25 +8,25 @@ import org.jetbrains.annotations.NotNull;
 
 public class Coth extends Trigonometric {
     public Coth(Generic generic) {
-        super("coth",new Generic[] {generic});
+        super("coth", new Generic[]{generic});
     }
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
         return new Ln(
-            JsclInteger.valueOf(4).multiply(
-                new Sinh(parameters[0]).selfExpand()
-            )
+                JsclInteger.valueOf(4).multiply(
+                        new Sinh(parameters[0]).selfExpand()
+                )
         ).selfExpand();
     }
 
     public Generic derivative(int n) {
         return JsclInteger.valueOf(1).subtract(
-            new Coth(parameters[0]).selfExpand().pow(2)
+                new Coth(parameters[0]).selfExpand().pow(2)
         );
     }
 
     public Generic selfExpand() {
-        if(parameters[0].signum()<0) {
+        if (parameters[0].signum() < 0) {
             return new Coth(parameters[0].negate()).selfExpand().negate();
         }
         return expressionValue();
@@ -34,31 +34,32 @@ public class Coth extends Trigonometric {
 
     public Generic selfElementary() {
         return new Fraction(
-            new Cosh(parameters[0]).selfElementary(),
-            new Sinh(parameters[0]).selfElementary()
+                new Cosh(parameters[0]).selfElementary(),
+                new Sinh(parameters[0]).selfElementary()
         ).selfElementary();
     }
 
     public Generic selfSimplify() {
-        if(parameters[0].signum()<0) {
+        if (parameters[0].signum() < 0) {
             return new Coth(parameters[0].negate()).selfExpand().negate();
         }
         try {
-            Variable v= parameters[0].variableValue();
-            if(v instanceof Acoth) {
-                Generic g[]=((Acoth)v).getParameters();
+            Variable v = parameters[0].variableValue();
+            if (v instanceof Acoth) {
+                Generic g[] = ((Acoth) v).getParameters();
                 return g[0];
             }
-        } catch (NotVariableException e) {}
+        } catch (NotVariableException e) {
+        }
         return identity();
     }
 
     public Generic identity(Generic a, Generic b) {
-        Generic ta=new Coth(a).selfSimplify();
-        Generic tb=new Coth(b).selfSimplify();
+        Generic ta = new Coth(a).selfSimplify();
+        Generic tb = new Coth(b).selfSimplify();
         return new Fraction(
-            ta.multiply(tb).add(JsclInteger.valueOf(1)),
-                        ta.add(tb)
+                ta.multiply(tb).add(JsclInteger.valueOf(1)),
+                ta.add(tb)
         ).selfSimplify();
     }
 
@@ -67,7 +68,7 @@ public class Coth extends Trigonometric {
     }
 
     @NotNull
-	public Variable newInstance() {
+    public Variable newInstance() {
         return new Coth(null);
     }
 }

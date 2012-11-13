@@ -1,3 +1,4 @@
 package jscl.math;
 
-public interface Field {}
+public interface Field {
+}

@@ -12,18 +12,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Rad extends AbstractDms {
 
-	public Rad(Generic degrees, Generic minutes, Generic seconds) {
-		super("rad", degrees, minutes, seconds);
-	}
+    public Rad(Generic degrees, Generic minutes, Generic seconds) {
+        super("rad", degrees, minutes, seconds);
+    }
 
-	@Override
-	public Generic selfNumeric() {
-		return AngleUnit.deg.transform(AngleUnit.rad, super.selfNumeric());
-	}
+    @Override
+    public Generic selfNumeric() {
+        return AngleUnit.deg.transform(AngleUnit.rad, super.selfNumeric());
+    }
 
-	@NotNull
-	@Override
-	public Variable newInstance() {
-		return new Rad(null, null, null);
-	}
+    @NotNull
+    @Override
+    public Variable newInstance() {
+        return new Rad(null, null, null);
+    }
 }

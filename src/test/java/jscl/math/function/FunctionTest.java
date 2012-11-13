@@ -11,8 +11,8 @@ import org.junit.Test;
  */
 public class FunctionTest {
 
-	@Test
-	public void testSubstituteParameter() throws Exception {
+    @Test
+    public void testSubstituteParameter() throws Exception {
 /*		Ln ln = new Ln(null);
 		Assert.assertEquals("ln(x)", ln.toString());
 		Root eq = new Root(null, null);
@@ -23,5 +23,5 @@ public class FunctionTest {
 		}
 		eq.setParameters(parameter);
 		Assert.assertEquals("root(x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k)", eq.toString());*/
-	}
+    }
 }

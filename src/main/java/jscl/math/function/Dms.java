@@ -11,29 +11,29 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Dms extends AbstractDms {
 
-	public Dms(Generic degrees, Generic minutes, Generic seconds) {
-		super("dms", degrees, minutes, seconds);
-	}
+    public Dms(Generic degrees, Generic minutes, Generic seconds) {
+        super("dms", degrees, minutes, seconds);
+    }
 
-	@NotNull
-	@Override
-	public Variable newInstance() {
-		return new Dms(null, null, null);
-	}
+    @NotNull
+    @Override
+    public Variable newInstance() {
+        return new Dms(null, null, null);
+    }
 
-	@NotNull
-	@Override
-	protected String formatUndefinedParameter(int i) {
-		switch (i){
-			case 0:
-				return "d";
-			case 1:
-				return "m";
-			case 2:
-				return "s";
-			default:
-				return super.formatUndefinedParameter(i);
+    @NotNull
+    @Override
+    protected String formatUndefinedParameter(int i) {
+        switch (i) {
+            case 0:
+                return "d";
+            case 1:
+                return "m";
+            case 2:
+                return "s";
+            default:
+                return super.formatUndefinedParameter(i);
 
-		}
-	}
+        }
+    }
 }

@@ -12,9 +12,9 @@ import org.junit.Test;
  */
 public class JsclVectorTest {
 
-	@Test
-	public void testVector() throws Exception {
-		MathEngine me = JsclMathEngine.getInstance();
-		Assert.assertEquals("[1, 0, 0, 1]", me.evaluate("[1, 0, 0, 1]"));
-	}
+    @Test
+    public void testVector() throws Exception {
+        MathEngine me = JsclMathEngine.getInstance();
+        Assert.assertEquals("[1, 0, 0, 1]", me.evaluate("[1, 0, 0, 1]"));
+    }
 }

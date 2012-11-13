@@ -16,22 +16,22 @@ import java.util.List;
  */
 public class PrimaryExpressionParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new PrimaryExpressionParser();
+    public static final Parser<Generic> parser = new PrimaryExpressionParser();
 
-	private static final List<Parser<? extends Generic>> parsers = Arrays.asList(
-			new VariableConverter<Variable>(DoubleVariableParser.parser),
-			JsclIntegerParser.parser,
-			new VariableConverter<Variable>(VariableParser.parser),
-			new VariableConverter<Variable>(MatrixVariableParser.parser),
-			new VariableConverter<Variable>(VectorVariableParser.parser),
-			new VariableConverter<ExpressionVariable>(BracketedExpression.parser));
+    private static final List<Parser<? extends Generic>> parsers = Arrays.asList(
+            new VariableConverter<Variable>(DoubleVariableParser.parser),
+            JsclIntegerParser.parser,
+            new VariableConverter<Variable>(VariableParser.parser),
+            new VariableConverter<Variable>(MatrixVariableParser.parser),
+            new VariableConverter<Variable>(VectorVariableParser.parser),
+            new VariableConverter<ExpressionVariable>(BracketedExpression.parser));
 
-	private static final Parser<Generic> internalParser = new MultiTryParser<Generic>(new ArrayList<Parser<? extends Generic>>(parsers));
+    private static final Parser<Generic> internalParser = new MultiTryParser<Generic>(new ArrayList<Parser<? extends Generic>>(parsers));
 
-	private PrimaryExpressionParser() {
-	}
+    private PrimaryExpressionParser() {
+    }
 
-	public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
-		return internalParser.parse(p, previousSumElement);
-	}
+    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+        return internalParser.parse(p, previousSumElement);
+    }
 }

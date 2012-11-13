@@ -14,39 +14,39 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Degree extends PostfixFunction {
 
-	public static final String NAME = "°";
+    public static final String NAME = "°";
 
-	public Degree(Generic expression) {
-		super(NAME, new Generic[]{expression});
-	}
+    public Degree(Generic expression) {
+        super(NAME, new Generic[]{expression});
+    }
 
-	private Degree(Generic[] parameter) {
-		super(NAME, ParserUtils.copyOf(parameter, 1));
-	}
+    private Degree(Generic[] parameter) {
+        super(NAME, ParserUtils.copyOf(parameter, 1));
+    }
 
-	@Override
-	public int getMinParameters() {
-		return 1;
-	}
+    @Override
+    public int getMinParameters() {
+        return 1;
+    }
 
-	public Generic selfExpand() {
-		return expressionValue();
-	}
+    public Generic selfExpand() {
+        return expressionValue();
+    }
 
-	@Override
-	public Generic selfNumeric() {
-		return AngleUnit.deg.transform(JsclMathEngine.getInstance().getAngleUnits(), parameters[0]);
-	}
+    @Override
+    public Generic selfNumeric() {
+        return AngleUnit.deg.transform(JsclMathEngine.getInstance().getAngleUnits(), parameters[0]);
+    }
 
-	@NotNull
-	@Override
-	public Operator newInstance(@NotNull Generic[] parameters) {
-		return new Degree(parameters);
-	}
+    @NotNull
+    @Override
+    public Operator newInstance(@NotNull Generic[] parameters) {
+        return new Degree(parameters);
+    }
 
-	@NotNull
-	@Override
-	public Variable newInstance() {
-		return new Degree((Generic)null);
-	}
+    @NotNull
+    @Override
+    public Variable newInstance() {
+        return new Degree((Generic) null);
+    }
 }
