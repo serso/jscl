@@ -138,4 +138,27 @@ public class CustomFunctionTest {
         Assert.assertEquals("181.24999995362296", Expression.valueOf("testFunction8(2, 3)").numeric().toString());
 
     }
+
+    @Test
+    public void testFunction2() throws Exception {
+        JsclMathEngine mathEngine = JsclMathEngine.getInstance();
+
+        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("f", new String[]{"x", "y"}, "z1/z2*√(x^2+y^2)"));
+        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("f2", new String[]{"x", "y"}, "√(x^2+y^2)"));
+        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("f3", new String[]{"x", "y"}, "x^2+y^2"));
+
+        try {
+            Assert.assertEquals("1", Expression.valueOf("f(1, 1)").numeric().toString());
+            Assert.fail();
+        } catch (ArithmeticException e) {
+            //ok
+        }
+
+        Assert.assertEquals("1.4142135623730951", Expression.valueOf("f2(1, 1)").numeric().toString());
+        Assert.assertEquals("5", Expression.valueOf("f2(4, 3)").numeric().toString());
+
+        Assert.assertEquals("2*z1", Expression.valueOf("∂(f3(z1, z2), z1)").expand().toString());
+        Assert.assertEquals("2*z2", Expression.valueOf("∂(f3(z1, z2), z2)").expand().toString());
+
+    }
 }
