@@ -55,13 +55,15 @@ public abstract class Variable implements Comparable, MathEntity {
         return system;
     }
 
-    protected void setSystem(boolean system) {
+    public void setSystem(boolean system) {
         this.system = system;
     }
 
     public void copy(@NotNull MathEntity that) {
         if (that instanceof Variable) {
             this.name = ((Variable) that).name;
+            this.id = ((Variable) that).id;
+            this.system = ((Variable) that).system;
         }
     }
 

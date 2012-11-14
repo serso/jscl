@@ -1,8 +1,8 @@
 package jscl.math.function;
 
+import jscl.math.Variable;
 import jscl.math.function.hyperbolic.*;
 import jscl.math.function.trigonometric.*;
-import jscl.math.operator.Rand;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.math.AbstractMathRegistry;
 
@@ -62,9 +62,19 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
         return instance;
     }
 
+    @NotNull
+    public static <T extends Variable> T copy(@NotNull T variable) {
+        final T result = (T) variable.newInstance();
+        if (variable.isIdDefined()) {
+            result.setId(variable.getId());
+        }
+        result.setSystem(variable.isSystem());
+        return result;
+    }
+
     @Override
     public Function get(@NotNull String name) {
         final Function function = super.get(name);
-        return function == null ? null : (Function) function.newInstance();
+        return function == null ? null : copy(function);
     }
 }

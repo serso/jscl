@@ -9,17 +9,23 @@ public class ArrayComparator implements Comparator<Comparable[]> {
     private ArrayComparator() {
     }
 
-    public int compare(Comparable co1[], Comparable co2[]) {
-        if (co1.length < co2.length) {
+    public int compare(Comparable l[], Comparable r[]) {
+        if (l.length < r.length) {
             return -1;
-        } else if (co1.length > co2.length) {
+        } else if (l.length > r.length) {
             return 1;
         }
 
-        for (int i = co1.length - 1; i >= 0; i--) {
-            if (co1[i].compareTo(co2[i]) < 0) {
+        for (int i = l.length - 1; i >= 0; i--) {
+            if ( l[i] == null && r[i] == null ) {
+                // continue
+            } else if (l[i] != null && r[i] == null) {
                 return -1;
-            } else if (co1[i].compareTo(co2[i]) > 0) {
+            } else if (l[i] == null && r[i] != null) {
+                return 1;
+            } else if (l[i].compareTo(r[i]) < 0) {
+                return -1;
+            } else if (l[i].compareTo(r[i]) > 0) {
                 return 1;
             }
         }

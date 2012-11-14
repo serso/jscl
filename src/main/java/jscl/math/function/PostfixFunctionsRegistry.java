@@ -36,6 +36,7 @@ public class PostfixFunctionsRegistry extends AbstractMathRegistry<Operator> {
     @Override
     public Operator get(@NotNull String name) {
         final Operator operator = super.get(name);
-        return operator == null ? null : (Operator) operator.newInstance();
+        return operator == null ? null : FunctionsRegistry.copy(operator);
     }
+
 }

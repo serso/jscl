@@ -1,6 +1,7 @@
 package jscl.math.operator.matrix;
 
 import jscl.math.Generic;
+import jscl.math.function.FunctionsRegistry;
 import jscl.math.operator.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -120,6 +121,6 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
     @Override
     public Operator get(@NotNull String name) {
         final Operator operator = super.get(name);
-        return operator == null ? null : (Operator) operator.newInstance();
+        return operator == null ? null : FunctionsRegistry.copy(operator);
     }
 }

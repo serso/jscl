@@ -1,15 +1,12 @@
 package jscl.math.function;
 
 import jscl.CustomFunctionCalculationException;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.JsclInteger;
-import jscl.math.NotIntegrableException;
-import jscl.math.Variable;
+import jscl.math.*;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
+import org.solovyev.common.math.MathEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +26,7 @@ public class CustomFunction extends Function implements IFunction {
 	private String description;
 
     @NotNull
-    private List<String> parameterNames;
+    private List<String> parameterNames = Collections.emptyList();
 
     public static class Builder implements JBuilder<CustomFunction> {
 
@@ -47,6 +44,9 @@ public class CustomFunction extends Function implements IFunction {
         @NotNull
         private String name;
 
+        @Nullable
+        private Integer id;
+
         public Builder(@NotNull String name,
                        @NotNull List<String> parameterNames,
                        @NotNull String content) {
@@ -62,6 +62,9 @@ public class CustomFunction extends Function implements IFunction {
 			this.description = function.getDescription();
             this.parameterNames = new ArrayList<String>(function.getParameterNames());
             this.name = function.getName();
+            if (function.isIdDefined()) {
+                this.id = function.getId();
+            }
         }
 
         public Builder() {
@@ -105,6 +108,9 @@ public class CustomFunction extends Function implements IFunction {
         public CustomFunction create() {
             final CustomFunction customFunction = new CustomFunction(name, parameterNames, content, description);
             customFunction.setSystem(system);
+            if (id != null) {
+                customFunction.setId(id);
+            }
             return customFunction;
         }
     }
@@ -190,6 +196,17 @@ public class CustomFunction extends Function implements IFunction {
         }
 
         return localContent;
+    }
+
+    @Override
+    public void copy(@NotNull MathEntity mathEntity) {
+        super.copy(mathEntity);
+        if (mathEntity instanceof CustomFunction) {
+            final CustomFunction that = (CustomFunction) mathEntity;
+            this.content = that.content;
+            this.parameterNames = new ArrayList<String>(that.parameterNames);
+            this.description = that.description;
+        }
     }
 
     @Override

@@ -48,6 +48,11 @@ public abstract class AbstractJsclArithmeticException extends ArithmeticExceptio
         return this.message.getLocalizedMessage(locale);
     }
 
+    @NotNull
+    @Override
+    public String getLocalizedMessage() {
+        return this.getLocalizedMessage(Locale.getDefault());
+    }
 
     @Override
     public boolean equals(Object o) {
