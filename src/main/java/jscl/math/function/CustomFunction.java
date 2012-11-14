@@ -1,24 +1,35 @@
 package jscl.math.function;
 
 import jscl.CustomFunctionCalculationException;
-import jscl.math.*;
+import jscl.math.Expression;
+import jscl.math.Generic;
+import jscl.math.JsclInteger;
+import jscl.math.NotIntegrableException;
+import jscl.math.Variable;
 import jscl.text.ParseException;
-import jscl.text.ParserUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * User: serso
  * Date: 11/15/11
  * Time: 5:19 PM
  */
-public class CustomFunction extends Function {
+public class CustomFunction extends Function implements IFunction {
 
     @NotNull
     private Expression content;
 
+	@Nullable
+	private String description;
+
     @NotNull
-    private String[] parameterNames;
+    private List<String> parameterNames;
 
     public static class Builder implements JBuilder<CustomFunction> {
 
@@ -27,14 +38,17 @@ public class CustomFunction extends Function {
         @NotNull
         private String content;
 
+		@Nullable
+		private String description;
+
         @NotNull
-        private String[] parameterNames;
+        private List<String> parameterNames;
 
         @NotNull
         private String name;
 
         public Builder(@NotNull String name,
-                       @NotNull String[] parameterNames,
+                       @NotNull List<String> parameterNames,
                        @NotNull String content) {
             this.system = false;
             this.content = content;
@@ -42,10 +56,11 @@ public class CustomFunction extends Function {
             this.name = name;
         }
 
-        public Builder(@NotNull CustomFunction function) {
+        public Builder(@NotNull IFunction function) {
             this.system = function.isSystem();
             this.content = function.getContent();
-            this.parameterNames = ParserUtils.copyOf(function.getParameterNames());
+			this.description = function.getDescription();
+            this.parameterNames = new ArrayList<String>(function.getParameterNames());
             this.name = function.getName();
         }
 
@@ -53,14 +68,18 @@ public class CustomFunction extends Function {
             this.system = false;
         }
 
-        @NotNull
+		public void setDescription(@Nullable String description) {
+			this.description = description;
+		}
+
+		@NotNull
         public Builder setContent(@NotNull String content) {
             this.content = content;
             return this;
         }
 
         @NotNull
-        public Builder setParameterNames(@NotNull String[] parameterNames) {
+        public Builder setParameterNames(@NotNull List<String> parameterNames) {
             this.parameterNames = parameterNames;
             return this;
         }
@@ -73,7 +92,7 @@ public class CustomFunction extends Function {
 
         public Builder(boolean system,
                        @NotNull String name,
-                       @NotNull String[] parameterNames,
+                       @NotNull List<String> parameterNames,
                        @NotNull String content) {
             this.system = system;
             this.content = content;
@@ -84,40 +103,44 @@ public class CustomFunction extends Function {
         @NotNull
         @Override
         public CustomFunction create() {
-            final CustomFunction customFunction = new CustomFunction(name, parameterNames, content);
+            final CustomFunction customFunction = new CustomFunction(name, parameterNames, content, description);
             customFunction.setSystem(system);
             return customFunction;
         }
     }
 
     private CustomFunction(@NotNull String name,
-                           @NotNull String parameterNames[],
-                           @NotNull Expression content) {
-        super(name, new Generic[parameterNames.length]);
+                           @NotNull List<String> parameterNames,
+                           @NotNull Expression content,
+						   @Nullable String description) {
+        super(name, new Generic[parameterNames.size()]);
         this.parameterNames = parameterNames;
         this.content = content;
+        this.description = description;
     }
 
     private CustomFunction(@NotNull String name,
-                           @NotNull String parameterNames[],
-                           @NotNull String content) {
-        super(name, new Generic[parameterNames.length]);
+                           @NotNull List<String> parameterNames,
+                           @NotNull String content,
+						   @Nullable String description) {
+        super(name, new Generic[parameterNames.size()]);
         this.parameterNames = parameterNames;
         try {
             this.content = Expression.valueOf(content);
         } catch (ParseException e) {
             throw new CustomFunctionCalculationException(this, e);
         }
+		this.description = description;
     }
 
     @Override
     public int getMinParameters() {
-        return parameterNames == null ? 0 : parameterNames.length;
+        return parameterNames == null ? 0 : parameterNames.size();
     }
 
     @Override
     public int getMaxParameters() {
-        return parameterNames == null ? Integer.MAX_VALUE : parameterNames.length;
+        return parameterNames == null ? Integer.MAX_VALUE : parameterNames.size();
     }
 
     @Override
@@ -156,8 +179,8 @@ public class CustomFunction extends Function {
                 localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(parameterName + LOCAL_VAR_POSTFIX + "_" + getName())));
             }
 
-            for (int i = 0; i < parameterNames.length; i++) {
-                localContent = localContent.substitute(new Constant(parameterNames[i] + LOCAL_VAR_POSTFIX + "_" + getName()), parameters[i]);
+            for (int i = 0; i < parameterNames.size(); i++) {
+                localContent = localContent.substitute(new Constant(parameterNames.get(i) + LOCAL_VAR_POSTFIX + "_" + getName()), parameters[i]);
             }
 
         } finally {
@@ -226,16 +249,23 @@ public class CustomFunction extends Function {
         return this.content.toString();
     }
 
-    @NotNull
-    public String[] getParameterNames() {
-        return ParserUtils.copyOf(parameterNames);
+	@Nullable
+	@Override
+	public String getDescription() {
+		return this.description;
+	}
+
+	@Override
+	@NotNull
+    public List<String> getParameterNames() {
+        return Collections.unmodifiableList(parameterNames);
     }
 
     @NotNull
     @Override
     protected String formatUndefinedParameter(int i) {
-        if (i < this.parameterNames.length) {
-            return parameterNames[i];
+        if (i < this.parameterNames.size()) {
+            return parameterNames.get(i);
         } else {
             return super.formatUndefinedParameter(i);
         }
@@ -244,6 +274,6 @@ public class CustomFunction extends Function {
     @NotNull
     @Override
     public CustomFunction newInstance() {
-        return new CustomFunction(name, parameterNames, content);
+        return new CustomFunction(name, parameterNames, content, description);
     }
 }
