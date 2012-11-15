@@ -1,7 +1,11 @@
 package jscl.math.function;
 
 import jscl.CustomFunctionCalculationException;
-import jscl.math.*;
+import jscl.math.Expression;
+import jscl.math.Generic;
+import jscl.math.JsclInteger;
+import jscl.math.NotIntegrableException;
+import jscl.math.Variable;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +15,7 @@ import org.solovyev.common.math.MathEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * User: serso
@@ -19,7 +24,30 @@ import java.util.List;
  */
 public class CustomFunction extends Function implements IFunction {
 
-    @NotNull
+	/*
+	**********************************************************************
+	*
+	*                           CONSTANTS
+	*
+	**********************************************************************
+	*/
+
+	private static final String LOCAL_VAR_POSTFIX = "_lv_09_03_1988_";
+
+	private final static AtomicInteger counter = new AtomicInteger(0);
+
+	/*
+	**********************************************************************
+	*
+	*                           FIELDS
+	*
+	**********************************************************************
+	*/
+
+	@NotNull
+	private final Integer localVarId;
+
+	@NotNull
     private Expression content;
 
 	@Nullable
@@ -28,92 +56,13 @@ public class CustomFunction extends Function implements IFunction {
     @NotNull
     private List<String> parameterNames = Collections.emptyList();
 
-    public static class Builder implements JBuilder<CustomFunction> {
-
-        private final boolean system;
-
-        @NotNull
-        private String content;
-
-		@Nullable
-		private String description;
-
-        @NotNull
-        private List<String> parameterNames;
-
-        @NotNull
-        private String name;
-
-        @Nullable
-        private Integer id;
-
-        public Builder(@NotNull String name,
-                       @NotNull List<String> parameterNames,
-                       @NotNull String content) {
-            this.system = false;
-            this.content = content;
-            this.parameterNames = parameterNames;
-            this.name = name;
-        }
-
-        public Builder(@NotNull IFunction function) {
-            this.system = function.isSystem();
-            this.content = function.getContent();
-			this.description = function.getDescription();
-            this.parameterNames = new ArrayList<String>(function.getParameterNames());
-            this.name = function.getName();
-            if (function.isIdDefined()) {
-                this.id = function.getId();
-            }
-        }
-
-        public Builder() {
-            this.system = false;
-        }
-
-		public void setDescription(@Nullable String description) {
-			this.description = description;
-		}
-
-		@NotNull
-        public Builder setContent(@NotNull String content) {
-            this.content = content;
-            return this;
-        }
-
-        @NotNull
-        public Builder setParameterNames(@NotNull List<String> parameterNames) {
-            this.parameterNames = parameterNames;
-            return this;
-        }
-
-        @NotNull
-        public Builder setName(@NotNull String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder(boolean system,
-                       @NotNull String name,
-                       @NotNull List<String> parameterNames,
-                       @NotNull String content) {
-            this.system = system;
-            this.content = content;
-            this.parameterNames = parameterNames;
-            this.name = name;
-        }
-
-        @NotNull
-        @Override
-        public CustomFunction create() {
-            final CustomFunction customFunction = new CustomFunction(name, parameterNames, content, description);
-            customFunction.setSystem(system);
-            if (id != null) {
-                customFunction.setId(id);
-            }
-            return customFunction;
-        }
-    }
+	/*
+	**********************************************************************
+	*
+	*                           CONSTRUCTORS
+	*
+	**********************************************************************
+	*/
 
     private CustomFunction(@NotNull String name,
                            @NotNull List<String> parameterNames,
@@ -123,6 +72,7 @@ public class CustomFunction extends Function implements IFunction {
         this.parameterNames = parameterNames;
         this.content = content;
         this.description = description;
+		this.localVarId = counter.incrementAndGet();
     }
 
     private CustomFunction(@NotNull String name,
@@ -137,7 +87,16 @@ public class CustomFunction extends Function implements IFunction {
             throw new CustomFunctionCalculationException(this, e);
         }
 		this.description = description;
-    }
+		this.localVarId = counter.incrementAndGet();
+	}
+
+	/*
+	**********************************************************************
+	*
+	*                           METHODS
+	*
+	**********************************************************************
+	*/
 
     @Override
     public int getMinParameters() {
@@ -174,31 +133,34 @@ public class CustomFunction extends Function implements IFunction {
         return selfExpand().factorize();
     }
 
-    private static final String LOCAL_VAR_POSTFIX = "_lv_09_03_1988";
-
     @Override
     public Generic selfExpand() {
         Generic localContent = content;
 
         try {
             for (String parameterName : parameterNames) {
-                localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(parameterName + LOCAL_VAR_POSTFIX + "_" + getName())));
+                localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(getParameterNameForConstant(parameterName))));
             }
 
             for (int i = 0; i < parameterNames.size(); i++) {
-                localContent = localContent.substitute(new Constant(parameterNames.get(i) + LOCAL_VAR_POSTFIX + "_" + getName()), parameters[i]);
+                localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterNames.get(i))), parameters[i]);
             }
 
         } finally {
             for (String parameterName : parameterNames) {
-                localContent = localContent.substitute(new Constant(parameterName + LOCAL_VAR_POSTFIX + "_" + getName()), Expression.valueOf(new Constant(parameterName)));
+                localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterName)), Expression.valueOf(new Constant(parameterName)));
             }
         }
 
         return localContent;
     }
 
-    @Override
+	@NotNull
+	private String getParameterNameForConstant(@NotNull String parameterName) {
+		return parameterName + LOCAL_VAR_POSTFIX + "_" + this.localVarId;
+	}
+
+	@Override
     public void copy(@NotNull MathEntity mathEntity) {
         super.copy(mathEntity);
         if (mathEntity instanceof CustomFunction) {
@@ -293,4 +255,99 @@ public class CustomFunction extends Function implements IFunction {
     public CustomFunction newInstance() {
         return new CustomFunction(name, parameterNames, content, description);
     }
+
+	/*
+	**********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
+
+	public static class Builder implements JBuilder<CustomFunction> {
+
+		private final boolean system;
+
+		@NotNull
+		private String content;
+
+		@Nullable
+		private String description;
+
+		@NotNull
+		private List<String> parameterNames;
+
+		@NotNull
+		private String name;
+
+		@Nullable
+		private Integer id;
+
+		public Builder(@NotNull String name,
+					   @NotNull List<String> parameterNames,
+					   @NotNull String content) {
+			this.system = false;
+			this.content = content;
+			this.parameterNames = parameterNames;
+			this.name = name;
+		}
+
+		public Builder(@NotNull IFunction function) {
+			this.system = function.isSystem();
+			this.content = function.getContent();
+			this.description = function.getDescription();
+			this.parameterNames = new ArrayList<String>(function.getParameterNames());
+			this.name = function.getName();
+			if (function.isIdDefined()) {
+				this.id = function.getId();
+			}
+		}
+
+		public Builder() {
+			this.system = false;
+		}
+
+		public void setDescription(@Nullable String description) {
+			this.description = description;
+		}
+
+		@NotNull
+		public Builder setContent(@NotNull String content) {
+			this.content = content;
+			return this;
+		}
+
+		@NotNull
+		public Builder setParameterNames(@NotNull List<String> parameterNames) {
+			this.parameterNames = parameterNames;
+			return this;
+		}
+
+		@NotNull
+		public Builder setName(@NotNull String name) {
+			this.name = name;
+			return this;
+		}
+
+		public Builder(boolean system,
+					   @NotNull String name,
+					   @NotNull List<String> parameterNames,
+					   @NotNull String content) {
+			this.system = system;
+			this.content = content;
+			this.parameterNames = parameterNames;
+			this.name = name;
+		}
+
+		@NotNull
+		@Override
+		public CustomFunction create() {
+			final CustomFunction customFunction = new CustomFunction(name, parameterNames, content, description);
+			customFunction.setSystem(system);
+			if (id != null) {
+				customFunction.setId(id);
+			}
+			return customFunction;
+		}
+	}
 }
