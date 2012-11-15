@@ -1,7 +1,17 @@
 package jscl.math.function;
 
-import jscl.math.*;
+import jscl.math.AntiDerivative;
+import jscl.math.Generic;
+import jscl.math.GenericVariable;
 import jscl.math.JsclInteger;
+import jscl.math.NotDivisibleException;
+import jscl.math.NotExpressionException;
+import jscl.math.NotIntegerException;
+import jscl.math.NotIntegrableException;
+import jscl.math.NotPowerException;
+import jscl.math.NotVariableException;
+import jscl.math.NumericWrapper;
+import jscl.math.Variable;
 import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,9 +49,11 @@ public class Fraction extends Algebraic {
 
     public boolean integer() {
         try {
-            parameters[0].integerValue().intValue();
-            parameters[1].integerValue().intValue();
-            return true;
+			if (parameters[0] != null && parameters[1] != null) {
+				parameters[0].integerValue().intValue();
+				parameters[1].integerValue().intValue();
+				return true;
+			}
         } catch (NotIntegerException e) {
         }
         return false;

@@ -31,7 +31,7 @@ public class Sqrt extends Algebraic {
     }
 
     public boolean imaginary() {
-        return parameters[0].compareTo(JsclInteger.valueOf(-1)) == 0;
+        return parameters[0] != null && parameters[0].compareTo(JsclInteger.valueOf(-1)) == 0;
     }
 
     public Generic selfExpand() {
