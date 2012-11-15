@@ -278,20 +278,26 @@ public class JsclMathEngine implements MathEngine {
                         return constant.getName();
                     }
                 } else {
-                    String ungroupedValue;
-                    try {
-                        // check if double can be converted to integer
-                        integerValue(value);
-
-                        ungroupedValue = nb.toString(new BigDecimal(value).toBigInteger());
-                    } catch (NotIntegerException e) {
-                        ungroupedValue = nb.toString(value, roundResult ? precision : MAX_FRACTION_DIGITS);
-                    }
-
-                    return addGroupingSeparators(nb, ungroupedValue);
+                    return convert(value, nb);
                 }
             }
         }
+    }
+
+    @Override
+    @NotNull
+    public String convert(@NotNull Double value, @NotNull NumeralBase to) {
+        String ungroupedValue;
+        try {
+            // check if double can be converted to integer
+            integerValue(value);
+
+            ungroupedValue = to.toString(new BigDecimal(value).toBigInteger());
+        } catch (NotIntegerException e) {
+            ungroupedValue = to.toString(value, roundResult ? precision : MAX_FRACTION_DIGITS);
+        }
+
+        return addGroupingSeparators(to, ungroupedValue);
     }
 
     @Override

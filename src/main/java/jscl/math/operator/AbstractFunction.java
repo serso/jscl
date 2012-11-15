@@ -56,57 +56,88 @@ public abstract class AbstractFunction extends Variable {
     public abstract Generic selfExpand();
 
     public Generic expand() {
+        final AbstractFunction function = newExpandedFunction();
+
+        return function.selfExpand();
+    }
+
+    @NotNull
+    protected AbstractFunction newExpandedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
         for (int i = 0; i < parameters.length; i++) {
             function.parameters[i] = parameters[i].expand();
         }
-
-        return function.selfExpand();
+        return function;
     }
 
     public Generic elementary() {
+        final AbstractFunction function = newElementarizedFunction();
+
+        return function.selfElementary();
+    }
+
+    @NotNull
+    protected AbstractFunction newElementarizedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
         for (int i = 0; i < parameters.length; i++) {
             function.parameters[i] = parameters[i].elementary();
         }
-
-        return function.selfElementary();
+        return function;
     }
 
     public abstract Generic selfElementary();
 
     public Generic factorize() {
+        final AbstractFunction function = newFactorizedFunction();
+
+        return function.expressionValue();
+    }
+
+    @NotNull
+    protected AbstractFunction newFactorizedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
         for (int i = 0; i < parameters.length; i++) {
             function.parameters[i] = parameters[i].factorize();
         }
-
-        return function.expressionValue();
+        return function;
     }
 
     public Generic simplify() {
+        final AbstractFunction function = newSimplifiedFunction();
+
+        return function.selfSimplify();
+    }
+
+    @NotNull
+    protected final AbstractFunction newSimplifiedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
         for (int i = 0; i < parameters.length; i++) {
             function.parameters[i] = parameters[i].simplify();
         }
-
-        return function.selfSimplify();
+        return function;
     }
 
     public abstract Generic selfSimplify();
 
     public Generic numeric() {
+        final AbstractFunction result = newNumericFunction();
+
+        return result.selfNumeric();
+    }
+
+    @NotNull
+    protected final AbstractFunction newNumericFunction() {
         final AbstractFunction result = (AbstractFunction) newInstance();
 
         for (int i = 0; i < parameters.length; i++) {
             result.parameters[i] = parameters[i].numeric();
         }
 
-        return result.selfNumeric();
+        return result;
     }
 
     public abstract Generic selfNumeric();

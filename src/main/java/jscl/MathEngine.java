@@ -28,4 +28,7 @@ public interface MathEngine extends MathContext {
 
     @NotNull
     Generic elementaryGeneric(@NotNull String expression) throws ParseException;
+
+    @NotNull
+    String convert(@NotNull Double value, @NotNull NumeralBase to);
 }

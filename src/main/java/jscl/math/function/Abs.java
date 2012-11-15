@@ -5,6 +5,7 @@ import jscl.mathml.MathML;
 import org.jetbrains.annotations.NotNull;
 
 public class Abs extends Function {
+
     public Abs(Generic generic) {
         super("abs", new Generic[]{generic});
     }
