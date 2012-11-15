@@ -102,6 +102,10 @@ public abstract class Variable implements Comparable, MathEntity {
     }
 
     public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
         return obj instanceof Variable && compareTo((Variable) obj) == 0;
     }
 
