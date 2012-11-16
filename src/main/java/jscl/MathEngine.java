@@ -3,6 +3,7 @@ package jscl;
 import jscl.math.Generic;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.msg.MessageRegistry;
 
 /**
  * User: serso
@@ -31,4 +32,9 @@ public interface MathEngine extends MathContext {
 
     @NotNull
     String convert(@NotNull Double value, @NotNull NumeralBase to);
+
+	@NotNull
+	MessageRegistry getMessageRegistry();
+
+	void setMessageRegistry(@NotNull MessageRegistry messageRegistry);
 }

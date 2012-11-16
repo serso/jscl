@@ -85,7 +85,7 @@ public final class Real extends Numeric {
         if (signum() >= 0) {
             return new Real(Math.log(content));
         } else {
-            return new Complex(Math.log(-content), Math.PI);
+            return Complex.valueOf(Math.log(-content), Math.PI);
         }
     }
 
@@ -94,7 +94,7 @@ public final class Real extends Numeric {
         if (signum() >= 0) {
             return new Real(Math.log10(content));
         } else {
-            return new Complex(Math.log10(-content), Math.PI);
+            return Complex.valueOf(Math.log10(-content), Math.PI);
         }
     }
 
@@ -127,7 +127,7 @@ public final class Real extends Numeric {
     @NotNull
     public Numeric sqrt() {
         if (signum() < 0) {
-            return Complex.valueOf(0, 1).multiply(negate().sqrt());
+            return Complex.I.multiply(negate().sqrt());
         } else {
             return new Real(Math.sqrt(content));
         }
@@ -257,6 +257,6 @@ public final class Real extends Numeric {
 
     @NotNull
     public Complex toComplex() {
-        return new Complex(this.content, 0.);
+        return Complex.valueOf(this.content, 0.);
     }
 }

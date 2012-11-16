@@ -127,5 +127,11 @@ public final class Messages {
      */
     public static final String msg_22 = "msg_22";
 
+	/**	Complex number computation in not RAD mode can lead to unexpected results! */
+    public static final String msg_23 = "msg_23";
+
+	/**	Integration in not RAD mode can lead to unexpected results! */
+    public static final String msg_24 = "msg_24";
+
 
 }

@@ -1,10 +1,15 @@
 package jscl.math.operator;
 
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
 import jscl.math.Generic;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import jscl.text.msg.JsclMessage;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.msg.MessageType;
 
 public class IndefiniteIntegral extends Operator {
 
@@ -24,6 +29,10 @@ public class IndefiniteIntegral extends Operator {
     }
 
     public Generic selfExpand() {
+		if (JsclMathEngine.getInstance().getAngleUnits() != AngleUnit.rad) {
+			JsclMathEngine.getInstance().getMessageRegistry().addMessage(new JsclMessage(Messages.msg_24, MessageType.warning));
+		}
+
         Variable variable = parameters[1].variableValue();
         try {
             return parameters[0].antiDerivative(variable);

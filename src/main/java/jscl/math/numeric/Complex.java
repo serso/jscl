@@ -1,19 +1,24 @@
 package jscl.math.numeric;
 
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
 import jscl.math.NotDivisibleException;
+import jscl.text.msg.JsclMessage;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.msg.MessageType;
 
 public final class Complex extends Numeric {
 
     private final double real, imaginary;
 
-    Complex(double real, double imaginary) {
+    private Complex(double real, double imaginary) {
         this.real = real;
         this.imaginary = imaginary;
-    }
+	}
 
-    public Complex add(Complex complex) {
-        return new Complex(real + complex.real, imaginary + complex.imaginary);
+	public Complex add(Complex complex) {
+        return valueOf(real + complex.real, imaginary + complex.imaginary);
     }
 
     @NotNull
@@ -28,7 +33,7 @@ public final class Complex extends Numeric {
     }
 
     public Complex subtract(Complex complex) {
-        return new Complex(real - complex.real, imaginary - complex.imaginary);
+        return valueOf(real - complex.real, imaginary - complex.imaginary);
     }
 
     @NotNull
@@ -43,7 +48,7 @@ public final class Complex extends Numeric {
     }
 
     public Complex multiply(Complex complex) {
-        return new Complex(real * complex.real - imaginary * complex.imaginary, real * complex.imaginary + imaginary * complex.real);
+        return valueOf(real * complex.real - imaginary * complex.imaginary, real * complex.imaginary + imaginary * complex.real);
     }
 
     @NotNull
@@ -74,7 +79,7 @@ public final class Complex extends Numeric {
 
     @NotNull
     public Numeric negate() {
-        return new Complex(-real, -imaginary);
+        return valueOf(-real, -imaginary);
     }
 
     @NotNull
@@ -117,7 +122,7 @@ public final class Complex extends Numeric {
         if (signum() == 0) {
             return Real.ZERO.ln();
         } else {
-            return new Complex(Math.log(magnitude()), angle());
+            return valueOf(Math.log(magnitude()), angle());
         }
     }
 
@@ -126,13 +131,13 @@ public final class Complex extends Numeric {
         if (signum() == 0) {
             return Real.ZERO.lg();
         } else {
-            return new Complex(Math.log10(magnitude()), angle());
+            return valueOf(Math.log10(magnitude()), angle());
         }
     }
 
     @NotNull
     public Numeric exp() {
-        return new Complex(Math.cos(defaultToRad(imaginary)), Math.sin(defaultToRad(imaginary))).multiply(Math.exp(real));
+        return valueOf(Math.cos(defaultToRad(imaginary)), Math.sin(defaultToRad(imaginary))).multiply(Math.exp(real));
     }
 
     @NotNull
@@ -141,15 +146,15 @@ public final class Complex extends Numeric {
     }
 
     Complex multiply(double d) {
-        return new Complex(real * d, imaginary * d);
+        return valueOf(real * d, imaginary * d);
     }
 
     Complex divide(double d) {
-        return new Complex(real / d, imaginary / d);
+        return valueOf(real / d, imaginary / d);
     }
 
     public Numeric conjugate() {
-        return new Complex(real, -imaginary);
+        return valueOf(real, -imaginary);
     }
 
     public double realPart() {
@@ -187,7 +192,7 @@ public final class Complex extends Numeric {
     }
 
     public Complex copyOf(@NotNull Complex complex) {
-        return new Complex(complex.real, complex.imaginary);
+        return valueOf(complex.real, complex.imaginary);
     }
 
     @NotNull
@@ -205,6 +210,10 @@ public final class Complex extends Numeric {
 
     @NotNull
     public static Complex valueOf(double real, double imaginary) {
+		if (JsclMathEngine.getInstance().getAngleUnits() != AngleUnit.rad) {
+			JsclMathEngine.getInstance().getMessageRegistry().addMessage(new JsclMessage(Messages.msg_23, MessageType.warning));
+		}
+
         if (real == 0d && imaginary == 1d) {
             return I;
         } else {

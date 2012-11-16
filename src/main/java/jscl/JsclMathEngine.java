@@ -3,7 +3,12 @@ package jscl;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.NotIntegerException;
-import jscl.math.function.*;
+import jscl.math.function.Constants;
+import jscl.math.function.ConstantsRegistry;
+import jscl.math.function.Function;
+import jscl.math.function.FunctionsRegistry;
+import jscl.math.function.IConstant;
+import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
@@ -14,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.math.MathRegistry;
+import org.solovyev.common.msg.MessageRegistry;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -73,6 +79,9 @@ public class JsclMathEngine implements MathEngine {
 
     @NotNull
     private ConstantsRegistry constantsRegistry;
+
+	@NotNull
+	private MessageRegistry messageRegistry = new FixedCapacityListMessageRegistry(10);
 
     /*
     **********************************************************************
@@ -300,7 +309,18 @@ public class JsclMathEngine implements MathEngine {
         return addGroupingSeparators(to, ungroupedValue);
     }
 
-    @Override
+	@Override
+	@NotNull
+	public MessageRegistry getMessageRegistry() {
+		return messageRegistry;
+	}
+
+	@Override
+	public void setMessageRegistry(@NotNull MessageRegistry messageRegistry) {
+		this.messageRegistry = messageRegistry;
+	}
+
+	@Override
     @NotNull
     public String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedDoubleValue) {
         if (useGroupingSeparator) {
