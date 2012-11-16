@@ -1,11 +1,16 @@
 package jscl.math.operator;
 
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
+import jscl.text.msg.JsclMessage;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.msg.MessageType;
 
 public class Derivative extends Operator {
 
@@ -58,6 +63,10 @@ public class Derivative extends Operator {
     }
 
     public Generic selfExpand() {
+		if (JsclMathEngine.getInstance().getAngleUnits() != AngleUnit.rad) {
+			JsclMathEngine.getInstance().getMessageRegistry().addMessage(new JsclMessage(Messages.msg_25, MessageType.warning));
+		}
+
         Variable variable = parameters[1].variableValue();
         try {
             int n = parameters[3].integerValue().intValue();
