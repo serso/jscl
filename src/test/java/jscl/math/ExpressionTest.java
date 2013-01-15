@@ -738,6 +738,7 @@ public class ExpressionTest {
             Assert.assertEquals("100E0", Expression.valueOf("100.0").simplify().toString());
 
             me.setRoundResult(true);
+            me.setPrecision(5);
             Assert.assertEquals("0", Expression.valueOf("1222/(10^9)").numeric().toString());
 
             me.setRoundResult(true);

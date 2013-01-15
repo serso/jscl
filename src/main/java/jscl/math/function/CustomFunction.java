@@ -1,6 +1,7 @@
 package jscl.math.function;
 
 import jscl.CustomFunctionCalculationException;
+import jscl.JsclMathEngine;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
@@ -342,12 +343,38 @@ public class CustomFunction extends Function implements IFunction {
 		@NotNull
 		@Override
 		public CustomFunction create() {
-			final CustomFunction customFunction = new CustomFunction(name, parameterNames, content, description);
+			final CustomFunction customFunction = new CustomFunction(name, parameterNames, prepareContent(content), description);
 			customFunction.setSystem(system);
 			if (id != null) {
 				customFunction.setId(id);
 			}
 			return customFunction;
 		}
-	}
+
+        @NotNull
+        private static String prepareContent(@NotNull String content) {
+            final StringBuilder result = new StringBuilder(content.length());
+
+            final char groupingSeparator = JsclMathEngine.getInstance().getGroupingSeparator();
+
+            for (int i = 0; i < content.length(); i++) {
+                final char ch = content.charAt(i);
+                switch (ch) {
+                    case ' ':
+                    case '\'':
+                    case '\n':
+                    case '\r':
+                        // do nothing
+                        break;
+                    default:
+                        // remove grouping separator
+                        if (ch != groupingSeparator) {
+                            result.append(ch);
+                        }
+                }
+            }
+
+            return result.toString();
+        }
+    }
 }

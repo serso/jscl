@@ -162,5 +162,10 @@ public class CustomFunctionTest {
         Assert.assertEquals("2*z1", Expression.valueOf("∂(f3(z1, z2), z1)").expand().toString());
         Assert.assertEquals("2*z2", Expression.valueOf("∂(f3(z1, z2), z2)").expand().toString());
 
+        // test symbols
+        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("f4", Arrays.asList("x", "y"), "2 000*x^2+y^2"));
+        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("f5", Arrays.asList("x", "y"), "2'000* x ^2+y^2\r"));
+
+
     }
 }

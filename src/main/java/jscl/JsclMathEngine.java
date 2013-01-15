@@ -413,4 +413,8 @@ public class JsclMathEngine implements MathEngine {
     public void setScienceNotation(boolean scienceNotation) {
         this.scienceNotation = scienceNotation;
     }
+
+    public char getGroupingSeparator() {
+        return this.decimalGroupSymbols.getGroupingSeparator();
+    }
 }
