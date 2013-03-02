@@ -12,7 +12,7 @@
     <groupId>org.solovyev</groupId>
     <artifactId>jscl</artifactId>
     <name>Java Symbolic Computation Library</name>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:git@github.com:serso/jscl.git</connection>
@@ -23,7 +23,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <common.version>1.0.1</common.version>
+        <jcl.version>1.0.4-SNAPSHOT</jcl.version>
     </properties>
 
     <dependencies>
@@ -33,19 +33,19 @@
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-core</artifactId>
-            <version>${common.version}</version>
+            <version>${jcl.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-msg</artifactId>
-            <version>${common.version}</version>
+            <version>${jcl.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-other</artifactId>
-            <version>${common.version}</version>
+            <version>${jcl.version}</version>
         </dependency>
 
         <!-- OTHER -->

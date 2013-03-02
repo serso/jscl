@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -208,7 +208,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         final Double doubleValue = constant.getDoubleValue();
         if (doubleValue == null) {
             final String stringValue = constant.getValue();
-            if (!StringUtils.isEmpty(stringValue)) {
+            if (!Strings.isEmpty(stringValue)) {
                 return constant.getName() + " = " + stringValue;
             } else {
                 return constant.getName();

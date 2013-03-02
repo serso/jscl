@@ -3,7 +3,7 @@ package jscl.math.function;
 import jscl.JsclMathEngine;
 import junit.framework.Assert;
 import org.junit.Test;
-import org.solovyev.common.math.MathUtils;
+import org.solovyev.common.math.Maths;
 
 /**
  * User: serso
@@ -28,6 +28,6 @@ public class DegTest {
     }
 
     private void assertEquals(double expected, Double actual) {
-        Assert.assertTrue("Expected=" + expected + ", actual=" + actual, MathUtils.equals(expected, actual, 8));
+        Assert.assertTrue("Expected=" + expected + ", actual=" + actual, Maths.equals(expected, actual, 8));
     }
 }

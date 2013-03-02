@@ -17,7 +17,7 @@ import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JPredicate;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 
@@ -224,7 +224,7 @@ public class JsclMathEngine implements MathEngine {
 
                     // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
                     final Double localValue = value;
-                    IConstant constant = CollectionsUtils.find(this.getConstantsRegistry().getSystemEntities(), new JPredicate<IConstant>() {
+                    IConstant constant = Collections.find(this.getConstantsRegistry().getSystemEntities(), new JPredicate<IConstant>() {
                         @Override
                         public boolean apply(@Nullable IConstant constant) {
                             if (constant != null) {

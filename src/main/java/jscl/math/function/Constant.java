@@ -130,7 +130,7 @@ public class Constant extends Variable {
 
     @Override
     public int hashCode() {
-        final HashCodeBuilder result = new HashCodeBuilder();
+        final HashCodeBuilder result = HashCodeBuilder.newInstance();
 
         result.append(Constant.class);
         result.append(name);

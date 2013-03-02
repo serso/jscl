@@ -3,6 +3,7 @@ package jscl;
 import jscl.text.msg.JsclMessage;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public abstract class AbstractJsclArithmeticException extends ArithmeticExceptio
 
     @NotNull
     @Override
-    public MessageType getMessageType() {
-        return this.message.getMessageType();
+    public MessageLevel getMessageLevel() {
+        return this.message.getMessageLevel();
     }
 
     @NotNull

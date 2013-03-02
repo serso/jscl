@@ -3,6 +3,7 @@ package jscl.text;
 import jscl.text.msg.JsclMessage;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.List;
@@ -42,8 +43,8 @@ public class ParseException extends Exception implements Message {
 
     @NotNull
     @Override
-    public MessageType getMessageType() {
-        return this.message.getMessageType();
+    public MessageLevel getMessageLevel() {
+        return this.message.getMessageLevel();
     }
 
     @NotNull
