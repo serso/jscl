@@ -13,6 +13,7 @@ import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.msg.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -76,7 +77,7 @@ public class JsclMathEngine implements MathEngine {
     private ConstantsRegistry constantsRegistry;
 
 	@Nonnull
-	private MessageRegistry messageRegistry = new FixedCapacityListMessageRegistry(10);
+	private MessageRegistry messageRegistry = Messages.synchronizedMessageRegistry(new FixedCapacityListMessageRegistry(10));
 
     /*
     **********************************************************************

@@ -47,7 +47,7 @@ public class DoubleFactorial extends PostfixFunction {
                 result = JsclInteger.valueOf(1);
             } else {
                 int i;
-                if (n % 2 == 1) {
+                if (n % 2 != 0) {
                     // odd
                     i = 1;
                 } else {
