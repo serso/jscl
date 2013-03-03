@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.Root;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class RootParser implements Parser<Function> {
     public static final Parser<Function> parser = new RootParser();
@@ -12,7 +12,7 @@ public class RootParser implements Parser<Function> {
     private RootParser() {
     }
 
-    public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final String name = Identifier.parser.parse(p, previousSumElement);

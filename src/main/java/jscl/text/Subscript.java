@@ -1,8 +1,8 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Subscript implements Parser<Generic> {
 
@@ -11,7 +11,7 @@ public class Subscript implements Parser<Generic> {
     private Subscript() {
     }
 
-    public Generic parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.tryToParse(p, pos0, '[');

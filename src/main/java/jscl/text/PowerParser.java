@@ -2,8 +2,8 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -18,7 +18,7 @@ class PowerParser implements Parser<Void> {
     }
 
     @Nullable
-    public Void parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Void parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.skipWhitespaces(p);
@@ -37,7 +37,7 @@ class PowerParser implements Parser<Void> {
         return null;
     }
 
-    private boolean isDoubleStar(@NotNull String string, @NotNull MutableInt position) {
+    private boolean isDoubleStar(@Nonnull String string, @Nonnull MutableInt position) {
         final int i = position.intValue();
         return i < string.length() && i + 1 < string.length() && string.charAt(i) == '*' && string.charAt(i + 1) == '*';
     }

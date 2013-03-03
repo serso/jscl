@@ -5,8 +5,8 @@ import jscl.math.operator.Factorial;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.Converter;
 import org.solovyev.common.math.MathEntity;
 
@@ -17,21 +17,21 @@ import java.util.Set;
 
 public abstract class Variable implements Comparable, MathEntity {
 
-    @NotNull
+    @Nonnull
     public static final Comparator<Variable> comparator = VariableComparator.comparator;
 
     private Integer id;
 
-    @NotNull
+    @Nonnull
     protected String name;
 
     private boolean system = true;
 
-    public Variable(@NotNull String name) {
+    public Variable(@Nonnull String name) {
         this.name = name;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Integer getId() {
         return id;
@@ -42,11 +42,11 @@ public abstract class Variable implements Comparable, MathEntity {
         return id != null;
     }
 
-    public void setId(@NotNull Integer id) {
+    public void setId(@Nonnull Integer id) {
         this.id = id;
     }
 
-    @NotNull
+    @Nonnull
     public final String getName() {
         return name;
     }
@@ -59,7 +59,7 @@ public abstract class Variable implements Comparable, MathEntity {
         this.system = system;
     }
 
-    public void copy(@NotNull MathEntity that) {
+    public void copy(@Nonnull MathEntity that) {
         if (that instanceof Variable) {
             this.name = ((Variable) that).name;
             this.id = ((Variable) that).id;
@@ -69,7 +69,7 @@ public abstract class Variable implements Comparable, MathEntity {
 
     public abstract Generic antiDerivative(Variable variable) throws NotIntegrableException;
 
-    @NotNull
+    @Nonnull
     public abstract Generic derivative(Variable variable);
 
     public abstract Generic substitute(Variable variable, Generic generic);
@@ -84,14 +84,14 @@ public abstract class Variable implements Comparable, MathEntity {
 
     public abstract Generic numeric();
 
-    @NotNull
+    @Nonnull
     public Expression expressionValue() {
         return Expression.valueOf(this);
     }
 
     public abstract boolean isConstant(Variable variable);
 
-    public boolean isIdentity(@NotNull Variable variable) {
+    public boolean isIdentity(@Nonnull Variable variable) {
         return this.compareTo(variable) == 0;
     }
 
@@ -147,7 +147,7 @@ public abstract class Variable implements Comparable, MathEntity {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public abstract Variable newInstance();
 
     static final Map<String, String> special = new HashMap<String, String>();
@@ -208,37 +208,37 @@ public abstract class Variable implements Comparable, MathEntity {
         special.put("square", "\u25A1");
     }
 
-    @NotNull
+    @Nonnull
     public abstract Set<? extends Constant> getConstants();
 
     protected static final Converter<Generic, Generic> FACTORIZE_CONVERTER = new Converter<Generic, Generic>() {
-        @NotNull
+        @Nonnull
         @Override
-        public Generic convert(@NotNull Generic generic) {
+        public Generic convert(@Nonnull Generic generic) {
             return generic.factorize();
         }
     };
 
     protected static final Converter<Generic, Generic> ELEMENTARY_CONVERTER = new Converter<Generic, Generic>() {
-        @NotNull
+        @Nonnull
         @Override
-        public Generic convert(@NotNull Generic generic) {
+        public Generic convert(@Nonnull Generic generic) {
             return generic.elementary();
         }
     };
 
     protected static final Converter<Generic, Generic> EXPAND_CONVERTER = new Converter<Generic, Generic>() {
-        @NotNull
+        @Nonnull
         @Override
-        public Generic convert(@NotNull Generic generic) {
+        public Generic convert(@Nonnull Generic generic) {
             return generic.expand();
         }
     };
 
     protected static final Converter<Generic, Generic> NUMERIC_CONVERTER = new Converter<Generic, Generic>() {
-        @NotNull
+        @Nonnull
         @Override
-        public Generic convert(@NotNull Generic generic) {
+        public Generic convert(@Nonnull Generic generic) {
             return generic.numeric();
         }
     };

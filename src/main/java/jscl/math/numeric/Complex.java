@@ -5,7 +5,7 @@ import jscl.JsclMathEngine;
 import jscl.math.NotDivisibleException;
 import jscl.text.msg.JsclMessage;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.MessageType;
 
 public final class Complex extends Numeric {
@@ -21,8 +21,8 @@ public final class Complex extends Numeric {
         return valueOf(real + complex.real, imaginary + complex.imaginary);
     }
 
-    @NotNull
-    public Numeric add(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric add(@Nonnull Numeric that) {
         if (that instanceof Complex) {
             return add((Complex) that);
         } else if (that instanceof Real) {
@@ -36,8 +36,8 @@ public final class Complex extends Numeric {
         return valueOf(real - complex.real, imaginary - complex.imaginary);
     }
 
-    @NotNull
-    public Numeric subtract(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric subtract(@Nonnull Numeric that) {
         if (that instanceof Complex) {
             return subtract((Complex) that);
         } else if (that instanceof Real) {
@@ -51,8 +51,8 @@ public final class Complex extends Numeric {
         return valueOf(real * complex.real - imaginary * complex.imaginary, real * complex.imaginary + imaginary * complex.real);
     }
 
-    @NotNull
-    public Numeric multiply(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric multiply(@Nonnull Numeric that) {
         if (that instanceof Complex) {
             return multiply((Complex) that);
         } else if (that instanceof Real) {
@@ -66,8 +66,8 @@ public final class Complex extends Numeric {
         return multiply((Complex) complex.inverse());
     }
 
-    @NotNull
-    public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+    @Nonnull
+    public Numeric divide(@Nonnull Numeric that) throws NotDivisibleException {
         if (that instanceof Complex) {
             return divide((Complex) that);
         } else if (that instanceof Real) {
@@ -77,12 +77,12 @@ public final class Complex extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric negate() {
         return valueOf(-real, -imaginary);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric abs() {
         final Numeric realSquare = new Real(real).pow(2);
@@ -117,7 +117,7 @@ public final class Complex extends Numeric {
         return Math.atan2(imaginary, real);
     }
 
-    @NotNull
+    @Nonnull
     public Numeric ln() {
         if (signum() == 0) {
             return Real.ZERO.ln();
@@ -126,7 +126,7 @@ public final class Complex extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric lg() {
         if (signum() == 0) {
             return Real.ZERO.lg();
@@ -135,12 +135,12 @@ public final class Complex extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric exp() {
         return valueOf(Math.cos(defaultToRad(imaginary)), Math.sin(defaultToRad(imaginary))).multiply(Math.exp(real));
     }
 
-    @NotNull
+    @Nonnull
     public Numeric inverse() {
         return ((Complex) conjugate()).divide(magnitude2());
     }
@@ -191,12 +191,12 @@ public final class Complex extends Numeric {
         }
     }
 
-    public Complex copyOf(@NotNull Complex complex) {
+    public Complex copyOf(@Nonnull Complex complex) {
         return valueOf(complex.real, complex.imaginary);
     }
 
-    @NotNull
-    public Numeric valueOf(@NotNull Numeric numeric) {
+    @Nonnull
+    public Numeric valueOf(@Nonnull Numeric numeric) {
         if (numeric instanceof Complex) {
             return copyOf((Complex) numeric);
         } else if (numeric instanceof Real) {
@@ -205,10 +205,10 @@ public final class Complex extends Numeric {
         } else throw new ArithmeticException();
     }
 
-    @NotNull
+    @Nonnull
     public static final Complex I = new Complex(0, 1);
 
-    @NotNull
+    @Nonnull
     public static Complex valueOf(double real, double imaginary) {
 		if (JsclMathEngine.getInstance().getAngleUnits() != AngleUnit.rad) {
 			JsclMathEngine.getInstance().getMessageRegistry().addMessage(new JsclMessage(Messages.msg_23, MessageType.warning));

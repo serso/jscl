@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.ExpressionVariable;
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class PrimaryExpressionParser implements Parser<Generic> {
     private PrimaryExpressionParser() {
     }
 
-    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         return internalParser.parse(p, previousSumElement);
     }
 }

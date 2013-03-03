@@ -1,7 +1,7 @@
 package jscl.math;
 
 import jscl.math.function.Constant;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class TechnicalVariable extends Variable {
         throw new NotIntegrableException(this);
     }
 
-    @NotNull
+    @Nonnull
     public Generic derivative(Variable variable) {
         if (isIdentity(variable)) return JsclInteger.valueOf(1);
         else return JsclInteger.valueOf(0);
@@ -97,12 +97,12 @@ public class TechnicalVariable extends Variable {
         return null;
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new TechnicalVariable(name);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         // todo serso: check

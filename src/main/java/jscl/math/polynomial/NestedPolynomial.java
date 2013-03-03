@@ -3,7 +3,7 @@ package jscl.math.polynomial;
 import jscl.math.*;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Set;
 
@@ -36,8 +36,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.add(wrapper.content));
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         if (that instanceof PolynomialWrapper) {
             return add((PolynomialWrapper) that);
         } else {
@@ -49,8 +49,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.subtract(wrapper.content));
     }
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         if (that instanceof PolynomialWrapper) {
             return subtract((PolynomialWrapper) that);
         } else {
@@ -62,8 +62,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.multiply(wrapper.content));
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         if (that instanceof PolynomialWrapper) {
             return multiply((PolynomialWrapper) that);
         } else {
@@ -75,8 +75,8 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.divide(wrapper.content));
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         if (that instanceof PolynomialWrapper) {
             return divide((PolynomialWrapper) that);
         } else {
@@ -88,7 +88,7 @@ final class PolynomialWrapper extends Generic {
         return new PolynomialWrapper(content.gcd(wrapper.content));
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         if (generic instanceof PolynomialWrapper) {
             return gcd((PolynomialWrapper) generic);
         } else {
@@ -96,7 +96,7 @@ final class PolynomialWrapper extends Generic {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         return content.gcd();
     }
@@ -113,15 +113,15 @@ final class PolynomialWrapper extends Generic {
         return content.degree();
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         return null;
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         return null;
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         return null;
     }
 
@@ -186,11 +186,11 @@ final class PolynomialWrapper extends Generic {
         return new Variable[0];
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         return false;
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         return false;
     }
 
@@ -228,7 +228,7 @@ final class PolynomialWrapper extends Generic {
     public void toMathML(MathML element, Object data) {
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         return content.getConstants();

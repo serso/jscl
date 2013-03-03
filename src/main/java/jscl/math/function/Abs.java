@@ -2,7 +2,7 @@ package jscl.math.function;
 
 import jscl.math.*;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Abs extends Function {
 
@@ -90,7 +90,7 @@ public class Abs extends Function {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Abs(null);
     }

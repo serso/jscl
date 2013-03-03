@@ -4,8 +4,8 @@ import jscl.math.Generic;
 import jscl.math.operator.Operator;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class OperatorParser implements Parser<Operator> {
 
@@ -14,8 +14,8 @@ public class OperatorParser implements Parser<Operator> {
     private OperatorParser() {
     }
 
-    @NotNull
-    public Operator parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public Operator parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final String operatorName = Identifier.parser.parse(p, previousSumElement);

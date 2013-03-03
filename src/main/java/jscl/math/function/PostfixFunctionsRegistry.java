@@ -2,8 +2,8 @@ package jscl.math.function;
 
 import jscl.math.Generic;
 import jscl.math.operator.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.AbstractMathRegistry;
 
 /**
@@ -22,19 +22,19 @@ public class PostfixFunctionsRegistry extends AbstractMathRegistry<Operator> {
         instance.add(new Percent(null, null));
     }
 
-    @NotNull
+    @Nonnull
     public static PostfixFunctionsRegistry getInstance() {
         return instance;
     }
 
     @Nullable
-    public Operator get(@NotNull String name, @NotNull Generic[] parameters) {
+    public Operator get(@Nonnull String name, @Nonnull Generic[] parameters) {
         final Operator operator = super.get(name);
         return operator == null ? null : operator.newInstance(parameters);
     }
 
     @Override
-    public Operator get(@NotNull String name) {
+    public Operator get(@Nonnull String name) {
         final Operator operator = super.get(name);
         return operator == null ? null : FunctionsRegistry.copy(operator);
     }

@@ -2,8 +2,8 @@ package jscl.math;
 
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public abstract class GenericVariable extends Variable {
         return content.antiDerivative(variable);
     }
 
-    @NotNull
+    @Nonnull
     public Generic derivative(Variable variable) {
         return content.derivative(variable);
     }
@@ -110,7 +110,7 @@ public abstract class GenericVariable extends Variable {
         content.toMathML(element, data);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         return content.getConstants();

@@ -4,7 +4,7 @@ import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.math.polynomial.Polynomial;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Exp extends Function {
 
@@ -12,7 +12,7 @@ public class Exp extends Function {
         super("exp", new Generic[]{generic});
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         Generic s = parameters[0];
         if (s.isPolynomial(variable)) {
             Polynomial p = Polynomial.factory(variable).valueOf(s);
@@ -116,7 +116,7 @@ public class Exp extends Function {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Exp(null);
     }

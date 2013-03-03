@@ -8,7 +8,7 @@ import jscl.math.function.ImplicitFunction;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GeometricProduct extends VectorOperator {
 
@@ -18,11 +18,11 @@ public class GeometricProduct extends VectorOperator {
         super(NAME, new Generic[]{vector1, vector2, algebra});
     }
 
-    private GeometricProduct(@NotNull Generic[] parameters) {
+    private GeometricProduct(@Nonnull Generic[] parameters) {
         super(NAME, createParameters(parameters));
     }
 
-    private static Generic[] createParameters(@NotNull Generic[] parameters) {
+    private static Generic[] createParameters(@Nonnull Generic[] parameters) {
         final Generic[] result = new Generic[3];
 
         result[0] = parameters[0];
@@ -74,9 +74,9 @@ public class GeometricProduct extends VectorOperator {
         return buffer.toString();
     }*/
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new GeometricProduct(parameters);
     }
 
@@ -85,7 +85,7 @@ public class GeometricProduct extends VectorOperator {
         parameters[1].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new GeometricProduct(null, null, null);
     }

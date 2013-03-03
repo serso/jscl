@@ -5,8 +5,8 @@ import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import jscl.math.operator.TripleFactorial;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,14 @@ import java.util.List;
  */
 public class PostfixFunctionsParser implements Parser<Generic> {
 
-    @NotNull
+    @Nonnull
     private final Generic content;
 
-    public PostfixFunctionsParser(@NotNull Generic content) {
+    public PostfixFunctionsParser(@Nonnull Generic content) {
         this.content = content;
     }
 
-    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
 
         final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
 
@@ -38,10 +38,10 @@ public class PostfixFunctionsParser implements Parser<Generic> {
         return parsePostfix(parsers, content, previousSumElement, p);
     }
 
-    private static Generic parsePostfix(@NotNull List<PostfixFunctionParser> parsers,
+    private static Generic parsePostfix(@Nonnull List<PostfixFunctionParser> parsers,
                                         Generic content,
                                         @Nullable final Generic previousSumElement,
-                                        @NotNull final Parameters parseParameters) throws ParseException {
+                                        @Nonnull final Parameters parseParameters) throws ParseException {
         Generic result = content;
 
         for (PostfixFunctionParser parser : parsers) {

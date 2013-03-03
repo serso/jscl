@@ -5,7 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Sum extends Operator {
 
@@ -24,7 +24,7 @@ public class Sum extends Operator {
         return 4;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         switch (i) {
@@ -74,9 +74,9 @@ public class Sum extends Operator {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Sum(parameters);
     }
 
@@ -99,7 +99,7 @@ public class Sum extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Sum(null, null, null, null);
     }

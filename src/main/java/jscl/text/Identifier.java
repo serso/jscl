@@ -2,8 +2,8 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +16,8 @@ public class Identifier implements Parser<String> {
     }
 
     // returns getVariable/constant getName
-    @NotNull
-    public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final StringBuilder result = new StringBuilder();
@@ -45,7 +45,7 @@ public class Identifier implements Parser<String> {
         return Character.isLetter(ch) || allowedCharacters.contains(ch);
     }
 
-    private static boolean isValidNotFirstCharacter(@NotNull String string, @NotNull MutableInt position) {
+    private static boolean isValidNotFirstCharacter(@Nonnull String string, @Nonnull MutableInt position) {
         final char ch = string.charAt(position.intValue());
         return Character.isLetter(ch) || Character.isDigit(ch) || ch == '_';
     }

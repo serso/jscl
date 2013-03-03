@@ -2,7 +2,7 @@ package jscl;
 
 import jscl.math.Generic;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.MessageRegistry;
 
 /**
@@ -12,29 +12,29 @@ import org.solovyev.common.msg.MessageRegistry;
  */
 public interface MathEngine extends MathContext {
 
-    @NotNull
-    String evaluate(@NotNull String expression) throws ParseException;
+    @Nonnull
+    String evaluate(@Nonnull String expression) throws ParseException;
 
-    @NotNull
-    String simplify(@NotNull String expression) throws ParseException;
+    @Nonnull
+    String simplify(@Nonnull String expression) throws ParseException;
 
-    @NotNull
-    String elementary(@NotNull String expression) throws ParseException;
+    @Nonnull
+    String elementary(@Nonnull String expression) throws ParseException;
 
-    @NotNull
-    Generic evaluateGeneric(@NotNull String expression) throws ParseException;
+    @Nonnull
+    Generic evaluateGeneric(@Nonnull String expression) throws ParseException;
 
-    @NotNull
-    Generic simplifyGeneric(@NotNull String expression) throws ParseException;
+    @Nonnull
+    Generic simplifyGeneric(@Nonnull String expression) throws ParseException;
 
-    @NotNull
-    Generic elementaryGeneric(@NotNull String expression) throws ParseException;
+    @Nonnull
+    Generic elementaryGeneric(@Nonnull String expression) throws ParseException;
 
-    @NotNull
-    String convert(@NotNull Double value, @NotNull NumeralBase to);
+    @Nonnull
+    String convert(@Nonnull Double value, @Nonnull NumeralBase to);
 
-	@NotNull
+	@Nonnull
 	MessageRegistry getMessageRegistry();
 
-	void setMessageRegistry(@NotNull MessageRegistry messageRegistry);
+	void setMessageRegistry(@Nonnull MessageRegistry messageRegistry);
 }

@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.util.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ public class ConstantParser implements Parser<Constant> {
     private ConstantParser() {
     }
 
-    public Constant parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Constant parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
 
         final String name = CompoundIdentifier.parser.parse(p, previousSumElement);
 
@@ -52,7 +52,7 @@ class Prime implements Parser<Integer> {
     private Prime() {
     }
 
-    public Integer parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Integer parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         return internalParser.parse(p, previousSumElement);
     }
 }
@@ -63,7 +63,7 @@ class Superscript implements Parser<Integer> {
     private Superscript() {
     }
 
-    public Integer parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Integer parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
 

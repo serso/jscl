@@ -2,7 +2,7 @@ package jscl.math.function;
 
 import jscl.math.*;
 import jscl.math.JsclInteger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Ln extends Function {
 
@@ -68,7 +68,7 @@ public class Ln extends Function {
         return ((NumericWrapper) parameters[0]).ln();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Ln(null);
     }

@@ -7,7 +7,7 @@ import jscl.math.function.ImplicitFunction;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
     private ImplicitFunctionParser() {
     }
 
-    public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
         Generic a[];
 
@@ -66,7 +66,7 @@ class Derivation implements Parser<int[]> {
     private Derivation() {
     }
 
-    public int[] parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public int[] parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
 
         int result[];
         try {
@@ -86,7 +86,7 @@ class SuperscriptList implements Parser<int[]> {
     private SuperscriptList() {
     }
 
-    public int[] parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public int[] parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.tryToParse(p, pos0, '{');
@@ -122,7 +122,7 @@ class CommaAndInteger implements Parser<Integer> {
     private CommaAndInteger() {
     }
 
-    public Integer parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Integer parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.skipWhitespaces(p);

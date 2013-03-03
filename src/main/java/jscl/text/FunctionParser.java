@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.function.Function;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public class FunctionParser implements Parser<Function> {
     private FunctionParser() {
     }
 
-    public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         return new MultiTryParser<Function>(new ArrayList<Parser<? extends Function>>(parsers)).parse(p, previousSumElement);
     }
 }

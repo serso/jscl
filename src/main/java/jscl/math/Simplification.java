@@ -5,8 +5,8 @@ import jscl.math.polynomial.Basis;
 import jscl.math.polynomial.Monomial;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public final class Simplification {
     private Simplification() {
     }
 
-    public static Generic compute(@NotNull Generic generic) {
+    public static Generic compute(@Nonnull Generic generic) {
         final Simplification s = new Simplification();
         s.computeValue(generic);
         return s.getValue();
@@ -133,7 +133,7 @@ public final class Simplification {
         return Basis.compute(generic, unk, Monomial.kthElimination(n)).elements();
     }
 
-    void process(@NotNull Constraint c) {
+    void process(@Nonnull Constraint c) {
 
         constraints.add(c);
 
@@ -148,7 +148,7 @@ public final class Simplification {
         } while (n1 < n2);
     }
 
-    void subProcess(@NotNull Constraint c) {
+    void subProcess(@Nonnull Constraint c) {
         for (Variable v : c.generic.variables()) {
             if (constraints.contains(new Constraint(v))) {
                 continue;
@@ -226,7 +226,7 @@ public final class Simplification {
     }
 
     @Nullable
-    private Constraint linearConstraint(@NotNull Variable v) {
+    private Constraint linearConstraint(@Nonnull Variable v) {
         Generic s = cache.get(v);
         if (s == null) {
             s = v.simplify();

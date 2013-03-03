@@ -8,8 +8,8 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 
@@ -45,16 +45,16 @@ public class CustomFunction extends Function implements IFunction {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private final Integer localVarId;
 
-	@NotNull
+	@Nonnull
     private Expression content;
 
 	@Nullable
 	private String description;
 
-    @NotNull
+    @Nonnull
     private List<String> parameterNames = Collections.emptyList();
 
 	/*
@@ -65,9 +65,9 @@ public class CustomFunction extends Function implements IFunction {
 	**********************************************************************
 	*/
 
-    private CustomFunction(@NotNull String name,
-                           @NotNull List<String> parameterNames,
-                           @NotNull Expression content,
+    private CustomFunction(@Nonnull String name,
+                           @Nonnull List<String> parameterNames,
+                           @Nonnull Expression content,
 						   @Nullable String description) {
         super(name, new Generic[parameterNames.size()]);
         this.parameterNames = parameterNames;
@@ -76,9 +76,9 @@ public class CustomFunction extends Function implements IFunction {
 		this.localVarId = counter.incrementAndGet();
     }
 
-    private CustomFunction(@NotNull String name,
-                           @NotNull List<String> parameterNames,
-                           @NotNull String content,
+    private CustomFunction(@Nonnull String name,
+                           @Nonnull List<String> parameterNames,
+                           @Nonnull String content,
 						   @Nullable String description) {
         super(name, new Generic[parameterNames.size()]);
         this.parameterNames = parameterNames;
@@ -110,7 +110,7 @@ public class CustomFunction extends Function implements IFunction {
     }
 
     @Override
-    public Generic substitute(@NotNull Variable variable, @NotNull Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
         return super.substitute(variable, generic);
     }
 
@@ -156,13 +156,13 @@ public class CustomFunction extends Function implements IFunction {
         return localContent;
     }
 
-	@NotNull
-	private String getParameterNameForConstant(@NotNull String parameterName) {
+	@Nonnull
+	private String getParameterNameForConstant(@Nonnull String parameterName) {
 		return parameterName + LOCAL_VAR_POSTFIX + "_" + this.localVarId;
 	}
 
 	@Override
-    public void copy(@NotNull MathEntity mathEntity) {
+    public void copy(@Nonnull MathEntity mathEntity) {
         super.copy(mathEntity);
         if (mathEntity instanceof CustomFunction) {
             final CustomFunction that = (CustomFunction) mathEntity;
@@ -188,7 +188,7 @@ public class CustomFunction extends Function implements IFunction {
     }
 
     @Override
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         if (getParameterForAntiDerivation(variable) < 0) {
             throw new NotIntegrableException(this);
         } else {
@@ -201,9 +201,9 @@ public class CustomFunction extends Function implements IFunction {
         throw new NotIntegrableException(this);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         Generic result = JsclInteger.valueOf(0);
 
         for (int i = 0; i < parameters.length; i++) {
@@ -224,7 +224,7 @@ public class CustomFunction extends Function implements IFunction {
         throw new ArithmeticException();
     }
 
-    @NotNull
+    @Nonnull
     public String getContent() {
         return this.content.toString();
     }
@@ -236,12 +236,12 @@ public class CustomFunction extends Function implements IFunction {
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
     public List<String> getParameterNames() {
         return Collections.unmodifiableList(parameterNames);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         if (i < this.parameterNames.size()) {
@@ -251,7 +251,7 @@ public class CustomFunction extends Function implements IFunction {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public CustomFunction newInstance() {
         return new CustomFunction(name, parameterNames, content, description);
@@ -269,31 +269,31 @@ public class CustomFunction extends Function implements IFunction {
 
 		private final boolean system;
 
-		@NotNull
+		@Nonnull
 		private String content;
 
 		@Nullable
 		private String description;
 
-		@NotNull
+		@Nonnull
 		private List<String> parameterNames;
 
-		@NotNull
+		@Nonnull
 		private String name;
 
 		@Nullable
 		private Integer id;
 
-		public Builder(@NotNull String name,
-					   @NotNull List<String> parameterNames,
-					   @NotNull String content) {
+		public Builder(@Nonnull String name,
+					   @Nonnull List<String> parameterNames,
+					   @Nonnull String content) {
 			this.system = false;
 			this.content = content;
 			this.parameterNames = parameterNames;
 			this.name = name;
 		}
 
-		public Builder(@NotNull IFunction function) {
+		public Builder(@Nonnull IFunction function) {
 			this.system = function.isSystem();
 			this.content = function.getContent();
 			this.description = function.getDescription();
@@ -312,35 +312,35 @@ public class CustomFunction extends Function implements IFunction {
 			this.description = description;
 		}
 
-		@NotNull
-		public Builder setContent(@NotNull String content) {
+		@Nonnull
+		public Builder setContent(@Nonnull String content) {
 			this.content = content;
 			return this;
 		}
 
-		@NotNull
-		public Builder setParameterNames(@NotNull List<String> parameterNames) {
+		@Nonnull
+		public Builder setParameterNames(@Nonnull List<String> parameterNames) {
 			this.parameterNames = parameterNames;
 			return this;
 		}
 
-		@NotNull
-		public Builder setName(@NotNull String name) {
+		@Nonnull
+		public Builder setName(@Nonnull String name) {
 			this.name = name;
 			return this;
 		}
 
 		public Builder(boolean system,
-					   @NotNull String name,
-					   @NotNull List<String> parameterNames,
-					   @NotNull String content) {
+					   @Nonnull String name,
+					   @Nonnull List<String> parameterNames,
+					   @Nonnull String content) {
 			this.system = system;
 			this.content = content;
 			this.parameterNames = parameterNames;
 			this.name = name;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
 		public CustomFunction create() {
 			final CustomFunction customFunction = new CustomFunction(name, parameterNames, prepareContent(content), description);
@@ -351,8 +351,8 @@ public class CustomFunction extends Function implements IFunction {
 			return customFunction;
 		}
 
-        @NotNull
-        private static String prepareContent(@NotNull String content) {
+        @Nonnull
+        private static String prepareContent(@Nonnull String content) {
             final StringBuilder result = new StringBuilder(content.length());
 
             final char groupingSeparator = JsclMathEngine.getInstance().getGroupingSeparator();

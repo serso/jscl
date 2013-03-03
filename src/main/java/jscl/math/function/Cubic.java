@@ -3,7 +3,7 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Cubic extends Algebraic {
     public Cubic(Generic generic) {
@@ -22,7 +22,7 @@ public class Cubic extends Algebraic {
         );
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         Root r = rootValue();
         Generic g[] = r.getParameters();
         if (g[0].isPolynomial(variable)) {
@@ -88,7 +88,7 @@ public class Cubic extends Algebraic {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Cubic(null);
     }

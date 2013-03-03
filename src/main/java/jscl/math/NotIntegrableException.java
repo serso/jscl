@@ -2,19 +2,19 @@ package jscl.math;
 
 import jscl.AbstractJsclArithmeticException;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class NotIntegrableException extends AbstractJsclArithmeticException {
 
-    public NotIntegrableException(@NotNull String messageCode, Object... parameters) {
+    public NotIntegrableException(@Nonnull String messageCode, Object... parameters) {
         super(messageCode, parameters);
     }
 
-    public NotIntegrableException(@NotNull Expression e) {
+    public NotIntegrableException(@Nonnull Expression e) {
         this(Messages.msg_21, e.toString());
     }
 
-    public NotIntegrableException(@NotNull Variable v) {
+    public NotIntegrableException(@Nonnull Variable v) {
         this(Messages.msg_21, v.getName());
     }
 

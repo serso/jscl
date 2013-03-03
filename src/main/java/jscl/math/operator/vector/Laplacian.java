@@ -6,7 +6,7 @@ import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Laplacian extends VectorOperator {
 
@@ -31,9 +31,9 @@ public class Laplacian extends VectorOperator {
         return expression.laplacian(variable);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Laplacian(parameters);
     }
 
@@ -42,7 +42,7 @@ public class Laplacian extends VectorOperator {
         parameters[0].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Laplacian(null, null);
     }

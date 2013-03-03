@@ -4,7 +4,7 @@ import jscl.JsclMathEngine;
 import jscl.math.*;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.HashCodeBuilder;
 
 import java.util.HashSet;
@@ -38,7 +38,7 @@ public class Constant extends Variable {
         return null;
     }
 
-    @NotNull
+    @Nonnull
     public Generic derivative(Variable variable) {
         if (isIdentity(variable)) {
             return JsclInteger.valueOf(1);
@@ -254,12 +254,12 @@ public class Constant extends Variable {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Constant(name, prime, new Generic[subscripts.length]);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         final Set<Constant> result = new HashSet<Constant>();

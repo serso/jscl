@@ -1,8 +1,8 @@
 package jscl;
 
 import jscl.math.JsclInteger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -20,24 +20,24 @@ public enum NumeralBase {
 
         private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-        @NotNull
+        @Nonnull
         @Override
-        public Double toDouble(@NotNull String doubleString) {
+        public Double toDouble(@Nonnull String doubleString) {
             return Double.valueOf(doubleString);
         }
 
-        @NotNull
-        public String toString(@NotNull Double value) {
+        @Nonnull
+        public String toString(@Nonnull Double value) {
             return value.toString();
         }
 
-        @NotNull
+        @Nonnull
         @Override
         public String getJsclPrefix() {
             return "0d:";
         }
 
-        @NotNull
+        @Nonnull
         @Override
         public List<Character> getAcceptableCharacters() {
             return characters;
@@ -48,18 +48,18 @@ public enum NumeralBase {
 
         private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 
-/*		@NotNull
-		public String toString(@NotNull Double value) {
+/*		@Nonnull
+		public String toString(@Nonnull Double value) {
 			return Long.toHexString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}*/
 
-        @NotNull
+        @Nonnull
         @Override
         public String getJsclPrefix() {
             return "0x:";
         }
 
-        @NotNull
+        @Nonnull
         @Override
         public List<Character> getAcceptableCharacters() {
             return characters;
@@ -70,18 +70,18 @@ public enum NumeralBase {
 
         private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7');
 
-/*		@NotNull
-		public String toString(@NotNull Double value) {
+/*		@Nonnull
+		public String toString(@Nonnull Double value) {
 			return Long.toOctalString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}*/
 
-        @NotNull
+        @Nonnull
         @Override
         public String getJsclPrefix() {
             return "0o:";
         }
 
-        @NotNull
+        @Nonnull
         @Override
         public List<Character> getAcceptableCharacters() {
             return characters;
@@ -92,18 +92,18 @@ public enum NumeralBase {
 
         private final List<Character> characters = Arrays.asList('0', '1');
 
-/*		@NotNull
-		public String toString(@NotNull Double value) {
+/*		@Nonnull
+		public String toString(@Nonnull Double value) {
 			return Long.toBinaryString(Double.doubleToRawLongBits(value)).toUpperCase();
 		}*/
 
-        @NotNull
+        @Nonnull
         @Override
         public String getJsclPrefix() {
             return "0b:";
         }
 
-        @NotNull
+        @Nonnull
         @Override
         public List<Character> getAcceptableCharacters() {
             return characters;
@@ -118,43 +118,43 @@ public enum NumeralBase {
         this.groupingSize = groupingSize;
     }
 
-    @NotNull
-    public Double toDouble(@NotNull String doubleString) throws NumberFormatException {
+    @Nonnull
+    public Double toDouble(@Nonnull String doubleString) throws NumberFormatException {
         return Double.longBitsToDouble(Long.valueOf(doubleString, radix));
     }
 
-    @NotNull
-    public Integer toInteger(@NotNull String integerString) throws NumberFormatException {
+    @Nonnull
+    public Integer toInteger(@Nonnull String integerString) throws NumberFormatException {
         return Integer.valueOf(integerString, radix);
     }
 
-    @NotNull
-    public JsclInteger toJsclInteger(@NotNull String integerString) throws NumberFormatException {
+    @Nonnull
+    public JsclInteger toJsclInteger(@Nonnull String integerString) throws NumberFormatException {
         return new JsclInteger(toBigInteger(integerString));
     }
 
-    @NotNull
-    public BigInteger toBigInteger(@NotNull String value) throws NumberFormatException {
+    @Nonnull
+    public BigInteger toBigInteger(@Nonnull String value) throws NumberFormatException {
         return new BigInteger(value, radix);
     }
 
-    public String toString(@NotNull BigInteger value) {
+    public String toString(@Nonnull BigInteger value) {
         return value.toString(radix).toUpperCase();
     }
 
-    public String toString(@NotNull Integer value) {
+    public String toString(@Nonnull Integer value) {
         return Integer.toString(value, radix).toUpperCase();
     }
 
-    @NotNull
+    @Nonnull
     public abstract String getJsclPrefix();
 
-    @NotNull
+    @Nonnull
     public abstract List<Character> getAcceptableCharacters();
 
 
     @Nullable
-    public static NumeralBase getByPrefix(@NotNull String prefix) {
+    public static NumeralBase getByPrefix(@Nonnull String prefix) {
         for (NumeralBase nb : NumeralBase.values()) {
             if (prefix.equals(nb.getJsclPrefix())) {
                 return nb;
@@ -168,13 +168,13 @@ public enum NumeralBase {
         return groupingSize;
     }
 
-    @NotNull
-    public String toString(@NotNull Double value, int fractionDigits) {
+    @Nonnull
+    public String toString(@Nonnull Double value, int fractionDigits) {
         return toString(value, radix, fractionDigits);
     }
 
-    @NotNull
-    protected static String toString(@NotNull Double value, int radix, int fractionDigits) {
+    @Nonnull
+    protected static String toString(@Nonnull Double value, int radix, int fractionDigits) {
         final BigDecimal mult = BigDecimal.valueOf(radix).pow(fractionDigits);
         final BigDecimal bd = BigDecimal.valueOf(value).multiply(mult);
 

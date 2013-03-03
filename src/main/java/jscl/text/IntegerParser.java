@@ -3,8 +3,8 @@ package jscl.text;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class IntegerParser implements Parser<Integer> {
 
@@ -13,7 +13,7 @@ public class IntegerParser implements Parser<Integer> {
     private IntegerParser() {
     }
 
-    public Integer parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    public Integer parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         /*int n;

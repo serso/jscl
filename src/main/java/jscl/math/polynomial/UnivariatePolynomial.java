@@ -8,7 +8,7 @@ import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.math.function.Inverse;
 import jscl.util.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class UnivariatePolynomial extends Polynomial {
     protected final Variable variable;
@@ -80,8 +80,8 @@ public class UnivariatePolynomial extends Polynomial {
         return monomial.degree();
     }
 
-    @NotNull
-    public Polynomial add(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial add(@Nonnull Polynomial that) {
         UnivariatePolynomial p = newinstance();
         UnivariatePolynomial q = (UnivariatePolynomial) that;
         int d = Math.max(degree, q.degree);
@@ -91,8 +91,8 @@ public class UnivariatePolynomial extends Polynomial {
         return p;
     }
 
-    @NotNull
-    public Polynomial subtract(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial subtract(@Nonnull Polynomial that) {
         UnivariatePolynomial p = newinstance();
         UnivariatePolynomial q = (UnivariatePolynomial) that;
         int d = Math.max(degree, q.degree);
@@ -102,8 +102,8 @@ public class UnivariatePolynomial extends Polynomial {
         return p;
     }
 
-    @NotNull
-    public Polynomial multiply(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial multiply(@Nonnull Polynomial that) {
         UnivariatePolynomial p = newinstance();
         UnivariatePolynomial q = (UnivariatePolynomial) that;
         for (int i = degree; i >= 0; i--) {

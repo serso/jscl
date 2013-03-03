@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -21,7 +21,7 @@ class MultiplyOrDivideFactor implements Parser<Generic> {
         this.multiplication = multiplication;
     }
 
-    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.skipWhitespaces(p);

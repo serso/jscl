@@ -1,7 +1,7 @@
 package jscl.math.function;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.MathEntity;
 
 /**
@@ -11,7 +11,7 @@ import org.solovyev.common.math.MathEntity;
  */
 public interface IConstant extends MathEntity {
 
-    @NotNull
+    @Nonnull
     Constant getConstant();
 
     @Nullable
@@ -25,6 +25,6 @@ public interface IConstant extends MathEntity {
     @Nullable
     Double getDoubleValue();
 
-    @NotNull
+    @Nonnull
     String toJava();
 }

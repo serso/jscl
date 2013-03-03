@@ -8,7 +8,7 @@ import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.math.operator.product.GeometricProduct;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Del extends VectorOperator {
 
@@ -18,11 +18,11 @@ public class Del extends VectorOperator {
         super(NAME, new Generic[]{vector, variable, algebra});
     }
 
-    private Del(@NotNull Generic parameters[]) {
+    private Del(@Nonnull Generic parameters[]) {
         super(NAME, createParameters(parameters));
     }
 
-    private static Generic[] createParameters(@NotNull Generic[] parameters) {
+    private static Generic[] createParameters(@Nonnull Generic[] parameters) {
         final Generic[] result = new Generic[3];
 
         result[0] = parameters[0];
@@ -61,9 +61,9 @@ public class Del extends VectorOperator {
          return result.toString();
      }*/
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Del(parameters);
     }
 
@@ -72,7 +72,7 @@ public class Del extends VectorOperator {
         parameters[0].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Del(null, null, null);
     }

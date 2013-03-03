@@ -1,6 +1,6 @@
 package jscl.util;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -17,7 +17,7 @@ public class ExpressionGenerator extends AbstractExpressionGenerator<String> {
         super(depth);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String generate() {
         StringBuilder result = new StringBuilder();

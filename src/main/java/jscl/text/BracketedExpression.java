@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.ExpressionVariable;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class BracketedExpression implements Parser<ExpressionVariable> {
 
@@ -11,7 +11,7 @@ public class BracketedExpression implements Parser<ExpressionVariable> {
     private BracketedExpression() {
     }
 
-    public ExpressionVariable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public ExpressionVariable parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.tryToParse(p, pos0, '(');

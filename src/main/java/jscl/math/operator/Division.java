@@ -2,7 +2,7 @@ package jscl.math.operator;
 
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Division extends Operator {
 
@@ -25,13 +25,13 @@ public class Division extends Operator {
         return parameters[0].divideAndRemainder(parameters[1])[0];
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Division(parameters);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Division(null, null);
     }

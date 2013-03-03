@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -15,7 +15,7 @@ class UnsignedExponent implements Parser<Generic> {
     private UnsignedExponent() {
     }
 
-    public Generic parse(@NotNull Parameters p, final Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, final Generic previousSumElement) throws ParseException {
         final Generic content = PrimaryExpressionParser.parser.parse(p, previousSumElement);
         return new PostfixFunctionsParser(content).parse(p, previousSumElement);
     }

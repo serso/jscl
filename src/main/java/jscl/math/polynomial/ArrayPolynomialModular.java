@@ -3,7 +3,7 @@ package jscl.math.polynomial;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.ModularInteger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 class ArrayPolynomialModular extends ArrayPolynomialGeneric {
     final int modulo;
@@ -38,8 +38,8 @@ class ArrayPolynomialModular extends ArrayPolynomialGeneric {
         }
     }
 
-    @NotNull
-    public Polynomial subtract(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial subtract(@Nonnull Polynomial that) {
         if (that.signum() == 0) return this;
         ArrayPolynomialModular q = (ArrayPolynomialModular) that;
         ArrayPolynomialModular p = (ArrayPolynomialModular) newinstance(size + q.size);

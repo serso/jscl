@@ -9,7 +9,7 @@ import jscl.math.Variable;
 import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Cosh extends Trigonometric {
     public Cosh(Generic generic) {
@@ -74,7 +74,7 @@ public class Cosh extends Trigonometric {
         return ((NumericWrapper) parameters[0]).cosh();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Cosh(null);
     }

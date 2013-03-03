@@ -2,8 +2,8 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PrimeCharacters implements Parser<Integer> {
     public static final Parser<Integer> parser = new PrimeCharacters();
@@ -11,7 +11,7 @@ public class PrimeCharacters implements Parser<Integer> {
     private PrimeCharacters() {
     }
 
-    public Integer parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    public Integer parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 
         int pos0 = p.getPosition().intValue();
 

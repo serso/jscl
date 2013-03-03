@@ -4,7 +4,7 @@ import jscl.AngleUnit;
 import jscl.math.Generic;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -54,7 +54,7 @@ public class Deg extends Algebraic {
         throw new UnsupportedOperationException("Derivative for deg() is not supported!");
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Deg(null);

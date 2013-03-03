@@ -10,7 +10,7 @@ import jscl.math.polynomial.Ordering;
 import jscl.math.polynomial.Polynomial;
 import jscl.mathml.MathML;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Groebner extends Operator {
 
@@ -120,13 +120,13 @@ public class Groebner extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Groebner(parameters).transmute();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Groebner(null, null, null, null);
     }
@@ -172,8 +172,8 @@ class PolynomialVector extends JsclVector {
         e0.appendChild(e1);
     }
 
-    @NotNull
-    protected Generic newInstance(@NotNull Generic element[]) {
+    @Nonnull
+    protected Generic newInstance(@Nonnull Generic element[]) {
         return new PolynomialVector(basis, element);
     }
 }

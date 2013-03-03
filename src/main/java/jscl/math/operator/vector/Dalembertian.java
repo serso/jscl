@@ -7,7 +7,7 @@ import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Dalembertian extends VectorOperator {
 
@@ -32,9 +32,9 @@ public class Dalembertian extends VectorOperator {
         return expression.dalembertian(variable);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Dalembertian(parameters);
     }
 
@@ -43,7 +43,7 @@ public class Dalembertian extends VectorOperator {
         parameters[0].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Dalembertian(null, null);
     }

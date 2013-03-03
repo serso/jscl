@@ -2,7 +2,7 @@ package jscl.math.function;
 
 import jscl.math.*;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +100,7 @@ public class Comparison extends Function {
         parameters[1].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Comparison(name, null, null);
     }

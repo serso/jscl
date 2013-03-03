@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Modulo extends Operator {
 
@@ -35,13 +35,13 @@ public class Modulo extends Operator {
         return parameters[0].remainder(parameters[1]);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Modulo(parameters);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Modulo(null, null);
     }

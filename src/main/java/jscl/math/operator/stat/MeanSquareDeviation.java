@@ -3,7 +3,7 @@ package jscl.math.operator.stat;
 import jscl.math.*;
 import jscl.math.function.Sqrt;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -18,13 +18,13 @@ public class MeanSquareDeviation extends AbstractStatFunction {
         this(new Generic[]{vector});
     }
 
-    private MeanSquareDeviation(@NotNull Generic[] parameters) {
+    private MeanSquareDeviation(@Nonnull Generic[] parameters) {
         super(NAME, parameters);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new MeanSquareDeviation(parameters);
     }
 
@@ -62,7 +62,7 @@ public class MeanSquareDeviation extends AbstractStatFunction {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new MeanSquareDeviation((JsclVector) null);

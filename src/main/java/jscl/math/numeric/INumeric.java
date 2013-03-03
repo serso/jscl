@@ -1,6 +1,6 @@
 package jscl.math.numeric;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,36 +9,36 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface INumeric<T extends INumeric<T>> {
 
-    @NotNull
+    @Nonnull
     T pow(int exponent);
 
-    @NotNull
+    @Nonnull
     T abs();
 
-    @NotNull
+    @Nonnull
     T negate();
 
     int signum();
 
-    @NotNull
+    @Nonnull
     T sgn();
 
-    @NotNull
+    @Nonnull
     T ln();
 
-    @NotNull
+    @Nonnull
     T lg();
 
-    @NotNull
+    @Nonnull
     T exp();
 
-    @NotNull
+    @Nonnull
     T inverse();
 
-    @NotNull
+    @Nonnull
     T sqrt();
 
-    @NotNull
+    @Nonnull
     T nThRoot(int n);
 
     /*
@@ -48,16 +48,16 @@ public interface INumeric<T extends INumeric<T>> {
      * <p/>
      * *******************************************************************************************/
 
-    @NotNull
+    @Nonnull
     T sin();
 
-    @NotNull
+    @Nonnull
     T cos();
 
-    @NotNull
+    @Nonnull
     T tan();
 
-    @NotNull
+    @Nonnull
     T cot();
 
     /*
@@ -67,16 +67,16 @@ public interface INumeric<T extends INumeric<T>> {
       * <p/>
       * *******************************************************************************************/
 
-    @NotNull
+    @Nonnull
     T asin();
 
-    @NotNull
+    @Nonnull
     T acos();
 
-    @NotNull
+    @Nonnull
     T atan();
 
-    @NotNull
+    @Nonnull
     T acot();
 
     /*
@@ -86,16 +86,16 @@ public interface INumeric<T extends INumeric<T>> {
       * <p/>
       * *******************************************************************************************/
 
-    @NotNull
+    @Nonnull
     T sinh();
 
-    @NotNull
+    @Nonnull
     T cosh();
 
-    @NotNull
+    @Nonnull
     T tanh();
 
-    @NotNull
+    @Nonnull
     T coth();
 
     /*
@@ -105,15 +105,15 @@ public interface INumeric<T extends INumeric<T>> {
       * <p/>
       * *******************************************************************************************/
 
-    @NotNull
+    @Nonnull
     T asinh();
 
-    @NotNull
+    @Nonnull
     T acosh();
 
-    @NotNull
+    @Nonnull
     T atanh();
 
-    @NotNull
+    @Nonnull
     T acoth();
 }

@@ -3,7 +3,7 @@ package jscl;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.math.MathRegistry;
 
 import java.text.DecimalFormatSymbols;
@@ -15,33 +15,33 @@ import java.text.DecimalFormatSymbols;
  */
 public interface MathContext {
 
-    @NotNull
+    @Nonnull
     MathRegistry<Function> getFunctionsRegistry();
 
-    @NotNull
+    @Nonnull
     MathRegistry<Operator> getOperatorsRegistry();
 
-    @NotNull
+    @Nonnull
     MathRegistry<IConstant> getConstantsRegistry();
 
-    @NotNull
+    @Nonnull
     MathRegistry<Operator> getPostfixFunctionsRegistry();
 
-    @NotNull
+    @Nonnull
     AngleUnit getAngleUnits();
 
-    void setAngleUnits(@NotNull AngleUnit defaultAngleUnits);
+    void setAngleUnits(@Nonnull AngleUnit defaultAngleUnits);
 
-    @NotNull
+    @Nonnull
     NumeralBase getNumeralBase();
 
 
     // OUTPUT NUMBER FORMATTING
     // todo serso: maybe gather all formatting data in one object?
 
-    void setNumeralBase(@NotNull NumeralBase numeralBase);
+    void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-    void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols);
+    void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
 
     void setRoundResult(boolean roundResult);
 
@@ -51,14 +51,14 @@ public interface MathContext {
 
     void setGroupingSeparator(char groupingSeparator);
 
-    @NotNull
-    String format(@NotNull Double value) throws NumeralBaseException;
+    @Nonnull
+    String format(@Nonnull Double value) throws NumeralBaseException;
 
-    @NotNull
-    String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException;
+    @Nonnull
+    String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException;
 
-    @NotNull
-    String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedIntValue);
+    @Nonnull
+    String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);
 
     void setScienceNotation(boolean scienceNotation);
 }

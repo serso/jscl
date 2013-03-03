@@ -1,6 +1,6 @@
 package jscl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NotSupportedException extends AbstractJsclArithmeticException {
 
-    public NotSupportedException(@NotNull String messageCode, Object... parameters) {
+    public NotSupportedException(@Nonnull String messageCode, Object... parameters) {
         super(messageCode, parameters);
     }
 }

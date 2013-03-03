@@ -5,7 +5,7 @@ import jscl.math.GenericVariable;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.function.Pow;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ class UnsignedFactor implements Parser {
     private UnsignedFactor() {
     }
 
-    public Object parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Object parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         final List<Generic> list = new ArrayList<Generic>();
 
         Generic generic = UnsignedExponent.parser.parse(p, previousSumElement);

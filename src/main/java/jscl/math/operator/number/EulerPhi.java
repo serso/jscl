@@ -6,7 +6,7 @@ import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class EulerPhi extends Operator {
 
@@ -40,14 +40,14 @@ public class EulerPhi extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new EulerPhi((Generic) null);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new EulerPhi(parameters);
     }
 }

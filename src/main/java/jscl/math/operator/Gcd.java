@@ -4,8 +4,8 @@ import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class Gcd extends Operator {
 
-    public Gcd(@NotNull Generic first, @NotNull Generic second) {
+    public Gcd(@Nonnull Generic first, @Nonnull Generic second) {
         this(new Generic[]{first, second});
     }
 
@@ -22,14 +22,14 @@ public class Gcd extends Operator {
         this(new Generic[2]);
     }
 
-    private Gcd(@NotNull Generic[] parameters) {
+    private Gcd(@Nonnull Generic[] parameters) {
         super("gcd", parameters);
     }
 
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Gcd(parameters);
     }
 
@@ -60,7 +60,7 @@ public class Gcd extends Operator {
         return first.gcd(second);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Gcd newInstance() {
         return new Gcd();

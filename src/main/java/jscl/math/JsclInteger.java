@@ -3,8 +3,8 @@ package jscl.math;
 import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.math.BigInteger;
 import java.util.Collections;
@@ -28,8 +28,8 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.add(integer.content));
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         if (that instanceof JsclInteger) {
             return add((JsclInteger) that);
         } else {
@@ -41,8 +41,8 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.subtract(integer.content));
     }
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         if (that instanceof JsclInteger) {
             return subtract((JsclInteger) that);
         } else {
@@ -54,8 +54,8 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.multiply(integer.content));
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         if (that instanceof JsclInteger) {
             return multiply((JsclInteger) that);
         } else {
@@ -63,7 +63,7 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    public JsclInteger divide(@NotNull JsclInteger that) {
+    public JsclInteger divide(@Nonnull JsclInteger that) {
         JsclInteger e[] = divideAndRemainder(that);
         if (e[1].signum() == 0) {
             return e[0];
@@ -72,8 +72,8 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         if (that instanceof JsclInteger) {
             return divide((JsclInteger) that);
         } else {
@@ -81,8 +81,8 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    @NotNull
-    private JsclInteger[] divideAndRemainder(@NotNull JsclInteger that) {
+    @Nonnull
+    private JsclInteger[] divideAndRemainder(@Nonnull JsclInteger that) {
         try {
             final BigInteger result[] = content.divideAndRemainder(that.content);
             return new JsclInteger[]{new JsclInteger(result[0]), new JsclInteger(result[1])};
@@ -91,7 +91,7 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    public Generic[] divideAndRemainder(@NotNull Generic that) {
+    public Generic[] divideAndRemainder(@Nonnull Generic that) {
         if (that instanceof JsclInteger) {
             return divideAndRemainder((JsclInteger) that);
         } else {
@@ -111,12 +111,12 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    @NotNull
-    public JsclInteger gcd(@NotNull JsclInteger integer) {
+    @Nonnull
+    public JsclInteger gcd(@Nonnull JsclInteger integer) {
         return new JsclInteger(content.gcd(integer.content));
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         if (generic instanceof JsclInteger) {
             return gcd((JsclInteger) generic);
         } else {
@@ -124,7 +124,7 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         return new JsclInteger(BigInteger.valueOf(signum()));
     }
@@ -219,15 +219,15 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         return multiply(variable.expressionValue());
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         return JsclInteger.valueOf(0);
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         return this;
     }
 
@@ -291,11 +291,11 @@ public final class JsclInteger extends Generic {
         return new Variable[0];
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         return true;
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         return true;
     }
 
@@ -355,7 +355,7 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         return Collections.emptySet();

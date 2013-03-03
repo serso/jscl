@@ -5,7 +5,7 @@ import jscl.JsclMathEngine;
 import jscl.math.Generic;
 import jscl.math.Variable;
 import jscl.text.ParserUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -38,13 +38,13 @@ public class Degree extends PostfixFunction {
         return AngleUnit.deg.transform(JsclMathEngine.getInstance().getAngleUnits(), parameters[0]);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Degree(parameters);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Degree((Generic) null);

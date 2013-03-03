@@ -1,7 +1,7 @@
 package jscl;
 
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NumeralBaseException extends AbstractJsclArithmeticException {
 
-    public NumeralBaseException(@NotNull Double value) {
+    public NumeralBaseException(@Nonnull Double value) {
         super(Messages.msg_17, value);
     }
 }

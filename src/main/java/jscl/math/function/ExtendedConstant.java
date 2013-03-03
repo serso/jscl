@@ -1,7 +1,7 @@
 package jscl.math.function;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
@@ -13,7 +13,7 @@ import org.solovyev.common.text.Strings;
  */
 public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant {
 
-    @NotNull
+    @Nonnull
     private Constant constant;
 
     @Nullable
@@ -26,7 +26,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
     private String description;
 
     public static final class Builder implements JBuilder<ExtendedConstant> {
-        @NotNull
+        @Nonnull
         private Constant constant;
 
         @Nullable
@@ -38,11 +38,11 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         @Nullable
         private String description;
 
-        public Builder(@NotNull Constant constant, @Nullable Double value) {
+        public Builder(@Nonnull Constant constant, @Nullable Double value) {
             this(constant, value == null ? null : String.valueOf(value));
         }
 
-        public Builder(@NotNull Constant constant, @Nullable String value) {
+        public Builder(@Nonnull Constant constant, @Nullable String value) {
             this.constant = constant;
             this.value = value;
         }
@@ -57,7 +57,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
             return this;
         }
 
-        @NotNull
+        @Nonnull
         @Override
         public ExtendedConstant create() {
             final ExtendedConstant result = new ExtendedConstant();
@@ -74,7 +74,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
     ExtendedConstant() {
     }
 
-    ExtendedConstant(@NotNull Constant constant,
+    ExtendedConstant(@Nonnull Constant constant,
                      @Nullable String value,
                      @Nullable String javaString) {
         this.constant = constant;
@@ -82,7 +82,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         this.javaString = javaString;
     }
 
-    ExtendedConstant(@NotNull Constant constant,
+    ExtendedConstant(@Nonnull Constant constant,
                      @Nullable Double value,
                      @Nullable String javaString) {
         this.constant = constant;
@@ -90,7 +90,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         this.javaString = javaString;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String getName() {
         return this.constant.getName();
@@ -101,7 +101,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         return this.constant.isSystem();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Integer getId() {
         return constant.getId();
@@ -113,12 +113,12 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
     }
 
     @Override
-    public void setId(@NotNull Integer id) {
+    public void setId(@Nonnull Integer id) {
         constant.setId(id);
     }
 
     @Override
-    public void copy(@NotNull MathEntity that) {
+    public void copy(@Nonnull MathEntity that) {
         this.constant.copy(that);
 
         if (that instanceof IConstant) {
@@ -149,7 +149,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public Constant getConstant() {
         return constant;
     }
@@ -187,7 +187,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public String toJava() {
         if (javaString != null) {
             return javaString;
@@ -203,8 +203,8 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         return toString(this);
     }
 
-    @NotNull
-    public static String toString(@NotNull IConstant constant) {
+    @Nonnull
+    public static String toString(@Nonnull IConstant constant) {
         final Double doubleValue = constant.getDoubleValue();
         if (doubleValue == null) {
             final String stringValue = constant.getValue();

@@ -7,8 +7,8 @@ import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.MathRegistry;
 
 import java.util.ArrayList;
@@ -30,20 +30,20 @@ public interface Parser<T> {
      * @return parsed object of type T
      * @throws ParseException occurs if object could not be parsed from the string
      */
-    T parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException;
+    T parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException;
 
     static class Parameters {
 
-        @NotNull
+        @Nonnull
         private final String expression;
 
-        @NotNull
+        @Nonnull
         private final MutableInt position;
 
-        @NotNull
+        @Nonnull
         private final List<ParseException> exceptions = new ArrayList<ParseException>();
 
-        @NotNull
+        @Nonnull
         private final MathContext mathContext;
 
         /**
@@ -51,39 +51,39 @@ public interface Parser<T> {
          * @param position    current position of expression. Side effect: if parsing is successful this parameter should be increased on the number of parsed letters (incl whitespaces etc)
          * @param mathContext math engine to be used in parsing
          */
-        Parameters(@NotNull String expression, @NotNull MutableInt position, @NotNull MathContext mathContext) {
+        Parameters(@Nonnull String expression, @Nonnull MutableInt position, @Nonnull MathContext mathContext) {
             this.expression = expression;
             this.position = position;
             this.mathContext = mathContext;
         }
 
-        @NotNull
-        public static Parameters newInstance(@NotNull String expression, @NotNull MutableInt position, @NotNull final MathContext mathEngine) {
+        @Nonnull
+        public static Parameters newInstance(@Nonnull String expression, @Nonnull MutableInt position, @Nonnull final MathContext mathEngine) {
             return new Parameters(expression, position, mathEngine);
         }
 
-        @NotNull
+        @Nonnull
         public String getExpression() {
             return expression;
         }
 
-        @NotNull
+        @Nonnull
         public MutableInt getPosition() {
             return position;
         }
 
-        public void addException(@NotNull ParseException e) {
+        public void addException(@Nonnull ParseException e) {
             if (!exceptions.contains(e)) {
                 exceptions.add(e);
             }
         }
 
-        @NotNull
+        @Nonnull
         public MathContext getMathContext() {
             return mathContext;
         }
 
-        @NotNull
+        @Nonnull
         public List<ParseException> getExceptions() {
             return Collections.unmodifiableList(exceptions);
         }

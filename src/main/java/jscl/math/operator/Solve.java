@@ -7,7 +7,7 @@ import jscl.math.function.Root;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Solve extends Operator {
 
@@ -87,13 +87,13 @@ public class Solve extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Solve(parameters);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Solve(null, null, null);
     }

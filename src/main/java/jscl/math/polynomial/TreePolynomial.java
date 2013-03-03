@@ -9,7 +9,7 @@ import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.Literal;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 final class TreePolynomial extends Polynomial {
     final SortedMap content;
@@ -81,8 +81,8 @@ final class TreePolynomial extends Polynomial {
         return direction ? content.headMap(monomial) : content.tailMap(monomial);
     }
 
-    @NotNull
-    public Polynomial subtract(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial subtract(@Nonnull Polynomial that) {
         if (that.signum() == 0) return this;
         if (mutable) {
             TreePolynomial q = (TreePolynomial) that;

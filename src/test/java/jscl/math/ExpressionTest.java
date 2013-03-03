@@ -6,8 +6,8 @@ import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 import jscl.text.ParseException;
 import junit.framework.Assert;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -586,11 +586,11 @@ public class ExpressionTest {
 
     }
 
-    private void testSinEqualsToSinh(@NotNull MathEngine mathEngine, @NotNull Double x) throws ParseException {
+    private void testSinEqualsToSinh(@Nonnull MathEngine mathEngine, @Nonnull Double x) throws ParseException {
         testSinEqualsToSinh(mathEngine, x, null);
     }
 
-    private void testSinEqualsToSinh(@NotNull MathEngine mathEngine, @NotNull Double x, @Nullable String expected) throws ParseException {
+    private void testSinEqualsToSinh(@Nonnull MathEngine mathEngine, @Nonnull Double x, @Nullable String expected) throws ParseException {
         if (expected == null) {
             Assert.assertEquals(mathEngine.evaluate("sinh(i*" + x + ")/i"), mathEngine.evaluate("sin(" + x + ")"));
 //			Assert.assertEquals(mathEngine.evaluate("exp("+x+")-sinh(" + x + ")"), mathEngine.evaluate("cosh(" + x + ")"));
@@ -771,7 +771,7 @@ public class ExpressionTest {
     }
 
     @Nullable
-    public static String getWolframAlphaResult(@NotNull String appId, @NotNull String expression) {
+    public static String getWolframAlphaResult(@Nonnull String appId, @Nonnull String expression) {
         String result = null;
 
         URL wolframAlphaUrl;

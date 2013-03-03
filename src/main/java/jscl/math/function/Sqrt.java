@@ -3,8 +3,8 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Sqrt extends Algebraic {
 
@@ -16,7 +16,7 @@ public class Sqrt extends Algebraic {
         return new Root(new Generic[]{parameters[0].negate(), JsclInteger.valueOf(0), JsclInteger.valueOf(1)}, 0);
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         Root r = rootValue();
         Generic g[] = r.getParameters();
         if (g[0].isPolynomial(variable)) {
@@ -103,7 +103,7 @@ public class Sqrt extends Algebraic {
     }
 
     @Nullable
-    private Generic simplify0(@NotNull Generic generic) {
+    private Generic simplify0(@Nonnull Generic generic) {
         Generic result;
 
         try {
@@ -172,7 +172,7 @@ public class Sqrt extends Algebraic {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Sqrt(null);
     }

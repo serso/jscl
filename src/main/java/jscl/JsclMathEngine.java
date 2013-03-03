@@ -3,24 +3,19 @@ package jscl;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.NotIntegerException;
-import jscl.math.function.Constants;
-import jscl.math.function.ConstantsRegistry;
-import jscl.math.function.Function;
-import jscl.math.function.FunctionsRegistry;
-import jscl.math.function.IConstant;
-import jscl.math.function.PostfixFunctionsRegistry;
+import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -40,7 +35,7 @@ public class JsclMathEngine implements MathEngine {
     *
     **********************************************************************
     */
-    @NotNull
+    @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
 
     public static final String GROUPING_SEPARATOR_DEFAULT = " ";
@@ -55,7 +50,7 @@ public class JsclMathEngine implements MathEngine {
          **********************************************************************
          */
 
-    @NotNull
+    @Nonnull
     private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
 
     {
@@ -71,16 +66,16 @@ public class JsclMathEngine implements MathEngine {
 
     private boolean useGroupingSeparator = false;
 
-    @NotNull
+    @Nonnull
     private AngleUnit angleUnits = AngleUnit.deg;
 
-    @NotNull
+    @Nonnull
     private NumeralBase numeralBase = NumeralBase.dec;
 
-    @NotNull
+    @Nonnull
     private ConstantsRegistry constantsRegistry;
 
-	@NotNull
+	@Nonnull
 	private MessageRegistry messageRegistry = new FixedCapacityListMessageRegistry(10);
 
     /*
@@ -103,32 +98,32 @@ public class JsclMathEngine implements MathEngine {
     **********************************************************************
     */
 
-    @NotNull
+    @Nonnull
     public static JsclMathEngine getInstance() {
         return instance;
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String evaluate(@NotNull String expression) throws ParseException {
+    public String evaluate(@Nonnull String expression) throws ParseException {
         return evaluateGeneric(expression).toString();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String simplify(@NotNull String expression) throws ParseException {
+    public String simplify(@Nonnull String expression) throws ParseException {
         return simplifyGeneric(expression).toString();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String elementary(@NotNull String expression) throws ParseException {
+    public String elementary(@Nonnull String expression) throws ParseException {
         return elementaryGeneric(expression).toString();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+    public Generic evaluateGeneric(@Nonnull String expression) throws ParseException {
         if (expression.contains(Percent.NAME) || expression.contains(Rand.NAME)) {
             return Expression.valueOf(expression).numeric();
         } else {
@@ -136,9 +131,9 @@ public class JsclMathEngine implements MathEngine {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Generic simplifyGeneric(@NotNull String expression) throws ParseException {
+    public Generic simplifyGeneric(@Nonnull String expression) throws ParseException {
         if (expression.contains(Percent.NAME) || expression.contains(Rand.NAME)) {
             return Expression.valueOf(expression);
         } else {
@@ -146,67 +141,67 @@ public class JsclMathEngine implements MathEngine {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Generic elementaryGeneric(@NotNull String expression) throws ParseException {
+    public Generic elementaryGeneric(@Nonnull String expression) throws ParseException {
         return Expression.valueOf(expression).elementary();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MathRegistry<Function> getFunctionsRegistry() {
         return FunctionsRegistry.getInstance();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MathRegistry<Operator> getOperatorsRegistry() {
         return OperatorsRegistry.getInstance();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MathRegistry<Operator> getPostfixFunctionsRegistry() {
         return PostfixFunctionsRegistry.getInstance();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public AngleUnit getAngleUnits() {
         return angleUnits;
     }
 
     @Override
-    public void setAngleUnits(@NotNull AngleUnit angleUnits) {
+    public void setAngleUnits(@Nonnull AngleUnit angleUnits) {
         this.angleUnits = angleUnits;
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public NumeralBase getNumeralBase() {
         return numeralBase;
     }
 
     @Override
-    public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+    public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
         this.numeralBase = numeralBase;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MathRegistry<IConstant> getConstantsRegistry() {
         return constantsRegistry;
     }
 
     @Override
-    @NotNull
-    public String format(@NotNull Double value) throws NumeralBaseException {
+    @Nonnull
+    public String format(@Nonnull Double value) throws NumeralBaseException {
         return format(value, numeralBase);
     }
 
     @Override
-    @NotNull
-    public String format(@NotNull Double value, @NotNull NumeralBase nb) throws NumeralBaseException {
+    @Nonnull
+    public String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
         if (value.isInfinite()) {
             // return predefined constant for infinity
             if (value >= 0) {
@@ -294,8 +289,8 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Override
-    @NotNull
-    public String convert(@NotNull Double value, @NotNull NumeralBase to) {
+    @Nonnull
+    public String convert(@Nonnull Double value, @Nonnull NumeralBase to) {
         String ungroupedValue;
         try {
             // check if double can be converted to integer
@@ -310,19 +305,19 @@ public class JsclMathEngine implements MathEngine {
     }
 
 	@Override
-	@NotNull
+	@Nonnull
 	public MessageRegistry getMessageRegistry() {
 		return messageRegistry;
 	}
 
 	@Override
-	public void setMessageRegistry(@NotNull MessageRegistry messageRegistry) {
+	public void setMessageRegistry(@Nonnull MessageRegistry messageRegistry) {
 		this.messageRegistry = messageRegistry;
 	}
 
 	@Override
-    @NotNull
-    public String addGroupingSeparators(@NotNull NumeralBase nb, @NotNull String ungroupedDoubleValue) {
+    @Nonnull
+    public String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedDoubleValue) {
         if (useGroupingSeparator) {
             String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(decimalGroupSymbols.getGroupingSeparator()) : " ";
 
@@ -350,10 +345,10 @@ public class JsclMathEngine implements MathEngine {
         }
     }
 
-    @NotNull
-    private StringBuilder insertSeparators(@NotNull NumeralBase nb,
-                                           @NotNull String groupingSeparator,
-                                           @NotNull String value,
+    @Nonnull
+    private StringBuilder insertSeparators(@Nonnull NumeralBase nb,
+                                           @Nonnull String groupingSeparator,
+                                           @Nonnull String value,
                                            boolean reversed) {
         final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize() * groupingSeparator.length());
 
@@ -385,7 +380,7 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Override
-    public void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
+    public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
         this.decimalGroupSymbols = decimalGroupSymbols;
     }
 

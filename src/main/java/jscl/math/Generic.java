@@ -3,15 +3,15 @@ package jscl.math;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Set;
 
 public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         return add(that.negate());
     }
 
@@ -19,19 +19,19 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
         return remainder(generic).signum() == 0;
     }
 
-/*    public Arithmetic add(@NotNull Arithmetic arithmetic) {
+/*    public Arithmetic add(@Nonnull Arithmetic arithmetic) {
         return add((Generic)arithmetic);
     }
 
-    public Arithmetic subtract(@NotNull Arithmetic arithmetic) {
+    public Arithmetic subtract(@Nonnull Arithmetic arithmetic) {
         return subtract((Generic)arithmetic);
     }
 
-    public Arithmetic multiply(@NotNull Arithmetic arithmetic) {
+    public Arithmetic multiply(@Nonnull Arithmetic arithmetic) {
         return multiply((Generic)arithmetic);
     }
 
-    public Generic divide(@NotNull Arithmetic arithmetic) throws ArithmeticException {
+    public Generic divide(@Nonnull Arithmetic arithmetic) throws ArithmeticException {
         return divide((Generic)arithmetic);
     }*/
 
@@ -51,13 +51,13 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
         return JsclInteger.valueOf(1).divide(this);
     }
 
-    public abstract Generic gcd(@NotNull Generic generic);
+    public abstract Generic gcd(@Nonnull Generic generic);
 
     public Generic scm(Generic generic) {
         return divide(gcd(generic)).multiply(generic);
     }
 
-    @NotNull
+    @Nonnull
     protected abstract Generic gcd();
 
     public Generic[] gcdAndNormalize() {
@@ -108,11 +108,11 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
 //    public abstract Generic modPow(Generic exponent, Generic generic);
 //    public abstract Generic modInverse(Generic generic);
 //    public abstract boolean isProbablePrime(int certainty);
-    public abstract Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException;
+    public abstract Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException;
 
-    public abstract Generic derivative(@NotNull Variable variable);
+    public abstract Generic derivative(@Nonnull Variable variable);
 
-    public abstract Generic substitute(@NotNull Variable variable, Generic generic);
+    public abstract Generic substitute(@Nonnull Variable variable, Generic generic);
 
     public abstract Generic expand();
 
@@ -142,11 +142,11 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
     public abstract Variable[] variables();
 
-    public abstract boolean isPolynomial(@NotNull Variable variable);
+    public abstract boolean isPolynomial(@Nonnull Variable variable);
 
-    public abstract boolean isConstant(@NotNull Variable variable);
+    public abstract boolean isConstant(@Nonnull Variable variable);
 
-    public boolean isIdentity(@NotNull Variable variable) {
+    public boolean isIdentity(@Nonnull Variable variable) {
         try {
             return variableValue().isIdentity(variable);
         } catch (NotVariableException e) {
@@ -184,6 +184,6 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
 
     public abstract void toMathML(MathML element, @Nullable Object data);
 
-    @NotNull
+    @Nonnull
     public abstract Set<? extends Constant> getConstants();
 }

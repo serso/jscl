@@ -6,8 +6,8 @@ import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +25,7 @@ public abstract class AbstractFunction extends Variable {
 
     protected Generic parameters[];
 
-    protected AbstractFunction(@NotNull String name, Generic[] parameters) {
+    protected AbstractFunction(@Nonnull String name, Generic[] parameters) {
         super(name);
 
         checkParameters(parameters);
@@ -61,7 +61,7 @@ public abstract class AbstractFunction extends Variable {
         return function.selfExpand();
     }
 
-    @NotNull
+    @Nonnull
     protected AbstractFunction newExpandedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
@@ -77,7 +77,7 @@ public abstract class AbstractFunction extends Variable {
         return function.selfElementary();
     }
 
-    @NotNull
+    @Nonnull
     protected AbstractFunction newElementarizedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
@@ -95,7 +95,7 @@ public abstract class AbstractFunction extends Variable {
         return function.expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     protected AbstractFunction newFactorizedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
@@ -111,7 +111,7 @@ public abstract class AbstractFunction extends Variable {
         return function.selfSimplify();
     }
 
-    @NotNull
+    @Nonnull
     protected final AbstractFunction newSimplifiedFunction() {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
@@ -129,7 +129,7 @@ public abstract class AbstractFunction extends Variable {
         return result.selfNumeric();
     }
 
-    @NotNull
+    @Nonnull
     protected final AbstractFunction newNumericFunction() {
         final AbstractFunction result = (AbstractFunction) newInstance();
 
@@ -164,7 +164,7 @@ public abstract class AbstractFunction extends Variable {
         return result.toString();
     }
 
-    @NotNull
+    @Nonnull
     protected final String formatParameter(int i) {
         Generic parameter = parameters[i];
 
@@ -178,7 +178,7 @@ public abstract class AbstractFunction extends Variable {
         return result;
     }
 
-    @NotNull
+    @Nonnull
     protected String formatUndefinedParameter(int i) {
         return String.valueOf(DEFAULT_PARAMETER_NAMES.charAt(i - (i / DEFAULT_PARAMETER_NAMES.length()) * DEFAULT_PARAMETER_NAMES.length()));
     }
@@ -214,7 +214,7 @@ public abstract class AbstractFunction extends Variable {
         }
     }
 
-    public Generic substitute(@NotNull Variable variable, @NotNull Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
         final AbstractFunction function = (AbstractFunction) newInstance();
 
         for (int i = 0; i < parameters.length; i++) {
@@ -251,7 +251,7 @@ public abstract class AbstractFunction extends Variable {
         element.appendChild(result);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         final Set<Constant> result = new HashSet<Constant>();

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 final class GeoBucket extends Polynomial {
     final Polynomial factory;
@@ -134,8 +134,8 @@ final class GeoBucket extends Polynomial {
         content[size - 1] = polynomial;
     }
 
-    @NotNull
-    public Polynomial subtract(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial subtract(@Nonnull Polynomial that) {
         if (mutable) {
             Polynomial q = ((GeoBucket) that).polynomial();
             int n = log(q.size());

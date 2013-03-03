@@ -3,7 +3,7 @@ package jscl.math.function;
 import jscl.AngleUnit;
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -21,7 +21,7 @@ public class Rad extends AbstractDms {
         return AngleUnit.deg.transform(AngleUnit.rad, super.selfNumeric());
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Rad(null, null, null);

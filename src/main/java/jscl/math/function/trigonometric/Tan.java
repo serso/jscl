@@ -2,8 +2,8 @@ package jscl.math.function.trigonometric;
 
 import jscl.math.*;
 import jscl.math.function.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Tan extends Trigonometric {
     public Tan(Generic generic) {
@@ -92,7 +92,7 @@ public class Tan extends Trigonometric {
         return ((NumericWrapper) parameters[0]).tan();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Tan(null);
     }

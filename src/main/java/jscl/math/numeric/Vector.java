@@ -2,7 +2,7 @@ package jscl.math.numeric;
 
 import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Vector extends Numeric {
 
@@ -24,8 +24,8 @@ public class Vector extends Numeric {
         return v;
     }
 
-    @NotNull
-    public Numeric add(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric add(@Nonnull Numeric that) {
         if (that instanceof Vector) {
             return add((Vector) that);
         } else {
@@ -41,8 +41,8 @@ public class Vector extends Numeric {
         return v;
     }
 
-    @NotNull
-    public Numeric subtract(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric subtract(@Nonnull Numeric that) {
         if (that instanceof Vector) {
             return subtract((Vector) that);
         } else {
@@ -50,8 +50,8 @@ public class Vector extends Numeric {
         }
     }
 
-    @NotNull
-    public Numeric multiply(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric multiply(@Nonnull Numeric that) {
         if (that instanceof Vector) {
             return scalarProduct((Vector) that);
         } else if (that instanceof Matrix) {
@@ -63,8 +63,8 @@ public class Vector extends Numeric {
         }
     }
 
-    @NotNull
-    public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+    @Nonnull
+    public Numeric divide(@Nonnull Numeric that) throws NotDivisibleException {
         if (that instanceof Vector) {
             throw new ArithmeticException();
         } else if (that instanceof Matrix) {
@@ -78,7 +78,7 @@ public class Vector extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric negate() {
         Vector v = newInstance();
         for (int i = 0; i < n; i++) v.element[i] = element[i].negate();
@@ -97,8 +97,8 @@ public class Vector extends Numeric {
         return 0;
     }
 
-    @NotNull
-    public Numeric valueOf(@NotNull Numeric numeric) {
+    @Nonnull
+    public Numeric valueOf(@Nonnull Numeric numeric) {
         if (numeric instanceof Vector || numeric instanceof Matrix) {
             throw new ArithmeticException();
         } else {
@@ -119,18 +119,18 @@ public class Vector extends Numeric {
         return a;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric ln() {
         throw new ArithmeticException();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric lg() {
         throw new ArithmeticException();
     }
 
-    @NotNull
+    @Nonnull
     public Numeric exp() {
         throw new ArithmeticException();
     }
@@ -176,13 +176,13 @@ public class Vector extends Numeric {
         return result.toString();
     }
 
-    @NotNull
+    @Nonnull
     protected Vector newInstance() {
         return newInstance(new Numeric[n]);
     }
 
-    @NotNull
-    protected Vector newInstance(@NotNull Numeric element[]) {
+    @Nonnull
+    protected Vector newInstance(@Nonnull Numeric element[]) {
         return new Vector(element);
     }
 }

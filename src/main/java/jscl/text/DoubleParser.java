@@ -5,8 +5,8 @@ import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.numeric.Real;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +23,8 @@ public class DoubleParser implements Parser<NumericWrapper> {
     private DoubleParser() {
     }
 
-    @NotNull
-    public NumericWrapper parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public NumericWrapper parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         final Parser<Double> multiTryParser = new MultiTryParser<Double>(new ArrayList<Parser<? extends Double>>(parsers));
         return new NumericWrapper(Real.valueOf(multiTryParser.parse(p, previousSumElement)));
     }
@@ -37,8 +37,8 @@ class Singularity implements Parser<Double> {
     private Singularity() {
     }
 
-    @NotNull
-    public Double parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public Double parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         double result = 0d;
@@ -63,7 +63,7 @@ class FloatingPointLiteral implements Parser<Double> {
     private FloatingPointLiteral() {
     }
 
-    public Double parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Double parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
@@ -137,7 +137,7 @@ class DecimalPoint implements Parser<Void> {
     }
 
     @Nullable
-    public Void parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Void parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.skipWhitespaces(p);
@@ -155,8 +155,8 @@ class ExponentPart implements Parser<String> {
     private ExponentPart() {
     }
 
-    @NotNull
-    public String parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final StringBuilder result = new StringBuilder();
@@ -189,8 +189,8 @@ class SignedInteger implements Parser<String> {
     private SignedInteger() {
     }
 
-    @NotNull
-    public String parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final StringBuilder result = new StringBuilder();

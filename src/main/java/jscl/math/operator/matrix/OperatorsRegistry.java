@@ -3,8 +3,8 @@ package jscl.math.operator.matrix;
 import jscl.math.Generic;
 import jscl.math.function.FunctionsRegistry;
 import jscl.math.operator.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.AbstractMathRegistry;
 
 /**
@@ -99,13 +99,13 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
          else if (operatorName.compareTo("eulerphi") == 0) v = new EulerPhi(parameters[0]);
          else if (operatorName.compareTo("primitiveroots") == 0) v = new PrimitiveRoots(parameters[0]);*/
 
-    @NotNull
+    @Nonnull
     public static OperatorsRegistry getInstance() {
         return instance;
     }
 
     @Nullable
-    public Operator get(@NotNull String name, @NotNull Generic[] parameters) {
+    public Operator get(@Nonnull String name, @Nonnull Generic[] parameters) {
         final Operator operator = super.get(name);
         if (operator == null) {
             return null;
@@ -119,7 +119,7 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
     }
 
     @Override
-    public Operator get(@NotNull String name) {
+    public Operator get(@Nonnull String name) {
         final Operator operator = super.get(name);
         return operator == null ? null : FunctionsRegistry.copy(operator);
     }

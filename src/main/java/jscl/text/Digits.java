@@ -3,20 +3,20 @@ package jscl.text;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Digits implements Parser<String> {
 
-    @NotNull
+    @Nonnull
     private final NumeralBase nb;
 
-    public Digits(@NotNull NumeralBase nb) {
+    public Digits(@Nonnull NumeralBase nb) {
         this.nb = nb;
     }
 
     // returns digit
-    public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final StringBuilder result = new StringBuilder();

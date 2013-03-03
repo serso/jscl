@@ -6,7 +6,7 @@ import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Root extends Algebraic {
 
@@ -26,7 +26,7 @@ public class Root extends Algebraic {
         this(parameters, JsclInteger.valueOf(s));
     }
 
-    public Root(@NotNull UnivariatePolynomial polynomial, int s) {
+    public Root(@Nonnull UnivariatePolynomial polynomial, int s) {
         this(polynomial.normalize().elements(), s);
     }
 
@@ -38,7 +38,7 @@ public class Root extends Algebraic {
         return this;
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         boolean polynomial = true;
         for (Generic parameter : parameters) {
             polynomial = parameter.isPolynomial(variable);
@@ -54,8 +54,8 @@ public class Root extends Algebraic {
         }
     }
 
-    @NotNull
-    public Generic derivative(@NotNull Variable variable) {
+    @Nonnull
+    public Generic derivative(@Nonnull Variable variable) {
         if (compareTo(variable) == 0) {
             return JsclInteger.valueOf(1);
         } else {
@@ -74,7 +74,7 @@ public class Root extends Algebraic {
         return null;
     }
 
-    public Generic substitute(@NotNull Variable variable, @NotNull Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
         Root v = (Root) newInstance();
         for (int i = 0; i < parameters.length; i++) {
             v.parameters[i] = parameters[i].substitute(variable, generic);
@@ -373,7 +373,7 @@ public class Root extends Algebraic {
     void bodyToMathML(MathML element, boolean fenced) {
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Root(new Generic[parameters.length], null);
     }

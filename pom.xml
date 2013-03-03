@@ -50,10 +50,22 @@
 
         <!-- OTHER -->
 
+        <!--
+            JSR 305 Annotations
+        -->
         <dependency>
-            <groupId>com.intellij</groupId>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+        <!--
+            FindBugs Annotations
+        -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
-            <version>7.0.3</version>
+            <version>2.0.1</version>
         </dependency>
 
         <dependency>
@@ -83,19 +95,41 @@
     <build>
         <plugins>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>com.electriccloud</groupId>
+                <artifactId>javac2-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <executions>
+                    <execution>
+                        <id>instrument-notnull-src</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>instrument</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>instrument-notnull-test</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>testInstrument</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!-- as some classes are singletons we must run  each test in separate JVM-->
             <plugin>

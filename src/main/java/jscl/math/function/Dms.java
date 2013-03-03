@@ -2,7 +2,7 @@ package jscl.math.function;
 
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -15,13 +15,13 @@ public class Dms extends AbstractDms {
         super("dms", degrees, minutes, seconds);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Dms(null, null, null);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         switch (i) {

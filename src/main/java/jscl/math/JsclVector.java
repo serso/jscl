@@ -5,29 +5,29 @@ import jscl.math.function.Constant;
 import jscl.math.function.Fraction;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class JsclVector extends Generic {
 
-    @NotNull
+    @Nonnull
     protected final Generic elements[];
 
     protected final int rows;
 
-    public JsclVector(@NotNull Generic elements[]) {
+    public JsclVector(@Nonnull Generic elements[]) {
         this.elements = elements;
         this.rows = elements.length;
     }
 
-    @NotNull
+    @Nonnull
     public Generic[] elements() {
         return elements;
     }
 
-    public JsclVector add(@NotNull JsclVector vector) {
+    public JsclVector add(@Nonnull JsclVector vector) {
         final JsclVector result = (JsclVector) newInstance();
 
         for (int i = 0; i < rows; i++) {
@@ -37,8 +37,8 @@ public class JsclVector extends Generic {
         return result;
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         if (that instanceof JsclVector) {
             return add((JsclVector) that);
         } else {
@@ -46,7 +46,7 @@ public class JsclVector extends Generic {
         }
     }
 
-    public JsclVector subtract(@NotNull JsclVector vector) {
+    public JsclVector subtract(@Nonnull JsclVector vector) {
         final JsclVector result = (JsclVector) newInstance();
 
         for (int i = 0; i < rows; i++) {
@@ -56,8 +56,8 @@ public class JsclVector extends Generic {
         return result;
     }
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         if (that instanceof JsclVector) {
             return subtract((JsclVector) that);
         } else {
@@ -65,8 +65,8 @@ public class JsclVector extends Generic {
         }
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         if (that instanceof JsclVector) {
             return scalarProduct((JsclVector) that);
         } else if (that instanceof Matrix) {
@@ -82,8 +82,8 @@ public class JsclVector extends Generic {
         }
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         if (that instanceof JsclVector) {
             throw new ArithmeticException("Unable to divide vector by vector!");
         } else if (that instanceof Matrix) {
@@ -101,11 +101,11 @@ public class JsclVector extends Generic {
         }
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         return null;
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         return null;
     }
@@ -136,7 +136,7 @@ public class JsclVector extends Generic {
         return 0;
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         final JsclVector result = (JsclVector) newInstance();
 
         for (int i = 0; i < rows; i++) {
@@ -146,7 +146,7 @@ public class JsclVector extends Generic {
         return result;
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         final JsclVector result = (JsclVector) newInstance();
 
         for (int i = 0; i < rows; i++) {
@@ -156,7 +156,7 @@ public class JsclVector extends Generic {
         return result;
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         final JsclVector result = (JsclVector) newInstance();
 
         for (int i = 0; i < rows; i++) {
@@ -206,7 +206,7 @@ public class JsclVector extends Generic {
         return new NumericWrapper(this);
     }
 
-    public Generic valueOf(@NotNull Generic generic) {
+    public Generic valueOf(@Nonnull Generic generic) {
         if (generic instanceof JsclVector || generic instanceof Matrix) {
             throw new ArithmeticException("Unable to create vector: vector of vectors or vector of matrices are forbidden!");
         } else {
@@ -248,11 +248,11 @@ public class JsclVector extends Generic {
         return null;
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         return false;
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         return false;
     }
 
@@ -260,7 +260,7 @@ public class JsclVector extends Generic {
         return scalarProduct(this);
     }
 
-    public Generic scalarProduct(@NotNull JsclVector vector) {
+    public Generic scalarProduct(@Nonnull JsclVector vector) {
         Generic result = JsclInteger.valueOf(0);
 
         for (int i = 0; i < rows; i++) {
@@ -270,7 +270,7 @@ public class JsclVector extends Generic {
         return result;
     }
 
-    public JsclVector vectorProduct(@NotNull JsclVector vector) {
+    public JsclVector vectorProduct(@Nonnull JsclVector vector) {
         final JsclVector result = (JsclVector) newInstance();
         Generic m[][] = {
                 {JsclInteger.valueOf(0), elements[2].negate(), elements[1]},
@@ -375,7 +375,7 @@ public class JsclVector extends Generic {
         }
     }
 
-    @NotNull
+    @Nonnull
     public static JsclVector unity(int dimension) {
         final JsclVector result = new JsclVector(new Generic[dimension]);
 
@@ -427,7 +427,7 @@ public class JsclVector extends Generic {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         final Set<Constant> result = new HashSet<Constant>(elements.length);
@@ -453,13 +453,13 @@ public class JsclVector extends Generic {
         e0.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     protected Generic newInstance() {
         return newInstance(new Generic[rows]);
     }
 
-    @NotNull
-    protected Generic newInstance(@NotNull Generic element[]) {
+    @Nonnull
+    protected Generic newInstance(@Nonnull Generic element[]) {
         return new JsclVector(element);
     }
 }

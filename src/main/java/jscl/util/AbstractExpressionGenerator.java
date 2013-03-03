@@ -1,7 +1,7 @@
 package jscl.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -19,7 +19,7 @@ public abstract class AbstractExpressionGenerator<T> {
         private final int operationId;
         private final String token;
 
-        Operation(int operationId, @NotNull String token) {
+        Operation(int operationId, @Nonnull String token) {
             this.operationId = operationId;
             this.token = token;
         }
@@ -50,7 +50,7 @@ public abstract class AbstractExpressionGenerator<T> {
         private final int functionId;
         private final String token;
 
-        Function(int functionId, @NotNull String token) {
+        Function(int functionId, @Nonnull String token) {
             this.functionId = functionId;
             this.token = token;
         }
@@ -86,14 +86,14 @@ public abstract class AbstractExpressionGenerator<T> {
         return depth;
     }
 
-    @NotNull
+    @Nonnull
     public abstract T generate();
 
     protected boolean generateBrackets() {
         return Math.random() > 0.8d;
     }
 
-    @NotNull
+    @Nonnull
     protected Operation generateOperation() {
         final int operationId = (int) (Math.random() * 4d);
         final Operation result = Operation.getOperationById(operationId);
@@ -110,7 +110,7 @@ public abstract class AbstractExpressionGenerator<T> {
     }
 
     // only positive values (as - operator exists)
-    @NotNull
+    @Nonnull
     protected Double generateNumber() {
         return Math.random() * MAX_VALUE;
     }

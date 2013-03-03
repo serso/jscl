@@ -6,7 +6,7 @@ import jscl.math.Matrix;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Determinant extends Operator {
 
@@ -46,9 +46,9 @@ public class Determinant extends Operator {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Determinant(parameters);
     }
 
@@ -74,7 +74,7 @@ public class Determinant extends Operator {
         e0.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Determinant((Matrix) null);
     }

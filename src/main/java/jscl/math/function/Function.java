@@ -6,7 +6,7 @@ import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.math.operator.AbstractFunction;
 import jscl.text.ParserUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.math.MathEntity;
 
 public abstract class Function extends AbstractFunction {
@@ -20,7 +20,7 @@ public abstract class Function extends AbstractFunction {
     }
 
     @Override
-    public void copy(@NotNull MathEntity that) {
+    public void copy(@Nonnull MathEntity that) {
         super.copy(that);
         if (that instanceof Function) {
             if (((Function) that).parameters != null) {
@@ -31,7 +31,7 @@ public abstract class Function extends AbstractFunction {
         }
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         final int parameter = getParameterForAntiDerivation(variable);
 
         if (parameter < 0) {
@@ -41,7 +41,7 @@ public abstract class Function extends AbstractFunction {
         }
     }
 
-    protected int getParameterForAntiDerivation(@NotNull Variable variable) {
+    protected int getParameterForAntiDerivation(@Nonnull Variable variable) {
         int result = -1;
 
         for (int i = 0; i < parameters.length; i++) {
@@ -59,8 +59,8 @@ public abstract class Function extends AbstractFunction {
 
     public abstract Generic antiDerivative(int n) throws NotIntegrableException;
 
-    @NotNull
-    public Generic derivative(@NotNull Variable variable) {
+    @Nonnull
+    public Generic derivative(@Nonnull Variable variable) {
         if (isIdentity(variable)) {
             return JsclInteger.valueOf(1);
         } else {

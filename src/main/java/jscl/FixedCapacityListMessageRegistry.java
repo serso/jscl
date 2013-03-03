@@ -1,6 +1,6 @@
 package jscl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageRegistry;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FixedCapacityListMessageRegistry implements MessageRegistry {
 
-	@NotNull
+	@Nonnull
 	private final List<Message> messages;
 
 	private final int capacity;
@@ -23,7 +23,7 @@ public class FixedCapacityListMessageRegistry implements MessageRegistry {
 	}
 
 	@Override
-	public void addMessage(@NotNull Message message) {
+	public void addMessage(@Nonnull Message message) {
 		if (!this.messages.contains(message)) {
 			if (this.size <= this.capacity) {
 				this.messages.add(message);
@@ -35,7 +35,7 @@ public class FixedCapacityListMessageRegistry implements MessageRegistry {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Message getMessage() {
 		if (hasMessage()) {

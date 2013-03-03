@@ -7,7 +7,7 @@ import java.util.TreeMap;
 import jscl.math.Generic;
 import jscl.math.JsclBoolean;
 import jscl.math.JsclInteger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 class ArrayPolynomialBoolean extends ArrayPolynomialModular {
     ArrayPolynomialBoolean(Monomial monomialFactory) {
@@ -34,8 +34,8 @@ class ArrayPolynomialBoolean extends ArrayPolynomialModular {
         }
     }
 
-    @NotNull
-    public Polynomial subtract(@NotNull Polynomial that) {
+    @Nonnull
+    public Polynomial subtract(@Nonnull Polynomial that) {
         if (that.signum() == 0) return this;
         ArrayPolynomialBoolean q = (ArrayPolynomialBoolean) that;
         ArrayPolynomialBoolean p = (ArrayPolynomialBoolean) newinstance(size + q.size);

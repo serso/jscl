@@ -6,7 +6,7 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -43,9 +43,9 @@ public class TripleFactorial extends PostfixFunction {
         throw new NotSupportedException(Messages.msg_18);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new TripleFactorial(parameters);
     }
 
@@ -54,7 +54,7 @@ public class TripleFactorial extends PostfixFunction {
         throw new NotSupportedException(Messages.msg_18);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new TripleFactorial((Generic) null);
     }

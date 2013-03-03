@@ -1,13 +1,13 @@
 package jscl.math;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class MatrixVariable extends GenericVariable {
     public MatrixVariable(Generic generic) {
         super(generic);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new MatrixVariable(null);
     }

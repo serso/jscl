@@ -1,7 +1,7 @@
 package jscl.math.function;
 
 import jscl.math.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Inverse extends Fraction {
 
@@ -32,7 +32,7 @@ public class Inverse extends Fraction {
         return parameters[1];
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Inverse(null);
     }

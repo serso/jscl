@@ -8,7 +8,7 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.text.msg.JsclMessage;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.MessageType;
 
 public class Integral extends Operator {
@@ -19,7 +19,7 @@ public class Integral extends Operator {
         super(NAME, new Generic[]{expression, variable, n1, n2});
     }
 
-    protected Integral(@NotNull Generic[] parameters) {
+    protected Integral(@Nonnull Generic[] parameters) {
         super(NAME, parameters);
     }
 
@@ -42,7 +42,7 @@ public class Integral extends Operator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         switch (i) {
@@ -74,9 +74,9 @@ public class Integral extends Operator {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Integral(parameters);
     }
 
@@ -98,7 +98,7 @@ public class Integral extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Integral(null, null, null, null);
     }

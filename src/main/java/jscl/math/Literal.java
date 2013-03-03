@@ -4,8 +4,8 @@ import jscl.math.function.Fraction;
 import jscl.math.function.Pow;
 import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.Converter;
 
 import java.util.Iterator;
@@ -30,7 +30,7 @@ public class Literal implements Comparable {
         return size;
     }
 
-    @NotNull
+    @Nonnull
     public Variable getVariable(int i) {
         return variables[i];
     }
@@ -57,7 +57,7 @@ public class Literal implements Comparable {
         }
     }
 
-    public Literal multiply(@NotNull Literal that) {
+    public Literal multiply(@Nonnull Literal that) {
         final Literal result = newInstance(size + that.size);
         int i = 0;
 
@@ -146,8 +146,8 @@ public class Literal implements Comparable {
         return l;
     }
 
-    @NotNull
-    public Literal gcd(@NotNull Literal that) {
+    @Nonnull
+    public Literal gcd(@Nonnull Literal that) {
         Literal result = newInstance(Math.min(this.size, that.size));
         int i = 0;
 
@@ -195,7 +195,7 @@ public class Literal implements Comparable {
         return result;
     }
 
-    public Literal scm(@NotNull Literal that) {
+    public Literal scm(@Nonnull Literal that) {
         final Literal result = newInstance(this.size + that.size);
         int i = 0;
 
@@ -291,7 +291,7 @@ public class Literal implements Comparable {
         return degree;
     }
 
-    public int compareTo(@NotNull Literal that) {
+    public int compareTo(@Nonnull Literal that) {
         int thisI = this.size;
         int thatI = that.size;
 
@@ -381,7 +381,7 @@ public class Literal implements Comparable {
         }
     }
 
-    Map<Variable, Generic> content(@NotNull Converter<Variable, Generic> c) {
+    Map<Variable, Generic> content(@Nonnull Converter<Variable, Generic> c) {
         final Map<Variable, Generic> result = new TreeMap<Variable, Generic>();
 
         for (int i = 0; i < size; i++) {
@@ -448,7 +448,7 @@ public class Literal implements Comparable {
         }
     }
 
-    @NotNull
+    @Nonnull
     private Literal newInstance(int n) {
         return new Literal(n);
     }

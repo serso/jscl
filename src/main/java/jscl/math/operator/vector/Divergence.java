@@ -6,7 +6,7 @@ import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Divergence extends VectorOperator {
 
@@ -16,7 +16,7 @@ public class Divergence extends VectorOperator {
         super(NAME, new Generic[]{vector, variable});
     }
 
-    private Divergence(@NotNull Generic parameter[]) {
+    private Divergence(@Nonnull Generic parameter[]) {
         super(NAME, parameter);
     }
 
@@ -34,9 +34,9 @@ public class Divergence extends VectorOperator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Divergence(parameters);
     }
 
@@ -45,7 +45,7 @@ public class Divergence extends VectorOperator {
         parameters[0].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Divergence(null, null);
     }

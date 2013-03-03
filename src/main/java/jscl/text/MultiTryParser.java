@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,15 +13,15 @@ import java.util.List;
  */
 public class MultiTryParser<T> implements Parser<T> {
 
-    @NotNull
+    @Nonnull
     private final List<Parser<? extends T>> parsers;
 
-    public MultiTryParser(@NotNull List<Parser<? extends T>> parsers) {
+    public MultiTryParser(@Nonnull List<Parser<? extends T>> parsers) {
         this.parsers = parsers;
     }
 
     @Override
-    public T parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public T parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         T result = null;
 
         for (final Iterator<Parser<? extends T>> it = parsers.iterator(); it.hasNext(); ) {

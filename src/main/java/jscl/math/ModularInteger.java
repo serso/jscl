@@ -2,7 +2,7 @@ package jscl.math;
 
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.math.BigInteger;
 import java.util.Collections;
@@ -30,8 +30,8 @@ public class ModularInteger extends Generic implements Field {
         return newinstance((long) content + integer.content);
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         return add((ModularInteger) that);
     }
 
@@ -39,8 +39,8 @@ public class ModularInteger extends Generic implements Field {
         return newinstance((long) content + (modulo - integer.content));
     }
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         return subtract((ModularInteger) that);
     }
 
@@ -48,13 +48,13 @@ public class ModularInteger extends Generic implements Field {
         return newinstance((long) content * integer.content);
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         return multiply((ModularInteger) that);
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         return multiply(that.inverse());
     }
 
@@ -62,11 +62,11 @@ public class ModularInteger extends Generic implements Field {
         return newinstance(BigInteger.valueOf(content).modInverse(BigInteger.valueOf(modulo)).intValue());
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         throw new UnsupportedOperationException();
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         throw new UnsupportedOperationException();
     }
@@ -87,15 +87,15 @@ public class ModularInteger extends Generic implements Field {
         return 0;
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         throw new UnsupportedOperationException();
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         throw new UnsupportedOperationException();
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         throw new UnsupportedOperationException();
     }
 
@@ -160,11 +160,11 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         throw new UnsupportedOperationException();
     }
 
@@ -198,7 +198,7 @@ public class ModularInteger extends Generic implements Field {
         throw new UnsupportedOperationException();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         return Collections.emptySet();

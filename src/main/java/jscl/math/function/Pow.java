@@ -3,7 +3,7 @@ package jscl.math.function;
 import jscl.math.*;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Pow extends Algebraic {
     public Pow(Generic generic, Generic exponent) {
@@ -37,7 +37,7 @@ public class Pow extends Algebraic {
         throw new NotRootException();
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         try {
             Root r = rootValue();
             Generic g[] = r.getParameters();
@@ -274,7 +274,7 @@ public class Pow extends Algebraic {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Pow(null, null);
     }

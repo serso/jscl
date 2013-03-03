@@ -4,8 +4,8 @@ import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class JsclIntegerParser implements Parser<JsclInteger> {
 
@@ -14,7 +14,7 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
     private JsclIntegerParser() {
     }
 
-    public JsclInteger parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    public JsclInteger parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);

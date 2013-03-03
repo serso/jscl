@@ -4,7 +4,7 @@ import jscl.math.*;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -86,9 +86,9 @@ public class DoubleFactorial extends PostfixFunction {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new DoubleFactorial(parameters);
     }
 
@@ -113,7 +113,7 @@ public class DoubleFactorial extends PostfixFunction {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new DoubleFactorial((Generic) null);
     }

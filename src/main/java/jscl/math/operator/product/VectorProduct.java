@@ -6,7 +6,7 @@ import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class VectorProduct extends VectorOperator {
 
@@ -42,14 +42,14 @@ public class VectorProduct extends VectorOperator {
         parameters[1].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new VectorProduct(null, null);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new VectorProduct(parameters);
     }
 }

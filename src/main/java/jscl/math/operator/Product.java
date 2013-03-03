@@ -5,7 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Product extends Operator {
 
@@ -39,7 +39,7 @@ public class Product extends Operator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         switch (i) {
@@ -71,9 +71,9 @@ public class Product extends Operator {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Product(parameters);
     }
 
@@ -96,7 +96,7 @@ public class Product extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Product(null, null, null, null);
     }

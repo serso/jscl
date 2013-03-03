@@ -5,7 +5,7 @@ import jscl.math.Matrix;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Transpose extends Operator {
 
@@ -54,14 +54,14 @@ public class Transpose extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Transpose((Matrix) null);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Transpose(parameters);
     }
 }

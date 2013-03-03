@@ -4,7 +4,7 @@ import jscl.math.*;
 import jscl.math.function.Pow;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Factorial extends PostfixFunction {
 
@@ -67,9 +67,9 @@ public class Factorial extends PostfixFunction {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Factorial(parameters);
     }
 
@@ -94,7 +94,7 @@ public class Factorial extends PostfixFunction {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Factorial((Generic) null);
     }

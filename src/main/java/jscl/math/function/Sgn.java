@@ -2,8 +2,8 @@ package jscl.math.function;
 
 import jscl.math.*;
 import jscl.math.JsclInteger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Sgn extends Function {
 
@@ -87,7 +87,7 @@ public class Sgn extends Function {
         return result.toString();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Sgn(null);
     }

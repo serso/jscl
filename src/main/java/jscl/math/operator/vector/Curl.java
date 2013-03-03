@@ -6,7 +6,7 @@ import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Curl extends VectorOperator {
 
@@ -34,9 +34,9 @@ public class Curl extends VectorOperator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Curl(parameters);
     }
 
@@ -48,7 +48,7 @@ public class Curl extends VectorOperator {
         parameters[0].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Curl(null, null);
     }

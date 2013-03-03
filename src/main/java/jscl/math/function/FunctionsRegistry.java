@@ -3,7 +3,7 @@ package jscl.math.function;
 import jscl.math.Variable;
 import jscl.math.function.hyperbolic.*;
 import jscl.math.function.trigonometric.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.math.AbstractMathRegistry;
 
 /**
@@ -57,13 +57,13 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
     }
 
 
-    @NotNull
+    @Nonnull
     public static FunctionsRegistry getInstance() {
         return instance;
     }
 
-    @NotNull
-    public static <T extends Variable> T copy(@NotNull T variable) {
+    @Nonnull
+    public static <T extends Variable> T copy(@Nonnull T variable) {
         final T result = (T) variable.newInstance();
         if (variable.isIdDefined()) {
             result.setId(variable.getId());
@@ -73,7 +73,7 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
     }
 
     @Override
-    public Function get(@NotNull String name) {
+    public Function get(@Nonnull String name) {
         final Function function = super.get(name);
         return function == null ? null : copy(function);
     }

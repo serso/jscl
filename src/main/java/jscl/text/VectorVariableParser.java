@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.VectorVariable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class VectorVariableParser implements Parser<Variable> {
     public static final Parser<Variable> parser = new VectorVariableParser();
@@ -12,7 +12,7 @@ public class VectorVariableParser implements Parser<Variable> {
     private VectorVariableParser() {
     }
 
-    public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Variable parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         JsclVector result;
         try {
             result = VectorParser.parser.parse(p, previousSumElement);

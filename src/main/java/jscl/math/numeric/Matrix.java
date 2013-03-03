@@ -2,16 +2,16 @@ package jscl.math.numeric;
 
 import jscl.math.NotDivisibleException;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Matrix extends Numeric {
 
-    @NotNull
+    @Nonnull
     private final Numeric m[][];
 
     private final int rows, cols;
 
-    public Matrix(@NotNull Numeric m[][]) {
+    public Matrix(@Nonnull Numeric m[][]) {
         this.m = m;
         rows = m.length;
         cols = m.length > 0 ? m[0].length : 0;
@@ -31,8 +31,8 @@ public class Matrix extends Numeric {
         return m;
     }
 
-    @NotNull
-    public Numeric add(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric add(@Nonnull Numeric that) {
         if (that instanceof Matrix) {
             return add((Matrix) that);
         } else {
@@ -50,8 +50,8 @@ public class Matrix extends Numeric {
         return m;
     }
 
-    @NotNull
-    public Numeric subtract(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric subtract(@Nonnull Numeric that) {
         if (that instanceof Matrix) {
             return subtract((Matrix) that);
         } else {
@@ -73,8 +73,8 @@ public class Matrix extends Numeric {
         return m;
     }
 
-    @NotNull
-    public Numeric multiply(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric multiply(@Nonnull Numeric that) {
         if (that instanceof Matrix) {
             return multiply((Matrix) that);
         } else if (that instanceof Vector) {
@@ -99,8 +99,8 @@ public class Matrix extends Numeric {
         }
     }
 
-    @NotNull
-    public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+    @Nonnull
+    public Numeric divide(@Nonnull Numeric that) throws NotDivisibleException {
 
         if (that instanceof Matrix) {
             return multiply(that.inverse());
@@ -118,7 +118,7 @@ public class Matrix extends Numeric {
 
     }
 
-    @NotNull
+    @Nonnull
     public Numeric negate() {
         Matrix m = newInstance();
         for (int i = 0; i < rows; i++) {
@@ -144,8 +144,8 @@ public class Matrix extends Numeric {
         return 0;
     }
 
-    @NotNull
-    public Numeric valueOf(@NotNull Numeric numeric) {
+    @Nonnull
+    public Numeric valueOf(@Nonnull Numeric numeric) {
         if (numeric instanceof Matrix || numeric instanceof Vector) {
             throw new ArithmeticException();
         } else {
@@ -183,7 +183,7 @@ public class Matrix extends Numeric {
         return s;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric inverse() {
         Matrix m = newInstance();
         for (int i = 0; i < rows; i++) {
@@ -231,18 +231,18 @@ public class Matrix extends Numeric {
         else return Real.ZERO;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric ln() {
         throw new ArithmeticException();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric lg() {
         throw new ArithmeticException();
     }
 
-    @NotNull
+    @Nonnull
     public Numeric exp() {
         throw new ArithmeticException();
     }

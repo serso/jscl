@@ -1,6 +1,6 @@
 package jscl.util;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +12,19 @@ import java.util.List;
  */
 public class ExpressionGeneratorWithInput extends AbstractExpressionGenerator<List<String>> {
 
-    @NotNull
+    @Nonnull
     private final List<String> subExpressions;
 
-    public ExpressionGeneratorWithInput(@NotNull List<String> subExpressions) {
+    public ExpressionGeneratorWithInput(@Nonnull List<String> subExpressions) {
         this(subExpressions, 10);
     }
 
-    public ExpressionGeneratorWithInput(@NotNull List<String> subExpressions, int depth) {
+    public ExpressionGeneratorWithInput(@Nonnull List<String> subExpressions, int depth) {
         super(depth);
         this.subExpressions = new ArrayList<String>(subExpressions);
     }
 
-    @NotNull
+    @Nonnull
     public List<String> generate() {
         final List<StringBuilder> expressions = new ArrayList<StringBuilder>();
         for (String subExpression : subExpressions) {

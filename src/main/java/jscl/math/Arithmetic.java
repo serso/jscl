@@ -1,19 +1,19 @@
 package jscl.math;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public interface Arithmetic<T extends Arithmetic<T>> {
 
-    @NotNull
-    T add(@NotNull T that);
+    @Nonnull
+    T add(@Nonnull T that);
 
-    @NotNull
-    T subtract(@NotNull T that);
+    @Nonnull
+    T subtract(@Nonnull T that);
 
-    @NotNull
-    T multiply(@NotNull T that);
+    @Nonnull
+    T multiply(@Nonnull T that);
 
-    @NotNull
-    T divide(@NotNull T that) throws NotDivisibleException;
+    @Nonnull
+    T divide(@Nonnull T that) throws NotDivisibleException;
 
 }

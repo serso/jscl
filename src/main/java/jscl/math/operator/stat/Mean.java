@@ -2,7 +2,7 @@ package jscl.math.operator.stat;
 
 import jscl.math.*;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -17,13 +17,13 @@ public class Mean extends AbstractStatFunction {
         this(new Generic[]{vector});
     }
 
-    private Mean(@NotNull Generic[] parameters) {
+    private Mean(@Nonnull Generic[] parameters) {
         super(NAME, parameters);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Mean(parameters);
     }
 
@@ -59,7 +59,7 @@ public class Mean extends AbstractStatFunction {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Mean((JsclVector) null);

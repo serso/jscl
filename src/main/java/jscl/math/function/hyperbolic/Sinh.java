@@ -9,7 +9,7 @@ import jscl.math.Variable;
 import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Sinh extends Trigonometric {
     public Sinh(Generic generic) {
@@ -74,7 +74,7 @@ public class Sinh extends Trigonometric {
         return ((NumericWrapper) parameters[0]).sinh();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Sinh(null);
     }

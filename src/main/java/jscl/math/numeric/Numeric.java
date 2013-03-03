@@ -3,7 +3,7 @@ package jscl.math.numeric;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Arithmetic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import static jscl.math.numeric.Complex.I;
 import static jscl.math.numeric.Real.ONE;
@@ -11,31 +11,31 @@ import static jscl.math.numeric.Real.TWO;
 
 public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>, Comparable {
 
-    /*@NotNull
-     public Numeric subtract(@NotNull Numeric numeric) {
+    /*@Nonnull
+     public Numeric subtract(@Nonnull Numeric numeric) {
          return add(numeric.negate());
      }*/
 
     @Override
-    @NotNull
+    @Nonnull
     public Numeric abs() {
         return signum() < 0 ? negate() : this;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric sgn() {
         return divide(abs());
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric inverse() {
         return ONE.divide(this);
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public Numeric pow(int exponent) {
         Numeric result = ONE;
 
@@ -46,7 +46,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return result;
     }
 
-    public Numeric pow(@NotNull Numeric numeric) {
+    public Numeric pow(@Nonnull Numeric numeric) {
         if (numeric.signum() == 0) {
             return ONE;
         } else if (numeric.compareTo(ONE) == 0) {
@@ -56,13 +56,13 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric sqrt() {
         return nThRoot(2);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric nThRoot(int n) {
         return pow(Real.valueOf(1. / n));
@@ -90,13 +90,13 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return AngleUnit.rad.transform(JsclMathEngine.getInstance().getAngleUnits(), value);
     }
 
-    @NotNull
-    protected static Numeric defaultToRad(@NotNull Numeric value) {
+    @Nonnull
+    protected static Numeric defaultToRad(@Nonnull Numeric value) {
         return JsclMathEngine.getInstance().getAngleUnits().transform(AngleUnit.rad, value);
     }
 
-    @NotNull
-    protected static Numeric radToDefault(@NotNull Numeric value) {
+    @Nonnull
+    protected static Numeric radToDefault(@Nonnull Numeric value) {
         return AngleUnit.rad.transform(JsclMathEngine.getInstance().getAngleUnits(), value);
     }
 
@@ -108,7 +108,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
       * *******************************************************************************************
       */
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric sin() {
         // e = exp(i)
@@ -117,7 +117,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return I.subtract(e.multiply(I)).divide(TWO.multiply(e));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric cos() {
         // e = exp(ix)
@@ -129,7 +129,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return ONE.add(e1).divide(TWO.multiply(e));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric tan() {
         // e = exp(2xi)
@@ -142,7 +142,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return I.subtract(e1).divide(ONE.add(e));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric cot() {
         // e = exp(2xi)
@@ -160,7 +160,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
      * *******************************************************************************************
      */
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric asin() {
         // e = √(1 - x^2)
@@ -169,7 +169,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(this.multiply(I).add(e).ln().multiply(I.negate()));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric acos() {
         // e = √(-1 + x^2) = i √(1 - x^2)
@@ -179,7 +179,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(this.add(e).ln().multiply(I.negate()));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric atan() {
         // e = ln[(i + x)/(i-x)]
@@ -188,7 +188,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(I.multiply(e).divide(TWO));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric acot() {
         // e = ln[-(i + x)/(i-x)]
@@ -205,7 +205,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
      * *******************************************************************************************
      */
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric sinh() {
         final Numeric thisRad = defaultToRad(this);
@@ -220,7 +220,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return ONE.subtract(e).divide(e1).negate();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric cosh() {
         final Numeric thisExpRad = defaultToRad(this).exp();
@@ -236,7 +236,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
     }
 
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric tanh() {
         // e = exp(2x)
@@ -246,7 +246,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return ONE.subtract(e).divide(ONE.add(e)).negate();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric coth() {
         // e = exp(2x)
@@ -264,7 +264,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
      * *******************************************************************************************
      */
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric asinh() {
         // e = √( 1 + x ^ 2 )
@@ -274,7 +274,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(this.add(e).ln());
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric acosh() {
         // e = √(x ^ 2 - 1)
@@ -284,7 +284,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(this.add(e).ln());
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric atanh() {
         // e = 1 - x
@@ -294,7 +294,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(ONE.add(this).divide(e).ln().divide(TWO));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric acoth() {
         // e = 1 - x
@@ -304,8 +304,8 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return radToDefault(ONE.add(this).divide(e).negate().ln().divide(TWO));
     }
 
-    @NotNull
-    public abstract Numeric valueOf(@NotNull Numeric numeric);
+    @Nonnull
+    public abstract Numeric valueOf(@Nonnull Numeric numeric);
 
     public abstract int compareTo(Numeric numeric);
 
@@ -317,7 +317,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
         return obj instanceof Numeric && compareTo((Numeric) obj) == 0;
     }
 
-    @NotNull
+    @Nonnull
     protected String toString(final double value) {
         return JsclMathEngine.getInstance().format(value, JsclMathEngine.getInstance().getNumeralBase());
     }

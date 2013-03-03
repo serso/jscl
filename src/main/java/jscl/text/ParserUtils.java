@@ -2,8 +2,8 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.lang.reflect.Array;
 
@@ -20,7 +20,7 @@ public class ParserUtils {
         }
     }
 
-    public static void skipWhitespaces(@NotNull Parser.Parameters p) {
+    public static void skipWhitespaces(@Nonnull Parser.Parameters p) {
         final MutableInt position = p.getPosition();
         final String expression = p.getExpression();
 
@@ -29,7 +29,7 @@ public class ParserUtils {
         }
     }
 
-    public static void tryToParse(@NotNull Parser.Parameters p,
+    public static void tryToParse(@Nonnull Parser.Parameters p,
                                   int pos0,
                                   char ch) throws ParseException {
         skipWhitespaces(p);
@@ -46,9 +46,9 @@ public class ParserUtils {
         }
     }
 
-    public static void tryToParse(@NotNull Parser.Parameters p,
+    public static void tryToParse(@Nonnull Parser.Parameters p,
                                   int pos0,
-                                  @NotNull String s) throws ParseException {
+                                  @Nonnull String s) throws ParseException {
         skipWhitespaces(p);
 
         if (p.getPosition().intValue() < p.getExpression().length()) {
@@ -62,9 +62,9 @@ public class ParserUtils {
         }
     }
 
-    public static void throwParseException(@NotNull Parser.Parameters p,
+    public static void throwParseException(@Nonnull Parser.Parameters p,
                                            int pos0,
-                                           @NotNull String messageId,
+                                           @Nonnull String messageId,
                                            Object... parameters) throws ParseException {
         final MutableInt position = p.getPosition();
         final ParseException parseException = new ParseException(messageId, position.intValue(), p.getExpression(), parameters);
@@ -73,11 +73,11 @@ public class ParserUtils {
     }
 
 
-    @NotNull
-    static <T> T parseWithRollback(@NotNull Parser<T> parser,
+    @Nonnull
+    static <T> T parseWithRollback(@Nonnull Parser<T> parser,
                                    int initialPosition,
                                    @Nullable final Generic previousSumParser,
-                                   @NotNull final Parser.Parameters p) throws ParseException {
+                                   @Nonnull final Parser.Parameters p) throws ParseException {
         T result;
 
         try {
@@ -90,11 +90,11 @@ public class ParserUtils {
         return result;
     }
 
-    public static <T> T[] copyOf(@NotNull T[] array, int newLength) {
+    public static <T> T[] copyOf(@Nonnull T[] array, int newLength) {
         return (T[]) copyOf(array, newLength, array.getClass());
     }
 
-    public static <T> T[] copyOf(@NotNull T[] array) {
+    public static <T> T[] copyOf(@Nonnull T[] array) {
         return (T[]) copyOf(array, array.length, array.getClass());
     }
 

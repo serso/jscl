@@ -4,8 +4,8 @@ import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.FunctionsRegistry;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.MathRegistry;
 
 /**
@@ -22,7 +22,7 @@ class UsualFunctionParser implements Parser<Function> {
     private UsualFunctionParser() {
     }
 
-    public Function parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final String name = Identifier.parser.parse(p, previousSumElement);

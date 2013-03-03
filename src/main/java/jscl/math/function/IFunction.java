@@ -1,14 +1,14 @@
 package jscl.math.function;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.MathEntity;
 
 import java.util.List;
 
 public interface IFunction extends MathEntity {
 
-	@NotNull
+	@Nonnull
 	String getContent();
 
 	@Nullable
@@ -16,6 +16,6 @@ public interface IFunction extends MathEntity {
 
 	String toJava();
 
-	@NotNull
+	@Nonnull
 	List<String> getParameterNames();
 }

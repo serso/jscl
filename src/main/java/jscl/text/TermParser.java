@@ -5,7 +5,7 @@ import jscl.math.GenericVariable;
 import jscl.math.JsclInteger;
 import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -19,7 +19,7 @@ class TermParser implements Parser<Generic> {
     private TermParser() {
     }
 
-    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         Generic result = JsclInteger.valueOf(1);
 
         Generic s = (Generic) UnsignedFactor.parser.parse(p, previousSumElement);

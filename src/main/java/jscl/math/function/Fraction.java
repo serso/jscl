@@ -13,7 +13,7 @@ import jscl.math.NotVariableException;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Fraction extends Algebraic {
 
@@ -33,7 +33,7 @@ public class Fraction extends Algebraic {
         return new Root(new Generic[]{parameters[0].negate(), parameters[1]}, 0);
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         if (parameters[0].isPolynomial(variable) && parameters[1].isPolynomial(variable)) {
             return AntiDerivative.compute(this, variable);
         } else throw new NotIntegrableException(this);
@@ -95,7 +95,7 @@ public class Fraction extends Algebraic {
      * @return array of 3 elements where
      *         a[0] =
      */
-    static Generic[] separateCoefficient(@NotNull Generic generic) {
+    static Generic[] separateCoefficient(@Nonnull Generic generic) {
 
         if (generic.signum() < 0) {
             Generic n[] = separateCoefficient(generic.negate());
@@ -185,7 +185,7 @@ public class Fraction extends Algebraic {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Fraction(null, null);
     }

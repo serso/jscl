@@ -6,25 +6,25 @@ import jscl.math.function.Constants;
 import jscl.math.function.IConstant;
 import jscl.math.numeric.*;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.Set;
 
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
-    @NotNull
+    @Nonnull
     private final Numeric content;
 
-    public NumericWrapper(@NotNull JsclInteger integer) {
+    public NumericWrapper(@Nonnull JsclInteger integer) {
         content = Real.valueOf(integer.content().doubleValue());
     }
 
-    public NumericWrapper(@NotNull Rational rational) {
+    public NumericWrapper(@Nonnull Rational rational) {
         content = Real.valueOf(rational.numerator().doubleValue() / rational.denominator().doubleValue());
     }
 
-    public NumericWrapper(@NotNull JsclVector vector) {
+    public NumericWrapper(@Nonnull JsclVector vector) {
         final Numeric elements[] = new Numeric[vector.rows];
 
         for (int i = 0; i < vector.rows; i++) {
@@ -34,7 +34,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         content = new Vector(elements);
     }
 
-    public NumericWrapper(@NotNull Matrix matrix) {
+    public NumericWrapper(@Nonnull Matrix matrix) {
         final Numeric elements[][] = new Numeric[matrix.rows][matrix.cols];
 
         for (int i = 0; i < matrix.rows; i++) {
@@ -46,7 +46,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         content = new jscl.math.numeric.Matrix(elements);
     }
 
-    public NumericWrapper(@NotNull Constant constant) {
+    public NumericWrapper(@Nonnull Constant constant) {
         final IConstant constantFromRegistry = JsclMathEngine.getInstance().getConstantsRegistry().get(constant.getName());
 
         if (constantFromRegistry != null) {
@@ -69,7 +69,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         }
     }
 
-    public NumericWrapper(@NotNull Numeric numeric) {
+    public NumericWrapper(@Nonnull Numeric numeric) {
         content = numeric;
     }
 
@@ -81,8 +81,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.add(wrapper.content));
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         if (that instanceof Expression) {
             return that.add(this);
         } else if (that instanceof NumericWrapper) {
@@ -96,8 +96,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.subtract(wrapper.content));
     }
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         if (that instanceof Expression) {
             return that.add(this);
         } else if (that instanceof NumericWrapper) {
@@ -111,8 +111,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.multiply(wrapper.content));
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         if (that instanceof Expression) {
             return that.add(this);
         } else if (that instanceof NumericWrapper) {
@@ -126,8 +126,8 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.divide(wrapper.content));
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         if (that instanceof Expression) {
             return that.add(this);
         } else if (that instanceof NumericWrapper) {
@@ -137,21 +137,21 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         }
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         return null;
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         return null;
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper abs() {
         return new NumericWrapper(content.abs());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper negate() {
         return new NumericWrapper(content.negate());
     }
@@ -164,15 +164,15 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return 0;
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         return null;
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         return null;
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         return null;
     }
 
@@ -200,7 +200,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.valueOf(wrapper.content));
     }
 
-    public Generic valueOf(@NotNull Generic generic) {
+    public Generic valueOf(@Nonnull Generic generic) {
         if (generic instanceof NumericWrapper) {
             return valueOf((NumericWrapper) generic);
         } else if (generic instanceof JsclInteger) {
@@ -256,40 +256,40 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new Variable[0];
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         return true;
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         return true;
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper sgn() {
         return new NumericWrapper(content.sgn());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper ln() {
         return new NumericWrapper(content.ln());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper lg() {
         return new NumericWrapper(content.lg());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper exp() {
         return new NumericWrapper(content.exp());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper inverse() {
         return new NumericWrapper(content.inverse());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper pow(int exponent) {
         return new NumericWrapper(content.pow(exponent));
     }
@@ -298,12 +298,12 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.pow(((NumericWrapper) generic).content));
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper sqrt() {
         return new NumericWrapper(content.sqrt());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper nThRoot(int n) {
         return new NumericWrapper(content.nThRoot(n));
     }
@@ -319,82 +319,82 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return new NumericWrapper(content.conjugate());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper acos() {
         return new NumericWrapper(content.acos());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper asin() {
         return new NumericWrapper(content.asin());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper atan() {
         return new NumericWrapper(content.atan());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper acot() {
         return new NumericWrapper(content.acot());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper cos() {
         return new NumericWrapper(content.cos());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper sin() {
         return new NumericWrapper(content.sin());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper tan() {
         return new NumericWrapper(content.tan());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper cot() {
         return new NumericWrapper(content.cot());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper acosh() {
         return new NumericWrapper(content.acosh());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper asinh() {
         return new NumericWrapper(content.asinh());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper atanh() {
         return new NumericWrapper(content.atanh());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper acoth() {
         return new NumericWrapper(content.acoth());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper cosh() {
         return new NumericWrapper(content.cosh());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper sinh() {
         return new NumericWrapper(content.sinh());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper tanh() {
         return new NumericWrapper(content.tanh());
     }
 
-    @NotNull
+    @Nonnull
     public NumericWrapper coth() {
         return new NumericWrapper(content.coth());
     }
@@ -432,7 +432,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         return Collections.emptySet();

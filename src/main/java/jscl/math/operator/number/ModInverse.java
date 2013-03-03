@@ -5,7 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
 import jscl.math.Variable;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class ModInverse extends Operator {
 
@@ -34,13 +34,13 @@ public class ModInverse extends Operator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new ModInverse(parameters);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new ModInverse(null, null);
     }

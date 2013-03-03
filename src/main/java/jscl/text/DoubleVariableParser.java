@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.DoubleVariable;
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class DoubleVariableParser implements Parser<Variable> {
 
@@ -12,8 +12,8 @@ public class DoubleVariableParser implements Parser<Variable> {
     private DoubleVariableParser() {
     }
 
-    @NotNull
-    public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public Variable parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         return new DoubleVariable(DoubleParser.parser.parse(p, previousSumElement));
     }
 }

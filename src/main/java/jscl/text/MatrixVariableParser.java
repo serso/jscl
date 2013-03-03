@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.Matrix;
 import jscl.math.MatrixVariable;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 class MatrixVariableParser implements Parser<Variable> {
     public static final Parser<Variable> parser = new MatrixVariableParser();
@@ -12,7 +12,7 @@ class MatrixVariableParser implements Parser<Variable> {
     private MatrixVariableParser() {
     }
 
-    public Variable parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Variable parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         Matrix m;
         try {
             m = (Matrix) MatrixParser.parser.parse(p, previousSumElement);

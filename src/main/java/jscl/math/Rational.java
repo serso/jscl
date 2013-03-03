@@ -4,7 +4,7 @@ import jscl.math.function.Constant;
 import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.math.BigInteger;
 import java.util.Collections;
@@ -43,8 +43,8 @@ public final class Rational extends Generic implements Field {
         return gcd.signum() == 0 ? this : new Rational(numerator.divide(gcd), denominator.divide(gcd));
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         if (that instanceof Rational) {
             return add((Rational) that);
         } else if (that instanceof JsclInteger) {
@@ -60,8 +60,8 @@ public final class Rational extends Generic implements Field {
         return new Rational(numerator.divide(gcd).multiply(rational.numerator.divide(gcd2)), denominator.divide(gcd2).multiply(rational.denominator.divide(gcd)));
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         if (that instanceof Rational) {
             return multiply((Rational) that);
         } else if (that instanceof JsclInteger) {
@@ -71,8 +71,8 @@ public final class Rational extends Generic implements Field {
         }
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         if (that instanceof Rational) {
             return multiply(that.inverse());
         } else if (that instanceof JsclInteger) {
@@ -91,7 +91,7 @@ public final class Rational extends Generic implements Field {
         return new Rational(numerator.gcd(rational.numerator), scm(denominator, rational.denominator));
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         if (generic instanceof Rational) {
             return gcd((Rational) generic);
         } else if (generic instanceof JsclInteger) {
@@ -105,7 +105,7 @@ public final class Rational extends Generic implements Field {
         return b1.multiply(b2).divide(b1.gcd(b2));
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         return null;
     }
@@ -126,15 +126,15 @@ public final class Rational extends Generic implements Field {
         return 0;
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         return multiply(variable.expressionValue());
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         return JsclInteger.valueOf(0);
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         return this;
     }
 
@@ -232,11 +232,11 @@ public final class Rational extends Generic implements Field {
         return new Variable[0];
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         return true;
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         return true;
     }
 
@@ -286,7 +286,7 @@ public final class Rational extends Generic implements Field {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         return Collections.emptySet();

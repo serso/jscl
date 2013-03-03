@@ -8,7 +8,7 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.text.msg.JsclMessage;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.MessageType;
 
 public class IndefiniteIntegral extends Operator {
@@ -19,7 +19,7 @@ public class IndefiniteIntegral extends Operator {
         super(NAME, new Generic[]{expression, variable});
     }
 
-    protected IndefiniteIntegral(@NotNull Generic[] parameters) {
+    protected IndefiniteIntegral(@Nonnull Generic[] parameters) {
         super(NAME, parameters);
     }
 
@@ -41,7 +41,7 @@ public class IndefiniteIntegral extends Operator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         switch (i) {
@@ -69,13 +69,13 @@ public class IndefiniteIntegral extends Operator {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new IndefiniteIntegral(parameters);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new IndefiniteIntegral(null, null);

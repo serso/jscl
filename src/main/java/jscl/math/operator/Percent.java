@@ -3,8 +3,8 @@ package jscl.math.operator;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -68,13 +68,13 @@ public class Percent extends PostfixFunction {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Percent(parameters);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Percent(null, null);

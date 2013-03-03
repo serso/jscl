@@ -2,8 +2,8 @@ package jscl.text;
 
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -18,7 +18,7 @@ public class NumeralBaseParser implements Parser<NumeralBase> {
     }
 
     @Override
-    public NumeralBase parse(@NotNull Parameters p, @Nullable Generic previousSumElement) {
+    public NumeralBase parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
         int pos0 = p.getPosition().intValue();
 
         NumeralBase result = p.getMathContext().getNumeralBase();

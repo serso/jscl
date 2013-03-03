@@ -1,7 +1,7 @@
 package jscl.math.operator;
 
 import jscl.math.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public abstract class Operator extends AbstractFunction {
 
@@ -13,7 +13,7 @@ public abstract class Operator extends AbstractFunction {
         throw new NotIntegrableException(this);
     }
 
-    @NotNull
+    @Nonnull
     public Generic derivative(Variable variable) {
         if (isIdentity(variable)) {
             return JsclInteger.valueOf(1);
@@ -45,13 +45,13 @@ public abstract class Operator extends AbstractFunction {
         return !isIdentity(variable);
     }
 
-    @NotNull
-    protected static Variable[] toVariables(@NotNull Generic vector) throws NotVariableException {
+    @Nonnull
+    protected static Variable[] toVariables(@Nonnull Generic vector) throws NotVariableException {
         return toVariables((JsclVector) vector);
     }
 
-    @NotNull
-    protected static Variable[] toVariables(@NotNull JsclVector vector) throws NotVariableException {
+    @Nonnull
+    protected static Variable[] toVariables(@Nonnull JsclVector vector) throws NotVariableException {
         final Generic element[] = vector.elements();
         final Variable variable[] = new Variable[element.length];
 
@@ -62,6 +62,6 @@ public abstract class Operator extends AbstractFunction {
         return variable;
     }
 
-    @NotNull
-    public abstract Operator newInstance(@NotNull Generic[] parameters);
+    @Nonnull
+    public abstract Operator newInstance(@Nonnull Generic[] parameters);
 }

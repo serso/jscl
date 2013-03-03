@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.math.Variable;
 import jscl.math.polynomial.Polynomial;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Coefficient extends Operator {
 
@@ -31,13 +31,13 @@ public class Coefficient extends Operator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Coefficient(parameters);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Coefficient(null, null);
     }

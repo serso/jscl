@@ -1,6 +1,6 @@
 package jscl.util;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ public class ArrayUtils {
         return res;
     }
 
-    public static <T> T[] toArray(@NotNull List<T> list, T res[]) {
+    public static <T> T[] toArray(@Nonnull List<T> list, T res[]) {
         int n = list.size();
 
         for (int i = 0; i < n; i++) {
@@ -25,7 +25,7 @@ public class ArrayUtils {
         return res;
     }
 
-    public static int[] toArray(@NotNull List<Integer> list, @NotNull int result[]) {
+    public static int[] toArray(@Nonnull List<Integer> list, @Nonnull int result[]) {
         int n = list.size();
 
         for (int i = 0; i < n; i++) {
@@ -35,11 +35,11 @@ public class ArrayUtils {
         return result;
     }
 
-    public static <T> List<T> toList(@NotNull Collection<T> collection) {
+    public static <T> List<T> toList(@Nonnull Collection<T> collection) {
         return new ArrayList<T>(collection);
     }
 
-    public static String toString(@NotNull Object array[]) {
+    public static String toString(@Nonnull Object array[]) {
         final StringBuilder result = new StringBuilder();
         result.append("{");
         for (int i = 0; i < array.length; i++) {
@@ -51,14 +51,14 @@ public class ArrayUtils {
 
     private static final int BINARY_SEARCH_THRESHOLD = 5000;
 
-    public static <T extends Comparable<T>> int binarySearch(@NotNull List<T> list, @NotNull T key) {
+    public static <T extends Comparable<T>> int binarySearch(@Nonnull List<T> list, @Nonnull T key) {
         if (list instanceof RandomAccess || list.size() < BINARY_SEARCH_THRESHOLD)
             return indexedBinarySearch(list, key);
         else
             return iteratorBinarySearch(list, key);
     }
 
-    private static <T extends Comparable<T>> int indexedBinarySearch(@NotNull List<T> list, @NotNull T key) {
+    private static <T extends Comparable<T>> int indexedBinarySearch(@Nonnull List<T> list, @Nonnull T key) {
         int low = 0;
         int high = list.size() - 1;
 
@@ -77,7 +77,7 @@ public class ArrayUtils {
         return -(low + 1);  // key not found
     }
 
-    private static <T extends Comparable<T>> int iteratorBinarySearch(@NotNull List<T> list, @NotNull T key) {
+    private static <T extends Comparable<T>> int iteratorBinarySearch(@Nonnull List<T> list, @Nonnull T key) {
         int low = 0;
         int high = list.size() - 1;
         final ListIterator<T> it = list.listIterator();
@@ -97,8 +97,8 @@ public class ArrayUtils {
         return -(low + 1);  // key not found
     }
 
-    @NotNull
-    private static <T> T get(@NotNull ListIterator<T> it, int index) {
+    @Nonnull
+    private static <T> T get(@Nonnull ListIterator<T> it, int index) {
         T result;
 
         int pos = it.nextIndex();

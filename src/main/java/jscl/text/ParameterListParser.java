@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.util.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class ParameterListParser implements Parser<Generic[]> {
         this.minNumberOfParameters = minNumberOfParameters;
     }
 
-    @NotNull
-    public Generic[] parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public Generic[] parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final List<Generic> result = new ArrayList<Generic>();

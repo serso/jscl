@@ -1,8 +1,8 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -16,8 +16,8 @@ class MinusParser implements Parser<MinusParser.Result> {
     private MinusParser() {
     }
 
-    @NotNull
-    public Result parse(@NotNull Parameters p, @Nullable Generic previousSumElement) {
+    @Nonnull
+    public Result parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
         final boolean result;
 
         int pos0 = p.getPosition().intValue();

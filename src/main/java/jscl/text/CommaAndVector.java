@@ -2,8 +2,8 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.JsclVector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CommaAndVector implements Parser<JsclVector> {
 
@@ -12,8 +12,8 @@ public class CommaAndVector implements Parser<JsclVector> {
     private CommaAndVector() {
     }
 
-    @NotNull
-    public JsclVector parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public JsclVector parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.skipWhitespaces(p);

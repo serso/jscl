@@ -5,7 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Acoth extends ArcTrigonometric {
     public Acoth(Generic generic) {
@@ -44,7 +44,7 @@ public class Acoth extends ArcTrigonometric {
         return ((NumericWrapper) parameters[0]).acoth();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Acoth(null);
     }

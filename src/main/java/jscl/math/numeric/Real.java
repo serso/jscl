@@ -1,7 +1,7 @@
 package jscl.math.numeric;
 
 import jscl.math.NotDivisibleException;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public final class Real extends Numeric {
 
@@ -15,12 +15,12 @@ public final class Real extends Numeric {
         content = val;
     }
 
-    public Real add(@NotNull Real that) {
+    public Real add(@Nonnull Real that) {
         return new Real(content + that.content);
     }
 
-    @NotNull
-    public Numeric add(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric add(@Nonnull Numeric that) {
         if (that instanceof Real) {
             return add((Real) that);
         } else {
@@ -32,8 +32,8 @@ public final class Real extends Numeric {
         return new Real(content - that.content);
     }
 
-    @NotNull
-    public Numeric subtract(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric subtract(@Nonnull Numeric that) {
         if (that instanceof Real) {
             return subtract((Real) that);
         } else {
@@ -45,8 +45,8 @@ public final class Real extends Numeric {
         return new Real(content * that.content);
     }
 
-    @NotNull
-    public Numeric multiply(@NotNull Numeric that) {
+    @Nonnull
+    public Numeric multiply(@Nonnull Numeric that) {
         if (that instanceof Real) {
             return multiply((Real) that);
         } else {
@@ -58,8 +58,8 @@ public final class Real extends Numeric {
         return new Real(content / that.content);
     }
 
-    @NotNull
-    public Numeric divide(@NotNull Numeric that) throws NotDivisibleException {
+    @Nonnull
+    public Numeric divide(@Nonnull Numeric that) throws NotDivisibleException {
         if (that instanceof Real) {
             return divide((Real) that);
         } else {
@@ -67,7 +67,7 @@ public final class Real extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric negate() {
         return new Real(-content);
     }
@@ -80,7 +80,7 @@ public final class Real extends Numeric {
         return value == 0. ? 0 : (value < 0. ? -1 : 1);
     }
 
-    @NotNull
+    @Nonnull
     public Numeric ln() {
         if (signum() >= 0) {
             return new Real(Math.log(content));
@@ -89,7 +89,7 @@ public final class Real extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric lg() {
         if (signum() >= 0) {
             return new Real(Math.log10(content));
@@ -98,12 +98,12 @@ public final class Real extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric exp() {
         return new Real(Math.exp(content));
     }
 
-    @NotNull
+    @Nonnull
     public Numeric inverse() {
         return new Real(1. / content);
     }
@@ -116,7 +116,7 @@ public final class Real extends Numeric {
         }
     }
 
-    public Numeric pow(@NotNull Numeric numeric) {
+    public Numeric pow(@Nonnull Numeric numeric) {
         if (numeric instanceof Real) {
             return pow((Real) numeric);
         } else {
@@ -124,7 +124,7 @@ public final class Real extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric sqrt() {
         if (signum() < 0) {
             return Complex.I.multiply(negate().sqrt());
@@ -133,7 +133,7 @@ public final class Real extends Numeric {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Numeric nThRoot(int n) {
         if (signum() < 0) {
             return n % 2 == 0 ? sqrt().nThRoot(n / 2) : negate().nThRoot(n).negate();
@@ -146,7 +146,7 @@ public final class Real extends Numeric {
         return this;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric acos() {
         final Real result = new Real(radToDefault(Math.acos(content)));
         if (Double.isNaN(result.content)) {
@@ -155,7 +155,7 @@ public final class Real extends Numeric {
         return result;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric asin() {
         final Real result = new Real(radToDefault(Math.asin(content)));
         if (Double.isNaN(result.content)) {
@@ -164,7 +164,7 @@ public final class Real extends Numeric {
         return result;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric atan() {
         final Real result = new Real(radToDefault(atanRad()));
         if (Double.isNaN(result.content)) {
@@ -173,7 +173,7 @@ public final class Real extends Numeric {
         return result;
     }
 
-    @NotNull
+    @Nonnull
     private Double atanRad() {
         return Math.atan(content);
     }
@@ -181,7 +181,7 @@ public final class Real extends Numeric {
     private final static Real PI_DIV_BY_2_RAD = Real.valueOf(Math.PI).divide(TWO);
     private final static Double PI_DIV_BY_2_RAD_DOUBLE = Math.PI / 2;
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric acot() {
         final Real result = new Real(radToDefault(PI_DIV_BY_2_RAD_DOUBLE - atanRad()));
@@ -191,22 +191,22 @@ public final class Real extends Numeric {
         return result;
     }
 
-    @NotNull
+    @Nonnull
     public Numeric cos() {
         return new Real(Math.cos(defaultToRad(content)));
     }
 
-    @NotNull
+    @Nonnull
     public Numeric sin() {
         return new Real(Math.sin(defaultToRad(content)));
     }
 
-    @NotNull
+    @Nonnull
     public Numeric tan() {
         return new Real(Math.tan(defaultToRad(content)));
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Numeric cot() {
         return Real.ONE.divide(tan());
@@ -216,8 +216,8 @@ public final class Real extends Numeric {
         return new Real(value.content);
     }
 
-    @NotNull
-    public Numeric valueOf(@NotNull Numeric numeric) {
+    @Nonnull
+    public Numeric valueOf(@Nonnull Numeric numeric) {
         if (numeric instanceof Real) {
             return valueOf((Real) numeric);
         } else throw new ArithmeticException();
@@ -227,7 +227,7 @@ public final class Real extends Numeric {
         return content;
     }
 
-    public int compareTo(@NotNull Real that) {
+    public int compareTo(@Nonnull Real that) {
         return Double.compare(this.content, that.content);
     }
 
@@ -255,7 +255,7 @@ public final class Real extends Numeric {
         return toString(content);
     }
 
-    @NotNull
+    @Nonnull
     public Complex toComplex() {
         return Complex.valueOf(this.content, 0.);
     }

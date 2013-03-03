@@ -7,7 +7,7 @@ import jscl.math.function.trigonometric.Cos;
 import jscl.math.function.trigonometric.Sin;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,8 +37,8 @@ public class Matrix extends Generic {
         return m;
     }
 
-    @NotNull
-    public Generic add(@NotNull Generic that) {
+    @Nonnull
+    public Generic add(@Nonnull Generic that) {
         if (that instanceof Matrix) {
             return add((Matrix) that);
         } else {
@@ -56,8 +56,8 @@ public class Matrix extends Generic {
         return m;
     }
 
-    @NotNull
-    public Generic subtract(@NotNull Generic that) {
+    @Nonnull
+    public Generic subtract(@Nonnull Generic that) {
         if (that instanceof Matrix) {
             return subtract((Matrix) that);
         } else {
@@ -65,7 +65,7 @@ public class Matrix extends Generic {
         }
     }
 
-    public static boolean isMatrixProduct(@NotNull Generic a, @NotNull Generic b) {
+    public static boolean isMatrixProduct(@Nonnull Generic a, @Nonnull Generic b) {
         return (a instanceof Matrix && b instanceof Matrix) ||
                 (a instanceof Matrix && b instanceof JsclVector) ||
                 (a instanceof JsclVector && b instanceof Matrix);
@@ -87,8 +87,8 @@ public class Matrix extends Generic {
         return m;
     }
 
-    @NotNull
-    public Generic multiply(@NotNull Generic that) {
+    @Nonnull
+    public Generic multiply(@Nonnull Generic that) {
         if (that instanceof Matrix) {
             return multiply((Matrix) that);
         } else if (that instanceof JsclVector) {
@@ -115,8 +115,8 @@ public class Matrix extends Generic {
         }
     }
 
-    @NotNull
-    public Generic divide(@NotNull Generic that) throws NotDivisibleException {
+    @Nonnull
+    public Generic divide(@Nonnull Generic that) throws NotDivisibleException {
         if (that instanceof Matrix) {
             return multiply(that.inverse());
         } else if (that instanceof JsclVector) {
@@ -136,11 +136,11 @@ public class Matrix extends Generic {
         }
     }
 
-    public Generic gcd(@NotNull Generic generic) {
+    public Generic gcd(@Nonnull Generic generic) {
         return null;
     }
 
-    @NotNull
+    @Nonnull
     public Generic gcd() {
         return null;
     }
@@ -170,7 +170,7 @@ public class Matrix extends Generic {
         return 0;
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         Matrix m = (Matrix) newInstance();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -180,7 +180,7 @@ public class Matrix extends Generic {
         return m;
     }
 
-    public Generic derivative(@NotNull Variable variable) {
+    public Generic derivative(@Nonnull Variable variable) {
         Matrix m = (Matrix) newInstance();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -190,7 +190,7 @@ public class Matrix extends Generic {
         return m;
     }
 
-    public Generic substitute(@NotNull Variable variable, Generic generic) {
+    public Generic substitute(@Nonnull Variable variable, Generic generic) {
         Matrix m = (Matrix) newInstance();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -286,11 +286,11 @@ public class Matrix extends Generic {
         return null;
     }
 
-    public boolean isPolynomial(@NotNull Variable variable) {
+    public boolean isPolynomial(@Nonnull Variable variable) {
         return false;
     }
 
-    public boolean isConstant(@NotNull Variable variable) {
+    public boolean isConstant(@Nonnull Variable variable) {
         return false;
     }
 
@@ -502,7 +502,7 @@ public class Matrix extends Generic {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Set<? extends Constant> getConstants() {
         final Set<Constant> result = new HashSet<Constant>();
@@ -532,12 +532,12 @@ public class Matrix extends Generic {
         e0.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     protected Generic newInstance() {
         return newInstance(new Generic[rows][cols]);
     }
 
-    @NotNull
+    @Nonnull
     protected static Generic newInstance(Generic element[][]) {
         return new Matrix(element);
     }

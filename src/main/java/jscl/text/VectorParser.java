@@ -3,7 +3,7 @@ package jscl.text;
 import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.util.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class VectorParser implements Parser<JsclVector> {
     private VectorParser() {
     }
 
-    public JsclVector parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public JsclVector parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.skipWhitespaces(p);

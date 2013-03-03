@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.JsclVector;
 import jscl.math.Matrix;
 import jscl.util.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class MatrixParser implements Parser<Matrix> {
     private MatrixParser() {
     }
 
-    public Matrix parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Matrix parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final List<Generic> vectors = new ArrayList<Generic>();

@@ -6,7 +6,7 @@ import jscl.math.Variable;
 import jscl.math.operator.Operator;
 import jscl.math.operator.VectorOperator;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class ComplexProduct extends VectorOperator {
 
@@ -34,9 +34,9 @@ public class ComplexProduct extends VectorOperator {
         return expressionValue();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new ComplexProduct(parameters);
     }
 
@@ -45,7 +45,7 @@ public class ComplexProduct extends VectorOperator {
         parameters[1].toMathML(element, null);
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new ComplexProduct(null, null);
     }

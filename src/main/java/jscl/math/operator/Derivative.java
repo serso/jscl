@@ -9,7 +9,7 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.text.msg.JsclMessage;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.MessageType;
 
 public class Derivative extends Operator {
@@ -34,7 +34,7 @@ public class Derivative extends Operator {
         return 4;
     }
 
-    private static Generic[] createParameters(@NotNull Generic[] parameters) {
+    private static Generic[] createParameters(@Nonnull Generic[] parameters) {
         final Generic[] result = new Generic[4];
 
         result[0] = parameters[0];
@@ -45,7 +45,7 @@ public class Derivative extends Operator {
         return result;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     protected String formatUndefinedParameter(int i) {
         switch (i) {
@@ -114,9 +114,9 @@ public class Derivative extends Operator {
         element.appendChild(e1);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Derivative(parameters);
     }
 
@@ -186,7 +186,7 @@ public class Derivative extends Operator {
         }
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Derivative(null, null, null, null);
     }

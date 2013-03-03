@@ -1,8 +1,8 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CompoundIdentifier implements Parser<String> {
 
@@ -11,8 +11,8 @@ public class CompoundIdentifier implements Parser<String> {
     private CompoundIdentifier() {
     }
 
-    @NotNull
-    public String parse(@NotNull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         StringBuilder result = new StringBuilder();
@@ -47,7 +47,7 @@ class DotAndIdentifier implements Parser<String> {
     private DotAndIdentifier() {
     }
 
-    public String parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         ParserUtils.tryToParse(p, pos0, '.');

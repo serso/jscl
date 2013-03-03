@@ -2,7 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.math.Variable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -11,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
  */
 class VariableConverter<T extends Variable> extends AbstractConverter<T, Generic> {
 
-    VariableConverter(@NotNull Parser<T> variableParser) {
+    VariableConverter(@Nonnull Parser<T> variableParser) {
         super(variableParser);
     }
 
     @Override
-    public Generic parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         return this.parser.parse(p, previousSumElement).expressionValue();
     }
 }

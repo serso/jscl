@@ -3,8 +3,8 @@ package jscl.math.function;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -13,11 +13,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class AbstractDms extends Algebraic {
 
-    protected AbstractDms(@NotNull String name, Generic degrees, Generic minutes, Generic seconds) {
+    protected AbstractDms(@Nonnull String name, Generic degrees, Generic minutes, Generic seconds) {
         super(name, new Generic[]{degrees, minutes, seconds});
     }
 
-    @NotNull
+    @Nonnull
     private static Generic[] createParameters(@Nullable Generic degrees,
                                               @Nullable Generic minutes,
                                               @Nullable Generic seconds) {
@@ -40,7 +40,7 @@ public abstract class AbstractDms extends Algebraic {
         super.setParameters(createParameters(getParameter(parameters, 0), getParameter(parameters, 1), getParameter(parameters, 2)));
     }
 
-    private static void setDefaultValue(@NotNull Generic[] parameters,
+    private static void setDefaultValue(@Nonnull Generic[] parameters,
                                         @Nullable Generic parameter,
                                         int position) {
         if (parameter == null) {

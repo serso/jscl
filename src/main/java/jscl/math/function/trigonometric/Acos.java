@@ -5,7 +5,7 @@ import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
 import jscl.math.Variable;
 import jscl.math.function.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class Acos extends ArcTrigonometric {
 
@@ -46,7 +46,7 @@ public class Acos extends ArcTrigonometric {
         return ((NumericWrapper) parameters[0]).acos();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Acos(null);
     }

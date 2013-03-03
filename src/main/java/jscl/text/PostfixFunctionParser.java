@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -10,15 +10,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Result> {
 
-    @NotNull
+    @Nonnull
     private final String postfixFunctionName;
 
-    protected PostfixFunctionParser(@NotNull String postfixFunctionName) {
+    protected PostfixFunctionParser(@Nonnull String postfixFunctionName) {
         this.postfixFunctionName = postfixFunctionName;
     }
 
-    @NotNull
-    public Result parse(@NotNull Parameters p, Generic previousSumElement) throws ParseException {
+    @Nonnull
+    public Result parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.getPosition().intValue();
 
         final boolean postfixFunction;
@@ -38,12 +38,12 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
 
     public static class Result {
 
-        @NotNull
+        @Nonnull
         private final String postfixFunctionName;
 
         private final boolean postfixFunction;
 
-        public Result(@NotNull String postfixFunctionName, boolean postfixFunction) {
+        public Result(@Nonnull String postfixFunctionName, boolean postfixFunction) {
             this.postfixFunctionName = postfixFunctionName;
             this.postfixFunction = postfixFunction;
         }
@@ -52,7 +52,7 @@ public class PostfixFunctionParser implements Parser<PostfixFunctionParser.Resul
             return postfixFunction;
         }
 
-        @NotNull
+        @Nonnull
         public String getPostfixFunctionName() {
             return postfixFunctionName;
         }

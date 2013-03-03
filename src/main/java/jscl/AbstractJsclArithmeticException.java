@@ -1,11 +1,11 @@
 package jscl;
 
 import jscl.text.msg.JsclMessage;
-import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,40 +16,40 @@ import java.util.Locale;
  */
 public abstract class AbstractJsclArithmeticException extends ArithmeticException implements Message {
 
-    @NotNull
+    @Nonnull
     private final Message message;
 
-    public AbstractJsclArithmeticException(@NotNull String messageCode, Object... parameters) {
+    public AbstractJsclArithmeticException(@Nonnull String messageCode, Object... parameters) {
         this.message = new JsclMessage(messageCode, MessageType.error, parameters);
     }
 
-    public AbstractJsclArithmeticException(@NotNull Message message) {
+    public AbstractJsclArithmeticException(@Nonnull Message message) {
         this.message = message;
     }
 
-    @NotNull
+    @Nonnull
     public String getMessageCode() {
         return this.message.getMessageCode();
     }
 
-    @NotNull
+    @Nonnull
     public List<Object> getParameters() {
         return this.message.getParameters();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MessageLevel getMessageLevel() {
         return this.message.getMessageLevel();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String getLocalizedMessage(@NotNull Locale locale) {
+    public String getLocalizedMessage(@Nonnull Locale locale) {
         return this.message.getLocalizedMessage(locale);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String getLocalizedMessage() {
         return this.getLocalizedMessage(Locale.getDefault());

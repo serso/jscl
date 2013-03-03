@@ -1,7 +1,7 @@
 package jscl.text;
 
 import jscl.text.msg.JsclMessage;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
@@ -11,45 +11,45 @@ import java.util.Locale;
 
 public class ParseException extends Exception implements Message {
 
-    @NotNull
+    @Nonnull
     private final Message message;
 
     private final int position;
 
-    @NotNull
+    @Nonnull
     private final String expression;
 
-    public ParseException(@NotNull String messageCode, int position, @NotNull String expression, Object... parameters) {
+    public ParseException(@Nonnull String messageCode, int position, @Nonnull String expression, Object... parameters) {
         this.message = new JsclMessage(messageCode, MessageType.error, parameters);
         this.position = position;
         this.expression = expression;
     }
 
-    public ParseException(@NotNull Message message, int position, @NotNull String expression) {
+    public ParseException(@Nonnull Message message, int position, @Nonnull String expression) {
         this.message = message;
         this.position = position;
         this.expression = expression;
     }
 
-    @NotNull
+    @Nonnull
     public String getMessageCode() {
         return this.message.getMessageCode();
     }
 
-    @NotNull
+    @Nonnull
     public List<Object> getParameters() {
         return this.message.getParameters();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MessageLevel getMessageLevel() {
         return this.message.getMessageLevel();
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String getLocalizedMessage(@NotNull Locale locale) {
+    public String getLocalizedMessage(@Nonnull Locale locale) {
         return this.message.getLocalizedMessage(locale);
     }
 
@@ -57,7 +57,7 @@ public class ParseException extends Exception implements Message {
         return position;
     }
 
-    @NotNull
+    @Nonnull
     public String getExpression() {
         return expression;
     }

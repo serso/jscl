@@ -5,7 +5,7 @@ import jscl.math.NumericWrapper;
 import jscl.math.TimeDependent;
 import jscl.math.Variable;
 import jscl.math.numeric.Real;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -20,9 +20,9 @@ public class Rand extends Operator implements TimeDependent {
         super(NAME, new Generic[0]);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public Operator newInstance(@NotNull Generic[] parameters) {
+    public Operator newInstance(@Nonnull Generic[] parameters) {
         return new Rand();
     }
 
@@ -41,7 +41,7 @@ public class Rand extends Operator implements TimeDependent {
         return selfExpand().numeric();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Variable newInstance() {
         return new Rand();

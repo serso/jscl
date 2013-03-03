@@ -7,7 +7,7 @@ import jscl.math.NotIntegrableException;
 import jscl.math.Variable;
 import jscl.math.polynomial.Polynomial;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public abstract class Trigonometric extends Function {
 
@@ -15,7 +15,7 @@ public abstract class Trigonometric extends Function {
         super(name, parameter);
     }
 
-    public Generic antiDerivative(@NotNull Variable variable) throws NotIntegrableException {
+    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
         if (JsclMathEngine.getInstance().getAngleUnits() != AngleUnit.rad) {
             throw new NotIntegrableException(Messages.msg_20, getName());
         }

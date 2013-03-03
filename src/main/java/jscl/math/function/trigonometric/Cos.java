@@ -4,8 +4,8 @@ import jscl.math.*;
 import jscl.math.function.Constants;
 import jscl.math.function.Exp;
 import jscl.math.function.Trigonometric;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Cos extends Trigonometric {
     public Cos(Generic generic) {
@@ -88,7 +88,7 @@ public class Cos extends Trigonometric {
         return ((NumericWrapper) parameters[0]).cos();
     }
 
-    @NotNull
+    @Nonnull
     public Variable newInstance() {
         return new Cos(null);
     }
