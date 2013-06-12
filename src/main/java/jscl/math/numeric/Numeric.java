@@ -113,8 +113,11 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
     public Numeric sin() {
         // e = exp(i)
         final Numeric e = defaultToRad(this).multiply(I).exp();
-        // result = [i - i * exp(i)] / [2exp(i)]
-        return I.subtract(e.multiply(I)).divide(TWO.multiply(e));
+		// e1 = exp(2ix)
+		final Numeric e1 = e.pow(2);
+
+        // result = [i - i * exp(2i)] / [2exp(i)]
+        return I.subtract(e1.multiply(I)).divide(TWO.multiply(e));
     }
 
     @Nonnull

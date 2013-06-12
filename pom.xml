@@ -23,7 +23,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jcl.version>1.0.4-SNAPSHOT</jcl.version>
+        <jcl.version>1.0.4</jcl.version>
     </properties>
 
     <dependencies>
@@ -39,12 +39,6 @@
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-msg</artifactId>
-            <version>${jcl.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>common-other</artifactId>
             <version>${jcl.version}</version>
         </dependency>
 

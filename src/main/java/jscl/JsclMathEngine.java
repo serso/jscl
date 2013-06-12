@@ -29,19 +29,22 @@ import java.util.Locale;
  */
 public class JsclMathEngine implements MathEngine {
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTANTS
-    *
-    **********************************************************************
-    */
-    @Nonnull
+	/*
+			**********************************************************************
+			*
+			*                           CONSTANTS
+			*
+			**********************************************************************
+			*/
+
+	public static final AngleUnit DEFAULT_ANGLE_UNITS = AngleUnit.deg;
+	public static final NumeralBase DEFAULT_NUMERAL_BASE = NumeralBase.dec;
+
+	@Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
 
     public static final String GROUPING_SEPARATOR_DEFAULT = " ";
     public static final int MAX_FRACTION_DIGITS = 20;
-
 
     /*
          **********************************************************************
@@ -68,10 +71,10 @@ public class JsclMathEngine implements MathEngine {
     private boolean useGroupingSeparator = false;
 
     @Nonnull
-    private AngleUnit angleUnits = AngleUnit.deg;
+    private AngleUnit angleUnits = DEFAULT_ANGLE_UNITS;
 
     @Nonnull
-    private NumeralBase numeralBase = NumeralBase.dec;
+    private NumeralBase numeralBase = DEFAULT_NUMERAL_BASE;
 
     @Nonnull
     private ConstantsRegistry constantsRegistry;
