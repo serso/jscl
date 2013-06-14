@@ -107,13 +107,17 @@ public class Fraction extends Algebraic {
             if (v instanceof Fraction) {
                 final Generic parameters[] = ((Fraction) v).getParameters();
 
-                // numerator
+				// v = n / d
+
+				// numerator
                 final Generic n = parameters[0].expressionValue();
 
                 // denumerator
                 final Generic d = parameters[1].expressionValue();
 
+				// na = [gcd(n), n/(gcd(n))]
                 Generic na[] = n.gcdAndNormalize();
+				// nd = [gcd(d), d/(gcd(d))]
                 Generic nd[] = d.gcdAndNormalize();
                 return new Generic[]{na[0], nd[0], new Fraction(na[1], nd[1]).selfExpand()};
             }

@@ -1,8 +1,11 @@
 package jscl.math.function;
 
 import jscl.math.*;
-import jscl.math.JsclInteger;
+
 import javax.annotation.Nonnull;
+
+import static jscl.math.JsclInteger.ONE;
+import static jscl.math.JsclInteger.ZERO;
 
 public class Lg extends Function {
 
@@ -12,7 +15,7 @@ public class Lg extends Function {
 
     public Generic antiDerivative(int n) throws NotIntegrableException {
         // tmp = ln(x) - 1
-        final Generic tmp = new Ln(parameters[0]).expressionValue().subtract(JsclInteger.ONE);
+        final Generic tmp = new Ln(parameters[0]).expressionValue().subtract(ONE);
 
         // ln10 = ln (10)
         final Generic ln10 = new Ln(JsclInteger.valueOf(10L)).expressionValue();
@@ -64,15 +67,40 @@ public class Lg extends Function {
         Generic coefficents[] = Fraction.separateCoefficient(parameters[0]);
         final Generic a = coefficents[0];
         final Generic b = coefficents[1];
-        if (a.compareTo(JsclInteger.ONE) != 0 || b.compareTo(JsclInteger.ONE) != 0) {
-            // lg ( a * c / b ) = lg ( c ) + lg( a ) - lg (b)
-            final Generic c = coefficents[2];
-            return new Lg(c).selfSimplify().add(new Lg(a).selfSimplify()).subtract(new Lg(b).selfSimplify());
-        }
-        return expressionValue();
+        final Generic c = coefficents[2];
+
+		final boolean aOne = a.compareTo(ONE) == 0;
+		final boolean bOne = b.compareTo(ONE) == 0;
+		final boolean cOne = c.compareTo(ONE) == 0;
+
+		if (aOne && bOne && cOne) {
+			return ZERO;
+		} else {
+			if(aOne && bOne) {
+				return expressionValue();
+			} else if(bOne && cOne) {
+				return expressionValue();
+			} else {
+				// lg ( a * c / b ) = lg ( c ) + lg( a ) - lg (b)
+				final Generic lga = lg(a, aOne);
+				final Generic lgb = lg(b, bOne);
+				final Generic lgc = lg(c, cOne);
+				return lgc.add(lga).subtract(lgb);
+			}
+		}
     }
 
-    public Generic selfNumeric() {
+	private Generic lg(Generic a, boolean aOne) {
+		Generic lga;
+		if (aOne) {
+			lga = ZERO;
+		} else {
+			lga = new Lg(a).selfSimplify();
+		}
+		return lga;
+	}
+
+	public Generic selfNumeric() {
         return ((NumericWrapper) parameters[0]).lg();
     }
 
