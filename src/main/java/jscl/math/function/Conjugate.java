@@ -5,6 +5,8 @@ import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 import javax.annotation.Nonnull;
 
+import static jscl.math.function.Constants.Generic.I;
+
 public class Conjugate extends Function {
     public Conjugate(Generic generic) {
         super("conjugate", new Generic[]{generic});
@@ -44,24 +46,29 @@ public class Conjugate extends Function {
             return parameters[0].integerValue();
         } catch (NotIntegerException e) {
         }
-        if (parameters[0].signum() < 0) {
+
+		if (parameters[0].signum() < 0) {
             return new Conjugate(parameters[0].negate()).selfSimplify().negate();
-        } else if (parameters[0].compareTo(Constants.Generic.I) == 0) {
-            return Constants.Generic.I.negate();
+        } else if (parameters[0].compareTo(I) == 0) {
+			return I.negate();
         }
+
         try {
-            Variable v = parameters[0].variableValue();
-            if (v instanceof Conjugate) {
-                Generic g[] = ((Conjugate) v).getParameters();
-                return g[0];
-            } else if (v instanceof Exp) {
-                Generic g[] = ((Exp) v).getParameters();
-                return new Exp(new Conjugate(g[0]).selfSimplify()).selfSimplify();
-            } else if (v instanceof Ln) {
-                Generic g[] = ((Ln) v).getParameters();
-                return new Ln(new Conjugate(g[0]).selfSimplify()).selfSimplify();
-            }
-        } catch (NotVariableException e) {
+			Variable v = parameters[0].variableValue();
+			if (v instanceof Conjugate) {
+				Generic g[] = ((Conjugate) v).getParameters();
+				return g[0];
+			} else if (v instanceof Exp) {
+				Generic g[] = ((Exp) v).getParameters();
+				return new Exp(new Conjugate(g[0]).selfSimplify()).selfSimplify();
+			} else if (v instanceof Ln) {
+				Generic g[] = ((Ln) v).getParameters();
+				return new Ln(new Conjugate(g[0]).selfSimplify()).selfSimplify();
+			}  else if (v instanceof Lg) {
+				Generic g[] = ((Lg) v).getParameters();
+				return new Lg(new Conjugate(g[0]).selfSimplify()).selfSimplify();
+			}
+		} catch (NotVariableException e) {
             Generic a[] = parameters[0].sumValue();
             if (a.length > 1) {
                 Generic s = JsclInteger.valueOf(0);

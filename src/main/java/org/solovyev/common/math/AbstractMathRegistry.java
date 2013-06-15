@@ -28,10 +28,14 @@ import org.solovyev.common.collections.SortedList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+
+import static org.solovyev.common.collections.Collections.find;
+import static org.solovyev.common.collections.Collections.removeFirst;
 
 /**
  * User: serso
@@ -57,14 +61,17 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
 		}
 	}
 
+	@GuardedBy("this")
 	@Nonnull
-	private static Integer counter = 0;
+	private static volatile Integer counter = 0;
 
+	@GuardedBy("this")
 	@Nonnull
-	protected final List<T> entities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+	protected final SortedList<T> entities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
 
+	@GuardedBy("this")
 	@Nonnull
-	protected final List<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+	protected final SortedList<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
 
 	protected AbstractMathRegistry() {
 	}
@@ -72,77 +79,91 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
 	@Nonnull
 	@Override
 	public List<T> getEntities() {
-		return java.util.Collections.unmodifiableList(new ArrayList<T>(entities));
+		synchronized (this) {
+			return java.util.Collections.unmodifiableList(new ArrayList<T>(entities));
+		}
 	}
 
 	@Nonnull
 	@Override
 	public List<T> getSystemEntities() {
-		return java.util.Collections.unmodifiableList(new ArrayList<T>(systemEntities));
+		synchronized (this) {
+			return java.util.Collections.unmodifiableList(new ArrayList<T>(systemEntities));
+		}
 	}
 
 	protected void add(@Nonnull T entity) {
-		if (entity.isSystem()) {
-			if (contains(entity.getName(), this.systemEntities)) {
-				throw new IllegalArgumentException("Trying to add two system entities with same name: " + entity.getName());
+		synchronized (this) {
+			if (entity.isSystem()) {
+				if (contains(entity.getName(), this.systemEntities)) {
+					throw new IllegalArgumentException("Trying to add two system entities with same name: " + entity.getName());
+				}
+
+				this.systemEntities.add(entity);
 			}
 
-			this.systemEntities.add(entity);
-		}
-
-		if (!contains(entity.getName(), this.entities)) {
-			addEntity(entity, this.entities);
+			if (!contains(entity.getName(), this.entities)) {
+				addEntity(entity, this.entities);
+			}
 		}
 	}
 
 	private void addEntity(@Nonnull T entity, @Nonnull List<T> list) {
+		assert Thread.holdsLock(this);
+
 		entity.setId(count());
 		list.add(entity);
 	}
 
 	@Override
-	public T add(@Nonnull JBuilder<? extends T> JBuilder) {
-		final T entity = JBuilder.create();
+	public T add(@Nonnull JBuilder<? extends T> builder) {
+		synchronized (this) {
+			final T entity = builder.create();
 
-		T varFromRegister;
+			T varFromRegister;
 
-		if (entity.isIdDefined()) {
-			varFromRegister = getById(entity.getId());
-		} else {
-			varFromRegister = get(entity.getName());
-		}
-
-		if (varFromRegister == null) {
-			varFromRegister = entity;
-
-			addEntity(entity, this.entities);
-			if (entity.isSystem()) {
-				this.systemEntities.add(entity);
+			if (entity.isIdDefined()) {
+				varFromRegister = getById(entity.getId());
+			} else {
+				varFromRegister = get(entity.getName());
 			}
 
-		} else {
-			varFromRegister.copy(entity);
-			java.util.Collections.sort(this.entities, MATH_ENTITY_COMPARATOR);
-			java.util.Collections.sort(this.systemEntities, MATH_ENTITY_COMPARATOR);
-		}
+			if (varFromRegister == null) {
+				varFromRegister = entity;
 
-		return varFromRegister;
+				addEntity(entity, this.entities);
+				if (entity.isSystem()) {
+					this.systemEntities.add(entity);
+				}
+
+			} else {
+				varFromRegister.copy(entity);
+				java.util.Collections.sort(this.entities, MATH_ENTITY_COMPARATOR);
+				java.util.Collections.sort(this.systemEntities, MATH_ENTITY_COMPARATOR);
+			}
+
+			return varFromRegister;
+		}
 	}
 
 	@Override
 	public void remove(@Nonnull T entity) {
-		if (!entity.isSystem()) {
-			org.solovyev.common.collections.Collections.removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
+		synchronized (this) {
+			if (!entity.isSystem()) {
+				removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
+			}
 		}
 	}
 
 	@Override
 	@Nonnull
 	public List<String> getNames() {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<String>(entities.size());
 
-		for (T entity : entities) {
-			result.add(entity.getName());
+		synchronized (this) {
+			for (T entity : entities) {
+				result.add(entity.getName());
+			}
 		}
 
 		return result;
@@ -151,26 +172,34 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
 	@Override
 	@Nullable
 	public T get(@Nonnull final String name) {
-		return org.solovyev.common.collections.Collections.find(entities, new MathEntity.Finder<T>(name));
+		synchronized (this) {
+			return find(entities, new MathEntity.Finder<T>(name));
+		}
 	}
 
 	@Override
 	public T getById(@Nonnull final Integer id) {
-		return org.solovyev.common.collections.Collections.find(entities, new JPredicate<T>() {
-			@Override
-			public boolean apply(@Nullable T t) {
-				return t != null && t.getId().equals(id);
-			}
-		});
+		synchronized (this) {
+			return find(entities, new JPredicate<T>() {
+				@Override
+				public boolean apply(@Nullable T t) {
+					return t != null && t.getId().equals(id);
+				}
+			});
+		}
 	}
 
 	@Override
 	public boolean contains(@Nonnull final String name) {
-		return contains(name, this.entities);
+		synchronized (this) {
+			return contains(name, this.entities);
+		}
 	}
 
 	private boolean contains(final String name, @Nonnull Collection<T> entities) {
-		return org.solovyev.common.collections.Collections.find(entities, new MathEntity.Finder<T>(name)) != null;
+		synchronized (this) {
+			return find(entities, new MathEntity.Finder<T>(name)) != null;
+		}
 	}
 
 	@Nonnull

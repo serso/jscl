@@ -5,8 +5,14 @@ import jscl.math.JsclInteger;
 import jscl.mathml.MathML;
 import javax.annotation.Nonnull;
 
+import static jscl.math.JsclInteger.ONE;
+import static jscl.math.JsclInteger.ZERO;
+
 public class Pow extends Algebraic {
-    public Pow(Generic generic, Generic exponent) {
+
+	private static final int MAX_ARRAY_SIZE = 10000;
+
+	public Pow(Generic generic, Generic exponent) {
         super("pow", new Generic[]{generic, exponent});
     }
 
@@ -22,11 +28,13 @@ public class Pow extends Algebraic {
                 Generic g = ((Inverse) v).parameter();
                 try {
                     int d = g.integerValue().intValue();
-                    if (d > 0) {
+                    if (d > 0 && d < MAX_ARRAY_SIZE) {
                         Generic a[] = new Generic[d + 1];
                         a[0] = parameters[0].negate();
-                        for (int i = 1; i < d; i++) a[i] = JsclInteger.valueOf(0);
-                        a[d] = JsclInteger.valueOf(1);
+                        for (int i = 1; i < d; i++) {
+							a[i] = ZERO;
+						}
+                        a[d] = ONE;
                         return new Root(a, 0);
                     }
                 } catch (NotIntegerException e) {
@@ -110,7 +118,7 @@ public class Pow extends Algebraic {
         // a ^ b
 
         // a = 1 => for any b: 1 ^ b = 1
-        if (parameters[0].compareTo(JsclInteger.ONE) == 0) {
+        if (parameters[0].compareTo(ONE) == 0) {
             return JsclInteger.valueOf(1);
         }
 
@@ -150,7 +158,7 @@ public class Pow extends Algebraic {
             }
         } catch (NotRootException e) {
             Generic n[] = Fraction.separateCoefficient(parameters[1]);
-            if (n[0].compareTo(JsclInteger.ONE) == 0 && n[1].compareTo(JsclInteger.ONE) == 0) {
+            if (n[0].compareTo(ONE) == 0 && n[1].compareTo(ONE) == 0) {
                 // do nothing
             } else {
                 return new Pow(

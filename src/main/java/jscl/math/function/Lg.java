@@ -38,31 +38,6 @@ public class Lg extends Function {
     }
 
     public Generic selfSimplify() {
-/*
-        try {
-            JsclInteger en = parameters[0].integerValue();
-            if (en.signum() < 0) {
-                return Constants.Generic.I_BY_PI.add(new Lg(en.negate()).selfSimplify());
-            } else {
-                Generic a = en.factorize();
-                Generic p[] = a.productValue();
-                Generic s = JsclInteger.valueOf(0);
-                for (int i = 0; i < p.length; i++) {
-                    Power o = p[i].powerValue();
-                    s = s.add(JsclInteger.valueOf(o.exponent()).multiply(new Lg(o.value(true)).expressionValue()));
-                }
-                return s;
-            }
-        } catch (NotIntegerException e) {
-        }
-        try {
-            Variable v = parameters[0].variableValue();
-            if (v instanceof Sqrt) {
-                Generic g[] = ((Sqrt) v).getParameters();
-                return Constants.Generic.HALF.multiply(new Lg(g[0]).selfSimplify());
-            }
-        } catch (NotVariableException e) {
-        }*/
 
         Generic coefficents[] = Fraction.separateCoefficient(parameters[0]);
         final Generic a = coefficents[0];
