@@ -31,7 +31,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class ExpressionTest {
 
-    @Test
+	@Test
+	public void testImag() throws Exception {
+		Assert.assertEquals("-i", Expression.valueOf("i^3").numeric().toString());
+	}
+
+	@Test
     public void testConstants() throws Exception {
         Assert.assertTrue(Expression.valueOf("3+4").getConstants().isEmpty());
 
