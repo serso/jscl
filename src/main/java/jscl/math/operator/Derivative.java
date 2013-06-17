@@ -9,8 +9,9 @@ import jscl.math.Variable;
 import jscl.mathml.MathML;
 import jscl.text.msg.JsclMessage;
 import jscl.text.msg.Messages;
-import javax.annotation.Nonnull;
 import org.solovyev.common.msg.MessageType;
+
+import javax.annotation.Nonnull;
 
 public class Derivative extends Operator {
 
@@ -132,8 +133,14 @@ public class Derivative extends Operator {
 
     @Override
     public Generic numeric() {
-        return expand().numeric();
-    }
+		try {
+			parameters[3].integerValue();
+			return expand().numeric();
+		} catch (NotIntegerException e) {
+		}
+
+		return expressionValue();
+	}
 
     /*@Override
      public Generic simplify() {

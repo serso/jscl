@@ -1,15 +1,18 @@
 package jscl.math;
 
-import jscl.*;
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 import jscl.text.ParseException;
 import junit.framework.Assert;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,6 +22,7 @@ import java.net.URLConnection;
 import java.util.Set;
 
 import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: serso
@@ -650,18 +654,13 @@ public class ExpressionTest {
             Assert.assertEquals("-4.469483380397012", Expression.valueOf("2*∂(t*cos(t),t,2)").numeric().toString());
             Assert.assertEquals("-sin(2)", Expression.valueOf("∂(cos(t),t,2)").expand().toString());
             Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t)").expand().toString());
-            org.junit.Assert.assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t,t,1)").expand().simplify().toString());
-            org.junit.Assert.assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().simplify().toString());
+            assertEquals("-sin(t)", Expression.valueOf("∂(cos(t),t,t,1)").expand().simplify().toString());
+            assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().simplify().toString());
         } finally {
             JsclMathEngine.getInstance().setAngleUnits(defaultAngleUnits);
         }
 
-        // todo serso: uncomment and check!!!
-        //org.junit.Assert.assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().numeric().toString());
-
-        //Assert.assertEquals("cos'(t)", Expression.valueOf("cos'(t)").simplify().toString());
-        //Assert.assertEquals("-0.9092974268256817", Expression.valueOf("cos'(2)").numeric().toString());
-        //Assert.assertEquals(Expression.valueOf("-cos(2)").numeric().toString(), Expression.valueOf("cos''(2)").numeric().toString());
+        assertEquals("∂(cos(t), t, t, 1°)", Expression.valueOf("∂(cos(t),t,t,1°)").expand().numeric().toString());
     }
 
     @Test

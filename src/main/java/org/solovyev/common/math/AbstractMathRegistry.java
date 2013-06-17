@@ -138,8 +138,8 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
 
 			} else {
 				varFromRegister.copy(entity);
-				java.util.Collections.sort(this.entities, MATH_ENTITY_COMPARATOR);
-				java.util.Collections.sort(this.systemEntities, MATH_ENTITY_COMPARATOR);
+				this.entities.sort();
+				this.systemEntities.sort();
 			}
 
 			return varFromRegister;
