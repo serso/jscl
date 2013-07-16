@@ -12,7 +12,7 @@
     <groupId>org.solovyev</groupId>
     <artifactId>jscl</artifactId>
     <name>Java Symbolic Computation Library</name>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:git@github.com:serso/jscl.git</connection>
