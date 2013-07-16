@@ -7,18 +7,18 @@ package jscl.text;
  */
 public class ParseInterruptedException extends RuntimeException {
 
-    public ParseInterruptedException() {
-    }
+	public ParseInterruptedException() {
+	}
 
-    public ParseInterruptedException(String message) {
-        super(message);
-    }
+	public ParseInterruptedException(String message) {
+		super(message);
+	}
 
-    public ParseInterruptedException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public ParseInterruptedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public ParseInterruptedException(Throwable cause) {
-        super(cause);
-    }
+	public ParseInterruptedException(Throwable cause) {
+		super(cause);
+	}
 }

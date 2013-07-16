@@ -6,9 +6,9 @@ import jscl.math.Variable;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,247 +19,247 @@ import java.util.Set;
  */
 public abstract class AbstractFunction extends Variable {
 
-    private static final String DEFAULT_PARAMETER_NAMES = "xyzabcdefghijklmnopqrstuvw";
+	private static final String DEFAULT_PARAMETER_NAMES = "xyzabcdefghijklmnopqrstuvw";
 
-    protected static final Generic UNDEFINED_PARAMETER = JsclInteger.valueOf(Long.MIN_VALUE + 1);
+	protected static final Generic UNDEFINED_PARAMETER = JsclInteger.valueOf(Long.MIN_VALUE + 1);
 
-    protected Generic parameters[];
+	protected Generic parameters[];
 
-    protected AbstractFunction(@Nonnull String name, Generic[] parameters) {
-        super(name);
+	protected AbstractFunction(@Nonnull String name, Generic[] parameters) {
+		super(name);
 
-        checkParameters(parameters);
+		checkParameters(parameters);
 
-        this.parameters = parameters;
-    }
+		this.parameters = parameters;
+	}
 
-    private void checkParameters(@Nullable Generic[] parameters) {
-        assert parameters == null || (getMinParameters() <= parameters.length && parameters.length <= getMaxParameters());
-    }
+	private void checkParameters(@Nullable Generic[] parameters) {
+		assert parameters == null || (getMinParameters() <= parameters.length && parameters.length <= getMaxParameters());
+	}
 
-    public Generic[] getParameters() {
-        return parameters;
-    }
+	public Generic[] getParameters() {
+		return parameters;
+	}
 
-    public void setParameters(@Nullable Generic[] parameters) {
-        checkParameters(parameters);
+	public void setParameters(@Nullable Generic[] parameters) {
+		checkParameters(parameters);
 
-        this.parameters = parameters;
-    }
+		this.parameters = parameters;
+	}
 
-    public abstract int getMinParameters();
+	public abstract int getMinParameters();
 
-    public int getMaxParameters() {
-        return getMinParameters();
-    }
+	public int getMaxParameters() {
+		return getMinParameters();
+	}
 
-    public abstract Generic selfExpand();
+	public abstract Generic selfExpand();
 
-    public Generic expand() {
-        final AbstractFunction function = newExpandedFunction();
+	public Generic expand() {
+		final AbstractFunction function = newExpandedFunction();
 
-        return function.selfExpand();
-    }
+		return function.selfExpand();
+	}
 
-    @Nonnull
-    protected AbstractFunction newExpandedFunction() {
-        final AbstractFunction function = (AbstractFunction) newInstance();
+	@Nonnull
+	protected AbstractFunction newExpandedFunction() {
+		final AbstractFunction function = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            function.parameters[i] = parameters[i].expand();
-        }
-        return function;
-    }
+		for (int i = 0; i < parameters.length; i++) {
+			function.parameters[i] = parameters[i].expand();
+		}
+		return function;
+	}
 
-    public Generic elementary() {
-        final AbstractFunction function = newElementarizedFunction();
+	public Generic elementary() {
+		final AbstractFunction function = newElementarizedFunction();
 
-        return function.selfElementary();
-    }
+		return function.selfElementary();
+	}
 
-    @Nonnull
-    protected AbstractFunction newElementarizedFunction() {
-        final AbstractFunction function = (AbstractFunction) newInstance();
+	@Nonnull
+	protected AbstractFunction newElementarizedFunction() {
+		final AbstractFunction function = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            function.parameters[i] = parameters[i].elementary();
-        }
-        return function;
-    }
+		for (int i = 0; i < parameters.length; i++) {
+			function.parameters[i] = parameters[i].elementary();
+		}
+		return function;
+	}
 
-    public abstract Generic selfElementary();
+	public abstract Generic selfElementary();
 
-    public Generic factorize() {
-        final AbstractFunction function = newFactorizedFunction();
+	public Generic factorize() {
+		final AbstractFunction function = newFactorizedFunction();
 
-        return function.expressionValue();
-    }
+		return function.expressionValue();
+	}
 
-    @Nonnull
-    protected AbstractFunction newFactorizedFunction() {
-        final AbstractFunction function = (AbstractFunction) newInstance();
+	@Nonnull
+	protected AbstractFunction newFactorizedFunction() {
+		final AbstractFunction function = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            function.parameters[i] = parameters[i].factorize();
-        }
-        return function;
-    }
+		for (int i = 0; i < parameters.length; i++) {
+			function.parameters[i] = parameters[i].factorize();
+		}
+		return function;
+	}
 
-    public Generic simplify() {
-        final AbstractFunction function = newSimplifiedFunction();
+	public Generic simplify() {
+		final AbstractFunction function = newSimplifiedFunction();
 
-        return function.selfSimplify();
-    }
+		return function.selfSimplify();
+	}
 
-    @Nonnull
-    protected final AbstractFunction newSimplifiedFunction() {
-        final AbstractFunction function = (AbstractFunction) newInstance();
+	@Nonnull
+	protected final AbstractFunction newSimplifiedFunction() {
+		final AbstractFunction function = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            function.parameters[i] = parameters[i].simplify();
-        }
-        return function;
-    }
+		for (int i = 0; i < parameters.length; i++) {
+			function.parameters[i] = parameters[i].simplify();
+		}
+		return function;
+	}
 
-    public abstract Generic selfSimplify();
+	public abstract Generic selfSimplify();
 
-    public Generic numeric() {
-        final AbstractFunction result = newNumericFunction();
+	public Generic numeric() {
+		final AbstractFunction result = newNumericFunction();
 
-        return result.selfNumeric();
-    }
+		return result.selfNumeric();
+	}
 
-    @Nonnull
-    protected final AbstractFunction newNumericFunction() {
-        final AbstractFunction result = (AbstractFunction) newInstance();
+	@Nonnull
+	protected final AbstractFunction newNumericFunction() {
+		final AbstractFunction result = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            result.parameters[i] = parameters[i].numeric();
-        }
+		for (int i = 0; i < parameters.length; i++) {
+			result.parameters[i] = parameters[i].numeric();
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    public abstract Generic selfNumeric();
+	public abstract Generic selfNumeric();
 
-    @Nullable
-    protected static Generic getParameter(@Nullable Generic[] parameters, final int i) {
-        return parameters == null ? null : (parameters.length > i ? parameters[i] : null);
-    }
+	@Nullable
+	protected static Generic getParameter(@Nullable Generic[] parameters, final int i) {
+		return parameters == null ? null : (parameters.length > i ? parameters[i] : null);
+	}
 
-    public String toString() {
-        final StringBuilder result = new StringBuilder();
+	public String toString() {
+		final StringBuilder result = new StringBuilder();
 
-        // f(x, y, z)
-        result.append(name);
-        result.append("(");
-        for (int i = 0; i < parameters.length; i++) {
-            result.append(formatParameter(i));
-            if (i < parameters.length - 1) {
-                result.append(", ");
-            }
-        }
-        result.append(")");
+		// f(x, y, z)
+		result.append(name);
+		result.append("(");
+		for (int i = 0; i < parameters.length; i++) {
+			result.append(formatParameter(i));
+			if (i < parameters.length - 1) {
+				result.append(", ");
+			}
+		}
+		result.append(")");
 
-        return result.toString();
-    }
+		return result.toString();
+	}
 
-    @Nonnull
-    protected final String formatParameter(int i) {
-        Generic parameter = parameters[i];
+	@Nonnull
+	protected final String formatParameter(int i) {
+		Generic parameter = parameters[i];
 
-        String result;
-        if (parameter != null) {
-            result = parameter.toString();
-        } else {
-            result = formatUndefinedParameter(i);
-        }
+		String result;
+		if (parameter != null) {
+			result = parameter.toString();
+		} else {
+			result = formatUndefinedParameter(i);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Nonnull
-    protected String formatUndefinedParameter(int i) {
-        return String.valueOf(DEFAULT_PARAMETER_NAMES.charAt(i - (i / DEFAULT_PARAMETER_NAMES.length()) * DEFAULT_PARAMETER_NAMES.length()));
-    }
+	@Nonnull
+	protected String formatUndefinedParameter(int i) {
+		return String.valueOf(DEFAULT_PARAMETER_NAMES.charAt(i - (i / DEFAULT_PARAMETER_NAMES.length()) * DEFAULT_PARAMETER_NAMES.length()));
+	}
 
-    public String toJava() {
-        StringBuilder result = new StringBuilder();
+	public String toJava() {
+		StringBuilder result = new StringBuilder();
 
-        result.append(parameters[0].toJava());
-        result.append(".").append(name).append("()");
+		result.append(parameters[0].toJava());
+		result.append(".").append(name).append("()");
 
-        return result.toString();
-    }
+		return result.toString();
+	}
 
-    public int compareTo(Variable that) {
-        if (this == that) return 0;
+	public int compareTo(Variable that) {
+		if (this == that) return 0;
 
-        int c = comparator.compare(this, that);
+		int c = comparator.compare(this, that);
 
-        if (c < 0) {
-            return -1;
-        } else if (c > 0) {
-            return 1;
-        } else {
-            final AbstractFunction thatFunction = (AbstractFunction) that;
-            c = name.compareTo(thatFunction.name);
-            if (c < 0) {
-                return -1;
-            } else if (c > 0) {
-                return 1;
-            } else {
-                return ArrayComparator.comparator.compare(parameters, thatFunction.parameters);
-            }
-        }
-    }
+		if (c < 0) {
+			return -1;
+		} else if (c > 0) {
+			return 1;
+		} else {
+			final AbstractFunction thatFunction = (AbstractFunction) that;
+			c = name.compareTo(thatFunction.name);
+			if (c < 0) {
+				return -1;
+			} else if (c > 0) {
+				return 1;
+			} else {
+				return ArrayComparator.comparator.compare(parameters, thatFunction.parameters);
+			}
+		}
+	}
 
-    public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
-        final AbstractFunction function = (AbstractFunction) newInstance();
+	public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
+		final AbstractFunction function = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            function.parameters[i] = parameters[i].substitute(variable, generic);
-        }
+		for (int i = 0; i < parameters.length; i++) {
+			function.parameters[i] = parameters[i].substitute(variable, generic);
+		}
 
-        if (function.isIdentity(variable)) {
-            return generic;
-        } else {
-            return function.selfExpand();
-        }
-    }
+		if (function.isIdentity(variable)) {
+			return generic;
+		} else {
+			return function.selfExpand();
+		}
+	}
 
-    public void toMathML(MathML element, Object data) {
-        int exponent = data instanceof Integer ? (Integer) data : 1;
+	public void toMathML(MathML element, Object data) {
+		int exponent = data instanceof Integer ? (Integer) data : 1;
 
-        MathML result;
-        if (exponent == 1) {
-            nameToMathML(element);
-        } else {
-            result = element.element("msup");
-            nameToMathML(result);
-            MathML e2 = element.element("mn");
-            e2.appendChild(element.text(String.valueOf(exponent)));
-            result.appendChild(e2);
-            element.appendChild(result);
-        }
+		MathML result;
+		if (exponent == 1) {
+			nameToMathML(element);
+		} else {
+			result = element.element("msup");
+			nameToMathML(result);
+			MathML e2 = element.element("mn");
+			e2.appendChild(element.text(String.valueOf(exponent)));
+			result.appendChild(e2);
+			element.appendChild(result);
+		}
 
-        result = element.element("mfenced");
-        for (Generic parameter : parameters) {
-            parameter.toMathML(result, null);
-        }
+		result = element.element("mfenced");
+		for (Generic parameter : parameters) {
+			parameter.toMathML(result, null);
+		}
 
-        element.appendChild(result);
-    }
+		element.appendChild(result);
+	}
 
-    @Nonnull
-    @Override
-    public Set<? extends Constant> getConstants() {
-        final Set<Constant> result = new HashSet<Constant>();
+	@Nonnull
+	@Override
+	public Set<? extends Constant> getConstants() {
+		final Set<Constant> result = new HashSet<Constant>();
 
-        for (Generic parameter : parameters) {
-            result.addAll(parameter.getConstants());
-        }
+		for (Generic parameter : parameters) {
+			result.addAll(parameter.getConstants());
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

@@ -1,8 +1,9 @@
 package jscl.math.function;
 
+import org.solovyev.common.math.MathEntity;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.solovyev.common.math.MathEntity;
 
 /**
  * User: serso
@@ -11,20 +12,20 @@ import org.solovyev.common.math.MathEntity;
  */
 public interface IConstant extends MathEntity {
 
-    @Nonnull
-    Constant getConstant();
+	@Nonnull
+	Constant getConstant();
 
-    @Nullable
-    String getDescription();
+	@Nullable
+	String getDescription();
 
-    boolean isDefined();
+	boolean isDefined();
 
-    @Nullable
-    String getValue();
+	@Nullable
+	String getValue();
 
-    @Nullable
-    Double getDoubleValue();
+	@Nullable
+	Double getDoubleValue();
 
-    @Nonnull
-    String toJava();
+	@Nonnull
+	String toJava();
 }

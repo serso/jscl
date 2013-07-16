@@ -1,9 +1,9 @@
 package jscl.math.function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.common.math.MathEntity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IFunction extends MathEntity {

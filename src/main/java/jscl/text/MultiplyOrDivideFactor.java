@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -11,26 +12,26 @@ import javax.annotation.Nonnull;
  */
 class MultiplyOrDivideFactor implements Parser<Generic> {
 
-    public static final Parser<Generic> multiply = new MultiplyOrDivideFactor(true);
+	public static final Parser<Generic> multiply = new MultiplyOrDivideFactor(true);
 
-    public static final Parser<Generic> divide = new MultiplyOrDivideFactor(false);
+	public static final Parser<Generic> divide = new MultiplyOrDivideFactor(false);
 
-    boolean multiplication;
+	boolean multiplication;
 
-    private MultiplyOrDivideFactor(boolean multiplication) {
-        this.multiplication = multiplication;
-    }
+	private MultiplyOrDivideFactor(boolean multiplication) {
+		this.multiplication = multiplication;
+	}
 
-    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+	public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
+		int pos0 = p.getPosition().intValue();
 
-        ParserUtils.skipWhitespaces(p);
-        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == (multiplication ? '*' : '/')) {
-            p.getPosition().increment();
-        } else {
-            ParserUtils.throwParseException(p, pos0, Messages.msg_10, '*', '/');
-        }
+		ParserUtils.skipWhitespaces(p);
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == (multiplication ? '*' : '/')) {
+			p.getPosition().increment();
+		} else {
+			ParserUtils.throwParseException(p, pos0, Messages.msg_10, '*', '/');
+		}
 
-        return ParserUtils.parseWithRollback(Factor.parser, pos0, previousSumElement, p);
-    }
+		return ParserUtils.parseWithRollback(Factor.parser, pos0, previousSumElement, p);
+	}
 }

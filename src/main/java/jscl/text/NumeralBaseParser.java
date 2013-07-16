@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.NumeralBase;
 import jscl.math.Generic;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -12,30 +13,30 @@ import javax.annotation.Nullable;
  */
 public class NumeralBaseParser implements Parser<NumeralBase> {
 
-    public static final Parser<NumeralBase> parser = new NumeralBaseParser();
+	public static final Parser<NumeralBase> parser = new NumeralBaseParser();
 
-    private NumeralBaseParser() {
-    }
+	private NumeralBaseParser() {
+	}
 
-    @Override
-    public NumeralBase parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
-        int pos0 = p.getPosition().intValue();
+	@Override
+	public NumeralBase parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
+		int pos0 = p.getPosition().intValue();
 
-        NumeralBase result = p.getMathContext().getNumeralBase();
+		NumeralBase result = p.getMathContext().getNumeralBase();
 
-        ParserUtils.skipWhitespaces(p);
+		ParserUtils.skipWhitespaces(p);
 
-        for (NumeralBase numeralBase : NumeralBase.values()) {
-            try {
-                final String jsclPrefix = numeralBase.getJsclPrefix();
-                ParserUtils.tryToParse(p, pos0, jsclPrefix);
-                result = numeralBase;
-                break;
-            } catch (ParseException e) {
-            }
-        }
+		for (NumeralBase numeralBase : NumeralBase.values()) {
+			try {
+				final String jsclPrefix = numeralBase.getJsclPrefix();
+				ParserUtils.tryToParse(p, pos0, jsclPrefix);
+				result = numeralBase;
+				break;
+			} catch (ParseException e) {
+			}
+		}
 
 
-        return result;
-    }
+		return result;
+	}
 }

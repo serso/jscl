@@ -10,16 +10,16 @@ import jscl.math.Variable;
  */
 abstract class PostfixFunction extends Operator {
 
-    PostfixFunction(String name, Generic[] parameter) {
-        super(name, parameter);
-    }
+	PostfixFunction(String name, Generic[] parameter) {
+		super(name, parameter);
+	}
 
-    public String toString() {
-        final StringBuilder result = new StringBuilder();
+	public String toString() {
+		final StringBuilder result = new StringBuilder();
 
         /*try {*/
-        result.append(formatParameter(0));
-        /*} catch (NotIntegerException e) {
+		result.append(formatParameter(0));
+		/*} catch (NotIntegerException e) {
               try {
                   final Variable v = parameters[0].variableValue();
                   if (v instanceof Frac || v instanceof Pow) {
@@ -31,35 +31,35 @@ abstract class PostfixFunction extends Operator {
                   result.append(GenericVariable.valueOf(parameters[0]));
               }
           }*/
-        result.append(getName());
+		result.append(getName());
 
-        return result.toString();
-    }
+		return result.toString();
+	}
 
-    public final Generic numeric() {
-        final AbstractFunction result = (AbstractFunction) newInstance();
+	public final Generic numeric() {
+		final AbstractFunction result = (AbstractFunction) newInstance();
 
-        for (int i = 0; i < parameters.length; i++) {
-            result.parameters[i] = parameters[i].numeric();
-        }
+		for (int i = 0; i < parameters.length; i++) {
+			result.parameters[i] = parameters[i].numeric();
+		}
 
-        return result.selfNumeric();
-    }
+		return result.selfNumeric();
+	}
 
-    public abstract Generic selfNumeric();
+	public abstract Generic selfNumeric();
 
-    public boolean isConstant(Variable variable) {
-        boolean result = !isIdentity(variable);
+	public boolean isConstant(Variable variable) {
+		boolean result = !isIdentity(variable);
 
-        if (result) {
-            for (Generic parameter : parameters) {
-                if (!parameter.isConstant(variable)) {
-                    result = false;
-                    break;
-                }
-            }
-        }
+		if (result) {
+			for (Generic parameter : parameters) {
+				if (!parameter.isConstant(variable)) {
+					result = false;
+					break;
+				}
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

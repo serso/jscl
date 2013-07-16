@@ -10,16 +10,16 @@ import jscl.math.operator.Operator;
  */
 public abstract class AbstractStatFunction extends Operator {
 
-    protected AbstractStatFunction(String name, Generic[] parameters) {
-        super(name, parameters);
-    }
+	protected AbstractStatFunction(String name, Generic[] parameters) {
+		super(name, parameters);
+	}
 
-    @Override
-    public final Generic numeric() {
-        for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = parameters[i].expand();
-        }
+	@Override
+	public final Generic numeric() {
+		for (int i = 0; i < parameters.length; i++) {
+			parameters[i] = parameters[i].expand();
+		}
 
-        return selfNumeric();
-    }
+		return selfNumeric();
+	}
 }

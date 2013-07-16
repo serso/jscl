@@ -3,9 +3,10 @@ package jscl.math.operator.matrix;
 import jscl.math.Generic;
 import jscl.math.function.FunctionsRegistry;
 import jscl.math.operator.*;
+import org.solovyev.common.math.AbstractMathRegistry;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.solovyev.common.math.AbstractMathRegistry;
 
 /**
  * User: serso
@@ -14,51 +15,51 @@ import org.solovyev.common.math.AbstractMathRegistry;
  */
 public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
 
-    private final static OperatorsRegistry instance = new OperatorsRegistry();
+	private final static OperatorsRegistry instance = new OperatorsRegistry();
 
-    static {
-        instance.add(new Derivative(null, null, null, null));
-        //instance.add(new Grad(null, null));
-        //instance.add(new Divergence(null, null));
-        //instance.add(new Curl(null, null));
-        //instance.add(new Jacobian(null, null));
-        //instance.add(new Laplacian(null, null));
-        //instance.add(new Dalembertian(null, null));
-        //instance.add(new Del(null, null, null));
-        //instance.add(new VectorProduct(null, null));
-        //instance.add(new ComplexProduct(null, null));
-        //instance.add(new QuaternionProduct(null, null));
-        //instance.add(new GeometricProduct(null, null, null));
-        //instance.add(new MatrixProduct(null, null));
-        //instance.add(new TensorProduct(null, null));
-        //instance.add(new Transpose(null));
-        //instance.add(new Trace(null));
-        //instance.add(new Determinant(null));
-        //instance.add(new Coefficient(null, null));
-        //instance.add(new Solve(null, null, null));
-        //instance.add(new Substitute(null, null, null));
-        //instance.add(new Limit(null, null, null, null));
-        instance.add(new Sum(null, null, null, null));
-        instance.add(new Product(null, null, null, null));
-        //instance.add(new Groebner(null, null, null, null));
-        //instance.add(new Division(null, null));
-        instance.add(new Modulo(null, null));
-        //instance.add(new ModPow(null, null, null));
-        //instance.add(new ModInverse(null, null));
-        //instance.add(new EulerPhi(null));
-        instance.add(new Integral(null, null, null, null));
-        instance.add(new IndefiniteIntegral(null, null));
-        //instance.add(new Rand());
-        //instance.add(new Mean(null));
-        //instance.add(new Min(null));
-        //instance.add(new Max(null));
-        //instance.add(new MeanSquareDeviation(null));
-        //instance.add(new StandardDeviation(null));
-        //instance.add(new PrimitiveRoots(null));
-    }
+	static {
+		instance.add(new Derivative(null, null, null, null));
+		//instance.add(new Grad(null, null));
+		//instance.add(new Divergence(null, null));
+		//instance.add(new Curl(null, null));
+		//instance.add(new Jacobian(null, null));
+		//instance.add(new Laplacian(null, null));
+		//instance.add(new Dalembertian(null, null));
+		//instance.add(new Del(null, null, null));
+		//instance.add(new VectorProduct(null, null));
+		//instance.add(new ComplexProduct(null, null));
+		//instance.add(new QuaternionProduct(null, null));
+		//instance.add(new GeometricProduct(null, null, null));
+		//instance.add(new MatrixProduct(null, null));
+		//instance.add(new TensorProduct(null, null));
+		//instance.add(new Transpose(null));
+		//instance.add(new Trace(null));
+		//instance.add(new Determinant(null));
+		//instance.add(new Coefficient(null, null));
+		//instance.add(new Solve(null, null, null));
+		//instance.add(new Substitute(null, null, null));
+		//instance.add(new Limit(null, null, null, null));
+		instance.add(new Sum(null, null, null, null));
+		instance.add(new Product(null, null, null, null));
+		//instance.add(new Groebner(null, null, null, null));
+		//instance.add(new Division(null, null));
+		instance.add(new Modulo(null, null));
+		//instance.add(new ModPow(null, null, null));
+		//instance.add(new ModInverse(null, null));
+		//instance.add(new EulerPhi(null));
+		instance.add(new Integral(null, null, null, null));
+		instance.add(new IndefiniteIntegral(null, null));
+		//instance.add(new Rand());
+		//instance.add(new Mean(null));
+		//instance.add(new Min(null));
+		//instance.add(new Max(null));
+		//instance.add(new MeanSquareDeviation(null));
+		//instance.add(new StandardDeviation(null));
+		//instance.add(new PrimitiveRoots(null));
+	}
 
     /*		if (operatorName.compareTo("d") == 0)
-             v = new Derivative(parameters[0], parameters[1], parameters.length > 2 ? parameters[2] : parameters[1], parameters.length > 3 ? parameters[3] : JsclInteger.valueOf(1));
+			 v = new Derivative(parameters[0], parameters[1], parameters.length > 2 ? parameters[2] : parameters[1], parameters.length > 3 ? parameters[3] : JsclInteger.valueOf(1));
          else if (operatorName.compareTo("grad") == 0) v = new Grad(parameters[0], parameters[1]);
          else if (operatorName.compareTo("diverg") == 0) v = new Divergence(parameters[0], parameters[1]);
          else if (operatorName.compareTo("curl") == 0) v = new Curl(parameters[0], parameters[1]);
@@ -99,28 +100,28 @@ public class OperatorsRegistry extends AbstractMathRegistry<Operator> {
          else if (operatorName.compareTo("eulerphi") == 0) v = new EulerPhi(parameters[0]);
          else if (operatorName.compareTo("primitiveroots") == 0) v = new PrimitiveRoots(parameters[0]);*/
 
-    @Nonnull
-    public static OperatorsRegistry getInstance() {
-        return instance;
-    }
+	@Nonnull
+	public static OperatorsRegistry getInstance() {
+		return instance;
+	}
 
-    @Nullable
-    public Operator get(@Nonnull String name, @Nonnull Generic[] parameters) {
-        final Operator operator = super.get(name);
-        if (operator == null) {
-            return null;
-        } else {
-            if (operator.getMinParameters() <= parameters.length && operator.getMaxParameters() >= parameters.length) {
-                return operator.newInstance(parameters);
-            } else {
-                return null;
-            }
-        }
-    }
+	@Nullable
+	public Operator get(@Nonnull String name, @Nonnull Generic[] parameters) {
+		final Operator operator = super.get(name);
+		if (operator == null) {
+			return null;
+		} else {
+			if (operator.getMinParameters() <= parameters.length && operator.getMaxParameters() >= parameters.length) {
+				return operator.newInstance(parameters);
+			} else {
+				return null;
+			}
+		}
+	}
 
-    @Override
-    public Operator get(@Nonnull String name) {
-        final Operator operator = super.get(name);
-        return operator == null ? null : FunctionsRegistry.copy(operator);
-    }
+	@Override
+	public Operator get(@Nonnull String name) {
+		final Operator operator = super.get(name);
+		return operator == null ? null : FunctionsRegistry.copy(operator);
+	}
 }

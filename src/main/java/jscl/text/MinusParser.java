@@ -1,6 +1,7 @@
 package jscl.text;
 
 import jscl.math.Generic;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -11,39 +12,39 @@ import javax.annotation.Nullable;
  */
 class MinusParser implements Parser<MinusParser.Result> {
 
-    public static final Parser<Result> parser = new MinusParser();
+	public static final Parser<Result> parser = new MinusParser();
 
-    private MinusParser() {
-    }
+	private MinusParser() {
+	}
 
-    @Nonnull
-    public Result parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
-        final boolean result;
+	@Nonnull
+	public Result parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
+		final boolean result;
 
-        int pos0 = p.getPosition().intValue();
+		int pos0 = p.getPosition().intValue();
 
-        ParserUtils.skipWhitespaces(p);
+		ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '-') {
-            result = true;
-            p.getPosition().increment();
-        } else {
-            result = false;
-            p.getPosition().setValue(pos0);
-        }
+		if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '-') {
+			result = true;
+			p.getPosition().increment();
+		} else {
+			result = false;
+			p.getPosition().setValue(pos0);
+		}
 
-        return new Result(result);
-    }
+		return new Result(result);
+	}
 
-    public static class Result {
-        private final boolean sign;
+	public static class Result {
+		private final boolean sign;
 
-        public Result(boolean sign) {
-            this.sign = sign;
-        }
+		public Result(boolean sign) {
+			this.sign = sign;
+		}
 
-        public boolean isSign() {
-            return sign;
-        }
-    }
+		public boolean isSign() {
+			return sign;
+		}
+	}
 }

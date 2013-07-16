@@ -2,17 +2,13 @@ package jscl.math.function;
 
 import jscl.CustomFunctionCalculationException;
 import jscl.JsclMathEngine;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.JsclInteger;
-import jscl.math.NotIntegrableException;
-import jscl.math.Variable;
+import jscl.math.*;
 import jscl.text.ParseException;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,13 +45,13 @@ public class CustomFunction extends Function implements IFunction {
 	private final Integer localVarId;
 
 	@Nonnull
-    private Expression content;
+	private Expression content;
 
 	@Nullable
 	private String description;
 
-    @Nonnull
-    private List<String> parameterNames = Collections.emptyList();
+	@Nonnull
+	private List<String> parameterNames = Collections.emptyList();
 
 	/*
 	**********************************************************************
@@ -65,28 +61,28 @@ public class CustomFunction extends Function implements IFunction {
 	**********************************************************************
 	*/
 
-    private CustomFunction(@Nonnull String name,
-                           @Nonnull List<String> parameterNames,
-                           @Nonnull Expression content,
+	private CustomFunction(@Nonnull String name,
+						   @Nonnull List<String> parameterNames,
+						   @Nonnull Expression content,
 						   @Nullable String description) {
-        super(name, new Generic[parameterNames.size()]);
-        this.parameterNames = parameterNames;
-        this.content = content;
-        this.description = description;
+		super(name, new Generic[parameterNames.size()]);
+		this.parameterNames = parameterNames;
+		this.content = content;
+		this.description = description;
 		this.localVarId = counter.incrementAndGet();
-    }
+	}
 
-    private CustomFunction(@Nonnull String name,
-                           @Nonnull List<String> parameterNames,
-                           @Nonnull String content,
+	private CustomFunction(@Nonnull String name,
+						   @Nonnull List<String> parameterNames,
+						   @Nonnull String content,
 						   @Nullable String description) {
-        super(name, new Generic[parameterNames.size()]);
-        this.parameterNames = parameterNames;
-        try {
-            this.content = Expression.valueOf(content);
-        } catch (ParseException e) {
-            throw new CustomFunctionCalculationException(this, e);
-        }
+		super(name, new Generic[parameterNames.size()]);
+		this.parameterNames = parameterNames;
+		try {
+			this.content = Expression.valueOf(content);
+		} catch (ParseException e) {
+			throw new CustomFunctionCalculationException(this, e);
+		}
 		this.description = description;
 		this.localVarId = counter.incrementAndGet();
 	}
@@ -99,62 +95,62 @@ public class CustomFunction extends Function implements IFunction {
 	**********************************************************************
 	*/
 
-    @Override
-    public int getMinParameters() {
-        return parameterNames == null ? 0 : parameterNames.size();
-    }
+	@Override
+	public int getMinParameters() {
+		return parameterNames == null ? 0 : parameterNames.size();
+	}
 
-    @Override
-    public int getMaxParameters() {
-        return parameterNames == null ? Integer.MAX_VALUE : parameterNames.size();
-    }
+	@Override
+	public int getMaxParameters() {
+		return parameterNames == null ? Integer.MAX_VALUE : parameterNames.size();
+	}
 
-    @Override
-    public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
-        return super.substitute(variable, generic);
-    }
+	@Override
+	public Generic substitute(@Nonnull Variable variable, @Nonnull Generic generic) {
+		return super.substitute(variable, generic);
+	}
 
-    @Override
-    public Generic numeric() {
-        return selfExpand().numeric();
-    }
+	@Override
+	public Generic numeric() {
+		return selfExpand().numeric();
+	}
 
-    @Override
-    public Generic expand() {
-        return selfExpand().expand();
-    }
+	@Override
+	public Generic expand() {
+		return selfExpand().expand();
+	}
 
-    @Override
-    public Generic elementary() {
-        return selfExpand().elementary();
-    }
+	@Override
+	public Generic elementary() {
+		return selfExpand().elementary();
+	}
 
-    @Override
-    public Generic factorize() {
-        return selfExpand().factorize();
-    }
+	@Override
+	public Generic factorize() {
+		return selfExpand().factorize();
+	}
 
-    @Override
-    public Generic selfExpand() {
-        Generic localContent = content;
+	@Override
+	public Generic selfExpand() {
+		Generic localContent = content;
 
-        try {
-            for (String parameterName : parameterNames) {
-                localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(getParameterNameForConstant(parameterName))));
-            }
+		try {
+			for (String parameterName : parameterNames) {
+				localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(getParameterNameForConstant(parameterName))));
+			}
 
-            for (int i = 0; i < parameterNames.size(); i++) {
-                localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterNames.get(i))), parameters[i]);
-            }
+			for (int i = 0; i < parameterNames.size(); i++) {
+				localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterNames.get(i))), parameters[i]);
+			}
 
-        } finally {
-            for (String parameterName : parameterNames) {
-                localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterName)), Expression.valueOf(new Constant(parameterName)));
-            }
-        }
+		} finally {
+			for (String parameterName : parameterNames) {
+				localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterName)), Expression.valueOf(new Constant(parameterName)));
+			}
+		}
 
-        return localContent;
-    }
+		return localContent;
+	}
 
 	@Nonnull
 	private String getParameterNameForConstant(@Nonnull String parameterName) {
@@ -162,72 +158,72 @@ public class CustomFunction extends Function implements IFunction {
 	}
 
 	@Override
-    public void copy(@Nonnull MathEntity mathEntity) {
-        super.copy(mathEntity);
-        if (mathEntity instanceof CustomFunction) {
-            final CustomFunction that = (CustomFunction) mathEntity;
-            this.content = that.content;
-            this.parameterNames = new ArrayList<String>(that.parameterNames);
-            this.description = that.description;
-        }
-    }
+	public void copy(@Nonnull MathEntity mathEntity) {
+		super.copy(mathEntity);
+		if (mathEntity instanceof CustomFunction) {
+			final CustomFunction that = (CustomFunction) mathEntity;
+			this.content = that.content;
+			this.parameterNames = new ArrayList<String>(that.parameterNames);
+			this.description = that.description;
+		}
+	}
 
-    @Override
-    public Generic selfElementary() {
-        throw new ArithmeticException();
-    }
+	@Override
+	public Generic selfElementary() {
+		throw new ArithmeticException();
+	}
 
-    @Override
-    public Generic selfSimplify() {
-        return expressionValue();
-    }
+	@Override
+	public Generic selfSimplify() {
+		return expressionValue();
+	}
 
-    @Override
-    public Generic selfNumeric() {
-        throw new ArithmeticException();
-    }
+	@Override
+	public Generic selfNumeric() {
+		throw new ArithmeticException();
+	}
 
-    @Override
-    public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
-        if (getParameterForAntiDerivation(variable) < 0) {
-            throw new NotIntegrableException(this);
-        } else {
-            return this.content.antiDerivative(variable);
-        }
-    }
+	@Override
+	public Generic antiDerivative(@Nonnull Variable variable) throws NotIntegrableException {
+		if (getParameterForAntiDerivation(variable) < 0) {
+			throw new NotIntegrableException(this);
+		} else {
+			return this.content.antiDerivative(variable);
+		}
+	}
 
-    @Override
-    public Generic antiDerivative(int n) throws NotIntegrableException {
-        throw new NotIntegrableException(this);
-    }
+	@Override
+	public Generic antiDerivative(int n) throws NotIntegrableException {
+		throw new NotIntegrableException(this);
+	}
 
-    @Nonnull
-    @Override
-    public Generic derivative(@Nonnull Variable variable) {
-        Generic result = JsclInteger.valueOf(0);
+	@Nonnull
+	@Override
+	public Generic derivative(@Nonnull Variable variable) {
+		Generic result = JsclInteger.valueOf(0);
 
-        for (int i = 0; i < parameters.length; i++) {
-            // chain rule: f(x) = g(h(x)) => f'(x) = g'(h(x)) * h'(x)
-            // hd = h'(x)
-            // gd = g'(x)
-            final Generic hd = parameters[i].derivative(variable);
-            final Generic gd = this.content.derivative(variable);
+		for (int i = 0; i < parameters.length; i++) {
+			// chain rule: f(x) = g(h(x)) => f'(x) = g'(h(x)) * h'(x)
+			// hd = h'(x)
+			// gd = g'(x)
+			final Generic hd = parameters[i].derivative(variable);
+			final Generic gd = this.content.derivative(variable);
 
-            result = result.add(hd.multiply(gd));
-        }
+			result = result.add(hd.multiply(gd));
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public Generic derivative(int n) {
-        throw new ArithmeticException();
-    }
+	@Override
+	public Generic derivative(int n) {
+		throw new ArithmeticException();
+	}
 
-    @Nonnull
-    public String getContent() {
-        return this.content.toString();
-    }
+	@Nonnull
+	public String getContent() {
+		return this.content.toString();
+	}
 
 	@Nullable
 	@Override
@@ -237,25 +233,25 @@ public class CustomFunction extends Function implements IFunction {
 
 	@Override
 	@Nonnull
-    public List<String> getParameterNames() {
-        return Collections.unmodifiableList(parameterNames);
-    }
+	public List<String> getParameterNames() {
+		return Collections.unmodifiableList(parameterNames);
+	}
 
-    @Nonnull
-    @Override
-    protected String formatUndefinedParameter(int i) {
-        if (i < this.parameterNames.size()) {
-            return parameterNames.get(i);
-        } else {
-            return super.formatUndefinedParameter(i);
-        }
-    }
+	@Nonnull
+	@Override
+	protected String formatUndefinedParameter(int i) {
+		if (i < this.parameterNames.size()) {
+			return parameterNames.get(i);
+		} else {
+			return super.formatUndefinedParameter(i);
+		}
+	}
 
-    @Nonnull
-    @Override
-    public CustomFunction newInstance() {
-        return new CustomFunction(name, parameterNames, content, description);
-    }
+	@Nonnull
+	@Override
+	public CustomFunction newInstance() {
+		return new CustomFunction(name, parameterNames, content, description);
+	}
 
 	/*
 	**********************************************************************
@@ -351,30 +347,30 @@ public class CustomFunction extends Function implements IFunction {
 			return customFunction;
 		}
 
-        @Nonnull
-        private static String prepareContent(@Nonnull String content) {
-            final StringBuilder result = new StringBuilder(content.length());
+		@Nonnull
+		private static String prepareContent(@Nonnull String content) {
+			final StringBuilder result = new StringBuilder(content.length());
 
-            final char groupingSeparator = JsclMathEngine.getInstance().getGroupingSeparator();
+			final char groupingSeparator = JsclMathEngine.getInstance().getGroupingSeparator();
 
-            for (int i = 0; i < content.length(); i++) {
-                final char ch = content.charAt(i);
-                switch (ch) {
-                    case ' ':
-                    case '\'':
-                    case '\n':
-                    case '\r':
-                        // do nothing
-                        break;
-                    default:
-                        // remove grouping separator
-                        if (ch != groupingSeparator) {
-                            result.append(ch);
-                        }
-                }
-            }
+			for (int i = 0; i < content.length(); i++) {
+				final char ch = content.charAt(i);
+				switch (ch) {
+					case ' ':
+					case '\'':
+					case '\n':
+					case '\r':
+						// do nothing
+						break;
+					default:
+						// remove grouping separator
+						if (ch != groupingSeparator) {
+							result.append(ch);
+						}
+				}
+			}
 
-            return result.toString();
-        }
-    }
+			return result.toString();
+		}
+	}
 }

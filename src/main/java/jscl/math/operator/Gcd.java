@@ -3,9 +3,8 @@ package jscl.math.operator;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NotIntegerException;
-import jscl.math.Variable;
+
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -14,55 +13,55 @@ import javax.annotation.Nullable;
  */
 public class Gcd extends Operator {
 
-    public Gcd(@Nonnull Generic first, @Nonnull Generic second) {
-        this(new Generic[]{first, second});
-    }
+	public Gcd(@Nonnull Generic first, @Nonnull Generic second) {
+		this(new Generic[]{first, second});
+	}
 
-    public Gcd() {
-        this(new Generic[2]);
-    }
+	public Gcd() {
+		this(new Generic[2]);
+	}
 
-    private Gcd(@Nonnull Generic[] parameters) {
-        super("gcd", parameters);
-    }
+	private Gcd(@Nonnull Generic[] parameters) {
+		super("gcd", parameters);
+	}
 
 
-    @Nonnull
-    @Override
-    public Operator newInstance(@Nonnull Generic[] parameters) {
-        return new Gcd(parameters);
-    }
+	@Nonnull
+	@Override
+	public Operator newInstance(@Nonnull Generic[] parameters) {
+		return new Gcd(parameters);
+	}
 
-    @Override
-    public int getMinParameters() {
-        return 2;
-    }
+	@Override
+	public int getMinParameters() {
+		return 2;
+	}
 
-    @Override
-    public Generic selfExpand() {
-        return expressionValue();
-    }
+	@Override
+	public Generic selfExpand() {
+		return expressionValue();
+	}
 
-    @Override
-    public Generic numeric() {
-        final Generic first = parameters[0];
-        final Generic second = parameters[1];
+	@Override
+	public Generic numeric() {
+		final Generic first = parameters[0];
+		final Generic second = parameters[1];
 
-        try {
-            final JsclInteger firstInt = first.integerValue();
-            final JsclInteger secondInt = second.integerValue();
+		try {
+			final JsclInteger firstInt = first.integerValue();
+			final JsclInteger secondInt = second.integerValue();
 
-            return firstInt.gcd(secondInt);
-        } catch (NotIntegerException e) {
-            // ok => continue
-        }
+			return firstInt.gcd(secondInt);
+		} catch (NotIntegerException e) {
+			// ok => continue
+		}
 
-        return first.gcd(second);
-    }
+		return first.gcd(second);
+	}
 
-    @Nonnull
-    @Override
-    public Gcd newInstance() {
-        return new Gcd();
-    }
+	@Nonnull
+	@Override
+	public Gcd newInstance() {
+		return new Gcd();
+	}
 }

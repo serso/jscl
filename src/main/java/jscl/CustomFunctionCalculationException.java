@@ -2,8 +2,9 @@ package jscl;
 
 import jscl.math.function.CustomFunction;
 import jscl.text.msg.Messages;
-import javax.annotation.Nonnull;
 import org.solovyev.common.msg.Message;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -12,7 +13,7 @@ import org.solovyev.common.msg.Message;
  */
 public class CustomFunctionCalculationException extends AbstractJsclArithmeticException {
 
-    public CustomFunctionCalculationException(@Nonnull CustomFunction function, @Nonnull Message message) {
-        super(Messages.msg_19, function.getName(), message);
-    }
+	public CustomFunctionCalculationException(@Nonnull CustomFunction function, @Nonnull Message message) {
+		super(Messages.msg_19, function.getName(), message);
+	}
 }

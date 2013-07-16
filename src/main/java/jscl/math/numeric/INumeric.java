@@ -9,56 +9,56 @@ import javax.annotation.Nonnull;
  */
 public interface INumeric<T extends INumeric<T>> {
 
-    @Nonnull
-    T pow(int exponent);
+	@Nonnull
+	T pow(int exponent);
 
-    @Nonnull
-    T abs();
+	@Nonnull
+	T abs();
 
-    @Nonnull
-    T negate();
+	@Nonnull
+	T negate();
 
-    int signum();
+	int signum();
 
-    @Nonnull
-    T sgn();
+	@Nonnull
+	T sgn();
 
-    @Nonnull
-    T ln();
+	@Nonnull
+	T ln();
 
-    @Nonnull
-    T lg();
+	@Nonnull
+	T lg();
 
-    @Nonnull
-    T exp();
+	@Nonnull
+	T exp();
 
-    @Nonnull
-    T inverse();
+	@Nonnull
+	T inverse();
 
-    @Nonnull
-    T sqrt();
+	@Nonnull
+	T sqrt();
 
-    @Nonnull
-    T nThRoot(int n);
+	@Nonnull
+	T nThRoot(int n);
 
     /*
-     * ******************************************************************************************
+	 * ******************************************************************************************
      * <p/>
      * TRIGONOMETRIC FUNCTIONS
      * <p/>
      * *******************************************************************************************/
 
-    @Nonnull
-    T sin();
+	@Nonnull
+	T sin();
 
-    @Nonnull
-    T cos();
+	@Nonnull
+	T cos();
 
-    @Nonnull
-    T tan();
+	@Nonnull
+	T tan();
 
-    @Nonnull
-    T cot();
+	@Nonnull
+	T cot();
 
     /*
       * ******************************************************************************************
@@ -67,17 +67,17 @@ public interface INumeric<T extends INumeric<T>> {
       * <p/>
       * *******************************************************************************************/
 
-    @Nonnull
-    T asin();
+	@Nonnull
+	T asin();
 
-    @Nonnull
-    T acos();
+	@Nonnull
+	T acos();
 
-    @Nonnull
-    T atan();
+	@Nonnull
+	T atan();
 
-    @Nonnull
-    T acot();
+	@Nonnull
+	T acot();
 
     /*
       * ******************************************************************************************
@@ -86,17 +86,17 @@ public interface INumeric<T extends INumeric<T>> {
       * <p/>
       * *******************************************************************************************/
 
-    @Nonnull
-    T sinh();
+	@Nonnull
+	T sinh();
 
-    @Nonnull
-    T cosh();
+	@Nonnull
+	T cosh();
 
-    @Nonnull
-    T tanh();
+	@Nonnull
+	T tanh();
 
-    @Nonnull
-    T coth();
+	@Nonnull
+	T coth();
 
     /*
       * ******************************************************************************************
@@ -105,15 +105,15 @@ public interface INumeric<T extends INumeric<T>> {
       * <p/>
       * *******************************************************************************************/
 
-    @Nonnull
-    T asinh();
+	@Nonnull
+	T asinh();
 
-    @Nonnull
-    T acosh();
+	@Nonnull
+	T acosh();
 
-    @Nonnull
-    T atanh();
+	@Nonnull
+	T atanh();
 
-    @Nonnull
-    T acoth();
+	@Nonnull
+	T acoth();
 }

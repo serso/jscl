@@ -10,20 +10,20 @@ import jscl.JsclMathEngine;
  */
 public class PiConstant extends ExtendedConstant {
 
-    public PiConstant() {
-        super(Constants.PI, Math.PI, "JsclDouble.valueOf(Math.PI)");
-    }
+	public PiConstant() {
+		super(Constants.PI, Math.PI, "JsclDouble.valueOf(Math.PI)");
+	}
 
-    @Override
-    public Double getDoubleValue() {
-        Double result = null;
+	@Override
+	public Double getDoubleValue() {
+		Double result = null;
 
-        try {
-            result = AngleUnit.rad.transform(JsclMathEngine.getInstance().getAngleUnits(), Double.valueOf(getValue()));
-        } catch (NumberFormatException e) {
-            // do nothing - string is not a double
-        }
+		try {
+			result = AngleUnit.rad.transform(JsclMathEngine.getInstance().getAngleUnits(), Double.valueOf(getValue()));
+		} catch (NumberFormatException e) {
+			// do nothing - string is not a double
+		}
 
-        return result;
-    }
+		return result;
+	}
 }
