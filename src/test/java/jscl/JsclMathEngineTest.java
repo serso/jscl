@@ -75,4 +75,10 @@ public class JsclMathEngineTest {
         Assert.assertEquals("8", me.format(8d, NumeralBase.hex));
         Assert.assertEquals("13D", me.format(317d, NumeralBase.hex));
     }
+
+	@Test
+	public void testPiComputation() throws Exception {
+		final JsclMathEngine me = JsclMathEngine.getInstance();
+		Assert.assertEquals("-1+122.46467991473532E-18*i", me.evaluate("exp(√(-1)*Π)"));
+	}
 }
