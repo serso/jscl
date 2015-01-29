@@ -142,4 +142,5 @@ public final class Messages {
 	 */
 	public static final String msg_25 = "msg_25";
 
+    static final int COUNT = 26;
 }
