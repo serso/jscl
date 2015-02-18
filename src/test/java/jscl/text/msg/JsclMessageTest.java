@@ -20,7 +20,7 @@ import static org.solovyev.common.msg.MessageType.error;
 public class JsclMessageTest {
 
     private static final Locale[] LOCALES = new Locale[]{
-            Locale.ENGLISH, new Locale("ar"), new Locale("cs"), new Locale("de"), new Locale("es", "ES"), new Locale("fi"), new Locale("fr"), new Locale("it"), new Locale("ja"), new Locale("nl"), new Locale("pl"), new Locale("pt", "BR"),
+            Locale.ENGLISH, new Locale("ar"), new Locale("cs"), new Locale("de"), new Locale("es", "ES"), new Locale("fi"), new Locale("fr"), new Locale("it"), new Locale("ja"), new Locale("nl"), new Locale("pl"), new Locale("pt", "BR"), new Locale("pt", "PT"),
             new Locale("ru"), new Locale("uk"), new Locale("vi"), new Locale("zh", "CN"), new Locale("zh", "TW")
     };
 
