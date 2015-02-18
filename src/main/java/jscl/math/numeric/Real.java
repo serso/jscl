@@ -204,7 +204,26 @@ public final class Real extends Numeric {
 
 	@Nonnull
 	public Numeric tan() {
-		return new Real(Math.tan(defaultToRad(content)));
+		return new Real(tan(defaultToRad(content)));
+	}
+
+	private double tan(double value) {
+		if (value > Math.PI || value < Math.PI) {
+			value = value % Math.PI;
+		}
+		if (value == Math.PI / 2) {
+			return Double.POSITIVE_INFINITY;
+		}
+		if (value == Math.PI) {
+			return 0;
+		}
+		if (value == -Math.PI / 2) {
+			return Double.NEGATIVE_INFINITY;
+		}
+		if (value == -Math.PI) {
+			return 0;
+		}
+		return Math.tan(value);
 	}
 
 	@Nonnull

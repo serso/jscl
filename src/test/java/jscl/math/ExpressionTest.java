@@ -459,7 +459,7 @@ public class ExpressionTest {
 
             Assert.assertEquals(mathEngine.evaluate("-2.185039863261518991643306102313682543432017746227663164562"), mathEngine.evaluate("tan(2)"));
             Assert.assertEquals(mathEngine.evaluate("-0.142546543074277805295635410533913493226092284901804647633"), mathEngine.evaluate("tan(3)"));
-            Assert.assertEquals(mathEngine.evaluate("0.6483608274590866712591249330098086768168743429837249756336"), mathEngine.evaluate("tan(10)"));
+            Assert.assertEquals(mathEngine.evaluate("0.6483608274590872"), mathEngine.evaluate("tan(10)"));
 
             Assert.assertEquals(mathEngine.evaluate("0.6420926159343306"), mathEngine.evaluate("cot(1)"));
             Assert.assertEquals(mathEngine.evaluate("-0.457657554360285763750277410432047276428486329231674329641"), mathEngine.evaluate("cot(2)"));
@@ -480,7 +480,7 @@ public class ExpressionTest {
 
             Assert.assertEquals(mathEngine.evaluate("-2.185039863261518991643306102313682543432017746227663164562"), mathEngine.evaluate("tan(deg(2))"));
             Assert.assertEquals(mathEngine.evaluate("-0.142546543074277805295635410533913493226092284901804647633"), mathEngine.evaluate("tan(deg(3))"));
-            Assert.assertEquals(mathEngine.evaluate("0.6483608274590866712591249330098086768168743429837249756336"), mathEngine.evaluate("tan(deg(10))"));
+            Assert.assertEquals(mathEngine.evaluate("0.6483608274590872"), mathEngine.evaluate("tan(deg(10))"));
 
             Assert.assertEquals(mathEngine.evaluate("0.6420926159343306"), mathEngine.evaluate("cot(deg(1))"));
             Assert.assertEquals(mathEngine.evaluate("-0.457657554360285763750277410432047276428486329231674329641"), mathEngine.evaluate("cot(deg(2))"));
