@@ -1,7 +1,5 @@
 package jscl.math.function;
 
-import jscl.math.Generic;
-import junit.framework.Assert;
 import org.junit.Test;
 
 /**
@@ -14,7 +12,7 @@ public class FunctionTest {
     @Test
     public void testSubstituteParameter() throws Exception {
 /*		Ln ln = new Ln(null);
-		Assert.assertEquals("ln(x)", ln.toString());
+        Assert.assertEquals("ln(x)", ln.toString());
 		Root eq = new Root(null, null);
 		Assert.assertEquals("eq(x, y)", eq.toString());
 		Generic[] parameter = new Generic[40];

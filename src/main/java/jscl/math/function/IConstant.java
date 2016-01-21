@@ -12,20 +12,20 @@ import javax.annotation.Nullable;
  */
 public interface IConstant extends MathEntity {
 
-	@Nonnull
-	Constant getConstant();
+    @Nonnull
+    Constant getConstant();
 
-	@Nullable
-	String getDescription();
+    @Nullable
+    String getDescription();
 
-	boolean isDefined();
+    boolean isDefined();
 
-	@Nullable
-	String getValue();
+    @Nullable
+    String getValue();
 
-	@Nullable
-	Double getDoubleValue();
+    @Nullable
+    Double getDoubleValue();
 
-	@Nonnull
-	String toJava();
+    @Nonnull
+    String toJava();
 }

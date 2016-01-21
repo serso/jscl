@@ -25,28 +25,22 @@ package org.solovyev.common.math;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 10/29/11
- * Time: 12:49 PM
- */
 public abstract class AbstractMathEntity implements MathEntity {
 
-	@Nonnull
-	private String name;
+    @Nonnull
+    private String name;
 
-	private boolean system;
+    private boolean system;
 
-	protected AbstractMathEntity() {
-	}
+    protected AbstractMathEntity() {
+    }
 
-	@Nonnull
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    @Nonnull
+    public String getName() {
+        return this.name;
+    }
 
-	public boolean isSystem() {
-		return system;
-	}
+    public boolean isSystem() {
+        return system;
+    }
 }

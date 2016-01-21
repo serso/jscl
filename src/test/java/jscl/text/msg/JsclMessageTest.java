@@ -4,7 +4,10 @@ import org.junit.Test;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import static java.util.Locale.ENGLISH;
 import static jscl.text.msg.Messages.msg_1;

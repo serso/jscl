@@ -10,45 +10,44 @@ import java.util.List;
 
 public class Identifier implements Parser<String> {
 
-	public static final Parser<String> parser = new Identifier();
+    public static final Parser<String> parser = new Identifier();
+    private final static List<Character> allowedCharacters = Arrays.asList('√', '∞', 'π', '∂', '∏', 'Σ', '∫');
 
-	private Identifier() {
-	}
+    private Identifier() {
+    }
 
-	// returns getVariable/constant getName
-	@Nonnull
-	public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    private static boolean isValidFirstCharacter(char ch) {
+        return Character.isLetter(ch) || allowedCharacters.contains(ch);
+    }
 
-		final StringBuilder result = new StringBuilder();
+    private static boolean isValidNotFirstCharacter(@Nonnull String string, @Nonnull MutableInt position) {
+        final char ch = string.charAt(position.intValue());
+        return Character.isLetter(ch) || Character.isDigit(ch) || ch == '_';
+    }
 
-		ParserUtils.skipWhitespaces(p);
+    // returns getVariable/constant getName
+    @Nonnull
+    public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		if (p.getPosition().intValue() < p.getExpression().length() && isValidFirstCharacter(p.getExpression().charAt(p.getPosition().intValue()))) {
-			result.append(p.getExpression().charAt(p.getPosition().intValue()));
-			p.getPosition().increment();
-		} else {
-			ParserUtils.throwParseException(p, pos0, Messages.msg_5);
-		}
+        final StringBuilder result = new StringBuilder();
 
-		while (p.getPosition().intValue() < p.getExpression().length() && isValidNotFirstCharacter(p.getExpression(), p.getPosition())) {
-			result.append(p.getExpression().charAt(p.getPosition().intValue()));
-			p.getPosition().increment();
-		}
+        ParserUtils.skipWhitespaces(p);
 
-		return result.toString();
-	}
+        if (p.getPosition().intValue() < p.getExpression().length() && isValidFirstCharacter(p.getExpression().charAt(p.getPosition().intValue()))) {
+            result.append(p.getExpression().charAt(p.getPosition().intValue()));
+            p.getPosition().increment();
+        } else {
+            ParserUtils.throwParseException(p, pos0, Messages.msg_5);
+        }
 
-	private final static List<Character> allowedCharacters = Arrays.asList('√', '∞', 'π', '∂', '∏', 'Σ', '∫');
+        while (p.getPosition().intValue() < p.getExpression().length() && isValidNotFirstCharacter(p.getExpression(), p.getPosition())) {
+            result.append(p.getExpression().charAt(p.getPosition().intValue()));
+            p.getPosition().increment();
+        }
 
-	private static boolean isValidFirstCharacter(char ch) {
-		return Character.isLetter(ch) || allowedCharacters.contains(ch);
-	}
-
-	private static boolean isValidNotFirstCharacter(@Nonnull String string, @Nonnull MutableInt position) {
-		final char ch = string.charAt(position.intValue());
-		return Character.isLetter(ch) || Character.isDigit(ch) || ch == '_';
-	}
+        return result.toString();
+    }
 
 
 }

@@ -13,20 +13,20 @@ import javax.annotation.Nonnull;
  */
 public class ConstantsRegistryTest extends AbstractMathRegistryTest<IConstant> {
 
-	@Override
-	protected JBuilder<? extends IConstant> createBuilder(@Nonnull final String name) {
-		return new JBuilder<IConstant>() {
-			@Nonnull
-			@Override
-			public IConstant create() {
-				return new ExtendedConstant(new Constant(name), name, name);
-			}
-		};
-	}
+    @Override
+    protected JBuilder<? extends IConstant> createBuilder(@Nonnull final String name) {
+        return new JBuilder<IConstant>() {
+            @Nonnull
+            @Override
+            public IConstant create() {
+                return new ExtendedConstant(new Constant(name), name, name);
+            }
+        };
+    }
 
-	@Nonnull
-	@Override
-	protected AbstractMathRegistry<IConstant> getRegistry() {
-		return new ConstantsRegistry();
-	}
+    @Nonnull
+    @Override
+    protected AbstractMathRegistry<IConstant> getRegistry() {
+        return new ConstantsRegistry();
+    }
 }

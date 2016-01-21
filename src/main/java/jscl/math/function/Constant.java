@@ -12,258 +12,258 @@ import java.util.Set;
 
 public class Constant extends Variable {
 
-	public static final int PRIME_CHARS = 3;
-	private int prime;
-	private Generic subscripts[];
+    public static final int PRIME_CHARS = 3;
+    private int prime;
+    private Generic subscripts[];
 
-	public Constant(String name) {
-		this(name, 0, new Generic[0]);
-	}
+    public Constant(String name) {
+        this(name, 0, new Generic[0]);
+    }
 
-	public Constant(String name, int prime, Generic subscripts[]) {
-		super(name);
-		this.prime = prime;
-		this.subscripts = subscripts;
-	}
+    public Constant(String name, int prime, Generic subscripts[]) {
+        super(name);
+        this.prime = prime;
+        this.subscripts = subscripts;
+    }
 
-	public int prime() {
-		return prime;
-	}
+    static String primeChars(int n) {
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < n; i++) buffer.append("'");
+        return buffer.toString();
+    }
 
-	public Generic[] subscript() {
-		return subscripts;
-	}
+    static String underscores(int n) {
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < n; i++) buffer.append("_");
+        return buffer.toString();
+    }
 
-	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-		return null;
-	}
+    static void primeCharsToMathML(MathML element, int n) {
+        MathML e1 = element.element("mo");
+        for (int i = 0; i < n; i++) e1.appendChild(element.text("\u2032"));
+        element.appendChild(e1);
+    }
 
-	@Nonnull
-	public Generic derivative(Variable variable) {
-		if (isIdentity(variable)) {
-			return JsclInteger.valueOf(1);
-		} else {
-			return JsclInteger.valueOf(0);
-		}
-	}
+    public int prime() {
+        return prime;
+    }
 
-	public Generic substitute(Variable variable, Generic generic) {
-		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscripts.length; i++) {
-			v.subscripts[i] = subscripts[i].substitute(variable, generic);
-		}
+    public Generic[] subscript() {
+        return subscripts;
+    }
 
-		if (v.isIdentity(variable)) {
-			return generic;
-		} else {
-			return v.expressionValue();
-		}
-	}
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+        return null;
+    }
 
-	public Generic expand() {
-		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscripts.length; i++) {
-			v.subscripts[i] = subscripts[i].expand();
-		}
-		return v.expressionValue();
-	}
+    @Nonnull
+    public Generic derivative(Variable variable) {
+        if (isIdentity(variable)) {
+            return JsclInteger.valueOf(1);
+        } else {
+            return JsclInteger.valueOf(0);
+        }
+    }
 
-	public Generic factorize() {
-		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscripts.length; i++) {
-			v.subscripts[i] = subscripts[i].factorize();
-		}
-		return v.expressionValue();
-	}
+    public Generic substitute(Variable variable, Generic generic) {
+        Constant v = (Constant) newInstance();
+        for (int i = 0; i < subscripts.length; i++) {
+            v.subscripts[i] = subscripts[i].substitute(variable, generic);
+        }
 
-	public Generic elementary() {
-		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscripts.length; i++) {
-			v.subscripts[i] = subscripts[i].elementary();
-		}
-		return v.expressionValue();
-	}
+        if (v.isIdentity(variable)) {
+            return generic;
+        } else {
+            return v.expressionValue();
+        }
+    }
 
-	public Generic simplify() {
-		Constant v = (Constant) newInstance();
-		for (int i = 0; i < subscripts.length; i++) {
-			v.subscripts[i] = subscripts[i].simplify();
-		}
-		return v.expressionValue();
-	}
+    public Generic expand() {
+        Constant v = (Constant) newInstance();
+        for (int i = 0; i < subscripts.length; i++) {
+            v.subscripts[i] = subscripts[i].expand();
+        }
+        return v.expressionValue();
+    }
 
-	public Generic numeric() {
-		return new NumericWrapper(this);
-	}
+    public Generic factorize() {
+        Constant v = (Constant) newInstance();
+        for (int i = 0; i < subscripts.length; i++) {
+            v.subscripts[i] = subscripts[i].factorize();
+        }
+        return v.expressionValue();
+    }
 
-	public boolean isConstant(Variable variable) {
-		return !isIdentity(variable);
-	}
+    public Generic elementary() {
+        Constant v = (Constant) newInstance();
+        for (int i = 0; i < subscripts.length; i++) {
+            v.subscripts[i] = subscripts[i].elementary();
+        }
+        return v.expressionValue();
+    }
 
-	public int compareTo(Variable variable) {
-		if (this == variable) {
-			return 0;
-		}
+    public Generic simplify() {
+        Constant v = (Constant) newInstance();
+        for (int i = 0; i < subscripts.length; i++) {
+            v.subscripts[i] = subscripts[i].simplify();
+        }
+        return v.expressionValue();
+    }
 
-		int c = comparator.compare(this, variable);
-		if (c == 0) {
-			final Constant that = (Constant) variable;
-			c = name.compareTo(that.name);
-			if (c == 0) {
-				c = ArrayComparator.comparator.compare(this.subscripts, that.subscripts);
-				if (c == 0) {
-					if (prime < that.prime) {
-						return -1;
-					} else if (prime > that.prime) {
-						return 1;
-					} else return 0;
-				} else {
-					return c;
-				}
-			} else {
-				return c;
-			}
-		} else {
-			return c;
-		}
-	}
+    public Generic numeric() {
+        return new NumericWrapper(this);
+    }
 
-	@Override
-	public int hashCode() {
-		final HashCodeBuilder result = HashCodeBuilder.newInstance();
+    public boolean isConstant(Variable variable) {
+        return !isIdentity(variable);
+    }
 
-		result.append(Constant.class);
-		result.append(name);
-		result.append(subscripts);
-		result.append(prime);
+    public int compareTo(Variable variable) {
+        if (this == variable) {
+            return 0;
+        }
 
-		return result.toHashCode();
-	}
+        int c = comparator.compare(this, variable);
+        if (c == 0) {
+            final Constant that = (Constant) variable;
+            c = name.compareTo(that.name);
+            if (c == 0) {
+                c = ArrayComparator.comparator.compare(this.subscripts, that.subscripts);
+                if (c == 0) {
+                    if (prime < that.prime) {
+                        return -1;
+                    } else if (prime > that.prime) {
+                        return 1;
+                    } else return 0;
+                } else {
+                    return c;
+                }
+            } else {
+                return c;
+            }
+        } else {
+            return c;
+        }
+    }
 
-	public String toString() {
-		final StringBuilder result = new StringBuilder();
-		result.append(name);
+    @Override
+    public int hashCode() {
+        final HashCodeBuilder result = HashCodeBuilder.newInstance();
 
-		for (Generic subscript : subscripts) {
-			result.append("[").append(subscript).append("]");
-		}
+        result.append(Constant.class);
+        result.append(name);
+        result.append(subscripts);
+        result.append(prime);
 
-		if (prime != 0) {
-			if (prime <= PRIME_CHARS) result.append(primeChars(prime));
-			else result.append("{").append(prime).append("}");
-		}
+        return result.toHashCode();
+    }
 
-		return result.toString();
-	}
+    public String toString() {
+        final StringBuilder result = new StringBuilder();
+        result.append(name);
 
-	static String primeChars(int n) {
-		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i < n; i++) buffer.append("'");
-		return buffer.toString();
-	}
+        for (Generic subscript : subscripts) {
+            result.append("[").append(subscript).append("]");
+        }
 
-	public String toJava() {
-		final IConstant constantFromRegistry = JsclMathEngine.getInstance().getConstantsRegistry().get(getName());
+        if (prime != 0) {
+            if (prime <= PRIME_CHARS) result.append(primeChars(prime));
+            else result.append("{").append(prime).append("}");
+        }
 
-		if (constantFromRegistry != null) {
-			return constantFromRegistry.toJava();
-		}
+        return result.toString();
+    }
 
-		final StringBuilder result = new StringBuilder();
-		result.append(name);
+    public String toJava() {
+        final IConstant constantFromRegistry = JsclMathEngine.getInstance().getConstantsRegistry().get(getName());
 
-		if (prime != 0) {
-			if (prime <= PRIME_CHARS) result.append(underscores(prime));
-			else result.append("_").append(prime);
-		}
+        if (constantFromRegistry != null) {
+            return constantFromRegistry.toJava();
+        }
 
-		for (Generic subscript : subscripts) {
-			result.append("[").append(subscript.integerValue().intValue()).append("]");
-		}
-		return result.toString();
-	}
+        final StringBuilder result = new StringBuilder();
+        result.append(name);
 
-	static String underscores(int n) {
-		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i < n; i++) buffer.append("_");
-		return buffer.toString();
-	}
+        if (prime != 0) {
+            if (prime <= PRIME_CHARS) result.append(underscores(prime));
+            else result.append("_").append(prime);
+        }
 
-	public void toMathML(MathML element, Object data) {
-		int exponent = data instanceof Integer ? (Integer) data : 1;
-		if (exponent == 1) bodyToMathML(element);
-		else {
-			MathML e1 = element.element("msup");
-			bodyToMathML(e1);
-			MathML e2 = element.element("mn");
-			e2.appendChild(element.text(String.valueOf(exponent)));
-			e1.appendChild(e2);
-			element.appendChild(e1);
-		}
-	}
+        for (Generic subscript : subscripts) {
+            result.append("[").append(subscript.integerValue().intValue()).append("]");
+        }
+        return result.toString();
+    }
 
-	public void bodyToMathML(MathML element) {
-		if (subscripts.length == 0) {
-			if (prime == 0) {
-				nameToMathML(element);
-			} else {
-				MathML e1 = element.element("msup");
-				nameToMathML(e1);
-				primeToMathML(e1);
-				element.appendChild(e1);
-			}
-		} else {
-			if (prime == 0) {
-				MathML e1 = element.element("msub");
-				nameToMathML(e1);
-				MathML e2 = element.element("mrow");
-				for (int i = 0; i < subscripts.length; i++) {
-					subscripts[i].toMathML(e2, null);
-				}
-				e1.appendChild(e2);
-				element.appendChild(e1);
-			} else {
-				MathML e1 = element.element("msubsup");
-				nameToMathML(e1);
-				MathML e2 = element.element("mrow");
-				for (int i = 0; i < subscripts.length; i++) {
-					subscripts[i].toMathML(e2, null);
-				}
-				e1.appendChild(e2);
-				primeToMathML(e1);
-				element.appendChild(e1);
-			}
-		}
-	}
+    public void toMathML(MathML element, Object data) {
+        int exponent = data instanceof Integer ? (Integer) data : 1;
+        if (exponent == 1) bodyToMathML(element);
+        else {
+            MathML e1 = element.element("msup");
+            bodyToMathML(e1);
+            MathML e2 = element.element("mn");
+            e2.appendChild(element.text(String.valueOf(exponent)));
+            e1.appendChild(e2);
+            element.appendChild(e1);
+        }
+    }
 
-	void primeToMathML(MathML element) {
-		if (prime <= PRIME_CHARS) {
-			primeCharsToMathML(element, prime);
-		} else {
-			MathML e1 = element.element("mfenced");
-			MathML e2 = element.element("mn");
-			e2.appendChild(element.text(String.valueOf(prime)));
-			e1.appendChild(e2);
-			element.appendChild(e1);
-		}
-	}
+    public void bodyToMathML(MathML element) {
+        if (subscripts.length == 0) {
+            if (prime == 0) {
+                nameToMathML(element);
+            } else {
+                MathML e1 = element.element("msup");
+                nameToMathML(e1);
+                primeToMathML(e1);
+                element.appendChild(e1);
+            }
+        } else {
+            if (prime == 0) {
+                MathML e1 = element.element("msub");
+                nameToMathML(e1);
+                MathML e2 = element.element("mrow");
+                for (int i = 0; i < subscripts.length; i++) {
+                    subscripts[i].toMathML(e2, null);
+                }
+                e1.appendChild(e2);
+                element.appendChild(e1);
+            } else {
+                MathML e1 = element.element("msubsup");
+                nameToMathML(e1);
+                MathML e2 = element.element("mrow");
+                for (int i = 0; i < subscripts.length; i++) {
+                    subscripts[i].toMathML(e2, null);
+                }
+                e1.appendChild(e2);
+                primeToMathML(e1);
+                element.appendChild(e1);
+            }
+        }
+    }
 
-	static void primeCharsToMathML(MathML element, int n) {
-		MathML e1 = element.element("mo");
-		for (int i = 0; i < n; i++) e1.appendChild(element.text("\u2032"));
-		element.appendChild(e1);
-	}
+    void primeToMathML(MathML element) {
+        if (prime <= PRIME_CHARS) {
+            primeCharsToMathML(element, prime);
+        } else {
+            MathML e1 = element.element("mfenced");
+            MathML e2 = element.element("mn");
+            e2.appendChild(element.text(String.valueOf(prime)));
+            e1.appendChild(e2);
+            element.appendChild(e1);
+        }
+    }
 
-	@Nonnull
-	public Variable newInstance() {
-		return new Constant(name, prime, new Generic[subscripts.length]);
-	}
+    @Nonnull
+    public Variable newInstance() {
+        return new Constant(name, prime, new Generic[subscripts.length]);
+    }
 
-	@Nonnull
-	@Override
-	public Set<? extends Constant> getConstants() {
-		final Set<Constant> result = new HashSet<Constant>();
-		result.add(this);
-		return result;
-	}
+    @Nonnull
+    @Override
+    public Set<? extends Constant> getConstants() {
+        final Set<Constant> result = new HashSet<Constant>();
+        result.add(this);
+        return result;
+    }
 }

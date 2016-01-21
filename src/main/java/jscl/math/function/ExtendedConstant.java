@@ -14,213 +14,213 @@ import javax.annotation.Nullable;
  */
 public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant {
 
-	@Nonnull
-	private Constant constant;
+    @Nonnull
+    private Constant constant;
 
-	@Nullable
-	private String value;
+    @Nullable
+    private String value;
 
-	@Nullable
-	private String javaString;
+    @Nullable
+    private String javaString;
 
-	@Nullable
-	private String description;
+    @Nullable
+    private String description;
 
-	public static final class Builder implements JBuilder<ExtendedConstant> {
-		@Nonnull
-		private Constant constant;
+    ExtendedConstant() {
+    }
 
-		@Nullable
-		private String value;
+    ExtendedConstant(@Nonnull Constant constant,
+                     @Nullable String value,
+                     @Nullable String javaString) {
+        this.constant = constant;
+        this.value = value;
+        this.javaString = javaString;
+    }
 
-		@Nullable
-		private String javaString;
+    ExtendedConstant(@Nonnull Constant constant,
+                     @Nullable Double value,
+                     @Nullable String javaString) {
+        this.constant = constant;
+        this.value = value == null ? null : String.valueOf(value);
+        this.javaString = javaString;
+    }
 
-		@Nullable
-		private String description;
+    @Nonnull
+    public static String toString(@Nonnull IConstant constant) {
+        final Double doubleValue = constant.getDoubleValue();
+        if (doubleValue == null) {
+            final String stringValue = constant.getValue();
+            if (!Strings.isEmpty(stringValue)) {
+                return constant.getName() + " = " + stringValue;
+            } else {
+                return constant.getName();
+            }
+        } else {
+            return constant.getName() + " = " + doubleValue;
+        }
+    }
 
-		public Builder(@Nonnull Constant constant, @Nullable Double value) {
-			this(constant, value == null ? null : String.valueOf(value));
-		}
+    @Nonnull
+    @Override
+    public String getName() {
+        return this.constant.getName();
+    }
 
-		public Builder(@Nonnull Constant constant, @Nullable String value) {
-			this.constant = constant;
-			this.value = value;
-		}
+    @Override
+    public boolean isSystem() {
+        return this.constant.isSystem();
+    }
 
-		public Builder setJavaString(@Nullable String javaString) {
-			this.javaString = javaString;
-			return this;
-		}
+    @Nonnull
+    @Override
+    public Integer getId() {
+        return constant.getId();
+    }
 
-		public Builder setDescription(@Nullable String description) {
-			this.description = description;
-			return this;
-		}
+    @Override
+    public void setId(@Nonnull Integer id) {
+        constant.setId(id);
+    }
 
-		@Nonnull
-		@Override
-		public ExtendedConstant create() {
-			final ExtendedConstant result = new ExtendedConstant();
+    @Override
+    public boolean isIdDefined() {
+        return constant.isIdDefined();
+    }
 
-			result.constant = constant;
-			result.value = value;
-			result.javaString = javaString;
-			result.description = description;
+    @Override
+    public void copy(@Nonnull MathEntity that) {
+        this.constant.copy(that);
 
-			return result;
-		}
-	}
+        if (that instanceof IConstant) {
+            this.description = ((IConstant) that).getDescription();
+            this.value = ((IConstant) that).getValue();
+        }
 
-	ExtendedConstant() {
-	}
+        if (that instanceof ExtendedConstant) {
+            this.javaString = ((ExtendedConstant) that).javaString;
+        }
+    }
 
-	ExtendedConstant(@Nonnull Constant constant,
-					 @Nullable String value,
-					 @Nullable String javaString) {
-		this.constant = constant;
-		this.value = value;
-		this.javaString = javaString;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExtendedConstant)) return false;
 
-	ExtendedConstant(@Nonnull Constant constant,
-					 @Nullable Double value,
-					 @Nullable String javaString) {
-		this.constant = constant;
-		this.value = value == null ? null : String.valueOf(value);
-		this.javaString = javaString;
-	}
+        ExtendedConstant that = (ExtendedConstant) o;
 
-	@Nonnull
-	@Override
-	public String getName() {
-		return this.constant.getName();
-	}
+        if (!constant.equals(that.constant)) return false;
 
-	@Override
-	public boolean isSystem() {
-		return this.constant.isSystem();
-	}
+        return true;
+    }
 
-	@Nonnull
-	@Override
-	public Integer getId() {
-		return constant.getId();
-	}
+    @Override
+    public int hashCode() {
+        return constant.hashCode();
+    }
 
-	@Override
-	public boolean isIdDefined() {
-		return constant.isIdDefined();
-	}
+    @Override
+    @Nonnull
+    public Constant getConstant() {
+        return constant;
+    }
 
-	@Override
-	public void setId(@Nonnull Integer id) {
-		constant.setId(id);
-	}
+    @Override
+    @Nullable
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public void copy(@Nonnull MathEntity that) {
-		this.constant.copy(that);
+    @Override
+    public boolean isDefined() {
+        return value != null;
+    }
 
-		if (that instanceof IConstant) {
-			this.description = ((IConstant) that).getDescription();
-			this.value = ((IConstant) that).getValue();
-		}
+    @Override
+    @Nullable
+    public String getValue() {
+        return value;
+    }
 
-		if (that instanceof ExtendedConstant) {
-			this.javaString = ((ExtendedConstant) that).javaString;
-		}
-	}
+    @Override
+    public Double getDoubleValue() {
+        Double result = null;
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof ExtendedConstant)) return false;
+        if (value != null) {
+            try {
+                result = Double.valueOf(value);
+            } catch (NumberFormatException e) {
+                // do nothing - string is not a double
+            }
+        }
 
-		ExtendedConstant that = (ExtendedConstant) o;
+        return result;
+    }
 
-		if (!constant.equals(that.constant)) return false;
+    @Override
+    @Nonnull
+    public String toJava() {
+        if (javaString != null) {
+            return javaString;
+        } else if (value != null) {
+            return String.valueOf(value);
+        } else {
+            return constant.getName();
+        }
+    }
 
-		return true;
-	}
+    @Override
+    public String toString() {
+        return toString(this);
+    }
 
-	@Override
-	public int hashCode() {
-		return constant.hashCode();
-	}
+    @Override
+    public int compareTo(ExtendedConstant o) {
+        return this.constant.compareTo(o.getConstant());
+    }
 
-	@Override
-	@Nonnull
-	public Constant getConstant() {
-		return constant;
-	}
+    public static final class Builder implements JBuilder<ExtendedConstant> {
+        @Nonnull
+        private Constant constant;
 
-	@Override
-	@Nullable
-	public String getDescription() {
-		return description;
-	}
+        @Nullable
+        private String value;
 
-	@Override
-	public boolean isDefined() {
-		return value != null;
-	}
+        @Nullable
+        private String javaString;
 
-	@Override
-	@Nullable
-	public String getValue() {
-		return value;
-	}
+        @Nullable
+        private String description;
 
-	@Override
-	public Double getDoubleValue() {
-		Double result = null;
+        public Builder(@Nonnull Constant constant, @Nullable Double value) {
+            this(constant, value == null ? null : String.valueOf(value));
+        }
 
-		if (value != null) {
-			try {
-				result = Double.valueOf(value);
-			} catch (NumberFormatException e) {
-				// do nothing - string is not a double
-			}
-		}
+        public Builder(@Nonnull Constant constant, @Nullable String value) {
+            this.constant = constant;
+            this.value = value;
+        }
 
-		return result;
-	}
+        public Builder setJavaString(@Nullable String javaString) {
+            this.javaString = javaString;
+            return this;
+        }
 
-	@Override
-	@Nonnull
-	public String toJava() {
-		if (javaString != null) {
-			return javaString;
-		} else if (value != null) {
-			return String.valueOf(value);
-		} else {
-			return constant.getName();
-		}
-	}
+        public Builder setDescription(@Nullable String description) {
+            this.description = description;
+            return this;
+        }
 
-	@Override
-	public String toString() {
-		return toString(this);
-	}
+        @Nonnull
+        @Override
+        public ExtendedConstant create() {
+            final ExtendedConstant result = new ExtendedConstant();
 
-	@Nonnull
-	public static String toString(@Nonnull IConstant constant) {
-		final Double doubleValue = constant.getDoubleValue();
-		if (doubleValue == null) {
-			final String stringValue = constant.getValue();
-			if (!Strings.isEmpty(stringValue)) {
-				return constant.getName() + " = " + stringValue;
-			} else {
-				return constant.getName();
-			}
-		} else {
-			return constant.getName() + " = " + doubleValue;
-		}
-	}
+            result.constant = constant;
+            result.value = value;
+            result.javaString = javaString;
+            result.description = description;
 
-	@Override
-	public int compareTo(ExtendedConstant o) {
-		return this.constant.compareTo(o.getConstant());
-	}
+            return result;
+        }
+    }
 }

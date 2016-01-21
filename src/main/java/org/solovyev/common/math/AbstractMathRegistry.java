@@ -44,168 +44,155 @@ import static org.solovyev.common.collections.Collections.removeFirst;
  */
 public abstract class AbstractMathRegistry<T extends MathEntity> implements MathRegistry<T> {
 
-	private static final MathEntityComparator<MathEntity> MATH_ENTITY_COMPARATOR = new MathEntityComparator<MathEntity>();
+    private static final MathEntityComparator<MathEntity> MATH_ENTITY_COMPARATOR = new MathEntityComparator<MathEntity>();
+    @GuardedBy("this")
+    @Nonnull
+    private static volatile Integer counter = 0;
+    @GuardedBy("this")
+    @Nonnull
+    protected final SortedList<T> entities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+    @GuardedBy("this")
+    @Nonnull
+    protected final SortedList<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
 
-	static class MathEntityComparator<T extends MathEntity> implements Comparator<T> {
+    protected AbstractMathRegistry() {
+    }
 
-		MathEntityComparator() {
-		}
+    @Nonnull
+    private static synchronized Integer count() {
+        final Integer result = counter;
+        counter++;
+        return result;
+    }
 
-		@Override
-		public int compare(T l, T r) {
-			int result = r.getName().length() - l.getName().length();
-			if (result == 0) {
-				result = l.getName().compareTo(r.getName());
-			}
-			return result;
-		}
-	}
+    @Nonnull
+    public List<T> getEntities() {
+        synchronized (this) {
+            return java.util.Collections.unmodifiableList(new ArrayList<T>(entities));
+        }
+    }
 
-	@GuardedBy("this")
-	@Nonnull
-	private static volatile Integer counter = 0;
+    @Nonnull
+    public List<T> getSystemEntities() {
+        synchronized (this) {
+            return java.util.Collections.unmodifiableList(new ArrayList<T>(systemEntities));
+        }
+    }
 
-	@GuardedBy("this")
-	@Nonnull
-	protected final SortedList<T> entities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+    protected void add(@Nonnull T entity) {
+        synchronized (this) {
+            if (entity.isSystem()) {
+                if (contains(entity.getName(), this.systemEntities)) {
+                    throw new IllegalArgumentException("Trying to add two system entities with same name: " + entity.getName());
+                }
 
-	@GuardedBy("this")
-	@Nonnull
-	protected final SortedList<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+                this.systemEntities.add(entity);
+            }
 
-	protected AbstractMathRegistry() {
-	}
+            if (!contains(entity.getName(), this.entities)) {
+                addEntity(entity, this.entities);
+            }
+        }
+    }
 
-	@Nonnull
-	@Override
-	public List<T> getEntities() {
-		synchronized (this) {
-			return java.util.Collections.unmodifiableList(new ArrayList<T>(entities));
-		}
-	}
+    private void addEntity(@Nonnull T entity, @Nonnull List<T> list) {
+        assert Thread.holdsLock(this);
 
-	@Nonnull
-	@Override
-	public List<T> getSystemEntities() {
-		synchronized (this) {
-			return java.util.Collections.unmodifiableList(new ArrayList<T>(systemEntities));
-		}
-	}
+        entity.setId(count());
+        list.add(entity);
+    }
 
-	protected void add(@Nonnull T entity) {
-		synchronized (this) {
-			if (entity.isSystem()) {
-				if (contains(entity.getName(), this.systemEntities)) {
-					throw new IllegalArgumentException("Trying to add two system entities with same name: " + entity.getName());
-				}
+    public T add(@Nonnull JBuilder<? extends T> builder) {
+        synchronized (this) {
+            final T entity = builder.create();
 
-				this.systemEntities.add(entity);
-			}
+            T varFromRegister;
 
-			if (!contains(entity.getName(), this.entities)) {
-				addEntity(entity, this.entities);
-			}
-		}
-	}
+            if (entity.isIdDefined()) {
+                varFromRegister = getById(entity.getId());
+            } else {
+                varFromRegister = get(entity.getName());
+            }
 
-	private void addEntity(@Nonnull T entity, @Nonnull List<T> list) {
-		assert Thread.holdsLock(this);
+            if (varFromRegister == null) {
+                varFromRegister = entity;
 
-		entity.setId(count());
-		list.add(entity);
-	}
+                addEntity(entity, this.entities);
+                if (entity.isSystem()) {
+                    this.systemEntities.add(entity);
+                }
 
-	@Override
-	public T add(@Nonnull JBuilder<? extends T> builder) {
-		synchronized (this) {
-			final T entity = builder.create();
+            } else {
+                varFromRegister.copy(entity);
+                this.entities.sort();
+                this.systemEntities.sort();
+            }
 
-			T varFromRegister;
+            return varFromRegister;
+        }
+    }
 
-			if (entity.isIdDefined()) {
-				varFromRegister = getById(entity.getId());
-			} else {
-				varFromRegister = get(entity.getName());
-			}
+    public void remove(@Nonnull T entity) {
+        synchronized (this) {
+            if (!entity.isSystem()) {
+                removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
+            }
+        }
+    }
 
-			if (varFromRegister == null) {
-				varFromRegister = entity;
+    @Nonnull
+    public List<String> getNames() {
+        final List<String> result = new ArrayList<String>(entities.size());
 
-				addEntity(entity, this.entities);
-				if (entity.isSystem()) {
-					this.systemEntities.add(entity);
-				}
+        synchronized (this) {
+            for (T entity : entities) {
+                result.add(entity.getName());
+            }
+        }
 
-			} else {
-				varFromRegister.copy(entity);
-				this.entities.sort();
-				this.systemEntities.sort();
-			}
+        return result;
+    }
 
-			return varFromRegister;
-		}
-	}
+    @Nullable
+    public T get(@Nonnull final String name) {
+        synchronized (this) {
+            return find(entities, new MathEntity.Finder<T>(name));
+        }
+    }
 
-	@Override
-	public void remove(@Nonnull T entity) {
-		synchronized (this) {
-			if (!entity.isSystem()) {
-				removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
-			}
-		}
-	}
+    public T getById(@Nonnull final Integer id) {
+        synchronized (this) {
+            return find(entities, new JPredicate<T>() {
+                public boolean apply(@Nullable T t) {
+                    return t != null && t.getId().equals(id);
+                }
+            });
+        }
+    }
 
-	@Override
-	@Nonnull
-	public List<String> getNames() {
-		final List<String> result = new ArrayList<String>(entities.size());
+    public boolean contains(@Nonnull final String name) {
+        synchronized (this) {
+            return contains(name, this.entities);
+        }
+    }
 
-		synchronized (this) {
-			for (T entity : entities) {
-				result.add(entity.getName());
-			}
-		}
+    private boolean contains(final String name, @Nonnull Collection<T> entities) {
+        synchronized (this) {
+            return find(entities, new MathEntity.Finder<T>(name)) != null;
+        }
+    }
 
-		return result;
-	}
+    static class MathEntityComparator<T extends MathEntity> implements Comparator<T> {
 
-	@Override
-	@Nullable
-	public T get(@Nonnull final String name) {
-		synchronized (this) {
-			return find(entities, new MathEntity.Finder<T>(name));
-		}
-	}
+        MathEntityComparator() {
+        }
 
-	@Override
-	public T getById(@Nonnull final Integer id) {
-		synchronized (this) {
-			return find(entities, new JPredicate<T>() {
-				@Override
-				public boolean apply(@Nullable T t) {
-					return t != null && t.getId().equals(id);
-				}
-			});
-		}
-	}
-
-	@Override
-	public boolean contains(@Nonnull final String name) {
-		synchronized (this) {
-			return contains(name, this.entities);
-		}
-	}
-
-	private boolean contains(final String name, @Nonnull Collection<T> entities) {
-		synchronized (this) {
-			return find(entities, new MathEntity.Finder<T>(name)) != null;
-		}
-	}
-
-	@Nonnull
-	private static synchronized Integer count() {
-		final Integer result = counter;
-		counter++;
-		return result;
-	}
+        public int compare(T l, T r) {
+            int result = r.getName().length() - l.getName().length();
+            if (result == 0) {
+                result = l.getName().compareTo(r.getName());
+            }
+            return result;
+        }
+    }
 }

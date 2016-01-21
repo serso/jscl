@@ -12,9 +12,9 @@ import static junit.framework.Assert.assertEquals;
  */
 public class LgTest {
 
-	@Test
-	public void testSimplify() throws Exception {
-		assertEquals("lg(3)+lg(x/b)", Expression.valueOf("lg(3*x/b)").simplify().toString());
-		assertEquals("-lg(7)+lg(15)", Expression.valueOf("lg(3*5/7)").simplify().toString());
-	}
+    @Test
+    public void testSimplify() throws Exception {
+        assertEquals("lg(3)+lg(x/b)", Expression.valueOf("lg(3*x/b)").simplify().toString());
+        assertEquals("-lg(7)+lg(15)", Expression.valueOf("lg(3*5/7)").simplify().toString());
+    }
 }

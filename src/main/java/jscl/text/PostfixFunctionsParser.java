@@ -18,55 +18,55 @@ import java.util.List;
  */
 public class PostfixFunctionsParser implements Parser<Generic> {
 
-	@Nonnull
-	private final Generic content;
+    @Nonnull
+    private final Generic content;
 
-	public PostfixFunctionsParser(@Nonnull Generic content) {
-		this.content = content;
-	}
+    public PostfixFunctionsParser(@Nonnull Generic content) {
+        this.content = content;
+    }
 
-	public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
+    private static Generic parsePostfix(@Nonnull List<PostfixFunctionParser> parsers,
+                                        Generic content,
+                                        @Nullable final Generic previousSumElement,
+                                        @Nonnull final Parameters parseParameters) throws ParseException {
+        Generic result = content;
 
-		final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
+        for (PostfixFunctionParser parser : parsers) {
+            final PostfixFunctionParser.Result postfixResult = parser.parse(parseParameters, previousSumElement);
+            if (postfixResult.isPostfixFunction()) {
+                final Operator postfixFunction;
 
-		final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctionNames.size());
-		parsers.add(new PostfixFunctionParser(TripleFactorial.NAME));
-		for (String postfixFunctionName : postfixFunctionNames) {
-			parsers.add(new PostfixFunctionParser(postfixFunctionName));
-		}
+                if (previousSumElement == null) {
+                    postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content});
+                } else {
+                    postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content, previousSumElement});
+                }
 
-		return parsePostfix(parsers, content, previousSumElement, p);
-	}
+                if (postfixFunction == null) {
+                    if (TripleFactorial.NAME.equals(postfixResult.getPostfixFunctionName())) {
+                        throw new ParseException(Messages.msg_18, parseParameters.getPosition().intValue(), parseParameters.getExpression());
+                    } else {
+                        throw new ParseException(Messages.msg_4, parseParameters.getPosition().intValue(), parseParameters.getExpression(), postfixResult.getPostfixFunctionName());
+                    }
+                }
 
-	private static Generic parsePostfix(@Nonnull List<PostfixFunctionParser> parsers,
-										Generic content,
-										@Nullable final Generic previousSumElement,
-										@Nonnull final Parameters parseParameters) throws ParseException {
-		Generic result = content;
+                result = parsePostfix(parsers, postfixFunction.expressionValue(), previousSumElement, parseParameters);
+            }
+        }
 
-		for (PostfixFunctionParser parser : parsers) {
-			final PostfixFunctionParser.Result postfixResult = parser.parse(parseParameters, previousSumElement);
-			if (postfixResult.isPostfixFunction()) {
-				final Operator postfixFunction;
+        return result;
+    }
 
-				if (previousSumElement == null) {
-					postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content});
-				} else {
-					postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content, previousSumElement});
-				}
+    public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
 
-				if (postfixFunction == null) {
-					if (TripleFactorial.NAME.equals(postfixResult.getPostfixFunctionName())) {
-						throw new ParseException(Messages.msg_18, parseParameters.getPosition().intValue(), parseParameters.getExpression());
-					} else {
-						throw new ParseException(Messages.msg_4, parseParameters.getPosition().intValue(), parseParameters.getExpression(), postfixResult.getPostfixFunctionName());
-					}
-				}
+        final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
 
-				result = parsePostfix(parsers, postfixFunction.expressionValue(), previousSumElement, parseParameters);
-			}
-		}
+        final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctionNames.size());
+        parsers.add(new PostfixFunctionParser(TripleFactorial.NAME));
+        for (String postfixFunctionName : postfixFunctionNames) {
+            parsers.add(new PostfixFunctionParser(postfixFunctionName));
+        }
 
-		return result;
-	}
+        return parsePostfix(parsers, content, previousSumElement, p);
+    }
 }

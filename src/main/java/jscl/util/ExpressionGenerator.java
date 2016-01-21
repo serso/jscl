@@ -2,55 +2,50 @@ package jscl.util;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 12/14/11
- * Time: 10:21 PM
- */
 public class ExpressionGenerator extends AbstractExpressionGenerator<String> {
 
-	public ExpressionGenerator() {
-		super();
-	}
+    public ExpressionGenerator() {
+        super();
+    }
 
-	public ExpressionGenerator(int depth) {
-		super(depth);
-	}
+    public ExpressionGenerator(int depth) {
+        super(depth);
+    }
 
-	@Nonnull
-	@Override
-	public String generate() {
-		StringBuilder result = new StringBuilder();
+    public static void main(String... args) {
+        System.out.println(new ExpressionGenerator(20).generate());
+    }
 
-		result.append(generateNumber());
+    @Nonnull
+    @Override
+    public String generate() {
+        StringBuilder result = new StringBuilder();
 
-		int i = 0;
-		while (i < getDepth()) {
+        result.append(generateNumber());
 
-			final Operation operation = generateOperation();
-			final Function function = generateFunction();
-			final boolean brackets = generateBrackets();
+        int i = 0;
+        while (i < getDepth()) {
 
-			result.append(operation.getToken());
+            final Operation operation = generateOperation();
+            final Function function = generateFunction();
+            final boolean brackets = generateBrackets();
 
-			if (function == null) {
-				result.append(generateNumber());
-			} else {
-				result.append(function.getToken()).append("(").append(generateNumber()).append(")");
-			}
+            result.append(operation.getToken());
 
-			if (brackets) {
-				result = new StringBuilder("(").append(result).append(")");
-			}
+            if (function == null) {
+                result.append(generateNumber());
+            } else {
+                result.append(function.getToken()).append("(").append(generateNumber()).append(")");
+            }
 
-			i++;
-		}
+            if (brackets) {
+                result = new StringBuilder("(").append(result).append(")");
+            }
 
-		return result.toString();
-	}
+            i++;
+        }
 
-	public static void main(String... args) {
-		System.out.println(new ExpressionGenerator(20).generate());
-	}
+        return result.toString();
+    }
 
 }

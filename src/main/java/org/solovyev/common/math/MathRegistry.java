@@ -28,31 +28,26 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * User: serso
- * Date: 10/6/11
- * Time: 9:31 PM
- */
 public interface MathRegistry<T extends MathEntity> {
 
-	@Nonnull
-	List<T> getEntities();
+    @Nonnull
+    List<T> getEntities();
 
-	@Nonnull
-	List<T> getSystemEntities();
+    @Nonnull
+    List<T> getSystemEntities();
 
-	T add(@Nonnull JBuilder<? extends T> JBuilder);
+    T add(@Nonnull JBuilder<? extends T> JBuilder);
 
-	void remove(@Nonnull T var);
+    void remove(@Nonnull T var);
 
-	@Nonnull
-	List<String> getNames();
+    @Nonnull
+    List<String> getNames();
 
-	boolean contains(@Nonnull final String name);
+    boolean contains(@Nonnull final String name);
 
-	@Nullable
-	T get(@Nonnull String name);
+    @Nullable
+    T get(@Nonnull String name);
 
-	@Nullable
-	T getById(@Nonnull Integer id);
+    @Nullable
+    T getById(@Nonnull Integer id);
 }

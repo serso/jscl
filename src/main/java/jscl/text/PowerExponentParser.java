@@ -12,29 +12,29 @@ import javax.annotation.Nullable;
  */
 class PowerExponentParser implements Parser<Generic> {
 
-	public static final Parser<Generic> parser = new PowerExponentParser();
+    public static final Parser<Generic> parser = new PowerExponentParser();
 
-	private PowerExponentParser() {
-	}
+    private PowerExponentParser() {
+    }
 
-	public Generic parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    public Generic parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		try {
-			PowerParser.parser.parse(p, previousSumElement);
-		} catch (ParseException e) {
-			p.getPosition().setValue(pos0);
-			throw e;
-		}
+        try {
+            PowerParser.parser.parse(p, previousSumElement);
+        } catch (ParseException e) {
+            p.getPosition().setValue(pos0);
+            throw e;
+        }
 
-		Generic result;
-		try {
-			result = ExponentParser.parser.parse(p, previousSumElement);
-		} catch (ParseException e) {
-			p.getPosition().setValue(pos0);
-			throw e;
-		}
+        Generic result;
+        try {
+            result = ExponentParser.parser.parse(p, previousSumElement);
+        } catch (ParseException e) {
+            p.getPosition().setValue(pos0);
+            throw e;
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

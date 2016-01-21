@@ -55,7 +55,7 @@ public class CustomFunctionTest {
     public void testAntiDerivative() throws Exception {
         JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
-        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1",Arrays.asList("a"), "sin(a)"));
+        mathEngine.getFunctionsRegistry().add(new CustomFunction.Builder("t1", Arrays.asList("a"), "sin(a)"));
         Assert.assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
 
 

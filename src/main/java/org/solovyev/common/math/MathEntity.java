@@ -27,39 +27,33 @@ import org.solovyev.common.JPredicate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 10/29/11
- * Time: 12:39 PM
- */
 public interface MathEntity {
 
-	@Nonnull
-	String getName();
+    @Nonnull
+    String getName();
 
-	boolean isSystem();
+    boolean isSystem();
 
-	@Nonnull
-	Integer getId();
+    @Nonnull
+    Integer getId();
 
-	boolean isIdDefined();
+    void setId(@Nonnull Integer id);
 
-	void setId(@Nonnull Integer id);
+    boolean isIdDefined();
 
-	void copy(@Nonnull MathEntity that);
+    void copy(@Nonnull MathEntity that);
 
-	public static class Finder<T extends MathEntity> implements JPredicate<T> {
+    class Finder<T extends MathEntity> implements JPredicate<T> {
 
-		@Nonnull
-		private final String name;
+        @Nonnull
+        private final String name;
 
-		public Finder(@Nonnull String name) {
-			this.name = name;
-		}
+        public Finder(@Nonnull String name) {
+            this.name = name;
+        }
 
-		@Override
-		public boolean apply(@Nullable T entity) {
-			return entity != null && name.equals(entity.getName());
-		}
-	}
+        public boolean apply(@Nullable T entity) {
+            return entity != null && name.equals(entity.getName());
+        }
+    }
 }

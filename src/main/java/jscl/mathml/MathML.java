@@ -16,53 +16,53 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 
 public class MathML {
-	static Transformer xhtml;
-	Node node;
+    static Transformer xhtml;
+    Node node;
 
-	MathML(Node node) {
-		this.node = node;
-	}
+    MathML(Node node) {
+        this.node = node;
+    }
 
-	public Document document() {
-		return node instanceof CoreDocumentImpl ? (Document) node : node.getOwnerDocument();
-	}
+    public MathML(String qualifiedName, String publicID, String systemID) {
+        this(new CoreDocumentImpl());
+        CoreDocumentImpl document = (CoreDocumentImpl) document();
+        document.setXmlEncoding("utf-8");
+        document.appendChild(new DocumentTypeImpl(document, qualifiedName, publicID, systemID));
+    }
 
-	public MathML(String qualifiedName, String publicID, String systemID) {
-		this(new CoreDocumentImpl());
-		CoreDocumentImpl document = (CoreDocumentImpl) document();
-		document.setXmlEncoding("utf-8");
-		document.appendChild(new DocumentTypeImpl(document, qualifiedName, publicID, systemID));
-	}
+    static Transformer transformer() throws TransformerException {
+        return xhtml == null ? xhtml = TransformerFactory.newInstance().newTransformer() : xhtml;
+    }
 
-	public MathML element(String name) {
-		CoreDocumentImpl document = (CoreDocumentImpl) document();
-		return new MathML(new ElementImpl(document, name));
-	}
+    public Document document() {
+        return node instanceof CoreDocumentImpl ? (Document) node : node.getOwnerDocument();
+    }
 
-	public void setAttribute(String name, String value) {
-		((Element) node).setAttribute(name, value);
-	}
+    public MathML element(String name) {
+        CoreDocumentImpl document = (CoreDocumentImpl) document();
+        return new MathML(new ElementImpl(document, name));
+    }
 
-	public MathML text(String data) {
-		CoreDocumentImpl document = (CoreDocumentImpl) document();
-		return new MathML(new TextImpl(document, data));
-	}
+    public void setAttribute(String name, String value) {
+        ((Element) node).setAttribute(name, value);
+    }
 
-	public void appendChild(MathML math) {
-		node.appendChild(math.node);
-	}
+    public MathML text(String data) {
+        CoreDocumentImpl document = (CoreDocumentImpl) document();
+        return new MathML(new TextImpl(document, data));
+    }
 
-	public String toString() {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		try {
-			transformer().transform(new DOMSource(node), new StreamResult(os));
-		} catch (TransformerException e) {
-		}
-		String s = os.toString();
-		return s.substring(s.indexOf(">") + 1);
-	}
+    public void appendChild(MathML math) {
+        node.appendChild(math.node);
+    }
 
-	static Transformer transformer() throws TransformerException {
-		return xhtml == null ? xhtml = TransformerFactory.newInstance().newTransformer() : xhtml;
-	}
+    public String toString() {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            transformer().transform(new DOMSource(node), new StreamResult(os));
+        } catch (TransformerException e) {
+        }
+        String s = os.toString();
+        return s.substring(s.indexOf(">") + 1);
+    }
 }

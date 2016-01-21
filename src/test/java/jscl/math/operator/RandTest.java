@@ -1,7 +1,5 @@
 package jscl.math.operator;
 
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.text.ParseException;
 import org.junit.Assert;

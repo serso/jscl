@@ -13,56 +13,56 @@ import javax.annotation.Nonnull;
 
 public class GeometricProduct extends VectorOperator {
 
-	public static final String NAME = "geometric";
+    public static final String NAME = "geometric";
 
-	public GeometricProduct(Generic vector1, Generic vector2, Generic algebra) {
-		super(NAME, new Generic[]{vector1, vector2, algebra});
-	}
+    public GeometricProduct(Generic vector1, Generic vector2, Generic algebra) {
+        super(NAME, new Generic[]{vector1, vector2, algebra});
+    }
 
-	private GeometricProduct(@Nonnull Generic[] parameters) {
-		super(NAME, createParameters(parameters));
-	}
+    private GeometricProduct(@Nonnull Generic[] parameters) {
+        super(NAME, createParameters(parameters));
+    }
 
-	private static Generic[] createParameters(@Nonnull Generic[] parameters) {
-		final Generic[] result = new Generic[3];
+    private static Generic[] createParameters(@Nonnull Generic[] parameters) {
+        final Generic[] result = new Generic[3];
 
-		result[0] = parameters[0];
-		result[1] = parameters[1];
-		result[2] = parameters.length > 2 ? parameters[2] : JsclInteger.valueOf(0);
+        result[0] = parameters[0];
+        result[1] = parameters[1];
+        result[2] = parameters.length > 2 ? parameters[2] : JsclInteger.valueOf(0);
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public int getMinParameters() {
-		return 3;
-	}
+    public static int[] algebra(Generic generic) {
+        if (generic.signum() == 0) return null;
+        Variable v = generic.variableValue();
+        if (v instanceof ImplicitFunction) {
+            Generic g[] = ((ImplicitFunction) v).getParameters();
+            int p = g[0].integerValue().intValue();
+            int q = g[1].integerValue().intValue();
+            if (v.compareTo(new ImplicitFunction("cl", new Generic[]{JsclInteger.valueOf(p), JsclInteger.valueOf(q)}, new int[]{0, 0}, new Generic[]{})) == 0)
+                return new int[]{p, q};
+        }
+        throw new ArithmeticException();
+    }
 
-	public Generic selfExpand() {
-		int algebra[] = algebra(parameters[2]);
-		if (parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
-			JsclVector v1 = (JsclVector) parameters[0];
-			JsclVector v2 = (JsclVector) parameters[1];
-			return v1.geometricProduct(v2, algebra);
-		}
-		return expressionValue();
-	}
+    @Override
+    public int getMinParameters() {
+        return 3;
+    }
 
-	public static int[] algebra(Generic generic) {
-		if (generic.signum() == 0) return null;
-		Variable v = generic.variableValue();
-		if (v instanceof ImplicitFunction) {
-			Generic g[] = ((ImplicitFunction) v).getParameters();
-			int p = g[0].integerValue().intValue();
-			int q = g[1].integerValue().intValue();
-			if (v.compareTo(new ImplicitFunction("cl", new Generic[]{JsclInteger.valueOf(p), JsclInteger.valueOf(q)}, new int[]{0, 0}, new Generic[]{})) == 0)
-				return new int[]{p, q};
-		}
-		throw new ArithmeticException();
-	}
+    public Generic selfExpand() {
+        int algebra[] = algebra(parameters[2]);
+        if (parameters[0] instanceof JsclVector && parameters[1] instanceof JsclVector) {
+            JsclVector v1 = (JsclVector) parameters[0];
+            JsclVector v2 = (JsclVector) parameters[1];
+            return v1.geometricProduct(v2, algebra);
+        }
+        return expressionValue();
+    }
 
-	// todo serso: think
-	/*public String toString() {
+    // todo serso: think
+    /*public String toString() {
         StringBuffer buffer=new StringBuffer();
         int n=3;
         if(parameters[2].signum()==0) n=2;
@@ -75,19 +75,19 @@ public class GeometricProduct extends VectorOperator {
         return buffer.toString();
     }*/
 
-	@Nonnull
-	@Override
-	public Operator newInstance(@Nonnull Generic[] parameters) {
-		return new GeometricProduct(parameters);
-	}
+    @Nonnull
+    @Override
+    public Operator newInstance(@Nonnull Generic[] parameters) {
+        return new GeometricProduct(parameters);
+    }
 
-	protected void bodyToMathML(MathML element) {
-		parameters[0].toMathML(element, null);
-		parameters[1].toMathML(element, null);
-	}
+    protected void bodyToMathML(MathML element) {
+        parameters[0].toMathML(element, null);
+        parameters[1].toMathML(element, null);
+    }
 
-	@Nonnull
-	public Variable newInstance() {
-		return new GeometricProduct(null, null, null);
-	}
+    @Nonnull
+    public Variable newInstance() {
+        return new GeometricProduct(null, null, null);
+    }
 }

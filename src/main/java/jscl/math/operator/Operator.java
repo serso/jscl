@@ -6,63 +6,63 @@ import javax.annotation.Nonnull;
 
 public abstract class Operator extends AbstractFunction {
 
-	protected Operator(String name, Generic parameters[]) {
-		super(name, parameters);
-	}
+    protected Operator(String name, Generic parameters[]) {
+        super(name, parameters);
+    }
 
-	public Generic antiDerivative(Variable variable) throws NotIntegrableException {
-		throw new NotIntegrableException(this);
-	}
+    @Nonnull
+    protected static Variable[] toVariables(@Nonnull Generic vector) throws NotVariableException {
+        return toVariables((JsclVector) vector);
+    }
 
-	@Nonnull
-	public Generic derivative(Variable variable) {
-		if (isIdentity(variable)) {
-			return JsclInteger.valueOf(1);
-		} else {
-			return JsclInteger.valueOf(0);
-		}
-	}
+    @Nonnull
+    protected static Variable[] toVariables(@Nonnull JsclVector vector) throws NotVariableException {
+        final Generic element[] = vector.elements();
+        final Variable variable[] = new Variable[element.length];
 
-	@Override
-	public Generic selfElementary() {
-		return expressionValue();
-	}
+        for (int i = 0; i < element.length; i++) {
+            variable[i] = element[i].variableValue();
+        }
 
-	@Override
-	public Generic selfSimplify() {
-		return expressionValue();
-	}
+        return variable;
+    }
 
-	@Override
-	public Generic selfNumeric() {
-		return numeric();
-	}
+    public Generic antiDerivative(Variable variable) throws NotIntegrableException {
+        throw new NotIntegrableException(this);
+    }
 
-	public Generic numeric() {
-		throw new ArithmeticException();
-	}
+    @Nonnull
+    public Generic derivative(Variable variable) {
+        if (isIdentity(variable)) {
+            return JsclInteger.valueOf(1);
+        } else {
+            return JsclInteger.valueOf(0);
+        }
+    }
 
-	public boolean isConstant(Variable variable) {
-		return !isIdentity(variable);
-	}
+    @Override
+    public Generic selfElementary() {
+        return expressionValue();
+    }
 
-	@Nonnull
-	protected static Variable[] toVariables(@Nonnull Generic vector) throws NotVariableException {
-		return toVariables((JsclVector) vector);
-	}
+    @Override
+    public Generic selfSimplify() {
+        return expressionValue();
+    }
 
-	@Nonnull
-	protected static Variable[] toVariables(@Nonnull JsclVector vector) throws NotVariableException {
-		final Generic element[] = vector.elements();
-		final Variable variable[] = new Variable[element.length];
+    @Override
+    public Generic selfNumeric() {
+        return numeric();
+    }
 
-		for (int i = 0; i < element.length; i++) {
-			variable[i] = element[i].variableValue();
-		}
+    public Generic numeric() {
+        throw new ArithmeticException();
+    }
 
-		return variable;
-	}
+    public boolean isConstant(Variable variable) {
+        return !isIdentity(variable);
+    }
 
-	@Nonnull
-	public abstract Operator newInstance(@Nonnull Generic[] parameters);
+    @Nonnull
+    public abstract Operator newInstance(@Nonnull Generic[] parameters);
 }

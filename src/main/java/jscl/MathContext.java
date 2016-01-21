@@ -8,57 +8,52 @@ import org.solovyev.common.math.MathRegistry;
 import javax.annotation.Nonnull;
 import java.text.DecimalFormatSymbols;
 
-/**
- * User: serso
- * Date: 11/29/11
- * Time: 11:33 AM
- */
 public interface MathContext {
 
-	@Nonnull
-	MathRegistry<Function> getFunctionsRegistry();
+    @Nonnull
+    MathRegistry<Function> getFunctionsRegistry();
 
-	@Nonnull
-	MathRegistry<Operator> getOperatorsRegistry();
+    @Nonnull
+    MathRegistry<Operator> getOperatorsRegistry();
 
-	@Nonnull
-	MathRegistry<IConstant> getConstantsRegistry();
+    @Nonnull
+    MathRegistry<IConstant> getConstantsRegistry();
 
-	@Nonnull
-	MathRegistry<Operator> getPostfixFunctionsRegistry();
+    @Nonnull
+    MathRegistry<Operator> getPostfixFunctionsRegistry();
 
-	@Nonnull
-	AngleUnit getAngleUnits();
+    @Nonnull
+    AngleUnit getAngleUnits();
 
-	void setAngleUnits(@Nonnull AngleUnit defaultAngleUnits);
+    void setAngleUnits(@Nonnull AngleUnit defaultAngleUnits);
 
-	@Nonnull
-	NumeralBase getNumeralBase();
+    @Nonnull
+    NumeralBase getNumeralBase();
 
 
-	// OUTPUT NUMBER FORMATTING
-	// todo serso: maybe gather all formatting data in one object?
+    // OUTPUT NUMBER FORMATTING
+    // todo serso: maybe gather all formatting data in one object?
 
-	void setNumeralBase(@Nonnull NumeralBase numeralBase);
+    void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-	void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
+    void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
 
-	void setRoundResult(boolean roundResult);
+    void setRoundResult(boolean roundResult);
 
-	void setPrecision(int precision);
+    void setPrecision(int precision);
 
-	void setUseGroupingSeparator(boolean useGroupingSeparator);
+    void setUseGroupingSeparator(boolean useGroupingSeparator);
 
-	void setGroupingSeparator(char groupingSeparator);
+    void setGroupingSeparator(char groupingSeparator);
 
-	@Nonnull
-	String format(@Nonnull Double value) throws NumeralBaseException;
+    @Nonnull
+    String format(@Nonnull Double value) throws NumeralBaseException;
 
-	@Nonnull
-	String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException;
+    @Nonnull
+    String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException;
 
-	@Nonnull
-	String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);
+    @Nonnull
+    String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);
 
-	void setScienceNotation(boolean scienceNotation);
+    void setScienceNotation(boolean scienceNotation);
 }

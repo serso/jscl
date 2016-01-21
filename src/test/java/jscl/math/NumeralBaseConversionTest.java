@@ -5,11 +5,11 @@ import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.text.ParseException;
 import jscl.util.ExpressionGeneratorWithInput;
-import javax.annotation.Nonnull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.solovyev.common.Converter;
 
+import javax.annotation.Nonnull;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,19 @@ import java.util.List;
  * Time: 4:01 PM
  */
 public class NumeralBaseConversionTest {
+
+    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws ParseException {
+        final String dec = line[0].toUpperCase();
+        final String hex = "0x:" + line[1].toUpperCase();
+        final String bin = "0b:" + line[2].toUpperCase();
+
+        final String decResult = Expression.valueOf(converter.convert(dec)).numeric().toString();
+        final String hexResult = Expression.valueOf(converter.convert(hex)).numeric().toString();
+        final String binResult = Expression.valueOf(converter.convert(bin)).numeric().toString();
+
+        Assert.assertEquals(decResult, hexResult);
+        Assert.assertEquals(decResult, binResult);
+    }
 
     @Test
     public void testConversion() throws Exception {
@@ -81,19 +94,6 @@ public class NumeralBaseConversionTest {
                 reader.close();
             }
         }
-    }
-
-    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws ParseException {
-        final String dec = line[0].toUpperCase();
-        final String hex = "0x:" + line[1].toUpperCase();
-        final String bin = "0b:" + line[2].toUpperCase();
-
-        final String decResult = Expression.valueOf(converter.convert(dec)).numeric().toString();
-        final String hexResult = Expression.valueOf(converter.convert(hex)).numeric().toString();
-        final String binResult = Expression.valueOf(converter.convert(bin)).numeric().toString();
-
-        Assert.assertEquals(decResult, hexResult);
-        Assert.assertEquals(decResult, binResult);
     }
 
     private static class DummyExpression implements Converter<String, String> {

@@ -16,40 +16,40 @@ import javax.annotation.Nullable;
  */
 class UsualFunctionParser implements Parser<Function> {
 
-	public static final Parser<Function> parser = new UsualFunctionParser();
+    public static final Parser<Function> parser = new UsualFunctionParser();
 
-	private MathRegistry<Function> functionsRegistry = FunctionsRegistry.getInstance();
+    private MathRegistry<Function> functionsRegistry = FunctionsRegistry.getInstance();
 
-	private UsualFunctionParser() {
-	}
+    private UsualFunctionParser() {
+    }
 
-	public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-		int pos0 = p.getPosition().intValue();
+    static boolean valid(@Nullable String name) {
+        return name != null && FunctionsRegistry.getInstance().getNames().contains(name);
+    }
 
-		final String name = Identifier.parser.parse(p, previousSumElement);
+    public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
+        int pos0 = p.getPosition().intValue();
 
-		if (!valid(name)) {
-			ParserUtils.throwParseException(p, pos0, Messages.msg_13);
-		}
+        final String name = Identifier.parser.parse(p, previousSumElement);
 
-		final Function result = functionsRegistry.get(name);
+        if (!valid(name)) {
+            ParserUtils.throwParseException(p, pos0, Messages.msg_13);
+        }
 
-		if (result != null) {
-			final Generic parameters[] = ParserUtils.parseWithRollback(new ParameterListParser(result.getMinParameters()), pos0, previousSumElement, p);
+        final Function result = functionsRegistry.get(name);
 
-			if (result.getMinParameters() <= parameters.length && result.getMaxParameters() >= parameters.length) {
-				result.setParameters(parameters);
-			} else {
-				ParserUtils.throwParseException(p, pos0, Messages.msg_14, parameters.length);
-			}
-		} else {
-			ParserUtils.throwParseException(p, pos0, Messages.msg_13);
-		}
+        if (result != null) {
+            final Generic parameters[] = ParserUtils.parseWithRollback(new ParameterListParser(result.getMinParameters()), pos0, previousSumElement, p);
 
-		return result;
-	}
+            if (result.getMinParameters() <= parameters.length && result.getMaxParameters() >= parameters.length) {
+                result.setParameters(parameters);
+            } else {
+                ParserUtils.throwParseException(p, pos0, Messages.msg_14, parameters.length);
+            }
+        } else {
+            ParserUtils.throwParseException(p, pos0, Messages.msg_13);
+        }
 
-	static boolean valid(@Nullable String name) {
-		return name != null && FunctionsRegistry.getInstance().getNames().contains(name);
-	}
+        return result;
+    }
 }

@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface IFunction extends MathEntity {
 
-	@Nonnull
-	String getContent();
+    @Nonnull
+    String getContent();
 
-	@Nullable
-	String getDescription();
+    @Nullable
+    String getDescription();
 
-	String toJava();
+    String toJava();
 
-	@Nonnull
-	List<String> getParameterNames();
+    @Nonnull
+    List<String> getParameterNames();
 }

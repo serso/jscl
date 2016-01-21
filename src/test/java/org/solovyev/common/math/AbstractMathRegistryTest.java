@@ -14,21 +14,21 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractMathRegistryTest<T extends MathEntity> {
 
-	@Test
-	public void testAdd() throws Exception {
-		final AbstractMathRegistry<T> registry = getRegistry();
+    @Test
+    public void testAdd() throws Exception {
+        final AbstractMathRegistry<T> registry = getRegistry();
 
-		final int oldSize = registry.getEntities().size();
+        final int oldSize = registry.getEntities().size();
 
-		registry.add(createBuilder("test"));
-		registry.add(createBuilder("test"));
-		registry.add(createBuilder("test1"));
+        registry.add(createBuilder("test"));
+        registry.add(createBuilder("test"));
+        registry.add(createBuilder("test1"));
 
-		assertEquals(2, registry.getEntities().size() - oldSize);
-	}
+        assertEquals(2, registry.getEntities().size() - oldSize);
+    }
 
-	protected abstract JBuilder<? extends T> createBuilder(@Nonnull String name);
+    protected abstract JBuilder<? extends T> createBuilder(@Nonnull String name);
 
-	@Nonnull
-	protected abstract AbstractMathRegistry<T> getRegistry();
+    @Nonnull
+    protected abstract AbstractMathRegistry<T> getRegistry();
 }
