@@ -57,12 +57,12 @@ public class CustomFunction extends Function implements IFunction {
 
     @Override
     public int getMinParameters() {
-        return parameterNames.size();
+        return parameterNames == null ? 0 : parameterNames.size();
     }
 
     @Override
     public int getMaxParameters() {
-        return parameterNames.size();
+        return parameterNames == null ? Integer.MAX_VALUE: parameterNames.size();
     }
 
     @Override
