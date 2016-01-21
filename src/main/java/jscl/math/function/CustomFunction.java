@@ -14,52 +14,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * User: serso
- * Date: 11/15/11
- * Time: 5:19 PM
- */
 public class CustomFunction extends Function implements IFunction {
-
-	/*
-    **********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
 
     private static final String LOCAL_VAR_POSTFIX = "_lv_09_03_1988_";
 
     private final static AtomicInteger counter = new AtomicInteger(0);
 
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-
     @Nonnull
     private final Integer localVarId;
-
     @Nonnull
     private Expression content;
-
     @Nullable
     private String description;
-
     @Nonnull
     private List<String> parameterNames = Collections.emptyList();
-
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
 
     private CustomFunction(@Nonnull String name,
                            @Nonnull List<String> parameterNames,
@@ -87,22 +55,14 @@ public class CustomFunction extends Function implements IFunction {
         this.localVarId = counter.incrementAndGet();
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
-
     @Override
     public int getMinParameters() {
-        return parameterNames == null ? 0 : parameterNames.size();
+        return parameterNames.size();
     }
 
     @Override
     public int getMaxParameters() {
-        return parameterNames == null ? Integer.MAX_VALUE : parameterNames.size();
+        return parameterNames.size();
     }
 
     @Override
@@ -226,12 +186,10 @@ public class CustomFunction extends Function implements IFunction {
     }
 
     @Nullable
-    @Override
     public String getDescription() {
         return this.description;
     }
 
-    @Override
     @Nonnull
     public List<String> getParameterNames() {
         return Collections.unmodifiableList(parameterNames);
@@ -252,14 +210,6 @@ public class CustomFunction extends Function implements IFunction {
     public CustomFunction newInstance() {
         return new CustomFunction(name, parameterNames, content, description);
     }
-
-	/*
-	**********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
 
     public static class Builder implements JBuilder<CustomFunction> {
 
@@ -340,8 +290,16 @@ public class CustomFunction extends Function implements IFunction {
             return result.toString();
         }
 
-        public void setDescription(@Nullable String description) {
+        @Nonnull
+        public Builder setDescription(@Nullable String description) {
             this.description = description;
+            return this;
+        }
+
+        @Nonnull
+        public Builder setId(@Nonnull Integer id) {
+            this.id = id;
+            return this;
         }
 
         @Nonnull
@@ -363,7 +321,6 @@ public class CustomFunction extends Function implements IFunction {
         }
 
         @Nonnull
-        @Override
         public CustomFunction create() {
             final CustomFunction customFunction = new CustomFunction(name, parameterNames, prepareContent(content), description);
             customFunction.setSystem(system);
