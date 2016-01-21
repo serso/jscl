@@ -25,6 +25,8 @@
         <module name="jscl" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jscl" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
-
